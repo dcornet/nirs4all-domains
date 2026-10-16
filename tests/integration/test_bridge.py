@@ -69,6 +69,42 @@ class BridgeTests(unittest.TestCase):
         task = task_from_dataset(Dataset(), config)
         self.assertEqual(task["observations"][1]["y"], 999.)
 
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_explicit_exclusion_preserves_denominators_and_hides_target(self, _):
+        ds = Dataset()
+        ds.split_data = pd.DataFrame({"sample_id": ["a", "b"], "partition": ["dev", "validation"]})
+        config = self.config()
+        config["partition_labels"] = {"dev": "train", "validation": "exclude"}
+        config["target_unit"] = "mg/tablet"
+        task = task_from_dataset(ds, config)
+        self.assertEqual(len(task["observations"]), 1)
+        self.assertEqual(task["target_unit"], "mg/tablet")
+        self.assertEqual(json.loads(task["provenance"]["native_partition_observation_counts"]), {"dev": 1, "validation": 1})
+        self.assertEqual(json.loads(task["provenance"]["excluded_observation_ids"]), ["ob"])
+        self.assertEqual(task["observations"][0]["y"], 10.)
+
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_declared_missing_target_and_reserved_provenance_fail(self, _):
+        ds = Dataset()
+        ds.y = lambda _target: None
+        with self.assertRaisesRegex(ValueError, "Requested target unavailable"):
+            task_from_dataset(ds, self.config())
+        config = self.config()
+        config["provenance"] = {"datasets": "forged"}
+        with self.assertRaisesRegex(ValueError, "Reserved provenance"):
+            task_from_dataset(Dataset(), config)
+
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_exclusion_requires_explicit_mapping_and_units(self, _):
+        ds = Dataset()
+        ds.split_data = pd.DataFrame({"sample_id": ["a", "b"], "partition": ["dev", "validation"]})
+        with self.assertRaisesRegex(ValueError, "unknown partition"):
+            task_from_dataset(ds, self.config())
+        config = self.config()
+        config["target_unit"] = " "
+        with self.assertRaisesRegex(ValueError, "Target unit"):
+            task_from_dataset(Dataset(), config)
+
     def test_batch_failure_is_retained_and_next_task_runs(self):
         binary = os.environ.get("N4DOMAINS_BIN")
         self.assertTrue(binary, "Set N4DOMAINS_BIN for integration tests")
@@ -144,6 +180,12 @@ class BridgeTests(unittest.TestCase):
             if os.environ.get("N4DOMAINS_METHODS_LIBRARY"):
                 coverage = next(m for m in report["metrics"] if m["metric_id"] == "coverage.test_outside_fraction")
                 self.assertEqual(coverage["value"], 1.)
+            campaign = {"schema_version": 1, "tasks": [{**config, "dataset_id": "synthetic_adapter"}]}
+            campaign_path = root / "campaign.yaml"
+            campaign_path.write_text(yaml.safe_dump(campaign))
+            summary = run_campaign(campaign_path, root / "batch", binary,
+                                   os.environ.get("N4DOMAINS_METHODS_LIBRARY"), catalog_root=root)
+            self.assertEqual(summary["tasks"][0]["status"], "partial")
 
 
 if __name__ == "__main__": unittest.main()

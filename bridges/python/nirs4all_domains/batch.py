@@ -12,7 +12,7 @@ import yaml
 from .dataset import task_from_dataset
 
 
-def run_campaign(config_path, out, binary, methods_library=None):
+def run_campaign(config_path, out, binary, methods_library=None, catalog_root=None):
     config_path, out = Path(config_path).resolve(), Path(out).resolve()
     config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
     if config.get("schema_version") != 1 or not isinstance(config.get("tasks"), list):
@@ -35,7 +35,7 @@ def run_campaign(config_path, out, binary, methods_library=None):
                     task = json.loads((config_path.parent / entry["task_file"]).read_text(encoding="utf-8"))
                 else:
                     import nirs4all_datasets as datasets
-                    root = (config_path.parent / config["catalog_root"]).resolve()
+                    root = Path(catalog_root).resolve() if catalog_root is not None else (config_path.parent / config["catalog_root"]).resolve()
                     ds = datasets.get(entry["dataset_id"], root=root)
                     task = task_from_dataset(ds, entry)
                 task_path = task_out / "task.json"
@@ -68,9 +68,10 @@ def main():
     parser.add_argument("--catalog-config", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--methods-library")
+    parser.add_argument("--catalog-root")
     args = parser.parse_args()
     binary = os.environ.get("N4DOMAINS_BIN", "n4domains")
-    summary = run_campaign(args.catalog_config, args.out, binary, args.methods_library)
+    summary = run_campaign(args.catalog_config, args.out, binary, args.methods_library, args.catalog_root)
     print(f"{len(summary['tasks'])} tasks: {summary['status']}")
     return 2 if any(r["status"] in ("error", "failed") for r in summary["tasks"]) else 0
 

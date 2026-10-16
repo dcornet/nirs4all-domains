@@ -263,8 +263,18 @@ fn native_reproducibility_and_no_test_fit_or_y_selection() {
         serde_json::to_vec(&analyze(&changed, Some(&lib))).unwrap()
     );
     let mut post = fixture("target_shift");
+    post.target_unit = Some("mg/tablet".into());
     post.policy.audit_mode = AuditMode::PostEvaluation;
     let after = analyze(&post, Some(&lib));
+    assert_eq!(
+        after
+            .metrics
+            .iter()
+            .find(|m| m.metric_id == "target.test_summary")
+            .unwrap()
+            .unit,
+        "mg/tablet"
+    );
     assert!(after.test_target_accessed);
     assert!(
         (value(&after, "target.test_summary")["mean"]

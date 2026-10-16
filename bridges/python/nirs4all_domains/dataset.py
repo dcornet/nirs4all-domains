@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import math
+import json
+from collections import Counter
 from importlib.metadata import version
 
 
@@ -47,11 +49,15 @@ def task_from_dataset(ds, config):
         raise ValueError("Native split unavailable; supply a separately named explicit task")
     split = _keyed(split_frame, ["partition"])
     labels = config["partition_labels"]  # explicit mapping; never guess labels
+    if not labels or any(v not in ("train", "test", "exclude") for v in labels.values()):
+        raise ValueError("Partition mapping must explicitly use train/test/exclude")
     metadata_frame = ds.metadata()
     metadata = _keyed(metadata_frame, list(metadata_frame.columns) if metadata_frame is not None else [])
     # The public y() accessor returns a full per-sample frame. Materialization can
     # include test rows, but values are accessed only for permitted partitions.
     targets_frame = ds.y(target) if target else None
+    if target and (targets_frame is None or target not in targets_frame.columns):
+        raise ValueError(f"Requested target unavailable in canonical data: {target}")
     if targets_frame is not None and ("sample_id" not in targets_frame or targets_frame["sample_id"].astype(str).duplicated().any()):
         raise ValueError("Ambiguous target identity")
     targets = targets_frame.assign(sample_id=targets_frame["sample_id"].astype(str)).set_index("sample_id") if targets_frame is not None else None
@@ -66,14 +72,19 @@ def task_from_dataset(ds, config):
         raise ValueError("Source identity length mismatch")
     source_descriptor = next(s for s in descriptor.sources if s.source_id == source)
     rows = []
+    excluded = []
+    native_counts = Counter()
     categorical = config.get("target_kind", "continuous") == "categorical"
     for oid, sid, spectrum in zip(observation_ids, sample_ids, x, strict=True):
         sid = str(sid)
         if sid not in split or str(split[sid]["partition"]) not in labels:
             raise ValueError(f"Unassigned or unknown partition for sample: {sid}")
-        partition = labels[str(split[sid]["partition"])]
-        if partition not in ("train", "test"):
-            raise ValueError("Only explicit train/test partitions are supported")
+        native_partition = str(split[sid]["partition"])
+        native_counts[native_partition] += 1
+        partition = labels[native_partition]
+        if partition == "exclude":
+            excluded.append(str(oid))
+            continue
         identity = identities.get(sid)
         if identities and identity is None:
             raise ValueError(f"Missing physical identity: {sid}")
@@ -102,7 +113,22 @@ def task_from_dataset(ds, config):
             else:
                 row["y"] = _number(value)
         rows.append(row)
-    return {"schema_version": 1, "context": {"dataset_id": ds.id, "content_version": content,
+    target_descriptor = next((v for v in descriptor.variables if v.name == target), None) if hasattr(descriptor, "variables") else None
+    target_unit = config.get("target_unit", getattr(target_descriptor, "unit", None))
+    if target_unit is not None and not str(target_unit).strip():
+        raise ValueError("Target unit must be nonempty when supplied")
+    provenance = {"datasets": version("nirs4all-datasets"),
+                "task_conversion_protocol": "datasets.task.v0.2",
+                "sample_identity_assumption": config.get("sample_identity_evidence", "explicit mapping" if identities else "sample_identity_confirmed"),
+                "partition_mapping": json.dumps(labels, sort_keys=True),
+                "native_partition_observation_counts": json.dumps(native_counts, sort_keys=True),
+                "excluded_observation_ids": json.dumps(excluded),
+                "test_target_materialization": "public y() may materialize test rows; pre-training conversion reads train values only"}
+    for key, value in config.get("provenance", {}).items():
+        if key in provenance:
+            raise ValueError(f"Reserved provenance field: {key}")
+        provenance[str(key)] = str(value)
+    task = {"schema_version": 1, "context": {"dataset_id": ds.id, "content_version": content,
                 "source_id": source, "target_id": target, "split_id": config["split_id"]},
             "data_origin": config.get("data_origin", "user_provided"), "axis": [float(v) for v in axis],
             "axis_unit": source_descriptor.axis_unit, "signal_unit": config["signal_unit"],
@@ -110,7 +136,7 @@ def task_from_dataset(ds, config):
             "policy": {"independence_unit": "group" if group_column or identities else "physical_sample",
                 "audit_mode": mode, "seed": config.get("seed", 17), "pca_max_components": config.get("pca_max_components", 20),
                 "pca_variance_fraction": config.get("pca_variance_fraction", 0.95)},
-            "observations": rows,
-            "provenance": {"datasets": version("nirs4all-datasets"),
-                "sample_identity_assumption": "explicit mapping" if identities else "sample_identity_confirmed",
-                "test_target_materialization": "public y() may materialize test rows; pre-training conversion reads train values only"}}
+            "observations": rows, "provenance": provenance}
+    if target_unit is not None:
+        task["target_unit"] = str(target_unit)
+    return task

@@ -43,5 +43,6 @@ Test target accessed: **false**
 - No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.
 - Repeated physical samples retain integrity/measurement diagnostics; geometric aggregation is deferred.
 - Counts of physical samples and groups are not an estimator of effective sample size.
+- Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance.
 
 The adjacent JSON preserves the fitted state, observation IDs, distributions, parameters, engine versions and the full Preflight report.

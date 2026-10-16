@@ -1,0 +1,26 @@
+# Local-only qualification; requires an audited existing converter and raw ZIP.
+schema_version: 1
+source_converter_sha256: 489b4428f1522c14ea759e2418de92ad32db61faed99bc25dd259d2e6f7b12da
+dataset_id: pharmaceutical_tablets_nir_shootout_eigenvector
+content_version: 1.0.0
+source_id: X1
+target_id: assay
+target_unit: mg/tablet
+target_unit_evidence: https://www.spectroscopyeurope.com/system/files/pdf/TD_18_6.pdf#page=1
+split_id: original
+partition_labels:
+  calibration: train
+  test: test
+  validation: exclude
+sample_identity_confirmed: true
+sample_identity_evidence: >-
+  Source describes distinct tablets per native partition; regenerated sample IDs
+  are source partition/index aliases. One acquisition per tablet on X1 is an
+  explicit assumption, not independently verified physical identity discovery.
+signal_unit: log(1/T)
+provenance:
+  reference_identity_status: Original laboratory reference IDs unavailable; shared-reference independence is unverified
+  signal_unit_evidence: https://www.eigenvector.com/Docs/EigenU_Europe_17/5b_AdvancedPrepro.pdf
+seed: 17
+pca_max_components: 20
+pca_variance_fraction: 0.95

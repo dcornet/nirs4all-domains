@@ -85,6 +85,8 @@ pub struct Task {
     pub axis: Vec<f64>,
     pub axis_unit: String,
     pub signal_unit: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub target_unit: Option<String>,
     #[serde(default)]
     pub target_kind: TargetKind,
     pub policy: Policy,

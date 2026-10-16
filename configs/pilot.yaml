@@ -1,5 +1,5 @@
 # Verified against datasets commit e68d1befb6cb8245799e83d4b4e4c41e66287689.
-# Candidate tasks are disabled until acquisition and identity/split gates close.
+# Shootout is qualified locally; point --catalog-root at the prepared catalog.
 schema_version: 1
 catalog_root: ../.audit/datasets
 tasks:
@@ -9,11 +9,17 @@ tasks:
     target_id: assay
     split_id: original
     seed: 17
-    enabled: false
-    reason: >-
-      Catalog declares native original split and two instruments; private/manual
-      access. Verify actual split labels, physical identities, canonical bytes and
-      assay unit before enabling. No partition labels are invented here.
+    enabled: true
+    target_unit: mg/tablet
+    signal_unit: log(1/T)
+    partition_labels: {calibration: train, test: test, validation: exclude}
+    sample_identity_confirmed: true
+    sample_identity_evidence: >-
+      Source partition/index aliases; one acquisition per tablet on X1 assumed
+      from source documentation, not independently verified physical IDs.
+    provenance:
+      target_unit_evidence: https://www.spectroscopyeurope.com/system/files/pdf/TD_18_6.pdf#page=1
+      reference_identity_status: Original laboratory reference IDs unavailable
   - dataset_id: corn_eigenvector_nir
     content_version: 1.0.0
     source_id: X1

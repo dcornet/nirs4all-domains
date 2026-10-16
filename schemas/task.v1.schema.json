@@ -46,6 +46,12 @@
     "target_kind": {
       "$ref": "#/$defs/TargetKind",
       "default": "continuous"
+    },
+    "target_unit": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "additionalProperties": false,

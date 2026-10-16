@@ -35,6 +35,8 @@ enum Action {
         #[arg(long)]
         catalog_config: PathBuf,
         #[arg(long)]
+        catalog_root: Option<PathBuf>,
+        #[arg(long)]
         out: PathBuf,
         #[arg(long, default_value = "python")]
         python: String,
@@ -88,6 +90,7 @@ fn run() -> Result<u8, String> {
         }
         Action::Batch {
             catalog_config,
+            catalog_root,
             out,
             python,
             methods_library,
@@ -103,6 +106,9 @@ fn run() -> Result<u8, String> {
                 );
             if let Some(path) = methods_library {
                 cmd.arg("--methods-library").arg(path);
+            }
+            if let Some(path) = catalog_root {
+                cmd.arg("--catalog-root").arg(path);
             }
             let status = cmd
                 .status()

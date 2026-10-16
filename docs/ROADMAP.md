@@ -15,15 +15,22 @@
 WP9 is a gate in every phase. A passing test for an unavailable future module is
 not a scientific qualification of that module.
 
-**Next concrete step:** qualify a real one-source regression task before adding
-more metrics. Start with the shootout candidate only after canonical access and
-the actual native split labels are verified; use another catalog candidate if
-this source cannot be acquired. Acceptance: public `get()/sources()/x()/y()/metadata()/split()`
-execution with content 1.0.0 pinned; explicit assay units, physical/reference
-identities and split counts; no shared identity across partitions; a schema-valid
-report produced twice with equal scientific payload; error retention alongside
-two other pilot configurations. Extend identity-only reference transport and
-sample-weighted technical aggregation before enabling repeated/grouped geometry.
+**First real task delivered:** Shootout X1/assay, native calibration/test mapping,
+155 train and 460 test observations, 40 validation observations explicitly excluded.
+The local raw reproduction runs through public Datasets getters and yields
+identical reports on repeated execution. Target units, source hashes, engine
+versions, identity assumptions and remaining pilot blockers are preserved. See
+[qualification and limits](REAL_DATA_PILOT.md). Historical registry canonical
+byte/numerical parity remains unverified; original laboratory reference IDs are
+not available.
+
+**Next concrete gate:** qualify technical-repeat aggregation on homogeneous
+source/instrument/campaign contexts through Preflight's public protocols. Inspect
+the existing averaging seam first; do not copy intrinsic aggregation into Domains.
+Acceptance: unchanged weight when a technical repeat is duplicated, no averaging
+across partitions or heterogeneous contexts, explicit exclusions and reference
+identity transport that does not need Y_test. A grouped real task can only be
+enabled after its physical/reference identities and split policy are documented.
 
 Remote publication is a separate user-confirmed action. The initial request
 explicitly requires confirmation before repository creation or first push.

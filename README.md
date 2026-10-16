@@ -4,8 +4,8 @@ Dataset characterization, calibration readiness and domain shift assessment.
 
 Exploratory Rust-first diagnostics for an explicit **dataset + X source + Y target
 + split + evaluation policy**. Part of the [nirs4all ecosystem](https://nirs4all.org/).
-This first slice compares a synthetic train/test task through real Methods kernels
-and Preflight protocols, and exports JSON + Markdown. It does not estimate
+The current alpha compares synthetic tasks and a locally reproduced real Shootout
+task through Methods kernels and Preflight protocols, exporting JSON + Markdown. It does not estimate
 calibration performance or provide a global readiness score.
 
 ## Run locally
@@ -43,21 +43,25 @@ report. CLI exit codes: 0 partial/success, 2 invalid input/engine failure.
 
 ```sh
 n4domains batch --catalog-config configs/synthetic-batch.yaml --out results/synthetic
-n4domains batch --catalog-config configs/pilot.yaml --out results/pilot
+n4domains batch --catalog-config configs/pilot.yaml --catalog-root /prepared/catalog --out results/pilot
 n4domains schema --out schemas
 ```
 
 The Python bridge must be installed for `batch`; use `--python` to select its
-interpreter. Real pilot candidates are intentionally disabled with precise
-acquisition, identity and split prerequisites. No real dataset campaign has been
-completed. The catalog's advertised historical split is not proof that usable
-partition labels are accessible.
+interpreter. Shootout X1 is enabled after local qualification: 155 train, 460 test,
+40 explicitly excluded validation observations. CORN and UCPH remain disabled
+with precise prerequisites. See [real-data qualification](docs/REAL_DATA_PILOT.md)
+to prepare the local catalog. This is a raw-data reproduction with recorded hashes;
+identity with the registry's historical canonical bytes is unverified.
 
 ## Guarantees and current limits
 
 - Every observation has an explicit train/test partition and physical/group IDs.
   Preflight validates linked identities and detects exact spectral duplicates.
   Domain evaluation policy additionally rejects shared dependency/reference keys.
+- The dataset bridge supports explicit `exclude` partition mappings, preserving
+  excluded observation IDs and native counts, plus optional target units.
+  A requested target absent from canonical data is an error.
 - PCA and centering fit train only. Test is projected with retained Methods
   loadings. Nearest-neighbor and reconstruction thresholds come only from train.
   Full covariance moments determine effective dimension even with truncated PCA.

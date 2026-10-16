@@ -1,0 +1,15 @@
+{
+  "conclusion": "success",
+  "headSha": "2855b6de48a01327001d458867b08f6ccb67724c",
+  "jobs": [
+    {
+      "name": "audit (windows-latest)",
+      "conclusion": "success"
+    },
+    {
+      "name": "audit (ubuntu-latest)",
+      "conclusion": "success"
+    }
+  ],
+  "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38894601512"
+}

@@ -37,7 +37,7 @@ fn preflight_input(task: &Task) -> Result<pf::QualificationInput, String> {
         .context
         .target_id
         .as_ref()
-        .map(|id| vec![json!({"target_id":id,"kind":task.target_kind,"values":values})])
+        .map(|id| vec![json!({"target_id":id,"kind":task.target_kind,"values":values,"unit":task.target_unit})])
         .unwrap_or_default();
     let repetitions: Vec<_> = task
         .observations
@@ -69,6 +69,10 @@ pub fn validate(task: &Task) -> Result<(), String> {
         .iter()
         .any(|s| s.trim().is_empty())
         || c.target_id.as_ref().is_some_and(|s| s.trim().is_empty())
+        || task
+            .target_unit
+            .as_ref()
+            .is_some_and(|s| s.trim().is_empty())
     {
         return Err("INVALID_TASK_CONTEXT_OR_SCHEMA_VERSION".into());
     }
@@ -251,7 +255,8 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
         "Coverage thresholds use train-only Tukey fences; these are heuristics, not failure probabilities.".into(),
         "No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.".into(),
         "Repeated physical samples retain integrity/measurement diagnostics; geometric aggregation is deferred.".into(),
-        "Counts of physical samples and groups are not an estimator of effective sample size.".into()]};
+        "Counts of physical samples and groups are not an estimator of effective sample size.".into(),
+        "Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance.".into()]};
     let pop = population(task);
     if let Err(reason) = validate(task) {
         report.status = "failed".into();
@@ -810,7 +815,9 @@ fn target_audit(task: &Task, methods: Option<&Methods>, report: &mut Report, pop
         "target.test_summary",
         status,
         value,
-        "target units (unspecified)",
+        task.target_unit
+            .as_deref()
+            .unwrap_or("target units (unspecified)"),
         reason.as_deref(),
     ));
 }

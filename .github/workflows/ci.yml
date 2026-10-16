@@ -36,9 +36,11 @@ jobs:
           $suffix = if ($IsWindows) { '.exe' } else { '' }
           $env:N4DOMAINS_BIN = Join-Path $PWD "target/debug/n4domains$suffix"
           python -m unittest discover -s tests/integration -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $env:N4DOMAINS_BIN analyze tests/fixtures/translation.json --out results/ci
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_report.py results/ci/report.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $env:N4DOMAINS_BIN batch --catalog-config configs/synthetic-batch.yaml --out results/batch
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: git diff --exit-code -- schemas

@@ -5,6 +5,11 @@ Executed locally on Windows x86_64, Python 3.11, Rust/Cargo 1.99.1. Preflight
 1.3.6 Windows wheel reporting ABI 2.19.0. Binary SHA-256 and source snapshots are
 in [audit/upstreams.json](audit/upstreams.json); Rust dependency versions and
 declared licenses are in [audit/rust-dependencies.json](audit/rust-dependencies.json).
+The table below records the initial alpha.1 baseline. Alpha.2 adds a real local
+Shootout reproduction, explicit native-partition exclusion and unit transport;
+the expanded local suite has **7 Rust + 13 Python tests passing**. See
+[the pilot evidence](REAL_DATA_PILOT.md) and
+[aggregate machine-readable record](audit/shootout-qualification.json).
 
 | Gate | Actual evidence |
 |---|---|
@@ -35,12 +40,13 @@ the exact-duplicate fixture correctly warns even though the compared empirical
 distributions are identical: distribution equality does not establish independent
 evaluation samples.
 
-No real pilot bytes were acquired or analyzed; no upstream scientific test suite
-was rerun; no Linux or GitHub-hosted workflow execution has occurred. CI for
-Windows/Linux is configured, with a mandatory separate native gate. Its future
-successful execution must be recorded before claiming platform qualification.
+The initial baseline did not analyze real pilot bytes. Alpha.2 now analyzes a
+local Shootout raw reproduction, with registry canonical parity still unverified.
+No upstream scientific test suite was rerun. The published alpha.1 baseline CI
+passed on Windows and Ubuntu at commit `2855b6de48a01327001d458867b08f6ccb67724c`;
+its private-data-independent gates include real native Methods execution.
 
-Remaining release gates include a true real-data campaign, repetition/context
+Remaining release gates include broader real-data campaigns, repetition/context
 aggregation, reference precision, grouped nested model validation, calibrated
 coverage/shift uncertainty, full runtime dependency notices/SBOM if bundling and
 remote publication approval. The repository remains an exploratory alpha.

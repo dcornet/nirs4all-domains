@@ -4,6 +4,12 @@ This is a descriptive pre-training audit, not a test of predictive degradation o
 a calibration model. The independent unit, source axis and partitions are explicit.
 All results remain exploratory, including outputs from Preflight alpha.
 
+Dataset conversion protocol `datasets.task.v0.2` can explicitly map native labels
+to train, test or exclude. Excluded acquisitions are not analyzed or assigned a
+new partition; their native counts and IDs remain in provenance. Unknown labels
+are errors. Optional target units pass through to Preflight and post-evaluation
+summaries. A requested target absent from canonical data fails conversion.
+
 1. Validate task version, context, IDs, dependency/reference split separation and
    budgets. Delegate matrix/axis and transitive physical/individual identities to
    Preflight. Refuse missing partitions rather than manufacture a reference split.

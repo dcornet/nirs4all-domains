@@ -39,12 +39,16 @@ algorithmic access/selection exclusion is implemented. Missing native splits are
 not silently randomized. A separately authored experimental JSON task is supported;
 automatic split generation is deferred.
 
-The audited three candidates are in configs/pilot.yaml. CORN has no native split
+The audited three candidates are in configs/pilot.yaml. Shootout X1 now runs through
+a local raw reproduction described in REAL_DATA_PILOT.md. Its exact native mapping
+is calibration=train, test=test, validation=exclude; target assay is mg/tablet.
+`--catalog-root` selects that local catalog without embedding machine paths in
+published packages. CORN has no native split
 and manual/private access. Shootout declares original split but actual labels
 require canonical bytes. UCPH exposes batch/replicate/scale metadata and marks
 sample IDs unavailable; historical split terms alone are insufficient. No real
 bytes or newly inferred groups/splits were committed. The pilot command records
-each task's unavailable reason and continues.
+the real task result plus each remaining task's unavailable reason and continues.
 
 | Proposed upstream request | Appropriate owner | Acceptance before consumption |
 |---|---|---|

@@ -60,6 +60,13 @@ group keys as part of its evaluation policy, without accessing test Y. This is a
 small task-policy guard, not a copied intrinsic qualification algorithm. An
 upstream identity-only reference contract is proposed in INTEGRATION.md.
 
+The alpha.2 local pilot runner delegates raw regeneration to an existing,
+SHA-pinned data-project converter and canonical writing to Datasets. It is a
+local qualification script, not a new source parser in Domains. The normal
+bridge still consumes public Datasets getters. Native third partitions can be
+explicitly excluded, with their IDs/counts retained. Target units are optional
+in input v1 and passed through to Preflight; older tasks remain valid.
+
 Reports are deterministic for a fixed task, binary and engine version. They omit
 wall-clock timestamps and durations from the scientific payload. A sanitized
 task hash intentionally excludes hidden Y_test; the native binary hash records
