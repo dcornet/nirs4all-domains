@@ -23,9 +23,9 @@ fitted states and four scalar metrics. See CLUSTERING_REAL_DATA_PILOT.md and
 Formatting, clippy with warnings denied, full workspace/native tests, rustdoc,
 bridge integration, generated separate schemas and structural/canonical report
 checks pass locally. The bridge alpha.5 wheel builds in an isolated environment.
-README commands and relative links are checked. New Windows/Linux CI execution
-is recorded after the pushed source commit completes; existing green alpha.4 CI
-is historical evidence, not proof of alpha.5. Local machine evidence is in
+README commands and relative links are checked. The [executed alpha.5 Windows/Linux run](https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251)
+passed on source commit `47db703`; [step-level proof](audit/github-ci-alpha5.json)
+is committed. Local machine evidence is in
 [audit/alpha5-validation.json](audit/alpha5-validation.json).
 
 Limits: classification rules are operational, not a universal taxonomy. No case

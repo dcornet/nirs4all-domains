@@ -163,10 +163,10 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.5**. Locally validated: **31 Rust + 25 Python = 56 tests**.
-Executed Windows/Linux CI evidence
-are in [VALIDATION.md](docs/VALIDATION.md). The badge points to the actual existing
-workflow; configuration alone is not execution evidence.
+Exploratory **0.1.0-alpha.5**. **31 Rust + 25 Python = 56 tests pass**.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251)
+on source commit `47db703`. Detailed execution evidence is in
+[VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
 
 ```sh
 cargo fmt --all --check

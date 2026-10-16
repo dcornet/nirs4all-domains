@@ -51,6 +51,13 @@
   "upstream_source_checkouts_modified": false,
   "new_generic_numeric_kernel": false,
   "github_ci": {
-    "status": "awaiting publication; local execution only"
+    "status": "success",
+    "tested_code_commit": "47db7032ba0d46a499b56f5567634c4987deaa78",
+    "run_url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251",
+    "platforms": [
+      "audit (windows-latest)",
+      "audit (ubuntu-latest)"
+    ],
+    "execution_record": "github-ci-alpha5.json"
   }
 }

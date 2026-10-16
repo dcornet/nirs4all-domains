@@ -1,0 +1,171 @@
+{
+  "run_id": 38965734251,
+  "head_sha": "47db7032ba0d46a499b56f5567634c4987deaa78",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251",
+  "jobs": [
+    {
+      "name": "audit (windows-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251/job/117191614973",
+      "started_at": "2026-10-16T20:55:33Z",
+      "completed_at": "2026-10-16T20:57:38Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install nirs4all-methods==1.3.6 \"./bridges/python[test,datasets,predictive]\"",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select native Methods and companion DLL directory",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo fmt --all --check",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo test --workspace --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo test --workspace --locked -- --ignored",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo doc --workspace --no-deps --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo build --workspace --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo run --locked -p nirs4all-domains-cli -- schema --out schemas",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bridge and end-to-end gates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run git diff --exit-code -- schemas",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "audit (ubuntu-latest)",
+      "conclusion": "success",
+      "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251/job/117191615270",
+      "started_at": "2026-10-16T20:55:33Z",
+      "completed_at": "2026-10-16T20:57:04Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run python -m pip install nirs4all-methods==1.3.6 \"./bridges/python[test,datasets,predictive]\"",
+          "conclusion": "success"
+        },
+        {
+          "name": "Select native Methods and companion DLL directory",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo fmt --all --check",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo test --workspace --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo test --workspace --locked -- --ignored",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo doc --workspace --no-deps --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo build --workspace --locked",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run cargo run --locked -p nirs4all-domains-cli -- schema --out schemas",
+          "conclusion": "success"
+        },
+        {
+          "name": "Bridge and end-to-end gates",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run git diff --exit-code -- schemas",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
