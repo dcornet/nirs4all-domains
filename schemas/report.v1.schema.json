@@ -50,6 +50,7 @@
         "type": "string"
       }
     },
+    "representations": true,
     "schema_version": {
       "type": "integer",
       "format": "uint32",
@@ -60,7 +61,8 @@
     },
     "test_target_accessed": {
       "type": "boolean"
-    }
+    },
+    "unit_audit": true
   },
   "required": [
     "schema_version",
@@ -72,6 +74,8 @@
     "test_target_accessed",
     "policy",
     "provenance",
+    "unit_audit",
+    "representations",
     "metrics",
     "findings",
     "dimensions",
@@ -232,6 +236,10 @@
           "type": "number",
           "format": "double"
         },
+        "representation": {
+          "$ref": "#/$defs/Representation",
+          "default": "native"
+        },
         "seed": {
           "type": "integer",
           "format": "uint64",
@@ -302,6 +310,13 @@
         "n_test_physical_samples",
         "n_train_independent_units",
         "n_test_independent_units"
+      ]
+    },
+    "Representation": {
+      "type": "string",
+      "enum": [
+        "native",
+        "technical_mean"
       ]
     },
     "Status": {

@@ -58,7 +58,8 @@ identity with the registry's historical canonical bytes is unverified.
 
 - Every observation has an explicit train/test partition and physical/group IDs.
   Preflight validates linked identities and detects exact spectral duplicates.
-  Domain evaluation policy additionally rejects shared dependency/reference keys.
+  Physical dependencies crossing partitions invalidate the split. Reference-only
+  anomalies block X-Y qualification while preserving pure X diagnostics.
 - The dataset bridge supports explicit `exclude` partition mappings, preserving
   excluded observation IDs and native counts, plus optional target units.
   A requested target absent from canonical data is an error.
@@ -68,9 +69,12 @@ identity with the registry's historical canonical bytes is unverified.
 - Pre-training omits test target values from Preflight, fit, thresholds and report
   fingerprints. Post-evaluation declares target access and the need for a new
   independent evaluation after a strategy change.
-- Geometric diagnostics currently require one observation per physical sample.
-  Repeated units retain Preflight diagnostics but geometry is `not_identifiable`
-  until an explicit aggregation protocol is qualified.
+- Alpha.3 adds `policy.representation: technical_mean`: one vote per eligible
+  physical sample, with Methods means of known homogeneous technical repeats.
+  Default `native` retains the previous policy. Native acquisitions, linked
+  contexts, reference dependencies, exclusions and exact coverage populations
+  are exported. Biological/unknown repeats and cross-context units are never
+  implicitly averaged. See [unit and reference rules](docs/UNITS_REFERENCES.md).
 - Six result dimensions preserve missing capabilities. Clustering, conditional
   confounding, nested PLS/PCR, AOM and inferential shift tests are deferred.
 

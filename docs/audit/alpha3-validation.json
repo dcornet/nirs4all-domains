@@ -1,0 +1,51 @@
+{
+  "execution_date": "2026-10-16",
+  "engine_version": "0.1.0-alpha.3",
+  "platform": "Windows x86_64",
+  "rust": "1.99.1",
+  "python": "3.11.9",
+  "methods_version": "1.3.6+abi.2.19.0",
+  "methods_abi": "2.19.0",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "rust_tests": {
+    "passed": 12,
+    "ignored": 0
+  },
+  "python_tests": {
+    "passed": 17
+  },
+  "gates_passed": [
+    "cargo fmt --all --check",
+    "cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "cargo test --workspace --locked -- --include-ignored",
+    "cargo doc --workspace --no-deps --locked",
+    "cargo build --workspace --locked",
+    "Python unittest integration",
+    "CLI report JSON Schema and status invariants",
+    "Shootout native/technical_mean each run twice; byte-identical within policy"
+  ],
+  "upstream_source_checkouts_modified": false,
+  "new_generic_numeric_kernel": false,
+  "runtime_symbol_lookup": {
+    "n4m_preflight_pca_compute": true,
+    "n4m_preflight_summary_compute": true,
+    "n4m_preflight_nearest_neighbors": true,
+    "n4m_preflight_repeatability_compute": true,
+    "n4m_cluster_hdbscan": true,
+    "n4m_preflight_noise_proxy_compute": true,
+    "n4m_preflight_pairs_within_tolerance": true
+  },
+  "executed_native_primitives": [
+    "PCA",
+    "summary",
+    "group-excluding neighbors",
+    "repeatability through Preflight"
+  ],
+  "limitations": [
+    "No upstream scientific suite rerun",
+    "Only the first four looked-up symbols execute in this suite",
+    "No real grouped-repeat task qualified",
+    "Original Shootout physical and reference identity unverified",
+    "Historical registry canonical numerical equivalence unverified"
+  ]
+}

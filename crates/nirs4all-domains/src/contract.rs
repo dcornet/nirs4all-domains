@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::BTreeMap;
 
-pub const PROTOCOL: &str = "domains.canonical.v0.1";
+pub const PROTOCOL: &str = "domains.canonical.v0.2";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -28,6 +28,14 @@ pub enum TargetKind {
     #[default]
     Continuous,
     Categorical,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum Representation {
+    #[default]
+    Native,
+    TechnicalMean,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -58,6 +66,10 @@ pub struct Observation {
     #[serde(default)]
     pub reference_group_id: Option<String>,
     #[serde(default)]
+    pub reference_status: Option<String>,
+    #[serde(default)]
+    pub reference_unit: Option<String>,
+    #[serde(default)]
     pub individual_id: Option<String>,
     #[serde(default)]
     pub repetition_type: Option<String>,
@@ -69,6 +81,8 @@ pub struct Observation {
 #[serde(deny_unknown_fields)]
 pub struct Policy {
     pub independence_unit: String,
+    #[serde(default)]
+    pub representation: Representation,
     #[serde(default)]
     pub audit_mode: AuditMode,
     pub seed: u64,
@@ -159,6 +173,8 @@ pub struct Report {
     pub provenance: BTreeMap<String, String>,
     pub fit: Option<Value>,
     pub preflight: Option<Value>,
+    pub unit_audit: Value,
+    pub representations: Value,
     pub metrics: Vec<Metric>,
     pub findings: Vec<Finding>,
     pub dimensions: BTreeMap<String, String>,

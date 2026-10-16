@@ -1,5 +1,8 @@
 # First real-data qualification — Shootout X1
 
+The alpha.2 execution below is retained as a baseline. Alpha.3 adds the explicit
+representation comparison described at the end of this document.
+
 Executed locally on 2026-10-16 with Domains **0.1.0-alpha.2**, Datasets 0.3.11,
 Preflight 0.1.0-alpha.1 and Methods 1.3.6 / ABI 2.19.0. The first published commit's
 [GitHub CI](https://github.com/dcornet/nirs4all-domains/actions/runs/38894601512)
@@ -92,7 +95,8 @@ Supply the existing converter and raw archive; source repositories remain read-o
   --registry-manifest .audit/datasets/datasets/pharmaceutical_tablets_nir_shootout_eigenvector/manifest.json `
   --binary target/debug/n4domains.exe `
   --methods-library $env:N4DOMAINS_METHODS_LIBRARY `
-  --out results/shootout
+  --baseline-report results/shootout/first/report.json `
+  --out results/shootout-alpha3-final
 ```
 
 The converter must match the configured SHA. Fresh staging directories prevent
@@ -109,6 +113,47 @@ target\debug\n4domains.exe batch --catalog-config configs/pilot.yaml `
   --catalog-root $pilot.catalog_root --out results/pilot --python .venv/Scripts/python.exe
 ```
 
-Next gate: verify historical canonical numerical parity when those bytes are
-available, then qualify homogeneous technical-repeat aggregation and explicit
-reference identities before expanding grouped readiness protocols.
+## Alpha.3 representation comparison
+
+The raw reproduction was rerun in a fresh output directory, leaving alpha.2
+results intact. Each policy was executed twice with byte-identical results within
+that policy. JSON and Markdown reports now expose the native acquisitions,
+sample-context records, linked dependency components, reference completeness,
+exclusions and exact train/test coverage population. The local full reports are
+`results/shootout-alpha3-final/native/report.json` and
+`results/shootout-alpha3-final/technical_mean/report.json`; their comparison is
+`representation-comparison.json` / `.md` in the same directory.
+
+| Count / result | Native | Technical mean |
+|---|---:|---:|
+| Train acquisitions / declared physical samples | 155 / 155 | 155 / 155 |
+| Test acquisitions / declared physical samples | 460 / 460 | 460 / 460 |
+| Declared independence groups, train / test | 155 / 460 | 155 / 460 |
+| Dependency validation groups, train / test | 155 / 460 | 155 / 460 |
+| Known laboratory reference IDs, train / test | 0 / 0; identities unavailable | 0 / 0; identities unavailable |
+| Declared repeat groups, train / test | 0 / 0 | 0 / 0 |
+| Native validation acquisitions excluded | 40 | 40 |
+| Additional representation exclusions | 0 | 0 |
+| Coverage numerator / exact denominator | 73 / 460 | 73 / 460 |
+
+All four scalar metrics have exactly zero delta between policies and versus the
+retained local alpha.2 report; train fitted states are identical between policies.
+The technical-mean operation is a singleton identity operation under the supplied
+row aliases. This real case checks preservation, populations and reproducibility;
+nontrivial repeat averaging is qualified on controlled data, not demonstrated on
+Shootout. Instrument/campaign metadata and original reference precision/status
+are unavailable. Optional missing context does not block singleton rows; it
+would block certification of a repeated-group mean.
+
+Zero known reference IDs is not a claim that there were zero laboratory
+measurements. The actual number of independent references remains unknown.
+Physical and validation-unit counts remain conditional on the stated source-row
+identity assumption. Historical registry canonical numerical equivalence remains
+unverified. The 15.9% coverage fraction remains exploratory and does not estimate
+prediction error. Aggregate hashes, counts and deltas are committed in
+[the alpha.3 record](audit/shootout-representation-qualification.json); full arrays
+and per-observation outputs remain local.
+
+Next lot: independent-unit coverage on a grouped real task with documented
+physical/reference identities and a frozen component split. Historical canonical
+parity can be checked separately when those bytes are available.

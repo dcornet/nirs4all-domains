@@ -52,13 +52,22 @@ cannot be fused with another by row position. Cross-instrument paired tasks need
 a later explicit paired protocol; equal axes alone do not establish independence.
 Incompatible axes require an externally declared transformation, not silent
 interpolation. Repeated observations retain their physical IDs and measurement
-context; geometric aggregation is currently refused.
+context. Alpha.3 optionally builds a homogeneous technical-mean task view using
+the public Methods summary mean. Eligibility, membership and physical-sample
+weights belong to this Domains comparison policy; native Preflight measurement
+diagnostics remain separate. Linked cross-context rows remain in the inventory
+and are excluded from pooled geometry. Preflight's private averaging step was
+inspected but is not exposed as a reusable representation API.
 
 The public Preflight model cannot carry test reference identity without an exact
 target value. Domains therefore checks cross-partition reference ID and reference
-group keys as part of its evaluation policy, without accessing test Y. This is a
-small task-policy guard, not a copied intrinsic qualification algorithm. An
-upstream identity-only reference contract is proposed in INTEGRATION.md.
+group keys as part of its evaluation policy, without accessing test Y. Connected
+dependencies are exported for future validation; reference-only anomalies block
+X-Y without discarding X diagnostics. Context aliases adapt Preflight's sample
+model while retaining physical identity. Contradictory repeat groups have distinct
+aliases so its private structural averaging cannot silently fuse them. Safe
+train targets are deduplicated by declared reference and physical identity.
+The narrow upstream contracts are proposed in UPSTREAM_DEPENDENCIES.md.
 
 The alpha.2 local pilot runner delegates raw regeneration to an existing,
 SHA-pinned data-project converter and canonical writing to Datasets. It is a

@@ -32,7 +32,7 @@ def scenarios():
     for name in ("translation", "variance", "outside_support", "two_clusters", "continuum",
                  "instrument_confounded_y", "technical_repeats", "cross_partition_duplicates",
                  "independent_y", "predictable_y", "target_shift", "insufficient", "target_absent",
-                 "orthogonal_shift", "missing_x"):
+                 "orthogonal_shift", "missing_x", "qualified_technical_repeats"):
         task = copy.deepcopy(original)
         train = [r for r in task["observations"] if r["partition"] == "train"]
         test = [r for r in task["observations"] if r["partition"] == "test"]
@@ -61,6 +61,16 @@ def scenarios():
                 repeat = copy.deepcopy(r)
                 repeat["observation_id"] += "-repeat"
                 repeat["x"] = [v + .001 for v in r["x"]]
+                task["observations"].append(repeat)
+        elif name == "qualified_technical_repeats":
+            task["policy"]["representation"] = "technical_mean"
+            for r in task["observations"]:
+                r["metadata"] = {"instrument": "A", "campaign": "C1"}
+                r["repetition_type"] = "rescan"
+                r["reference_status"] = "exact"
+            for r in train[:2]:
+                repeat = copy.deepcopy(r)
+                repeat["observation_id"] += "-repeat"
                 task["observations"].append(repeat)
         elif name == "independent_y":
             for i, r in enumerate(train): r["y"] = float(i % 2)

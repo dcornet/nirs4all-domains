@@ -1,0 +1,212 @@
+{
+  "dataset_id": "pharmaceutical_tablets_nir_shootout_eigenvector",
+  "content_version": "1.0.0",
+  "source_id": "X1",
+  "target_id": "assay",
+  "target_unit": "mg/tablet",
+  "split_id": "original",
+  "native_split_counts": {
+    "test": 460,
+    "calibration": 155,
+    "validation": 40
+  },
+  "task_partition_mapping": {
+    "calibration": "train",
+    "test": "test",
+    "validation": "exclude"
+  },
+  "n_train": 155,
+  "n_test": 460,
+  "n_excluded_validation": 40,
+  "seed": 17,
+  "protocol_version": "domains.canonical.v0.2",
+  "report_sha256": "cfc86530d2190559b5a791f3491e3e2b448d0b1325cf818ef35908fb8cfba1a2",
+  "reproducible": true,
+  "representation_comparison": {
+    "protocol_version": "domains.representation_comparison.v0.1",
+    "policies": {
+      "native": {
+        "report_sha256": "cfc86530d2190559b5a791f3491e3e2b448d0b1325cf818ef35908fb8cfba1a2",
+        "reproducible": true,
+        "train_units": {
+          "acquisitions": 155,
+          "declared_independence_groups": 155,
+          "known_references": 0,
+          "missing_instrument_or_campaign_acquisitions": 155,
+          "missing_reference_acquisitions": 155,
+          "missing_reference_status_acquisitions": 155,
+          "missing_reference_unit_acquisitions": 0,
+          "physical_samples": 155,
+          "repeat_groups": 0,
+          "samples": 155,
+          "validation_groups": 155
+        },
+        "test_units": {
+          "acquisitions": 460,
+          "declared_independence_groups": 460,
+          "known_references": 0,
+          "missing_instrument_or_campaign_acquisitions": 460,
+          "missing_reference_acquisitions": 460,
+          "missing_reference_status_acquisitions": 460,
+          "missing_reference_unit_acquisitions": 0,
+          "physical_samples": 460,
+          "repeat_groups": 0,
+          "samples": 460,
+          "validation_groups": 460
+        },
+        "excluded_from_comparison": 0,
+        "coverage_denominator": 460,
+        "coverage_outside": 73,
+        "fit_sha256": "8ae3c3aa1d883f3d57428c78ba17111a3f4ef609b4bc8a585c55c5c0fd57d5ea",
+        "metrics": {
+          "coverage.effective_dimension": 1.6421546615354472,
+          "domain.centroid_distance": 0.3504847366793949,
+          "domain.dispersion_ratio": 0.9670419982902757,
+          "coverage.test_outside_fraction": 0.15869565217391304
+        }
+      },
+      "technical_mean": {
+        "report_sha256": "abebbd9901445b4d9f710640c1c61f9eddd0b403eaa39a3a2fd8bd35d71f761c",
+        "reproducible": true,
+        "train_units": {
+          "acquisitions": 155,
+          "declared_independence_groups": 155,
+          "known_references": 0,
+          "missing_instrument_or_campaign_acquisitions": 155,
+          "missing_reference_acquisitions": 155,
+          "missing_reference_status_acquisitions": 155,
+          "missing_reference_unit_acquisitions": 0,
+          "physical_samples": 155,
+          "repeat_groups": 0,
+          "samples": 155,
+          "validation_groups": 155
+        },
+        "test_units": {
+          "acquisitions": 460,
+          "declared_independence_groups": 460,
+          "known_references": 0,
+          "missing_instrument_or_campaign_acquisitions": 460,
+          "missing_reference_acquisitions": 460,
+          "missing_reference_status_acquisitions": 460,
+          "missing_reference_unit_acquisitions": 0,
+          "physical_samples": 460,
+          "repeat_groups": 0,
+          "samples": 460,
+          "validation_groups": 460
+        },
+        "excluded_from_comparison": 0,
+        "coverage_denominator": 460,
+        "coverage_outside": 73,
+        "fit_sha256": "8ae3c3aa1d883f3d57428c78ba17111a3f4ef609b4bc8a585c55c5c0fd57d5ea",
+        "metrics": {
+          "coverage.effective_dimension": 1.6421546615354472,
+          "domain.centroid_distance": 0.3504847366793949,
+          "domain.dispersion_ratio": 0.9670419982902757,
+          "coverage.test_outside_fraction": 0.15869565217391304
+        }
+      }
+    },
+    "metric_deltas_technical_mean_minus_native": {
+      "coverage.effective_dimension": 0.0,
+      "domain.centroid_distance": 0.0,
+      "domain.dispersion_ratio": 0.0,
+      "coverage.test_outside_fraction": 0.0
+    },
+    "fit_identical": true,
+    "explanation": "No repeated physical IDs within X1 under the supplied source-row identity assumption; technical_mean is a singleton identity operation. Original physical/reference identities remain unverified.",
+    "previous_baseline": {
+      "engine_version": "0.1.0-alpha.2",
+      "report_sha256": "d4e110d1853612c8cea8bff52e13e8f8570af8f53454bc456a59b991c1906c55",
+      "metric_deltas_native_minus_baseline": {
+        "coverage.effective_dimension": 0.0,
+        "domain.centroid_distance": 0.0,
+        "domain.dispersion_ratio": 0.0,
+        "coverage.test_outside_fraction": 0.0
+      },
+      "note": "Comparison with retained local alpha.2 output; not verification of historical registry canonical arrays"
+    }
+  },
+  "test_target_accessed": false,
+  "metrics": {
+    "coverage.effective_dimension": 1.6421546615354472,
+    "domain.centroid_distance": 0.3504847366793949,
+    "domain.dispersion_ratio": 0.9670419982902757,
+    "coverage.test_outside_fraction": 0.15869565217391304
+  },
+  "limitations": [
+    "Exploratory descriptive audit; no calibrated statistical test or prediction-performance claim.",
+    "Coverage thresholds use train-only Tukey fences; these are heuristics, not failure probabilities.",
+    "No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.",
+    "Technical means require declared homogeneous contexts; ambiguous and cross-context units are explicitly excluded from pooled geometry.",
+    "Counts of physical samples and groups are not an estimator of effective sample size.",
+    "Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance."
+  ],
+  "source_evidence": {
+    "raw_zip_sha256": "04c03a4314ab8e8f63e0ecc788b657b5d1b5450791ce465ad41ad90cb5d52125",
+    "source_converter_sha256": "489b4428f1522c14ea759e2418de92ad32db61faed99bc25dd259d2e6f7b12da",
+    "descriptor_sha256": "df77c90e0b93f881f614abf645e17c800e19a0650c7fb749e83448f233f1e84b",
+    "keyed_files_sha256": {
+      "M.csv": "2ada52dc1abbd93218c4e6e7444a6b4c3ec381b22f197e18e8c21f05065a7b5b",
+      "X1.csv": "aaa7a471548249b1361437631f37f5ecc87416c28256ecfcaf2ba2e8787952c7",
+      "X2.csv": "1c3ae2858e2ea1a4d2de5fce006171ecdcb5442309fde683bae626f7491e645d",
+      "Y.csv": "63c5539f9cd17bf6b62df16831a57750d7c619cd7e048493427c1d447b467498"
+    },
+    "canonical_converter": "nirs4all-datasets-canonical",
+    "canonical_converter_version": "0.3.11",
+    "canonical_hashes": {
+      "sources/X1.parquet": "7d2665f6b0ac8f639586cc91ba3aefc3baf399d6efd1fb53bb26f4ddd78c511a",
+      "sources/X2.parquet": "0f08d40adaf16ef5b49cfc7522eb6b7263883cae6fdd81cbac8d8bf8ae9e371a",
+      "variables.parquet": "a116536c46e8409442c50805811ce61faa05a154bd766a371dfe7b37a7c27b0b",
+      "splits/original.parquet": "5f0f37989785eaf74e9ca8ab01042c23bca660bcbcb1fe0b383b2cec62300b3d"
+    },
+    "canonical_counts": {
+      "X1": 655,
+      "X2": 655,
+      "variables": 655,
+      "split:original": 655
+    },
+    "canonical_warnings": [],
+    "origin_url": "https://eigenvector.com/wp-content/uploads/2019/06/nir_shootout_2002.mat_.zip",
+    "restriction": "Local internal-use qualification only; redistribution rights not cleared",
+    "materialization_kind": "local_raw_reproduction",
+    "registry_byte_identity_verified": false,
+    "dependency_versions": {
+      "nirs4all-domains-bridge": "0.1.0a3",
+      "nirs4all-datasets": "0.3.11",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "pandas": "3.0.6",
+      "pyarrow": "26.0.0"
+    },
+    "registry_manifest_sha256": "4fbfb95169c1b0b0cfbbec97b4ee190d0a6738bb1c19a6dfcfd9a7dd43866fda",
+    "registry_converter_version": "0.2.0a1"
+  },
+  "identity_assumption": "Source describes distinct tablets per native partition; regenerated sample IDs are source partition/index aliases. One acquisition per tablet on X1 is an explicit assumption, not independently verified physical identity discovery.",
+  "provenance": {
+    "canonical_materialization_sha256": "f9e22c0a3682d3f7559c5a773d1d3e2eb4064a3fe60f314d662055701603f9f6",
+    "datasets": "0.3.11",
+    "descriptor_sha256": "df77c90e0b93f881f614abf645e17c800e19a0650c7fb749e83448f233f1e84b",
+    "domains": "0.1.0-alpha.3",
+    "materialization_kind": "local_raw_reproduction",
+    "methods": "1.3.6+abi.2.19.0",
+    "methods_abi": "2.19.0",
+    "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+    "native_partition_observation_counts": "{\"calibration\": 155, \"test\": 460, \"validation\": 40}",
+    "origin_url": "https://eigenvector.com/wp-content/uploads/2019/06/nir_shootout_2002.mat_.zip",
+    "partition_mapping": "{\"calibration\": \"train\", \"test\": \"test\", \"validation\": \"exclude\"}",
+    "preflight": "0.1.0-alpha.1",
+    "raw_zip_sha256": "04c03a4314ab8e8f63e0ecc788b657b5d1b5450791ce465ad41ad90cb5d52125",
+    "reference_identity_status": "Original laboratory reference IDs unavailable; shared-reference independence is unverified",
+    "registry_byte_identity_verified": "false",
+    "sample_identity_assumption": "Source describes distinct tablets per native partition; regenerated sample IDs are source partition/index aliases. One acquisition per tablet on X1 is an explicit assumption, not independently verified physical identity discovery.",
+    "sanitized_task_sha256": "408b33a4135e2b22bb66fc4e7c4d8ba1fe56d364bc0adfc17809fa8f2c9c8a9c",
+    "signal_unit_evidence": "https://www.eigenvector.com/Docs/EigenU_Europe_17/5b_AdvancedPrepro.pdf",
+    "source_converter_sha256": "489b4428f1522c14ea759e2418de92ad32db61faed99bc25dd259d2e6f7b12da",
+    "target_unit_evidence": "https://www.spectroscopyeurope.com/system/files/pdf/TD_18_6.pdf#page=1",
+    "task_conversion_protocol": "datasets.task.v0.3",
+    "test_target_materialization": "public y() may materialize test rows; pre-training conversion reads train values only"
+  },
+  "execution_date": "2026-10-16",
+  "full_reports_location": "Local ignored results/shootout-alpha3-final; raw arrays and acquisition-level results not redistributed",
+  "reference_count_interpretation": "0 known laboratory reference IDs; actual independent reference count unavailable"
+}

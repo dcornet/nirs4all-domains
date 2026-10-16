@@ -153,6 +153,20 @@
           ],
           "default": null
         },
+        "reference_status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "reference_unit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
         "repetition_type": {
           "type": [
             "string",
@@ -218,6 +232,10 @@
           "type": "number",
           "format": "double"
         },
+        "representation": {
+          "$ref": "#/$defs/Representation",
+          "default": "native"
+        },
         "seed": {
           "type": "integer",
           "format": "uint64",
@@ -230,6 +248,13 @@
         "seed",
         "pca_max_components",
         "pca_variance_fraction"
+      ]
+    },
+    "Representation": {
+      "type": "string",
+      "enum": [
+        "native",
+        "technical_mean"
       ]
     },
     "TargetKind": {

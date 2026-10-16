@@ -70,6 +70,49 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(task["observations"][1]["y"], 999.)
 
     @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_permuted_target_ids_and_missing_join_fail(self, _):
+        ds = Dataset()
+        config = self.config(); config["audit_mode"] = "post_evaluation"
+        ds.y = lambda _target: pd.DataFrame({"sample_id": ["b", "a"], "y": [10., 999.]})
+        task = task_from_dataset(ds, config)
+        self.assertEqual([r["y"] for r in task["observations"]], [999., 10.])
+        ds.y = lambda _target: pd.DataFrame({"sample_id": ["a", "c"], "y": [10., 999.]})
+        with self.assertRaisesRegex(ValueError, "Missing target join identity"):
+            task_from_dataset(ds, config)
+        ds.y = lambda _target: pd.DataFrame({"sample_id": ["a", None], "y": [10., 999.]})
+        with self.assertRaisesRegex(ValueError, "Ambiguous target identity"):
+            task_from_dataset(ds, config)
+
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_acquisition_context_and_shared_reference_transport(self, _):
+        config = self.config()
+        config["representation"] = "technical_mean"
+        config["sample_identity_confirmed"] = False
+        config["observation_identity_table"] = {
+            "oa": {"physical_sample_id": "object-a", "reference_id": "lab-1", "reference_group_id": "lab-batch", "reference_status": "exact", "reference_unit": "mg", "repeat_type": "rescan", "instrument": "A", "campaign": "C1", "site": "S", "lot": "L"},
+            "ob": {"physical_sample_id": "object-b", "reference_id": "lab-1", "instrument": "B", "campaign": "C2"}}
+        task = task_from_dataset(Dataset(), config)
+        self.assertEqual(task["policy"]["representation"], "technical_mean")
+        self.assertEqual(task["observations"][0]["repetition_type"], "rescan")
+        self.assertEqual(task["observations"][0]["metadata"]["lot"], "L")
+        self.assertEqual(task["observations"][1]["reference_id"], "lab-1")
+        self.assertNotIn("y", task["observations"][1])
+        del config["observation_identity_table"]["ob"]
+        with self.assertRaisesRegex(ValueError, "Missing acquisition identity"):
+            task_from_dataset(Dataset(), config)
+
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_missing_acquisition_identity_and_context_are_not_inferred(self, _):
+        ds = Dataset(); ds.observation_ids = lambda _source: np.array(["oa", "oa"])
+        with self.assertRaisesRegex(ValueError, "acquisition identity"):
+            task_from_dataset(ds, self.config())
+        ds = Dataset()
+        ds.metadata = lambda: pd.DataFrame({"sample_id": ["a", "b"], "instrument": [None, np.nan]})
+        task = task_from_dataset(ds, self.config())
+        self.assertNotIn("instrument", task["observations"][0]["metadata"])
+        self.assertNotIn("instrument", task["observations"][1]["metadata"])
+
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
     def test_explicit_exclusion_preserves_denominators_and_hides_target(self, _):
         ds = Dataset()
         ds.split_data = pd.DataFrame({"sample_id": ["a", "b"], "partition": ["dev", "validation"]})

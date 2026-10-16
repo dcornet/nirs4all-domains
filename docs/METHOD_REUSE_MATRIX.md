@@ -21,7 +21,8 @@ execution refers only to tests described in VALIDATION.md.
 |---|---|---|---|---|
 | Integrity and identities | Preflight `crates/nirs4all-preflight-core/src/lib.rs::validate_input`, facade `analyze` | Rust crate =0.1.0-alpha.1 published | Linked physical/individual components and reference-group checks; local adversarial policy tests | reuse |
 | Exact train/test spectral duplicates | Preflight facade `src/lib.rs`, `integrity.cross_partition_exact_duplicate_pairs` | Same alpha; no Methods needed | Exact bit normalization, counts across declared physical identities; local 8-pair analytical fixture | reuse |
-| Technical repeats / ICC(1,1) | Methods `cpp/include/n4m/metrics.h::n4m_preflight_repeatability_compute`; Preflight provider | ABI >=2.18, introduced 1.3.5 npm; present 1.3.6 native wheel; Rust provider available | `cpp/tests/test_preflight.cpp`: balanced/negative/unbalanced ICC; local repeated-unit guards, no full ICC parity rerun | reuse |
+| Technical repeats / ICC(1,1) | Methods `cpp/include/n4m/metrics.h::n4m_preflight_repeatability_compute`; Preflight provider | ABI >=2.18, introduced 1.3.5 npm; present 1.3.6 native wheel; Rust provider available | Native acquisitions retained; alpha.3 exercises pooled SD through Preflight; no full ICC parity rerun | reuse |
+| Homogeneous comparison representation | Preflight facade private physical/instrument/campaign averaging inspected; public Methods `SummaryRequest` mean | Published facade does not export its matrix/membership; existing mean primitive sufficient | Alpha.3 known/mixed/unknown/biological/context/partition/reference guards, analytical means and physical-sample weights | new Domains task policy; public Preflight representation seam proposed |
 | Centered PCA and full moments | `n4m_preflight_pca_compute`; Preflight `PcaRequest/PcaDiagnostics` | ABI >=2.18; wheel 1.3.6; Rust provider loses loadings | Upstream hand-computed/truncated/strided tests; local rank-one trace=36, effective dimension=1, projection and no-refit tests | reuse |
 | Train PCA transform of test | C ABI retains k x p loadings; no loadings in Rust `PcaDiagnostics` | Same ABI; local owning adapter calls public ABI | Local orthogonal shift catches residual outside retained subspace | new local protocol; upstream extension for retaining fitted state |
 | Y summaries / quartiles | `n4m_preflight_summary_compute`; Rust `SummaryRequest` | ABI >=2.18; available through provider | Upstream type-7 and extreme finite tests; local target access/shift tests | reuse |
@@ -49,3 +50,10 @@ source; Datasets README, ONBOARDING, schema, catalog/cards, dataset.py and acces
 Related IO/Formats/Core/DAG-ML README seams were inspected, not their full numerical
 or execution APIs. Future nested-validation integration requires a focused public
 DAG API audit rather than assuming its README guarantees are already integrated.
+
+Alpha.3 also inspected Datasets `qualify/metrics.py`: `spectral_profile`,
+`pca_outlier_metrics`, `repeatability_metrics`, RMS/SAM, noise and artifact
+heuristics. None were copied. Local DLL lookup again succeeds for PCA, summary,
+neighbors, repeatability, HDBSCAN, noise proxy and tolerance pairs. The native
+suite executes the first four; symbol lookup alone does not qualify the others.
+No new generic numerical primitive is required by this sprint.

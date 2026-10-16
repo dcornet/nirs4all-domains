@@ -2,6 +2,7 @@ use crate::{
     contract::*,
     hash,
     methods::{FittedPca, Methods},
+    units,
 };
 use nirs4all_preflight::{
     self as pf, MethodsProvider, NearestNeighborsRequest, SummaryRequest,
@@ -14,13 +15,36 @@ use std::{
 };
 
 fn preflight_input(task: &Task) -> Result<pf::QualificationInput, String> {
+    let audit = units::audit(task);
+    // Context aliases adapt Preflight's sample-level context without losing physical links.
+    let aliases: Vec<_> = task
+        .observations
+        .iter()
+        .map(|r| {
+            format!(
+                "context:{}",
+                hash(
+                    &serde_json::to_vec(&json!([
+                        r.sample_id,
+                        units::context(task, r),
+                        if audit.unsafe_physical.contains(&r.physical_sample_id) {
+                            Some(&r.observation_id)
+                        } else {
+                            None
+                        }
+                    ]))
+                    .unwrap()
+                )
+            )
+        })
+        .collect();
     let mut samples = BTreeMap::new();
-    for row in &task.observations {
-        let sample = json!({"sample_id":row.sample_id,"physical_sample_id":row.physical_sample_id,
+    for (row, alias) in task.observations.iter().zip(&aliases) {
+        let sample = json!({"sample_id":alias,"physical_sample_id":row.physical_sample_id,
             "partition":if row.partition==Partition::Train {"development"} else {"retained_test"},
             "independence_group":row.independence_group,"individual_id":row.individual_id,
             "instrument":row.metadata.get("instrument"),"campaign":row.metadata.get("campaign")});
-        if let Some(previous) = samples.insert(row.sample_id.clone(), sample.clone()) {
+        if let Some(previous) = samples.insert(alias.clone(), sample.clone()) {
             if previous != sample {
                 return Err("INCONSISTENT_SAMPLE_IDENTITY_OR_PARTITION".into());
             }
@@ -28,10 +52,15 @@ fn preflight_input(task: &Task) -> Result<pf::QualificationInput, String> {
     }
     // Test references are deliberately absent from the Preflight input, including
     // in post-evaluation mode. Their identity constraints are checked below without Y.
-    let values:Vec<_>=task.observations.iter().filter(|r|r.partition==Partition::Train)
-        .filter_map(|r|match task.target_kind {
-            TargetKind::Continuous=>r.y.map(|v|json!({"sample_id":r.sample_id,"value":v,"status":"exact","reference_id":r.reference_id,"reference_group_id":r.reference_group_id})),
-            TargetKind::Categorical=>r.category.as_ref().map(|v|json!({"sample_id":r.sample_id,"category":v,"status":"exact","reference_id":r.reference_id,"reference_group_id":r.reference_group_id}))
+    let mut seen = BTreeSet::new();
+    let mut seen_physical = BTreeSet::new();
+    let values:Vec<_>=task.observations.iter().zip(&aliases).filter(|(r,_)|r.partition==Partition::Train && !audit.xy_blocked)
+        .filter(|(r,_)| if task.target_kind==TargetKind::Continuous {r.y.is_some()}else{r.category.is_some()})
+        .filter(|(r,_)|seen.insert(if let Some(id)=&r.reference_id {format!("reference:{id}")}else{format!("physical:{}",r.physical_sample_id)}))
+        .filter(|(r,_)|seen_physical.insert(&r.physical_sample_id))
+        .filter_map(|(r,alias)|match task.target_kind {
+            TargetKind::Continuous=>r.y.map(|v|json!({"sample_id":alias,"value":v,"status":"exact","reference_id":r.reference_id,"reference_group_id":r.reference_group_id})),
+            TargetKind::Categorical=>r.category.as_ref().map(|v|json!({"sample_id":alias,"category":v,"status":"exact","reference_id":r.reference_id,"reference_group_id":r.reference_group_id}))
         }).collect();
     let targets = task
         .context
@@ -47,7 +76,7 @@ fn preflight_input(task: &Task) -> Result<pf::QualificationInput, String> {
     serde_json::from_value(json!({"schema_version":1,"data_origin":task.data_origin,
         "sources":[{"source_id":task.context.source_id,"axis":task.axis,"axis_unit":task.axis_unit,"signal_unit":task.signal_unit,
             "x":task.observations.iter().map(|r|&r.x).collect::<Vec<_>>(),
-            "sample_ids":task.observations.iter().map(|r|&r.sample_id).collect::<Vec<_>>(),
+            "sample_ids":aliases,
             "observation_ids":task.observations.iter().map(|r|&r.observation_id).collect::<Vec<_>>(),"repetition_types":repetitions}],
         "samples":samples.into_values().collect::<Vec<_>>(),"targets":targets,
         "options":{"independence_unit":"group","seed":task.policy.seed}})).map_err(|e|e.to_string())
@@ -110,10 +139,6 @@ pub fn validate(task: &Task) -> Result<(), String> {
         ]
         .iter()
         .any(|s| s.trim().is_empty())
-            || r.reference_id.as_ref().is_some_and(|s| s.trim().is_empty())
-            || r.reference_group_id
-                .as_ref()
-                .is_some_and(|s| s.trim().is_empty())
         {
             return Err("EXPLICIT_IDENTITIES_REQUIRED".into());
         }
@@ -123,9 +148,8 @@ pub fn validate(task: &Task) -> Result<(), String> {
             return Err("PHYSICAL_UNIT_GROUP_MISMATCH".into());
         }
         for (kind, key) in [
+            ("sample", Some(&r.sample_id)),
             ("group", Some(&r.independence_group)),
-            ("reference", r.reference_id.as_ref()),
-            ("reference_group", r.reference_group_id.as_ref()),
         ] {
             if let Some(key) = key {
                 roles.entry((kind.into(), key.clone())).or_default().insert(
@@ -139,16 +163,6 @@ pub fn validate(task: &Task) -> Result<(), String> {
         }
         if r.x.iter().flatten().any(|v| !v.is_finite()) {
             return Err("NONFINITE_X".into());
-        }
-        // No test target access here. JSON itself excludes nonfinite literals.
-        if r.partition == Partition::Train
-            && (r.y.is_some_and(|y| !y.is_finite())
-                || (r.y.is_some() && r.category.is_some())
-                || (task.context.target_id.is_some()
-                    && ((task.target_kind == TargetKind::Continuous && r.category.is_some())
-                        || (task.target_kind == TargetKind::Categorical && r.y.is_some()))))
-        {
-            return Err("INVALID_TRAIN_TARGET".into());
         }
     }
     for ((kind, key), partitions) in roles {
@@ -219,12 +233,19 @@ fn metric(
         protocol_version: PROTOCOL.into(),
         context: report.context.clone(),
         population: pop.clone(),
-        preprocessing_view: "canonical:center_train:pca".into(),
+        preprocessing_view: format!(
+            "canonical:{}:center_train:pca",
+            if report.policy.representation == Representation::Native {
+                "native"
+            } else {
+                "technical_mean"
+            }
+        ),
         status,
         reason: reason.map(str::to_owned),
         value,
         unit: unit.into(),
-        parameters: json!({"seed":report.policy.seed,"pca_variance_fraction":report.policy.pca_variance_fraction,"pca_max_components":report.policy.pca_max_components}),
+        parameters: json!({"representation":report.policy.representation,"seed":report.policy.seed,"pca_variance_fraction":report.policy.pca_variance_fraction,"pca_max_components":report.policy.pca_max_components}),
         uncertainty: None,
         provenance: report.provenance.clone(),
         observation_ids: vec![],
@@ -250,14 +271,21 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
     );
     let mut report=Report {schema_version:1,engine_version:VERSION.into(),protocol_version:PROTOCOL.into(),context:task.context.clone(),
         data_origin:task.data_origin.clone(),status:"partial".into(),test_target_accessed:false,policy:task.policy.clone(),provenance,
-        fit:None,preflight:None,metrics:vec![],findings:vec![],dimensions:["integrity","measurement","coverage","structure","xy_relationship","generalization"].iter().map(|s|(s.to_string(),"unavailable".into())).collect(),
+        fit:None,preflight:None,unit_audit:Value::Null,representations:Value::Null,metrics:vec![],findings:vec![],dimensions:["integrity","measurement","coverage","structure","xy_relationship","generalization"].iter().map(|s|(s.to_string(),"unavailable".into())).collect(),
         limitations:vec!["Exploratory descriptive audit; no calibrated statistical test or prediction-performance claim.".into(),
         "Coverage thresholds use train-only Tukey fences; these are heuristics, not failure probabilities.".into(),
         "No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.".into(),
-        "Repeated physical samples retain integrity/measurement diagnostics; geometric aggregation is deferred.".into(),
+        "Technical means require declared homogeneous contexts; ambiguous and cross-context units are explicitly excluded from pooled geometry.".into(),
         "Counts of physical samples and groups are not an estimator of effective sample size.".into(),
         "Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance.".into()]};
     let pop = population(task);
+    let audit = units::audit(&sanitized);
+    report.unit_audit = audit.value.clone();
+    report.test_target_accessed =
+        task.policy.audit_mode == AuditMode::PostEvaluation && task.context.target_id.is_some();
+    if report.test_target_accessed {
+        report.findings.push(Finding{rule_id:"domains.test_target_access.v1".into(),severity:"warning".into(),observation:"Post-evaluation audit accessed test target fields.".into(),confidence:"high".into(),calibration_consequence:"A strategy change after this audit requires a new independent evaluation.".into(),recommended_action:"Freeze the completed evaluation and reserve a new independent test before modifying the strategy.".into(),evidence:vec!["unit_audit".into(),"target.test_summary".into()]});
+    }
     if let Err(reason) = validate(task) {
         report.status = "failed".into();
         report.dimensions.insert("integrity".into(), "error".into());
@@ -338,6 +366,15 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
         "measurement".into(),
         "see Preflight availability per metric".into(),
     );
+    report.metrics.push(metric(&report,&pop,"reference.xy_eligibility",
+        if audit.xy_blocked {Status::NotIdentifiable} else {Status::Computed},
+        if audit.xy_blocked {Value::Null} else {json!({"status":"descriptive_only","reference_identity_complete":task.observations.iter().all(|r|r.reference_id.is_some())})},
+        "",if audit.xy_blocked {Some("REFERENCE_ANOMALY_XY_BLOCKED_X_RETAINED")}else{None}));
+    if audit.xy_blocked {
+        report.findings.push(Finding{rule_id:"domains.reference_safety.v0.1".into(),severity:"high".into(),
+            observation:"Reference dependencies or anomalies block X-Y qualification; native X analysis remains available.".into(),confidence:"high".into(),
+            calibration_consequence:"Reference rows cannot be treated as independent exact outcomes.".into(),recommended_action:"Resolve the reference issues and reserve whole dependency components for validation.".into(),evidence:vec!["unit_audit.reference_issues".into()]});
+    }
     for (id, reason) in [
         ("structure.clustering", "CLUSTER_PROTOCOL_DEFERRED"),
         ("xy.nested_probe", "NESTED_GROUP_VALIDATION_DEFERRED"),
@@ -356,12 +393,22 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
             Some(reason),
         ));
     }
-    let geometry = match &methods {
-        Some(m) => geometry(task, m, &mut report, &pop),
-        None => Err((
-            Status::Unavailable,
-            "METHODS_PROVIDER_NOT_CONFIGURED".into(),
-        )),
+    let representation = units::representation(&sanitized, &audit, methods.as_ref());
+    let mut comparison_pop = pop.clone();
+    let geometry = match representation {
+        Ok((view, inventory)) => {
+            report.representations = inventory;
+            let view_pop = population(&view);
+            comparison_pop = view_pop.clone();
+            match &methods {
+                Some(m) => geometry(&view, m, &mut report, &view_pop),
+                None => Err((
+                    Status::Unavailable,
+                    "METHODS_PROVIDER_NOT_CONFIGURED".into(),
+                )),
+            }
+        }
+        Err(reason) => Err((Status::Error, reason)),
     };
     if let Err((status, reason)) = geometry {
         for id in [
@@ -371,7 +418,7 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
         ] {
             report.metrics.push(metric(
                 &report,
-                &pop,
+                &comparison_pop,
                 id,
                 status.clone(),
                 Value::Null,
@@ -661,6 +708,9 @@ fn geometry(
         None,
     );
     coverage.observation_ids = outside.clone();
+    coverage.parameters["denominator"] = json!(test.len());
+    coverage.parameters["test_population"] = json!(test.iter().map(|r|json!({"representation_observation_id":r.observation_id,"physical_sample_id":r.physical_sample_id,"independence_group":r.independence_group})).collect::<Vec<_>>());
+    coverage.parameters["population_membership"] = json!("representations.sample_context_groups maps every representation row to native acquisition IDs");
     report.metrics.push(coverage);
     for (id, value, unit) in [
         (
@@ -718,6 +768,43 @@ fn target_audit(task: &Task, methods: Option<&Methods>, report: &mut Report, pop
         ));
         return;
     }
+    if report.unit_audit["xy_blocked"] == true {
+        report.dimensions.insert(
+            "xy_relationship".into(),
+            "blocked by reference audit; X retained".into(),
+        );
+        report.metrics.push(metric(
+            report,
+            pop,
+            "target.train_summary",
+            Status::NotIdentifiable,
+            Value::Null,
+            "",
+            Some("REFERENCE_ANOMALY_XY_BLOCKED_X_RETAINED"),
+        ));
+        report.metrics.push(metric(
+            report,
+            pop,
+            if task.policy.audit_mode == AuditMode::PreTraining {
+                "target.test_shift"
+            } else {
+                "target.test_summary"
+            },
+            if task.policy.audit_mode == AuditMode::PreTraining {
+                Status::Unavailable
+            } else {
+                Status::NotIdentifiable
+            },
+            Value::Null,
+            "",
+            Some(if task.policy.audit_mode == AuditMode::PreTraining {
+                "Y_TEST_FORBIDDEN_PRE_TRAINING"
+            } else {
+                "REFERENCE_ANOMALY_XY_BLOCKED_X_RETAINED"
+            }),
+        ));
+        return;
+    }
     // Preflight already summarizes eligible train targets, including categories.
     report.dimensions.insert(
         "xy_relationship".into(),
@@ -740,9 +827,7 @@ fn target_audit(task: &Task, methods: Option<&Methods>, report: &mut Report, pop
         .iter()
         .filter(|r| r.partition == Partition::Test)
         .collect();
-    report.test_target_accessed = true;
-    report.findings.push(Finding{rule_id:"domains.test_target_access.v1".into(),severity:"warning".into(),observation:"Post-evaluation audit accessed test target fields.".into(),confidence:"high".into(),calibration_consequence:"A strategy change after this audit requires a new independent evaluation.".into(),recommended_action:"Freeze the completed evaluation and reserve a new independent test before modifying the strategy.".into(),evidence:vec!["target.test_summary".into()]});
-    if test.len() != pop.n_test_physical_samples {
+    if test.len() != pop.n_test_physical_samples && test.iter().any(|r| r.reference_id.is_none()) {
         report.metrics.push(metric(
             report,
             pop,
@@ -754,6 +839,18 @@ fn target_audit(task: &Task, methods: Option<&Methods>, report: &mut Report, pop
         ));
         return;
     }
+    let mut seen = BTreeSet::new();
+    let test: Vec<_> = test
+        .into_iter()
+        .filter(|r| {
+            seen.insert(
+                r.reference_id
+                    .as_ref()
+                    .map(|id| format!("reference:{id}"))
+                    .unwrap_or_else(|| format!("physical:{}", r.physical_sample_id)),
+            )
+        })
+        .collect();
     if task.target_kind == TargetKind::Categorical {
         let mut counts = BTreeMap::<String, usize>::new();
         for r in &test {

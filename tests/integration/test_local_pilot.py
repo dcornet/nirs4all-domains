@@ -4,6 +4,7 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 
 spec = importlib.util.spec_from_file_location("local_pilot", Path(__file__).resolve().parents[2] / "scripts/run_local_pilot.py")
@@ -12,6 +13,18 @@ spec.loader.exec_module(pilot)
 
 
 class PreparationGuards(unittest.TestCase):
+    def test_existing_pilot_reports_are_never_overwritten(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            sentinel = root / "report.json"
+            sentinel.write_text("preserve previous result")
+            args = ["run_local_pilot.py", "--out", str(root)]
+            for name in ("converter", "raw-zip", "descriptor", "binary", "methods-library"):
+                args += [f"--{name}", "unused"]
+            with patch("sys.argv", args), self.assertRaisesRegex(ValueError, "previous results are preserved"):
+                pilot.main()
+            self.assertEqual(sentinel.read_text(), "preserve previous result")
+
     def test_unreviewed_converter_is_never_executed(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

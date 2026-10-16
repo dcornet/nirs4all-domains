@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "engine_version": "0.1.0-alpha.2",
-  "protocol_version": "domains.canonical.v0.1",
+  "engine_version": "0.1.0-alpha.3",
+  "protocol_version": "domains.canonical.v0.2",
   "context": {
     "dataset_id": "synthetic-translation",
     "content_version": "1.0.0",
@@ -14,19 +14,20 @@
   "test_target_accessed": false,
   "policy": {
     "independence_unit": "physical_sample",
+    "representation": "native",
     "audit_mode": "pre_training",
     "seed": 17,
     "pca_max_components": 3,
     "pca_variance_fraction": 0.95
   },
   "provenance": {
-    "domains": "0.1.0-alpha.2",
+    "domains": "0.1.0-alpha.3",
     "fixture_generator": "controlled-v1; deterministic; no RNG draws",
     "methods": "1.3.6+abi.2.19.0",
     "methods_abi": "2.19.0",
     "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
     "preflight": "0.1.0-alpha.1",
-    "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+    "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
   },
   "fit": {
     "eigenvalues": [
@@ -430,14 +431,14 @@
             "train-7||"
           ],
           "sample_ids": [
-            "train-0",
-            "train-1",
-            "train-2",
-            "train-3",
-            "train-4",
-            "train-5",
-            "train-6",
-            "train-7"
+            "context:ff25002990beedf79c2f7a89e15faeef90e98cbe9f3c99276d15db63097c7db2",
+            "context:c84e393a470a32ae30611c5e10b0f1989e59bffeb3ba6032635c2699270ee683",
+            "context:79269b838b5be671380e4a8407e0b14e766809b031ecd7205fd6ddeef93e34db",
+            "context:b4b0dceaee99cee664083241964841337baf82952399ad06c81408b12a3f93a5",
+            "context:f8cc999ec2d3da01ea70f29d4755dd1d73304bd5b0900b59a9f0dce5f8135f15",
+            "context:a3f5fbea4d28d5afb7dc68b3bb04d5cc884e30e4ba9042efdc0eac5bfa452e53",
+            "context:a291c69152c97d3ad700ece5edeb72781e5783f2df76ac013b02d31bba21da18",
+            "context:78ffb4d34e70afdd4742cbd84b2b1c549231cdb6b5041a70077a67a1f8f82b6d"
           ],
           "scores": [
             [
@@ -613,10 +614,834 @@
       "valid": true
     }
   },
+  "unit_audit": {
+    "dependency_components": [
+      {
+        "component_id": "dependency:0168355ab222622ec6c69db793197f1ba62b19ad270bbbd08850addb93d9f2ec",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-3",
+            "kind": "group"
+          },
+          {
+            "key": "test-3",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-3",
+            "kind": "reference"
+          },
+          {
+            "key": "test-3",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-3"
+        ]
+      },
+      {
+        "component_id": "dependency:1079752eaa43b007bef981a4a6c4930dbf2773f61a70a01ad46a6243e21e1ff0",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-7",
+            "kind": "group"
+          },
+          {
+            "key": "test-7",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-7",
+            "kind": "reference"
+          },
+          {
+            "key": "test-7",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-7"
+        ]
+      },
+      {
+        "component_id": "dependency:10e26f013fcc5552ef7d286387dd47fb8fc0492b01cb384d25b0ca9b1e79aa5b",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-0",
+            "kind": "group"
+          },
+          {
+            "key": "train-0",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-0",
+            "kind": "reference"
+          },
+          {
+            "key": "train-0",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-0"
+        ]
+      },
+      {
+        "component_id": "dependency:11eedf2f0c7e75d2f639259720bd23a6864dc3fb796d2d5433cd7a5e58c9eea9",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-6",
+            "kind": "group"
+          },
+          {
+            "key": "train-6",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-6",
+            "kind": "reference"
+          },
+          {
+            "key": "train-6",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-6"
+        ]
+      },
+      {
+        "component_id": "dependency:1d58bddd44e3c9e20a9153fbd1182262a3bc8b1e5a238c98329ee62f35b2d1cc",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-4",
+            "kind": "group"
+          },
+          {
+            "key": "test-4",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-4",
+            "kind": "reference"
+          },
+          {
+            "key": "test-4",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-4"
+        ]
+      },
+      {
+        "component_id": "dependency:2a174c24a94134de23b8b3c353d649b542e5326d404d7868fafe8a1f6c3f77f1",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-1",
+            "kind": "group"
+          },
+          {
+            "key": "test-1",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-1",
+            "kind": "reference"
+          },
+          {
+            "key": "test-1",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-1"
+        ]
+      },
+      {
+        "component_id": "dependency:6d1970e91eb9b8cae351b52f5e5dcac12e1c27bb42d8a76b58671b51bd7f2917",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-5",
+            "kind": "group"
+          },
+          {
+            "key": "train-5",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-5",
+            "kind": "reference"
+          },
+          {
+            "key": "train-5",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-5"
+        ]
+      },
+      {
+        "component_id": "dependency:80ecdbc4d0e90edf451ffdeb29cf2b697b290df51d1adafe0d50e139282edfc3",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-0",
+            "kind": "group"
+          },
+          {
+            "key": "test-0",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-0",
+            "kind": "reference"
+          },
+          {
+            "key": "test-0",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-0"
+        ]
+      },
+      {
+        "component_id": "dependency:897caa665066af05e1908f8067b70251e77837cb4d6ecf8dad0df89e9b42a26b",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-2",
+            "kind": "group"
+          },
+          {
+            "key": "train-2",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-2",
+            "kind": "reference"
+          },
+          {
+            "key": "train-2",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-2"
+        ]
+      },
+      {
+        "component_id": "dependency:a983605986f5316e97b6b721e834a825482566b443aaad84e480a187cb16d32e",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-3",
+            "kind": "group"
+          },
+          {
+            "key": "train-3",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-3",
+            "kind": "reference"
+          },
+          {
+            "key": "train-3",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-3"
+        ]
+      },
+      {
+        "component_id": "dependency:ab69d70b165987ccea47caa070c760e34d9b0184d7e049293a1051aeaa5b982b",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-6",
+            "kind": "group"
+          },
+          {
+            "key": "test-6",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-6",
+            "kind": "reference"
+          },
+          {
+            "key": "test-6",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-6"
+        ]
+      },
+      {
+        "component_id": "dependency:b6e903e37ebaac7ba8cc2bb338c59f08db4b77745539a7e324a9d3396ee30ecc",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-7",
+            "kind": "group"
+          },
+          {
+            "key": "train-7",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-7",
+            "kind": "reference"
+          },
+          {
+            "key": "train-7",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-7"
+        ]
+      },
+      {
+        "component_id": "dependency:c9d1b123d3be86d12aade1a356d7b02ea8de9e1a1242084d752078ad7dd15b29",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-4",
+            "kind": "group"
+          },
+          {
+            "key": "train-4",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-4",
+            "kind": "reference"
+          },
+          {
+            "key": "train-4",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-4"
+        ]
+      },
+      {
+        "component_id": "dependency:e7559ed30611634ee2fb9ba019b8b8c67296da21893988c4effaea9d74716111",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-5",
+            "kind": "group"
+          },
+          {
+            "key": "test-5",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-5",
+            "kind": "reference"
+          },
+          {
+            "key": "test-5",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-5"
+        ]
+      },
+      {
+        "component_id": "dependency:efe0fa28c814cdea2fe46bf8a6a60a8b14766f5fafd5acf4ec1ad808dbf96406",
+        "has_test": false,
+        "has_train": true,
+        "links": [
+          {
+            "key": "train-1",
+            "kind": "group"
+          },
+          {
+            "key": "train-1",
+            "kind": "physical"
+          },
+          {
+            "key": "r-train-1",
+            "kind": "reference"
+          },
+          {
+            "key": "train-1",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-train-1"
+        ]
+      },
+      {
+        "component_id": "dependency:f3421f7039548478fddaf53d4463e9a50f08bf44cd77e6c1c2a49a0d7dd333d4",
+        "has_test": true,
+        "has_train": false,
+        "links": [
+          {
+            "key": "test-2",
+            "kind": "group"
+          },
+          {
+            "key": "test-2",
+            "kind": "physical"
+          },
+          {
+            "key": "r-test-2",
+            "kind": "reference"
+          },
+          {
+            "key": "test-2",
+            "kind": "sample"
+          }
+        ],
+        "observation_ids": [
+          "o-test-2"
+        ]
+      }
+    ],
+    "excluded_native_observation_ids": null,
+    "independence_qualification": "declared_constraints_only_not_verified_real_world_independence",
+    "known_reference_ids_total": 16,
+    "protocol_version": "domains.units.v0.1",
+    "reference_issues": [],
+    "reference_precision": "unavailable_no_laboratory_tolerance_supplied",
+    "test": {
+      "acquisitions": 8,
+      "declared_independence_groups": 8,
+      "known_references": 8,
+      "missing_instrument_or_campaign_acquisitions": 8,
+      "missing_reference_acquisitions": 0,
+      "missing_reference_status_acquisitions": 8,
+      "missing_reference_unit_acquisitions": 8,
+      "physical_samples": 8,
+      "repeat_groups": 0,
+      "samples": 8,
+      "validation_groups": 8
+    },
+    "train": {
+      "acquisitions": 8,
+      "declared_independence_groups": 8,
+      "known_references": 8,
+      "missing_instrument_or_campaign_acquisitions": 8,
+      "missing_reference_acquisitions": 0,
+      "missing_reference_status_acquisitions": 8,
+      "missing_reference_unit_acquisitions": 8,
+      "physical_samples": 8,
+      "repeat_groups": 0,
+      "samples": 8,
+      "validation_groups": 8
+    },
+    "validation_groups_total": 16,
+    "xy_blocked": false
+  },
+  "representations": {
+    "cross_context": "linked_native_observations_retained_no_implicit_mean",
+    "mean_backend": "Methods public summary; no local numerical mean kernel",
+    "mean_execution": "available",
+    "native_observation_ids": [
+      "o-train-0",
+      "o-train-1",
+      "o-train-2",
+      "o-train-3",
+      "o-train-4",
+      "o-train-5",
+      "o-train-6",
+      "o-train-7",
+      "o-test-0",
+      "o-test-1",
+      "o-test-2",
+      "o-test-3",
+      "o-test-4",
+      "o-test-5",
+      "o-test-6",
+      "o-test-7"
+    ],
+    "policy": "native",
+    "sample_context_groups": [
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-0"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-0",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-0",
+        "sample_ids": [
+          "test-0"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-1"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-1",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-1",
+        "sample_ids": [
+          "test-1"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-2"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-2",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-2",
+        "sample_ids": [
+          "test-2"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-3"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-3",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-3",
+        "sample_ids": [
+          "test-3"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-4"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-4",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-4",
+        "sample_ids": [
+          "test-4"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-5"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-5",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-5",
+        "sample_ids": [
+          "test-5"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-6"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-6",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-6",
+        "sample_ids": [
+          "test-6"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-test-7"
+        ],
+        "partition": "test",
+        "physical_sample_id": "test-7",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-test-7",
+        "sample_ids": [
+          "test-7"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-0"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-0",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-0",
+        "sample_ids": [
+          "train-0"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-1"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-1",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-1",
+        "sample_ids": [
+          "train-1"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-2"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-2",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-2",
+        "sample_ids": [
+          "train-2"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-3"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-3",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-3",
+        "sample_ids": [
+          "train-3"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-4"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-4",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-4",
+        "sample_ids": [
+          "train-4"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-5"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-5",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-5",
+        "sample_ids": [
+          "train-5"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-6"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-6",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-6",
+        "sample_ids": [
+          "train-6"
+        ],
+        "weight": 1
+      },
+      {
+        "context": {
+          "source": "nir"
+        },
+        "eligible": true,
+        "observation_ids": [
+          "o-train-7"
+        ],
+        "partition": "train",
+        "physical_sample_id": "train-7",
+        "reason": null,
+        "repeat_types": [
+          "unknown"
+        ],
+        "representation_observation_id": "o-train-7",
+        "sample_ids": [
+          "train-7"
+        ],
+        "weight": 1
+      }
+    ],
+    "selected_population": {
+      "excluded_acquisitions": 0,
+      "test_observation_ids": [
+        "o-test-0",
+        "o-test-1",
+        "o-test-2",
+        "o-test-3",
+        "o-test-4",
+        "o-test-5",
+        "o-test-6",
+        "o-test-7"
+      ],
+      "train_observation_ids": [
+        "o-train-0",
+        "o-train-1",
+        "o-train-2",
+        "o-train-3",
+        "o-train-4",
+        "o-train-5",
+        "o-train-6",
+        "o-train-7"
+      ]
+    },
+    "weighting": "native_acquisitions_geometry_requires_one_per_physical_sample"
+  },
   "metrics": [
     {
-      "metric_id": "structure.clustering",
-      "protocol_version": "domains.canonical.v0.1",
+      "metric_id": "reference.xy_eligibility",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -635,7 +1460,54 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
+      "status": "computed",
+      "reason": null,
+      "value": {
+        "reference_identity_complete": true,
+        "status": "descriptive_only"
+      },
+      "unit": "",
+      "parameters": {
+        "pca_max_components": 3,
+        "pca_variance_fraction": 0.95,
+        "representation": "native",
+        "seed": 17
+      },
+      "uncertainty": null,
+      "provenance": {
+        "domains": "0.1.0-alpha.3",
+        "fixture_generator": "controlled-v1; deterministic; no RNG draws",
+        "methods": "1.3.6+abi.2.19.0",
+        "methods_abi": "2.19.0",
+        "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+        "preflight": "0.1.0-alpha.1",
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
+      },
+      "observation_ids": []
+    },
+    {
+      "metric_id": "structure.clustering",
+      "protocol_version": "domains.canonical.v0.2",
+      "context": {
+        "dataset_id": "synthetic-translation",
+        "content_version": "1.0.0",
+        "source_id": "nir",
+        "target_id": "concentration",
+        "split_id": "explicit-v1"
+      },
+      "population": {
+        "population_id": "train_vs_test",
+        "statistical_unit": "physical_sample",
+        "n_train_observations": 8,
+        "n_test_observations": 8,
+        "n_train_physical_samples": 8,
+        "n_test_physical_samples": 8,
+        "n_train_independent_units": 8,
+        "n_test_independent_units": 8,
+        "n_effective": null
+      },
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "unavailable",
       "reason": "CLUSTER_PROTOCOL_DEFERRED",
       "value": null,
@@ -643,23 +1515,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "xy.nested_probe",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -678,7 +1551,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "unavailable",
       "reason": "NESTED_GROUP_VALIDATION_DEFERRED",
       "value": null,
@@ -686,23 +1559,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "explainability.conditional_effects",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -721,7 +1595,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "unavailable",
       "reason": "CONDITIONAL_FACTOR_PROTOCOL_DEFERRED",
       "value": null,
@@ -729,23 +1603,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "coverage.effective_dimension",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -764,7 +1639,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": 1.0,
@@ -772,23 +1647,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "domain.centroid_distance",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -807,7 +1683,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": 24.494897427831777,
@@ -815,23 +1691,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "domain.dispersion_ratio",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -850,7 +1727,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": 0.9999999999999996,
@@ -858,23 +1735,24 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     },
     {
       "metric_id": "coverage.test_outside_fraction",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -893,25 +1771,70 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": 1.0,
       "unit": "fraction",
       "parameters": {
+        "denominator": 8,
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
-        "seed": 17
+        "population_membership": "representations.sample_context_groups maps every representation row to native acquisition IDs",
+        "representation": "native",
+        "seed": 17,
+        "test_population": [
+          {
+            "independence_group": "test-0",
+            "physical_sample_id": "test-0",
+            "representation_observation_id": "o-test-0"
+          },
+          {
+            "independence_group": "test-1",
+            "physical_sample_id": "test-1",
+            "representation_observation_id": "o-test-1"
+          },
+          {
+            "independence_group": "test-2",
+            "physical_sample_id": "test-2",
+            "representation_observation_id": "o-test-2"
+          },
+          {
+            "independence_group": "test-3",
+            "physical_sample_id": "test-3",
+            "representation_observation_id": "o-test-3"
+          },
+          {
+            "independence_group": "test-4",
+            "physical_sample_id": "test-4",
+            "representation_observation_id": "o-test-4"
+          },
+          {
+            "independence_group": "test-5",
+            "physical_sample_id": "test-5",
+            "representation_observation_id": "o-test-5"
+          },
+          {
+            "independence_group": "test-6",
+            "physical_sample_id": "test-6",
+            "representation_observation_id": "o-test-6"
+          },
+          {
+            "independence_group": "test-7",
+            "physical_sample_id": "test-7",
+            "representation_observation_id": "o-test-7"
+          }
+        ]
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": [
         "o-test-0",
@@ -926,7 +1849,7 @@
     },
     {
       "metric_id": "coverage.train_neighbor_distances",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -945,7 +1868,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": [
@@ -962,17 +1885,18 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": [
         "o-train-0",
@@ -987,7 +1911,7 @@
     },
     {
       "metric_id": "coverage.test_neighbor_distances",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -1006,7 +1930,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": [
@@ -1023,17 +1947,18 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": [
         "o-test-0",
@@ -1048,7 +1973,7 @@
     },
     {
       "metric_id": "coverage.train_reconstruction_squared",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -1067,7 +1992,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": [
@@ -1084,17 +2009,18 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": [
         "o-train-0",
@@ -1109,7 +2035,7 @@
     },
     {
       "metric_id": "coverage.test_reconstruction_squared",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -1128,7 +2054,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "computed",
       "reason": null,
       "value": [
@@ -1145,17 +2071,18 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": [
         "o-test-0",
@@ -1170,7 +2097,7 @@
     },
     {
       "metric_id": "target.test_shift",
-      "protocol_version": "domains.canonical.v0.1",
+      "protocol_version": "domains.canonical.v0.2",
       "context": {
         "dataset_id": "synthetic-translation",
         "content_version": "1.0.0",
@@ -1189,7 +2116,7 @@
         "n_test_independent_units": 8,
         "n_effective": null
       },
-      "preprocessing_view": "canonical:center_train:pca",
+      "preprocessing_view": "canonical:native:center_train:pca",
       "status": "unavailable",
       "reason": "Y_TEST_FORBIDDEN_PRE_TRAINING",
       "value": null,
@@ -1197,17 +2124,18 @@
       "parameters": {
         "pca_max_components": 3,
         "pca_variance_fraction": 0.95,
+        "representation": "native",
         "seed": 17
       },
       "uncertainty": null,
       "provenance": {
-        "domains": "0.1.0-alpha.2",
+        "domains": "0.1.0-alpha.3",
         "fixture_generator": "controlled-v1; deterministic; no RNG draws",
         "methods": "1.3.6+abi.2.19.0",
         "methods_abi": "2.19.0",
         "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
         "preflight": "0.1.0-alpha.1",
-        "sanitized_task_sha256": "deadd8f5ab779112b2c6fc42c2c8e81db96aa9900a519b0a0b006f3f7d2753d8"
+        "sanitized_task_sha256": "59b9c4f1a63ce8ff50a8a870397c4431c720e284c04a9497d281d58cf799d03e"
       },
       "observation_ids": []
     }
@@ -1237,7 +2165,7 @@
     "Exploratory descriptive audit; no calibrated statistical test or prediction-performance claim.",
     "Coverage thresholds use train-only Tukey fences; these are heuristics, not failure probabilities.",
     "No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.",
-    "Repeated physical samples retain integrity/measurement diagnostics; geometric aggregation is deferred.",
+    "Technical means require declared homogeneous contexts; ambiguous and cross-context units are explicitly excluded from pooled geometry.",
     "Counts of physical samples and groups are not an estimator of effective sample size.",
     "Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance."
   ]

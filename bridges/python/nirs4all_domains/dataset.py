@@ -58,11 +58,12 @@ def task_from_dataset(ds, config):
     targets_frame = ds.y(target) if target else None
     if target and (targets_frame is None or target not in targets_frame.columns):
         raise ValueError(f"Requested target unavailable in canonical data: {target}")
-    if targets_frame is not None and ("sample_id" not in targets_frame or targets_frame["sample_id"].astype(str).duplicated().any()):
+    if targets_frame is not None and ("sample_id" not in targets_frame or targets_frame["sample_id"].isna().any() or targets_frame["sample_id"].astype(str).duplicated().any()):
         raise ValueError("Ambiguous target identity")
     targets = targets_frame.assign(sample_id=targets_frame["sample_id"].astype(str)).set_index("sample_id") if targets_frame is not None else None
     identities = config.get("identity_table", {})
-    if not identities and not config.get("sample_identity_confirmed", False):
+    acquisition_identities = config.get("observation_identity_table", {})
+    if not identities and not acquisition_identities and not config.get("sample_identity_confirmed", False):
         raise ValueError("Physical identities must be confirmed or explicitly mapped")
     x = ds.x(source)
     axis = ds.wavelengths(source)
@@ -70,6 +71,8 @@ def task_from_dataset(ds, config):
     observation_ids = ds.observation_ids(source)
     if not (len(x) == len(sample_ids) == len(observation_ids)):
         raise ValueError("Source identity length mismatch")
+    if any(v is None or str(v).strip() in ("", "nan", "None", "<NA>") for v in (*sample_ids, *observation_ids)) or len(set(map(str, observation_ids))) != len(observation_ids):
+        raise ValueError("Missing or duplicate source acquisition identity")
     source_descriptor = next(s for s in descriptor.sources if s.source_id == source)
     rows = []
     excluded = []
@@ -86,9 +89,16 @@ def task_from_dataset(ds, config):
             excluded.append(str(oid))
             continue
         identity = identities.get(sid)
-        if identities and identity is None:
+        acquisition = acquisition_identities.get(str(oid))
+        if acquisition_identities and acquisition is None:
+            raise ValueError(f"Missing acquisition identity: {oid}")
+        if acquisition:
+            identity = {**(identity or {}), **acquisition}
+        if (identities or acquisition_identities) and identity is None:
             raise ValueError(f"Missing physical identity: {sid}")
         physical = str(identity["physical_sample_id"]) if identity else sid
+        if physical.strip() in ("", "nan", "None", "<NA>"):
+            raise ValueError(f"Missing physical identity: {sid}")
         group_column = config.get("group_column")
         if group_column:
             group = metadata.get(sid, {}).get(group_column)
@@ -100,12 +110,22 @@ def task_from_dataset(ds, config):
         row = {"observation_id": str(oid), "sample_id": sid, "physical_sample_id": physical,
                "independence_group": group, "partition": partition,
                "x": [_number(v) for v in spectrum],
-               "metadata": {str(k): str(v) for k, v in metadata.get(sid, {}).items() if k != "sample_id"}}
+               "metadata": {str(k): str(v) for k, v in metadata.get(sid, {}).items() if k != "sample_id" and str(v).strip() not in ("", "nan", "None", "<NA>")}}
+        for name in ("instrument", "campaign", "site", "lot"):
+            value = (identity or {}).get(name, config.get("acquisition_context", {}).get(name))
+            if value is not None:
+                row["metadata"][name] = str(value)
         if identity:
-            for name in ("reference_id", "reference_group_id", "individual_id", "repetition_type"):
+            for name in ("reference_id", "reference_group_id", "individual_id", "repetition_type", "reference_status", "reference_unit"):
                 if identity.get(name) is not None:
                     row[name] = str(identity[name])
-        if target and targets is not None and sid in targets.index and (partition == "train" or mode == "post_evaluation"):
+            if identity.get("repeat_type") is not None:
+                if row.get("repetition_type", identity["repeat_type"]) != identity["repeat_type"]:
+                    raise ValueError("Conflicting repeat type declarations")
+                row["repetition_type"] = str(identity["repeat_type"])
+        if target and targets is not None and sid not in targets.index:
+            raise ValueError(f"Missing target join identity: {sid}")
+        if target and targets is not None and (partition == "train" or mode == "post_evaluation"):
             value = targets.at[sid, target]
             if categorical:
                 if value is not None and str(value) not in ("nan", "None", "<NA>"):
@@ -118,8 +138,8 @@ def task_from_dataset(ds, config):
     if target_unit is not None and not str(target_unit).strip():
         raise ValueError("Target unit must be nonempty when supplied")
     provenance = {"datasets": version("nirs4all-datasets"),
-                "task_conversion_protocol": "datasets.task.v0.2",
-                "sample_identity_assumption": config.get("sample_identity_evidence", "explicit mapping" if identities else "sample_identity_confirmed"),
+                "task_conversion_protocol": "datasets.task.v0.3",
+                "sample_identity_assumption": config.get("sample_identity_evidence", "explicit mapping" if identities or acquisition_identities else "sample_identity_confirmed"),
                 "partition_mapping": json.dumps(labels, sort_keys=True),
                 "native_partition_observation_counts": json.dumps(native_counts, sort_keys=True),
                 "excluded_observation_ids": json.dumps(excluded),
@@ -133,7 +153,8 @@ def task_from_dataset(ds, config):
             "data_origin": config.get("data_origin", "user_provided"), "axis": [float(v) for v in axis],
             "axis_unit": source_descriptor.axis_unit, "signal_unit": config["signal_unit"],
             "target_kind": config.get("target_kind", "continuous"),
-            "policy": {"independence_unit": "group" if group_column or identities else "physical_sample",
+            "policy": {"independence_unit": "group" if group_column or identities or acquisition_identities else "physical_sample",
+                "representation": config.get("representation", "native"),
                 "audit_mode": mode, "seed": config.get("seed", 17), "pca_max_components": config.get("pca_max_components", 20),
                 "pca_variance_fraction": config.get("pca_variance_fraction", 0.95)},
             "observations": rows, "provenance": provenance}

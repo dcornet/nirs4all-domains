@@ -31,6 +31,11 @@ never concatenated. Missing/unknown split labels, version mismatches or unconfir
 physical identities fail the task. `sample_identity_confirmed=true` records an
 explicit assumption; it is not inferred from row count. A keyed identity table
 can instead supply physical/reference/group/individual IDs and repeat types.
+Alpha.3 additionally accepts `observation_identity_table` keyed by acquisition ID
+for per-acquisition context/reference/repeat declarations. It carries instrument,
+campaign, site, lot, reference status and unit without reading test target cells.
+Missing requested target join IDs and duplicate acquisition IDs fail conversion.
+Optional `representation: technical_mean` selects the qualified comparison policy.
 
 Dataset access is optional and on demand. Acquisition, checksums and cache remain
 in Datasets. Do not embed credentials in campaign files. Public `y()` returns a
@@ -61,6 +66,8 @@ the real task result plus each remaining task's unavailable reason and continues
 
 No upstream repository was changed; these are documented requests, not posted
 issues or claims of missing code across every possible ecosystem repository.
+The limited requests actually encountered in alpha.3, including API shapes and
+scientific gates, are in [UPSTREAM_DEPENDENCIES.md](UPSTREAM_DEPENDENCIES.md).
 
 AGPL-3.0-or-later was explicitly selected by the user. Preflight manifests declare
 `CECILL-2.1 OR AGPL-3.0-or-later`; Datasets declares the same alternatives. Methods

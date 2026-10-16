@@ -24,13 +24,23 @@ versions, identity assumptions and remaining pilot blockers are preserved. See
 byte/numerical parity remains unverified; original laboratory reference IDs are
 not available.
 
-**Next concrete gate:** qualify technical-repeat aggregation on homogeneous
-source/instrument/campaign contexts through Preflight's public protocols. Inspect
-the existing averaging seam first; do not copy intrinsic aggregation into Domains.
-Acceptance: unchanged weight when a technical repeat is duplicated, no averaging
-across partitions or heterogeneous contexts, explicit exclusions and reference
-identity transport that does not need Y_test. A grouped real task can only be
-enabled after its physical/reference identities and split policy are documented.
+**Alpha.3 delivered:** dependency components, reference safety scoped to X-Y,
+native/context-linked inventories, optional homogeneous technical means via
+Methods summaries, one physical-sample vote, explicit exclusions/populations and
+adversarial tests. Shootout native and technical_mean reports have identical
+fits and four scalar metrics: there are no declared within-X1 repeats. Original
+physical/reference independence remains unverified. The private Preflight
+averaging seam was inspected; a public representation API is proposed in
+UPSTREAM_DEPENDENCIES.md, without blocking the local task protocol.
+
+**Next concrete scientific lot:** coverage on documented independent validation
+units. Select one legally available grouped real task with physical/reference
+IDs, context and a frozen group split; qualify transitive component exclusions
+for neighbors and coverage denominators, compare native/context policies, and
+define uncertainty resampling whole independent components. Do not infer those
+identities from Shootout aliases. Paired multi-instrument coverage remains
+unavailable until that design is specified. Only then proceed to PCA-HDBSCAN
+stability; nested PLS/PCR, confounding, advanced shift and AOM stay deferred.
 
 Remote publication is a separate user-confirmed action. The initial request
 explicitly requires confirmation before repository creation or first push.

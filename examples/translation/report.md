@@ -2,7 +2,7 @@
 
 Dataset: synthetic-translation · source: nir · target: concentration · split: explicit-v1
 
-Status: **partial** · protocol: `domains.canonical.v0.1` · origin: synthetic
+Status: **partial** · protocol: `domains.canonical.v0.2` · origin: synthetic
 
 Test target accessed: **false**
 
@@ -15,6 +15,22 @@ Test target accessed: **false**
 - structure: unavailable
 - xy_relationship: train target description in Preflight; predictability unavailable
 
+## Declared units and representation
+
+| Count | Train | Test |
+|---|---:|---:|
+| acquisitions | 8 | 8 |
+| samples | 8 | 8 |
+| physical_samples | 8 | 8 |
+| known_references | 8 | 8 |
+| missing_reference_acquisitions | 0 | 0 |
+| repeat_groups | 0 | 0 |
+| declared_independence_groups | 8 | 8 |
+| validation_groups | 8 | 8 |
+| missing_instrument_or_campaign_acquisitions | 8 | 8 |
+
+Representation: "native". X-Y blocked by reference audit: false. Known references are counted by supplied ID; missing IDs remain unknown. Validation groups are declared dependency components, not verified independent laboratory units.
+
 ## Observations and actions
 
 - **8 of 8 test observations exceed a train-only coverage heuristic.** → confidence: low → Possible spectral extrapolation; this does not establish a loss of predictive performance. → Inspect the listed observations and verify the intended application domain with independent evaluation.
@@ -23,6 +39,7 @@ Test target accessed: **false**
 
 | Metric | Status | Value | Unit / reason |
 |---|---|---|---|
+| reference.xy_eligibility | Computed | {"reference_identity_complete":true,"status":"descriptive_only"} |  |
 | structure.clustering | Unavailable | null | CLUSTER_PROTOCOL_DEFERRED |
 | xy.nested_probe | Unavailable | null | NESTED_GROUP_VALIDATION_DEFERRED |
 | explainability.conditional_effects | Unavailable | null | CONDITIONAL_FACTOR_PROTOCOL_DEFERRED |
@@ -41,7 +58,7 @@ Test target accessed: **false**
 - Exploratory descriptive audit; no calibrated statistical test or prediction-performance claim.
 - Coverage thresholds use train-only Tukey fences; these are heuristics, not failure probabilities.
 - No clustering, confounding inference, nested PLS/PCR probe, AOM, MMD, energy or C2ST protocol is implemented.
-- Repeated physical samples retain integrity/measurement diagnostics; geometric aggregation is deferred.
+- Technical means require declared homogeneous contexts; ambiguous and cross-context units are explicitly excluded from pooled geometry.
 - Counts of physical samples and groups are not an estimator of effective sample size.
 - Physical, group and reference IDs are supplied by the host; structural checks do not independently verify real-world identities or laboratory provenance.
 
