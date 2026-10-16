@@ -4,9 +4,10 @@ Dataset characterization, calibration readiness and domain shift assessment.
 
 Exploratory Rust-first diagnostics for an explicit **dataset + X source + Y target
 + split + evaluation policy**. Part of the [nirs4all ecosystem](https://nirs4all.org/).
-The current alpha compares synthetic tasks and a locally reproduced real Shootout
-task through Methods kernels and Preflight protocols, exporting JSON + Markdown. It does not estimate
-calibration performance or provide a global readiness score.
+Alpha.4 compares synthetic tasks, the historical Shootout split and real EcoSIS
+spectral replicates through Methods kernels and Preflight protocols. It exports
+JSON + Markdown and a separate development-only nested PLS sanity check through
+DAG-ML. It provides no production calibration or global readiness score.
 
 ## Run locally
 
@@ -28,7 +29,7 @@ On another machine:
 ```sh
 python -m venv .venv
 # activate .venv using your platform's activation command
-python -m pip install nirs4all-methods==1.3.6 './bridges/python[test,datasets]'
+python -m pip install nirs4all-methods==1.3.6 './bridges/python[test,datasets,predictive]'
 python -c 'from n4m._ffi import library_path; print(library_path())'
 cargo build --workspace --locked
 n4domains analyze tests/fixtures/translation.json --methods-library /explicit/path/to/libn4m --out results/translation
@@ -65,7 +66,9 @@ identity with the registry's historical canonical bytes is unverified.
   A requested target absent from canonical data is an error.
 - PCA and centering fit train only. Test is projected with retained Methods
   loadings. Nearest-neighbor and reconstruction thresholds come only from train.
-  Full covariance moments determine effective dimension even with truncated PCA.
+  Public FlexiblePCA fit/transform retains complete-axis coverage when full
+  covariance moments exceed their budget. Only metrics requiring unavailable
+  moments become unavailable; no truncated moment is represented as exact.
 - Pre-training omits test target values from Preflight, fit, thresholds and report
   fingerprints. Post-evaluation declares target access and the need for a new
   independent evaluation after a strategy change.
@@ -75,8 +78,15 @@ identity with the registry's historical canonical bytes is unverified.
   contexts, reference dependencies, exclusions and exact coverage populations
   are exported. Biological/unknown repeats and cross-context units are never
   implicitly averaged. See [unit and reference rules](docs/UNITS_REFERENCES.md).
+- Alpha.4 adds explicit `grouped_native` geometry, evidence-backed
+  `technical_unspecified` means and whole-component coverage/refit bootstrap.
+  EcoSIS keeps all 390 primary train acquisitions and all 2151 bands. The separate
+  nested group PLS check uses only 65 development means: OOF RMSE 110.87 versus
+  null 146.99 g/m², R² 0.397. See [the real repeated pilot](docs/REPEATED_DATA_PILOT.md)
+  and [predictive evidence and limits](docs/PREDICTIVE_SANITY_CHECK.md).
 - Six result dimensions preserve missing capabilities. Clustering, conditional
-  confounding, nested PLS/PCR, AOM and inferential shift tests are deferred.
+  confounding, AOM and inferential shift tests are deferred. The canonical report
+  does not execute the optional development-only predictive workflow.
 
 See [example report](examples/translation/report.md),
 [architecture](docs/ARCHITECTURE.md), [reuse matrix](docs/METHOD_REUSE_MATRIX.md),

@@ -1,0 +1,1255 @@
+{
+  "protocol": "experimental_plot_sha256_v1",
+  "assignment_uses_X_or_Y": false,
+  "validation_unit": "documented plot; conditional regional independence",
+  "splits": [
+    {
+      "seed": 17,
+      "method": "ceil(20% of observed plots), SHA-256 order; no X/Y use",
+      "rows": [
+        {
+          "sample_id": "CA2023_001",
+          "partition": "retained",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_002",
+          "partition": "retained",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_003",
+          "partition": "development",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_004",
+          "partition": "development",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_005",
+          "partition": "retained",
+          "plot_name": "SL_003"
+        },
+        {
+          "sample_id": "CA2023_006",
+          "partition": "development",
+          "plot_name": "SL_004"
+        },
+        {
+          "sample_id": "CA2023_007",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_008",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_009",
+          "partition": "development",
+          "plot_name": "SL_006"
+        },
+        {
+          "sample_id": "CA2023_010",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_011",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_012",
+          "partition": "development",
+          "plot_name": "SL_008"
+        },
+        {
+          "sample_id": "CA2023_013",
+          "partition": "development",
+          "plot_name": "SL_013"
+        },
+        {
+          "sample_id": "CA2023_014",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_015",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_016",
+          "partition": "development",
+          "plot_name": "SL_010"
+        },
+        {
+          "sample_id": "CA2023_017",
+          "partition": "retained",
+          "plot_name": "SL_011"
+        },
+        {
+          "sample_id": "CA2023_018",
+          "partition": "retained",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_019",
+          "partition": "retained",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_020",
+          "partition": "development",
+          "plot_name": "SL_014"
+        },
+        {
+          "sample_id": "CA2023_021",
+          "partition": "retained",
+          "plot_name": "SL_015"
+        },
+        {
+          "sample_id": "CA2023_022",
+          "partition": "development",
+          "plot_name": "SL_016"
+        },
+        {
+          "sample_id": "CA2023_023",
+          "partition": "development",
+          "plot_name": "SL_018"
+        },
+        {
+          "sample_id": "CA2023_024",
+          "partition": "retained",
+          "plot_name": "SL_017"
+        },
+        {
+          "sample_id": "CA2023_025",
+          "partition": "development",
+          "plot_name": "SL_019"
+        },
+        {
+          "sample_id": "CA2023_026",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_027",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_028",
+          "partition": "development",
+          "plot_name": "SL_021"
+        },
+        {
+          "sample_id": "CA2023_029",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_030",
+          "partition": "development",
+          "plot_name": "SL_022"
+        },
+        {
+          "sample_id": "CA2023_031",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_032",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_033",
+          "partition": "development",
+          "plot_name": "SL_024"
+        },
+        {
+          "sample_id": "CA2023_034",
+          "partition": "retained",
+          "plot_name": "SL_025"
+        },
+        {
+          "sample_id": "CA2023_035",
+          "partition": "development",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_036",
+          "partition": "development",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_037",
+          "partition": "development",
+          "plot_name": "SL_027"
+        },
+        {
+          "sample_id": "CA2023_038",
+          "partition": "development",
+          "plot_name": "SL_028"
+        },
+        {
+          "sample_id": "CA2023_039",
+          "partition": "development",
+          "plot_name": "SL_029"
+        },
+        {
+          "sample_id": "CA2023_040",
+          "partition": "retained",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_041",
+          "partition": "retained",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_042",
+          "partition": "development",
+          "plot_name": "YV_002"
+        },
+        {
+          "sample_id": "CA2023_043",
+          "partition": "development",
+          "plot_name": "YV_003"
+        },
+        {
+          "sample_id": "CA2023_044",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_045",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_046",
+          "partition": "development",
+          "plot_name": "YV_005"
+        },
+        {
+          "sample_id": "CA2023_047",
+          "partition": "development",
+          "plot_name": "YV_006"
+        },
+        {
+          "sample_id": "CA2023_048",
+          "partition": "retained",
+          "plot_name": "YV_007"
+        },
+        {
+          "sample_id": "CA2023_049",
+          "partition": "development",
+          "plot_name": "YV_008"
+        },
+        {
+          "sample_id": "CA2023_050",
+          "partition": "development",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_051",
+          "partition": "development",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_052",
+          "partition": "retained",
+          "plot_name": "YV_010"
+        },
+        {
+          "sample_id": "CA2023_053",
+          "partition": "development",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_054",
+          "partition": "development",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_055",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_056",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_057",
+          "partition": "development",
+          "plot_name": "YV_013"
+        },
+        {
+          "sample_id": "CA2023_058",
+          "partition": "retained",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_059",
+          "partition": "retained",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_060",
+          "partition": "retained",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_061",
+          "partition": "retained",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_062",
+          "partition": "development",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_063",
+          "partition": "development",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_064",
+          "partition": "development",
+          "plot_name": "HH_001"
+        },
+        {
+          "sample_id": "CA2023_065",
+          "partition": "development",
+          "plot_name": "HH_002"
+        },
+        {
+          "sample_id": "CA2023_066",
+          "partition": "development",
+          "plot_name": "HH_003"
+        },
+        {
+          "sample_id": "CA2023_067",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_068",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_069",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_070",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_071",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_072",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_073",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_074",
+          "partition": "development",
+          "plot_name": "HH_007"
+        },
+        {
+          "sample_id": "CA2023_075",
+          "partition": "development",
+          "plot_name": "HH_008"
+        },
+        {
+          "sample_id": "CA2023_076",
+          "partition": "development",
+          "plot_name": "HH_009"
+        },
+        {
+          "sample_id": "CA2023_077",
+          "partition": "development",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_078",
+          "partition": "development",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_079",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_080",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_081",
+          "partition": "development",
+          "plot_name": "HH_012"
+        },
+        {
+          "sample_id": "CA2023_082",
+          "partition": "development",
+          "plot_name": "HH_012"
+        }
+      ]
+    },
+    {
+      "seed": 31,
+      "method": "ceil(20% of observed plots), SHA-256 order; no X/Y use",
+      "rows": [
+        {
+          "sample_id": "CA2023_001",
+          "partition": "retained",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_002",
+          "partition": "retained",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_003",
+          "partition": "development",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_004",
+          "partition": "development",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_005",
+          "partition": "development",
+          "plot_name": "SL_003"
+        },
+        {
+          "sample_id": "CA2023_006",
+          "partition": "retained",
+          "plot_name": "SL_004"
+        },
+        {
+          "sample_id": "CA2023_007",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_008",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_009",
+          "partition": "development",
+          "plot_name": "SL_006"
+        },
+        {
+          "sample_id": "CA2023_010",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_011",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_012",
+          "partition": "development",
+          "plot_name": "SL_008"
+        },
+        {
+          "sample_id": "CA2023_013",
+          "partition": "development",
+          "plot_name": "SL_013"
+        },
+        {
+          "sample_id": "CA2023_014",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_015",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_016",
+          "partition": "development",
+          "plot_name": "SL_010"
+        },
+        {
+          "sample_id": "CA2023_017",
+          "partition": "retained",
+          "plot_name": "SL_011"
+        },
+        {
+          "sample_id": "CA2023_018",
+          "partition": "retained",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_019",
+          "partition": "retained",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_020",
+          "partition": "development",
+          "plot_name": "SL_014"
+        },
+        {
+          "sample_id": "CA2023_021",
+          "partition": "retained",
+          "plot_name": "SL_015"
+        },
+        {
+          "sample_id": "CA2023_022",
+          "partition": "retained",
+          "plot_name": "SL_016"
+        },
+        {
+          "sample_id": "CA2023_023",
+          "partition": "development",
+          "plot_name": "SL_018"
+        },
+        {
+          "sample_id": "CA2023_024",
+          "partition": "development",
+          "plot_name": "SL_017"
+        },
+        {
+          "sample_id": "CA2023_025",
+          "partition": "development",
+          "plot_name": "SL_019"
+        },
+        {
+          "sample_id": "CA2023_026",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_027",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_028",
+          "partition": "development",
+          "plot_name": "SL_021"
+        },
+        {
+          "sample_id": "CA2023_029",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_030",
+          "partition": "development",
+          "plot_name": "SL_022"
+        },
+        {
+          "sample_id": "CA2023_031",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_032",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_033",
+          "partition": "development",
+          "plot_name": "SL_024"
+        },
+        {
+          "sample_id": "CA2023_034",
+          "partition": "development",
+          "plot_name": "SL_025"
+        },
+        {
+          "sample_id": "CA2023_035",
+          "partition": "development",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_036",
+          "partition": "development",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_037",
+          "partition": "development",
+          "plot_name": "SL_027"
+        },
+        {
+          "sample_id": "CA2023_038",
+          "partition": "development",
+          "plot_name": "SL_028"
+        },
+        {
+          "sample_id": "CA2023_039",
+          "partition": "retained",
+          "plot_name": "SL_029"
+        },
+        {
+          "sample_id": "CA2023_040",
+          "partition": "development",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_041",
+          "partition": "development",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_042",
+          "partition": "retained",
+          "plot_name": "YV_002"
+        },
+        {
+          "sample_id": "CA2023_043",
+          "partition": "development",
+          "plot_name": "YV_003"
+        },
+        {
+          "sample_id": "CA2023_044",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_045",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_046",
+          "partition": "development",
+          "plot_name": "YV_005"
+        },
+        {
+          "sample_id": "CA2023_047",
+          "partition": "development",
+          "plot_name": "YV_006"
+        },
+        {
+          "sample_id": "CA2023_048",
+          "partition": "retained",
+          "plot_name": "YV_007"
+        },
+        {
+          "sample_id": "CA2023_049",
+          "partition": "retained",
+          "plot_name": "YV_008"
+        },
+        {
+          "sample_id": "CA2023_050",
+          "partition": "development",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_051",
+          "partition": "development",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_052",
+          "partition": "development",
+          "plot_name": "YV_010"
+        },
+        {
+          "sample_id": "CA2023_053",
+          "partition": "retained",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_054",
+          "partition": "retained",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_055",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_056",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_057",
+          "partition": "development",
+          "plot_name": "YV_013"
+        },
+        {
+          "sample_id": "CA2023_058",
+          "partition": "development",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_059",
+          "partition": "development",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_060",
+          "partition": "development",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_061",
+          "partition": "development",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_062",
+          "partition": "retained",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_063",
+          "partition": "retained",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_064",
+          "partition": "development",
+          "plot_name": "HH_001"
+        },
+        {
+          "sample_id": "CA2023_065",
+          "partition": "development",
+          "plot_name": "HH_002"
+        },
+        {
+          "sample_id": "CA2023_066",
+          "partition": "development",
+          "plot_name": "HH_003"
+        },
+        {
+          "sample_id": "CA2023_067",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_068",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_069",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_070",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_071",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_072",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_073",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_074",
+          "partition": "development",
+          "plot_name": "HH_007"
+        },
+        {
+          "sample_id": "CA2023_075",
+          "partition": "development",
+          "plot_name": "HH_008"
+        },
+        {
+          "sample_id": "CA2023_076",
+          "partition": "development",
+          "plot_name": "HH_009"
+        },
+        {
+          "sample_id": "CA2023_077",
+          "partition": "development",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_078",
+          "partition": "development",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_079",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_080",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_081",
+          "partition": "development",
+          "plot_name": "HH_012"
+        },
+        {
+          "sample_id": "CA2023_082",
+          "partition": "development",
+          "plot_name": "HH_012"
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "method": "ceil(20% of observed plots), SHA-256 order; no X/Y use",
+      "rows": [
+        {
+          "sample_id": "CA2023_001",
+          "partition": "development",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_002",
+          "partition": "development",
+          "plot_name": "SL_001"
+        },
+        {
+          "sample_id": "CA2023_003",
+          "partition": "retained",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_004",
+          "partition": "retained",
+          "plot_name": "SL_002"
+        },
+        {
+          "sample_id": "CA2023_005",
+          "partition": "development",
+          "plot_name": "SL_003"
+        },
+        {
+          "sample_id": "CA2023_006",
+          "partition": "retained",
+          "plot_name": "SL_004"
+        },
+        {
+          "sample_id": "CA2023_007",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_008",
+          "partition": "development",
+          "plot_name": "SL_005"
+        },
+        {
+          "sample_id": "CA2023_009",
+          "partition": "development",
+          "plot_name": "SL_006"
+        },
+        {
+          "sample_id": "CA2023_010",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_011",
+          "partition": "development",
+          "plot_name": "SL_007"
+        },
+        {
+          "sample_id": "CA2023_012",
+          "partition": "development",
+          "plot_name": "SL_008"
+        },
+        {
+          "sample_id": "CA2023_013",
+          "partition": "retained",
+          "plot_name": "SL_013"
+        },
+        {
+          "sample_id": "CA2023_014",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_015",
+          "partition": "development",
+          "plot_name": "SL_009"
+        },
+        {
+          "sample_id": "CA2023_016",
+          "partition": "development",
+          "plot_name": "SL_010"
+        },
+        {
+          "sample_id": "CA2023_017",
+          "partition": "development",
+          "plot_name": "SL_011"
+        },
+        {
+          "sample_id": "CA2023_018",
+          "partition": "development",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_019",
+          "partition": "development",
+          "plot_name": "SL_012"
+        },
+        {
+          "sample_id": "CA2023_020",
+          "partition": "development",
+          "plot_name": "SL_014"
+        },
+        {
+          "sample_id": "CA2023_021",
+          "partition": "development",
+          "plot_name": "SL_015"
+        },
+        {
+          "sample_id": "CA2023_022",
+          "partition": "development",
+          "plot_name": "SL_016"
+        },
+        {
+          "sample_id": "CA2023_023",
+          "partition": "retained",
+          "plot_name": "SL_018"
+        },
+        {
+          "sample_id": "CA2023_024",
+          "partition": "development",
+          "plot_name": "SL_017"
+        },
+        {
+          "sample_id": "CA2023_025",
+          "partition": "development",
+          "plot_name": "SL_019"
+        },
+        {
+          "sample_id": "CA2023_026",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_027",
+          "partition": "development",
+          "plot_name": "SL_020"
+        },
+        {
+          "sample_id": "CA2023_028",
+          "partition": "development",
+          "plot_name": "SL_021"
+        },
+        {
+          "sample_id": "CA2023_029",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_030",
+          "partition": "development",
+          "plot_name": "SL_022"
+        },
+        {
+          "sample_id": "CA2023_031",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_032",
+          "partition": "development",
+          "plot_name": "SL_023"
+        },
+        {
+          "sample_id": "CA2023_033",
+          "partition": "development",
+          "plot_name": "SL_024"
+        },
+        {
+          "sample_id": "CA2023_034",
+          "partition": "retained",
+          "plot_name": "SL_025"
+        },
+        {
+          "sample_id": "CA2023_035",
+          "partition": "retained",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_036",
+          "partition": "retained",
+          "plot_name": "SL_026"
+        },
+        {
+          "sample_id": "CA2023_037",
+          "partition": "development",
+          "plot_name": "SL_027"
+        },
+        {
+          "sample_id": "CA2023_038",
+          "partition": "development",
+          "plot_name": "SL_028"
+        },
+        {
+          "sample_id": "CA2023_039",
+          "partition": "retained",
+          "plot_name": "SL_029"
+        },
+        {
+          "sample_id": "CA2023_040",
+          "partition": "development",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_041",
+          "partition": "development",
+          "plot_name": "YV_001"
+        },
+        {
+          "sample_id": "CA2023_042",
+          "partition": "retained",
+          "plot_name": "YV_002"
+        },
+        {
+          "sample_id": "CA2023_043",
+          "partition": "development",
+          "plot_name": "YV_003"
+        },
+        {
+          "sample_id": "CA2023_044",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_045",
+          "partition": "development",
+          "plot_name": "YV_004"
+        },
+        {
+          "sample_id": "CA2023_046",
+          "partition": "development",
+          "plot_name": "YV_005"
+        },
+        {
+          "sample_id": "CA2023_047",
+          "partition": "development",
+          "plot_name": "YV_006"
+        },
+        {
+          "sample_id": "CA2023_048",
+          "partition": "development",
+          "plot_name": "YV_007"
+        },
+        {
+          "sample_id": "CA2023_049",
+          "partition": "development",
+          "plot_name": "YV_008"
+        },
+        {
+          "sample_id": "CA2023_050",
+          "partition": "retained",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_051",
+          "partition": "retained",
+          "plot_name": "YV_009"
+        },
+        {
+          "sample_id": "CA2023_052",
+          "partition": "development",
+          "plot_name": "YV_010"
+        },
+        {
+          "sample_id": "CA2023_053",
+          "partition": "retained",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_054",
+          "partition": "retained",
+          "plot_name": "YV_011"
+        },
+        {
+          "sample_id": "CA2023_055",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_056",
+          "partition": "development",
+          "plot_name": "YV_012"
+        },
+        {
+          "sample_id": "CA2023_057",
+          "partition": "development",
+          "plot_name": "YV_013"
+        },
+        {
+          "sample_id": "CA2023_058",
+          "partition": "development",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_059",
+          "partition": "development",
+          "plot_name": "YV_014"
+        },
+        {
+          "sample_id": "CA2023_060",
+          "partition": "development",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_061",
+          "partition": "development",
+          "plot_name": "YV_015"
+        },
+        {
+          "sample_id": "CA2023_062",
+          "partition": "development",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_063",
+          "partition": "development",
+          "plot_name": "YV_016"
+        },
+        {
+          "sample_id": "CA2023_064",
+          "partition": "retained",
+          "plot_name": "HH_001"
+        },
+        {
+          "sample_id": "CA2023_065",
+          "partition": "development",
+          "plot_name": "HH_002"
+        },
+        {
+          "sample_id": "CA2023_066",
+          "partition": "development",
+          "plot_name": "HH_003"
+        },
+        {
+          "sample_id": "CA2023_067",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_068",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_069",
+          "partition": "development",
+          "plot_name": "HH_004"
+        },
+        {
+          "sample_id": "CA2023_070",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_071",
+          "partition": "development",
+          "plot_name": "HH_005"
+        },
+        {
+          "sample_id": "CA2023_072",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_073",
+          "partition": "development",
+          "plot_name": "HH_006"
+        },
+        {
+          "sample_id": "CA2023_074",
+          "partition": "development",
+          "plot_name": "HH_007"
+        },
+        {
+          "sample_id": "CA2023_075",
+          "partition": "development",
+          "plot_name": "HH_008"
+        },
+        {
+          "sample_id": "CA2023_076",
+          "partition": "development",
+          "plot_name": "HH_009"
+        },
+        {
+          "sample_id": "CA2023_077",
+          "partition": "retained",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_078",
+          "partition": "retained",
+          "plot_name": "HH_010"
+        },
+        {
+          "sample_id": "CA2023_079",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_080",
+          "partition": "development",
+          "plot_name": "HH_011"
+        },
+        {
+          "sample_id": "CA2023_081",
+          "partition": "development",
+          "plot_name": "HH_012"
+        },
+        {
+          "sample_id": "CA2023_082",
+          "partition": "development",
+          "plot_name": "HH_012"
+        }
+      ]
+    }
+  ]
+}

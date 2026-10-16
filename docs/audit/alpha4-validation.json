@@ -1,0 +1,79 @@
+{
+  "execution_date": "2026-10-16",
+  "engine_version": "0.1.0-alpha.4",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "rust": "1.99.1",
+  "packages": {
+    "nirs4all-domains-bridge": "0.1.0a4",
+    "nirs4all-datasets": "0.3.11",
+    "nirs4all-methods": "1.3.6",
+    "dag-ml": "0.3.41",
+    "scikit-learn": "1.7.2"
+  },
+  "methods_abi": "2.19.0",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "rust_tests": {
+    "passed": 17,
+    "ignored": 0
+  },
+  "python_tests": {
+    "passed": 22
+  },
+  "gates_passed": [
+    "cargo fmt --all --check",
+    "cargo clippy --workspace --all-targets --locked -- -D warnings",
+    "cargo test --workspace --locked -- --include-ignored",
+    "cargo doc --workspace --no-deps --locked",
+    "cargo build --workspace --locked",
+    "Python unittest integration",
+    "Generated schemas and 17 actual report schema/status/no-test-Y checks",
+    "Isolated bridge wheel build",
+    "All 3 real plot splits, each native/mean report byte-identical on repeat",
+    "100 paired primary train refits each policy; 100 successful each",
+    "Predictive output and 200 refits byte-identical to prior full-grid run; coverage fitted states and computed values unchanged",
+    "Shootout 4 alpha.3 scalar metrics unchanged, both policies reproducible"
+  ],
+  "shootout_regression": {
+    "native": {
+      "report_sha256": "dccd6f59c4546f270c8c08740623040f0fb5712ca67208f8649d1d7f1557f801",
+      "reproducible": true,
+      "alpha3_scalar_deltas": {
+        "coverage.effective_dimension": 0.0,
+        "domain.centroid_distance": 0.0,
+        "domain.dispersion_ratio": 0.0,
+        "coverage.test_outside_fraction": 0.0
+      },
+      "n_train": 155,
+      "n_test": 460,
+      "coverage": 0.15869565217391304,
+      "original_validation_exclusions": 40
+    },
+    "technical_mean": {
+      "report_sha256": "2284dbdcbadb3751a73ebe168c95c18323b346aa49ea0d14e29d7fa655176838",
+      "reproducible": true,
+      "alpha3_scalar_deltas": {
+        "coverage.effective_dimension": 0.0,
+        "domain.centroid_distance": 0.0,
+        "domain.dispersion_ratio": 0.0,
+        "coverage.test_outside_fraction": 0.0
+      },
+      "n_train": 155,
+      "n_test": 460,
+      "coverage": 0.15869565217391304,
+      "original_validation_exclusions": 40
+    }
+  },
+  "upstream_source_checkouts_modified": false,
+  "upstream_scientific_suites_rerun": false,
+  "new_generic_numeric_kernel": false,
+  "dag_ml_audited_commit": "c6b52979745397ae4e8662580df79341f0378d28",
+  "unresolved_cases": [
+    "Large exact rank-one 390 x 2151 FlexiblePCA fit status 8 on Windows; not fixed",
+    "Native full squared covariance trace unavailable due to independent public moment budget",
+    "Biological identities, laboratory event identities and reference precision not independently established"
+  ],
+  "github_ci": {
+    "status": "awaiting push; local evidence only"
+  }
+}

@@ -1,10 +1,10 @@
-# Scientific protocols — domains.canonical.v0.2
+# Scientific protocols — domains.canonical.v0.3
 
 This is a descriptive pre-training audit, not a test of predictive degradation or
 a calibration model. The independent unit, source axis and partitions are explicit.
 All results remain exploratory, including outputs from Preflight alpha.
 
-Dataset conversion protocol `datasets.task.v0.3` can explicitly map native labels
+Dataset conversion protocol `datasets.task.v0.4` can explicitly map native labels
 to train, test or exclude. Excluded acquisitions are not analyzed or assigned a
 new partition; their native counts and IDs remain in provenance. Unknown labels
 are errors. Optional target units pass through to Preflight and post-evaluation
@@ -18,7 +18,9 @@ summaries. A requested target absent from canonical data fails conversion.
    Do not expose Y_test to that input. Preserve Preflight's complete report and
    availability states rather than relabel unavailable diagnostics as computed.
 3. Require at least three train representation rows, one test row and complete finite
-   X. Native geometry requires one acquisition per physical sample. Optional
+   X. Legacy native geometry requires one acquisition per physical sample;
+   explicit `grouped_native` retains acquisitions and excludes full dependency
+   components from neighbors without claiming acquisition independence. Optional
    `technical_mean` uses Methods summary means under the strict eligibility and
    exclusion rules in [UNITS_REFERENCES.md](UNITS_REFERENCES.md). Publish native,
    homogeneous-context and linked cross-context membership, known references,
@@ -32,6 +34,11 @@ summaries. A requested target absent from canonical data fails conversion.
 5. Apply the train mean/loadings to train and test. Keep squared reconstruction
    errors so a shift orthogonal to retained PCs is observable. Full covariance
    moments yield participation ratio trace²/trace(C²), not a truncated estimate.
+   `pca_backend: flexible` uses public retained Methods fit/transform; `auto`
+   uses it when the existing full-moment kernel's product budget is exceeded.
+   Full trace is independently obtained from Methods feature variances. Failure
+   or budget exclusion of optional full moments makes only their dependent
+   metric unavailable with its explicit reason; PCA/coverage remain computed.
 6. Use Methods neighbors with entire independent groups excluded. Train-to-train
    nearest distances define reference coverage; test-to-train uses that same
    reference. Report both arrays with observation IDs. No admissible neighbor
@@ -51,8 +58,10 @@ Methods automatically selects compact, Gram or deterministic approximate SVD
 depending on matrix shape and requested truncation (`pca_helper.c`, `svd.c`). The
 ABI does not return the selected solver. The fitted record therefore marks this
 automatic selection explicitly; only the small analytical fixtures were locally
-qualified. Full covariance moments remain exact. The task seed is retained for
-future stochastic protocols; it does not control this seedless PCA ABI.
+qualified analytically; alpha.4 additionally exercises large complete-axis
+FlexiblePCA and real component-refit stability. Available full moments remain
+exact; unavailable moments are null. The task seed controls bootstrap/fold
+protocols, not the seedless PCA ABI.
 
 PCA/summary/neighbors are upstream calculations. Applying fitted loadings,
 assembling train-reference thresholds and comparing domain summaries are local
@@ -87,16 +96,26 @@ The synthetic reference expectations were fixed before running the tests:
 | Instrument perfectly confounded with Y | Conditional attribution explicitly unavailable, no causal claim |
 | Technical repeats | Native measurement delegated; optional qualified mean has one physical-sample vote and explicit membership/exclusions |
 | Cross-partition exact spectra | Preflight reports 8 cross-physical pairs; no automatic deletion |
-| Y independent / strongly predictable | Nested probe unavailable for both; no train-performance calibrability estimate |
+| Y independent / strongly predictable | Canonical audit leaves its probe slot unavailable; separate native nested probe shows no improvement for the independent control and near-exact prediction for the strong analytical relation |
 | Target shift without X shift | Pre-training report invariant; post audit declares access and shifted Y summary |
 | Insufficient rows / target absent | Explicit insufficient_data / unavailable rather than a numeric default |
 | Missing X | No implicit imputation; geometry unavailable |
 
 Leakage tests also alter all Y_test values/categories, move X_test far away,
 reverse row order, share physical/individual/reference/group IDs across
-partitions and omit partition fields. Nested folds are **not implemented**, so
-the MVP cannot claim tested leakage-safe OOF model selection. Fixtures for those
-future capabilities assert unavailability and keep that qualification gate open.
+partitions and omit partition fields. Alpha.4's separate optional native nested
+group PLS workflow additionally checks actual inner fit lineage, outer group
+isolation and invariance to all retained X/Y. See PREDICTIVE_SANITY_CHECK.md;
+those gates do not qualify arbitrary pipelines or a production calibration.
+
+`bootstrap_draws` (default 0) enables the frozen held-out whole-component
+bootstrap. It uses one physical-sample mean of acquisition flags and nearest-rank
+percentile endpoints. The separate CLI `stability` command resamples whole train
+components with replacement and refits PCA/fences, keeping test X fixed. Failed
+draws are reported, never redrawn. These conditional uncertainties and paired
+draw membership are distinct. The real frozen design and subtype-specific mean
+evidence rules are in REPEATED_PILOT_PROTOCOL.md; all 390 primary acquisitions and
+2151 columns remain in the native fit. No hidden test Y enters either protocol.
 
 The schema is structural; semantic invariants are additionally enforced by Rust
 validation and `scripts/check_report.py`. Noncomputed metrics require null value

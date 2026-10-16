@@ -217,6 +217,13 @@
         "observation_ids"
       ]
     },
+    "PcaBackend": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "flexible"
+      ]
+    },
     "Policy": {
       "type": "object",
       "properties": {
@@ -224,8 +231,18 @@
           "$ref": "#/$defs/AuditMode",
           "default": "pre_training"
         },
+        "bootstrap_draws": {
+          "type": "integer",
+          "format": "uint",
+          "default": 0,
+          "minimum": 0
+        },
         "independence_unit": {
           "type": "string"
+        },
+        "pca_backend": {
+          "$ref": "#/$defs/PcaBackend",
+          "default": "auto"
         },
         "pca_max_components": {
           "type": "integer",
@@ -316,6 +333,7 @@
       "type": "string",
       "enum": [
         "native",
+        "grouped_native",
         "technical_mean"
       ]
     },

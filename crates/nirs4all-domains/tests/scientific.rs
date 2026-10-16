@@ -443,7 +443,14 @@ fn technical_means_equal_sample_weight_and_native_retention() {
     let report = analyze(&task, Some(&lib));
     assert_eq!(
         status(&report, "coverage.test_outside_fraction"),
-        Status::Computed
+        Status::Computed,
+        "{:?}",
+        report
+            .metrics
+            .iter()
+            .find(|m| m.metric_id == "coverage.test_outside_fraction")
+            .unwrap()
+            .reason
     );
     assert_eq!(report.unit_audit["train"]["acquisitions"], 10);
     assert_eq!(report.unit_audit["train"]["physical_samples"], 8);
@@ -660,4 +667,296 @@ fn aggregated_fit_ignores_test_x_and_hidden_targets() {
             .len(),
         8
     );
+}
+
+fn six_replicates() -> Task {
+    let mut task = fixture("identical");
+    task.policy.independence_unit = "group".into();
+    let original = task.observations.clone();
+    task.observations.clear();
+    for (i, row) in original.into_iter().enumerate() {
+        for repeat in 0..6 {
+            let mut r = row.clone();
+            r.observation_id = format!("{}-rep{repeat}", r.observation_id);
+            r.independence_group = format!("{:?}-plot{}", r.partition, (i % 8) / 2);
+            r.repetition_type = Some("technical_unspecified".into());
+            r.metadata.insert("instrument".into(), "I".into());
+            r.metadata.insert("campaign".into(), "C".into());
+            r.metadata.insert(
+                "technical_repeat_evidence".into(),
+                "https://example.test/original-replicate-guide".into(),
+            );
+            task.observations.push(r);
+        }
+    }
+    task
+}
+
+#[test]
+#[ignore = "requires real Methods ABI >= 2.18; CI runs this gate explicitly"]
+fn six_acquisitions_mean_and_grouped_native_are_distinct() {
+    let lib = library();
+    let mut task = six_replicates();
+    task.observations[0].x[0] = Some(-5.0);
+    task.observations[5].x[0] = Some(-1.0);
+    task.policy.representation = Representation::TechnicalMean;
+    let view = nirs4all_domains::comparison_task(&task, &lib).unwrap();
+    assert_eq!(view.observations.len(), 16);
+    let mean = view
+        .observations
+        .iter()
+        .find(|r| r.physical_sample_id == "train-0")
+        .unwrap();
+    assert!((mean.x[0].unwrap() + 3.0).abs() < 1e-12);
+    assert!(view
+        .observations
+        .iter()
+        .all(|r| r.metadata.contains_key("validation_component_id")));
+    assert!(view
+        .observations
+        .iter()
+        .filter(|r| r.partition == Partition::Test)
+        .all(|r| r.y.is_none()));
+    task.policy.representation = Representation::GroupedNative;
+    let native = analyze(&task, Some(&lib));
+    assert_eq!(
+        status(&native, "coverage.test_outside_fraction"),
+        Status::Computed
+    );
+    assert_eq!(
+        native.fit.as_ref().unwrap()["fit_observation_ids"]
+            .as_array()
+            .unwrap()
+            .len(),
+        48
+    );
+    assert_eq!(
+        status(&native, "measurement.native_within_id"),
+        Status::Computed
+    );
+    let mut leaked = task.clone();
+    leaked.observations[0].partition = Partition::Test;
+    assert!(validate(&leaked).is_err());
+    assert!(analyze(&leaked, Some(&lib)).fit.is_none());
+    for r in &mut task.observations {
+        r.metadata.remove("technical_repeat_evidence");
+    }
+    task.policy.representation = Representation::TechnicalMean;
+    let rejected = analyze(&task, Some(&lib));
+    assert_eq!(
+        excluded(&rejected, "NONTECHNICAL_UNKNOWN_OR_MIXED_REPEAT_TYPE"),
+        96
+    );
+    assert!(rejected.fit.is_none());
+}
+
+#[test]
+#[ignore = "requires real Methods ABI >= 2.18; CI runs this gate explicitly"]
+fn cluster_bootstrap_preserves_whole_groups_and_sample_weight() {
+    let lib = library();
+    let mut task = six_replicates();
+    task.policy.representation = Representation::GroupedNative;
+    task.policy.bootstrap_draws = 200;
+    for row in &mut task.observations {
+        if row.partition == Partition::Test && row.independence_group.ends_with("plot0") {
+            for x in row.x.iter_mut().flatten() {
+                *x += 1000.;
+            }
+        }
+    }
+    let report = analyze(&task, Some(&lib));
+    let metric = report
+        .metrics
+        .iter()
+        .find(|m| m.metric_id == "coverage.test_outside_fraction")
+        .unwrap();
+    let uncertainty = metric.uncertainty.as_ref().unwrap();
+    assert_eq!(uncertainty["n_components"], 4);
+    assert!((uncertainty["estimate"].as_f64().unwrap() - 0.25).abs() < 1e-12);
+    assert!(uncertainty["physical_samples_per_component"]
+        .as_object()
+        .unwrap()
+        .values()
+        .all(|v| v == 2));
+    assert!(uncertainty["replicates"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|v| {
+            let scaled = v.as_f64().unwrap() * 4.0;
+            (scaled - scaled.round()).abs() < 1e-12
+        }));
+    let mut row = task.observations[48].clone();
+    row.observation_id.push_str("-extra");
+    task.observations.push(row);
+    let duplicated = analyze(&task, Some(&lib));
+    assert_eq!(
+        uncertainty,
+        duplicated
+            .metrics
+            .iter()
+            .find(|m| m.metric_id == "coverage.test_outside_fraction")
+            .unwrap()
+            .uncertainty
+            .as_ref()
+            .unwrap()
+    );
+    let mut changed = task.clone();
+    for row in &mut changed.observations {
+        if row.partition == Partition::Test {
+            row.y = Some(99999.0);
+        }
+    }
+    assert_eq!(
+        serde_json::to_vec(&duplicated).unwrap(),
+        serde_json::to_vec(&analyze(&changed, Some(&lib))).unwrap()
+    );
+}
+
+#[test]
+#[ignore = "requires real Methods ABI >= 2.18; CI runs this gate explicitly"]
+fn flexible_pca_fit_transform_matches_analytical_geometry_without_test_refit() {
+    let lib = library();
+    let mut task = fixture("identical");
+    task.policy.pca_backend = nirs4all_domains::PcaBackend::Flexible;
+    let baseline = analyze(&task, Some(&lib));
+    assert_eq!(
+        status(&baseline, "coverage.test_outside_fraction"),
+        Status::Computed
+    );
+    assert!(
+        (value(&baseline, "coverage.effective_dimension")
+            .as_f64()
+            .unwrap()
+            - 1.0)
+            .abs()
+            < 1e-10
+    );
+    assert!(value(&baseline, "coverage.test_reconstruction_squared")
+        .as_array()
+        .unwrap()
+        .iter()
+        .all(|v| v.as_f64().unwrap() < 1e-20));
+    let mut moved = task.clone();
+    for r in &mut moved.observations {
+        if r.partition == Partition::Test {
+            r.x[0] = Some(r.x[0].unwrap() + 20.);
+            r.x[1] = Some(r.x[1].unwrap() - 10.);
+            r.y = Some(1e20);
+        }
+    }
+    let shifted = analyze(&moved, Some(&lib));
+    assert_eq!(baseline.fit, shifted.fit);
+    assert_eq!(value(&shifted, "coverage.test_outside_fraction"), 1.0);
+    assert_eq!(
+        serde_json::to_vec(&baseline).unwrap(),
+        serde_json::to_vec(&analyze(&task, Some(&lib))).unwrap()
+    );
+}
+
+#[test]
+#[ignore = "requires real Methods ABI >= 2.18; CI runs this gate explicitly"]
+fn full_width_390_train_rows_keep_coverage_when_exact_moments_are_unavailable() {
+    let lib = library();
+    let mut task = fixture("identical");
+    let template = task.observations[0].clone();
+    task.policy.pca_backend = nirs4all_domains::PcaBackend::Flexible;
+    task.policy.pca_max_components = 1;
+    task.policy.representation = Representation::GroupedNative;
+    task.axis = (350..=2500).map(f64::from).collect();
+    task.observations.clear();
+    for (part, n) in [(Partition::Train, 390), (Partition::Test, 12)] {
+        for i in 0..n {
+            let mut row = template.clone();
+            row.partition = part.clone();
+            row.observation_id = format!("{part:?}-acq{i}");
+            row.physical_sample_id = format!("{part:?}-sample{}", i / 6);
+            row.sample_id = row.physical_sample_id.clone();
+            row.independence_group = row.physical_sample_id.clone();
+            row.reference_id = None;
+            row.y = None;
+            row.x = (0..2151)
+                .map(|j| {
+                    Some((i / 6) as f64 / 65.0 + 0.01 * (((i + 1) * (j + 1)) as f64 * 0.013).sin())
+                })
+                .collect();
+            task.observations.push(row);
+        }
+    }
+    let report = analyze(&task, Some(&lib));
+    assert_eq!(
+        status(&report, "coverage.test_outside_fraction"),
+        Status::Computed,
+        "{:?}",
+        report
+            .metrics
+            .iter()
+            .find(|m| m.metric_id == "coverage.test_outside_fraction")
+            .unwrap()
+            .reason
+    );
+    assert_eq!(
+        status(&report, "coverage.effective_dimension"),
+        Status::Unavailable
+    );
+    assert!(report.fit.as_ref().unwrap()["full_moments"].is_null());
+    assert!(
+        report.fit.as_ref().unwrap()["covariance_trace"]
+            .as_f64()
+            .unwrap()
+            > 0.0
+    );
+    assert_eq!(
+        report.fit.as_ref().unwrap()["fit_observation_ids"]
+            .as_array()
+            .unwrap()
+            .len(),
+        390
+    );
+    assert_eq!(
+        report.fit.as_ref().unwrap()["mean"]
+            .as_array()
+            .unwrap()
+            .len(),
+        2151
+    );
+}
+
+#[test]
+#[ignore = "requires real Methods ABI >= 2.18; CI runs this gate explicitly"]
+fn train_refit_bootstrap_keeps_test_out_of_pca_and_threshold_fits() {
+    let lib = library();
+    let mut task = fixture("identical");
+    task.policy.representation = Representation::TechnicalMean;
+    let baseline = nirs4all_domains::train_refit_stability(&task, &lib, 12).unwrap();
+    assert_eq!(baseline["successful_draws"], 12);
+    for row in &mut task.observations {
+        if row.partition == Partition::Test {
+            row.y = Some(999999.);
+            for x in row.x.iter_mut().flatten() {
+                *x += 1000.;
+            }
+        }
+    }
+    let shifted = nirs4all_domains::train_refit_stability(&task, &lib, 12).unwrap();
+    assert_eq!(
+        baseline["draw_assignments_sha256"],
+        shifted["draw_assignments_sha256"]
+    );
+    for (a, b) in baseline["replicates"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .zip(shifted["replicates"].as_array().unwrap())
+    {
+        for key in [
+            "nn_threshold",
+            "q_threshold",
+            "fit_x_sha256",
+            "n_components",
+        ] {
+            assert_eq!(a[key], b[key]);
+        }
+        assert_eq!(b["coverage"], 1.0);
+    }
 }

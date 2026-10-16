@@ -1,0 +1,30 @@
+schema_version: 1
+dataset_id: ecosis_freeze_dried_leaf_spectra_and_measured_traits_from_the_reflectance_nirs
+content_version: 1.0.0
+source_id: X
+target_id: LMA_value_g/m2
+target_unit: g/m2
+signal_unit: reflectance_as_supplied
+split_id: experimental_plot_sha256_v1
+partition_labels: {development: train, retained: test}
+group_column: plot_name
+sample_identity_confirmed: true
+sample_identity_evidence: EcoSIS original individual sample codes; plot dependencies retained; plant and preparation-subtype identity not independently established
+primary_seed: 17
+sensitivity_seeds: [31, 47]
+test_group_fraction: 0.2
+bootstrap_draws: 500
+train_refit_bootstrap_draws: 100
+axis_stride: 1
+pca_backend: flexible
+pca_max_components: 20
+pca_variance_fraction: 0.95
+repeat_type: technical_unspecified
+technical_repeat_evidence: https://data.ecosis.org/dataset/cd421eda-ed75-409a-99ae-a2385515c2ed/resource/f0418260-c9f1-48f3-bef0-b8af248d8bc7/download/readme.md
+instrument: ASD_FieldSpec3_16122
+campaign: CA2023_freeze_dried_laboratory_resource_33d4f97e
+predictive:
+  outer_folds: 5
+  inner_folds: 3
+  max_components: 5
+  permutations: 19

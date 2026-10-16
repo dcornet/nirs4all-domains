@@ -1,10 +1,55 @@
 //! Task-specific protocols over public Preflight and Methods interfaces.
+mod bootstrap;
 pub mod contract;
 pub mod methods;
 mod protocol;
 mod units;
 pub use contract::*;
-pub use protocol::{analyze, validate};
+pub use protocol::{analyze, train_refit_stability, validate};
+/// Export the exact comparison task through the same native mean and safety policy as analysis.
+pub fn comparison_task(task: &Task, library: &std::path::Path) -> Result<Task, String> {
+    validate(task)?;
+    let mut sanitized = task.clone();
+    if task.policy.audit_mode == AuditMode::PreTraining {
+        for row in &mut sanitized.observations {
+            if row.partition == Partition::Test {
+                row.y = None;
+                row.category = None;
+            }
+        }
+    }
+    let methods = methods::Methods::load(library)?;
+    let audit = units::audit(&sanitized);
+    let (mut view, membership) = units::representation(&sanitized, &audit, Some(&methods))?;
+    view.provenance
+        .insert("reference_xy_blocked".into(), audit.xy_blocked.to_string());
+    for component in audit.value["dependency_components"]
+        .as_array()
+        .into_iter()
+        .flatten()
+    {
+        for link in component["links"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter(|l| l["kind"] == "physical")
+        {
+            for row in &mut view.observations {
+                if row.physical_sample_id == link["key"].as_str().unwrap() {
+                    row.metadata.insert(
+                        "validation_component_id".into(),
+                        component["component_id"].as_str().unwrap().into(),
+                    );
+                }
+            }
+        }
+    }
+    view.provenance.insert(
+        "representation_membership".into(),
+        serde_json::to_string(&membership).map_err(|e| e.to_string())?,
+    );
+    Ok(view)
+}
 use sha2::{Digest, Sha256};
 
 pub fn hash(bytes: &[u8]) -> String {

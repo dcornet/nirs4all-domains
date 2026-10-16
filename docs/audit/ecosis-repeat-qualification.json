@@ -1,0 +1,1438 @@
+{
+  "protocol_version": "domains.repeated_pilot.v0.1",
+  "engine_version": "0.1.0-alpha.4",
+  "dataset_id": "ecosis_freeze_dried_leaf_spectra_and_measured_traits_from_the_reflectance_nirs",
+  "config_sha256": "7c2917eb112d723ff84463c504b09822e557e29df82faff5d76f651961c3382d",
+  "runner_sha256": "c584036999cb29b1cab9bde5073ede70bb85b3cac42834304569a8426afa1c99",
+  "domains_binary_sha256": "06b51cc3ff709c11f03c38a534b34dfa667f12dd0342e049a50d163f06eea4e3",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "target": "LMA_value_g/m2",
+  "source_audit": {
+    "freeze": {
+      "n_samples": 82,
+      "n_spectra": 492,
+      "repeat_count_distribution": {
+        "6": 82
+      },
+      "n_plots": 57,
+      "n_wavelengths": 2151,
+      "axis_nm": [
+        350,
+        2500
+      ],
+      "nonfinite_spectral_cells": 0,
+      "repeated_numeric_LMA_across_sample_records": 0,
+      "target_nonmissing": {
+        "LMA_value_g/m2": 81,
+        "leaf_water_content_percent": 81,
+        "chlorophyll _mg/m2": 81
+      },
+      "trait_rows_without_spectra": [
+        "CA2023_083"
+      ],
+      "source_hashes": {
+        "CA2023_freezedried_dryspectra.csv": "08227995ad21eaff035b53b7c7485fd5ee3a0f69d766b62db85e0ded98bffda4",
+        "CA2023_freezedrieddryspectra_supplementaldata.csv": "afb9604e20dc870571fc2e5e4c0dce79f800fb8f13a523173d14cc287b50b13f"
+      },
+      "acquisition_ids_sha256": "3670bbf4b7731797a831af68a96c5ae6b8daaab76cbd796d721a7348f9df335b",
+      "source_sample_ids": [
+        "CA2023_001",
+        "CA2023_002",
+        "CA2023_003",
+        "CA2023_004",
+        "CA2023_005",
+        "CA2023_006",
+        "CA2023_007",
+        "CA2023_008",
+        "CA2023_009",
+        "CA2023_010",
+        "CA2023_011",
+        "CA2023_012",
+        "CA2023_013",
+        "CA2023_014",
+        "CA2023_015",
+        "CA2023_016",
+        "CA2023_017",
+        "CA2023_018",
+        "CA2023_019",
+        "CA2023_020",
+        "CA2023_021",
+        "CA2023_022",
+        "CA2023_023",
+        "CA2023_024",
+        "CA2023_025",
+        "CA2023_026",
+        "CA2023_027",
+        "CA2023_028",
+        "CA2023_029",
+        "CA2023_030",
+        "CA2023_031",
+        "CA2023_032",
+        "CA2023_033",
+        "CA2023_034",
+        "CA2023_035",
+        "CA2023_036",
+        "CA2023_037",
+        "CA2023_038",
+        "CA2023_039",
+        "CA2023_040",
+        "CA2023_041",
+        "CA2023_042",
+        "CA2023_043",
+        "CA2023_044",
+        "CA2023_045",
+        "CA2023_046",
+        "CA2023_047",
+        "CA2023_048",
+        "CA2023_049",
+        "CA2023_050",
+        "CA2023_051",
+        "CA2023_052",
+        "CA2023_053",
+        "CA2023_054",
+        "CA2023_055",
+        "CA2023_056",
+        "CA2023_057",
+        "CA2023_058",
+        "CA2023_059",
+        "CA2023_060",
+        "CA2023_061",
+        "CA2023_062",
+        "CA2023_063",
+        "CA2023_064",
+        "CA2023_065",
+        "CA2023_066",
+        "CA2023_067",
+        "CA2023_068",
+        "CA2023_069",
+        "CA2023_070",
+        "CA2023_071",
+        "CA2023_072",
+        "CA2023_073",
+        "CA2023_074",
+        "CA2023_075",
+        "CA2023_076",
+        "CA2023_077",
+        "CA2023_078",
+        "CA2023_079",
+        "CA2023_080",
+        "CA2023_081",
+        "CA2023_082"
+      ]
+    },
+    "oven": {
+      "n_samples": 83,
+      "n_spectra": 498,
+      "repeat_count_distribution": {
+        "6": 83
+      },
+      "n_plots": 58,
+      "n_wavelengths": 2151,
+      "axis_nm": [
+        350,
+        2500
+      ],
+      "nonfinite_spectral_cells": 0,
+      "repeated_numeric_LMA_across_sample_records": 0,
+      "target_nonmissing": {
+        "LMA_value_g/m2": 81,
+        "leaf_water_content_percent": 81,
+        "chlorophyll _mg/m2": 81
+      },
+      "trait_rows_without_spectra": [],
+      "source_hashes": {
+        "CA2023_ovendried_dryspectra.csv": "364f63c795aaf09f88d5372a2c95077bd2279c33049a4629cbc381cf55c76915",
+        "CA2023_ovendrieddryspectra_supplementaldata.csv": "afb9604e20dc870571fc2e5e4c0dce79f800fb8f13a523173d14cc287b50b13f"
+      },
+      "acquisition_ids_sha256": "777d666e52ae7c9290170fe9573fb3beeb4a84b683e5c29b56cd936b7619c6a4",
+      "source_sample_ids": [
+        "CA2023_001",
+        "CA2023_002",
+        "CA2023_003",
+        "CA2023_004",
+        "CA2023_005",
+        "CA2023_006",
+        "CA2023_007",
+        "CA2023_008",
+        "CA2023_009",
+        "CA2023_010",
+        "CA2023_011",
+        "CA2023_012",
+        "CA2023_013",
+        "CA2023_014",
+        "CA2023_015",
+        "CA2023_016",
+        "CA2023_017",
+        "CA2023_018",
+        "CA2023_019",
+        "CA2023_020",
+        "CA2023_021",
+        "CA2023_022",
+        "CA2023_023",
+        "CA2023_024",
+        "CA2023_025",
+        "CA2023_026",
+        "CA2023_027",
+        "CA2023_028",
+        "CA2023_029",
+        "CA2023_030",
+        "CA2023_031",
+        "CA2023_032",
+        "CA2023_033",
+        "CA2023_034",
+        "CA2023_035",
+        "CA2023_036",
+        "CA2023_037",
+        "CA2023_038",
+        "CA2023_039",
+        "CA2023_040",
+        "CA2023_041",
+        "CA2023_042",
+        "CA2023_043",
+        "CA2023_044",
+        "CA2023_045",
+        "CA2023_046",
+        "CA2023_047",
+        "CA2023_048",
+        "CA2023_049",
+        "CA2023_050",
+        "CA2023_051",
+        "CA2023_052",
+        "CA2023_053",
+        "CA2023_054",
+        "CA2023_055",
+        "CA2023_056",
+        "CA2023_057",
+        "CA2023_058",
+        "CA2023_059",
+        "CA2023_060",
+        "CA2023_061",
+        "CA2023_062",
+        "CA2023_063",
+        "CA2023_064",
+        "CA2023_065",
+        "CA2023_066",
+        "CA2023_067",
+        "CA2023_068",
+        "CA2023_069",
+        "CA2023_070",
+        "CA2023_071",
+        "CA2023_072",
+        "CA2023_073",
+        "CA2023_074",
+        "CA2023_075",
+        "CA2023_076",
+        "CA2023_077",
+        "CA2023_078",
+        "CA2023_079",
+        "CA2023_080",
+        "CA2023_081",
+        "CA2023_082",
+        "CA2023_083"
+      ]
+    },
+    "fresh": {
+      "n_samples": 35,
+      "n_spectra": 363,
+      "repeat_count_distribution": {
+        "12": 2,
+        "10": 27,
+        "13": 1,
+        "11": 2,
+        "9": 2,
+        "16": 1
+      },
+      "n_plots": 29,
+      "n_wavelengths": 2151,
+      "axis_nm": [
+        350,
+        2500
+      ],
+      "nonfinite_spectral_cells": 0,
+      "repeated_numeric_LMA_across_sample_records": 0,
+      "target_nonmissing": {
+        "LMA_value_g/m2": 35,
+        "leaf_water_content_percent": 35,
+        "chlorophyll _mg/m2": 35
+      },
+      "trait_rows_without_spectra": [],
+      "source_hashes": {
+        "CA2023_freshspectra.csv": "ec2989d35c42c5c545866902238a890f799e2033d423a92065d3865daf70a644",
+        "CA2023_freshspectra_supplementaldata.csv": "9af287a310a8982a17d96061e7457b36964f20b3bf215493c4f9f506b1daa695"
+      },
+      "acquisition_ids_sha256": "c29ea4b81c6b6483c9e471d55a9d746fc9fc1fa3e8742e0c919b6645b0f01ce0",
+      "source_sample_ids": [
+        "CA2023_005",
+        "CA2023_006",
+        "CA2023_013",
+        "CA2023_017",
+        "CA2023_018",
+        "CA2023_020",
+        "CA2023_021",
+        "CA2023_022",
+        "CA2023_023",
+        "CA2023_024",
+        "CA2023_029",
+        "CA2023_031",
+        "CA2023_032",
+        "CA2023_034",
+        "CA2023_042",
+        "CA2023_046",
+        "CA2023_048",
+        "CA2023_049",
+        "CA2023_052",
+        "CA2023_053",
+        "CA2023_054",
+        "CA2023_055",
+        "CA2023_056",
+        "CA2023_057",
+        "CA2023_058",
+        "CA2023_059",
+        "CA2023_060",
+        "CA2023_061",
+        "CA2023_064",
+        "CA2023_065",
+        "CA2023_066",
+        "CA2023_068",
+        "CA2023_074",
+        "CA2023_075",
+        "CA2023_076"
+      ]
+    },
+    "cross_dataset_identity_audit": {
+      "freeze-oven": {
+        "shared_sample_codes": 82,
+        "matching_sampling_records": true,
+        "matching_LMA_records": true,
+        "interpretation": "Shared CA2023 origin records corroborated by guides and keyed sampling metadata; material preparations/foreoptics remain distinct. No cross-dataset analysis performed."
+      },
+      "freeze-fresh": {
+        "shared_sample_codes": 35,
+        "matching_sampling_records": true,
+        "matching_LMA_records": true,
+        "interpretation": "Shared CA2023 origin records corroborated by guides and keyed sampling metadata; material preparations/foreoptics remain distinct. No cross-dataset analysis performed."
+      },
+      "oven-fresh": {
+        "shared_sample_codes": 35,
+        "matching_sampling_records": true,
+        "matching_LMA_records": true,
+        "interpretation": "Shared CA2023 origin records corroborated by guides and keyed sampling metadata; material preparations/foreoptics remain distinct. No cross-dataset analysis performed."
+      }
+    }
+  },
+  "source_proof": {
+    "package_id": "cd421eda-ed75-409a-99ae-a2385515c2ed",
+    "source_url": "https://data.ecosis.org/dataset/freeze-dried-leaf-spectra-and-measured-traits-from-the-sierra-nevada--ca--in-july-2023",
+    "license_id": "odc-odbl",
+    "extras": {
+      "Citation": "Cecilia Vanden Heuvel,  Natalie Queally,  Ting Zheng,  Laura Berman,  Zach Breuer,  Joel Cryer,  Callan Lapinskas,  Annabelle Majerus,  Elliott Marsh and  Philip Townsend. 2023. Freeze Dried Leaf Spectra and Measured Traits from the Sierra Nevada (CA) in July 2023. Data set. Available on-line [http://ecosis.org] from the Ecological Spectral Information System (EcoSIS). 10.21232/seiE5xAq",
+      "EcoSIS DOI": "10.21232/seiE5xAq",
+      "Instrument Model": "FieldSpec 3",
+      "Instrument Serial Number": "16122",
+      "Measurement Units": "%",
+      "Processing Interpolated": "Yes"
+    },
+    "resources": [
+      {
+        "id": "33d4f97e-591c-4e6f-a913-f8f6465fa735",
+        "name": "CA2023_freezedried_dryspectra.csv",
+        "url": "https://data.ecosis.org/dataset/cd421eda-ed75-409a-99ae-a2385515c2ed/resource/33d4f97e-591c-4e6f-a913-f8f6465fa735/download/ca2023_freezedried_dryspectra.csv",
+        "sha256": "08227995ad21eaff035b53b7c7485fd5ee3a0f69d766b62db85e0ded98bffda4",
+        "bytes": 12612489
+      },
+      {
+        "id": "e4496bf4-1517-4c1a-b854-e316dfdd1b54",
+        "name": "CA2023_freezedrieddryspectra_supplementaldata.csv",
+        "url": "https://data.ecosis.org/dataset/cd421eda-ed75-409a-99ae-a2385515c2ed/resource/e4496bf4-1517-4c1a-b854-e316dfdd1b54/download/ca2023_freezedrieddryspectra_supplementaldata.csv",
+        "sha256": "afb9604e20dc870571fc2e5e4c0dce79f800fb8f13a523173d14cc287b50b13f",
+        "bytes": 13623
+      },
+      {
+        "id": "f0418260-c9f1-48f3-bef0-b8af248d8bc7",
+        "name": "README.md",
+        "url": "https://data.ecosis.org/dataset/cd421eda-ed75-409a-99ae-a2385515c2ed/resource/f0418260-c9f1-48f3-bef0-b8af248d8bc7/download/readme.md",
+        "sha256": "8074ac791dacc5c0e5d6c09ffd9910192c2d453b43c0bf89220853a536371356",
+        "bytes": 2717
+      }
+    ]
+  },
+  "preparation": {
+    "canonical_hashes": {
+      "sources/X.parquet": "20107cd0ea21b42caf6feadbf1e1794d9961d296ff8ad8f477b4900aa1c1f558",
+      "variables.parquet": "26a36347d5e6628910d0ffe3f00184de5455843de190c1e58a018ced3abb12cd"
+    },
+    "canonical_counts": {
+      "X": 492,
+      "variables": 82
+    },
+    "canonical_warnings": [],
+    "registry_descriptor_sha256": "a5cbd6d96d7ea37493c33182093f131b4428f2c7ac4b3750e67027f883e08514",
+    "local_descriptor_sha256": "a1d6066b0faca04eba8fa9f1aabf49970feb0af4c5b24abc06e450490bd5b694",
+    "descriptor_derivation": "Explicit metadata declarations for original plot/campaign/sampling/coordinates; upstream descriptor unchanged",
+    "canonical_converter_version": "0.3.11",
+    "original_spectra_sha256": "08227995ad21eaff035b53b7c7485fd5ee3a0f69d766b62db85e0ded98bffda4",
+    "original_traits_sha256": "afb9604e20dc870571fc2e5e4c0dce79f800fb8f13a523173d14cc287b50b13f",
+    "keyed_original_canonical_float32_parity": true,
+    "historical_registry_canonical_parity": "unavailable; historical arrays not held",
+    "signal_summary_as_supplied": {
+      "count": 1058292.0,
+      "min": 0.03929750248789787,
+      "max": 0.9633252024650574,
+      "mean": 0.5837507006267407,
+      "sd": 0.24257390945697643,
+      "q25": 0.39921703189611435,
+      "median": 0.6099054217338562,
+      "q75": 0.8300178498029709
+    },
+    "nonfinite_canonical_cells": 0,
+    "missing_LMA_samples": [
+      "CA2023_019"
+    ],
+    "n_LMA_available": 81,
+    "laboratory_reference_precision": "unavailable",
+    "reference_identity": "logical original sample/trait records, not independent laboratory assay event IDs"
+  },
+  "splits": [
+    {
+      "seed": 17,
+      "n_train_samples": 65,
+      "n_test_samples": 17,
+      "policies": {
+        "grouped_native": {
+          "report_sha256": "b3cf8cdf51532b53578908d633aa88adc2cf0588e12dde3ab84c9cd15a0da910",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 390,
+              "declared_independence_groups": 45,
+              "known_references": 65,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 390,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 65,
+              "repeat_groups": 65,
+              "samples": 65,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 102,
+              "declared_independence_groups": 12,
+              "known_references": 17,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 102,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 17,
+              "repeat_groups": 17,
+              "samples": 17,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": null,
+            "domain.centroid_distance": 0.34081852783068556,
+            "domain.dispersion_ratio": 1.397004335063713,
+            "coverage.test_outside_fraction": 0.1568627450980392
+          },
+          "coverage_outside": 16,
+          "coverage_denominator": 102,
+          "n_train_representation_rows": 390,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.15686274509803924,
+            "interval_95": [
+              0.018518518518518524,
+              0.33333333333333337
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 17,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.9730430965383632,
+          "nn_threshold": 1.159084800193154,
+          "q_threshold": 0.2480620116166342,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.002592700245877745,
+            "max": 0.0082747471618607,
+            "mean": 0.0058224041756047284,
+            "sd": 0.001788107795897789,
+            "q25": 0.003933371031379433,
+            "median": 0.006361377166033094,
+            "q75": 0.0075982228191880455
+          },
+          "train_refit_bootstrap": {
+            "draw_assignments_sha256": "5c4b7d90a5c66d0aceaea6ad6869b012c78b9dcd8bbaf455f74846e21bdfd405",
+            "draws": 100,
+            "failures": [],
+            "interval_95": {
+              "coverage": [
+                0.11764705882352941,
+                0.3431372549019608
+              ],
+              "nn_threshold": [
+                0.9919248656464088,
+                1.7271176252861937
+              ],
+              "q_threshold": [
+                0.1734194511150274,
+                0.6414978324032395
+              ],
+              "retained_variance_fraction": [
+                0.9530825902150053,
+                0.9794706207477424
+              ]
+            },
+            "n_train_components": 45,
+            "policy": "grouped_native",
+            "protocol_version": "domains.train_refit_bootstrap.v0.1",
+            "resampling_unit": "whole train dependency components; repeated draws retain bootstrap multiplicity",
+            "scope": "PCA and train-only fences refitted in every draw; held-out X population fixed; intervals conditional on successful fits",
+            "seed": 17,
+            "status": "computed",
+            "successful_draws": 100,
+            "test_target_accessed": false,
+            "report_sha256": "27bf41240f4ef0b404d1f5af6702398c35b4320a44d46c8cf436b322747fbbb2",
+            "component_count_distribution": {
+              "4": 94,
+              "3": 6
+            }
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "unavailable",
+              "reason": "EXACT_SQUARED_COVARIANCE_TRACE_UNAVAILABLE_PUBLIC_MOMENT_BUDGET",
+              "value": null
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.34081852783068556
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 1.397004335063713
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.1568627450980392
+            }
+          ],
+          "pca_covariance_trace": 4.313688742136506,
+          "full_moments": null,
+          "full_moments_unavailable_reason": "EXACT_SQUARED_COVARIANCE_TRACE_EXCEEDS_PUBLIC_MOMENT_BUDGET"
+        },
+        "technical_mean": {
+          "report_sha256": "c3f2c9fbeaeece742c3bba3462af6609ba0a0c2792c39f794a21d2e08ba1254c",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 390,
+              "declared_independence_groups": 45,
+              "known_references": 65,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 390,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 65,
+              "repeat_groups": 65,
+              "samples": 65,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 102,
+              "declared_independence_groups": 12,
+              "known_references": 17,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 102,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 17,
+              "repeat_groups": 17,
+              "samples": 17,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": 2.4815256993350348,
+            "domain.centroid_distance": 0.3408279098819234,
+            "domain.dispersion_ratio": 1.4598668136094695,
+            "coverage.test_outside_fraction": 0.23529411764705882
+          },
+          "coverage_outside": 4,
+          "coverage_denominator": 17,
+          "n_train_representation_rows": 65,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.23529411764705882,
+            "interval_95": [
+              0.05000000000000001,
+              0.5
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 17,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.973475190298269,
+          "nn_threshold": 1.4263371339719801,
+          "q_threshold": 0.23774924563084893,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.002592700245877745,
+            "max": 0.0082747471618607,
+            "mean": 0.0058224041756047284,
+            "sd": 0.001788107795897789,
+            "q25": 0.003933371031379433,
+            "median": 0.006361377166033094,
+            "q75": 0.0075982228191880455
+          },
+          "train_refit_bootstrap": {
+            "draw_assignments_sha256": "5c4b7d90a5c66d0aceaea6ad6869b012c78b9dcd8bbaf455f74846e21bdfd405",
+            "draws": 100,
+            "failures": [],
+            "interval_95": {
+              "coverage": [
+                0.11764705882352941,
+                0.35294117647058826
+              ],
+              "nn_threshold": [
+                1.0685462771491305,
+                2.0355473302287024
+              ],
+              "q_threshold": [
+                0.16121620956933105,
+                0.5856933117604609
+              ],
+              "retained_variance_fraction": [
+                0.9538710052445994,
+                0.9798372165802955
+              ]
+            },
+            "n_train_components": 45,
+            "policy": "technical_mean",
+            "protocol_version": "domains.train_refit_bootstrap.v0.1",
+            "resampling_unit": "whole train dependency components; repeated draws retain bootstrap multiplicity",
+            "scope": "PCA and train-only fences refitted in every draw; held-out X population fixed; intervals conditional on successful fits",
+            "seed": 17,
+            "status": "computed",
+            "successful_draws": 100,
+            "test_target_accessed": false,
+            "report_sha256": "40205bc1ec1a78db284c30c0c7e47762f07f644d13992f6d1c45925a83fd562b",
+            "component_count_distribution": {
+              "4": 94,
+              "3": 6
+            }
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "computed",
+              "reason": null,
+              "value": 2.4815256993350348
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.3408279098819234
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 1.4598668136094695
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.23529411764705882
+            }
+          ],
+          "pca_covariance_trace": 4.302322581516597,
+          "full_moments": [
+            4.3023225815166395,
+            7.459112593670922
+          ],
+          "full_moments_unavailable_reason": null
+        }
+      },
+      "mean_xy_preflight": [
+        {
+          "denominators": {
+            "n_eligible_samples": 65
+          },
+          "metric_id": "local.global_contrast",
+          "parameters": {
+            "contrast_backend": "1.3.6+abi.2.19.0",
+            "contrast_definition": "1_minus_neighbor_squared_difference_over_2_sample_variance",
+            "fraction_rows_with_neighbors": 1.0,
+            "k": 8,
+            "neighbor_backend": "1.3.6+abi.2.19.0"
+          },
+          "population_id": "development_real",
+          "protocol_version": "0.1.0-alpha.1",
+          "reason_code": null,
+          "scope": "source_target",
+          "source_id": "X",
+          "status": "computed",
+          "target_id": "LMA_value_g/m2",
+          "unit": null,
+          "value": 0.4851170218882995,
+          "view_id": "canonical:centered"
+        }
+      ]
+    },
+    {
+      "seed": 31,
+      "n_train_samples": 66,
+      "n_test_samples": 16,
+      "policies": {
+        "grouped_native": {
+          "report_sha256": "7fc157ce689555b3b66e3127464aaf04f96141173876816673a5f1590e745cd9",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 396,
+              "declared_independence_groups": 45,
+              "known_references": 66,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 396,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 66,
+              "repeat_groups": 66,
+              "samples": 66,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 96,
+              "declared_independence_groups": 12,
+              "known_references": 16,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 96,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 16,
+              "repeat_groups": 16,
+              "samples": 16,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": null,
+            "domain.centroid_distance": 0.5811838715518134,
+            "domain.dispersion_ratio": 1.4787144230563052,
+            "coverage.test_outside_fraction": 0.1875
+          },
+          "coverage_outside": 18,
+          "coverage_denominator": 96,
+          "n_train_representation_rows": 396,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.1875,
+            "interval_95": [
+              0.0,
+              0.3529411764705883
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 31,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.9726013025358062,
+          "nn_threshold": 1.1269594307626927,
+          "q_threshold": 0.25814949519937275,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.0025878546611821313,
+            "max": 0.008239316275228737,
+            "mean": 0.0058286205684345335,
+            "sd": 0.00178419031341188,
+            "q25": 0.003960194164588168,
+            "median": 0.006483637715051504,
+            "q75": 0.007594120184142376
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "unavailable",
+              "reason": "EXACT_SQUARED_COVARIANCE_TRACE_UNAVAILABLE_PUBLIC_MOMENT_BUDGET",
+              "value": null
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.5811838715518134
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 1.4787144230563052
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.1875
+            }
+          ],
+          "pca_covariance_trace": 4.241318890197759,
+          "full_moments": null,
+          "full_moments_unavailable_reason": "EXACT_SQUARED_COVARIANCE_TRACE_EXCEEDS_PUBLIC_MOMENT_BUDGET"
+        },
+        "technical_mean": {
+          "report_sha256": "cfaae6d2752e7e748097183d6c24192e13eac5897ebf27de892bf1e1b34900f5",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 396,
+              "declared_independence_groups": 45,
+              "known_references": 66,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 396,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 66,
+              "repeat_groups": 66,
+              "samples": 66,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 96,
+              "declared_independence_groups": 12,
+              "known_references": 16,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 96,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 16,
+              "repeat_groups": 16,
+              "samples": 16,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": 2.5080175915572935,
+            "domain.centroid_distance": 0.5812572232024228,
+            "domain.dispersion_ratio": 1.5522452605263417,
+            "coverage.test_outside_fraction": 0.1875
+          },
+          "coverage_outside": 3,
+          "coverage_denominator": 16,
+          "n_train_representation_rows": 66,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.1875,
+            "interval_95": [
+              0.0,
+              0.3529411764705883
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 31,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.9730071881681421,
+          "nn_threshold": 1.4163840596787753,
+          "q_threshold": 0.2608155188843976,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.0025878546611821313,
+            "max": 0.008239316275228737,
+            "mean": 0.0058286205684345335,
+            "sd": 0.00178419031341188,
+            "q25": 0.003960194164588168,
+            "median": 0.006483637715051504,
+            "q75": 0.007594120184142376
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "computed",
+              "reason": null,
+              "value": 2.5080175915572935
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.5812572232024228
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 1.5522452605263417
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.1875
+            }
+          ],
+          "pca_covariance_trace": 4.228070410725476,
+          "full_moments": [
+            4.22807041072549,
+            7.127772731032711
+          ],
+          "full_moments_unavailable_reason": null
+        }
+      }
+    },
+    {
+      "seed": 47,
+      "n_train_samples": 65,
+      "n_test_samples": 17,
+      "policies": {
+        "grouped_native": {
+          "report_sha256": "7daa8d3d1568cb75fa06f447eea86a07a0f9c2f4a905754e578c685296c56146",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 390,
+              "declared_independence_groups": 45,
+              "known_references": 65,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 390,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 65,
+              "repeat_groups": 65,
+              "samples": 65,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 102,
+              "declared_independence_groups": 12,
+              "known_references": 17,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 102,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 17,
+              "repeat_groups": 17,
+              "samples": 17,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": null,
+            "domain.centroid_distance": 0.67663502645671,
+            "domain.dispersion_ratio": 0.6390198388402334,
+            "coverage.test_outside_fraction": 0.0392156862745098
+          },
+          "coverage_outside": 4,
+          "coverage_denominator": 102,
+          "n_train_representation_rows": 390,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.03921568627450982,
+            "interval_95": [
+              0.0,
+              0.13333333333333336
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 47,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.9708623786006754,
+          "nn_threshold": 1.1290184682991016,
+          "q_threshold": 0.32648817009454295,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.0022467795459531464,
+            "max": 0.007969676509829155,
+            "mean": 0.005594718146331573,
+            "sd": 0.0017152729121606102,
+            "q25": 0.0038481168779023554,
+            "median": 0.006212388516798628,
+            "q75": 0.007194793135960589
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "unavailable",
+              "reason": "EXACT_SQUARED_COVARIANCE_TRACE_UNAVAILABLE_PUBLIC_MOMENT_BUDGET",
+              "value": null
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.67663502645671
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 0.6390198388402334
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.0392156862745098
+            }
+          ],
+          "pca_covariance_trace": 5.016582000311756,
+          "full_moments": null,
+          "full_moments_unavailable_reason": "EXACT_SQUARED_COVARIANCE_TRACE_EXCEEDS_PUBLIC_MOMENT_BUDGET"
+        },
+        "technical_mean": {
+          "report_sha256": "6fc23fbcab43064cfbf7dd307cd3b2ce33ddfd785c890d5c552f8691343bec04",
+          "reproducible": true,
+          "unit_counts": {
+            "train": {
+              "acquisitions": 390,
+              "declared_independence_groups": 45,
+              "known_references": 65,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 390,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 65,
+              "repeat_groups": 65,
+              "samples": 65,
+              "validation_groups": 45
+            },
+            "test": {
+              "acquisitions": 102,
+              "declared_independence_groups": 12,
+              "known_references": 17,
+              "missing_instrument_or_campaign_acquisitions": 0,
+              "missing_reference_acquisitions": 0,
+              "missing_reference_status_acquisitions": 102,
+              "missing_reference_unit_acquisitions": 0,
+              "physical_samples": 17,
+              "repeat_groups": 17,
+              "samples": 17,
+              "validation_groups": 12
+            }
+          },
+          "metrics": {
+            "coverage.effective_dimension": 2.5419620965157668,
+            "domain.centroid_distance": 0.6765834401787648,
+            "domain.dispersion_ratio": 0.6569248325874327,
+            "coverage.test_outside_fraction": 0.058823529411764705
+          },
+          "coverage_outside": 1,
+          "coverage_denominator": 17,
+          "n_train_representation_rows": 65,
+          "coverage_uncertainty": {
+            "conditional_on": "frozen train PCA and thresholds; no train-refit uncertainty estimated",
+            "draws": 500,
+            "estimate": 0.05882352941176472,
+            "interval_95": [
+              0.0,
+              0.2
+            ],
+            "n_components": 12,
+            "protocol_version": "domains.coverage_bootstrap.v0.1",
+            "resampling_unit": "whole_declared_dependency_component",
+            "rng": "rand_chacha 0.3.1 ChaCha8Rng",
+            "seed": 47,
+            "statistic": "physical_sample_mean_of_acquisition_flags",
+            "status": "computed"
+          },
+          "n_components": 4,
+          "retained_variance_fraction": 0.9711630704425331,
+          "nn_threshold": 1.4365638818045658,
+          "q_threshold": 0.3213134108178598,
+          "native_pooled_sd_summary": {
+            "count": 2151.0,
+            "min": 0.0022467795459531464,
+            "max": 0.007969676509829155,
+            "mean": 0.005594718146331573,
+            "sd": 0.0017152729121606102,
+            "q25": 0.0038481168779023554,
+            "median": 0.006212388516798628,
+            "q75": 0.007194793135960589
+          },
+          "computed_metrics": [
+            {
+              "metric_id": "coverage.effective_dimension",
+              "status": "computed",
+              "reason": null,
+              "value": 2.5419620965157668
+            },
+            {
+              "metric_id": "domain.centroid_distance",
+              "status": "computed",
+              "reason": null,
+              "value": 0.6765834401787648
+            },
+            {
+              "metric_id": "domain.dispersion_ratio",
+              "status": "computed",
+              "reason": null,
+              "value": 0.6569248325874327
+            },
+            {
+              "metric_id": "coverage.test_outside_fraction",
+              "status": "computed",
+              "reason": null,
+              "value": 0.058823529411764705
+            }
+          ],
+          "pca_covariance_trace": 5.019564860725165,
+          "full_moments": [
+            5.019564860725153,
+            9.912040555428655
+          ],
+          "full_moments_unavailable_reason": null
+        }
+      }
+    }
+  ],
+  "identity_assumptions": [
+    "Original sample code identifies dried specimen; plant identity and replicate subtype unverified",
+    "Plot blocks are conditionally independent within the sampled geographical areas; no new-region generalization claim",
+    "Mean of documented spectral replicates is descriptive; pure rescan noise is not identifiable"
+  ],
+  "predictive_sanity": {
+    "pls": {
+      "rmse": 110.86776478755294,
+      "mae": 76.87552684527856,
+      "r2": 0.3969209605752606
+    },
+    "null": {
+      "rmse": 146.99331012135553,
+      "mae": 124.06733348789534,
+      "r2": -0.06012918467528228
+    },
+    "protocol_version": "domains.predictive_sanity.v0.1",
+    "status": "computed",
+    "target": "LMA_value_g/m2",
+    "target_unit": "g/m2",
+    "seed": 17,
+    "test_target_accessed": false,
+    "n_samples": 65,
+    "n_groups": 45,
+    "development_input_sha256": "d603d6b30c308f7060b4aef9efed4371475fc58ff59a1f24acc56102038de92e",
+    "engine_versions": {
+      "dag-ml": "0.3.41",
+      "nirs4all-methods": "1.3.6"
+    },
+    "parameters": {
+      "outer_folds": 5,
+      "inner_folds": 3,
+      "component_grid": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "preprocessing": "fold-local Methods centering, no autoscaling"
+    },
+    "improvement_rmse": 36.12554533380259,
+    "permutation": {
+      "draws": 19,
+      "unit": "whole plot vectors, cardinality restricted",
+      "p_exploratory": 0.05,
+      "results": [
+        {
+          "pls": {
+            "rmse": 153.01829979225948,
+            "mae": 125.92535633332253,
+            "r2": -0.1488157874273064
+          },
+          "null": {
+            "rmse": 143.34911808825584,
+            "mae": 121.24035948193219,
+            "r2": -0.008216270406487869
+          },
+          "improvement_rmse": -9.669181704003648
+        },
+        {
+          "pls": {
+            "rmse": 156.92326182280507,
+            "mae": 130.7470841477025,
+            "r2": -0.20819853433201985
+          },
+          "null": {
+            "rmse": 144.8684936839226,
+            "mae": 122.60411462944205,
+            "r2": -0.029701960761620905
+          },
+          "improvement_rmse": -12.05476813888248
+        },
+        {
+          "pls": {
+            "rmse": 146.50260769499388,
+            "mae": 123.77613046278287,
+            "r2": -0.05306301728199059
+          },
+          "null": {
+            "rmse": 147.89536404593886,
+            "mae": 126.66249089361051,
+            "r2": -0.07318049884479438
+          },
+          "improvement_rmse": 1.3927563509449783
+        },
+        {
+          "pls": {
+            "rmse": 140.39218216370804,
+            "mae": 117.2602983828443,
+            "r2": 0.032948729532500276
+          },
+          "null": {
+            "rmse": 143.82676451313927,
+            "mae": 121.70621187493575,
+            "r2": -0.014946318175864004
+          },
+          "improvement_rmse": 3.434582349431224
+        },
+        {
+          "pls": {
+            "rmse": 152.08996288190556,
+            "mae": 128.3250786968027,
+            "r2": -0.13491871765222463
+          },
+          "null": {
+            "rmse": 144.71781686463063,
+            "mae": 123.17971165075434,
+            "r2": -0.02756110147751789
+          },
+          "improvement_rmse": -7.372146017274929
+        },
+        {
+          "pls": {
+            "rmse": 151.42017074688107,
+            "mae": 128.14465246573982,
+            "r2": -0.12494454479771022
+          },
+          "null": {
+            "rmse": 146.05561375134008,
+            "mae": 124.1709694186523,
+            "r2": -0.04664682165559819
+          },
+          "improvement_rmse": -5.364556995540994
+        },
+        {
+          "pls": {
+            "rmse": 152.5252796222219,
+            "mae": 126.20041715987838,
+            "r2": -0.14142481639645843
+          },
+          "null": {
+            "rmse": 143.49683250507798,
+            "mae": 122.17258177202415,
+            "r2": -0.01029517834865401
+          },
+          "improvement_rmse": -9.028447117143912
+        },
+        {
+          "pls": {
+            "rmse": 152.48969460863762,
+            "mae": 124.04362527017102,
+            "r2": -0.1408922767474623
+          },
+          "null": {
+            "rmse": 142.78025878628085,
+            "mae": 121.06543644723345,
+            "r2": -0.0002302399159779256
+          },
+          "improvement_rmse": -9.709435822356767
+        },
+        {
+          "pls": {
+            "rmse": 141.65187921983897,
+            "mae": 117.31755989653428,
+            "r2": 0.01551674928589497
+          },
+          "null": {
+            "rmse": 143.01368408946456,
+            "mae": 121.39069189082046,
+            "r2": -0.0035033800743937693
+          },
+          "improvement_rmse": 1.361804869625587
+        },
+        {
+          "pls": {
+            "rmse": 146.5833280428535,
+            "mae": 122.20569343501361,
+            "r2": -0.054223775198251056
+          },
+          "null": {
+            "rmse": 144.21673596956495,
+            "mae": 121.83968611946803,
+            "r2": -0.020457624514794492
+          },
+          "improvement_rmse": -2.366592073288558
+        },
+        {
+          "pls": {
+            "rmse": 155.41923776116968,
+            "mae": 126.09284755304076,
+            "r2": -0.18514967079658828
+          },
+          "null": {
+            "rmse": 146.12879112427447,
+            "mae": 122.02533905434595,
+            "r2": -0.04769587481779092
+          },
+          "improvement_rmse": -9.290446636895211
+        },
+        {
+          "pls": {
+            "rmse": 152.41492683081574,
+            "mae": 126.26516375773029,
+            "r2": -0.13977376092745275
+          },
+          "null": {
+            "rmse": 143.29740482091168,
+            "mae": 121.63005297382048,
+            "r2": -0.007488972550819151
+          },
+          "improvement_rmse": -9.117522009904064
+        },
+        {
+          "pls": {
+            "rmse": 143.7708429409789,
+            "mae": 116.32851109245978,
+            "r2": -0.014157224991644402
+          },
+          "null": {
+            "rmse": 145.1470176608374,
+            "mae": 123.770980607774,
+            "r2": -0.033665174229429384
+          },
+          "improvement_rmse": 1.3761747198585113
+        },
+        {
+          "pls": {
+            "rmse": 143.9023490769633,
+            "mae": 121.97750256498615,
+            "r2": -0.016013357855987564
+          },
+          "null": {
+            "rmse": 150.2329463304206,
+            "mae": 127.46714236394713,
+            "r2": -0.10737322884346567
+          },
+          "improvement_rmse": 6.3305972534572845
+        },
+        {
+          "pls": {
+            "rmse": 165.23028640233932,
+            "mae": 134.5122900202353,
+            "r2": -0.33950075324857276
+          },
+          "null": {
+            "rmse": 143.7331196752234,
+            "mae": 121.99094758312364,
+            "r2": -0.01362509618630181
+          },
+          "improvement_rmse": -21.49716672711591
+        },
+        {
+          "pls": {
+            "rmse": 152.49185920851602,
+            "mae": 128.62495689372756,
+            "r2": -0.1409246670387243
+          },
+          "null": {
+            "rmse": 143.73145259908014,
+            "mae": 122.476003685711,
+            "r2": -0.013601583436833042
+          },
+          "improvement_rmse": -8.760406609435876
+        },
+        {
+          "pls": {
+            "rmse": 156.3507294131618,
+            "mae": 127.21814322734751,
+            "r2": -0.19939842501454108
+          },
+          "null": {
+            "rmse": 148.19784251938663,
+            "mae": 125.91086906278495,
+            "r2": -0.07757476711075606
+          },
+          "improvement_rmse": -8.152886893775161
+        },
+        {
+          "pls": {
+            "rmse": 162.08133574437034,
+            "mae": 133.69925850862913,
+            "r2": -0.2889309885445792
+          },
+          "null": {
+            "rmse": 146.88190947170813,
+            "mae": 124.35827909555242,
+            "r2": -0.05852293023580013
+          },
+          "improvement_rmse": -15.199426272662208
+        },
+        {
+          "pls": {
+            "rmse": 154.39571331362805,
+            "mae": 130.663209817026,
+            "r2": -0.16959129548987129
+          },
+          "null": {
+            "rmse": 149.9086859338389,
+            "mae": 127.53614906398731,
+            "r2": -0.10259811422621534
+          },
+          "improvement_rmse": -4.48702737978914
+        }
+      ],
+      "exchangeability": "assumed for plots within cardinality strata; not a confirmatory test"
+    },
+    "interpretation": "Development-only nested group OOF sanity check; no retained-test performance or production calibration",
+    "full_report_sha256": "175afc7f9f73bc65349249af2150e3dc8cb92f8f3da64f8aaca52604ca28b4a0",
+    "selected_outer_components": [
+      5,
+      4,
+      3,
+      4,
+      5
+    ]
+  },
+  "execution_date": "2026-10-16",
+  "protocol_canonical": "domains.canonical.v0.3",
+  "local_result_directory": "results/ecosis-alpha4-release",
+  "full_comparison_sha256": "43b651684aeaf69a5ace4be611dc3587a8ad2fee5b0ed0aef4f9af270311b1e8",
+  "scientific_numeric_regression_to_previous_full_grid": true
+}

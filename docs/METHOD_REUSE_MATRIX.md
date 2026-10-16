@@ -34,7 +34,7 @@ execution refers only to tests described in VALIDATION.md.
 | Near duplicates | `n4m_preflight_pairs_within_tolerance` | ABI >=2.19; native symbol + raw declarations/JS; absent Rust provider | RMS feature tolerance, bounded pair list and exact totals; upstream tests, no local tolerance calibration | deferred; reuse |
 | Factor-target association / Holm | `n4m_preflight_factor_association`, `n4m_preflight_holm_adjust` | ABI >=2.19; native symbols + Python raw declarations + JS; absent Rust provider | Eta-squared/Cramer's V and unrestricted exchangeable-unit permutations; NumPy/SciPy goldens inspected; no conditional effect or restricted permutation support | deferred; reuse marginal kernels |
 | SNV / MSC / SG / derivatives | `cpp/include/n4m/transform/`, catalog preprocessing entries | Catalog historical since_abi 1.0.0 for SNV/MSC/SG; current ABI 2 symbols; 1.3.6 published; Python typed transformers | Native/binding parity suites exist; no sensitivity chain qualified locally | reuse later; canonical MVP only centers |
-| PLS / PCR / Ridge | `cpp/include/n4m/`, catalog `models.*`, typed estimator bindings | Catalog since_abi PLSRegression 2.13.0 (role surface), PCR 1.21.0, Ridge 1.16.0 (historical); current ABI 2.19 wheel published | Native/role parity tests present; no nested group OOF protocol in Domains | deferred; reuse Methods + DAG-ML |
+| PLS / PCR / Ridge | `cpp/include/n4m/`, catalog `models.*`, typed estimator bindings | Catalog since_abi PLSRegression 2.13.0 (role surface), PCR 1.21.0, Ridge 1.16.0 (historical); current ABI 2.19 wheel published | Alpha.4 executes PLS through DAG-ML inner CV/select/refit and Methods artifact replay; synthetic signal/null and nested lineage gates, real development OOF | reuse PLS; PCR/Ridge protocols deferred |
 | AOM-PLS | AOM public C ABI/catalog; target-dependent selection | Catalog historical since_abi 1.0.0; current ABI 2 names, 1.3.6 published; per-operator minima not fully audited | Existing model/selection parity paths; leakage-safe full protocol not locally qualified | deferred |
 | Ward / GMM / Hopkins | No matching declared method/API found in audited catalog and C headers | Availability not confirmed; no binding claim | No local qualification | upstream extension (Methods), only after broader audit |
 | Cluster stability and test membership | HDBSCAN + ARI kernels available; no complete task protocol | Rust adaptation missing; prediction of held-out HDBSCAN membership not assumed | Must refit train subsamples, compare common identities/noise, canonical order | new local protocol, deferred |
@@ -57,3 +57,19 @@ heuristics. None were copied. Local DLL lookup again succeeds for PCA, summary,
 neighbors, repeatability, HDBSCAN, noise proxy and tolerance pairs. The native
 suite executes the first four; symbol lookup alone does not qualify the others.
 No new generic numerical primitive is required by this sprint.
+
+## Alpha.4 executable additions
+
+| Need | Public surface / exact version | Actual local evidence | Decision |
+|---|---|---|---|
+| Large complete-axis PCA | `n4m_decomposition_flexible_pca_{create,fit,transform,output_cols,destroy}` in `cpp/include/n4m/decomposition.h`; Methods 1.3.6 / ABI 2.19 | Small analytical projection; 390×2151 controlled coverage with moments unavailable; full real native/mean train/test and 100 refits each | Reuse fitted state; independent optional full moments |
+| Within-ID dispersion | Preflight `MethodsProvider::repeatability` / existing ABI | Real train native acquisitions retained under both views; 2151 pooled SDs | Reuse; subtype remains unspecified |
+| Nested PLS sanity | DAG-ML 0.3.41 `crates/dag-ml-py/src/lib.rs` public native `run_cv_refit_methods_in_process`; public export manifest and official tests inspected | Five outer scopes / three inner folds, native lineage checked, 19 whole-group permutations; no upstream suite rerun | Bounded optional integration, separate report |
+| Selected native prediction / scores | Methods `NativeEstimator.from_n4me`, `.predict`, `n4m.metrics.scoring` and public summary ABI | Native OOF RMSE/MAE/R² and fold-local null; retained X/Y mutation invariance | Reuse; no sklearn numerical backend |
+
+DAG-ML audited commit: `c6b52979745397ae4e8662580df79341f0378d28`.
+Its older README version is not the installed wheel version. Source/binding and
+actual execution evidence supersede the earlier README-only audit for this
+bounded PLS workflow. HDBSCAN/ARI remain available kernels, not qualified local
+clustering protocols. The large exact rank-one FlexiblePCA failure and getter
+requests are recorded in UPSTREAM_DEPENDENCIES.md.

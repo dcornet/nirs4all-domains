@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nirs4all-domains-bridge"
-version = "0.1.0a3"
+version = "0.1.0a4"
 description = "Thin nirs4all-datasets to n4domains task and batch bridge"
 requires-python = ">=3.11"
 license = "AGPL-3.0-or-later"
@@ -13,6 +13,7 @@ dependencies = ["PyYAML==6.0.3"]
 
 [project.optional-dependencies]
 datasets = ["nirs4all-datasets==0.3.11"]
+predictive = ["dag-ml==0.3.41", "nirs4all-methods==1.3.6", "scikit-learn==1.7.2"]
 test = ["pandas>=2.2", "numpy>=1.26", "jsonschema>=4.23"]
 
 [tool.setuptools.packages.find]

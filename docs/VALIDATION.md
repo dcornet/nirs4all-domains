@@ -86,3 +86,45 @@ These tests qualify the stated representation rules and small controlled means;
 they do not establish laboratory independence, arbitrary ICC parity, paired
 multi-instrument geometry, independent-component uncertainty or leakage-safe
 nested model selection. Those remain separate scientific gates.
+
+## Alpha.4 real repeated-data qualification
+
+The frozen expectations precede tests in REPEATED_PILOT_PROTOCOL.md. The local
+suite now passes **17 Rust + 22 Python = 39 tests**, retaining all alpha.3 tests.
+Native tests use Methods 1.3.6 / ABI 2.19.0; predictive tests execute DAG-ML 0.3.41
+and native Methods PLS/artifact replay/metrics. No numerical mocks or upstream
+source modifications are used. Evidence is in
+[audit/alpha4-validation.json](audit/alpha4-validation.json).
+
+New gates cover six nonidentical acquisitions and their analytical mean,
+partition-spanning repeats, evidence requirements, acquisition geometry versus
+physical means, transitive neighbor exclusion, whole-plot bootstrap and duplicate
+repeat invariance, train-refit leakage, public FlexiblePCA analytical geometry,
+and 390×2151 coverage with only exact full-moment dimension unavailable.
+The predictive controls exercise a strong synthetic relation, independent target,
+native inner fit lineage, nested group scopes, blocked references and invariance
+to all retained X/Y. The complete axis remains the bridge default; any optional
+column selection is explicit and is not used in the final pilot.
+
+Actual EcoSIS evidence includes original/official hash parity, sample-keyed target
+joins, exact original-to-canonical float32 parity, all three prescribed plot
+splits, each native/mean report twice, 500 held-out plot draws, and 100 paired
+train-component refits per primary view (100 successful each). Two complete
+full-grid runs also reproduce scientific coverage and predictive outputs.
+The [repeated pilot](REPEATED_DATA_PILOT.md) records actual counts, warnings and
+uncertainty; the [PLS evidence](PREDICTIVE_SANITY_CHECK.md) distinguishes OOF
+prediction from descriptive local contrast and coarse group permutations.
+
+Formatting, clippy with warnings denied, workspace/native tests, rustdoc, build,
+generated schemas and real CLI report availability checks pass locally. Shootout
+scalar regression checks preserve alpha.3. Windows/Linux CI additionally runs
+the optional native predictive controls; execution records are linked in the
+alpha.4 evidence after the pushed commit's run completes.
+
+The large exact rank-one 390×2151 FlexiblePCA experiment returned native fit
+status 8 on Windows. Small analytical rank-one and the large nondegenerate
+control pass, as do real data and all 200 real refits. This unresolved upstream
+robustness case is recorded separately; it is not hidden by dropping rows or
+claimed fixed. Exact squared moments remain unavailable for the large native
+view, and no arbitrary ICC parity, HDBSCAN stability, conditional attribution,
+new-region generalization or laboratory-reference independence is claimed.

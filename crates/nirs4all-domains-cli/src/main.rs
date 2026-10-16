@@ -1,5 +1,7 @@
 use clap::{Parser, Subcommand};
-use nirs4all_domains::{analyze, markdown, validate, Report, Task};
+use nirs4all_domains::{
+    analyze, comparison_task, markdown, train_refit_stability, validate, Report, Task,
+};
 use std::{
     path::{Path, PathBuf},
     process::{Command, ExitCode},
@@ -17,6 +19,22 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    Stability {
+        task: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, default_value_t = 100)]
+        draws: usize,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
+    Represent {
+        task: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
     Validate {
         task: PathBuf,
     },
@@ -53,6 +71,35 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::Stability {
+            task,
+            out,
+            draws,
+            methods_library,
+        } => {
+            let result = train_refit_stability(&read(&task)?, &methods_library, draws)?;
+            let mut file = std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(out)
+                .map_err(|e| e.to_string())?;
+            serde_json::to_writer_pretty(&mut file, &result).map_err(|e| e.to_string())?;
+            Ok(0)
+        }
+        Action::Represent {
+            task,
+            out,
+            methods_library,
+        } => {
+            let task = comparison_task(&read(&task)?, &methods_library)?;
+            let mut file = std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(out)
+                .map_err(|e| e.to_string())?;
+            serde_json::to_writer(&mut file, &task).map_err(|e| e.to_string())?;
+            Ok(0)
+        }
         Action::Validate { task } => {
             validate(&read(&task)?)?;
             println!("valid");

@@ -67,6 +67,9 @@ def task_from_dataset(ds, config):
         raise ValueError("Physical identities must be confirmed or explicitly mapped")
     x = ds.x(source)
     axis = ds.wavelengths(source)
+    stride = config.get("axis_stride", 1)
+    if isinstance(stride, bool) or not isinstance(stride, int) or stride < 1:
+        raise ValueError("axis_stride must be a positive integer")
     sample_ids = ds.sample_ids(source)
     observation_ids = ds.observation_ids(source)
     if not (len(x) == len(sample_ids) == len(observation_ids)):
@@ -109,7 +112,7 @@ def task_from_dataset(ds, config):
             group = str(identity.get("independence_group", physical)) if identity else physical
         row = {"observation_id": str(oid), "sample_id": sid, "physical_sample_id": physical,
                "independence_group": group, "partition": partition,
-               "x": [_number(v) for v in spectrum],
+               "x": [_number(v) for v in spectrum[::stride]],
                "metadata": {str(k): str(v) for k, v in metadata.get(sid, {}).items() if k != "sample_id" and str(v).strip() not in ("", "nan", "None", "<NA>")}}
         for name in ("instrument", "campaign", "site", "lot"):
             value = (identity or {}).get(name, config.get("acquisition_context", {}).get(name))
@@ -138,7 +141,8 @@ def task_from_dataset(ds, config):
     if target_unit is not None and not str(target_unit).strip():
         raise ValueError("Target unit must be nonempty when supplied")
     provenance = {"datasets": version("nirs4all-datasets"),
-                "task_conversion_protocol": "datasets.task.v0.3",
+                "task_conversion_protocol": "datasets.task.v0.4",
+                "axis_view": json.dumps({"stride": stride, "original_bands": len(axis), "retained_bands": len(axis[::stride]), "operation": "declared column selection, no interpolation"}, sort_keys=True),
                 "sample_identity_assumption": config.get("sample_identity_evidence", "explicit mapping" if identities or acquisition_identities else "sample_identity_confirmed"),
                 "partition_mapping": json.dumps(labels, sort_keys=True),
                 "native_partition_observation_counts": json.dumps(native_counts, sort_keys=True),
@@ -150,11 +154,13 @@ def task_from_dataset(ds, config):
         provenance[str(key)] = str(value)
     task = {"schema_version": 1, "context": {"dataset_id": ds.id, "content_version": content,
                 "source_id": source, "target_id": target, "split_id": config["split_id"]},
-            "data_origin": config.get("data_origin", "user_provided"), "axis": [float(v) for v in axis],
+            "data_origin": config.get("data_origin", "user_provided"), "axis": [float(v) for v in axis[::stride]],
             "axis_unit": source_descriptor.axis_unit, "signal_unit": config["signal_unit"],
             "target_kind": config.get("target_kind", "continuous"),
             "policy": {"independence_unit": "group" if group_column or identities or acquisition_identities else "physical_sample",
                 "representation": config.get("representation", "native"),
+                "bootstrap_draws": config.get("bootstrap_draws", 0),
+                "pca_backend": config.get("pca_backend", "auto"),
                 "audit_mode": mode, "seed": config.get("seed", 17), "pca_max_components": config.get("pca_max_components", 20),
                 "pca_variance_fraction": config.get("pca_variance_fraction", 0.95)},
             "observations": rows, "provenance": provenance}

@@ -1,0 +1,53 @@
+{
+  "freeze": {
+    "package_id": "cd421eda-ed75-409a-99ae-a2385515c2ed",
+    "source_url": "https://data.ecosis.org/dataset/freeze-dried-leaf-spectra-and-measured-traits-from-the-sierra-nevada--ca--in-july-2023",
+    "license_id": "odc-odbl",
+    "guide_url": "https://data.ecosis.org/dataset/cd421eda-ed75-409a-99ae-a2385515c2ed/resource/f0418260-c9f1-48f3-bef0-b8af248d8bc7/download/readme.md",
+    "guide_sha256": "8074ac791dacc5c0e5d6c09ffd9910192c2d453b43c0bf89220853a536371356",
+    "declared_metadata": {
+      "Foreoptic Type": "Contact Probe",
+      "Instrument Model": "FieldSpec 3",
+      "Instrument Serial Number": "16122",
+      "Measurement Quantity": "Reflectance",
+      "Measurement Units": "%",
+      "Measurement Venue": "Laboratory",
+      "Processing Interpolated": "Yes",
+      "Target Status": "Dried, Ground"
+    }
+  },
+  "oven": {
+    "package_id": "c4d146b6-a9ed-497a-99af-606d2e24d4d4",
+    "source_url": "https://data.ecosis.org/dataset/oven-dried-leaf-spectra-and-measured-traits-from-the-sierra-nevada--ca--in-july-2023",
+    "license_id": "odc-odbl",
+    "guide_url": "https://data.ecosis.org/dataset/c4d146b6-a9ed-497a-99af-606d2e24d4d4/resource/a402f32f-f251-42dd-ba9e-c808ce4828da/download/readme.md",
+    "guide_sha256": "c3fae1e9d95658042e96ea7c09ed2045032e840953f25fc435a8492e4d4264c1",
+    "declared_metadata": {
+      "Foreoptic Type": "Contact Probe",
+      "Instrument Model": "FieldSpec 3",
+      "Instrument Serial Number": "16122",
+      "Measurement Quantity": "Reflectance",
+      "Measurement Units": "%",
+      "Measurement Venue": "Laboratory",
+      "Processing Interpolated": "Yes",
+      "Target Status": "Dried, Ground"
+    }
+  },
+  "fresh": {
+    "package_id": "0c23c6f5-6fdc-48a7-8977-40354c9f948d",
+    "source_url": "https://data.ecosis.org/dataset/fresh-leaf-spectra-and-measured-traits-from-the-sierra-nevada--ca--in-july-2023",
+    "license_id": "odc-odbl",
+    "guide_url": "https://data.ecosis.org/dataset/0c23c6f5-6fdc-48a7-8977-40354c9f948d/resource/eb635b8f-5225-43d1-81a6-3521d51ca986/download/readme.md",
+    "guide_sha256": "7eda43f21673065238a3eabfb4de76f7f06ed78f38795c7631f98afee8721693",
+    "declared_metadata": {
+      "Foreoptic Type": "Leaf Clip, Contact Probe",
+      "Instrument Model": "PSR-3500+",
+      "Instrument Serial Number": "1576059",
+      "Measurement Quantity": "Reflectance",
+      "Measurement Units": "%",
+      "Measurement Venue": "Laboratory",
+      "Processing Interpolated": "Yes",
+      "Target Status": "Fresh"
+    }
+  }
+}

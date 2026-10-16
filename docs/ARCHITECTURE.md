@@ -12,12 +12,12 @@ intervention: audit, contracts and one train/test vertical slice.
 | Preflight | Intrinsic validity, linked identities, duplicate suspicions, technical repeatability, target description, descriptive X-Y checks and their alpha limitations. |
 | Methods | PCA/SVD, covariance moments, summary statistics, distances/neighbors, preprocessing, PLS/PCR/Ridge, HDBSCAN/ARI and generic association kernels. |
 | Domains | Select task and allowed populations; train-reference projection and coverage; evaluation-policy guards; comparisons, provenance, result mapping, recommendations and campaigns. |
-| DAG-ML | Future fold/phase ownership, nested selection and OOF execution. No local CV replacement is introduced. |
+| DAG-ML | Inner group CV, native selection and REFIT in the optional development probe. Domains assembles explicit outer identity scopes and replays selected Methods artifacts. |
 
 Two crates suffice: `nirs4all-domains` owns contracts, a safe Methods adapter and
 domain protocols; `nirs4all-domains-cli` owns commands/files/process invocation.
-`bridges/python` only converts public Datasets accessors and runs independent
-tasks. Splitting a contract-only core crate is deferred until a second native
+`bridges/python` converts public Datasets accessors, runs independent tasks and
+orchestrates the bounded native DAG-ML predictive probe. Splitting a contract-only core crate is deferred until a second native
 consumer needs it. There is no frontend, WASM demo or R/MATLAB binding.
 
 ```mermaid
@@ -41,6 +41,27 @@ public `n4m_preflight_pca_compute`, retains caller-owned loadings and requests
 column means through Preflight's Methods summary provider. There is no new PCA,
 summary or neighbor algorithm. Affine transform application, reconstruction and
 scalar comparisons of domain summaries are protocol assembly.
+
+Alpha.4 additionally retains the opaque public Methods FlexiblePCA fitted handle
+and calls its public transform on train/test. Column summary variances give full
+trace, while the exact squared covariance trace is an independent optional call
+with its own budget/failure reason. Public zero/coordinate transforms recover
+the fitted affine operator for reconstruction; no private state is read. PCA
+scores and coverage do not depend on obtaining full moments. All primary 390
+train acquisitions and 2151 columns remain present. Native state lifetimes are
+bound to the loaded library, and every handle is destroyed before unloading.
+
+Coverage bootstrap resamples whole held-out dependency components with one
+physical-sample flag mean per sample. A separate train-component bootstrap
+refits the selected view's PCA and fences, preserving bootstrap multiplicity.
+Neither operation reads Y. `represent` exports the exact native-built comparison
+view with audited component membership for the optional predictive workflow.
+
+The predictive adapter uses DAG-ML 0.3.41's published native CV/SELECT/REFIT
+binding on each explicit outer-train population. Methods restores its exported
+PLS artifact and predicts the corresponding outer holdout. Folds, lineage and
+native summaries/metrics are retained in a separate report. It introduces no
+numerical model or generic validation engine. See PREDICTIVE_SANITY_CHECK.md.
 
 Two contexts may reference the same explicit shared library: the Preflight
 provider and the retained-loading adapter. Neither transfers handles to the

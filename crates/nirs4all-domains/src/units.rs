@@ -104,7 +104,7 @@ pub fn audit(task: &Task) -> Audit {
             .iter()
             .any(|&i| task.observations[i].partition == Partition::Test);
         components.push(
-            json!({"component_id":format!("dependency:{}",hash(&serde_json::to_vec(&ids).unwrap())),
+            json!({"component_id":format!("dependency:{}",hash(&serde_json::to_vec(&component_links).unwrap())),
             "observation_ids":ids,"links":component_links.iter().map(|(kind,key)|json!({"kind":kind,"key":key})).collect::<Vec<_>>(),"has_train":train,"has_test":test}),
         );
     }
@@ -269,9 +269,15 @@ pub fn representation(
             Some("MISSING_REPEAT_CONTEXT")
         } else if rows.len() > 1
             && (types.len() != 1
-                || !types
-                    .iter()
-                    .all(|t| matches!(*t, "rescan" | "repositioning" | "repreparation")))
+                || !types.iter().all(|t| {
+                    matches!(*t, "rescan" | "repositioning" | "repreparation")
+                        || (*t == "technical_unspecified"
+                            && rows.iter().all(|r| {
+                                r.metadata
+                                    .get("technical_repeat_evidence")
+                                    .is_some_and(|s| !s.trim().is_empty())
+                            }))
+                }))
         {
             Some("NONTECHNICAL_UNKNOWN_OR_MIXED_REPEAT_TYPE")
         } else if rows.len() > 1 && sample_ids.len() != 1 {
@@ -312,7 +318,7 @@ pub fn representation(
             result.observations.push(output);
         }
     }
-    if task.policy.representation == Representation::Native {
+    if task.policy.representation != Representation::TechnicalMean {
         result = task.clone();
     }
     // Preserve acquisition order for singleton-only tasks: alpha.2 and alpha.3 solver inputs match exactly.
@@ -324,10 +330,14 @@ pub fn representation(
         result.observations = task.observations.clone();
     }
     let value = json!({"policy":task.policy.representation,"mean_execution":if methods.is_some(){"available"}else{"unavailable_no_provider"},"native_observation_ids":task.observations.iter().map(|r|&r.observation_id).collect::<Vec<_>>(),
-        "sample_context_groups":inventory,"weighting":if task.policy.representation==Representation::TechnicalMean{"one_vote_per_eligible_physical_sample"}else{"native_acquisitions_geometry_requires_one_per_physical_sample"},
+        "sample_context_groups":inventory,"weighting":match task.policy.representation {
+            Representation::TechnicalMean=>"one_vote_per_eligible_physical_sample",
+            Representation::GroupedNative=>"acquisition_rows_with_dependency_group_exclusion; no_independence_claim_for_repeats",
+            Representation::Native=>"native_acquisitions_geometry_requires_one_per_physical_sample",
+        },
         "selected_population":{"train_observation_ids":result.observations.iter().filter(|r|r.partition==Partition::Train).map(|r|&r.observation_id).collect::<Vec<_>>(),
             "test_observation_ids":result.observations.iter().filter(|r|r.partition==Partition::Test).map(|r|&r.observation_id).collect::<Vec<_>>(),
-            "excluded_acquisitions":task.observations.len()-inventory.iter().filter(|g|g["eligible"]==true || task.policy.representation==Representation::Native).map(|g|g["observation_ids"].as_array().unwrap().len()).sum::<usize>()},
+            "excluded_acquisitions":task.observations.len()-inventory.iter().filter(|g|g["eligible"]==true || task.policy.representation!=Representation::TechnicalMean).map(|g|g["observation_ids"].as_array().unwrap().len()).sum::<usize>()},
         "cross_context":"linked_native_observations_retained_no_implicit_mean",
         "mean_backend":"Methods public summary; no local numerical mean kernel"});
     Ok((result, value))

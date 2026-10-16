@@ -34,6 +34,18 @@ class Dataset:
 
 
 class BridgeTests(unittest.TestCase):
+    @patch("nirs4all_domains.dataset.version", return_value="0.3.11")
+    def test_full_axis_default_and_explicit_column_selection(self, _):
+        config=self.config();original=task_from_dataset(Dataset(),config)
+        self.assertEqual(len(original["axis"]),2)
+        config["axis_stride"]=2
+        selected=task_from_dataset(Dataset(),config)
+        self.assertEqual(selected["axis"],[1100.])
+        self.assertEqual(selected["observations"][0]["x"],[1.])
+        self.assertEqual(json.loads(selected["provenance"]["axis_view"])["original_bands"],2)
+        config["axis_stride"]=0
+        with self.assertRaisesRegex(ValueError,"axis_stride"):
+            task_from_dataset(Dataset(),config)
     def config(self):
         return {"source_id": "A", "target_id": "y", "content_version": "1.0.0", "split_id": "original",
                 "partition_labels": {"dev": "train", "held": "test"}, "sample_identity_confirmed": True,

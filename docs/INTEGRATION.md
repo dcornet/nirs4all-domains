@@ -42,7 +42,8 @@ in Datasets. Do not embed credentials in campaign files. Public `y()` returns a
 whole frame, so storage-level test-label exclusion cannot be promised; only
 algorithmic access/selection exclusion is implemented. Missing native splits are
 not silently randomized. A separately authored experimental JSON task is supported;
-automatic split generation is deferred.
+the alpha.4 local pilot explicitly authors a separately named experimental
+plot split, never a catalog native split. General automatic splitting is deferred.
 
 The audited three candidates are in configs/pilot.yaml. Shootout X1 now runs through
 a local raw reproduction described in REAL_DATA_PILOT.md. Its exact native mapping
@@ -85,3 +86,30 @@ verified GitHub profile is Denis Cornet, login dcornet, numeric ID 5694013. Loca
 Git author configuration uses that name and the GitHub noreply address
 `5694013+dcornet@users.noreply.github.com`; global Git configuration is unchanged.
 The destination is created private unless the owner requests public visibility.
+
+## Alpha.4 optional native workflow
+
+Install `bridges/python[test,datasets,predictive]` for the EcoSIS qualification
+runner. The predictive extra pins DAG-ML 0.3.41, Methods 1.3.6 and scikit-learn
+1.7.2 (estimator façade base classes only). Numeric fit, selection, metrics and
+means remain native. The selected Methods library must be the same explicit
+binary as the one used by Python artifact replay. DAG-ML's published native
+CV/SELECT/REFIT binding is consumed; its high-level strict terminal-predict API
+does not yet provide this grouped workflow. See PREDICTIVE_SANITY_CHECK.md.
+
+The EcoSIS runner uses original wavelength-indexed CSV and explicit relational
+joins, then the public Datasets canonical writer/getters. It does not decode a
+vendor format. Official source hashes and the derived local metadata descriptor
+are checked before creating explicit experimental plot splits. Full 2151-band
+input is retained by default. A declared `axis_stride` selects columns only and
+records that operation; final qualification uses stride 1. No interpolation,
+scaling, missing-target repair or acquisition deletion occurs.
+
+`n4domains represent <task> --out <new.json>` exports the native-built comparison
+view and dependency components. `n4domains stability <task> --out <new.json>
+--draws 100` refits whole train-component bootstrap draws without test Y. Both
+require an explicit provider (or the configured environment path) and refuse an
+existing destination file. Pilot directories must be new. Full PCA moments have
+their own availability reason; their budget no longer blocks public FlexiblePCA
+scores and coverage. The exact large rank-one solver case remains a separate
+upstream robustness proposal in UPSTREAM_DEPENDENCIES.md.

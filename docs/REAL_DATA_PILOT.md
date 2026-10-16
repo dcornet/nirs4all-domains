@@ -154,6 +154,17 @@ prediction error. Aggregate hashes, counts and deltas are committed in
 [the alpha.3 record](audit/shootout-representation-qualification.json); full arrays
 and per-observation outputs remain local.
 
-Next lot: independent-unit coverage on a grouped real task with documented
-physical/reference identities and a frozen component split. Historical canonical
-parity can be checked separately when those bytes are available.
+## Alpha.4 complementary repeated pilot
+
+The grouped real-data lot is now executed on EcoSIS freeze-dried X/LMA. Its source
+audit, full-axis FlexiblePCA, conditional plot splits, native/mean coverage and
+two uncertainty scopes are in [REPEATED_DATA_PILOT.md](REPEATED_DATA_PILOT.md).
+The [separate nested PLS check](PREDICTIVE_SANITY_CHECK.md) uses only EcoSIS
+development means; it does not select a Shootout instrument-transfer strategy.
+
+Shootout remains the historical split and prospective instrument-transfer case.
+Fresh alpha.4 outputs preserve 155 train, 460 test and 40 validation exclusions,
+with 73/460 outside flags under both singleton representations and exactly zero
+delta in all four scalar metrics versus alpha.3. No existing pilot outputs were
+overwritten. Dataset scores are not directly compared across these objectives.
+Historical registry parity and original laboratory identities remain unverified.

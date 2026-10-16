@@ -1,5 +1,18 @@
 # Units, references and representation protocol v0.2
 
+Alpha.4 extends these rules with explicit `grouped_native` acquisition geometry
+and evidence-backed `technical_unspecified` means. Legacy `native` still refuses
+repeated-unit geometry. Every unspecified-repeat member must supply nonempty
+`technical_repeat_evidence`; all homogeneous-context, partition and reference
+guards still apply. The descriptive mean never certifies pure instrument noise.
+Biological and generic unknown repeat types remain ineligible.
+
+Dependency component IDs now hash sorted typed identity links, so identical
+acquisition duplication cannot change a resampling block ID. Held-out uncertainty
+averages flags within sample and resamples whole components; train refit stability
+preserves component-draw multiplicity. See the separate frozen alpha.4 design in
+[REPEATED_PILOT_PROTOCOL.md](REPEATED_PILOT_PROTOCOL.md).
+
 Expected behavior fixed before the alpha.3 scientific tests:
 
 | Controlled situation | Required result |

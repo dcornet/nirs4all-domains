@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::BTreeMap;
 
-pub const PROTOCOL: &str = "domains.canonical.v0.2";
+pub const PROTOCOL: &str = "domains.canonical.v0.3";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
@@ -35,7 +35,16 @@ pub enum TargetKind {
 pub enum Representation {
     #[default]
     Native,
+    GroupedNative,
     TechnicalMean,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum PcaBackend {
+    #[default]
+    Auto,
+    Flexible,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -83,6 +92,10 @@ pub struct Policy {
     pub independence_unit: String,
     #[serde(default)]
     pub representation: Representation,
+    #[serde(default)]
+    pub bootstrap_draws: usize,
+    #[serde(default)]
+    pub pca_backend: PcaBackend,
     #[serde(default)]
     pub audit_mode: AuditMode,
     pub seed: u64,

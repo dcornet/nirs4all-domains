@@ -68,3 +68,46 @@ copied. This sprint uses existing Preflight repeatability and Methods numerical
 primitives. Migrating broader Datasets/Quality diagnostics is independent work
 and does not block this lot. HDBSCAN, nested models and advanced shift remain
 outside these requests.
+
+## Alpha.4 bounded proposals, not posted issues
+
+1. **Methods: public fitted PCA diagnostics.** FlexiblePCA already exposes
+   public fit/transform and executes the complete real 390×2151 case. Propose
+   getters for fitted affine state, retained eigenvalues and full trace, with
+   optional exact squared covariance trace as a separate request/status/budget.
+   This would replace Domains' public zero/coordinate transform queries without
+   requiring a new eigensolver. Gates: analytical geometry, truncated versus full
+   moments, large wide matrices, no held-out refit and unavailable moments
+   preserving scores/coverage. Never infer exact full moments from retained PCs.
+2. **Methods: large exact rank-one FlexiblePCA robustness.** On the published
+   Windows 1.3.6 wheel, 390 rows × 2151 identical signal columns returned
+   `FLEXIBLE_PCA_FIT_STATUS_8`, including a one-component request. Small analytical
+   rank-one passes; a large control with deterministic small spectral variation
+   and the real EcoSIS matrix pass. Propose a minimized native regression fixture
+   and documented singular-rank behavior. No upstream fix or cross-platform
+   reproduction is claimed. No acquisitions were removed to bypass this case.
+3. **Preflight: evidence-backed unspecified spectral repeats.** Preserve the
+   distinction between documented spectral replicates and known
+   rescan/repositioning/repreparation subtypes. Require source evidence/context,
+   expose the representation matrix/membership, and label within-ID dispersion
+   without equating it to pure instrument noise. The published enum cannot carry
+   this declaration: Domains passes `unknown` into the original full report and
+   separately invokes the existing public repeatability kernel. The unchanged
+   Preflight `not_applicable` status is retained, not relabeled as computed.
+4. **Datasets: original validation metadata and restricted target access.** The
+   public writer/getters work, but the audited descriptor does not expose all
+   original plot/sampling fields. Propose explicit original identity/group
+   declarations and metadata units, plus the previously requested partition-aware
+   target accessor. Current local descriptor derivation and full-frame Y
+   materialization are documented; algorithmic test-target exclusion is tested.
+5. **DAG-ML: grouped workflow façade convenience.** Native published 0.3.41
+   CV/SELECT/REFIT works with current Methods, so there is no missing numerical
+   engine blocking this probe. Its strict high-level terminal-predict façade
+   rejects this grouped workflow. Propose a high-level grouped nested example/API
+   exporting selected artifacts and outer lineage. Gates: outer/inner scope
+   isolation, reference-connected groups, fold-local centering and held-out
+   invariance. No replacement validation engine is proposed.
+
+No issue was posted and no upstream file was edited. These proposals are
+separate from the next Domains PCA–HDBSCAN protocol, which reuses available
+HDBSCAN/ARI kernels and needs its own scientific gates.

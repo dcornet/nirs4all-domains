@@ -33,14 +33,44 @@ physical/reference independence remains unverified. The private Preflight
 averaging seam was inspected; a public representation API is proposed in
 UPSTREAM_DEPENDENCIES.md, without blocking the local task protocol.
 
-**Next concrete scientific lot:** coverage on documented independent validation
-units. Select one legally available grouped real task with physical/reference
-IDs, context and a frozen group split; qualify transitive component exclusions
-for neighbors and coverage denominators, compare native/context policies, and
-define uncertainty resampling whole independent components. Do not infer those
-identities from Shootout aliases. Paired multi-instrument coverage remains
-unavailable until that design is specified. Only then proceed to PCA-HDBSCAN
-stability; nested PLS/PCR, confounding, advanced shift and AOM stay deferred.
+**Alpha.4 delivered:** EcoSIS freeze-dried X/LMA, verified 82 samples / 492 spectra,
+six documented spectral replicates each, full 2151-band grid, conservative plot
+splits (seeds 17/31/47), native and evidence-backed descriptive means. Public
+FlexiblePCA retains the 390 primary train acquisitions; only native exact
+effective dimension is unavailable for its full-moment budget. Held-out plot
+bootstrap (500 draws) and paired train-PCA/fence refits (100 draws, all successful)
+separate uncertainty sources. A bounded DAG-ML/Methods nested group PLS check
+uses development means only and beats its fold-local null (RMSE 110.87 vs 146.99
+g/m²). This is conditional, exploratory evidence, not production calibrability.
+See REPEATED_DATA_PILOT.md and PREDICTIVE_SANITY_CHECK.md. Original biological and
+laboratory identity limits remain explicit; no upstream repository was changed.
 
-Remote publication is a separate user-confirmed action. The initial request
-explicitly requires confirmation before repository creation or first push.
+**Next concrete scientific lot: PCA–HDBSCAN stability.** Before tests, freeze
+controlled separated groups, varying-density groups, continuum, all-noise and
+small-N expectations; calibrate decision tolerances on those controls. Adapt the
+existing public Methods ABI 2.19 HDBSCAN and ARI kernels without copying them.
+Start with eligible train physical means, canonical identity order and an explicit
+small parameter set. Refit train-only PCA and HDBSCAN in 100 deterministic 80%
+whole-component subsamples without replacement. Compare partitions on common
+physical IDs with native ARI, both including and excluding noise, plus noise
+agreement and cluster membership support. Neighbor-density variation alone is
+not evidence of clusters.
+
+Return one explicit classification: robust structure when calibrated agreement
+and support gates hold; fragile structure when fitted partitions change under
+the frozen sensitivity design; continuum when qualified controls support absence
+of discrete structure at the examined scales; insufficient information when
+effective groups, common members or solver results cannot support that decision.
+All-noise output alone cannot distinguish continuum from insufficient power.
+Do not pick the most attractive cluster count after inspecting held-out data.
+
+Compare native/mean partitions only after mapping to common physical identities
+with an explicit acquisition-consensus/noise rule. Held-out X can be described in
+the frozen train PCA space; HDBSCAN prediction or membership confidence requires
+a separately verified public assignment API and qualification. Re-running
+HDBSCAN on train+test is not held-out prediction. Keep those test assignments
+unavailable if that API is absent. Paired multi-instrument analysis, conditional
+confounding, AOM and spectral networks remain later lots.
+
+The owner authorized repository creation and commit/push on 2026-10-16. This
+continuation uses that authorization for the Domains repository only.
