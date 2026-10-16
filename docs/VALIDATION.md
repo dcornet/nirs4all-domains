@@ -118,8 +118,9 @@ prediction from descriptive local contrast and coarse group permutations.
 Formatting, clippy with warnings denied, workspace/native tests, rustdoc, build,
 generated schemas and real CLI report availability checks pass locally. Shootout
 scalar regression checks preserve alpha.3. Windows/Linux CI additionally runs
-the optional native predictive controls; execution records are linked in the
-alpha.4 evidence after the pushed commit's run completes.
+the optional native predictive controls; [the executed Windows/Linux run](https://github.com/dcornet/nirs4all-domains/actions/runs/38918549485)
+passed on code commit `bef5052`; step-level evidence is in
+[audit/github-ci-alpha4.json](audit/github-ci-alpha4.json).
 
 The large exact rank-one 390×2151 FlexiblePCA experiment returned native fit
 status 8 on Windows. Small analytical rank-one and the large nondegenerate

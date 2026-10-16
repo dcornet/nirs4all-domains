@@ -74,6 +74,13 @@
     "Biological identities, laboratory event identities and reference precision not independently established"
   ],
   "github_ci": {
-    "status": "awaiting push; local evidence only"
+    "status": "success",
+    "tested_code_commit": "bef5052545605842b7ca7fd61b6ee62bd8139bfd",
+    "run_url": "https://github.com/dcornet/nirs4all-domains/actions/runs/38918549485",
+    "platforms": [
+      "audit (windows-latest)",
+      "audit (ubuntu-latest)"
+    ],
+    "execution_record": "github-ci-alpha4.json"
   }
 }
