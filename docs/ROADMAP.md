@@ -45,7 +45,14 @@ g/m²). This is conditional, exploratory evidence, not production calibrability.
 See REPEATED_DATA_PILOT.md and PREDICTIVE_SANITY_CHECK.md. Original biological and
 laboratory identity limits remain explicit; no upstream repository was changed.
 
-**Next concrete scientific lot: PCA–HDBSCAN stability.** Before tests, freeze
+**Alpha.5 delivered:** public PCA–HDBSCAN–ARI, physical means, canonical IDs,
+100 whole-component 80% subsamples without replacement, five frozen settings,
+noise-aware matched comparisons, co-membership support and bounded native
+consensus. EcoSIS yields insufficient information; Shootout yields fragile
+structure. Neither result measures predictive reliance on groups. See
+CLUSTERING_REAL_DATA_PILOT.md. The design below was frozen before execution.
+
+**Alpha.5 acceptance design:** Before tests, freeze
 controlled separated groups, varying-density groups, continuum, all-noise and
 small-N expectations; calibrate decision tolerances on those controls. Adapt the
 existing public Methods ABI 2.19 HDBSCAN and ARI kernels without copying them.
@@ -74,3 +81,13 @@ confounding, AOM and spectral networks remain later lots.
 
 The owner authorized repository creation and commit/push on 2026-10-16. This
 continuation uses that authorization for the Domains repository only.
+
+**Next lot — alpha.6:** descriptive metadata group–Y decomposition using native
+factor association/summaries, SS identity, reference/component guards and
+uncertainty. Then fold-local group-only means with explicit unseen-level fallback
+and within-group skill through the existing DAG-ML/Methods grouped workflow.
+Qualify analytical between-group-only, within-group and independent-Y controls
+before real interpretation. Cluster-derived baselines remain unavailable without
+a public qualified held-out assignment API. Split sensitivity and training-target
+interventions follow those gates; conditional causal attribution, AOM and networks
+remain outside alpha.6. See STRUCTURAL_SHORTCUT_RISK.md for all five protocols.

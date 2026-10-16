@@ -2,6 +2,8 @@
 //! Preflight's public provider omits PCA loadings, so this adapter retains them.
 use libloading::Library;
 use nirs4all_preflight::{native::NativeMethodsProvider, MethodsProvider, SummaryRequest};
+use schemars::JsonSchema;
+use serde::Deserialize;
 use serde::Serialize;
 use std::{
     ffi::{c_char, c_void, CStr},
@@ -48,6 +50,89 @@ type FlexCreate = unsafe extern "C" fn(*mut *mut c_void, f64) -> i32;
 type FlexFit = unsafe extern "C" fn(*mut c_void, MatrixView) -> i32;
 type FlexTransform = unsafe extern "C" fn(*const c_void, MatrixView, MatrixView) -> i32;
 type FlexCols = unsafe extern "C" fn(*const c_void, *mut i64) -> i32;
+type Hdbscan = unsafe extern "C" fn(
+    *mut c_void,
+    *const MatrixView,
+    i64,
+    i64,
+    i32,
+    i32,
+    *mut i64,
+    *mut f64,
+    *mut f64,
+    *mut i64,
+    *mut f64,
+    *mut i64,
+    *mut i64,
+    *mut i64,
+    *mut i64,
+    *mut f64,
+    *mut f64,
+    *mut f64,
+) -> i32;
+type Ari = unsafe extern "C" fn(*mut c_void, *const i64, *const i64, i64, *mut f64) -> i32;
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum SelectionMethod {
+    Eom,
+    Leaf,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct HdbscanParameters {
+    pub min_cluster_size: usize,
+    pub min_samples: usize,
+    pub selection_method: SelectionMethod,
+    pub allow_single_cluster: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct NativeFailure {
+    pub status_code: Option<i32>,
+    pub reason: String,
+    pub native_message: Option<String>,
+}
+impl NativeFailure {
+    pub fn transport(reason: impl Into<String>) -> Self {
+        Self {
+            status_code: None,
+            reason: reason.into(),
+            native_message: None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct NonfiniteDiagnostic {
+    pub field: String,
+    pub index: usize,
+    pub native_value: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct HdbscanNode {
+    pub parent: i64,
+    pub size: i64,
+    pub label: i64,
+    pub lambda_birth: Option<f64>,
+    pub lambda_death: Option<f64>,
+    pub stability: Option<f64>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct HdbscanOutput {
+    pub native_status: i32,
+    pub noise_label: i64,
+    pub labels: Vec<i64>,
+    pub membership_strengths: Vec<f64>,
+    pub outlier_scores: Vec<Option<f64>>,
+    pub cluster_persistence: Vec<Option<f64>>,
+    pub n_clusters: usize,
+    pub hierarchy: Vec<HdbscanNode>,
+    pub nonfinite_diagnostics: Vec<NonfiniteDiagnostic>,
+}
 
 #[derive(Debug, Serialize)]
 pub struct FittedPca<'a> {
@@ -115,6 +200,212 @@ pub struct Methods {
 }
 
 impl Methods {
+    pub fn clustering_capability(&self) -> Result<(), NativeFailure> {
+        self.require_clustering_abi()?;
+        // SAFETY: symbol inspection only, with public ABI signatures.
+        unsafe {
+            self._library
+                .get::<Hdbscan>(b"n4m_cluster_hdbscan\0")
+                .map_err(|e| {
+                    NativeFailure::transport(format!("METHODS_HDBSCAN_SYMBOL_UNAVAILABLE:{e}"))
+                })?;
+            self._library
+                .get::<Ari>(b"n4m_preflight_adjusted_rand_index\0")
+                .map_err(|e| {
+                    NativeFailure::transport(format!("METHODS_ARI_SYMBOL_UNAVAILABLE:{e}"))
+                })?;
+        }
+        Ok(())
+    }
+    fn require_clustering_abi(&self) -> Result<(), NativeFailure> {
+        // SAFETY: checked public version function on the owning loaded library.
+        let compatible = unsafe {
+            self._library
+                .get::<unsafe extern "C" fn(u32, u32) -> i32>(b"n4m_check_abi_compatibility\0")
+                .map_err(|e| NativeFailure::transport(e.to_string()))?(2, 19)
+        };
+        if compatible != 0 {
+            return Err(NativeFailure::transport("METHODS_ABI_2_19_REQUIRED"));
+        }
+        Ok(())
+    }
+    fn native_failure(&self, operation: &str, code: i32) -> NativeFailure {
+        // SAFETY: copy the context-owned error immediately, before another native call.
+        let native_message = unsafe {
+            self._library
+                .get::<unsafe extern "C" fn(*const c_void) -> *const c_char>(
+                    b"n4m_context_last_error\0",
+                )
+                .ok()
+                .and_then(|f| {
+                    let p = f(self.context);
+                    (!p.is_null()).then(|| CStr::from_ptr(p).to_string_lossy().into_owned())
+                })
+        };
+        NativeFailure {
+            status_code: Some(code),
+            reason: format!("{operation}_STATUS_{code}"),
+            native_message,
+        }
+    }
+    pub fn hdbscan(
+        &self,
+        x: &[Vec<f64>],
+        parameters: &HdbscanParameters,
+    ) -> Result<HdbscanOutput, NativeFailure> {
+        self.require_clustering_abi()?;
+        let n = x.len();
+        let p = x.first().map_or(0, Vec::len);
+        if n < 2
+            || p == 0
+            || parameters.min_cluster_size < 2
+            || parameters.min_samples < 1
+            || parameters.min_samples > n
+            || x.iter()
+                .any(|r| r.len() != p || r.iter().any(|v| !v.is_finite()))
+            || n.checked_mul(n)
+                .and_then(|v| v.checked_mul(p))
+                .is_none_or(|v| v > 2_500_000_000)
+            || n.checked_mul(p).is_none_or(|v| v > 10_000_000)
+        {
+            return Err(NativeFailure::transport(
+                "INVALID_HDBSCAN_REQUEST_OR_BUDGET",
+            ));
+        }
+        // Every output has the public X.rows capacity; counts are validated before truncation.
+        let mut input: Vec<_> = x.iter().flatten().copied().collect();
+        let mut labels = vec![0; n];
+        let mut strengths = vec![0.; n];
+        let mut outliers = vec![0.; n];
+        let mut persistence = vec![0.; n];
+        let mut count = 0i64;
+        let mut nodes = 0i64;
+        let mut parent = vec![0; n];
+        let mut size = vec![0; n];
+        let mut tree_label = vec![0; n];
+        let mut birth = vec![0.; n];
+        let mut death = vec![0.; n];
+        let mut stability = vec![0.; n];
+        // SAFETY: exact metrics.h signature, live finite row-major input and n-capacity outputs.
+        let code = unsafe {
+            let call = self
+                ._library
+                .get::<Hdbscan>(b"n4m_cluster_hdbscan\0")
+                .map_err(|e| NativeFailure::transport(e.to_string()))?;
+            call(
+                self.context,
+                &MatrixView::new(&mut input, n, p),
+                parameters.min_cluster_size as i64,
+                parameters.min_samples as i64,
+                if parameters.selection_method == SelectionMethod::Eom {
+                    0
+                } else {
+                    1
+                },
+                i32::from(parameters.allow_single_cluster),
+                labels.as_mut_ptr(),
+                strengths.as_mut_ptr(),
+                outliers.as_mut_ptr(),
+                &mut count,
+                persistence.as_mut_ptr(),
+                &mut nodes,
+                parent.as_mut_ptr(),
+                size.as_mut_ptr(),
+                tree_label.as_mut_ptr(),
+                birth.as_mut_ptr(),
+                death.as_mut_ptr(),
+                stability.as_mut_ptr(),
+            )
+        };
+        if code != 0 {
+            return Err(self.native_failure("METHODS_HDBSCAN", code));
+        }
+        if count < 0
+            || count as usize > n
+            || nodes < 0
+            || nodes as usize > n
+            || labels.iter().any(|&v| v < -1 || v >= count)
+            || strengths
+                .iter()
+                .any(|v| !v.is_finite() || !(0. ..=1.).contains(v))
+        {
+            return Err(NativeFailure::transport("INVALID_HDBSCAN_OUTPUT_CONTRACT"));
+        }
+        let mut diagnostics = Vec::new();
+        let mut finite = |value: f64, field: &str, index: usize| {
+            if value.is_finite() {
+                Some(value)
+            } else {
+                diagnostics.push(NonfiniteDiagnostic {
+                    field: field.into(),
+                    index,
+                    native_value: if value.is_nan() {
+                        "undefined_nan"
+                    } else if value.is_sign_positive() {
+                        "positive_infinity"
+                    } else {
+                        "negative_infinity"
+                    }
+                    .into(),
+                });
+                None
+            }
+        };
+        let outlier_scores = outliers
+            .iter()
+            .enumerate()
+            .map(|(i, &v)| finite(v, "outlier_scores", i))
+            .collect();
+        let cluster_persistence = persistence[..count as usize]
+            .iter()
+            .enumerate()
+            .map(|(i, &v)| finite(v, "cluster_persistence", i))
+            .collect();
+        let hierarchy = (0..nodes as usize)
+            .map(|i| HdbscanNode {
+                parent: parent[i],
+                size: size[i],
+                label: tree_label[i],
+                lambda_birth: finite(birth[i], "hierarchy.lambda_birth", i),
+                lambda_death: finite(death[i], "hierarchy.lambda_death", i),
+                stability: finite(stability[i], "hierarchy.stability", i),
+            })
+            .collect();
+        Ok(HdbscanOutput {
+            native_status: code,
+            noise_label: -1,
+            labels,
+            membership_strengths: strengths,
+            outlier_scores,
+            cluster_persistence,
+            n_clusters: count as usize,
+            hierarchy,
+            nonfinite_diagnostics: diagnostics,
+        })
+    }
+    pub fn adjusted_rand_index(&self, a: &[i64], b: &[i64]) -> Result<Option<f64>, NativeFailure> {
+        self.require_clustering_abi()?;
+        if a.len() != b.len() || a.len() > 100_000 {
+            return Err(NativeFailure::transport("INVALID_ARI_REQUEST_OR_BUDGET"));
+        }
+        let mut value = f64::NAN;
+        // SAFETY: equal live label slices, exact metrics.h signature; empty slices are never dereferenced.
+        let code = unsafe {
+            self._library
+                .get::<Ari>(b"n4m_preflight_adjusted_rand_index\0")
+                .map_err(|e| NativeFailure::transport(e.to_string()))?(
+                self.context,
+                a.as_ptr(),
+                b.as_ptr(),
+                a.len() as i64,
+                &mut value,
+            )
+        };
+        if code != 0 {
+            return Err(self.native_failure("METHODS_ARI", code));
+        }
+        Ok(value.is_finite().then_some(value))
+    }
     pub fn load(path: &Path) -> Result<Self, String> {
         let provider = NativeMethodsProvider::load(path).map_err(|e| e.0)?;
         // SAFETY: explicit user-selected library; ABI and every symbol checked

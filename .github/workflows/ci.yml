@@ -41,6 +41,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_report.py results/ci/report.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $env:N4DOMAINS_BIN structure tests/fixtures/structure/separated.json --config configs/pilots/structure-v1.json --out results/structure-ci
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_structure_report.py results/structure-ci/report.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $env:N4DOMAINS_BIN batch --catalog-config configs/synthetic-batch.yaml --out results/batch
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: git diff --exit-code -- schemas

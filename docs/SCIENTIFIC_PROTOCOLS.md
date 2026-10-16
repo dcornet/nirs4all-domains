@@ -1,5 +1,13 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.5 adds separate `domains.structure.v0.1`; see
+[CLUSTERING_STABILITY_PROTOCOL.md](CLUSTERING_STABILITY_PROTOCOL.md). Canonical
+task/report v1 schemas and metric semantics are unchanged. Structural config/
+report v1 schemas are additional contracts. Canonical structure/probe slots do
+not execute optional workflows and retain previous availability reasons. Actual
+evidence is in CLUSTERING_REAL_DATA_PILOT.md; predictive structural reliance
+experiments remain planned in STRUCTURAL_SHORTCUT_RISK.md.
+
 This is a descriptive pre-training audit, not a test of predictive degradation or
 a calibration model. The independent unit, source axis and partitions are explicit.
 All results remain exploratory, including outputs from Preflight alpha.

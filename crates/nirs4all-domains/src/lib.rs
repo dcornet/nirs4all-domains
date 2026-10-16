@@ -3,6 +3,7 @@ mod bootstrap;
 pub mod contract;
 pub mod methods;
 mod protocol;
+pub mod structure;
 mod units;
 pub use contract::*;
 pub use protocol::{analyze, train_refit_stability, validate};

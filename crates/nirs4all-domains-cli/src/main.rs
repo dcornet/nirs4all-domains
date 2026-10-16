@@ -1,4 +1,7 @@
 use clap::{Parser, Subcommand};
+use nirs4all_domains::structure::{
+    characterize_structure, structure_markdown, StructureConfig, StructureReport,
+};
 use nirs4all_domains::{
     analyze, comparison_task, markdown, train_refit_stability, validate, Report, Task,
 };
@@ -19,6 +22,15 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    Structure {
+        task: PathBuf,
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: Option<PathBuf>,
+    },
     Stability {
         task: PathBuf,
         #[arg(long)]
@@ -71,6 +83,43 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::Structure {
+            task,
+            config,
+            out,
+            methods_library,
+        } => {
+            let task = read(&task)?;
+            if std::fs::metadata(&config).map_err(|e| e.to_string())?.len() > 64_000 {
+                return Err("STRUCTURE_CONFIG_FILE_BUDGET_EXCEEDED".into());
+            }
+            let config: StructureConfig =
+                serde_json::from_slice(&std::fs::read(config).map_err(|e| e.to_string())?)
+                    .map_err(|e| e.to_string())?;
+            config.validate()?;
+            if let Some(parent) = out.parent().filter(|p| !p.as_os_str().is_empty()) {
+                std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+            }
+            std::fs::create_dir(&out)
+                .map_err(|e| format!("A new structural output directory is required: {e}"))?;
+            let report = characterize_structure(&task, &config, methods_library.as_deref());
+            std::fs::write(
+                out.join("report.json"),
+                serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?;
+            std::fs::write(out.join("report.md"), structure_markdown(&report))
+                .map_err(|e| e.to_string())?;
+            println!(
+                "{}: {:?} / {:?}",
+                report.context.dataset_id, report.status, report.classification
+            );
+            Ok(if report.status == nirs4all_domains::Status::Error {
+                2
+            } else {
+                0
+            })
+        }
         Action::Stability {
             task,
             out,
@@ -126,6 +175,14 @@ fn run() -> Result<u8, String> {
             for (name, schema) in [
                 ("task.v1.schema.json", schemars::schema_for!(Task)),
                 ("report.v1.schema.json", schemars::schema_for!(Report)),
+                (
+                    "structure-config.v1.schema.json",
+                    schemars::schema_for!(StructureConfig),
+                ),
+                (
+                    "structure-report.v1.schema.json",
+                    schemars::schema_for!(StructureReport),
+                ),
             ] {
                 std::fs::write(
                     out.join(name),

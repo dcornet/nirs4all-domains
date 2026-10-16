@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "seed": 17,
+  "pca_max_components": 20,
+  "pca_variance_fraction": 0.95,
+  "replicates": 100,
+  "component_fraction": 0.8,
+  "primary": {"min_cluster_size": 8, "min_samples": 4, "selection_method": "eom", "allow_single_cluster": false},
+  "sensitivity": [
+    {"min_cluster_size": 5, "min_samples": 4, "selection_method": "eom", "allow_single_cluster": false},
+    {"min_cluster_size": 12, "min_samples": 4, "selection_method": "eom", "allow_single_cluster": false},
+    {"min_cluster_size": 8, "min_samples": 8, "selection_method": "eom", "allow_single_cluster": false},
+    {"min_cluster_size": 8, "min_samples": 4, "selection_method": "leaf", "allow_single_cluster": false}
+  ],
+  "compare_native": true
+}

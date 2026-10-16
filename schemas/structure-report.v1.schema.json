@@ -1,0 +1,636 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StructureReport",
+  "type": "object",
+  "properties": {
+    "classification": {
+      "$ref": "#/$defs/StructuralClassification"
+    },
+    "classification_evidence": true,
+    "configuration": {
+      "$ref": "#/$defs/StructureConfig"
+    },
+    "context": {
+      "$ref": "#/$defs/Context"
+    },
+    "data_origin": {
+      "type": "string"
+    },
+    "engine_version": {
+      "type": "string"
+    },
+    "held_out_assignment": true,
+    "input_provenance": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "native_comparison": true,
+    "population": true,
+    "protocol_version": {
+      "type": "string"
+    },
+    "provider": true,
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "representation": true,
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "settings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/StructureSetting"
+      }
+    },
+    "shortcut_risk_evidence": true,
+    "status": {
+      "$ref": "#/$defs/Status"
+    },
+    "test_target_accessed": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "engine_version",
+    "context",
+    "data_origin",
+    "input_provenance",
+    "status",
+    "configuration",
+    "population",
+    "representation",
+    "settings",
+    "classification",
+    "classification_evidence",
+    "native_comparison",
+    "held_out_assignment",
+    "shortcut_risk_evidence",
+    "test_target_accessed",
+    "limitations"
+  ],
+  "$defs": {
+    "Context": {
+      "type": "object",
+      "properties": {
+        "content_version": {
+          "type": "string"
+        },
+        "dataset_id": {
+          "type": "string"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "split_id": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "dataset_id",
+        "content_version",
+        "source_id",
+        "split_id"
+      ]
+    },
+    "HdbscanNode": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lambda_birth": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "lambda_death": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "parent": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "stability": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "parent",
+        "size",
+        "label"
+      ]
+    },
+    "HdbscanOutput": {
+      "type": "object",
+      "properties": {
+        "cluster_persistence": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double"
+          }
+        },
+        "hierarchy": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HdbscanNode"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "membership_strengths": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "n_clusters": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "native_status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "noise_label": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nonfinite_diagnostics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/NonfiniteDiagnostic"
+          }
+        },
+        "outlier_scores": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "native_status",
+        "noise_label",
+        "labels",
+        "membership_strengths",
+        "outlier_scores",
+        "cluster_persistence",
+        "n_clusters",
+        "hierarchy",
+        "nonfinite_diagnostics"
+      ]
+    },
+    "HdbscanParameters": {
+      "type": "object",
+      "properties": {
+        "allow_single_cluster": {
+          "type": "boolean"
+        },
+        "min_cluster_size": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "min_samples": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "selection_method": {
+          "$ref": "#/$defs/SelectionMethod"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "min_cluster_size",
+        "min_samples",
+        "selection_method",
+        "allow_single_cluster"
+      ]
+    },
+    "NativeFailure": {
+      "type": "object",
+      "properties": {
+        "native_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status_code": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        }
+      },
+      "required": [
+        "reason"
+      ]
+    },
+    "NonfiniteDiagnostic": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "index": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "native_value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "index",
+        "native_value"
+      ]
+    },
+    "PartitionComparison": {
+      "type": "object",
+      "properties": {
+        "ari_excluding_noise": {
+          "$ref": "#/$defs/ScalarEvidence"
+        },
+        "ari_including_noise": {
+          "$ref": "#/$defs/ScalarEvidence"
+        },
+        "common_physical_sample_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "noise_status_agreement": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "common_physical_sample_ids",
+        "ari_including_noise",
+        "ari_excluding_noise"
+      ]
+    },
+    "ScalarEvidence": {
+      "type": "object",
+      "properties": {
+        "n_dependency_components": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "physical_sample_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      },
+      "required": [
+        "status",
+        "physical_sample_ids",
+        "n_dependency_components"
+      ]
+    },
+    "SelectionMethod": {
+      "type": "string",
+      "enum": [
+        "eom",
+        "leaf"
+      ]
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "computed",
+        "unavailable",
+        "insufficient_data",
+        "not_identifiable",
+        "error"
+      ]
+    },
+    "StructuralClassification": {
+      "type": "string",
+      "enum": [
+        "robust_structure",
+        "fragile_structure",
+        "continuum",
+        "insufficient_information"
+      ]
+    },
+    "StructureConfig": {
+      "type": "object",
+      "properties": {
+        "compare_native": {
+          "type": "boolean"
+        },
+        "component_fraction": {
+          "type": "number",
+          "format": "double"
+        },
+        "pca_max_components": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "pca_variance_fraction": {
+          "type": "number",
+          "format": "double"
+        },
+        "primary": {
+          "$ref": "#/$defs/HdbscanParameters"
+        },
+        "replicates": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "schema_version": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "seed": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "sensitivity": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HdbscanParameters"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "seed",
+        "pca_max_components",
+        "pca_variance_fraction",
+        "replicates",
+        "component_fraction",
+        "primary",
+        "sensitivity",
+        "compare_native"
+      ]
+    },
+    "StructureFit": {
+      "type": "object",
+      "properties": {
+        "dependency_component_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "hdbscan": {
+          "$ref": "#/$defs/HdbscanOutput"
+        },
+        "noise_fraction": {
+          "type": "number",
+          "format": "double"
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pca": true,
+        "physical_sample_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scores": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      },
+      "required": [
+        "observation_ids",
+        "physical_sample_ids",
+        "dependency_component_ids",
+        "pca",
+        "scores",
+        "hdbscan",
+        "noise_fraction"
+      ]
+    },
+    "StructureReplicate": {
+      "type": "object",
+      "properties": {
+        "comparison": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartitionComparison"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "draw": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NativeFailure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureFit"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "physical_sample_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        }
+      },
+      "required": [
+        "draw",
+        "selected_components",
+        "physical_sample_ids",
+        "status"
+      ]
+    },
+    "StructureSetting": {
+      "type": "object",
+      "properties": {
+        "comparison_to_primary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartitionComparison"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NativeFailure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parameters": {
+          "$ref": "#/$defs/HdbscanParameters"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/StructureFit"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "replicates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StructureReplicate"
+          }
+        },
+        "stability": true,
+        "status": {
+          "$ref": "#/$defs/Status"
+        }
+      },
+      "required": [
+        "parameters",
+        "status",
+        "replicates",
+        "stability"
+      ]
+    }
+  }
+}

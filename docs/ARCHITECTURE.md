@@ -1,5 +1,18 @@
 # Architecture and ownership
 
+Alpha.5 adds a separate structural report and CLI in the existing two crates.
+`structure.rs` owns physical-unit selection, component subsampling, matched IDs,
+support counts and exploratory classification. Methods supplies public ABI 2.19
+HDBSCAN/ARI; native statuses/messages and nonfinite diagnostic reasons are
+preserved. No numerical clustering or ARI algorithm is copied.
+
+PCA refits once per component draw, independently of HDBSCAN parameters. All
+settings use that draw's same fitted scores, with their own reference partitions
+and stability evidence. Only train X enters fits. Canonical alpha.4 reports and
+the optional predictive workflow retain separate semantics. Test HDBSCAN labels
+and group-derived OOF prediction remain unavailable. Structural reliance
+experiments are specified in STRUCTURAL_SHORTCUT_RISK.md, not implemented.
+
 Audit date: 2026-10-16. The methodological Word document
 `qualification_nirs_architecture_plan(1).docx` (working version 2026-09-14) was
 opened as OOXML and read. This implementation follows the user's narrower first

@@ -28,8 +28,8 @@ execution refers only to tests described in VALIDATION.md.
 | Y summaries / quartiles | `n4m_preflight_summary_compute`; Rust `SummaryRequest` | ABI >=2.18; available through provider | Upstream type-7 and extreme finite tests; local target access/shift tests | reuse |
 | Independent spectral neighbors | `n4m_preflight_nearest_neighbors`; Rust provider | ABI >=2.18, public and runtime exported | Upstream group exclusion/ties/extremes; local train-only threshold and grouped admissibility guards | reuse |
 | Local descriptive X-Y contrast | `n4m_preflight_local_contrast`; Preflight `local.descriptive` | ABI >=2.18, Rust provider available | Upstream continuous/categorical tests; no calibrated inference or local predictability claim | reuse |
-| HDBSCAN | `catalog/methods/diagnostics.hdbscan.yaml`, `n4m_cluster_hdbscan` | ABI >=2.19; wheel 1.3.6 symbol verified; Python raw declarations + JS wrapper; no Preflight Rust provider method | `docs/dev/hdbscan.md`, `cpp/tests/test_hdbscan.cpp`, `parity/fixtures/hdbscan_v1.json`; tie/order-sensitive stable-MST reference; not locally qualified | deferred; reuse kernel later |
-| ARI | `n4m_preflight_adjusted_rand_index` | ABI >=2.19; native symbol + Python raw declaration + JS wrapper; absent Rust provider | Same frozen cluster reference gate; no Domains stability protocol yet | deferred; reuse |
+| HDBSCAN | `catalog/methods/diagnostics.hdbscan.yaml`, `n4m_cluster_hdbscan` | ABI >=2.19; wheel 1.3.6; new Domains owning Rust adapter | Alpha.5 controlled groups/density/manifold/noise/nuisance/duplicates and real EcoSIS/Shootout; canonical identities and native diagnostics | reused in separate structural workflow |
+| ARI | `n4m_preflight_adjusted_rand_index` | ABI >=2.19; wheel 1.3.6; Domains public-ABI Rust adapter | Exact/partial ID matching, label renaming, noise inclusion/exclusion, undefined trivial cases and real component subsampling | reused; no local ARI formula |
 | SG noise proxy | `n4m_preflight_noise_proxy_compute` | ABI >=2.19; native symbol + Python raw declaration + JS wrapper; absent Rust provider | Upstream masked/interior residual-gain tests; not SNR; not locally qualified | deferred; reuse |
 | Near duplicates | `n4m_preflight_pairs_within_tolerance` | ABI >=2.19; native symbol + raw declarations/JS; absent Rust provider | RMS feature tolerance, bounded pair list and exact totals; upstream tests, no local tolerance calibration | deferred; reuse |
 | Factor-target association / Holm | `n4m_preflight_factor_association`, `n4m_preflight_holm_adjust` | ABI >=2.19; native symbols + Python raw declarations + JS; absent Rust provider | Eta-squared/Cramer's V and unrestricted exchangeable-unit permutations; NumPy/SciPy goldens inspected; no conditional effect or restricted permutation support | deferred; reuse marginal kernels |
@@ -73,3 +73,17 @@ actual execution evidence supersede the earlier README-only audit for this
 bounded PLS workflow. HDBSCAN/ARI remain available kernels, not qualified local
 clustering protocols. The large exact rank-one FlexiblePCA failure and getter
 requests are recorded in UPSTREAM_DEPENDENCIES.md.
+
+## Alpha.5 structural execution
+
+Exact signatures, capacities and implementations in `metrics.h` and
+`c_api_preflight.cpp` were inspected. HDBSCAN uses row-capacity output buffers,
+selection 0=EOM/1=leaf, noise -1, self-counting min_samples and a 2.5e9 product
+budget. Membership is a relative strength, not a probability. Native infinite
+hierarchy lambdas/undefined outlier scores become null with explicit diagnostic
+field/index reasons. Native ARI treats -1 as a class and leaves trivial cases
+undefined. Domains applies conservative common-ID/component guards; summaries
+remain native. Resampling, co-membership counts and classification are task
+protocol assembly. No public HDBSCAN held-out assignment was found in audited
+headers/catalog/bindings. Factor association was inspected for alpha.6
+specification only. Upstream scientific suites were not rerun or modified.

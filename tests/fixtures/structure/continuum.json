@@ -1,0 +1,2274 @@
+{
+  "schema_version": 1,
+  "context": {
+    "dataset_id": "controlled_structure_continuum",
+    "content_version": "1",
+    "source_id": "X",
+    "target_id": "y",
+    "split_id": "frozen_component_split"
+  },
+  "data_origin": "synthetic",
+  "axis": [
+    1000,
+    1001,
+    1002,
+    1003,
+    1004,
+    1005
+  ],
+  "axis_unit": "nm",
+  "signal_unit": "controlled_units",
+  "target_unit": "test_units",
+  "policy": {
+    "independence_unit": "group",
+    "representation": "technical_mean",
+    "seed": 17,
+    "pca_max_components": 20,
+    "pca_variance_fraction": 0.95
+  },
+  "observations": [
+    {
+      "observation_id": "o000",
+      "sample_id": "p000",
+      "physical_sample_id": "p000",
+      "independence_group": "block:000",
+      "partition": "train",
+      "x": [
+        -4.0,
+        -4.800000000000001,
+        -5.6000000000000005,
+        -6.4,
+        -7.199999999999999,
+        -8.0
+      ],
+      "y": 0.010343629102473087,
+      "reference_id": "ref:000",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o001",
+      "sample_id": "p001",
+      "physical_sample_id": "p001",
+      "independence_group": "block:000",
+      "partition": "train",
+      "x": [
+        -3.9000000000000004,
+        -4.680000000000001,
+        -5.460000000000001,
+        -6.24,
+        -7.02,
+        -7.800000000000001
+      ],
+      "y": -1.5102569133884671,
+      "reference_id": "ref:001",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o002",
+      "sample_id": "p002",
+      "physical_sample_id": "p002",
+      "independence_group": "block:001",
+      "partition": "train",
+      "x": [
+        -3.8000000000000003,
+        -4.5600000000000005,
+        -5.32,
+        -6.08,
+        -6.84,
+        -7.6000000000000005
+      ],
+      "y": 0.6711038373087025,
+      "reference_id": "ref:002",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o003",
+      "sample_id": "p003",
+      "physical_sample_id": "p003",
+      "independence_group": "block:001",
+      "partition": "train",
+      "x": [
+        -3.7,
+        -4.44,
+        -5.180000000000001,
+        -5.92,
+        -6.66,
+        -7.4
+      ],
+      "y": -0.20499101274490508,
+      "reference_id": "ref:003",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o004",
+      "sample_id": "p004",
+      "physical_sample_id": "p004",
+      "independence_group": "block:002",
+      "partition": "train",
+      "x": [
+        -3.6,
+        -4.32,
+        -5.040000000000001,
+        -5.76,
+        -6.4799999999999995,
+        -7.2
+      ],
+      "y": -0.4000744131943925,
+      "reference_id": "ref:004",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o005",
+      "sample_id": "p005",
+      "physical_sample_id": "p005",
+      "independence_group": "block:002",
+      "partition": "train",
+      "x": [
+        -3.5,
+        -4.2,
+        -4.9,
+        -5.6000000000000005,
+        -6.3,
+        -7.0
+      ],
+      "y": -2.1882269887566133,
+      "reference_id": "ref:005",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o006",
+      "sample_id": "p006",
+      "physical_sample_id": "p006",
+      "independence_group": "block:003",
+      "partition": "train",
+      "x": [
+        -3.4000000000000004,
+        -4.08,
+        -4.760000000000001,
+        -5.44,
+        -6.12,
+        -6.800000000000001
+      ],
+      "y": 0.9911117524021528,
+      "reference_id": "ref:006",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o007",
+      "sample_id": "p007",
+      "physical_sample_id": "p007",
+      "independence_group": "block:003",
+      "partition": "train",
+      "x": [
+        -3.3000000000000003,
+        -3.9600000000000004,
+        -4.62,
+        -5.28,
+        -5.9399999999999995,
+        -6.6000000000000005
+      ],
+      "y": 0.10826388542597941,
+      "reference_id": "ref:007",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o008",
+      "sample_id": "p008",
+      "physical_sample_id": "p008",
+      "independence_group": "block:004",
+      "partition": "train",
+      "x": [
+        -3.2,
+        -3.8400000000000003,
+        -4.48,
+        -5.12,
+        -5.76,
+        -6.4
+      ],
+      "y": 0.17210951951805636,
+      "reference_id": "ref:008",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o009",
+      "sample_id": "p009",
+      "physical_sample_id": "p009",
+      "independence_group": "block:004",
+      "partition": "train",
+      "x": [
+        -3.1,
+        -3.72,
+        -4.340000000000001,
+        -4.96,
+        -5.58,
+        -6.2
+      ],
+      "y": 0.2525743678649812,
+      "reference_id": "ref:009",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o010",
+      "sample_id": "p010",
+      "physical_sample_id": "p010",
+      "independence_group": "block:005",
+      "partition": "train",
+      "x": [
+        -3.0,
+        -3.6,
+        -4.2,
+        -4.8,
+        -5.3999999999999995,
+        -6.0
+      ],
+      "y": 0.24528101354700757,
+      "reference_id": "ref:010",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o011",
+      "sample_id": "p011",
+      "physical_sample_id": "p011",
+      "independence_group": "block:005",
+      "partition": "train",
+      "x": [
+        -2.9000000000000004,
+        -3.4800000000000004,
+        -4.0600000000000005,
+        -4.64,
+        -5.22,
+        -5.800000000000001
+      ],
+      "y": 1.8007625532109186,
+      "reference_id": "ref:011",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o012",
+      "sample_id": "p012",
+      "physical_sample_id": "p012",
+      "independence_group": "block:006",
+      "partition": "train",
+      "x": [
+        -2.8000000000000003,
+        -3.3600000000000003,
+        -3.9200000000000004,
+        -4.48,
+        -5.04,
+        -5.6000000000000005
+      ],
+      "y": -0.035457527523630045,
+      "reference_id": "ref:012",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o013",
+      "sample_id": "p013",
+      "physical_sample_id": "p013",
+      "independence_group": "block:006",
+      "partition": "train",
+      "x": [
+        -2.7,
+        -3.24,
+        -3.7800000000000002,
+        -4.32,
+        -4.859999999999999,
+        -5.4
+      ],
+      "y": 1.2528418325623267,
+      "reference_id": "ref:013",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o014",
+      "sample_id": "p014",
+      "physical_sample_id": "p014",
+      "independence_group": "block:007",
+      "partition": "train",
+      "x": [
+        -2.6,
+        -3.12,
+        -3.6400000000000006,
+        -4.16,
+        -4.68,
+        -5.2
+      ],
+      "y": 0.43888790179877385,
+      "reference_id": "ref:014",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o015",
+      "sample_id": "p015",
+      "physical_sample_id": "p015",
+      "independence_group": "block:007",
+      "partition": "train",
+      "x": [
+        -2.5,
+        -3.0000000000000004,
+        -3.5000000000000004,
+        -4.0,
+        -4.5,
+        -5.0
+      ],
+      "y": -0.5630371363213433,
+      "reference_id": "ref:015",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o016",
+      "sample_id": "p016",
+      "physical_sample_id": "p016",
+      "independence_group": "block:008",
+      "partition": "train",
+      "x": [
+        -2.4000000000000004,
+        -2.8800000000000003,
+        -3.3600000000000003,
+        -3.84,
+        -4.32,
+        -4.800000000000001
+      ],
+      "y": 1.1825293528923493,
+      "reference_id": "ref:016",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o017",
+      "sample_id": "p017",
+      "physical_sample_id": "p017",
+      "independence_group": "block:008",
+      "partition": "train",
+      "x": [
+        -2.3000000000000003,
+        -2.7600000000000002,
+        -3.22,
+        -3.68,
+        -4.14,
+        -4.6000000000000005
+      ],
+      "y": -0.22023510752089942,
+      "reference_id": "ref:017",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o018",
+      "sample_id": "p018",
+      "physical_sample_id": "p018",
+      "independence_group": "block:009",
+      "partition": "train",
+      "x": [
+        -2.2,
+        -2.64,
+        -3.08,
+        -3.52,
+        -3.96,
+        -4.4
+      ],
+      "y": 1.4814801125842196,
+      "reference_id": "ref:018",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o019",
+      "sample_id": "p019",
+      "physical_sample_id": "p019",
+      "independence_group": "block:009",
+      "partition": "train",
+      "x": [
+        -2.1,
+        -2.52,
+        -2.9400000000000004,
+        -3.36,
+        -3.78,
+        -4.2
+      ],
+      "y": -1.4401727611467114,
+      "reference_id": "ref:019",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o020",
+      "sample_id": "p020",
+      "physical_sample_id": "p020",
+      "independence_group": "block:010",
+      "partition": "train",
+      "x": [
+        -2.0,
+        -2.4000000000000004,
+        -2.8000000000000003,
+        -3.2,
+        -3.5999999999999996,
+        -4.0
+      ],
+      "y": -1.054317739056723,
+      "reference_id": "ref:020",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o021",
+      "sample_id": "p021",
+      "physical_sample_id": "p021",
+      "independence_group": "block:010",
+      "partition": "train",
+      "x": [
+        -1.9000000000000001,
+        -2.2800000000000002,
+        -2.66,
+        -3.04,
+        -3.42,
+        -3.8000000000000003
+      ],
+      "y": -1.1195547830616308,
+      "reference_id": "ref:021",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o022",
+      "sample_id": "p022",
+      "physical_sample_id": "p022",
+      "independence_group": "block:011",
+      "partition": "train",
+      "x": [
+        -1.8,
+        -2.16,
+        -2.5200000000000005,
+        -2.88,
+        -3.2399999999999998,
+        -3.6
+      ],
+      "y": 0.6662420916172602,
+      "reference_id": "ref:022",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o023",
+      "sample_id": "p023",
+      "physical_sample_id": "p023",
+      "independence_group": "block:011",
+      "partition": "train",
+      "x": [
+        -1.7000000000000002,
+        -2.04,
+        -2.3800000000000003,
+        -2.72,
+        -3.06,
+        -3.4000000000000004
+      ],
+      "y": 0.3784731297440934,
+      "reference_id": "ref:023",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o024",
+      "sample_id": "p024",
+      "physical_sample_id": "p024",
+      "independence_group": "block:012",
+      "partition": "train",
+      "x": [
+        -1.6,
+        -1.9200000000000002,
+        -2.24,
+        -2.56,
+        -2.88,
+        -3.2
+      ],
+      "y": 0.9451614268359828,
+      "reference_id": "ref:024",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o025",
+      "sample_id": "p025",
+      "physical_sample_id": "p025",
+      "independence_group": "block:012",
+      "partition": "train",
+      "x": [
+        -1.5,
+        -1.8,
+        -2.1,
+        -2.4,
+        -2.6999999999999997,
+        -3.0
+      ],
+      "y": -0.2821763510562892,
+      "reference_id": "ref:025",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o026",
+      "sample_id": "p026",
+      "physical_sample_id": "p026",
+      "independence_group": "block:013",
+      "partition": "train",
+      "x": [
+        -1.4000000000000001,
+        -1.6800000000000002,
+        -1.9600000000000002,
+        -2.24,
+        -2.52,
+        -2.8000000000000003
+      ],
+      "y": 1.6000906844986442,
+      "reference_id": "ref:026",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o027",
+      "sample_id": "p027",
+      "physical_sample_id": "p027",
+      "independence_group": "block:013",
+      "partition": "train",
+      "x": [
+        -1.3,
+        -1.56,
+        -1.8200000000000003,
+        -2.08,
+        -2.34,
+        -2.6
+      ],
+      "y": 1.552780020488117,
+      "reference_id": "ref:027",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o028",
+      "sample_id": "p028",
+      "physical_sample_id": "p028",
+      "independence_group": "block:014",
+      "partition": "train",
+      "x": [
+        -1.2000000000000002,
+        -1.4400000000000002,
+        -1.6800000000000002,
+        -1.92,
+        -2.16,
+        -2.4000000000000004
+      ],
+      "y": 0.5857618831416127,
+      "reference_id": "ref:028",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o029",
+      "sample_id": "p029",
+      "physical_sample_id": "p029",
+      "independence_group": "block:014",
+      "partition": "train",
+      "x": [
+        -1.1,
+        -1.32,
+        -1.54,
+        -1.76,
+        -1.98,
+        -2.2
+      ],
+      "y": 1.709104492470612,
+      "reference_id": "ref:029",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o030",
+      "sample_id": "p030",
+      "physical_sample_id": "p030",
+      "independence_group": "block:015",
+      "partition": "train",
+      "x": [
+        -1.0,
+        -1.2000000000000002,
+        -1.4000000000000001,
+        -1.6,
+        -1.7999999999999998,
+        -2.0
+      ],
+      "y": 2.8549433823476047,
+      "reference_id": "ref:030",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o031",
+      "sample_id": "p031",
+      "physical_sample_id": "p031",
+      "independence_group": "block:015",
+      "partition": "train",
+      "x": [
+        -0.9,
+        -1.08,
+        -1.2600000000000002,
+        -1.44,
+        -1.6199999999999999,
+        -1.8
+      ],
+      "y": 0.2211050613721488,
+      "reference_id": "ref:031",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o032",
+      "sample_id": "p032",
+      "physical_sample_id": "p032",
+      "independence_group": "block:016",
+      "partition": "train",
+      "x": [
+        -0.8,
+        -0.9600000000000001,
+        -1.12,
+        -1.28,
+        -1.44,
+        -1.6
+      ],
+      "y": -1.1397269457189223,
+      "reference_id": "ref:032",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o033",
+      "sample_id": "p033",
+      "physical_sample_id": "p033",
+      "independence_group": "block:016",
+      "partition": "train",
+      "x": [
+        -0.7000000000000001,
+        -0.8400000000000001,
+        -0.9800000000000001,
+        -1.12,
+        -1.26,
+        -1.4000000000000001
+      ],
+      "y": -0.6706826664322929,
+      "reference_id": "ref:033",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o034",
+      "sample_id": "p034",
+      "physical_sample_id": "p034",
+      "independence_group": "block:017",
+      "partition": "train",
+      "x": [
+        -0.6000000000000001,
+        -0.7200000000000001,
+        -0.8400000000000001,
+        -0.96,
+        -1.08,
+        -1.2000000000000002
+      ],
+      "y": -0.011796401067728914,
+      "reference_id": "ref:034",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o035",
+      "sample_id": "p035",
+      "physical_sample_id": "p035",
+      "independence_group": "block:017",
+      "partition": "train",
+      "x": [
+        -0.5,
+        -0.6000000000000001,
+        -0.7000000000000001,
+        -0.8,
+        -0.8999999999999999,
+        -1.0
+      ],
+      "y": 0.192352433275135,
+      "reference_id": "ref:035",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o036",
+      "sample_id": "p036",
+      "physical_sample_id": "p036",
+      "independence_group": "block:018",
+      "partition": "train",
+      "x": [
+        -0.4,
+        -0.48000000000000004,
+        -0.56,
+        -0.64,
+        -0.72,
+        -0.8
+      ],
+      "y": 0.0517241052770068,
+      "reference_id": "ref:036",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o037",
+      "sample_id": "p037",
+      "physical_sample_id": "p037",
+      "independence_group": "block:018",
+      "partition": "train",
+      "x": [
+        -0.30000000000000004,
+        -0.36000000000000004,
+        -0.42000000000000004,
+        -0.48,
+        -0.54,
+        -0.6000000000000001
+      ],
+      "y": 0.5826364122375285,
+      "reference_id": "ref:037",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o038",
+      "sample_id": "p038",
+      "physical_sample_id": "p038",
+      "independence_group": "block:019",
+      "partition": "train",
+      "x": [
+        -0.2,
+        -0.24000000000000002,
+        -0.28,
+        -0.32,
+        -0.36,
+        -0.4
+      ],
+      "y": 0.6811309476842272,
+      "reference_id": "ref:038",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o039",
+      "sample_id": "p039",
+      "physical_sample_id": "p039",
+      "independence_group": "block:019",
+      "partition": "train",
+      "x": [
+        -0.1,
+        -0.12000000000000001,
+        -0.14,
+        -0.16,
+        -0.18,
+        -0.2
+      ],
+      "y": 0.036237015712740295,
+      "reference_id": "ref:039",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o040",
+      "sample_id": "p040",
+      "physical_sample_id": "p040",
+      "independence_group": "block:020",
+      "partition": "train",
+      "x": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "y": 0.20849249186182944,
+      "reference_id": "ref:040",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o041",
+      "sample_id": "p041",
+      "physical_sample_id": "p041",
+      "independence_group": "block:020",
+      "partition": "train",
+      "x": [
+        0.1,
+        0.12000000000000001,
+        0.14,
+        0.16,
+        0.18,
+        0.2
+      ],
+      "y": -1.7848641163791559,
+      "reference_id": "ref:041",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o042",
+      "sample_id": "p042",
+      "physical_sample_id": "p042",
+      "independence_group": "block:021",
+      "partition": "train",
+      "x": [
+        0.2,
+        0.24000000000000002,
+        0.28,
+        0.32,
+        0.36,
+        0.4
+      ],
+      "y": 0.06473519442556161,
+      "reference_id": "ref:042",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o043",
+      "sample_id": "p043",
+      "physical_sample_id": "p043",
+      "independence_group": "block:021",
+      "partition": "train",
+      "x": [
+        0.30000000000000004,
+        0.36000000000000004,
+        0.42000000000000004,
+        0.48,
+        0.54,
+        0.6000000000000001
+      ],
+      "y": 1.5333862398774651,
+      "reference_id": "ref:043",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o044",
+      "sample_id": "p044",
+      "physical_sample_id": "p044",
+      "independence_group": "block:022",
+      "partition": "train",
+      "x": [
+        0.4,
+        0.48000000000000004,
+        0.56,
+        0.64,
+        0.72,
+        0.8
+      ],
+      "y": -0.41601384600872393,
+      "reference_id": "ref:044",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o045",
+      "sample_id": "p045",
+      "physical_sample_id": "p045",
+      "independence_group": "block:022",
+      "partition": "train",
+      "x": [
+        0.5,
+        0.6000000000000001,
+        0.7000000000000001,
+        0.8,
+        0.8999999999999999,
+        1.0
+      ],
+      "y": -0.0398666977574483,
+      "reference_id": "ref:045",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o046",
+      "sample_id": "p046",
+      "physical_sample_id": "p046",
+      "independence_group": "block:023",
+      "partition": "train",
+      "x": [
+        0.6000000000000001,
+        0.7200000000000001,
+        0.8400000000000001,
+        0.96,
+        1.08,
+        1.2000000000000002
+      ],
+      "y": 1.6231928263931912,
+      "reference_id": "ref:046",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o047",
+      "sample_id": "p047",
+      "physical_sample_id": "p047",
+      "independence_group": "block:023",
+      "partition": "train",
+      "x": [
+        0.7000000000000001,
+        0.8400000000000001,
+        0.9800000000000001,
+        1.12,
+        1.26,
+        1.4000000000000001
+      ],
+      "y": -1.7095245582538787,
+      "reference_id": "ref:047",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o048",
+      "sample_id": "p048",
+      "physical_sample_id": "p048",
+      "independence_group": "block:024",
+      "partition": "train",
+      "x": [
+        0.8,
+        0.9600000000000001,
+        1.12,
+        1.28,
+        1.44,
+        1.6
+      ],
+      "y": 0.5041671714741378,
+      "reference_id": "ref:048",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o049",
+      "sample_id": "p049",
+      "physical_sample_id": "p049",
+      "independence_group": "block:024",
+      "partition": "train",
+      "x": [
+        0.9,
+        1.08,
+        1.2600000000000002,
+        1.44,
+        1.6199999999999999,
+        1.8
+      ],
+      "y": -0.680119467764525,
+      "reference_id": "ref:049",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o050",
+      "sample_id": "p050",
+      "physical_sample_id": "p050",
+      "independence_group": "block:025",
+      "partition": "train",
+      "x": [
+        1.0,
+        1.2000000000000002,
+        1.4000000000000001,
+        1.6,
+        1.7999999999999998,
+        2.0
+      ],
+      "y": 1.4102689684811722,
+      "reference_id": "ref:050",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o051",
+      "sample_id": "p051",
+      "physical_sample_id": "p051",
+      "independence_group": "block:025",
+      "partition": "train",
+      "x": [
+        1.1,
+        1.32,
+        1.54,
+        1.76,
+        1.98,
+        2.2
+      ],
+      "y": -0.6914568332899744,
+      "reference_id": "ref:051",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o052",
+      "sample_id": "p052",
+      "physical_sample_id": "p052",
+      "independence_group": "block:026",
+      "partition": "train",
+      "x": [
+        1.2000000000000002,
+        1.4400000000000002,
+        1.6800000000000002,
+        1.92,
+        2.16,
+        2.4000000000000004
+      ],
+      "y": -0.03336884249919368,
+      "reference_id": "ref:052",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o053",
+      "sample_id": "p053",
+      "physical_sample_id": "p053",
+      "independence_group": "block:026",
+      "partition": "train",
+      "x": [
+        1.3,
+        1.56,
+        1.8200000000000003,
+        2.08,
+        2.34,
+        2.6
+      ],
+      "y": 0.6235284036677922,
+      "reference_id": "ref:053",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o054",
+      "sample_id": "p054",
+      "physical_sample_id": "p054",
+      "independence_group": "block:027",
+      "partition": "train",
+      "x": [
+        1.4000000000000001,
+        1.6800000000000002,
+        1.9600000000000002,
+        2.24,
+        2.52,
+        2.8000000000000003
+      ],
+      "y": 1.6239230221428145,
+      "reference_id": "ref:054",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o055",
+      "sample_id": "p055",
+      "physical_sample_id": "p055",
+      "independence_group": "block:027",
+      "partition": "train",
+      "x": [
+        1.5,
+        1.8,
+        2.1,
+        2.4,
+        2.6999999999999997,
+        3.0
+      ],
+      "y": -0.6376842798762027,
+      "reference_id": "ref:055",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o056",
+      "sample_id": "p056",
+      "physical_sample_id": "p056",
+      "independence_group": "block:028",
+      "partition": "train",
+      "x": [
+        1.6,
+        1.9200000000000002,
+        2.24,
+        2.56,
+        2.88,
+        3.2
+      ],
+      "y": -1.688675696734863,
+      "reference_id": "ref:056",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o057",
+      "sample_id": "p057",
+      "physical_sample_id": "p057",
+      "independence_group": "block:028",
+      "partition": "train",
+      "x": [
+        1.7000000000000002,
+        2.04,
+        2.3800000000000003,
+        2.72,
+        3.06,
+        3.4000000000000004
+      ],
+      "y": -0.16961001896210176,
+      "reference_id": "ref:057",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o058",
+      "sample_id": "p058",
+      "physical_sample_id": "p058",
+      "independence_group": "block:029",
+      "partition": "train",
+      "x": [
+        1.8,
+        2.16,
+        2.5200000000000005,
+        2.88,
+        3.2399999999999998,
+        3.6
+      ],
+      "y": -1.1943790905476672,
+      "reference_id": "ref:058",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o059",
+      "sample_id": "p059",
+      "physical_sample_id": "p059",
+      "independence_group": "block:029",
+      "partition": "train",
+      "x": [
+        1.9000000000000001,
+        2.2800000000000002,
+        2.66,
+        3.04,
+        3.42,
+        3.8000000000000003
+      ],
+      "y": 1.462102665095335,
+      "reference_id": "ref:059",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o060",
+      "sample_id": "p060",
+      "physical_sample_id": "p060",
+      "independence_group": "block:030",
+      "partition": "train",
+      "x": [
+        2.0,
+        2.4000000000000004,
+        2.8000000000000003,
+        3.2,
+        3.5999999999999996,
+        4.0
+      ],
+      "y": -0.49551751038807035,
+      "reference_id": "ref:060",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o061",
+      "sample_id": "p061",
+      "physical_sample_id": "p061",
+      "independence_group": "block:030",
+      "partition": "train",
+      "x": [
+        2.1,
+        2.52,
+        2.9400000000000004,
+        3.36,
+        3.78,
+        4.2
+      ],
+      "y": 0.12519956211595767,
+      "reference_id": "ref:061",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o062",
+      "sample_id": "p062",
+      "physical_sample_id": "p062",
+      "independence_group": "block:031",
+      "partition": "train",
+      "x": [
+        2.2,
+        2.64,
+        3.08,
+        3.52,
+        3.96,
+        4.4
+      ],
+      "y": -2.718958248720117,
+      "reference_id": "ref:062",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o063",
+      "sample_id": "p063",
+      "physical_sample_id": "p063",
+      "independence_group": "block:031",
+      "partition": "train",
+      "x": [
+        2.3000000000000003,
+        2.7600000000000002,
+        3.22,
+        3.68,
+        4.14,
+        4.6000000000000005
+      ],
+      "y": 1.154906754268031,
+      "reference_id": "ref:063",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o064",
+      "sample_id": "p064",
+      "physical_sample_id": "p064",
+      "independence_group": "block:032",
+      "partition": "train",
+      "x": [
+        2.4000000000000004,
+        2.8800000000000003,
+        3.3600000000000003,
+        3.84,
+        4.32,
+        4.800000000000001
+      ],
+      "y": -1.7164389154552357,
+      "reference_id": "ref:064",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o065",
+      "sample_id": "p065",
+      "physical_sample_id": "p065",
+      "independence_group": "block:032",
+      "partition": "train",
+      "x": [
+        2.5,
+        3.0000000000000004,
+        3.5000000000000004,
+        4.0,
+        4.5,
+        5.0
+      ],
+      "y": -1.9349939200909303,
+      "reference_id": "ref:065",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o066",
+      "sample_id": "p066",
+      "physical_sample_id": "p066",
+      "independence_group": "block:033",
+      "partition": "train",
+      "x": [
+        2.6,
+        3.12,
+        3.6400000000000006,
+        4.16,
+        4.68,
+        5.2
+      ],
+      "y": 0.4252728522570645,
+      "reference_id": "ref:066",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o067",
+      "sample_id": "p067",
+      "physical_sample_id": "p067",
+      "independence_group": "block:033",
+      "partition": "train",
+      "x": [
+        2.7,
+        3.24,
+        3.7800000000000002,
+        4.32,
+        4.859999999999999,
+        5.4
+      ],
+      "y": 0.674369275431289,
+      "reference_id": "ref:067",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o068",
+      "sample_id": "p068",
+      "physical_sample_id": "p068",
+      "independence_group": "block:034",
+      "partition": "train",
+      "x": [
+        2.8000000000000003,
+        3.3600000000000003,
+        3.9200000000000004,
+        4.48,
+        5.04,
+        5.6000000000000005
+      ],
+      "y": -1.0542397588806078,
+      "reference_id": "ref:068",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o069",
+      "sample_id": "p069",
+      "physical_sample_id": "p069",
+      "independence_group": "block:034",
+      "partition": "train",
+      "x": [
+        2.9000000000000004,
+        3.4800000000000004,
+        4.0600000000000005,
+        4.64,
+        5.22,
+        5.800000000000001
+      ],
+      "y": 0.6117212915593329,
+      "reference_id": "ref:069",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o070",
+      "sample_id": "p070",
+      "physical_sample_id": "p070",
+      "independence_group": "block:035",
+      "partition": "train",
+      "x": [
+        3.0,
+        3.6,
+        4.2,
+        4.8,
+        5.3999999999999995,
+        6.0
+      ],
+      "y": 0.7048524308359466,
+      "reference_id": "ref:070",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o071",
+      "sample_id": "p071",
+      "physical_sample_id": "p071",
+      "independence_group": "block:035",
+      "partition": "train",
+      "x": [
+        3.1,
+        3.72,
+        4.340000000000001,
+        4.96,
+        5.58,
+        6.2
+      ],
+      "y": 0.4692463380320495,
+      "reference_id": "ref:071",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o072",
+      "sample_id": "p072",
+      "physical_sample_id": "p072",
+      "independence_group": "block:036",
+      "partition": "train",
+      "x": [
+        3.2,
+        3.8400000000000003,
+        4.48,
+        5.12,
+        5.76,
+        6.4
+      ],
+      "y": 0.4654098472465858,
+      "reference_id": "ref:072",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o073",
+      "sample_id": "p073",
+      "physical_sample_id": "p073",
+      "independence_group": "block:036",
+      "partition": "train",
+      "x": [
+        3.3000000000000003,
+        3.9600000000000004,
+        4.62,
+        5.28,
+        5.9399999999999995,
+        6.6000000000000005
+      ],
+      "y": -0.44181846794321894,
+      "reference_id": "ref:073",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o074",
+      "sample_id": "p074",
+      "physical_sample_id": "p074",
+      "independence_group": "block:037",
+      "partition": "train",
+      "x": [
+        3.4000000000000004,
+        4.08,
+        4.760000000000001,
+        5.44,
+        6.12,
+        6.800000000000001
+      ],
+      "y": -0.4153903849464943,
+      "reference_id": "ref:074",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o075",
+      "sample_id": "p075",
+      "physical_sample_id": "p075",
+      "independence_group": "block:037",
+      "partition": "train",
+      "x": [
+        3.5,
+        4.2,
+        4.9,
+        5.6000000000000005,
+        6.3,
+        7.0
+      ],
+      "y": 0.3783846373278776,
+      "reference_id": "ref:075",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o076",
+      "sample_id": "p076",
+      "physical_sample_id": "p076",
+      "independence_group": "block:038",
+      "partition": "train",
+      "x": [
+        3.6,
+        4.32,
+        5.040000000000001,
+        5.76,
+        6.4799999999999995,
+        7.2
+      ],
+      "y": 1.4720304380782492,
+      "reference_id": "ref:076",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o077",
+      "sample_id": "p077",
+      "physical_sample_id": "p077",
+      "independence_group": "block:038",
+      "partition": "train",
+      "x": [
+        3.7,
+        4.44,
+        5.180000000000001,
+        5.92,
+        6.66,
+        7.4
+      ],
+      "y": -0.9253968302044259,
+      "reference_id": "ref:077",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o078",
+      "sample_id": "p078",
+      "physical_sample_id": "p078",
+      "independence_group": "block:039",
+      "partition": "train",
+      "x": [
+        3.8000000000000003,
+        4.5600000000000005,
+        5.32,
+        6.08,
+        6.84,
+        7.6000000000000005
+      ],
+      "y": -1.6432259572195478,
+      "reference_id": "ref:078",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "o079",
+      "sample_id": "p079",
+      "physical_sample_id": "p079",
+      "independence_group": "block:039",
+      "partition": "train",
+      "x": [
+        3.9000000000000004,
+        4.680000000000001,
+        5.460000000000001,
+        6.24,
+        7.02,
+        7.800000000000001
+      ],
+      "y": 1.8026998234394749,
+      "reference_id": "ref:079",
+      "reference_status": "exact",
+      "reference_unit": "test_units",
+      "repetition_type": "rescan",
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic",
+        "generating_group": "0"
+      }
+    },
+    {
+      "observation_id": "held:o0",
+      "sample_id": "held:p0",
+      "physical_sample_id": "held:p0",
+      "independence_group": "held:block:0",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o1",
+      "sample_id": "held:p1",
+      "physical_sample_id": "held:p1",
+      "independence_group": "held:block:0",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o2",
+      "sample_id": "held:p2",
+      "physical_sample_id": "held:p2",
+      "independence_group": "held:block:1",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o3",
+      "sample_id": "held:p3",
+      "physical_sample_id": "held:p3",
+      "independence_group": "held:block:1",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o4",
+      "sample_id": "held:p4",
+      "physical_sample_id": "held:p4",
+      "independence_group": "held:block:2",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o5",
+      "sample_id": "held:p5",
+      "physical_sample_id": "held:p5",
+      "independence_group": "held:block:2",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o6",
+      "sample_id": "held:p6",
+      "physical_sample_id": "held:p6",
+      "independence_group": "held:block:3",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o7",
+      "sample_id": "held:p7",
+      "physical_sample_id": "held:p7",
+      "independence_group": "held:block:3",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o8",
+      "sample_id": "held:p8",
+      "physical_sample_id": "held:p8",
+      "independence_group": "held:block:4",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o9",
+      "sample_id": "held:p9",
+      "physical_sample_id": "held:p9",
+      "independence_group": "held:block:4",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o10",
+      "sample_id": "held:p10",
+      "physical_sample_id": "held:p10",
+      "independence_group": "held:block:5",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    },
+    {
+      "observation_id": "held:o11",
+      "sample_id": "held:p11",
+      "physical_sample_id": "held:p11",
+      "independence_group": "held:block:5",
+      "partition": "test",
+      "x": [
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0,
+        999.0
+      ],
+      "y": 1e+30,
+      "metadata": {
+        "instrument": "instrument:0",
+        "campaign": "synthetic"
+      }
+    }
+  ],
+  "provenance": {
+    "purpose": "Frozen alpha.5 controlled structural input; no target-reliance inference"
+  }
+}

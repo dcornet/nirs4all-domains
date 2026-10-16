@@ -1,5 +1,40 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.5 structural gates
+
+Local Windows execution passes **31 Rust + 25 Python = 56 tests**, retaining all
+39 alpha.4 tests. Fourteen structural Rust gates (13 native) exercise actual
+Methods 1.3.6 / ABI 2.19 HDBSCAN/ARI, controlled memberships/stability, component
+subsampling, reference/physical split guards, no test X/Y influence, exact/partial
+ID alignment, noise inclusion/exclusion, label permutation, missing provider,
+degenerate PCA, nonfinite diagnostic serialization and acquisition consensus.
+Three Python additions exercise real CLI replay/schema/population checks, refusal
+to overwrite, missing provider and bounded config validation.
+
+The frozen expectations precede execution in CLUSTERING_STABILITY_PROTOCOL.md.
+Eight controlled inputs use the 100-draw configuration; insufficient/degenerate
+cases stop explicitly before clustering. Real EcoSIS and Shootout
+each run twice with identical JSON. Every real setting has 100 successful draws;
+all-noise output is a computed negative result, not a failed or favorable fit.
+All 16 held alpha.4 baseline files are unchanged, as are primary EcoSIS canonical
+fitted states and four scalar metrics. See CLUSTERING_REAL_DATA_PILOT.md and
+[audit/structure-alpha5-qualification.json](audit/structure-alpha5-qualification.json).
+
+Formatting, clippy with warnings denied, full workspace/native tests, rustdoc,
+bridge integration, generated separate schemas and structural/canonical report
+checks pass locally. The bridge alpha.5 wheel builds in an isolated environment.
+README commands and relative links are checked. New Windows/Linux CI execution
+is recorded after the pushed source commit completes; existing green alpha.4 CI
+is historical evidence, not proof of alpha.5. Local machine evidence is in
+[audit/alpha5-validation.json](audit/alpha5-validation.json).
+
+Limits: classification rules are operational, not a universal taxonomy. No case
+qualifies held-out HDBSCAN prediction or structural reliance of the PLS model.
+Group–Y decomposition and predictive interventions are specified for alpha.6,
+not advertised as computed. No upstream source or scientific suite was modified.
+
+## Historical alpha.1–alpha.4 evidence
+
 Executed locally on Windows x86_64, Python 3.11, Rust/Cargo 1.99.1. Preflight
 0.1.0-alpha.1 came from crates.io; the numerical provider was the PyPI Methods
 1.3.6 Windows wheel reporting ABI 2.19.0. Binary SHA-256 and source snapshots are

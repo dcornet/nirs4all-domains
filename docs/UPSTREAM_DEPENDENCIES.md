@@ -1,5 +1,26 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.5 structural integration
+
+Existing public Methods ABI 2.19 HDBSCAN and ARI suffice for the completed
+train-only slice. Exact buffer capacities, status/context errors, self-counting
+min_samples, stable MST ties and undefined trivial ARI are respected. No missing
+numerical kernel or upstream source change blocks training characterization.
+
+**Proposed extension, not posted:** public fitted HDBSCAN state and qualified
+out-of-sample assignment, with state ownership/serialization, compatible
+preprocessing/metric, noise/membership diagnostics and documented approximate
+assignment limits. Gates require independent train/test fixtures, unseen density
+regimes, duplicates/ties, native/binding parity and no held-out fit. Current
+batch arrays do not constitute this API. Domains does not read private hierarchy
+state or substitute nearest-centroid classification. Test labels and discovered-
+cluster predictive baselines remain unavailable until qualified.
+
+Alpha.4 PCA getter/rank-deficiency, Preflight representation/reference, Datasets
+metadata/access and DAG-ML facade proposals remain. The public factor-association
+kernel can support alpha.6 descriptive group–Y work; its unrestricted permutations
+cannot silently become dependency-aware inference. No issue was posted upstream.
+
 Audit: Methods source `131a15a`, Preflight `2f0574a`, Datasets `e68d1be`;
 published Rust Preflight =0.1.0-alpha.1; installed Methods 1.3.6 / ABI 2.19.0.
 No upstream repository was edited and no issue was posted.

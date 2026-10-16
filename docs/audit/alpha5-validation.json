@@ -1,0 +1,56 @@
+{
+  "execution_date": "2026-10-16",
+  "base_commit": "5da242b5cb4e11825cbb75c4d7eb84724b44ba41",
+  "engine_version": "0.1.0-alpha.5",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "rust": "1.99.1",
+  "python": "3.11.9",
+  "packages": {
+    "nirs4all-domains-bridge": "0.1.0a5",
+    "nirs4all-datasets": "0.3.11",
+    "nirs4all-methods": "1.3.6",
+    "dag-ml": "0.3.41",
+    "scikit-learn": "1.7.2"
+  },
+  "methods_abi": "2.19.0",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "rust_tests": {
+    "passed": 31,
+    "ignored": 0,
+    "retained_alpha4": 17,
+    "new_structure_tests": 14
+  },
+  "python_tests": {
+    "passed": 25,
+    "retained_alpha4": 22,
+    "new_structure_tests": 3
+  },
+  "gates_passed": [
+    "Formatting",
+    "Clippy all targets with warnings denied",
+    "Complete workspace Rust/native tests",
+    "Python integration with real CLI/DAG-ML/Methods",
+    "Rustdoc",
+    "Separate generated structural schemas; canonical schemas unchanged",
+    "All emitted structural report schema/availability/population checks",
+    "Native HDBSCAN/ARI execution, exact and partial ID alignment, noise masks and label permutation",
+    "No test X/Y dependence even for post-evaluation host tasks with nonfinite hidden targets",
+    "Whole-component resampling and physical-vote invariance; balanced/mixed/unbalanced acquisition consensus",
+    "Real EcoSIS and Shootout reports each byte-identical on replay",
+    "All final reports byte-identical to prior full qualification; source numerical protocol unchanged",
+    "16 alpha.4 baseline hashes preserved; canonical fitted states and scalars unchanged",
+    "README quickstart, synthetic/real catalog batch commands",
+    "Isolated alpha.5 bridge wheel build"
+  ],
+  "source_sha256": {
+    "crates/nirs4all-domains/src/methods.rs": "78d0399b7e526c2be2ffd94d24988234d15de99350c4e3d43b8b1e4982f70ffb",
+    "crates/nirs4all-domains/src/structure.rs": "be23785bed1ed7090b0cd1a0f5b27fb7901d4263159667cef84cbe73e5283d5e",
+    "configs/pilots/structure-v1.json": "aa5567bf87c9e0f8e89ecf858f1b468dd0d87e1e20bfa5c87f8f4acf0f02a60f"
+  },
+  "scientific_qualification": "Exploratory operational classification, not universal taxonomy, target attribution or predictive-reliance evidence",
+  "upstream_source_checkouts_modified": false,
+  "new_generic_numeric_kernel": false,
+  "github_ci": {
+    "status": "awaiting publication; local execution only"
+  }
+}

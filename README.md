@@ -1,115 +1,187 @@
 # nirs4all-domains
 
-Dataset characterization, calibration readiness and domain shift assessment.
+[![Scientific gates](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml/badge.svg)](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml)
 
-Exploratory Rust-first diagnostics for an explicit **dataset + X source + Y target
-+ split + evaluation policy**. Part of the [nirs4all ecosystem](https://nirs4all.org/).
-Alpha.4 compares synthetic tasks, the historical Shootout split and real EcoSIS
-spectral replicates through Methods kernels and Preflight protocols. It exports
-JSON + Markdown and a separate development-only nested PLS sanity check through
-DAG-ML. It provides no production calibration or global readiness score.
+**Characterizing dataset structure, split sensitivity, calibration readiness,
+and structural shortcut risks in near-infrared spectroscopy.**
 
-## Run locally
+A predictive model can perform well because it recognizes sample groups,
+instruments, batches or spectral neighbors. That performance may not transfer
+outside those structures. Domains develops reproducible diagnostics and
+controlled evaluation protocols to investigate this distinction. Group structure
+can also carry genuine chemistry: the objective is to measure dependence on
+structure, without claiming causal identification of the underlying mechanism.
 
-Prerequisites: Rust with a working native linker; Python 3.11+ for the optional
-dataset/batch bridge. Preflight `=0.1.0-alpha.1` is downloaded from crates.io.
-The optional native Methods library must expose ABI **2.18 or later**. The tested
-Windows wheel is `nirs4all-methods==1.3.6`, ABI **2.19.0**.
+## Quick start
+
+In this prepared Windows workspace:
 
 ```powershell
-# In this prepared workspace, load the isolated toolchain and wheel DLL path:
 . .\scripts\dev-env.ps1
 cargo build --workspace --locked
 target\debug\n4domains.exe validate tests/fixtures/translation.json
-target\debug\n4domains.exe analyze tests/fixtures/translation.json --out results/translation
+target\debug\n4domains.exe analyze tests/fixtures/translation.json --out results/alpha5-quickstart/translation
+target\debug\n4domains.exe structure tests/fixtures/structure/separated.json `
+  --config configs/pilots/structure-v1.json --out results/alpha5-quickstart/structure
 ```
 
-On another machine:
+Structural output directories must be new. Structure, canonical coverage and the
+optional predictive workflow emit separate versioned reports. See [setup](docs/INTEGRATION.md)
+and [the frozen structural protocol](docs/CLUSTERING_STABILITY_PROTOCOL.md).
+
+## Scientific motivation
+
+Random splits may place repeated spectra, related physical samples or shared
+laboratory references on both sides of an evaluation. Even without direct
+leakage, a split can preserve group-specific X–Y relationships that disappear
+when instruments, batches, sites or subpopulations change.
+
+Dataset topology therefore matters alongside regression metrics. Predicting
+between-group differences is different from predicting within-group variation.
+Good regression performance alone does not establish a transferable trait
+relationship. Stable X clusters alone do not establish shortcut learning.
+Domains keeps intrinsic properties, structural associations, split effects and
+predictive reliance as distinct scientific questions.
+
+## Implemented features
+
+Alpha.5 builds on the qualified alpha.4 protocols:
+
+- Explicit versioned dataset/content/source/target/split/policy contracts.
+- Physical/reference dependency checks, strict split guards and keyed joins.
+- Native acquisitions and admissible homogeneous technical means, with membership,
+  evidence, linked contexts and explicit exclusions.
+- Train-fitted Methods PCA and held-out projection; heuristic neighbor/residual
+  coverage; whole-component uncertainty and train-fit stability experiments.
+- Separate train-only PCA–HDBSCAN–ARI characterization through Methods ABI 2.19:
+  component subsampling, matched physical IDs, noise diagnostics, co-membership
+  support, frozen parameter sensitivity and exploratory structural classification.
+- Physical consensus for a bounded native-acquisition comparison.
+- Reproducible JSON/Markdown reports, schemas and real Shootout/EcoSIS pilots.
+- Optional development-only nested grouped PLS through DAG-ML and native Methods,
+  with fold-local centering, selection and a fold-local mean baseline.
+- Algorithmic exclusion of retained Y_test from pre-training fits and selection.
+
+HDBSCAN held-out assignment remains **unavailable**. No train+test fit is presented
+as cluster prediction. Canonical slots for separate structural/predictive
+workflows retain their earlier availability semantics.
+
+## Structural shortcut risk research programme
+
+| Experiment | Status |
+|---|---|
+| Unsupervised X structure and resampling stability | Implemented, separate alpha.5 report |
+| Descriptive metadata-group/target variance decomposition | Specified; planned for alpha.6 |
+| Group-only prediction versus null and spectra | Planned |
+| Within-group predictive skill | Planned |
+| Group-safe random, group-holdout and leave-group-out sensitivity | Planned |
+| Global and within-group training-target permutation controls | Planned |
+
+The [research specification](docs/STRUCTURAL_SHORTCUT_RISK.md) defines metrics,
+populations, fold ownership, negative controls and gates. Eta-squared alone will
+not establish predictive reliance. Spectral-group baselines require fold-local
+construction and qualified held-out assignment. No universal shortcut probability
+or calibrability ranking is provided.
+
+## Architecture and ecosystem
+
+| Project | Responsibility |
+|---|---|
+| nirs4all-methods | Numerical PCA, summaries, neighbors, HDBSCAN, ARI, regression and association kernels |
+| nirs4all-preflight | Intrinsic validity, identities, repetitions and descriptive characterization |
+| nirs4all-domains | Task-specific structure, split/generalization protocols, evidence and provenance |
+| nirs4all-datasets | Canonical data, catalog versions, accessors and provenance |
+| DAG-ML | Native CV, model selection and refit in the optional predictive workflow |
+| nirs4all-quality | Potential operational consumer; no integration claimed here |
+
+Two Rust crates remain the core and CLI. Python provides keyed transport, batch
+orchestration and a bounded native predictive adapter, without numerical fallbacks.
+See [architecture](docs/ARCHITECTURE.md) and [method ownership](docs/METHOD_REUSE_MATRIX.md).
+
+## Setup on Windows and Linux
+
+Use Rust with a native linker and Python 3.11+ for optional workflows. Preflight
+is pinned to `=0.1.0-alpha.1`. Tested Methods: `nirs4all-methods==1.3.6`, ABI
+**2.19.0**. Structure requires ABI >=2.19; canonical coverage supports >=2.18.
+Optional extras pin Datasets 0.3.11, DAG-ML 0.3.41 and scikit-learn 1.7.2
+(Methods estimator facade base classes only, not a numerical backend).
 
 ```sh
 python -m venv .venv
-# activate .venv using your platform's activation command
+# Activate .venv/bin/activate on Linux, or .venv/Scripts/Activate.ps1 on Windows.
 python -m pip install nirs4all-methods==1.3.6 './bridges/python[test,datasets,predictive]'
 python -c 'from n4m._ffi import library_path; print(library_path())'
 cargo build --workspace --locked
-n4domains analyze tests/fixtures/translation.json --methods-library /explicit/path/to/libn4m --out results/translation
 ```
 
-Use `target/debug/n4domains` or add its directory to PATH. On Windows also add the
-wheel's sibling `nirs4all_methods.libs` directory to PATH. Native libraries are
-selected explicitly or with `N4DOMAINS_METHODS_LIBRARY`; no checkout search occurs.
-Without Methods, integrity remains available and dependent metrics are explicitly
-`unavailable`. An explicitly selected but incompatible library produces a failed
-report. CLI exit codes: 0 partial/success, 2 invalid input/engine failure.
+Select the printed library with `--methods-library` or
+`N4DOMAINS_METHODS_LIBRARY`. On Windows, also add the sibling
+`nirs4all_methods.libs` directory to PATH; `scripts/dev-env.ps1` handles this
+prepared workspace. On Linux the executable is `target/debug/n4domains`.
+Missing providers/capabilities yield explicit reasons, without numeric substitutes.
 
 ```sh
-n4domains batch --catalog-config configs/synthetic-batch.yaml --out results/synthetic
-n4domains batch --catalog-config configs/pilot.yaml --catalog-root /prepared/catalog --out results/pilot
-n4domains schema --out schemas
+target/debug/n4domains batch --catalog-config configs/synthetic-batch.yaml --out results/synthetic
+target/debug/n4domains batch --catalog-config configs/pilot.yaml --catalog-root /prepared/catalog --out results/pilot
+target/debug/n4domains schema --out schemas
 ```
 
-The Python bridge must be installed for `batch`; use `--python` to select its
-interpreter. Shootout X1 is enabled after local qualification: 155 train, 460 test,
-40 explicitly excluded validation observations. CORN and UCPH remain disabled
-with precise prerequisites. See [real-data qualification](docs/REAL_DATA_PILOT.md)
-to prepare the local catalog. This is a raw-data reproduction with recorded hashes;
-identity with the registry's historical canonical bytes is unverified.
+Batch requires the installed Python bridge; `--python` selects its interpreter.
+The real catalog path is an explicit local input. CORN/UCPH remain disabled with
+prerequisites in [the historical pilot](docs/REAL_DATA_PILOT.md). Data preparation
+is documented in [the repeated pilot](docs/REPEATED_DATA_PILOT.md).
 
-## Guarantees and current limits
+## Real-data evidence
 
-- Every observation has an explicit train/test partition and physical/group IDs.
-  Preflight validates linked identities and detects exact spectral duplicates.
-  Physical dependencies crossing partitions invalidate the split. Reference-only
-  anomalies block X-Y qualification while preserving pure X diagnostics.
-- The dataset bridge supports explicit `exclude` partition mappings, preserving
-  excluded observation IDs and native counts, plus optional target units.
-  A requested target absent from canonical data is an error.
-- PCA and centering fit train only. Test is projected with retained Methods
-  loadings. Nearest-neighbor and reconstruction thresholds come only from train.
-  Public FlexiblePCA fit/transform retains complete-axis coverage when full
-  covariance moments exceed their budget. Only metrics requiring unavailable
-  moments become unavailable; no truncated moment is represented as exact.
-- Pre-training omits test target values from Preflight, fit, thresholds and report
-  fingerprints. Post-evaluation declares target access and the need for a new
-  independent evaluation after a strategy change.
-- Alpha.3 adds `policy.representation: technical_mean`: one vote per eligible
-  physical sample, with Methods means of known homogeneous technical repeats.
-  Default `native` retains the previous policy. Native acquisitions, linked
-  contexts, reference dependencies, exclusions and exact coverage populations
-  are exported. Biological/unknown repeats and cross-context units are never
-  implicitly averaged. See [unit and reference rules](docs/UNITS_REFERENCES.md).
-- Alpha.4 adds explicit `grouped_native` geometry, evidence-backed
-  `technical_unspecified` means and whole-component coverage/refit bootstrap.
-  EcoSIS keeps all 390 primary train acquisitions and all 2151 bands. The separate
-  nested group PLS check uses only 65 development means: OOF RMSE 110.87 versus
-  null 146.99 g/m², R² 0.397. See [the real repeated pilot](docs/REPEATED_DATA_PILOT.md)
-  and [predictive evidence and limits](docs/PREDICTIVE_SANITY_CHECK.md).
-- Six result dimensions preserve missing capabilities. Clustering, conditional
-  confounding, AOM and inferential shift tests are deferred. The canonical report
-  does not execute the optional development-only predictive workflow.
+| Task | Population / split | Exploratory outcome |
+|---|---|---|
+| Shootout X1 / assay | 155 train, 460 test; 40 validation exclusions | 73/460 coverage flags; both singleton representations agree |
+| EcoSIS freeze-dried / LMA | 82 samples, 492 acquisitions; 65/17 primary sample split, 45/12 plots | 16/102 acquisition flags versus 4/17 mean flags; same four physical samples |
+| EcoSIS development PLS | 65 means / 45 plots; five outer, three inner group folds | OOF RMSE 110.87 versus null 146.99 g/m²; R² 0.397 |
+| EcoSIS train structure | 65 means / 45 components; 100 paired 80% subsamples, five settings | Insufficient information: primary all-noise; smaller clusters appear with weak sensitivity support |
+| Shootout train structure | 155 source-row identity aliases; same structural design | Fragile structure: primary three groups, 27.10% noise; median eligible ARI 0.533 |
 
-See [example report](examples/translation/report.md),
-[architecture](docs/ARCHITECTURE.md), [reuse matrix](docs/METHOD_REUSE_MATRIX.md),
-[protocols](docs/SCIENTIFIC_PROTOCOLS.md), [integration](docs/INTEGRATION.md),
-[roadmap](docs/ROADMAP.md) and [validation evidence](docs/VALIDATION.md).
+These are not established production or new-region performance. Coverage
+fractions have different denominators and are not prediction-failure probabilities.
+All 390 primary train acquisitions and 2151 bands remain in native coverage;
+unavailable full moments do not block scores/coverage. See [predictive evidence](docs/PREDICTIVE_SANITY_CHECK.md)
+and [actual structural results](docs/CLUSTERING_REAL_DATA_PILOT.md).
 
-## Verification
+## Scientific limitations
+
+Coverage thresholds are heuristic. Metadata may not establish biological
+independence, replicate subtypes or independent laboratory precision. Stable X
+groups do not prove target confounding, predictive reliance or causality. Grouped
+development CV is not production calibration. Structural categories are
+operational and sensitive to native ordering/tie conventions at specified scales.
+All-noise or a trivial cluster is not proof of stable grouping or a continuum.
+Held-out HDBSCAN labels remain unavailable.
+
+Datasets' public target accessor may materialize a full frame: algorithmic label
+exclusion is tested, storage isolation is not promised. See [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
+[upstream proposals](docs/UPSTREAM_DEPENDENCIES.md) and [roadmap](docs/ROADMAP.md).
+
+## Verification and project status
+
+Exploratory **0.1.0-alpha.5**. Locally validated: **31 Rust + 25 Python = 56 tests**.
+Executed Windows/Linux CI evidence
+are in [VALIDATION.md](docs/VALIDATION.md). The badge points to the actual existing
+workflow; configuration alone is not execution evidence.
 
 ```sh
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --workspace --locked
-# Requires N4DOMAINS_METHODS_LIBRARY; fails if it is missing:
+# Requires real N4DOMAINS_METHODS_LIBRARY, including ABI 2.19 structure gates:
 cargo test --workspace --locked -- --ignored
 cargo doc --workspace --no-deps --locked
-# Set N4DOMAINS_BIN to the built executable:
+# Set N4DOMAINS_BIN to the built CLI:
 python -m unittest discover -s tests/integration -v
 ```
 
-The native scientific tests are explicitly ignored in the provider-free suite;
-CI runs them separately and requires a real provider. Tests for future protocols
-check honest unavailability, not scientific validity of those future methods.
+Provider-free tests do not qualify unavailable methods. CI executes real native
+gates on Windows and Ubuntu. Validate structural output with
+`python scripts/check_structure_report.py <report.json>`.
 
-License: **AGPL-3.0-or-later**, selected by the owner on 2026-10-16. No upstream
-repositories were modified. The owner authorized the first GitHub commit/push
-on 2026-10-16.
+License: **AGPL-3.0-or-later**, selected by the owner. Native upstream libraries
+and raw dataset bytes are not redistributed here. No upstream repository was modified.

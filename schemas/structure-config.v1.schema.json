@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StructureConfig",
+  "type": "object",
+  "properties": {
+    "compare_native": {
+      "type": "boolean"
+    },
+    "component_fraction": {
+      "type": "number",
+      "format": "double"
+    },
+    "pca_max_components": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "pca_variance_fraction": {
+      "type": "number",
+      "format": "double"
+    },
+    "primary": {
+      "$ref": "#/$defs/HdbscanParameters"
+    },
+    "replicates": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "schema_version": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "seed": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "sensitivity": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/HdbscanParameters"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "seed",
+    "pca_max_components",
+    "pca_variance_fraction",
+    "replicates",
+    "component_fraction",
+    "primary",
+    "sensitivity",
+    "compare_native"
+  ],
+  "$defs": {
+    "HdbscanParameters": {
+      "type": "object",
+      "properties": {
+        "allow_single_cluster": {
+          "type": "boolean"
+        },
+        "min_cluster_size": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "min_samples": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "selection_method": {
+          "$ref": "#/$defs/SelectionMethod"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "min_cluster_size",
+        "min_samples",
+        "selection_method",
+        "allow_single_cluster"
+      ]
+    },
+    "SelectionMethod": {
+      "type": "string",
+      "enum": [
+        "eom",
+        "leaf"
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "audited_methods_commit": "131a15a6bbf73a8ab941c7b3fb81b21f6b71b059",
+  "provider_version": "1.3.6+abi.2.19.0",
+  "minimum_structure_abi": "2.19.0",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "source_files_sha256": {
+    "cpp/include/n4m/metrics.h": "5d558fd975a638b16afc776d4725daf9fb0dfde66f0f5d3bc2c9cd00c136932c",
+    "cpp/src/c_api/c_api_preflight.cpp": "5291009904e72375696fee7f386c29fc80db020c654538919313a58a2429936b",
+    "docs/dev/hdbscan.md": "42bf56cb5370b64045b7f18e44aebc4708fcaf5f9d0b1c420fd87ed9737a642b",
+    "cpp/tests/test_hdbscan.cpp": "edb166d412767e62416f623bd663295bc4b2e81c23751abf5a42f175d859a28c"
+  },
+  "public_api": {
+    "n4m_cluster_hdbscan": {
+      "executed": true,
+      "buffer_contract": "All per-row/cluster/tree arrays have X.rows capacity; counts checked before truncation",
+      "noise_label": -1,
+      "selection": {
+        "0": "EOM",
+        "1": "leaf"
+      },
+      "min_samples": "Counts the row itself",
+      "distance_product_budget": 2500000000,
+      "nonfinite_output": "Infinite hierarchy/undefined outlier values exported null with field/index/native-value reasons"
+    },
+    "n4m_preflight_adjusted_rand_index": {
+      "executed": true,
+      "noise_semantics": "All values, including -1, are ordinary labels; filtering belongs to caller",
+      "undefined": "Native NaN for n<2 or same trivial partitions; never converted to 1"
+    },
+    "n4m_context_last_error": {
+      "used_for": "Copy context-owned diagnostics immediately after failed native calls"
+    }
+  },
+  "held_out_assignment": {
+    "status": "unavailable",
+    "reason": "No public HDBSCAN assignment/state API found in audited headers/catalog/bindings"
+  },
+  "upstream_sources_modified": false,
+  "upstream_test_suites_rerun": false,
+  "new_generic_numeric_kernel": false
+}
