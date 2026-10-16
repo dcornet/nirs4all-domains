@@ -1,0 +1,39 @@
+# Verified against datasets commit e68d1befb6cb8245799e83d4b4e4c41e66287689.
+# Candidate tasks are disabled until acquisition and identity/split gates close.
+schema_version: 1
+catalog_root: ../.audit/datasets
+tasks:
+  - dataset_id: pharmaceutical_tablets_nir_shootout_eigenvector
+    content_version: 1.0.0
+    source_id: X1
+    target_id: assay
+    split_id: original
+    seed: 17
+    enabled: false
+    reason: >-
+      Catalog declares native original split and two instruments; private/manual
+      access. Verify actual split labels, physical identities, canonical bytes and
+      assay unit before enabling. No partition labels are invented here.
+  - dataset_id: corn_eigenvector_nir
+    content_version: 1.0.0
+    source_id: X1
+    target_id: Moisture
+    split_id: experimental-pending
+    seed: 17
+    enabled: false
+    reason: >-
+      Three sources X1/X2/X3 confirmed, no native split. Private/manual source;
+      needs an explicitly supplied experimental task. Instrument comparison is
+      paired by physical sample and requires a paired protocol, deferred in MVP.
+  - dataset_id: ucph_tablet_nir
+    content_version: 1.0.0
+    source_id: X
+    target_id: active_w_w
+    split_id: original
+    group_column: batch
+    seed: 17
+    enabled: false
+    reason: >-
+      Metadata batch/replicate/scale documented; physical sample IDs not confirmed.
+      Historical split terms need verification, private/manual access. Verify
+      tablet, repeat and batch identities plus native partition labels first.

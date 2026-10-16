@@ -1,0 +1,16 @@
+[package]
+name = "nirs4all-domains"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Dataset characterization, calibration readiness and domain shift assessment"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+sha2.workspace = true
+nirs4all-preflight.workspace = true
+libloading = "0.8"

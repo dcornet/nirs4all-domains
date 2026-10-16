@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "context": {
+    "dataset_id": "synthetic-insufficient",
+    "content_version": "1.0.0",
+    "source_id": "nir",
+    "target_id": "concentration",
+    "split_id": "explicit-v1"
+  },
+  "data_origin": "synthetic",
+  "axis": [
+    1100.0,
+    1200.0,
+    1300.0
+  ],
+  "axis_unit": "nm",
+  "signal_unit": "absorbance",
+  "policy": {
+    "independence_unit": "physical_sample",
+    "audit_mode": "pre_training",
+    "seed": 17,
+    "pca_max_components": 3,
+    "pca_variance_fraction": 0.95
+  },
+  "observations": [
+    {
+      "observation_id": "o-train-0",
+      "sample_id": "train-0",
+      "physical_sample_id": "train-0",
+      "independence_group": "train-0",
+      "partition": "train",
+      "x": [
+        -3.0,
+        -6.0,
+        4.0
+      ],
+      "y": -3.0,
+      "reference_id": "r-train-0"
+    },
+    {
+      "observation_id": "o-train-1",
+      "sample_id": "train-1",
+      "physical_sample_id": "train-1",
+      "independence_group": "train-1",
+      "partition": "train",
+      "x": [
+        -2.0,
+        -4.0,
+        3.0
+      ],
+      "y": -2.0,
+      "reference_id": "r-train-1"
+    },
+    {
+      "observation_id": "o-test-0",
+      "sample_id": "test-0",
+      "physical_sample_id": "test-0",
+      "independence_group": "test-0",
+      "partition": "test",
+      "x": [
+        -3.0,
+        -6.0,
+        4.0
+      ],
+      "y": -3.0,
+      "reference_id": "r-test-0"
+    }
+  ],
+  "provenance": {
+    "fixture_generator": "controlled-v1; deterministic; no RNG draws"
+  }
+}

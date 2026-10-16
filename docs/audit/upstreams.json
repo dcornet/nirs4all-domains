@@ -1,0 +1,88 @@
+{
+  "audit_date": "2026-10-16",
+  "repositories": {
+    "methods": {
+      "repository": "https://github.com/GBeurier/nirs4all-methods",
+      "commit": "131a15a6bbf73a8ab941c7b3fb81b21f6b71b059",
+      "files": {
+        "README.md": "bacb9b749becfacb76cca073659c43dc1add901f6ec10da7379e69c54e03b1e4",
+        "CHANGELOG.md": "27b1ce3194f8485073b85835fbccf5f8daa8c719980c61d0e76329c693730035",
+        "docs/dev/hdbscan.md": "42bf56cb5370b64045b7f18e44aebc4708fcaf5f9d0b1c420fd87ed9737a642b",
+        "cpp/include/n4m/metrics.h": "5d558fd975a638b16afc776d4725daf9fb0dfde66f0f5d3bc2c9cd00c136932c",
+        "cpp/include/n4m/n4m_version.h": "07612de13b66971dab8f19daffa08422b7654f8c8506e1f892e966c6ba2a8bc6",
+        "catalog/methods/diagnostics.hdbscan.yaml": "3405ffaa02863815b6552a0c1dd12ad7d3d57dde3342f4d6dbdf96a84fd7beb0",
+        "cpp/tests/test_hdbscan.cpp": "edb166d412767e62416f623bd663295bc4b2e81c23751abf5a42f175d859a28c",
+        "parity/fixtures/hdbscan_v1.json": "294457336e820754b5047851760ea0d02391c1c552cd9420cc80223179297cd4",
+        "bindings/python/src/n4m/_ffi_decls.py": "e1c6464aa65ce45588b627aa7e18a37b1ac34629b15a90025b452fb4adc43747",
+        "cpp/tests/test_preflight.cpp": "c42a221e50b0c023d183f12ff73a826db7b6a194c29d981fc33e66742d69cd6a"
+      }
+    },
+    "preflight": {
+      "repository": "https://github.com/GBeurier/nirs4all-preflight",
+      "commit": "2f0574af0d04a9dbb0f64a978e9f2995ccf1a05d",
+      "files": {
+        "README.md": "ab1597cba9882bd6d62869aea5e555d435e420e86b09e37d98635fcecc46bed6",
+        "docs/SPECIFICATION.md": "af0682c5551afc3203bbdbd7516276263d4019767f264ad1ada2ae22c0b170b5",
+        "docs/ROADMAP.md": "c7fe7f1bafb86ec6bde9b61e0a4b2374f536c6e3169c4e2fce58972372237143",
+        "docs/implementation/REUSE_METHODS.md": "9ae1ed05662de8858835b14d54fe7a036f930320b63420f5ffca79ee7bae2b2c",
+        "crates/nirs4all-preflight/src/lib.rs": "9f2e837246f0691f77ef9aa869be7cedfa999aeba092893de2c597bede59c2a0",
+        "crates/nirs4all-preflight/src/native.rs": "39507fdf540ccbafbda1643c78a034225afe92f7f5d7c79049af2686efd4bf93",
+        "crates/nirs4all-preflight-core/src/lib.rs": "316ff9b2b56583ebf10a63b46bc5c64b8ee9b2b35e6676b1417302e1534c3130",
+        "Cargo.toml": "4e6996e5032491c5cf768f09609e9fceab18d9d53e89d7ee0c048ca06e2eef45"
+      }
+    },
+    "datasets": {
+      "repository": "https://github.com/GBeurier/nirs4all-datasets",
+      "commit": "e68d1befb6cb8245799e83d4b4e4c41e66287689",
+      "files": {
+        "README.md": "36f7ca5e614b8ec5fd0ccabb37358624399e082f22f638d99e71e09c09844724",
+        "ONBOARDING.md": "85dc265c50197db40080ee8e143035ec50daa166f4d595e6bf2b200c7a215554",
+        "pyproject.toml": "754b1a9fd77a07e39a9087ce535279788059e6005cc0483fdd9a2bd31924ee02",
+        "src/nirs4all_datasets/dataset.py": "66493b04ea9849f6837307c3a676fc32070d66b40aa935c0afaaa0d177900841",
+        "src/nirs4all_datasets/access.py": "328632fa36e391dd81dd6d4a42f0997668dc7381b04c051557b82f8b80dc92d4",
+        "src/nirs4all_datasets/schema.py": "1b8affe5879b69209af33a20c1915290625ca1f2188945cbce8a06cc06cf25ff",
+        "catalog/datasets/corn_eigenvector_nir.yaml": "96ef5536f7a70d0fb725edad4370dd6635828d10b65df1ffc4702d0384bea92d",
+        "catalog/datasets/pharmaceutical_tablets_nir_shootout_eigenvector.yaml": "df77c90e0b93f881f614abf645e17c800e19a0650c7fb749e83448f233f1e84b",
+        "catalog/datasets/ucph_tablet_nir.yaml": "5653ffdecc127cc8f5a07b383f7b31737bd9544f037622e789f27a8f29dc6b11"
+      }
+    }
+  },
+  "methodological_document": {
+    "filename": "qualification_nirs_architecture_plan(1).docx",
+    "sha256": "8c683456b2549506503b3f0b3b1a2d37f86b75252385c2de67808c00c302f2e8",
+    "access": "OOXML text extracted and read; local document ignored by Git"
+  },
+  "runtime": {
+    "platform": "Windows x86_64",
+    "python": "3.11",
+    "package": "nirs4all-methods==1.3.6",
+    "version": "1.3.6+abi.2.19.0",
+    "abi": [
+      2,
+      19,
+      0
+    ],
+    "binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+    "symbols": {
+      "n4m_preflight_pca_compute": true,
+      "n4m_preflight_summary_compute": true,
+      "n4m_preflight_nearest_neighbors": true,
+      "n4m_cluster_hdbscan": true,
+      "n4m_preflight_adjusted_rand_index": true,
+      "n4m_preflight_factor_association": true,
+      "n4m_preflight_holm_adjust": true,
+      "n4m_preflight_noise_proxy_compute": true,
+      "n4m_preflight_pairs_within_tolerance": true
+    }
+  },
+  "upstream_suites_executed": false,
+  "real_datasets_executed": false,
+  "github": {
+    "owner": "dcornet",
+    "requested_repository_lookup": "HTTP 404 on 2026-10-16",
+    "remote_created": false,
+    "pushed": false,
+    "git_author_configured": false
+  },
+  "datasets_api_executed_on_synthetic_canonical": true
+}

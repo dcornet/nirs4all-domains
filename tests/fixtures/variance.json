@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "context": {
+    "dataset_id": "synthetic-variance",
+    "content_version": "1.0.0",
+    "source_id": "nir",
+    "target_id": "concentration",
+    "split_id": "explicit-v1"
+  },
+  "data_origin": "synthetic",
+  "axis": [
+    1100.0,
+    1200.0,
+    1300.0
+  ],
+  "axis_unit": "nm",
+  "signal_unit": "absorbance",
+  "policy": {
+    "independence_unit": "physical_sample",
+    "audit_mode": "pre_training",
+    "seed": 17,
+    "pca_max_components": 3,
+    "pca_variance_fraction": 0.95
+  },
+  "observations": [
+    {
+      "observation_id": "o-train-0",
+      "sample_id": "train-0",
+      "physical_sample_id": "train-0",
+      "independence_group": "train-0",
+      "partition": "train",
+      "x": [
+        -3.0,
+        -6.0,
+        4.0
+      ],
+      "y": -3.0,
+      "reference_id": "r-train-0"
+    },
+    {
+      "observation_id": "o-train-1",
+      "sample_id": "train-1",
+      "physical_sample_id": "train-1",
+      "independence_group": "train-1",
+      "partition": "train",
+      "x": [
+        -2.0,
+        -4.0,
+        3.0
+      ],
+      "y": -2.0,
+      "reference_id": "r-train-1"
+    },
+    {
+      "observation_id": "o-train-2",
+      "sample_id": "train-2",
+      "physical_sample_id": "train-2",
+      "independence_group": "train-2",
+      "partition": "train",
+      "x": [
+        -1.0,
+        -2.0,
+        2.0
+      ],
+      "y": -1.0,
+      "reference_id": "r-train-2"
+    },
+    {
+      "observation_id": "o-train-3",
+      "sample_id": "train-3",
+      "physical_sample_id": "train-3",
+      "independence_group": "train-3",
+      "partition": "train",
+      "x": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "y": 0.0,
+      "reference_id": "r-train-3"
+    },
+    {
+      "observation_id": "o-train-4",
+      "sample_id": "train-4",
+      "physical_sample_id": "train-4",
+      "independence_group": "train-4",
+      "partition": "train",
+      "x": [
+        1.0,
+        2.0,
+        0.0
+      ],
+      "y": 1.0,
+      "reference_id": "r-train-4"
+    },
+    {
+      "observation_id": "o-train-5",
+      "sample_id": "train-5",
+      "physical_sample_id": "train-5",
+      "independence_group": "train-5",
+      "partition": "train",
+      "x": [
+        2.0,
+        4.0,
+        -1.0
+      ],
+      "y": 2.0,
+      "reference_id": "r-train-5"
+    },
+    {
+      "observation_id": "o-train-6",
+      "sample_id": "train-6",
+      "physical_sample_id": "train-6",
+      "independence_group": "train-6",
+      "partition": "train",
+      "x": [
+        3.0,
+        6.0,
+        -2.0
+      ],
+      "y": 3.0,
+      "reference_id": "r-train-6"
+    },
+    {
+      "observation_id": "o-train-7",
+      "sample_id": "train-7",
+      "physical_sample_id": "train-7",
+      "independence_group": "train-7",
+      "partition": "train",
+      "x": [
+        4.0,
+        8.0,
+        -3.0
+      ],
+      "y": 4.0,
+      "reference_id": "r-train-7"
+    },
+    {
+      "observation_id": "o-test-0",
+      "sample_id": "test-0",
+      "physical_sample_id": "test-0",
+      "independence_group": "test-0",
+      "partition": "test",
+      "x": [
+        -6.5,
+        -13.0,
+        7.5
+      ],
+      "y": -3.0,
+      "reference_id": "r-test-0"
+    },
+    {
+      "observation_id": "o-test-1",
+      "sample_id": "test-1",
+      "physical_sample_id": "test-1",
+      "independence_group": "test-1",
+      "partition": "test",
+      "x": [
+        -4.5,
+        -9.0,
+        5.5
+      ],
+      "y": -2.0,
+      "reference_id": "r-test-1"
+    },
+    {
+      "observation_id": "o-test-2",
+      "sample_id": "test-2",
+      "physical_sample_id": "test-2",
+      "independence_group": "test-2",
+      "partition": "test",
+      "x": [
+        -2.5,
+        -5.0,
+        3.5
+      ],
+      "y": -1.0,
+      "reference_id": "r-test-2"
+    },
+    {
+      "observation_id": "o-test-3",
+      "sample_id": "test-3",
+      "physical_sample_id": "test-3",
+      "independence_group": "test-3",
+      "partition": "test",
+      "x": [
+        -0.5,
+        -1.0,
+        1.5
+      ],
+      "y": 0.0,
+      "reference_id": "r-test-3"
+    },
+    {
+      "observation_id": "o-test-4",
+      "sample_id": "test-4",
+      "physical_sample_id": "test-4",
+      "independence_group": "test-4",
+      "partition": "test",
+      "x": [
+        1.5,
+        3.0,
+        -0.5
+      ],
+      "y": 1.0,
+      "reference_id": "r-test-4"
+    },
+    {
+      "observation_id": "o-test-5",
+      "sample_id": "test-5",
+      "physical_sample_id": "test-5",
+      "independence_group": "test-5",
+      "partition": "test",
+      "x": [
+        3.5,
+        7.0,
+        -2.5
+      ],
+      "y": 2.0,
+      "reference_id": "r-test-5"
+    },
+    {
+      "observation_id": "o-test-6",
+      "sample_id": "test-6",
+      "physical_sample_id": "test-6",
+      "independence_group": "test-6",
+      "partition": "test",
+      "x": [
+        5.5,
+        11.0,
+        -4.5
+      ],
+      "y": 3.0,
+      "reference_id": "r-test-6"
+    },
+    {
+      "observation_id": "o-test-7",
+      "sample_id": "test-7",
+      "physical_sample_id": "test-7",
+      "independence_group": "test-7",
+      "partition": "test",
+      "x": [
+        7.5,
+        15.0,
+        -6.5
+      ],
+      "y": 4.0,
+      "reference_id": "r-test-7"
+    }
+  ],
+  "provenance": {
+    "fixture_generator": "controlled-v1; deterministic; no RNG draws"
+  }
+}

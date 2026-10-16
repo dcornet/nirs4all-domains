@@ -1,0 +1,8 @@
+schema_version: 1
+tasks:
+  - dataset_id: synthetic-translation
+    task_file: ../tests/fixtures/translation.json
+  - dataset_id: synthetic-variance
+    task_file: ../tests/fixtures/variance.json
+  - dataset_id: synthetic-target_absent
+    task_file: ../tests/fixtures/target_absent.json

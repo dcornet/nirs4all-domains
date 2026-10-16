@@ -1,0 +1,18 @@
+[package]
+name = "nirs4all-domains-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Local scientific audit CLI for NIRS domains"
+
+[[bin]]
+name = "n4domains"
+path = "src/main.rs"
+
+[dependencies]
+nirs4all-domains = { path = "../nirs4all-domains", version = "=0.1.0-alpha.1" }
+serde_json.workspace = true
+schemars.workspace = true
+clap = { version = "4", features = ["derive", "env"] }

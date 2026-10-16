@@ -1,0 +1,11 @@
+/target/
+/.audit/
+/.tools/
+/.venv/
+/results/
+*.docx
+__pycache__/
+*.egg-info/
+.pytest_cache/
+dist/
+build/

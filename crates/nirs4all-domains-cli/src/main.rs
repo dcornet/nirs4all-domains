@@ -1,0 +1,122 @@
+use clap::{Parser, Subcommand};
+use nirs4all_domains::{analyze, markdown, validate, Report, Task};
+use std::{
+    path::{Path, PathBuf},
+    process::{Command, ExitCode},
+};
+
+#[derive(Parser)]
+#[command(
+    name = "n4domains",
+    version,
+    about = "Explicit NIRS train/test scientific audits"
+)]
+struct Args {
+    #[command(subcommand)]
+    command: Action,
+}
+#[derive(Subcommand)]
+enum Action {
+    Validate {
+        task: PathBuf,
+    },
+    Analyze {
+        task: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: Option<PathBuf>,
+    },
+    Schema {
+        #[arg(long)]
+        out: PathBuf,
+    },
+    Batch {
+        #[arg(long)]
+        catalog_config: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, default_value = "python")]
+        python: String,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: Option<PathBuf>,
+    },
+}
+fn read(path: &Path) -> Result<Task, String> {
+    if std::fs::metadata(path).map_err(|e| e.to_string())?.len() > 256_000_000 {
+        return Err("TASK_FILE_BUDGET_EXCEEDED".into());
+    }
+    let bytes = std::fs::read(path).map_err(|e| e.to_string())?;
+    serde_json::from_slice(&bytes).map_err(|e| e.to_string())
+}
+fn run() -> Result<u8, String> {
+    match Args::parse().command {
+        Action::Validate { task } => {
+            validate(&read(&task)?)?;
+            println!("valid");
+            Ok(0)
+        }
+        Action::Analyze {
+            task,
+            out,
+            methods_library,
+        } => {
+            let report = analyze(&read(&task)?, methods_library.as_deref());
+            std::fs::create_dir_all(&out).map_err(|e| e.to_string())?;
+            std::fs::write(
+                out.join("report.json"),
+                serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?;
+            std::fs::write(out.join("report.md"), markdown(&report)).map_err(|e| e.to_string())?;
+            println!("{}: {}", report.context.dataset_id, report.status);
+            Ok(if report.status == "failed" { 2 } else { 0 })
+        }
+        Action::Schema { out } => {
+            std::fs::create_dir_all(&out).map_err(|e| e.to_string())?;
+            for (name, schema) in [
+                ("task.v1.schema.json", schemars::schema_for!(Task)),
+                ("report.v1.schema.json", schemars::schema_for!(Report)),
+            ] {
+                std::fs::write(
+                    out.join(name),
+                    serde_json::to_vec_pretty(&schema).map_err(|e| e.to_string())?,
+                )
+                .map_err(|e| e.to_string())?;
+            }
+            Ok(0)
+        }
+        Action::Batch {
+            catalog_config,
+            out,
+            python,
+            methods_library,
+        } => {
+            let mut cmd = Command::new(python);
+            cmd.args(["-m", "nirs4all_domains.batch", "--catalog-config"])
+                .arg(catalog_config)
+                .arg("--out")
+                .arg(out)
+                .env(
+                    "N4DOMAINS_BIN",
+                    std::env::current_exe().map_err(|e| e.to_string())?,
+                );
+            if let Some(path) = methods_library {
+                cmd.arg("--methods-library").arg(path);
+            }
+            let status = cmd
+                .status()
+                .map_err(|e| format!("Python bridge unavailable: {e}; install bridges/python"))?;
+            Ok(status.code().unwrap_or(2) as u8)
+        }
+    }
+}
+fn main() -> ExitCode {
+    match run() {
+        Ok(code) => ExitCode::from(code),
+        Err(e) => {
+            eprintln!("n4domains: {e}");
+            ExitCode::from(2)
+        }
+    }
+}
