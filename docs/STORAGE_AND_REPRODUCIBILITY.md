@@ -32,6 +32,13 @@ compute-count correction, without numerical or byte-budget changes. Historical
 supplement/Ridge receipts bind the driver at source commit `e711cc8`; that source
 remains preserved in Git. The main executed bank controller still matches the
 qualified wheel, and the four main checkpoints remain exact matches.
+The preparation guard rechecks the admitted archive hash before any provider
+write, binds cache proof to admission, and compares cached specimen keys, axis,
+float32 X and permitted development Y directly to the original archive. It
+never treats a cached intermediate Y as independent provenance. Estimates include
+the external cache volume as well as the workspace. Original Perten data pass
+this renewed verification without changing the frozen task; a changed-origin
+fixture is refused before canonical writing.
 
 Datasets 0.3.11 owns acquisition (`get`, `retrieve`, native `verify_cached`) and
 canonical Parquet. Domains does not provide another downloader, canonical writer

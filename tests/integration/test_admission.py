@@ -32,6 +32,24 @@ def pairs():
 
 
 class AdmissionTests(unittest.TestCase):
+    def test_changed_origin_after_admission_blocks_before_canonical_write(self):
+        import importlib.util
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from nirs4all_domains.storage import atomic_json,digest
+        module=importlib.util.spec_from_file_location("alpha9_pilot",ROOT/"scripts/run_alpha9_pilot.py")
+        runner=importlib.util.module_from_spec(module);module.loader.exec_module(runner)
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);leaf=root/"leaf";(leaf/"raw").mkdir(parents=True)
+            archive=leaf/"raw/sensAIfood_Perten.zip";archive.write_bytes(b"admitted origin")
+            for name in ("X.csv","Y.csv","M.csv"):(leaf/name).write_text("unchanged keyed input")
+            s=specification();s["source_hashes"]={"archive":digest(archive),**{k:digest(leaf/k) for k in ("X.csv","Y.csv","M.csv")}}
+            out=root/"out";atomic_json(out/"perten-admission.json",freeze_admission(s))
+            archive.write_bytes(b"changed after admission, source tables unchanged")
+            with patch("nirs4all_datasets.canonical.build_canonical",side_effect=AssertionError("provider must not write")):
+                with self.assertRaisesRegex(ValueError,"ADMITTED_INPUT_CHANGED"):
+                    runner.prepare(SimpleNamespace(leaf=leaf,out=out))
+
     def test_source_adapter_uses_original_reference_keys_ignoring_unkeyed_y(self):
         import importlib.util
         import pandas as pd

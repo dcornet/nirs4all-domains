@@ -102,7 +102,7 @@ def audit(args):
             raise ValueError("RAW_TO_STANDARD_X_KEYED_PARITY_FAILED")
     policy = read(args.policy)
     plan = file_plan(archive, 32*2**20, 4*2**20)
-    budget = estimate(plan, policy, Path.cwd(), args.out, args.out)
+    budget = estimate(plan, policy, Path.cwd(), args.cache, args.out)
     if budget["status"] != "ready":
         raise ValueError(str(budget))
     source_hashes = {"archive": RAW_SHA, **{p.name:digest(p) for p in (args.leaf/"X.csv", args.leaf/"Y.csv", args.leaf/"M.csv")}}
@@ -160,7 +160,9 @@ def prepare(args):
     from nirs4all_datasets import get
     record = read(args.out/"perten-admission.json")
     verify_admission(record)
-    if record["status"] != "admitted" or any(digest(args.leaf/k) != v for k,v in record["specification"]["source_hashes"].items() if k != "archive"):
+    if (record["status"] != "admitted"
+            or digest(args.leaf/"raw/sensAIfood_Perten.zip") != record["specification"]["source_hashes"]["archive"]
+            or any(digest(args.leaf/k) != v for k,v in record["specification"]["source_hashes"].items() if k != "archive")):
         raise ValueError("ADMITTED_INPUT_CHANGED")
     # One external shared cache revision; never execute upstream's destructive converter.
     cache = args.cache/"domains-reproductions"/DATASET/(RAW_SHA+"-keyed-v1")
@@ -175,13 +177,15 @@ def prepare(args):
     manifest = cache/"domains-cache-proof.json"
     if manifest.exists():
         proof = read(manifest)
+        if proof["admission_id"] != record["admission_id"]:
+            raise ValueError("CANONICAL_CACHE_ADMISSION_CONTRACT_MISMATCH")
         for p,v in proof["canonical_hashes"].items():
             if digest(leaf/p) != v:
                 raise ValueError("CANONICAL_CACHE_CONTENT_MISMATCH")
     else:
         if leaf.exists():
             raise ValueError("UNKNOWN_PARTIAL_EXTERNAL_CACHE_PRESERVED")
-        budget = estimate(file_plan(args.leaf/"X.csv", 4*2**20, 65536), read(args.policy), Path.cwd(), args.out, args.out)
+        budget = estimate(file_plan(args.leaf/"X.csv", 4*2**20, 65536), read(args.policy), Path.cwd(), args.cache, args.out)
         if budget["status"] != "ready":
             raise ValueError(str(budget))
         keyed_source_tables(args.leaf, cache/"source-adapter-v1")
@@ -211,8 +215,22 @@ def prepare(args):
         split_id="alpha9-context-retained-17", partition_labels={"development":"train", "retained":"test"},
         identity_table=identities, representation="technical_mean", signal_unit="source signal as supplied; physical scale unspecified",
         pca_backend="flexible", pca_max_components=20, provenance={"admission_id":record["admission_id"], "original_archive_sha256":RAW_SHA}))
-    original = pd.read_csv(cache/"source-adapter-v1/Y.csv", sep=";").set_index("observation_id")
-    if any(r["y"] != float(original.at[r["observation_id"], "Moisture"]) for r in task["observations"] if r["partition"] == "train"):
+    # Revalidate against the admitted origin, including on cache reuse. The
+    # cached intermediate Y is not independent evidence of original alignment.
+    original = {}
+    with zipfile.ZipFile(args.leaf/"raw/sensAIfood_Perten.zip") as archive:
+        for name in sorted(archive.namelist()):
+            if name.endswith(".csv"):
+                for row in csv.DictReader(archive.read(name).decode("utf-8-sig").splitlines()):
+                    if row["ID"] in original: raise ValueError("AMBIGUOUS_ORIGINAL_SPECIMEN_ID")
+                    original[row["ID"]] = row
+    if task["axis"] != list(range(950,1651,5)):
+        raise ValueError("ORIGINAL_AXIS_PARITY_FAILED")
+    if len(task["observations"]) != len(original) or {r["sample_id"] for r in task["observations"]} != set(original):
+        raise ValueError("CANONICAL_ORIGINAL_SPECIMEN_KEY_SET_MISMATCH")
+    if any(not np.array_equal(np.asarray(r["x"],dtype="float32"),np.asarray([original[r["sample_id"]][str(k)] for k in range(950,1651,5)],dtype="float32")) for r in task["observations"]):
+        raise ValueError("CANONICAL_ORIGINAL_X_KEYED_PARITY_FAILED")
+    if any(r["y"] != float(original[r["sample_id"]]["Moisture"]) for r in task["observations"] if r["partition"] == "train"):
         raise ValueError("DEVELOPMENT_REFERENCE_KEYED_PARITY_FAILED")
     if any("y" in r for r in task["observations"] if r["partition"] == "test"):
         raise ValueError("RETAINED_TARGET_LEAKAGE")

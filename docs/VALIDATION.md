@@ -2,8 +2,8 @@
 
 ## Alpha.9 — local execution 2026-10-17
 
-**35 Rust + 93 Python = 128 tests pass**, preserving all 105 alpha.8 tests.
-Twenty-three new gates separate access/analysis/publication/redistribution,
+**35 Rust + 94 Python = 129 tests pass**, preserving all 105 alpha.8 tests.
+Twenty-four new gates separate access/analysis/publication/redistribution,
 reject numeric IDs and missing original/reference evidence, preserve repeated
 local-label ambiguity, verify keyed reordered pairs/unmatched keys/contradictory
 or shared assays/different axes, test deterministic score-free admission and
@@ -13,6 +13,9 @@ hand-computed 1e-10 check; DAG-ML lineage, frozen-fold/content rejection and ret
 instrument/X/Y invariance execute. Native rank-deficient PLS fails explicitly,
 without a silent smaller-grid retry. Existing closure, intervention availability,
 restart/failure isolation, budget and synthetic-exclusion gates are retained.
+The final source guard refuses an archive changed after admission before any
+canonical write. Cached keys/axis/X and permitted Y are revalidated directly
+against the original; the real 450-specimen frozen task remains exactly unchanged.
 
 fmt, Clippy with warnings denied, all workspace/native ignored tests, rustdoc,
 generated schemas, canonical/structural report checks and public registry/
@@ -41,6 +44,8 @@ completed successfully on scientific source commit
 [Step-level proof](audit/github-ci-alpha9.json) records completed execution.
 The later secondary fit-count correction changes planning metadata only, with
 the exact original supplementary driver preserved at that scientific source.
+The final source-immutability gate adds one Python test after that 128-test
+scientific source run; final-HEAD CI is verified separately before handover.
 
 ## Alpha.8 — local execution 2026-10-17
 

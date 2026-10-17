@@ -120,7 +120,7 @@ is posted. See UPSTREAM_DEPENDENCIES.md.
 
 ## I — Validation
 
-**128 tests pass locally: 35 Rust + 93 Python**, preserving all 105 alpha.8 tests.
+**129 tests pass locally: 35 Rust + 94 Python**, preserving all 105 alpha.8 tests.
 fmt, Clippy with denied warnings, workspace/native gates, rustdoc, schema/report/
 registry checks and isolated wheel import pass. The 69,575-byte wheel matches the
 executed controller. All 133 protected historical files retain their hashes.
@@ -131,6 +131,9 @@ commit references are recorded in VALIDATION.md and audit/github-ci-alpha9.json.
 [Windows and Ubuntu CI completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)
 on scientific source `e711cc8a0900f1adb7c64d139694faab82790cd1`; both actual logs
 report 93 Python tests and all native Rust/report/registry gates pass.
+The final changed-origin-before-write gate adds one Python test; direct original
+archive revalidation preserves the exact 450-specimen frozen task. External-cache
+volume checks are included. Final-HEAD CI is checked separately before handover.
 
 ## J — Bounded alpha.10
 
