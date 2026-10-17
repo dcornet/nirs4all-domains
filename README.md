@@ -279,8 +279,10 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 ## Verification and project status
 
 Exploratory **0.1.0-alpha.9**. **35 Rust + 93 Python = 128 tests pass locally**.
-Alpha.9 validation and actual platform execution are recorded in
-[VALIDATION.md](docs/VALIDATION.md). The alpha.8 baseline is
+[Actual alpha.9 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)
+on scientific source `e711cc8`. [Full A–J report](docs/ALPHA9_RELEASE_REPORT.md)
+and [validation evidence](docs/VALIDATION.md) retain the incomplete paired-source
+scope and scientific limits. The alpha.8 baseline is
 **35 Rust + 70 Python = 105 tests**, all preserved.
 [Alpha.8 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39017764273)
 on source commit `1b6cfc7`. Execution details are in [VALIDATION.md](docs/VALIDATION.md). All 123 frozen files

@@ -25,6 +25,13 @@ for exact measured bytes; tooling/build changes are separate fixed costs. No raw
 matrix is stored in the registry or copied per CV fold. Cache hashes and source/
 provider/controller fingerprints are necessary for reconstruction; a compact
 manifest alone does not promise replay under another numerical build.
+The first secondary-family receipt estimated 12 fits; the eight actual outer
+folds require 32 native inner/refit fits for the single fixed Ridge candidate.
+The planner now derives that bound from the frozen folds. This is an explicit
+compute-count correction, without numerical or byte-budget changes. Historical
+supplement/Ridge receipts bind the driver at source commit `e711cc8`; that source
+remains preserved in Git. The main executed bank controller still matches the
+qualified wheel, and the four main checkpoints remain exact matches.
 
 Datasets 0.3.11 owns acquisition (`get`, `retrieve`, native `verify_cached`) and
 canonical Parquet. Domains does not provide another downloader, canonical writer

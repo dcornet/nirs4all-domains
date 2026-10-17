@@ -136,7 +136,11 @@ def main():
             return {"protocol_version":"domains.alpha9.family_comparison.v0.1","frozen_primary_suite_id":suite["suite_id"],
                     "config":{"ridge_alpha":1.0,"center_x":True,"center_y":True,"scale_x":False},
                     "designs":output,"test_target_accessed":False}
-        receipt,value=store.run(contract,"P3",file_plan(mean_path,65536,512*1024,12),calculate)
+        # One fixed Ridge candidate: one native fit per inner fold plus REFIT,
+        # for every actual outer fold in the already frozen designs.
+        fit_upper=sum((config["inner_folds"]+1)*len(d["value"]["outer_fold_set"]["folds"])
+                      for d in frozen["scientific"]["deep"]["experiments"] if d["status"]=="computed")
+        receipt,value=store.run(contract,"P3",file_plan(mean_path,65536,512*1024,fit_upper),calculate)
         atomic_json(args.root/"comparison-receipt.json",receipt)
         if value is None:print(receipt["reason"]);raise SystemExit(2)
         immutable(args.registry/"perten-family-comparison.json",value)

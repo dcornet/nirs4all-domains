@@ -33,8 +33,14 @@ library-path transport failures are documented; partial data remain preserved.
 All **133 protected historical files** retain their hashes, including alpha.8
 registry/scientific records and the 123 earlier files. The 69,575-byte wheel and
 machine-readable local results are pinned in audit/alpha9-validation.json.
-No source acquisition/restricted work runs in ordinary CI. Actual Windows/Ubuntu
-CI is recorded after completion; configuration alone is not proof.
+No source acquisition/restricted work runs in ordinary CI.
+[Actual alpha.9 Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)
+completed successfully on scientific source commit
+`e711cc8a0900f1adb7c64d139694faab82790cd1`. Both platform logs explicitly report
+93 Python tests; all Rust/native/report/schema/registry steps also pass.
+[Step-level proof](audit/github-ci-alpha9.json) records completed execution.
+The later secondary fit-count correction changes planning metadata only, with
+the exact original supplementary driver preserved at that scientific source.
 
 ## Alpha.8 — local execution 2026-10-17
 

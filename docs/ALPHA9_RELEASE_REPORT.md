@@ -105,6 +105,10 @@ is 4/4. All campaign reservations total 164,172,913 bytes, below 512 MiB and the
 workspace increase; the original workspace ceiling and 2 GiB volume reserves
 remain satisfied. No historical artifact is deleted or migrated. Exact snapshots
 and distinctions between logical/unique bytes are in audit/alpha9-storage.json.
+The secondary planner's initial 12-fit estimate is corrected to 32 from the
+eight frozen outer folds (three inner fits plus one refit each). Numerical
+results and byte reservations are unchanged. Historical supplementary receipts
+pin driver source `e711cc8`; the source is preserved in Git.
 
 ## H — Upstream needs
 
@@ -123,8 +127,10 @@ executed controller. All 133 protected historical files retain their hashes.
 One 103-prediction PLS fold replays exactly; a complete second campaign is not
 claimed. Native rank failures, retained-label isolation and deterministic
 content-bound reuse are executable gates. Actual Windows/Ubuntu CI and source
-commit references are recorded in VALIDATION.md and audit/github-ci-alpha9.json
-after completion, without treating workflow configuration as execution evidence.
+commit references are recorded in VALIDATION.md and audit/github-ci-alpha9.json.
+[Windows and Ubuntu CI completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)
+on scientific source `e711cc8a0900f1adb7c64d139694faab82790cd1`; both actual logs
+report 93 Python tests and all native Rust/report/registry gates pass.
 
 ## J — Bounded alpha.10
 
