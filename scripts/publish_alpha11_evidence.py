@@ -152,6 +152,23 @@ def main():
         'study_overlap_limits':['CA2023 fresh/freeze/oven views share populations.','CABO versions/absorbance/transmittance and herbarium fresh/pressed/ground views can share specimens.',
             'Alberta leaf/canopy, NASA reflectance/transmittance and Puerto Rico modalities must not count as independent populations.','An original EcoSIS package or a different DOI does not prove independent scientific sampling.'],
         'new_source_review_ref':ref(ROOT/'source-review.json')}
+    # The initial cost column described X0 only. Keep it explicitly scoped when
+    # a later source follow-up or MODEL record supplies a higher evidence level.
+    journal=json.loads(Path('results/alpha9-perten-keyed/state/journal.json').read_text())
+    for entry in entries:
+        entry['computational_cost']={'first_pass_x0':entry['computational_cost'],
+            'scope':'First-pass X0 native execution only; not total task or model cost. Later stages are separate below or in referenced evidence.'}
+        if entry['dataset_id'].startswith('ecosis_tabletop'):
+            matching=[r for r in journal['runs'].values() if r.get('contract',{}).get('license')=='odc-pddl' and r['status']=='computed']
+            if len(matching)!=1:raise ValueError('EXACT_PDDL_FOLLOWUP_COST_REQUIRED')
+            entry['computational_cost']['source_followup']={'stage_seconds':matching[0]['duration_seconds'],
+                'timing_scope':'Whole callback including CSV transport and native characterization; native-only duration not separately measured',
+                'representation_fits':1,'hdbscan_fits':2,'model_fits':0}
+        if entry['dataset_id']==admission['specification']['dataset_id']:
+            entry['computational_cost']['primary_models']={'seconds':models['elapsed_seconds'],'model_fits':324,'peak_resident_bytes':models['peak_resident_bytes'],
+                'additional_residual_model_fits':30,'additional_fresh_replay_fits':30,'timing_scope':'Primary model callback only; residual/replay costs remain separate'}
+        entry['record_id']=fingerprint({k:v for k,v in entry.items() if k!='record_id'})
+        schema_check(entry,'adaptive-coverage')
     atomic_json(ROOT/'public-coverage.json',coverage)
     lines=['# Public campaign coverage','',coverage['denominator_scope'],'','| Dataset | X0 | X1 | XY | XYM | MODEL |','|---|---|---|---|---|---|']
     lines.extend('| '+r['dataset_id']+' | '+' | '.join(r['levels'][k]['status'] for k in ['X0','X1','XY','XYM','MODEL'])+' |' for r in entries)
