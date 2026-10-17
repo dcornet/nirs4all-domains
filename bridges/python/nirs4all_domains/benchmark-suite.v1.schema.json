@@ -1,0 +1,74 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/benchmark-suite.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "metric_contract": {
+      "type": "object"
+    },
+    "protocol_version": {
+      "const": "domains.bank.v0.1"
+    },
+    "purpose": {
+      "enum": [
+        "candidate_low_structural_dependence",
+        "structure_sensitive_challenge",
+        "transfer_challenge",
+        "insufficient_evidence",
+        "not_suitable_for_current_benchmark"
+      ]
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "selection_basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "suite_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "tasks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "evidence_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "split_protocol": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "task_id": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "task_id",
+          "evidence_id",
+          "evidence_sha256",
+          "split_protocol"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "suite_id",
+    "purpose",
+    "selection_basis",
+    "metric_contract",
+    "tasks"
+  ],
+  "type": "object"
+}

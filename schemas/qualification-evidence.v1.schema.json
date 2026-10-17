@@ -1,0 +1,356 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/qualification-evidence.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "else": {
+        "properties": {
+          "reason": {
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "computed",
+              "exploratory"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "contract": {
+      "additionalProperties": false,
+      "properties": {
+        "execution": {
+          "additionalProperties": false,
+          "properties": {
+            "binaries": {},
+            "controller_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "dependency_policy": {},
+            "input_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "models": {},
+            "preprocessing": {},
+            "protocol": {},
+            "providers": {},
+            "settings": {},
+            "source_content_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "split_folds_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "input_sha256",
+            "source_content_sha256",
+            "split_folds_sha256",
+            "dependency_policy",
+            "preprocessing",
+            "models",
+            "protocol",
+            "binaries",
+            "providers",
+            "settings",
+            "controller_sha256"
+          ],
+          "type": "object"
+        },
+        "task": {
+          "additionalProperties": false,
+          "properties": {
+            "content_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "dataset_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "dataset_revision": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "independence_policy": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "qualification_protocol": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "representation": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "schema_version": {
+              "const": 1
+            },
+            "source_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "split_protocol": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "target_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "task_id": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema_version",
+            "task_id",
+            "dataset_id",
+            "content_version",
+            "dataset_revision",
+            "source_id",
+            "target_id",
+            "representation",
+            "split_protocol",
+            "independence_policy",
+            "qualification_protocol"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "task",
+        "execution"
+      ],
+      "type": "object"
+    },
+    "domain": {
+      "enum": [
+        "real",
+        "synthetic"
+      ]
+    },
+    "evidence_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "execution_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "protocol_version": {
+      "const": "domains.bank.v0.1"
+    },
+    "purposes": {
+      "items": {
+        "enum": [
+          "candidate_low_structural_dependence",
+          "structure_sensitive_challenge",
+          "transfer_challenge",
+          "insufficient_evidence",
+          "not_suitable_for_current_benchmark"
+        ]
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "qualifications": {
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "status": {
+                "enum": [
+                  "computed",
+                  "exploratory"
+                ]
+              },
+              "value": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            },
+            "required": [
+              "status",
+              "reason",
+              "value"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "inconclusive",
+                  "insufficient_information",
+                  "not_identifiable",
+                  "unavailable",
+                  "ineligible",
+                  "failed"
+                ]
+              },
+              "value": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "status",
+              "reason",
+              "value"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "type": "object"
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "scientific": {
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "exploratory",
+        "inconclusive",
+        "insufficient_information",
+        "not_identifiable",
+        "unavailable",
+        "ineligible",
+        "failed"
+      ]
+    },
+    "task": {
+      "additionalProperties": false,
+      "properties": {
+        "content_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "dataset_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "dataset_revision": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "independence_policy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "qualification_protocol": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "representation": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "source_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "split_protocol": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "target_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "task_id": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "task_id",
+        "dataset_id",
+        "content_version",
+        "dataset_revision",
+        "source_id",
+        "target_id",
+        "representation",
+        "split_protocol",
+        "independence_policy",
+        "qualification_protocol"
+      ],
+      "type": "object"
+    },
+    "task_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "evidence_id",
+    "task_id",
+    "execution_id",
+    "task",
+    "contract",
+    "domain",
+    "status",
+    "reason",
+    "qualifications",
+    "purposes",
+    "scientific",
+    "limitations"
+  ],
+  "type": "object"
+}

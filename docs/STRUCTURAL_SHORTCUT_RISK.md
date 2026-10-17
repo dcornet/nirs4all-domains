@@ -1,5 +1,13 @@
 # Structural shortcut risk research programme
 
+Alpha.8 packages task-specific evidence for estimator-independent benchmark
+selection. Missing clusters/metadata, successful PLS or powerless permutations
+cannot certify low structural dependence. EcoSIS is a structure-sensitive
+challenge with unresolved within-genus intervention power; the low-dependence
+candidate suite is empty. Rights/identities block new real contrasts. Registry
+purpose is separate from computed/exploratory/unavailable evidence status; later
+multi-estimator validation remains necessary. See BENCHMARK_QUALIFICATION_MODEL.md.
+
 Alpha.7 executes experiments 4–5 through `domains.split_stress.v0.1` while
 preserving alpha.6 evidence. True genus holdout, conditional size matching and
 global training interventions are computed on EcoSIS; within-genus intervention

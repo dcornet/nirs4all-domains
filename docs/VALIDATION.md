@@ -1,5 +1,35 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.8 — local execution 2026-10-17
+
+**35 Rust + 70 Python = 105 tests**, preserving all 84 baseline tests. Twenty-one
+bank gates cover read-only measurement, real Windows hardlink identities, shared/
+external-cache accounting, available-volume/task/cumulative-stage/campaign budgets,
+crash/restart and corrupt checkpoints, atomic finite JSON, failure isolation,
+protected cleanup planning, private/missing metadata without acquisition, portable
+paths, every scientific reuse dependency, evidence status/reason invariants,
+source pairing by identity, exclusion of unsupported low-dependence claims,
+deterministic suites/compression, packaged schema parity and actual native P1–P4.
+
+Complete Python execution passes (70); final cleanup-plan hardening additionally
+passes all 21 bank tests. fmt/clippy with denied warnings, workspace/native ignored
+gates, build, rustdoc, generated old/additive schemas, standalone registry/report
+checks and isolated PEP517 wheel pass. Native Methods remains 1.3.6 / ABI2.19;
+DAG-ML0.3.41 and Datasets0.3.11. No upstream changes or new raw-data downloads.
+
+All 123 baseline hashes remain unchanged. Two existing real cells exactly replay
+original OOF and full lineage (genus holdout fold0/global attempt0 fold0); no whole
+campaign replay claim. The mixed storage-control checkpoint reuses verified
+artifacts. Its historical controller wheel remains pinned locally; final cleanup
+code is separately exercised by the current native integration test and CI.
+Portable registry includes association, seen-level skill and scalar coverage;
+the full original reports remain ignored/protected. No low-dependence candidate
+or new real dataset is certified. Actual cost/provenance records are in
+audit/alpha8-bank-qualification.json and audit/alpha8-validation.json.
+
+Windows/Ubuntu public CI must be confirmed after publishing this source; the
+alpha.7 links below are historical evidence, not alpha.8 execution proof.
+
 ## Alpha.7 — executed 2026-10-17
 
 **35 Rust + 49 Python = 84 tests pass locally**, retaining all 69 alpha.6 tests.

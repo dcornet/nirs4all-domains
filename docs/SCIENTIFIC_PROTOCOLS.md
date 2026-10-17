@@ -1,5 +1,14 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.8's additive `domains.bank.v0.1` / `domains.storage.v0.1` wrap existing
+science without changing estimators, folds or tolerances. P0 is metadata only;
+new real work requires frozen rights/identity admission and reviewed byte budgets.
+EcoSIS is consolidated/replayed on selected cells; B/C remain ineligible. Compact
+evidence preserves original OOF/scoped digests with explicit replay limits.
+Purpose differs from evidence availability; low-dependence candidates need signal,
+support and effective stress, then later multi-estimator validation. See
+ALPHA8_MULTIDATASET_PROTOCOL.md and BENCHMARK_QUALIFICATION_MODEL.md.
+
 Alpha.7 adds `domains.split_stress.v0.1`; see SPLIT_STRESS_ALPHA7_PROTOCOL.md
 and TARGET_INTERVENTION_PROTOCOL.md. Original reference folds, true factor
 closure holdout, paired size-control intersections and post-evaluation Y-range

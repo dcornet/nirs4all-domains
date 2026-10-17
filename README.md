@@ -2,8 +2,51 @@
 
 [![Scientific gates](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml/badge.svg)](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml)
 
-**Characterizing dataset structure, split sensitivity, calibration readiness,
-and structural shortcut risks in near-infrared spectroscopy.**
+**Qualifying NIRS benchmark tasks for trustworthy estimator and pipeline comparison.**
+
+Domains characterizes how much apparent predictive improvement may depend on
+dataset structure, sample grouping and favorable evaluation splits. It preserves
+evidence, uncertainty and the distinction between trait signal and structural
+dependence. Source, target, representation, independence policy and split define
+the benchmark task.
+
+Alpha.8 adds a disk-first P0–P4 workflow: catalog inventory, access/identity
+admission, bounded characterization/deep science, compact evidence and suite
+selection before testing a new estimator. The pinned catalog has **164 datasets /
+171 sources / 1,936 targets / 1,667 primary source–numeric-target templates**.
+Full-bank scientific qualification is planned. The current real campaign reuses
+frozen EcoSIS; new non-leaf/paired cases remain blocked by rights, identities or
+protocol support. No task is certified as low structural dependence.
+See [actual admission/results](docs/MULTIDATASET_REAL_DATA_PILOT.md).
+
+GitHub contains source and compact evidence. Datasets owns verified scientific
+source/canonical storage; local tools, scratch and historic results can be much
+larger. The corrected Windows audit measured **11.51 GB logical / 11.08 GB unique
+file allocation**, including **3.07 GB results**; reusable tools/build/Python/
+upstream audits dominate. The 137.56 MB EcoSIS report has an enriched **2.69 MB**
+compact record, including association/within-group context, with the original
+preserved. **No existing bytes were deleted or migrated.**
+See [storage audit](docs/LOCAL_STORAGE_AUDIT.md) and
+[retention/replay limits](docs/STORAGE_AND_REPRODUCIBILITY.md).
+
+With the optional bridge installed, these commands perform no acquisition or fit:
+
+```sh
+python -m nirs4all_domains.bank inventory --catalog-root /local/pinned/datasets --out results/catalog-inventory.json
+python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha8 --purpose structure_sensitive_challenge
+python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha8/storage.json --root docs/benchmarks/alpha8
+python -m nirs4all_domains.bank plan-task --task tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/bank-plan.json
+python -m nirs4all_domains.bank estimate --plan results/bank-plan.json --policy configs/bank/storage-policy-alpha8.json --workspace . --scratch results/bank-scratch --evidence results/bank-evidence
+```
+
+`/local/pinned/datasets` is an explicit input checkout. The example policy records
+this owner's reviewed local budget; measure your workspace and edit its ceiling
+for another deployment. Estimates account for partial/shared files and return
+`insufficient_storage` or `budget_exceeded`. The serialized scheduler resumes
+stages and publishes validated atomic outputs. `cleanup-plan` checks explicitly
+owned scratch against frozen/reference/running manifests and has **no deletion
+operation**. See `python -m nirs4all_domains.bank cleanup-plan --help` and
+[the bank model](docs/BENCHMARK_QUALIFICATION_MODEL.md).
 
 A predictive model can perform well because it recognizes sample groups,
 instruments, batches or spectral neighbors. That performance may not transfer
@@ -45,7 +88,7 @@ predictive reliance as distinct scientific questions.
 
 ## Implemented features
 
-Alpha.7 builds on the qualified alpha.4–alpha.6 protocols:
+The scientific workflows retain the qualified alpha.4–alpha.7 protocols:
 
 - Explicit versioned dataset/content/source/target/split/policy contracts.
 - Physical/reference dependency checks, strict split guards and keyed joins.
@@ -213,9 +256,12 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.7**. **35 Rust + 49 Python = 84 tests pass locally**,
-retaining all 69 alpha.6 tests. The alpha.7 pilot preserves 123 frozen files and
-exactly replays selected real holdout/intervention/size-control protocols.
+Exploratory **0.1.0-alpha.8**. Alpha.7's baseline has **35 Rust + 49 Python = 84
+tests**. Alpha.8 adds storage/restart/identity/native-consolidation/selection gates;
+executed totals are in [VALIDATION.md](docs/VALIDATION.md). All 123 frozen files
+are retained. Representative real holdout/intervention cells replay exactly;
+compact evidence requires authorized local input/cache for reconstruction and
+does not promise complete historical replay.
 [Alpha.7 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39011303916)
 on source commit `f50d463`. Detailed execution evidence is in
 [VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
@@ -234,8 +280,9 @@ python -m unittest discover -s tests/integration -v
 Provider-free tests do not qualify unavailable methods. CI executes real native
 gates on Windows and Ubuntu. Validate structural output with
 `python scripts/check_structure_report.py <report.json>`.
-The [alpha.8 design](docs/ALPHA8_MULTIDATASET_PROTOCOL.md) proposes a bounded
-campaign beyond EcoSIS; it has not been executed.
+The [alpha.8 design](docs/ALPHA8_MULTIDATASET_PROTOCOL.md) and
+[external Datasets sidecar](docs/DATASETS_SIDECAR_INTEGRATION.md) separate the actual
+partial campaign from future full-bank qualification.
 
 License: **AGPL-3.0-or-later**, selected by the owner. Native upstream libraries
 and raw dataset bytes are not redistributed here. No upstream repository was modified.

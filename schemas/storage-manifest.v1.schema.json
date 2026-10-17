@@ -1,0 +1,125 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/storage-manifest.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "path": {
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\:]+$",
+            "type": "string"
+          },
+          "retention": {
+            "enum": [
+              "essential_evidence",
+              "replay_checkpoint",
+              "debug_archive"
+            ]
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "bytes",
+          "retention"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "cache_dependencies": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "access": {
+            "enum": [
+              "public",
+              "requires_authorization"
+            ]
+          },
+          "bytes": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "content_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "local_locator_key": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "provider": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "content_sha256",
+          "bytes",
+          "provider",
+          "access",
+          "local_locator_key"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "execution_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "measured_bytes": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "optional_archives": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "protocol_version": {
+      "const": "domains.storage.v0.1"
+    },
+    "replay_grade": {
+      "enum": [
+        "metadata_only",
+        "reconstructed_from_cache",
+        "requires_authorized_origin"
+      ]
+    },
+    "schema_version": {
+      "const": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "execution_id",
+    "artifacts",
+    "cache_dependencies",
+    "replay_grade",
+    "measured_bytes",
+    "optional_archives",
+    "limitations"
+  ],
+  "type": "object"
+}

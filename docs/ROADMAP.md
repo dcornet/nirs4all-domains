@@ -1,5 +1,16 @@
 # Roadmap and acceptance gates
 
+**Alpha.8:** whole-catalog metadata inventory, budgeted/resumable P0–P4 boundaries,
+compact task/evidence/storage/suite contracts, purpose query and Datasets sidecar.
+Frozen EcoSIS is reused; new non-leaf/paired cases remain explicitly ineligible.
+Full-bank P2/P3 is not executed. See MULTIDATASET_REAL_DATA_PILOT.md.
+
+**Alpha.9 proposal:** resolve rights/physical/reference keys for a non-leaf and a
+paired case, measure provider input/cache costs, then admit tasks gradually.
+Publish frozen challenge suites and validate low-dependence candidates across
+several estimator families. Broader execution depends on rights, support, storage
+and compute evidence; no automatic mass acquisition or cache migration.
+
 **Alpha.7 delivered:** separate split-stress and training-intervention protocol,
 same native Methods/DAG-ML engines, identity closure and component-only splits,
 three size-matching orders and original-Y post-evaluation range diagnostics.

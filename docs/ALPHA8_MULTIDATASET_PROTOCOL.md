@@ -1,4 +1,59 @@
-# Alpha.8 proposed bounded multi-dataset qualification
+# Alpha.8 disk-first bounded bank qualification
+
+Frozen before new scientific execution, 2026-10-17. Baseline `5775bd5`, 84 tests,
+123 preserved output hashes. Existing scientific schemas/settings remain unchanged.
+Bank/storage add `domains.bank.v0.1` / `domains.storage.v0.1` transport protocols.
+
+Order: disk measurement, reviewed storage policy, metadata-only P0, candidate
+rights/identity admission, admitted science, compact consolidation, executable gates.
+After actual free-space verification the owner approved 512 MiB incremental
+campaign, 256 MiB/task, 4 MiB evidence/task, one task at a time and 2 GiB free
+reserve. No cleanup/migration is authorized. Old outputs stay frozen.
+
+## Frozen alpha.8 admission
+
+Case A reuses exact EcoSIS alpha.4–alpha.7 X/LMA, plot splits, references, policies
+and input/report hashes. Replay representative existing holdout/intervention cells;
+do not rerun the full campaign to populate a registry.
+
+Case B candidates Perten X/Protein and UCPH X/active_w_w have unverified target
+units, private tier and LicenseRef-not-cleared. Perten's card reports 450 rows
+but 150 original_row_id labels, each three times. This does not authorize merging
+or establish three independent samples: review category/product/source keys first.
+UCPH has batch/replicate but sample_id_available=false. Do not acquire either.
+
+Public cartilage has 2,605 acquisitions / 869 declared samples, two/three
+acquisitions/sample. `joint_id` and `bone_type` exist as categorical targets;
+they could be explanatory factors after source verification. Five joint_id labels
+do not establish independent donor components. Reference/replicate evidence is
+unqualified and 869 means exceed the existing 500-row deep-workflow bound. Do not
+remove samples to force admission. ChEMBL/malaria lack qualified physical identity
+and do not establish the required non-leaf composition contrast. No new B is admitted.
+
+Case C CORN has 80 common declared samples across three sources, not 240
+independent samples; original keyed/reference pairing and rights remain unqualified.
+Shootout retains historical canonical/reference-equivalence and rights blockers.
+EcoSIS fresh/oven share CA2023 subjects and are not independent new cases.
+Exact records: audit/alpha8-admission.json. A partial real campaign is permitted.
+
+## Execution frozen before tests
+
+Expectations and exact hash/byte versus scientific tolerance choices are in
+BENCHMARK_QUALIFICATION_MODEL.md. The representative new software-storage control
+uses the mixed fixture, reference17 and one global/within-factor attempt; no new
+holdout/size campaign. This does not replace the deeper schedule below for a
+future admitted real task. All alpha.7 generative controls/adversaries remain gates.
+
+Before fits estimate inputs/scratch/evidence/peak bytes, fit/attempt counts; use
+separate stage journals, kernel serialization and atomic validated publication.
+Data/source/target/representation/references/folds/preprocessing/models/ABI/binaries/
+controller/settings define reuse. Failed/partial bytes stay charged. Compact
+evidence retains OOF and lineage digests, omits repeated X/N4ME/debug payloads.
+Require baseline preservation, fmt/clippy/native/docs/schema/bridge/wheel checks,
+representative real replay and confirmed Windows/Ubuntu CI. No low-dependence
+certification without signal, support/stress and later multi-estimator qualification.
+
+## Historical alpha.7 proposal (admission/scheduling supplemented above)
 
 Design only; no alpha.8 campaign is executed in alpha.7. Test transfer of the
 qualified diagnostics beyond EcoSIS rather than selecting datasets for an

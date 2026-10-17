@@ -1,5 +1,14 @@
 # Architecture and ownership
 
+Alpha.8 adds Python transport modules `inventory`, `storage`, `registry` and
+`bank` within the existing bridge/two crates. P0 uses pinned public Datasets
+descriptors/cards. Disk estimates/kernel serialization gate resumable P1–P4;
+validated JSON is atomically published with content identities. Full-X JSON stays
+in scratch for existing Rust contracts. Persistent evidence retains OOF/metrics/
+lineage digests without X/loadings/N4ME copies. Methods/DAG ownership and prior
+scientific algorithms/schemas are unchanged. Datasets remains the acquisition/
+canonical owner. See STORAGE_AND_REPRODUCIBILITY.md and BENCHMARK_QUALIFICATION_MODEL.md.
+
 Alpha.7 adds a separate `split-stress` workflow using the same Rust audit/mean
 transport and Python predictive bridge. `group_folds` retains its default
 identity-hash assignments and adds an explicit whole-component shuffle mode.
