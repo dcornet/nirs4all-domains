@@ -1,5 +1,16 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.9's additive `domains.admission.v0.1` freezes separate access/analysis/result
+publication/raw redistribution evidence and meaningful target semantics before
+prediction. ALPHA9_REAL_DATA_ADMISSION.md states expected scientific behavior,
+original-key Perten reference adaptation, conservative context blocks, sealed
+retained outcomes, fixed configurations and tolerances. Existing canonical,
+association and split-stress numerical protocols remain unchanged. Native Ridge
+alpha=1 uses DAG-ML CV/refit on already frozen development folds, after task suite
+selection; the fixed-family protocol is `domains.alpha9.family_comparison.v0.1`.
+No additional numerical algorithm is implemented. HDBSCAN's 20-component gate,
+whole-vector exchangeability and conditional uncertainty gates are preserved.
+
 Alpha.8's additive `domains.bank.v0.1` / `domains.storage.v0.1` wrap existing
 science without changing estimators, folds or tolerances. P0 is metadata only;
 new real work requires frozen rights/identity admission and reviewed byte budgets.

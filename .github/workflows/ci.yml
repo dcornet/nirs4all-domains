@@ -42,6 +42,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha8 --purpose structure_sensitive_challenge
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_alpha9_registry.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank plan-task --task tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/bank-plan.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank estimate --plan results/bank-plan.json --policy configs/bank/storage-policy-alpha8.json --workspace . --scratch results/bank-scratch --evidence results/bank-evidence

@@ -1,0 +1,9 @@
+{
+  "protocol_version":"domains.split_stress.v0.1",
+  "seed":17,"outer_folds":3,"inner_folds":3,"max_components":3,
+  "factor":"cereal_type","audit_factors":["cereal_type","instrument","country"],
+  "holdout_factors":["cereal_type","instrument"],"sensitivity_seeds":[],"shuffle_reference":false,
+  "size_draws":1,"size_max_gap":2,"interventions":["global","within_factor"],
+  "intervention_attempts":3,"bootstrap_draws":100,
+  "min_swappable_fraction":0.5,"min_swappable_components":6,"min_changed_target_fraction":0.5
+}

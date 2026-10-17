@@ -1,0 +1,6 @@
+{
+  "primary": "RMSE within each task in its declared target unit",
+  "aggregation": "No raw RMSE averaging across chemically different units",
+  "evaluation": "Use each frozen evidence record's exact primary development folds and dependency policy",
+  "selection": "Freeze task and evidence identities before evaluating the new estimator"
+}

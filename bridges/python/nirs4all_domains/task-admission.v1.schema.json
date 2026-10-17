@@ -1,0 +1,218 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/task-admission.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "else": {
+        "properties": {
+          "reasons": {
+            "minItems": 1
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "admitted"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reasons": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "admission_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "protocol_version": {
+      "const": "domains.admission.v0.1"
+    },
+    "reasons": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "selection_basis": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "specification": {
+      "additionalProperties": false,
+      "properties": {
+        "budget": {},
+        "catalog_revision": {},
+        "content_version": {},
+        "dataset_id": {},
+        "dependencies": {},
+        "factors": {},
+        "identities": {},
+        "independent_units": {},
+        "missing_fields": {},
+        "permissions": {
+          "additionalProperties": false,
+          "properties": {
+            "access": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "local_analysis": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "publish_statistics": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "redistribute_raw": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "access",
+            "local_analysis",
+            "publish_statistics",
+            "redistribute_raw"
+          ],
+          "type": "object"
+        },
+        "representation": {},
+        "review_evidence": {},
+        "scientific_reference": {},
+        "source_hashes": {},
+        "source_id": {},
+        "split": {},
+        "target": {}
+      },
+      "required": [
+        "dataset_id",
+        "catalog_revision",
+        "content_version",
+        "source_hashes",
+        "scientific_reference",
+        "source_id",
+        "target",
+        "identities",
+        "dependencies",
+        "factors",
+        "representation",
+        "split",
+        "independent_units",
+        "missing_fields",
+        "budget",
+        "review_evidence",
+        "permissions"
+      ],
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "admitted",
+        "pending"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "admission_id",
+    "specification",
+    "status",
+    "reasons",
+    "selection_basis"
+  ],
+  "type": "object"
+}

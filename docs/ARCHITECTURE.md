@@ -1,5 +1,13 @@
 # Architecture and ownership
 
+Alpha.9 keeps both crates and the existing bank stages. `admission.py` handles
+rights/semantic/original-key decisions; `comparison.py` checks frozen development
+contracts and invokes the existing native DAG-ML/Methods seam for fixed Ridge.
+Dataset-specific scripts supply keyed transport and external Datasets cache
+preparation. No solver, intrinsic QC kernel, source downloader or canonical writer
+is reimplemented. All new source decisions and unavailable experiments remain
+separate from benchmark purpose and estimator-family evidence.
+
 Alpha.8 adds Python transport modules `inventory`, `storage`, `registry` and
 `bank` within the existing bridge/two crates. P0 uses pinned public Datasets
 descriptors/cards. Disk estimates/kernel serialization gate resumable P1–P4;

@@ -62,10 +62,12 @@ def group_folds(rows, n_folds, seed, scope, allocation="hash"):
 
 
 def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual_factor=None,
-               training_intervention=None):
+               training_intervention=None, family="pls"):
     import dag_ml
     from dag_ml import _dag_ml as native
     from n4m.roles import NativeEstimator
+    if family not in ("pls", "ridge") or family != "pls" and (residual_factor is not None or training_intervention is not None):
+        raise ValueError("UNQUALIFIED_ESTIMATOR_OR_TARGET_TRANSFORM_COMBINATION")
     ids = [r["physical_sample_id"] for r in rows]
     relations = {"records": [{"observation_id": r["observation_id"], "sample_id": r["physical_sample_id"],
                               "group_id": r["independence_group"]} for r in rows]}
@@ -87,6 +89,12 @@ def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual
         "data_bindings": [{"node_id": "model:compat.0", "input_name": "x", "request_id": "domains-mean-spectra",
             **{k: envelope[k] for k in ("schema_fingerprint", "plan_fingerprint", "relation_fingerprint")},
             "output_representation": "tabular_numeric", "feature_set_id": "x", "source_ids": ["X"], "require_relations": True}]}
+    if family == "ridge":
+        # Secondary prespecified family: a single fixed alpha, no outcome-driven
+        # cross-family or hyperparameter choice. Native DAG still owns CV/refit.
+        dsl["pipeline"] = [{"model":"n4m:models.regularized.ridge", "params":{
+            "method_id":"models.regularized.ridge", "alpha":1.0, "center_x":True,
+            "center_y":True, "scale_x":False}}]
     if residual_factor is not None or training_intervention is not None:
         return _residual_cv(rows, dsl, envelope, folds, residual_factor, training_intervention)
     payload_json, artifacts = native.run_cv_refit_methods_in_process(
@@ -108,7 +116,8 @@ def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual
                 observed.append(block["fold_id"])
     if set(observed) != set(expected):
         raise RuntimeError("Native inner FIT_CV lineage is incomplete")
-    return model, {"inner_fold_set": folds, "n_components": int(model.n_components),
+    parameter = {"n_components":int(model.n_components)} if family == "pls" else {"family":"ridge", "alpha":1.0}
+    return model, {"inner_fold_set": folds, **parameter,
                    "artifact_sha256": artifact["content_fingerprint"],
                    "input_sha256": fingerprint(inputs), "native_fit_lineage_verified": True}
 

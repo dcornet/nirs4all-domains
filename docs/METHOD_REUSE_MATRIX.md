@@ -1,5 +1,18 @@
 # Method reuse matrix
 
+## Alpha.9 executable additions
+
+Methods 1.3.6 `roles.Ridge` / catalog `models.regularized.ridge`, generated role
+parameters alpha/center_x/center_y/scale_x and public N4ME replay were inspected.
+DAG-ML 0.3.41's already audited `run_cv_refit_methods_in_process` executes this
+family with fixed alpha=1 and native fit lineage. A hand-computed centered Ridge
+penalty fixture (predictions 0/8, abs 1e-10), frozen content/fold mismatch rejection,
+retained instrument/X/Y invariance and real Perten reference/holdout execution
+provide local evidence. No Ridge optimizer or numerical preprocessing is copied.
+Real Perten PCA/summary/association/scoring reuse the same published kernels.
+SciPy is used only to decode original MATLAB provenance in the optional local
+CORN audit, never as a numerical modeling backend. No upstream suite is rerun.
+
 ## Alpha.6 executable additions
 
 Methods 1.3.6 / ABI 2.19 `n4m_preflight_factor_association` (metrics.h) and

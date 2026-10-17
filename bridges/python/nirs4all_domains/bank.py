@@ -46,6 +46,12 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
             raise ValueError("INPUT_TASK_CONTEXT_MISMATCH")
     if domain == "real" and (not admission or admission.get("status") != "admitted" or admission.get("task_id") != identity["task_id"] or admission.get("input_sha256") != digest(task_path)):
         raise ValueError("FROZEN_RIGHTS_AND_IDENTITY_ADMISSION_REQUIRED_FOR_NEW_REAL_TASK")
+    if admission and "record" in admission:
+        from .admission import verify_admission
+        verify_admission(admission["record"])
+        admitted = admission["record"]
+        if admitted["status"] != "admitted" or any(admitted["specification"][k] != identity[k] for k in ("dataset_id", "content_version", "source_id")) or admitted["specification"]["target"]["name"] != identity["target_id"]:
+            raise ValueError("ADMISSION_TASK_IDENTITY_MISMATCH")
     if identity["representation"] != "technical_mean" or identity["qualification_protocol"] != "domains.split_stress.v0.1":
         raise ValueError("TASK_MUST_DECLARE_EXECUTED_REPRESENTATION_AND_PROTOCOL")
     schema_check(config, "split-stress-config")
@@ -54,7 +60,7 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
     if config["intervention_attempts"] > 19 or len(config["sensitivity_seeds"]) > 1 or config["size_draws"] > 3:
         raise ValueError("ALPHA8_BOUNDED_CAMPAIGN_EXCEEDED")
     scientific_source = [Path(__file__), Path(__file__).with_name("split_stress.py"), Path(__file__).with_name("predictive.py"),
-                         Path(__file__).with_name("dependence.py"), Path(__file__).with_name("interventions.py"), Path(__file__).with_name("registry.py"), Path(__file__).with_name("storage.py")]
+                         Path(__file__).with_name("dependence.py"), Path(__file__).with_name("interventions.py"), Path(__file__).with_name("registry.py"), Path(__file__).with_name("storage.py"), Path(__file__).with_name("admission.py")]
     controller = fingerprint({p.name:digest(p) for p in scientific_source})
     contract = execution_contract(identity, dict(input_sha256=digest(task_path), source_content_sha256=digest(task_path),
         split_folds_sha256=fingerprint({"split_id":task["context"]["split_id"], "config":config,
@@ -62,7 +68,7 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
         dependency_policy=identity["independence_policy"], preprocessing="fold-local centering X/Y; no scaling", models="native PLS + null/group/residual",
         protocol=identity["qualification_protocol"], binaries={"domains":digest(binary), "methods":digest(library)},
         providers={n:version(n) for n in ("dag-ml", "nirs4all-methods", "nirs4all-datasets", "nirs4all-domains-bridge")},
-        settings=config, controller_sha256=controller))
+        settings={"config":config, "admission_sha256":fingerprint(admission)}, controller_sha256=controller))
     store = StageStore(state, scratch, output, workspace, policy)
     receipts = []
     def p1(folder):
@@ -88,7 +94,8 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
         subprocess.run([str(binary), "analyze", str(mean_path), "--out", str(folder/"coverage"), "--methods-library", str(library)], check=True, capture_output=True)
         report = read(folder/"coverage/report.json")
         # Intrinsic source checks remain in Preflight and geometry in Methods.
-        return dict(protocol_version=report["protocol_version"], metrics=report["metrics"],
+        return dict(protocol_version=report["protocol_version"],
+                    metrics=[{field:value for field,value in metric.items() if field != "provenance"} for metric in report["metrics"]],
                     full_report_sha256=digest(folder/"coverage/report.json"),
                     test_target_accessed=report["test_target_accessed"])
     receipt, moderate = store.run(contract, "P2", file_plan(mean_path, mean_path.stat().st_size*5+1024*1024, 1024*1024, 1), p2)
@@ -99,10 +106,16 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
         rows = development_rows(audited)
         report = run_experiments(audited, library, config, design_audit(rows, config))
         return compact_stress(report)
-    designs = 2 + len(config["holdout_factors"]) + len(config["sensitivity_seeds"]) + len(config["interventions"])*config["intervention_attempts"]
+    # A metadata-only audit proves which designs will skip every fit. Account
+    # for those explicit unavailable records without reserving fictitious OOFs.
+    audit = design_audit(development_rows(audited), config)
+    designs = (1 + int(config["shuffle_reference"]) + len(config["sensitivity_seeds"])
+               + sum(audit["factor_holdouts"][f]["status"] == "computed" for f in config["holdout_factors"])
+               + sum(audit["interventions"][k]["eligible"] for k in config["interventions"])*config["intervention_attempts"])
     # Size controls can have H x R nonempty cells, three orders. Conservative
     # upper bound counts all cells even when matching/admission later fails.
-    cells = config["size_draws"]*config["outer_folds"]**2
+    size_eligible = audit["factor_holdouts"].get(config["factor"], {}).get("status") == "computed"
+    cells = config["size_draws"]*config["outer_folds"]**2 if size_eligible else 0
     fits = 2*(designs*config["outer_folds"]+cells)*(config["inner_folds"]*config["max_components"]+1)
     # Empirical conservative envelope from the frozen 65-row/5-fold campaign
     # (2.65 MB compact) and 96-row/4-fold control (258 kB / three designs).

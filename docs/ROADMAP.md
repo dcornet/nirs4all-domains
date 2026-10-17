@@ -1,11 +1,29 @@
 # Roadmap and acceptance gates
 
+**Alpha.9 delivered:** one additional real non-leaf Perten/Moisture task; official
+rights/original IDs, tested keyed reference adapter, native P0–P4, PCA/coverage,
+metadata associations, context-safe PLS, closure holdouts, partial size/range
+controls, explicit unavailable interventions and a frozen native Ridge comparison.
+The estimator families disagree on cereal stress; both degrade under instrument
+holdout. CORN remains pending by owner decision and absent original keys. Cartilage
+original Figshare/CC0 rights are resolved but alignment/closure/scale remain pending.
+See ALPHA9_NONLEAF_PILOT.md and ALPHA9_PAIRED_SOURCE_PILOT.md.
+
+**Bounded alpha.10:** verify Cartilage's original MAT identity/reference adapter,
+region/joint/donor closure and wet/dry/assay definitions for Perten; resolve one
+paired-source original key table and reuse permission. Freeze admissions before
+performance. Measure scalable full-location costs rather than discarding rows.
+Compare PLS, fixed/inner-selected Ridge and one already available family on the
+same prespecified folds, with fold-local preprocessing and matched uncertainty.
+Keep frozen membership and separate structure-sensitive versus within-population
+objectives. No full-bank expensive campaign or universal shortcut score.
+
 **Alpha.8:** whole-catalog metadata inventory, budgeted/resumable P0–P4 boundaries,
 compact task/evidence/storage/suite contracts, purpose query and Datasets sidecar.
 Frozen EcoSIS is reused; new non-leaf/paired cases remain explicitly ineligible.
 Full-bank P2/P3 is not executed. See MULTIDATASET_REAL_DATA_PILOT.md.
 
-**Alpha.9 proposal:** resolve rights/physical/reference keys for a non-leaf and a
+**Historical alpha.9 proposal:** resolve rights/physical/reference keys for a non-leaf and a
 paired case, measure provider input/cache costs, then admit tasks gradually.
 Publish frozen challenge suites and validate low-dependence candidates across
 several estimator families. Broader execution depends on rights, support, storage

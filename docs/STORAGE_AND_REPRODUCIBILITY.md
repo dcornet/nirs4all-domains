@@ -1,5 +1,31 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.9 reuses the reviewed ceilings without increasing them. Perten's existing
+499,245-byte original archive is verified against the official checksum; no raw
+acquisition occurs. Public Datasets `build_canonical` writes one external shared
+cache reproduction, with an original-ID reference adapter and content proof.
+The first warning-only partial preparation is preserved separately. Datasets
+does not silently promote it to computed. No upstream converter is executed or edited.
+
+P1/P2, P3 and P4 use the existing journal; all four exact checkpoints reuse on
+restart. A relative-library-path transport failure is retained as a failed P3
+attempt before a successful retry; it is not a numerical candidate failure.
+One 103-prediction native outer fold replays exactly. Supplementary association,
+structure eligibility, Ridge and replay use the same per-task/campaign accounting.
+Metric provenance is stored through the full-report digest rather than repeated
+inside each compact metric. Metadata-proven unavailable designs do not reserve
+nonexistent OOF arrays; attempted/failed designs remain recorded.
+
+New portable exports of byte-identical comparison/admission/identity/replay files
+share verified NTFS file identities with their local stage/input copies. Frozen
+historical files are not changed. The combined unique task evidence is about
+4.06 MB, below 4,194,304 bytes; on a fresh clone portable files alone occupy about
+1.62 MB. Scientific scratch/full reports remain separate. See audit/alpha9-storage.json
+for exact measured bytes; tooling/build changes are separate fixed costs. No raw
+matrix is stored in the registry or copied per CV fold. Cache hashes and source/
+provider/controller fingerprints are necessary for reconstruction; a compact
+manifest alone does not promise replay under another numerical build.
+
 Datasets 0.3.11 owns acquisition (`get`, `retrieve`, native `verify_cached`) and
 canonical Parquet. Domains does not provide another downloader, canonical writer
 or eviction engine. The native default on Windows is

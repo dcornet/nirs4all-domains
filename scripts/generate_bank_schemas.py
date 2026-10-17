@@ -49,7 +49,17 @@ def main():
                    "dataset_id":string, "content_version":string, "task_id":digest, "qualification_protocol":string,
                    "evidence_sha256":digest, "evidence_ref":relative,
                    "purposes":{"type":"array", "items":{"enum":list(PURPOSES)}}})
-    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar)):
+    permission = obj({"status":{"enum":["allowed", "denied", "unknown"]}, "evidence":{"type":"array", "items":string}})
+    fields = ("dataset_id", "catalog_revision", "content_version", "source_hashes", "scientific_reference", "source_id",
+              "target", "identities", "dependencies", "factors", "representation", "split", "independent_units",
+              "missing_fields", "budget", "review_evidence")
+    admission = obj({"schema_version":version, "protocol_version":{"const":"domains.admission.v0.1"}, "admission_id":digest,
+                     "specification":obj({**{k:{} for k in fields}, "permissions":obj({k:permission for k in
+                         ("access", "local_analysis", "publish_statistics", "redistribute_raw")})}),
+                     "status":{"enum":["admitted", "pending"]}, "reasons":{"type":"array", "items":string}, "selection_basis":string})
+    admission["allOf"] = [{"if":{"properties":{"status":{"const":"admitted"}}}, "then":{"properties":{"reasons":{"maxItems":0}}},
+                           "else":{"properties":{"reasons":{"minItems":1}}}}]
+    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission)):
         schema = {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":f"https://dcornet.github.io/nirs4all-domains/schemas/{name}.v1.schema.json", **schema}
         data = json.dumps(schema, indent=2, sort_keys=True)+"\n"
         for root in (Path("schemas"), Path("bridges/python/nirs4all_domains")):

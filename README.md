@@ -10,14 +10,27 @@ evidence, uncertainty and the distinction between trait signal and structural
 dependence. Source, target, representation, independence policy and split define
 the benchmark task.
 
-Alpha.8 adds a disk-first P0–P4 workflow: catalog inventory, access/identity
-admission, bounded characterization/deep science, compact evidence and suite
-selection before testing a new estimator. The pinned catalog has **164 datasets /
-171 sources / 1,936 targets / 1,667 primary source–numeric-target templates**.
-Full-bank scientific qualification is planned. The current real campaign reuses
-frozen EcoSIS; new non-leaf/paired cases remain blocked by rights, identities or
-protocol support. No task is certified as low structural dependence.
-See [actual admission/results](docs/MULTIDATASET_REAL_DATA_PILOT.md).
+Alpha.9 admits and qualifies **one new real non-leaf task: Perten cereals /
+moisture**, alongside frozen EcoSIS. All 450 original specimens are preserved;
+359 development specimens form 17 conservative acquisition-context blocks,
+with 91 retained outcomes sealed. PLS RMSE rises from **2.39 to 5.09** under
+cereal holdout; fixed Ridge gives **2.62 to 2.85** on the same IDs. Instrument-model
+holdout degrades both. This is a structure-sensitive challenge with estimator-
+specific behavior, not a low-dependence certificate.
+See [real results](docs/ALPHA9_NONLEAF_PILOT.md) and
+[the frozen two-family comparison](docs/ALPHA9_BENCHMARK_COMPARISON.md).
+
+The disk-first P0–P4 bank remains bounded and resumable. The pinned catalog has
+**164 datasets / 171 sources / 1,936 declared targets**; alpha.9 screens all 42
+public entries and re-audits four private candidates. Numeric specimen codes do
+not qualify as chemical outcomes. Perten's official CC-BY-4.0 rights and original
+IDs resolve stale catalog blockers; CORN, Shootout and UCPH still need original
+keys or reuse permission. **No new paired-source task is qualified.** Cartilage's
+original Figshare route/CC0 rights are resolved, while source alignment, biological
+closure and scalable execution remain pending. Previously reported poor cartilage
+prediction is neither corrected nor reclassified as a positive benchmark.
+Full-bank scientific qualification remains incomplete; see
+[admission evidence](docs/audit/alpha9-source-admission.json).
 
 GitHub contains source and compact evidence. Datasets owns verified scientific
 source/canonical storage; local tools, scratch and historic results can be much
@@ -28,13 +41,19 @@ compact record, including association/within-group context, with the original
 preserved. **No existing bytes were deleted or migrated.**
 See [storage audit](docs/LOCAL_STORAGE_AUDIT.md) and
 [retention/replay limits](docs/STORAGE_AND_REPRODUCIBILITY.md).
+Alpha.9 adds about 12.69 MB of local pilot files and 1.30 MB in one external
+Datasets cache revision. Compact task evidence, including identical shared local
+exports, occupies 4.06 MB against the reviewed 4 MiB cap. Historical outputs are
+preserved. [Measured bytes](docs/audit/alpha9-storage.json) distinguish these
+figures from fixed Rust/tooling costs.
 
 With the optional bridge installed, these commands perform no acquisition or fit:
 
 ```sh
 python -m nirs4all_domains.bank inventory --catalog-root /local/pinned/datasets --out results/catalog-inventory.json
-python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha8 --purpose structure_sensitive_challenge
-python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha8/storage.json --root docs/benchmarks/alpha8
+python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
+python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha9/storage.json --root docs/benchmarks/alpha9
+python -m nirs4all_domains.bank freeze-suite --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge --metrics configs/bank/taskwise-rmse-v1.json --out results/my-frozen-suite.json
 python -m nirs4all_domains.bank plan-task --task tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/bank-plan.json
 python -m nirs4all_domains.bank estimate --plan results/bank-plan.json --policy configs/bank/storage-policy-alpha8.json --workspace . --scratch results/bank-scratch --evidence results/bank-evidence
 ```
@@ -219,6 +238,9 @@ is documented in [the repeated pilot](docs/REPEATED_DATA_PILOT.md).
 | EcoSIS development PLS | 65 means / 45 plots; five outer, three inner group folds | OOF RMSE 110.87 versus null 146.99 g/m²; R² 0.397 |
 | EcoSIS train structure | 65 means / 45 components; 100 paired 80% subsamples, five settings | Insufficient information: primary all-noise; smaller clusters appear with weak sensitivity support |
 | Shootout train structure | 155 source-row identity aliases; same structural design | Fragile structure: primary three groups, 27.10% noise; median eligible ARI 0.533 |
+| Perten moisture / context-safe development | 359 specimens / 17 blocks; 91 retained outcomes sealed | PLS RMSE 2.387 versus null 3.353 source percentage points; R² .484 |
+| Perten cereal / instrument holdout | Same 359 IDs; two cereal closure units, six instrument-model strata | PLS RMSE 5.086 / 3.492; fixed Ridge 2.847 / 3.434; size control covers only 38 IDs / two blocks |
+| Perten unavailable diagnostics | Same frozen conservative blocking policy | HDBSCAN stability needs 20 components; all six target-intervention attempts unavailable under whole-vector gates |
 | EcoSIS genus baseline | Same 65 development means / 45 plots; 55 seen-level OOF samples | Group RMSE 114.78; group+residual 101.35 g/m²; exploratory paired gain 13.43 [0.60, 26.08] |
 | EcoSIS true genus holdout | Same 65 means; 14 closure units, five outer folds | Spectral RMSE 142.72 versus frozen 110.87; target extrapolation rises from 2/65 to 7/65 |
 | EcoSIS size-controlled comparison | 45 matched evaluation means / 29 components | Spectral RMSE 85.41–118.60 versus holdout 144.05 on those same IDs; partial population, remaining distribution differences |
@@ -256,8 +278,11 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.8**. **35 Rust + 70 Python = 105 tests pass**, preserving
-all 84 alpha.7 tests. [Alpha.8 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39017764273)
+Exploratory **0.1.0-alpha.9**. **35 Rust + 93 Python = 128 tests pass locally**.
+Alpha.9 validation and actual platform execution are recorded in
+[VALIDATION.md](docs/VALIDATION.md). The alpha.8 baseline is
+**35 Rust + 70 Python = 105 tests**, all preserved.
+[Alpha.8 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39017764273)
 on source commit `1b6cfc7`. Execution details are in [VALIDATION.md](docs/VALIDATION.md). All 123 frozen files
 are retained. Representative real holdout/intervention cells replay exactly;
 compact evidence requires authorized local input/cache for reconstruction and

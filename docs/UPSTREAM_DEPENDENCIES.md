@@ -1,5 +1,33 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.9 source and protocol requests
+
+No upstream code change is needed for Perten's admitted task or the bounded
+native Ridge comparison. Methods 1.3.6 exposes `models.regularized.ridge` and its
+Python role; DAG-ML 0.3.41 executes actual native CV/refit and artifact replay.
+The analytical centered-penalty and scope/held-out invariance gates execute.
+
+Proposals only, no upstream changes or posted messages:
+
+* Datasets/Perten: update stale LicenseRef/private-use declarations from the
+  official CC-BY-4.0 evidence; preserve original specimen ID separately from local
+  row counter; transport keyed original Y. Clarify moisture basis, original lots,
+  serial instruments and assay events/precision. Current Domains local derivation
+  records these limits and leaves upstream descriptors untouched.
+* CORN: supply original keyed specimen/reference correspondence for all three
+  spectral objects and propvals. The inspected original MAT row label/row-axis
+  fields are empty. Clarify allowed analysis/statistics publication; owner keeps
+  it pending. An index synthesized from matrix row order is insufficient.
+* Shootout/UCPH: original physical/reference/partition links and reuse scope;
+  resolve Shootout's official 654/local 655 discrepancy. Distinguish pairing from
+  shared batch/replicate labels and new-specimen generalization.
+* Cartilage: the paper's data source is Figshare collection 4423139, article
+  7803845 version 2 (`nirs_and_references_revised.mat`, CC0). The catalog's Springer
+  supplementary ZIP is ISA-Tab metadata. Verify original location/region/joint/
+  donor links against the local positional converter, before prediction. The
+  500-row deep CLI guard is a software limit, not a statistical argument; scaling
+  requires measured native costs and a qualified complete-population path.
+
 ## Alpha.7 integration and observed constraint
 
 The public DAG-ML 0.3.41 callback scheduler and Methods 1.3.6 PLS/summary/scoring

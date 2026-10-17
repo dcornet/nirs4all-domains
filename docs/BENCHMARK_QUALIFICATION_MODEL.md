@@ -1,5 +1,14 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.9 adds `domains.admission.v0.1` and a packaged/root task-admission schema.
+Four rights dimensions are independent. A documented quantitative measurement
+and original specimen/reference alignment are required; numeric IDs and repeated
+row counters cannot supply them. Perten admission is frozen before prediction.
+Its structure-challenge suite is frozen before fixed native Ridge evaluation,
+binding content, exact development folds and units. No suite membership changes
+after those scores. Cereal sensitivity differs across PLS/Ridge; no estimator-
+independent or low-dependence certificate follows. See ALPHA9_BENCHMARK_COMPARISON.md.
+
 Expected behavior, fixed before alpha.8 tests and new scientific execution:
 
 * P0 inventories metadata without acquisition, credentials or numeric outcomes.

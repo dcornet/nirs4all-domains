@@ -1,5 +1,41 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.9 — local execution 2026-10-17
+
+**35 Rust + 93 Python = 128 tests pass**, preserving all 105 alpha.8 tests.
+Twenty-three new gates separate access/analysis/publication/redistribution,
+reject numeric IDs and missing original/reference evidence, preserve repeated
+local-label ambiguity, verify keyed reordered pairs/unmatched keys/contradictory
+or shared assays/different axes, test deterministic score-free admission and
+source/protocol invalidation, and execute the original-key reference adapter
+against an adversarial unkeyed Y table. Native Ridge's centered penalty has a
+hand-computed 1e-10 check; DAG-ML lineage, frozen-fold/content rejection and retained
+instrument/X/Y invariance execute. Native rank-deficient PLS fails explicitly,
+without a silent smaller-grid retry. Existing closure, intervention availability,
+restart/failure isolation, budget and synthetic-exclusion gates are retained.
+
+fmt, Clippy with warnings denied, all workspace/native ignored tests, rustdoc,
+generated schemas, canonical/structural report checks and public registry/
+admission/suite/digest validation pass. The isolated alpha.9 wheel builds/imports
+with its packaged admission schema and matches the **actual executed bank
+controller hashes**. Source/ABI/binding/publication and execution remain distinct;
+Methods1.3.6/ABI2.19, DAG-ML0.3.41 and Datasets0.3.11 are unchanged.
+
+New real execution: Perten P1–P4, native PCA/coverage and three associations,
+nested PLS reference/cereal/instrument closure designs, one partial size-control
+cell, explicit unavailable target interventions, a frozen fixed-Ridge comparison
+on all three designs and matched whole-context uncertainty. HDBSCAN stability
+returns insufficient components before clustering. All four main stages reuse
+exact checkpoints. One 103-prediction PLS outer fold replays exactly; a complete
+second real campaign is not claimed. Initial unkeyed-Y preparation and relative
+library-path transport failures are documented; partial data remain preserved.
+
+All **133 protected historical files** retain their hashes, including alpha.8
+registry/scientific records and the 123 earlier files. The 69,575-byte wheel and
+machine-readable local results are pinned in audit/alpha9-validation.json.
+No source acquisition/restricted work runs in ordinary CI. Actual Windows/Ubuntu
+CI is recorded after completion; configuration alone is not proof.
+
 ## Alpha.8 — local execution 2026-10-17
 
 **35 Rust + 70 Python = 105 tests**, preserving all 84 baseline tests. Twenty-one

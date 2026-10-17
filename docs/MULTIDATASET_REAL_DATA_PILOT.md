@@ -1,4 +1,20 @@
-# Alpha.8 bounded real-data bank pilot
+# Bounded real-data bank pilots
+
+Alpha.9 adds **one real non-leaf task**, Perten X/Moisture, with all 450 original
+specimens, 359/91 development/retained split and 17/5 conservative context blocks.
+P0–P4, native PCA/coverage, three associations, nested PLS, two closure holdouts,
+partial size/range controls and a frozen Ridge comparison execute. HDBSCAN
+stability and all six training-target interventions remain explicitly unavailable.
+The task joins frozen EcoSIS in the structure-sensitive suite; the low-dependence
+suite remains empty. No paired-source case is admitted.
+
+See [source admission](ALPHA9_REAL_DATA_ADMISSION.md),
+[non-leaf results](ALPHA9_NONLEAF_PILOT.md), [paired blockers](ALPHA9_PAIRED_SOURCE_PILOT.md)
+and [secondary-family evidence](ALPHA9_BENCHMARK_COMPARISON.md). All 42 public
+catalog entries are screened; source records resolve Perten rights/IDs and the
+Cartilage Figshare route, without declaring other entries scientifically qualified.
+
+## Historical alpha.8
 
 This is a **partial real campaign**: frozen EcoSIS is consolidated. No additional
 real dataset is admitted, downloaded or fitted. Metadata inventory and synthetic
