@@ -163,7 +163,9 @@ class StorageTests(unittest.TestCase):
             root=Path(temp)
             for path in ("../bad","C:/private","D:\\secret","/absolute","a/../../b"):
                 with self.assertRaises(ValueError):safe_path(root,path)
-            self.assertEqual(safe_path(root,"one space/evidence.json"),root/"one space/evidence.json")
+            # Hosted Windows TEMP can use an NTFS 8.3 alias (RUNNER~1).
+            # The public result is canonical, including existing ancestors.
+            self.assertEqual(safe_path(root,"one space/evidence.json"),(root/"one space/evidence.json").resolve())
 
 
 class RegistryTests(unittest.TestCase):
