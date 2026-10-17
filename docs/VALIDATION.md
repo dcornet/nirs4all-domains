@@ -27,8 +27,13 @@ the full original reports remain ignored/protected. No low-dependence candidate
 or new real dataset is certified. Actual cost/provenance records are in
 audit/alpha8-bank-qualification.json and audit/alpha8-validation.json.
 
-Windows/Ubuntu public CI must be confirmed after publishing this source; the
-alpha.7 links below are historical evidence, not alpha.8 execution proof.
+[Actual Windows/Ubuntu alpha.8 CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39017764273)
+completed successfully on source commit `1b6cfc7f117eac5e356b8a20d5ff0d5808991993`.
+Both platforms execute all 105 tests, additive schemas, registry verification,
+query/estimate and previous native CLI workflows. [Step-level proof](audit/github-ci-alpha8.json)
+records completion rather than configuration. Hosted Windows TEMP may use an
+NTFS 8.3 alias; the portability gate compares canonical paths, preserving its
+escape rejection checks. Alpha.7 links below remain historical evidence.
 
 ## Alpha.7 — executed 2026-10-17
 

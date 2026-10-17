@@ -256,9 +256,9 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.8**. Alpha.7's baseline has **35 Rust + 49 Python = 84
-tests**. Alpha.8 adds storage/restart/identity/native-consolidation/selection gates;
-executed totals are in [VALIDATION.md](docs/VALIDATION.md). All 123 frozen files
+Exploratory **0.1.0-alpha.8**. **35 Rust + 70 Python = 105 tests pass**, preserving
+all 84 alpha.7 tests. [Alpha.8 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39017764273)
+on source commit `1b6cfc7`. Execution details are in [VALIDATION.md](docs/VALIDATION.md). All 123 frozen files
 are retained. Representative real holdout/intervention cells replay exactly;
 compact evidence requires authorized local input/cache for reconstruction and
 does not promise complete historical replay.
