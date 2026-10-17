@@ -6,6 +6,7 @@ pub mod methods;
 mod protocol;
 pub mod structure;
 mod units;
+pub mod unsupervised;
 pub mod x_structure;
 pub use contract::*;
 pub use protocol::{analyze, train_refit_stability, validate};

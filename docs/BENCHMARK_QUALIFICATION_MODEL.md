@@ -1,5 +1,14 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.12 separates observable geometry from independent-sample prediction.
+Its 42-entry matrix has 39 raw/SNV sources, 22 complete neighbor censuses,
+17 query samples, 37 variable-metadata sources and seven actually resampled views.
+None meets the overall stability gate. Missing pair support is insufficient
+information, not a biological finding. Two rechecked physical-key namespaces,
+four historical ownership admissions, source views and cited references have
+different denominators. Independent-population/study prevalence is unavailable.
+See ALPHA12_CROSS_DATASET_RESULTS.md for exact aggregation limits.
+
 Alpha.11 separates **structural susceptibility** (X or X/split), **structural target association** and **demonstrated estimator dependence**. Missing metadata, targets or physical identity do not block descriptive X evidence. Observation identity does not authorize independent-sample predictive evaluation. Every public entry receives supported stages and blockers; source-only evidence is shared across targets.
 
 ```mermaid

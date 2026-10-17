@@ -1,5 +1,52 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.12 — local execution 2026-10-17
+
+**35 Rust + 190 Python = 225 tests pass**, preserving all 173 baseline tests.
+The 52 new Python tests cover native raw/SNV geometry and row isolation,
+16 controlled mechanisms, analytical exact query batching, full-source budget
+refusal, source namespaces/unknown overlap, component draws, conditional stability,
+keyed paired-field projection, missing/high-cardinality metadata, no Y/performance
+input, schema invariants and atomic prefix recovery/corruption/conflict refusal.
+
+All 18 release checks pass: fmt, Clippy with warnings denied, workspace/native
+ignored gates, rustdoc/build, both schema generators, bridge integration,
+alpha.9–12 registry/results checks, source isolation, guarded historical cache
+reuse, canonical JSON report check, editable install and wheel build. A first
+Python attempt failed on a rank-one synthetic fixture before its intended neighbor
+assertion; the corrected analytic fixture and full successful rerun are retained
+as separate log attempts. No protocol/provider/real result changed.
+
+The 97,049-byte alpha.12 wheel matches every packaged Python/schema file and
+imports from an isolated target. Scientific runs used the exact source hashes in
+293 stage contracts; installed editable metadata still read alpha.11 during
+those runs, so this is source parity, not a retroactive claim of released-wheel
+execution. Final editable installation is alpha.12. Native library/source/ABI,
+binding/publication and executed controls remain separate evidence dimensions.
+Methods 1.3.6 / ABI 2.19, Datasets 0.3.11 and historical DAG-ML 0.3.41 are unchanged.
+
+The [local proof](audit/alpha12-validation.json) records actual logs, attempts,
+source parity and protected hashes. All **371 protected files**, including the
+original 224, are unchanged. The [storage snapshot](audit/alpha12-storage.json)
+measures 13,675,921,814 workspace bytes under 13,873,678,017, 427,393,916 cumulative
+campaign-reservation bytes under 536,870,912, and at most 2,047,799 persistent
+evidence bytes per new task under 4,194,304. Compact Git/CI metadata growth receives
+a final guard. No cleanup, migration, raw spectral acquisition or upstream write.
+
+The [public manifest](benchmarks/alpha12/storage.json), finite/schema/identity
+checks and executed-source hashes are checked with
+`python scripts/check_alpha12_results.py --require-manifest` on both CI platforms.
+Actual pushed-source Windows/Ubuntu conclusions are recorded separately only
+after completion; workflow configuration is not execution proof.
+
+The extended map includes 28 older audit JSON files with existing CRLF local
+checkout bytes and LF baseline Git blobs. The additive
+[baseline encoding proof](audit/alpha12-portable-preservation.json) verifies
+these are newline-only variants, without changing the files or original map.
+Portable checking accepts only the two exact attested hashes for those paths;
+other protected files require their original hash. Local bytes and staged Git
+blobs are checked before commit.
+
 ## Alpha.11 — local execution 2026-10-17
 
 **35 Rust + 138 Python = 173 tests pass**, preserving the complete 152-test

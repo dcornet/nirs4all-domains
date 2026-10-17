@@ -1,5 +1,14 @@
 # Architecture and ownership
 
+Alpha.12 adds `unsupervised.rs` and the target-free `x-profile` CLI within the
+same two crates. Public Methods/Preflight provide PCA, full moments, exact
+neighbors, HDBSCAN, ARI, summaries and factor association. Python owns field
+projection, keyed protocol assembly, component subsets and immutable StageStore
+transport. Full-source descriptive fits are separate from prospective train-fit
+support. Query batches retain all references/axes. Schemas are additive; prior
+numerical modules/results are frozen. See ALPHA12_UNSUPERVISED_PROTOCOL.md and
+ALPHA12_EXECUTION_NOTES.md for ownership and atomic prefix restart semantics.
+
 Alpha.11 adds an observation-scoped `x-structure` stdin contract in the existing core/CLI crates. It bypasses physical-unit admission for descriptive X geometry, without inventing physical identities or using a target. Existing Methods PCA, Preflight native neighbor/summary providers and Methods HDBSCAN/ARI own all numerical work. Streamed input avoids persistent duplicate matrices; Python transports keys, axes and information-level evidence.
 
 Original-key adapters and stricter reference/physical closure still gate MODEL. Repeated grouped designs reuse the unchanged native DAG/Methods fitting seam and keep refit sensitivity separate from frozen-OOF bootstrap. The corrected source adapter filters retained reference cells before numeric comparison; its explicit correction preserves the initial audit and all model outputs. See ALPHA11_ADAPTIVE_CAMPAIGN_PROTOCOL.md and ALPHA11_RELEASE_REPORT.md.

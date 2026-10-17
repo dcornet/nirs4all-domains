@@ -1,5 +1,21 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.12 retains serial execution, 512 MiB cumulative campaign reservations,
+256 MiB/task, 4 MiB evidence/task and 2 GiB free/volume. The owner's explicit
++512 MiB workspace approval sets its ceiling to 13,873,678,017 bytes. No cleanup
+or migration occurred. Existing X caches are hashed without spectral acquisition;
+public exports hardlink immutable stage artifacts and contain no X or PCA scores.
+The extended preservation map verifies 371 files including the original 224.
+
+Initial primary/rest-stability RAM counters observed Windows' venv launcher.
+Original records and explicit scope corrections remain; actual worker peaks
+for those phases are unavailable. Later paired/consolidation phases measure
+the actual Python worker. Separate Rust peaks remain unmeasured. The <1.5 GiB
+estimate is neither an observed combined peak nor an OS quota. Alpha.12 resource
+audits distinguish these scopes. Atomic batch checkpoints retain completed
+prefixes and reject corruption/conflicts. Portable verification and numerical
+reconstruction from exact authorized caches are distinct replay guarantees.
+
 Alpha.11 reuses the cumulative alpha.9 journal and native/Python tooling. After measuring 12,656,201,578 occupied bytes and about 150/330 GiB free on C:/D:, the owner approved another 512 MiB workspace-ceiling increase to **13,336,807,105 bytes**. Campaign/task/evidence/serial/free-reserve limits remain 512 MiB / 256 MiB / 4 MiB / one / 2 GiB. No historical deletion or migration.
 
 Broad X0 streams complete matrices without retaining X in every source/target/fold report. Datasets retrieves 17,143,168 original crop/litter bytes. Models retain fitted state in memory and share OOF references. Identical newly produced alpha.11 exports share immutable stage bytes through hardlinks; historical artifacts stay unchanged.

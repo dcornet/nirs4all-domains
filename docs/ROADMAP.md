@@ -1,5 +1,13 @@
 # Roadmap and acceptance gates
 
+Alpha.12 delivers representation-aware evidence, expanded exact full-axis
+neighbors, conditional resampling and source-view accounting without new real
+supervised fits. Alpha.13 should first calibrate pair-panel exposure across
+fractions/fragments on controlled X, resolve biological/study closure and freeze
+independent confirmation units. Then admit a bounded study-separated supervised
+falsification campaign under the frozen H1–H5/outcome definitions, controlling
+training size/range and estimator. TabPFN remains separately gated.
+
 **Alpha.11 scientific execution:** adaptive public campaign, 37/42 X-only profiles, 35 metadata agreement profiles, original crop association, and a new conditional litter population with repeated nested refits and paired preparation response. Task properties/model response/suitability remain separate. The source-audit access defect is disclosed and corrected with identical numerical inputs and retained-label adversaries. See ALPHA11_RELEASE_REPORT.md for validation/publication.
 
 **Bounded alpha.12:** resolve five public source/access/rights/modality blockers; qualify affordable full-axis neighborhoods and component-aware stability on prespecified profiles; obtain litter/crop/Cartilage biological/assay maps and admit a clearly sourced non-leaf population. Broad characterization precedes more heavy models. TabPFN requires an adequate frozen subset, checkpoint/rights, fold-local preprocessing and reviewed resources.

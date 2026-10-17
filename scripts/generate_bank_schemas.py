@@ -73,7 +73,16 @@ def main():
     repeated = {"type":"object", "required":["evaluation_id","models","test_target_accessed"],
         "properties":{"evaluation_id":digest,"test_target_accessed":{"const":False},"models":{"type":"object","minProperties":1,
             "additionalProperties":obj({"designs":{"type":"array","minItems":3,"maxItems":3,"items":design_state},"refit_variation":state})}},"additionalProperties":True}
-    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison), ("adaptive-coverage",adaptive), ("repeated-design-result",repeated)):
+    unsupervised = obj({'schema_version':version,'protocol_version':{'const':'domains.unsupervised.v0.1'},
+        'record_id':digest,'dataset_id':string,'source_id':string,
+        'catalog_content':obj({'version':string,'content_hash':digest,'descriptor_sha256':digest}),
+        'source_dimensions':{'type':'object'},'identity_evidence':string,
+        'population_relationship':state,'representations':obj({'raw':state,'snv':state}),
+        'representation_agreement':state,'structural_stability':state,'metadata_agreement':state,
+        'split_support':state,'resource_cost':{'type':'object'},'baseline_ref':obj({'path':relative,'sha256':digest}),
+        'test_target_accessed':{'const':False},'universal_shortcut_score':{'type':'null'},
+        'limitations':{'type':'array','minItems':1,'items':string}})
+    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison), ("adaptive-coverage",adaptive), ("repeated-design-result",repeated), ('unsupervised-evidence',unsupervised)):
         schema = {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":f"https://dcornet.github.io/nirs4all-domains/schemas/{name}.v1.schema.json", **schema}
         data = json.dumps(schema, indent=2, sort_keys=True)+"\n"
         for root in (Path("schemas"), Path("bridges/python/nirs4all_domains")):

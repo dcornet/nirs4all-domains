@@ -1,5 +1,13 @@
 # Structural shortcut risk research programme
 
+Alpha.12 investigates Level A susceptibility without new real Y associations
+or supervised fits. Raw/SNV sensitivity, density and conditional resampling
+provide descriptors rather than a universal risk score. Proximity does not prove
+physical duplication; stable clusters do not prove nuisance effects or model
+reliance. ALPHA12_HYPOTHESIS_REGISTER.md and ALPHA12_FUTURE_OUTCOME_CONTRACT.md
+freeze falsifiable RMSE/skill/interaction responses and study-level confirmation.
+EcoSIS, Perten and litter remain exploratory, including future new splits.
+
 Alpha.11 characterizes susceptibility before requiring supervised admission. **X-only organization, target association and model reliance are different claims.** Geometry, neighborhoods, support imbalance and parameter-specific groups can be described while physical/assay identities remain unknown. Spectral groups receive no instrument/batch/biological meaning without independent evidence. No clusters does not imply safety.
 
 The 42-entry campaign executes X0 on 37 and provides 35 metadata agreement profiles. Original nitrogen association differs between crops and litter; unresolved plant/assay ownership remains a separate limitation. Litter repeated refits and paired preparation show that better intact prediction need not improve transfer. No universal shortcut probability or low-dependence certificate follows. See ALPHA11_REAL_DATA_PILOT.md and ALPHA11_ADAPTIVE_CAMPAIGN_PROTOCOL.md.

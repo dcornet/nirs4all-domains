@@ -1,5 +1,20 @@
 # Method reuse matrix
 
+## Alpha.12 execution
+
+| Need | Public provider | Qualified scope |
+|---|---|---|
+| Representation | Methods SNV roles, FlexiblePCA | 39 raw/SNV full populations, no preprocessing search |
+| Neighbors | Preflight Methods provider | 22 censuses + 17 exact query samples, full references; no ANN substitution |
+| Dimension | Exact covariance moments | 12 sources per representation; 27 missing, never truncated substitutes |
+| Stability | Methods HDBSCAN/ARI | 560 PCA refits, 1,120 clustering attempts on seven source views |
+| Metadata | Methods factor association/ARI | Declared factors/PC1..3; missingness/cardinality and weighting caveats |
+| Paired preparation | Same native geometry/ARI | 321 original litter IDs, four PCA/eight clustering fits; no transfer model |
+
+Methods 1.3.6 / ABI 2.19 remains unchanged. Source, ABI, binding/publication and
+executable evidence remain separate in the release audit. No upstream changes;
+precise proposals are in ALPHA12_NEIGHBORHOOD_COVERAGE.md.
+
 ## Alpha.11 execution
 
 | Need | Reused public provider | Evidence / scope |

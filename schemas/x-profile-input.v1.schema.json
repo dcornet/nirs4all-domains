@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnsupervisedRequest",
+  "type": "object",
+  "properties": {
+    "include_neighbors": {
+      "type": "boolean"
+    },
+    "query_ids": {
+      "description": "Empty only for a resampling fit that requests no neighborhoods.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "representation": {
+      "type": "string"
+    },
+    "spectral": {
+      "$ref": "#/$defs/XRequest"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "spectral",
+    "representation",
+    "query_ids",
+    "include_neighbors"
+  ],
+  "$defs": {
+    "XRequest": {
+      "type": "object",
+      "properties": {
+        "axis": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "axis_unit": {
+          "type": "string"
+        },
+        "identity_evidence": {
+          "type": "string"
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "spectra": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "observation_ids",
+        "identity_evidence",
+        "axis",
+        "axis_unit",
+        "spectra"
+      ]
+    }
+  }
+}

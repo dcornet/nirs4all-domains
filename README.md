@@ -2,7 +2,32 @@
 
 [![Scientific gates](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml/badge.svg)](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml)
 
-**Qualifying NIRS benchmark tasks for trustworthy estimator and pipeline comparison.**
+**Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
+
+**Alpha.12:** 39 of 42 public entries have full-population raw/SNV geometry,
+22 have complete-source full-axis neighborhoods and 17 have prespecified query
+samples against complete references. Seven selected views have 560 actual PCA
+resampling refits; none meets every frozen stability gate. Limited pair support
+and representation sensitivity are scientific findings, not shortcut probabilities.
+
+The [evidence matrix](docs/benchmarks/alpha12/COVERAGE.md),
+[comparative results](docs/ALPHA12_CROSS_DATASET_RESULTS.md),
+[figure](docs/benchmarks/alpha12/figures/representation-sensitivity.svg) and
+[A–J report](docs/ALPHA12_RELEASE_REPORT.md) retain source identities, hashes,
+unknown population overlap and explicit missingness. Thirty-seven sources have
+variable metadata agreement. Two malaria entries remain unavailable; simulated
+MIR/Raman remains ineligible. No new real supervised models or TabPFN run here.
+Frozen unsupervised hypotheses await independent study-level confirmation.
+
+Local validation passes **225 tests: 35 Rust + 190 Python** and all 18 release
+checks; every one of 371 protected historical files is unchanged. Package/source
+parity and hosted CI conclusions are recorded in the linked validation evidence.
+
+Run `python scripts/check_alpha12_results.py --require-manifest` for portable
+evidence checks. Numerical reconstruction additionally requires exact authorized
+caches/providers. [Validation](docs/VALIDATION.md) records actual tests and CI.
+
+## Purpose and historical alpha.11 evidence
 
 Domains characterizes structural properties of NIRS data that may enable
 shortcut learning, using spectral geometry, neighborhoods, split support, target
@@ -12,7 +37,7 @@ verified physical identities.** These remain necessary for stronger interpretati
 and valid independent-sample prediction. Structural susceptibility, target
 association and demonstrated model dependence are separate evidence levels.
 
-**Alpha.11 covers all 42 pinned public catalog entries:** 37 execute complete-source
+**Alpha.11 covered all 42 pinned public catalog entries:** 37 execute complete-source
 X geometry; five retain explicit source/access/rights/dimension blockers. There
 are 35 metadata agreement profiles, two split-support cases, two original-keyed
 X-partition/target cases, three target/factor cases and two public model cases
@@ -41,7 +66,7 @@ geometry while donor/assay evidence still blocks modeling. Source isolation is
 adversarially verified, with an explicit correction to the initial paired-source
 audit. [Full alpha.11 report](docs/ALPHA11_RELEASE_REPORT.md).
 
-Local release gates pass **173 tests: 35 Rust + 138 Python**, retaining every
+Historical alpha.11 gates passed **173 tests: 35 Rust + 138 Python**, retaining every
 baseline test and all 224 protected files. TabPFN is a
 [frozen future study](docs/ALPHA11_TABPFN_STUDY_PLAN.md), without installation,
 weights or predictions. [Completed Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39043282178)
@@ -342,7 +367,7 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.10**. **35 Rust + 117 Python = 152 tests pass locally**,
+Historical **0.1.0-alpha.10**. **35 Rust + 117 Python = 152 tests passed locally**,
 preserving all 129 alpha.9 tests. Native gates, schemas, bridge/report checks and
 177 historical artifact hashes pass. All 2,154 historical anchor predictions
 replay exactly; adaptive replay uses its declared 1e-9 tolerance.

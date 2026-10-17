@@ -1,5 +1,14 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.12 adds `domains.unsupervised.v0.1`, preserving all historical protocols.
+ALPHA12_UNSUPERVISED_PROTOCOL.md freezes raw/SNV, complete populations,
+exact/query-subset neighbors, within-source normalization, seven-case conditional
+resampling and support gates before fits. ALPHA12_PAIRED_X_PROTOCOL.md separately
+freezes the same-object contrast. Controlled expectations/tolerances precede
+execution. All-noise or unsupported partitions cannot become low susceptibility.
+Unavailable full moments do not prevent PCA/neighbors. The hypothesis register
+and future outcome definitions remain untested by new supervised responses.
+
 Alpha.11 adds `domains.adaptive_structure.v0.1` and `domains.repeated_design.v0.1`. X-only evidence can use scoped observation keys; physical identity and biological/assay independence remain distinct. Full-source descriptive PCA is separate from train-fitted split support. Raw/projection neighborhoods, parameter agreement, unavailable full moments and missing higher stages have separate states. Views/targets are not independent studies by their names.
 
 Three fixed grouped seeds repeat nested selection/refitting on original keyed paired-preparation identities. Across-design prediction SD/range is descriptive; frozen-OOF block intervals remain separate. Unknown GEN/assay links prevent calibrated new-biological-group inference. `domains.alpha11.source_isolation.v0.1` corrects the initial source-audit access flag, with retained-cell adversaries and exactly unchanged numerical inputs; no retained Y enters models.
