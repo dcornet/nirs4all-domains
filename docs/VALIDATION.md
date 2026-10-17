@@ -23,7 +23,10 @@ artifacts and lineage are exactly reproduced. Thirty frozen previous report
 files retain their hashes; no source data or upstream repository is changed.
 Full private-data artifacts are under `results/dependence-alpha6-final`; compact
 proof is in audit/alpha6-dependence-qualification.json and alpha6-validation.json.
-The actual alpha.6 Windows/Ubuntu CI URL/status is recorded after completion.
+[Actual Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047)
+completed successfully on source commit `28b99e9e7bb145d4b5253249b8c11bb991dc5679`.
+Both platforms execute the native ignored gates, 34 Python tests, CLI workflows
+and schema invariants. Step-level status is in audit/github-ci-alpha6.json.
 
 ## Alpha.5 structural gates
 

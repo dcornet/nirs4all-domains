@@ -1,0 +1,318 @@
+{
+  "conclusion": "success",
+  "headSha": "28b99e9e7bb145d4b5253249b8c11bb991dc5679",
+  "jobs": [
+    {
+      "completedAt": "2026-10-17T05:53:00Z",
+      "conclusion": "success",
+      "databaseId": 117323708371,
+      "name": "audit (ubuntu-latest)",
+      "startedAt": "2026-10-17T05:51:39Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-17T05:51:40Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-17T05:51:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:51:41Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-17T05:51:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:51:48Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-17T05:51:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:51:48Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 4,
+          "startedAt": "2026-10-17T05:51:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:09Z",
+          "conclusion": "success",
+          "name": "Run python -m pip install nirs4all-methods==1.3.6 \"./bridges/python[test,datasets,predictive]\"",
+          "number": 5,
+          "startedAt": "2026-10-17T05:51:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:15Z",
+          "conclusion": "success",
+          "name": "Select native Methods and companion DLL directory",
+          "number": 6,
+          "startedAt": "2026-10-17T05:52:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:15Z",
+          "conclusion": "success",
+          "name": "Run cargo fmt --all --check",
+          "number": 7,
+          "startedAt": "2026-10-17T05:52:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:21Z",
+          "conclusion": "success",
+          "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+          "number": 8,
+          "startedAt": "2026-10-17T05:52:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:28Z",
+          "conclusion": "success",
+          "name": "Run cargo test --workspace --locked",
+          "number": 9,
+          "startedAt": "2026-10-17T05:52:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:33Z",
+          "conclusion": "success",
+          "name": "Run cargo test --workspace --locked -- --ignored",
+          "number": 10,
+          "startedAt": "2026-10-17T05:52:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:34Z",
+          "conclusion": "success",
+          "name": "Run cargo doc --workspace --no-deps --locked",
+          "number": 11,
+          "startedAt": "2026-10-17T05:52:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:34Z",
+          "conclusion": "success",
+          "name": "Run cargo build --workspace --locked",
+          "number": 12,
+          "startedAt": "2026-10-17T05:52:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:35Z",
+          "conclusion": "success",
+          "name": "Run cargo run --locked -p nirs4all-domains-cli -- schema --out schemas",
+          "number": 13,
+          "startedAt": "2026-10-17T05:52:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:58Z",
+          "conclusion": "success",
+          "name": "Bridge and end-to-end gates",
+          "number": 14,
+          "startedAt": "2026-10-17T05:52:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:58Z",
+          "conclusion": "success",
+          "name": "Run git diff --exit-code -- schemas",
+          "number": 15,
+          "startedAt": "2026-10-17T05:52:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:58Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 29,
+          "startedAt": "2026-10-17T05:52:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:58Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 30,
+          "startedAt": "2026-10-17T05:52:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:58Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 31,
+          "startedAt": "2026-10-17T05:52:58Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047/job/117323708371"
+    },
+    {
+      "completedAt": "2026-10-17T05:54:32Z",
+      "conclusion": "success",
+      "databaseId": 117323708540,
+      "name": "audit (windows-latest)",
+      "startedAt": "2026-10-17T05:51:39Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-17T05:51:41Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-17T05:51:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:51:46Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-10-17T05:51:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:09Z",
+          "conclusion": "success",
+          "name": "Run dtolnay/rust-toolchain@stable",
+          "number": 3,
+          "startedAt": "2026-10-17T05:51:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:52:10Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@v5",
+          "number": 4,
+          "startedAt": "2026-10-17T05:52:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:04Z",
+          "conclusion": "success",
+          "name": "Run python -m pip install nirs4all-methods==1.3.6 \"./bridges/python[test,datasets,predictive]\"",
+          "number": 5,
+          "startedAt": "2026-10-17T05:52:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:07Z",
+          "conclusion": "success",
+          "name": "Select native Methods and companion DLL directory",
+          "number": 6,
+          "startedAt": "2026-10-17T05:53:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:08Z",
+          "conclusion": "success",
+          "name": "Run cargo fmt --all --check",
+          "number": 7,
+          "startedAt": "2026-10-17T05:53:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:27Z",
+          "conclusion": "success",
+          "name": "Run cargo clippy --workspace --all-targets --locked -- -D warnings",
+          "number": 8,
+          "startedAt": "2026-10-17T05:53:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:43Z",
+          "conclusion": "success",
+          "name": "Run cargo test --workspace --locked",
+          "number": 9,
+          "startedAt": "2026-10-17T05:53:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:50Z",
+          "conclusion": "success",
+          "name": "Run cargo test --workspace --locked -- --ignored",
+          "number": 10,
+          "startedAt": "2026-10-17T05:53:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:52Z",
+          "conclusion": "success",
+          "name": "Run cargo doc --workspace --no-deps --locked",
+          "number": 11,
+          "startedAt": "2026-10-17T05:53:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:54Z",
+          "conclusion": "success",
+          "name": "Run cargo build --workspace --locked",
+          "number": 12,
+          "startedAt": "2026-10-17T05:53:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:53:54Z",
+          "conclusion": "success",
+          "name": "Run cargo run --locked -p nirs4all-domains-cli -- schema --out schemas",
+          "number": 13,
+          "startedAt": "2026-10-17T05:53:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:54:29Z",
+          "conclusion": "success",
+          "name": "Bridge and end-to-end gates",
+          "number": 14,
+          "startedAt": "2026-10-17T05:53:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:54:29Z",
+          "conclusion": "success",
+          "name": "Run git diff --exit-code -- schemas",
+          "number": 15,
+          "startedAt": "2026-10-17T05:54:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:54:29Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@v5",
+          "number": 29,
+          "startedAt": "2026-10-17T05:54:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:54:31Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 30,
+          "startedAt": "2026-10-17T05:54:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-17T05:54:31Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 31,
+          "startedAt": "2026-10-17T05:54:31Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047/job/117323708540"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047"
+}

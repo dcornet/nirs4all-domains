@@ -190,9 +190,8 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 Exploratory **0.1.0-alpha.6**. **35 Rust + 34 Python = 69 tests pass locally**,
 retaining all 56 alpha.5 tests. Two complete EcoSIS runs give byte-identical
 reports; alpha.4 PLS predictions/artifacts and 30 old reports are unchanged.
-Alpha.6 Windows/Ubuntu CI execution is recorded in [VALIDATION.md](docs/VALIDATION.md).
-The [previous alpha.5 CI](https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251)
-passed on `47db703`. Detailed execution evidence is in
+[Alpha.6 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047)
+on source commit `28b99e9`. Detailed execution evidence is in
 [VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
 
 ```sh
