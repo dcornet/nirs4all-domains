@@ -45,7 +45,7 @@ predictive reliance as distinct scientific questions.
 
 ## Implemented features
 
-Alpha.5 builds on the qualified alpha.4 protocols:
+Alpha.6 builds on the qualified alpha.4/5 protocols:
 
 - Explicit versioned dataset/content/source/target/split/policy contracts.
 - Physical/reference dependency checks, strict split guards and keyed joins.
@@ -60,6 +60,12 @@ Alpha.5 builds on the qualified alpha.4 protocols:
 - Reproducible JSON/Markdown reports, schemas and real Shootout/EcoSIS pilots.
 - Optional development-only nested grouped PLS through DAG-ML and native Methods,
   with fold-local centering, selection and a fold-local mean baseline.
+- Native metadata group–target association, physical-unit SS decomposition and
+  whole-component uncertainty, with explicit saturated/missing-factor limits.
+- Matched group-only, null, spectral and group+residual OOF predictions. Group
+  means and residual targets are fitted independently in every inner/outer scope;
+  unseen labels use the training global mean. Seen-level skill has its own
+  eligibility and denominator.
 - Algorithmic exclusion of retained Y_test from pre-training fits and selection.
 
 HDBSCAN held-out assignment remains **unavailable**. No train+test fit is presented
@@ -71,17 +77,29 @@ workflows retain their earlier availability semantics.
 | Experiment | Status |
 |---|---|
 | Unsupervised X structure and resampling stability | Implemented, separate alpha.5 report |
-| Descriptive metadata-group/target variance decomposition | Specified; planned for alpha.6 |
-| Group-only prediction versus null and spectra | Planned |
-| Within-group predictive skill | Planned |
-| Group-safe random, group-holdout and leave-group-out sensitivity | Planned |
-| Global and within-group training-target permutation controls | Planned |
+| Descriptive metadata-group/target variance decomposition | Implemented alpha.6; complete factor/target physical units only |
+| Group-only prediction versus null and spectra | Implemented alpha.6; explicit seen/unseen fallback and matched OOF |
+| Within-group predictive skill | Implemented alpha.6; qualified seen-level populations and fold-local residual fitting |
+| Group-safe random, group-holdout and leave-group-out sensitivity | Alpha.7 design only |
+| Global and within-group training-target permutation controls | Alpha.7 design only |
 
 The [research specification](docs/STRUCTURAL_SHORTCUT_RISK.md) defines metrics,
 populations, fold ownership, negative controls and gates. Eta-squared alone will
 not establish predictive reliance. Spectral-group baselines require fold-local
 construction and qualified held-out assignment. No universal shortcut probability
 or calibrability ranking is provided.
+
+Try the bounded workflow after installing the predictive bridge:
+
+```sh
+target/debug/n4domains dependence tests/fixtures/dependence/mixed.json --config configs/pilots/dependence-controls-v1.json --out results/dependence-demo --python python
+python scripts/check_dependence_report.py results/dependence-demo/report.json
+```
+
+The output directory must be new. A metadata audit is written before fitting;
+`--audit-only` stops there. `group-target` exposes the native-backed descriptive
+slice separately. [Protocols](docs/STRUCTURAL_PREDICTIVE_BASELINES.md) describe
+the exact populations, fold-local lineage and no-fit constant-residual case.
 
 ## Architecture and ecosystem
 
@@ -140,12 +158,18 @@ is documented in [the repeated pilot](docs/REPEATED_DATA_PILOT.md).
 | EcoSIS development PLS | 65 means / 45 plots; five outer, three inner group folds | OOF RMSE 110.87 versus null 146.99 g/m²; R² 0.397 |
 | EcoSIS train structure | 65 means / 45 components; 100 paired 80% subsamples, five settings | Insufficient information: primary all-noise; smaller clusters appear with weak sensitivity support |
 | Shootout train structure | 155 source-row identity aliases; same structural design | Fragile structure: primary three groups, 27.10% noise; median eligible ARI 0.533 |
+| EcoSIS genus baseline | Same 65 development means / 45 plots; 55 seen-level OOF samples | Group RMSE 114.78; group+residual 101.35 g/m²; exploratory paired gain 13.43 [0.60, 26.08] |
 
 These are not established production or new-region performance. Coverage
 fractions have different denominators and are not prediction-failure probabilities.
 All 390 primary train acquisitions and 2151 bands remain in native coverage;
 unavailable full moments do not block scores/coverage. See [predictive evidence](docs/PREDICTIVE_SANITY_CHECK.md)
 and [actual structural results](docs/CLUSTERING_REAL_DATA_PILOT.md).
+The [alpha.6 pilot](docs/STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md) separates
+association (genus eta²=.608 on 61 nonmissing means) from prediction on all 65.
+Plots have eta²=.709 but every OOF plot is unseen, so their group baseline is
+exactly the null. Taxonomic labels predict variation; this does not identify
+shortcut learning, causal confounding or a fraction of chemical information.
 
 ## Scientific limitations
 
@@ -163,9 +187,12 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.5**. **31 Rust + 25 Python = 56 tests pass**.
-[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251)
-on source commit `47db703`. Detailed execution evidence is in
+Exploratory **0.1.0-alpha.6**. **35 Rust + 34 Python = 69 tests pass locally**,
+retaining all 56 alpha.5 tests. Two complete EcoSIS runs give byte-identical
+reports; alpha.4 PLS predictions/artifacts and 30 old reports are unchanged.
+Alpha.6 Windows/Ubuntu CI execution is recorded in [VALIDATION.md](docs/VALIDATION.md).
+The [previous alpha.5 CI](https://github.com/dcornet/nirs4all-domains/actions/runs/38965734251)
+passed on `47db703`. Detailed execution evidence is in
 [VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
 
 ```sh
@@ -182,6 +209,8 @@ python -m unittest discover -s tests/integration -v
 Provider-free tests do not qualify unavailable methods. CI executes real native
 gates on Windows and Ubuntu. Validate structural output with
 `python scripts/check_structure_report.py <report.json>`.
+The [alpha.7 design](docs/SPLIT_STRESS_ALPHA7_PROTOCOL.md) proposes split-size
+controls and training-target interventions; that programme is not executed here.
 
 License: **AGPL-3.0-or-later**, selected by the owner. Native upstream libraries
 and raw dataset bytes are not redistributed here. No upstream repository was modified.

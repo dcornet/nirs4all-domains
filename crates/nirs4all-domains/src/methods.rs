@@ -71,6 +71,17 @@ type Hdbscan = unsafe extern "C" fn(
     *mut f64,
 ) -> i32;
 type Ari = unsafe extern "C" fn(*mut c_void, *const i64, *const i64, i64, *mut f64) -> i32;
+type FactorAssociation = unsafe extern "C" fn(
+    *mut c_void,
+    *const i64,
+    *const f64,
+    i64,
+    i32,
+    i32,
+    u64,
+    *mut f64,
+    *mut i64,
+) -> i32;
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
@@ -247,6 +258,49 @@ impl Methods {
             reason: format!("{operation}_STATUS_{code}"),
             native_message,
         }
+    }
+    /// Public continuous association kernel; unrestricted permutations deliberately disabled.
+    pub fn factor_association(
+        &self,
+        codes: &[i64],
+        y: &[f64],
+    ) -> Result<[Option<f64>; 8], NativeFailure> {
+        self.require_clustering_abi()?;
+        if codes.len() != y.len()
+            || y.len() < 2
+            || y.len() > 1_000_000
+            || y.iter().any(|v| !v.is_finite())
+        {
+            return Err(NativeFailure::transport(
+                "INVALID_FACTOR_ASSOCIATION_REQUEST",
+            ));
+        }
+        let mut out = [f64::NAN; 8];
+        let mut counts = [0_i64; 2];
+        // SAFETY: owning context and finite, equal-length input buffers; fixed ABI output capacities.
+        let code = unsafe {
+            let call = self
+                ._library
+                .get::<FactorAssociation>(b"n4m_preflight_factor_association\0")
+                .map_err(|e| {
+                    NativeFailure::transport(format!("METHODS_FACTOR_SYMBOL_UNAVAILABLE:{e}"))
+                })?;
+            call(
+                self.context,
+                codes.as_ptr(),
+                y.as_ptr(),
+                y.len() as i64,
+                0,
+                0,
+                17,
+                out.as_mut_ptr(),
+                counts.as_mut_ptr(),
+            )
+        };
+        if code != 0 {
+            return Err(self.native_failure("METHODS_FACTOR_ASSOCIATION", code));
+        }
+        Ok(out.map(|v| v.is_finite().then_some(v)))
     }
     pub fn hdbscan(
         &self,

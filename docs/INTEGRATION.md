@@ -1,5 +1,15 @@
 # Integration, dependencies and obstacles
 
+Alpha.6 adds `group-target` (Rust/native descriptive association) and `dependence`
+(bounded Python/DAG-ML workflow) without another crate. Install the `predictive`
+extra, select Methods 1.3.6 and the interpreter with `--python`. The new-directory
+workflow first runs Rust's identity/reference/mean audit and emits a metadata
+factor audit before numerical experiments. `--audit-only` stops after that audit.
+Config contracts ship in the bridge wheel; tests verify parity with the root
+JSON Schema. Reports retain original singleton export float values after fresh
+Rust auditing, so repeated transport does not move the alpha.4 PLS inputs.
+See STRUCTURAL_PREDICTIVE_BASELINES.md and run the controlled example in README.
+
 Preflight crates are pinned to `=0.1.0-alpha.1`; Cargo.lock pins the remaining Rust
 dependency graph. Methods is loaded through an explicit path, never a package
 path hardcoded in a distributable manifest. Native version, ABI and SHA-256 are

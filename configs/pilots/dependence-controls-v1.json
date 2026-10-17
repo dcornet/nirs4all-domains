@@ -1,0 +1,9 @@
+{
+  "protocol_version":"domains.structural_dependence.v0.1",
+  "seed":17,
+  "outer_folds":4,
+  "inner_folds":3,
+  "max_components":6,
+  "draws":200,
+  "factors":[{"field":"factor","source_column":"factor","provenance":"frozen synthetic analytical control","available_at_prediction":true}]
+}

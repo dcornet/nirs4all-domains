@@ -1,0 +1,5689 @@
+{
+  "alpha4_original_pls_folds_oof_metrics_artifacts_identical": true,
+  "byte_identical_real_reruns": true,
+  "config_sha256": "b58268ac45dbd809e4b406bcdc8e2fb74b05d444b15de458d9afbac8f897c764",
+  "controls": [
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 2.0,
+          "df_within": 93.0,
+          "eta_squared": 1.0,
+          "f": {
+            "reason": "NATIVE_UNDEFINED_ZERO_WITHIN_SS_OR_NO_RESIDUAL_DF",
+            "value": null
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 16,
+              "level": "0",
+              "mean_y": -8.0,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "1",
+              "mean_y": 0.0,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "2",
+              "mean_y": 8.0,
+              "n": 32
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 3,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": 2.7755575615628914e-17,
+          "sample_variance": 43.11578947368421,
+          "ss_between": 4096.0,
+          "ss_total": 4096.0,
+          "ss_within": 0.0,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_interval": [
+        0.9999999999999991,
+        1.0
+      ],
+      "case": "group_only",
+      "fallback_fraction": 0.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            5.943925210967938,
+            7.33284229556911
+          ],
+          "residual_over_group": [
+            0.0,
+            0.0
+          ],
+          "spectral_over_null": [
+            5.943925210967937,
+            7.332842295569108
+          ]
+        }
+      },
+      "report_sha256": "87152ebbd7976f6428344e3def8f8fd17f904240c4a90c51cc2da3fce350e282",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.0
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.0
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.0
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.0
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 5.500000000000001
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.02835648148148162
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.623937138128392
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.340111501250914e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.570665286034994e-15
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 48,
+          "n_samples": 96,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.0
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.0
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.0
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.0
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  5.943925210967938,
+                  7.33284229556911
+                ],
+                "residual_over_group": [
+                  0.0,
+                  0.0
+                ],
+                "spectral_over_null": [
+                  5.943925210967937,
+                  7.332842295569108
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.0
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 2.0,
+          "df_within": 93.0,
+          "eta_squared": 5.098049852789746e-34,
+          "f": {
+            "reason": null,
+            "value": 2.3705931815472318e-32
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 16,
+              "level": "0",
+              "mean_y": -3.122502256758253e-16,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "1",
+              "mean_y": -3.122502256758253e-16,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "2",
+              "mean_y": -3.122502256758253e-16,
+              "n": 32
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 3,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": 5.204170427930421e-17,
+          "sample_variance": 21.473684210526297,
+          "ss_between": 1.0400021699691074e-30,
+          "ss_total": 2039.9999999999982,
+          "ss_within": 2039.9999999999982,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_interval": [
+        0.0005648173453584798,
+        0.11974758237287375
+      ],
+      "case": "trait_only",
+      "fallback_fraction": 0.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            -0.8715977539033535,
+            -0.4258880328634085
+          ],
+          "residual_over_group": [
+            4.722139209698849,
+            6.0210601765726866
+          ],
+          "spectral_over_null": [
+            4.144935615319499,
+            5.279123853685519
+          ]
+        }
+      },
+      "report_sha256": "dc81ead9f1d6e6734d67397765e45731c34d244f5aac2470fd165ffbe8641c4b",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 4.703112859362862
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.3813731403200762
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 5.4179497258466345
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0975017191346599e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.4276819876323385e-15
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 4.1157407407407405
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06456063907044274
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 4.756249949303222
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.376213957608267e-16
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 2.8833309891983557e-16
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 48,
+          "n_samples": 96,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 4.703112859362862
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": -0.3813731403200762
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 5.4179497258466345
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0975017191346599e-15
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.4276819876323385e-15
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  -0.8715977539033535,
+                  -0.4258880328634085
+                ],
+                "residual_over_group": [
+                  4.722139209698849,
+                  6.0210601765726866
+                ],
+                "spectral_over_null": [
+                  4.144935615319499,
+                  5.279123853685519
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0878884598719551e-15
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.4174472476358163e-15
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 2.0,
+          "df_within": 93.0,
+          "eta_squared": 0.6675358539765328,
+          "f": {
+            "reason": null,
+            "value": 93.36470588235301
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 16,
+              "level": "0",
+              "mean_y": -8.000000000000004,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "1",
+              "mean_y": -3.122502256758253e-16,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "2",
+              "mean_y": 8.000000000000002,
+              "n": 32
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 3,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": -3.226585665316861e-16,
+          "sample_variance": 64.58947368421049,
+          "ss_between": 4096.000000000003,
+          "ss_total": 6135.999999999996,
+          "ss_within": 2039.9999999999936,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_interval": [
+        0.5046912067229833,
+        0.7700170250361006
+      ],
+      "case": "mixed",
+      "fallback_fraction": 0.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            1.5540070596756559,
+            3.9160004212226944
+          ],
+          "residual_over_group": [
+            4.722139209698848,
+            6.021060176572686
+          ],
+          "spectral_over_null": [
+            6.912147117775904,
+            9.411718217988401
+          ]
+        }
+      },
+      "report_sha256": "8994f6e91ac19ec037db3d2a530850bb089249d55e798d40c3bb4090f611dd57",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 4.703112859362861
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.5407429585637296
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 5.417949725846634
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.1917550279960665e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.584267654898582e-15
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.860201807405796e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 2.7459732007855612e-15
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 48,
+          "n_samples": 96,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 4.703112859362861
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.5407429585637296
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 5.417949725846634
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.1917550279960665e-15
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.584267654898582e-15
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  1.5540070596756559,
+                  3.9160004212226944
+                ],
+                "residual_over_group": [
+                  4.722139209698848,
+                  6.021060176572686
+                ],
+                "spectral_over_null": [
+                  6.912147117775904,
+                  9.411718217988401
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.346868218806326e-15
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.6874838591426516e-15
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 2.0,
+          "df_within": 93.0,
+          "eta_squared": 0.018281454719925892,
+          "f": {
+            "reason": null,
+            "value": 0.8659178830466455
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 16,
+              "level": "0",
+              "mean_y": -0.12248131389752206,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "1",
+              "mean_y": -0.39820222297730534,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "2",
+              "mean_y": -0.11984678868501383,
+              "n": 32
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 3,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": -0.21351010851994714,
+          "sample_variance": 0.9428292392806965,
+          "ss_between": 1.6374475544205618,
+          "ss_total": 89.56877773166617,
+          "ss_within": 87.93133017724561,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_interval": [
+        0.001854993975212541,
+        0.12420534413243202
+      ],
+      "case": "independent_y",
+      "fallback_fraction": 0.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            -0.04444505991739922,
+            0.0002508837494056282
+          ],
+          "residual_over_group": [
+            -0.06505754207362935,
+            0.005239830738199558
+          ],
+          "spectral_over_null": [
+            -0.09275551950499139,
+            -0.02375985794027413
+          ]
+        }
+      },
+      "report_sha256": "89e4823827a1736fae2936a23a402d03b915ab89f7bb0c41d901cde3f3d5446c",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.851034383065589
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.11465524676373184
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0197952615436274
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.8690219999118836
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.17514978968827455
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0471028001606153
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.8306022199689123
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.0697247651417423
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.9990304660594667
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.8782754045118083
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.19695526717364564
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0567728995637269
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 48,
+          "n_samples": 96,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.851034383065589
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": -0.11465524676373184
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0197952615436274
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.8690219999118836
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": -0.17514978968827455
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0471028001606153
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  -0.04444505991739922,
+                  0.0002508837494056282
+                ],
+                "residual_over_group": [
+                  -0.06505754207362935,
+                  0.005239830738199558
+                ],
+                "spectral_over_null": [
+                  -0.09275551950499139,
+                  -0.02375985794027413
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.8690219999118836
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": -0.05434529878206118
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0471028001606153
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 47.0,
+          "df_within": 48.0,
+          "eta_squared": 0.9960886571056068,
+          "f": {
+            "reason": null,
+            "value": 260.0851063829783
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 1,
+              "level": "0",
+              "mean_y": -15.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "1",
+              "mean_y": -7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "10",
+              "mean_y": -1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "11",
+              "mean_y": 7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "12",
+              "mean_y": -7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "13",
+              "mean_y": 1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "14",
+              "mean_y": 9.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "15",
+              "mean_y": -5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "16",
+              "mean_y": 3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "17",
+              "mean_y": 11.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "18",
+              "mean_y": -3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "19",
+              "mean_y": 5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "2",
+              "mean_y": 1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "20",
+              "mean_y": 13.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "21",
+              "mean_y": -1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "22",
+              "mean_y": 7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "23",
+              "mean_y": 15.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "24",
+              "mean_y": -15.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "25",
+              "mean_y": -7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "26",
+              "mean_y": 1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "27",
+              "mean_y": -13.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "28",
+              "mean_y": -5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "29",
+              "mean_y": 3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "3",
+              "mean_y": -13.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "30",
+              "mean_y": -11.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "31",
+              "mean_y": -3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "32",
+              "mean_y": 5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "33",
+              "mean_y": -9.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "34",
+              "mean_y": -1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "35",
+              "mean_y": 7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "36",
+              "mean_y": -7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "37",
+              "mean_y": 1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "38",
+              "mean_y": 9.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "39",
+              "mean_y": -5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "4",
+              "mean_y": -5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "40",
+              "mean_y": 3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "41",
+              "mean_y": 11.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "42",
+              "mean_y": -3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "43",
+              "mean_y": 5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "44",
+              "mean_y": 13.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "45",
+              "mean_y": -1.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "46",
+              "mean_y": 7.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "47",
+              "mean_y": 15.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "5",
+              "mean_y": 3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "6",
+              "mean_y": -11.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "7",
+              "mean_y": -3.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "8",
+              "mean_y": 5.0,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "9",
+              "mean_y": -9.0,
+              "n": 2
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 48,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": -3.226585665316861e-16,
+          "sample_variance": 64.58947368421049,
+          "ss_between": 6112.0,
+          "ss_total": 6135.999999999996,
+          "ss_within": 23.999999999996362,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision.",
+            "SPARSE_INDEPENDENT_COMPONENT_SUPPORT"
+          ]
+        }
+      },
+      "association_interval": [
+        0.9940355382512531,
+        0.9970892626131949
+      ],
+      "case": "unseen",
+      "fallback_fraction": 1.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            0.0,
+            0.0
+          ],
+          "residual_over_group": [
+            0.03620261600490782,
+            0.07087165190955069
+          ],
+          "spectral_over_null": [
+            6.912147117775904,
+            9.411718217988401
+          ]
+        }
+      },
+      "report_sha256": "c5b916582dfcc114cfcf368208ab5a9a23bdf52a825fa1e2e6d65d03b58c7c40",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.835793539194561
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06352426461359317
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.244812060515317
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.860201807405796e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 2.7459732007855612e-15
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": "INSUFFICIENT_SEEN_LEVEL_OR_INDEPENDENT_COMPONENT_SUPPORT",
+        "status": "unavailable",
+        "value": null
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 95.0,
+          "df_within": 0.0,
+          "eta_squared": 1.0,
+          "f": {
+            "reason": "NATIVE_UNDEFINED_ZERO_WITHIN_SS_OR_NO_RESIDUAL_DF",
+            "value": null
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 1,
+              "level": "0",
+              "mean_y": -15.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "1",
+              "mean_y": -14.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "10",
+              "mean_y": 2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "11",
+              "mean_y": 3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "12",
+              "mean_y": -11.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "13",
+              "mean_y": -10.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "14",
+              "mean_y": -3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "15",
+              "mean_y": -2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "16",
+              "mean_y": 4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "17",
+              "mean_y": 5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "18",
+              "mean_y": -9.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "19",
+              "mean_y": -8.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "2",
+              "mean_y": -7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "20",
+              "mean_y": -1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "21",
+              "mean_y": -0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "22",
+              "mean_y": 6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "23",
+              "mean_y": 7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "24",
+              "mean_y": -7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "25",
+              "mean_y": -6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "26",
+              "mean_y": 0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "27",
+              "mean_y": 1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "28",
+              "mean_y": 8.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "29",
+              "mean_y": 9.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "3",
+              "mean_y": -6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "30",
+              "mean_y": -5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "31",
+              "mean_y": -4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "32",
+              "mean_y": 2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "33",
+              "mean_y": 3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "34",
+              "mean_y": 10.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "35",
+              "mean_y": 11.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "36",
+              "mean_y": -3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "37",
+              "mean_y": -2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "38",
+              "mean_y": 4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "39",
+              "mean_y": 5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "4",
+              "mean_y": 0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "40",
+              "mean_y": 12.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "41",
+              "mean_y": 13.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "42",
+              "mean_y": -1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "43",
+              "mean_y": -0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "44",
+              "mean_y": 6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "45",
+              "mean_y": 7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "46",
+              "mean_y": 14.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "47",
+              "mean_y": 15.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "48",
+              "mean_y": -15.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "49",
+              "mean_y": -14.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "5",
+              "mean_y": 1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "50",
+              "mean_y": -7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "51",
+              "mean_y": -6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "52",
+              "mean_y": 0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "53",
+              "mean_y": 1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "54",
+              "mean_y": -13.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "55",
+              "mean_y": -12.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "56",
+              "mean_y": -5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "57",
+              "mean_y": -4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "58",
+              "mean_y": 2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "59",
+              "mean_y": 3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "6",
+              "mean_y": -13.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "60",
+              "mean_y": -11.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "61",
+              "mean_y": -10.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "62",
+              "mean_y": -3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "63",
+              "mean_y": -2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "64",
+              "mean_y": 4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "65",
+              "mean_y": 5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "66",
+              "mean_y": -9.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "67",
+              "mean_y": -8.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "68",
+              "mean_y": -1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "69",
+              "mean_y": -0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "7",
+              "mean_y": -12.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "70",
+              "mean_y": 6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "71",
+              "mean_y": 7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "72",
+              "mean_y": -7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "73",
+              "mean_y": -6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "74",
+              "mean_y": 0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "75",
+              "mean_y": 1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "76",
+              "mean_y": 8.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "77",
+              "mean_y": 9.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "78",
+              "mean_y": -5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "79",
+              "mean_y": -4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "8",
+              "mean_y": -5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "80",
+              "mean_y": 2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "81",
+              "mean_y": 3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "82",
+              "mean_y": 10.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "83",
+              "mean_y": 11.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "84",
+              "mean_y": -3.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "85",
+              "mean_y": -2.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "86",
+              "mean_y": 4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "87",
+              "mean_y": 5.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "88",
+              "mean_y": 12.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "89",
+              "mean_y": 13.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "9",
+              "mean_y": -4.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "90",
+              "mean_y": -1.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "91",
+              "mean_y": -0.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "92",
+              "mean_y": 6.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "93",
+              "mean_y": 7.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "94",
+              "mean_y": 14.5,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "95",
+              "mean_y": 15.5,
+              "n": 1
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 96,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": -3.226585665316861e-16,
+          "sample_variance": 64.58947368421049,
+          "ss_between": 6135.999999999996,
+          "ss_total": 6135.999999999996,
+          "ss_within": 0.0,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision.",
+            "SATURATED_OR_NEAR_SATURATED_FACTOR: high eta-squared can be trivial.",
+            "SINGLETON_LEVELS",
+            "SPARSE_INDEPENDENT_COMPONENT_SUPPORT"
+          ]
+        }
+      },
+      "association_interval": [
+        0.9999999999999991,
+        1.0
+      ],
+      "case": "high_cardinality",
+      "fallback_fraction": 1.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            0.0,
+            0.0
+          ],
+          "residual_over_group": [
+            0.0,
+            0.0
+          ],
+          "spectral_over_null": [
+            6.912147117775904,
+            9.411718217988401
+          ]
+        }
+      },
+      "report_sha256": "326b0241f56e49ffe45998ddd9e2ac7a734892e05421b635e0cb45b5b21da34a",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.860201807405796e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 2.7459732007855612e-15
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": "INSUFFICIENT_SEEN_LEVEL_OR_INDEPENDENT_COMPONENT_SUPPORT",
+        "status": "unavailable",
+        "value": null
+      }
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 2.0,
+          "df_within": 93.0,
+          "eta_squared": 0.6675358539765328,
+          "f": {
+            "reason": null,
+            "value": 93.36470588235301
+          },
+          "known_reference_units": 96,
+          "levels": [
+            {
+              "components": 16,
+              "level": "0",
+              "mean_y": -8.000000000000004,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "1",
+              "mean_y": -3.122502256758253e-16,
+              "n": 32
+            },
+            {
+              "components": 16,
+              "level": "2",
+              "mean_y": 8.000000000000002,
+              "n": 32
+            }
+          ],
+          "n_components": 48,
+          "n_levels": 3,
+          "n_physical": 96,
+          "native_permutations": 0,
+          "overall_mean": -3.226585665316861e-16,
+          "sample_variance": 64.58947368421049,
+          "ss_between": 4096.000000000003,
+          "ss_total": 6135.999999999996,
+          "ss_within": 2039.9999999999936,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_interval": [
+        0.5046912067229833,
+        0.7700170250361006
+      ],
+      "case": "repeats",
+      "fallback_fraction": 0.0,
+      "paired_uncertainty": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "group_over_null": [
+            1.5540070596756559,
+            3.9160004212226944
+          ],
+          "residual_over_group": [
+            4.722139209698848,
+            6.021060176572686
+          ],
+          "spectral_over_null": [
+            6.912147117775903,
+            9.4117182179884
+          ]
+        }
+      },
+      "report_sha256": "eb27615cd5cf6e365f60687635f78e8e41ef4aca6d0a477e2bdda3e9ad90cd02",
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 4.703112859362861
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.5407429585637296
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 5.417949725846634
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.087093378278799e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.4485290734897523e-15
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 6.871527777777774
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.07757496740547554
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 8.299096336348914
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 2.768618667658984e-15
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 1.0
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 3.719790812055175e-15
+            }
+          }
+        }
+      },
+      "within_group": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 48,
+          "n_samples": 96,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 4.703112859362861
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.5407429585637296
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 5.417949725846634
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.087093378278799e-15
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.0
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 1.4485290734897523e-15
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  1.5540070596756559,
+                  3.9160004212226944
+                ],
+                "residual_over_group": [
+                  4.722139209698848,
+                  6.021060176572686
+                ],
+                "spectral_over_null": [
+                  6.912147117775903,
+                  9.4117182179884
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.2025247695760892e-15
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.0
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 1.5291160231643098e-15
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "domains_binary_sha256": "e0a81f2584e150b7e16ab15f9db8d755d6799c0e6b693b5aa68892e7cb0f6273",
+  "execution_date": "2026-10-17",
+  "full_qualification_sha256": "481718dc55e6f21e66362812eda83e10000dea8104f710c1a58bb04dad512310",
+  "methods_binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+  "previous_30_reports_unchanged": true,
+  "protocol_version": "domains.structural_dependence.v0.1",
+  "real": [
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 44.0,
+          "df_within": 20.0,
+          "eta_squared": 0.7089366831401913,
+          "f": {
+            "reason": null,
+            "value": 1.1071266223394094
+          },
+          "known_reference_units": 65,
+          "levels": [
+            {
+              "components": 1,
+              "level": "HH_001",
+              "mean_y": 123.2711588,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_002",
+              "mean_y": 100.392387,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_003",
+              "mean_y": 80.75368623,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_004",
+              "mean_y": 153.50053654666667,
+              "n": 3
+            },
+            {
+              "components": 1,
+              "level": "HH_005",
+              "mean_y": 294.0474805,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "HH_006",
+              "mean_y": 221.81524884999996,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "HH_007",
+              "mean_y": 231.0300696,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_008",
+              "mean_y": 211.1753679,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_009",
+              "mean_y": 227.4755956,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "HH_010",
+              "mean_y": 308.15612345,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "HH_011",
+              "mean_y": 327.1695337,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "HH_012",
+              "mean_y": 320.9803343,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_002",
+              "mean_y": 319.09675955,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_004",
+              "mean_y": 240.8704926,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_005",
+              "mean_y": 357.04914255,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_006",
+              "mean_y": 45.93725961,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_007",
+              "mean_y": 382.5493657,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_008",
+              "mean_y": 322.0627212,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_009",
+              "mean_y": 277.60590895,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_010",
+              "mean_y": 373.4315798,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_013",
+              "mean_y": 126.474197,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_014",
+              "mean_y": 109.4537182,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_016",
+              "mean_y": 45.77102893,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_018",
+              "mean_y": 195.1552657,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_019",
+              "mean_y": 57.02870744,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_020",
+              "mean_y": 218.66173598,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_021",
+              "mean_y": 541.6108999,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_022",
+              "mean_y": 430.7487061,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_023",
+              "mean_y": 145.97135771,
+              "n": 3
+            },
+            {
+              "components": 1,
+              "level": "SL_024",
+              "mean_y": 401.7728675,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_026",
+              "mean_y": 223.61281820000002,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "SL_027",
+              "mean_y": 493.7589828,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_028",
+              "mean_y": 499.26407,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "SL_029",
+              "mean_y": 464.6060617,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_002",
+              "mean_y": 96.96677242,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_003",
+              "mean_y": 92.4934938,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_004",
+              "mean_y": 284.1620404,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "YV_005",
+              "mean_y": 92.90826472,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_006",
+              "mean_y": 134.8271865,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_008",
+              "mean_y": 84.9280069,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_009",
+              "mean_y": 285.5100825,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "YV_011",
+              "mean_y": 90.162921455,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "YV_012",
+              "mean_y": 85.142060645,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "YV_013",
+              "mean_y": 221.7294325,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "YV_016",
+              "mean_y": 212.66646294999998,
+              "n": 2
+            }
+          ],
+          "n_components": 45,
+          "n_levels": 45,
+          "n_physical": 65,
+          "native_permutations": 0,
+          "overall_mean": 236.32445696276923,
+          "sample_variance": 20699.97075047407,
+          "ss_between": 939197.990716164,
+          "ss_total": 1324798.1280303404,
+          "ss_within": 385600.1373141764,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision.",
+            "SINGLETON_LEVELS",
+            "SPARSE_INDEPENDENT_COMPONENT_SUPPORT"
+          ]
+        }
+      },
+      "association_bootstrap": {
+        "failed": 0,
+        "interval_95": [
+          0.5689010184810546,
+          0.8638110445775464
+        ],
+        "interval_reason": null,
+        "requested": 200,
+        "seed": 17,
+        "successful": 200,
+        "unit": "whole declared dependency components with replacement; multiplicity retained; conditional observed-design uncertainty"
+      },
+      "audit": {
+        "available_at_prediction": true,
+        "components_spanning_levels": [],
+        "eligibility_reason": "INSUFFICIENT_SEEN_LEVEL_OR_INDEPENDENT_COMPONENT_SUPPORT",
+        "eligible_conditional_evidence": false,
+        "fallback_fraction": 1.0,
+        "field": "plot_name",
+        "level_support": [
+          {
+            "level": "HH_001",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_002",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_003",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_004",
+            "n_components": 1,
+            "n_samples": 3
+          },
+          {
+            "level": "HH_005",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "HH_006",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "HH_007",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_008",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_009",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "HH_010",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "HH_011",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "HH_012",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_002",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_004",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_005",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_006",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_007",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_008",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_009",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_010",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_013",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_014",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_016",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_018",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_019",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_020",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_021",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_022",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_023",
+            "n_components": 1,
+            "n_samples": 3
+          },
+          {
+            "level": "SL_024",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_026",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "SL_027",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_028",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "SL_029",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_002",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_003",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_004",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "YV_005",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_006",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_008",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_009",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "YV_011",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "YV_012",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "YV_013",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "YV_016",
+            "n_components": 1,
+            "n_samples": 2
+          }
+        ],
+        "missing_ids": [],
+        "n_levels": 45,
+        "outer_overlap": [
+          {
+            "fallback_ids": [
+              "CA2023_003",
+              "CA2023_004",
+              "CA2023_009",
+              "CA2023_010",
+              "CA2023_011",
+              "CA2023_020",
+              "CA2023_033",
+              "CA2023_062",
+              "CA2023_063",
+              "CA2023_070",
+              "CA2023_071",
+              "CA2023_077",
+              "CA2023_078",
+              "CA2023_079",
+              "CA2023_080"
+            ],
+            "fold_id": "outer:0",
+            "seen_ids": [],
+            "training_levels": [
+              "HH_001",
+              "HH_002",
+              "HH_003",
+              "HH_004",
+              "HH_006",
+              "HH_007",
+              "HH_008",
+              "HH_009",
+              "HH_012",
+              "SL_004",
+              "SL_005",
+              "SL_008",
+              "SL_009",
+              "SL_010",
+              "SL_013",
+              "SL_016",
+              "SL_018",
+              "SL_019",
+              "SL_020",
+              "SL_021",
+              "SL_022",
+              "SL_023",
+              "SL_026",
+              "SL_027",
+              "SL_028",
+              "SL_029",
+              "YV_002",
+              "YV_003",
+              "YV_004",
+              "YV_005",
+              "YV_006",
+              "YV_008",
+              "YV_009",
+              "YV_011",
+              "YV_012",
+              "YV_013"
+            ],
+            "validation_levels": [
+              "HH_005",
+              "HH_010",
+              "HH_011",
+              "SL_002",
+              "SL_006",
+              "SL_007",
+              "SL_014",
+              "SL_024",
+              "YV_016"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_006",
+              "CA2023_007",
+              "CA2023_008",
+              "CA2023_022",
+              "CA2023_028",
+              "CA2023_035",
+              "CA2023_036",
+              "CA2023_037",
+              "CA2023_046",
+              "CA2023_057",
+              "CA2023_076"
+            ],
+            "fold_id": "outer:1",
+            "seen_ids": [],
+            "training_levels": [
+              "HH_001",
+              "HH_002",
+              "HH_003",
+              "HH_004",
+              "HH_005",
+              "HH_006",
+              "HH_007",
+              "HH_008",
+              "HH_010",
+              "HH_011",
+              "HH_012",
+              "SL_002",
+              "SL_006",
+              "SL_007",
+              "SL_008",
+              "SL_009",
+              "SL_010",
+              "SL_013",
+              "SL_014",
+              "SL_018",
+              "SL_019",
+              "SL_020",
+              "SL_022",
+              "SL_023",
+              "SL_024",
+              "SL_028",
+              "SL_029",
+              "YV_002",
+              "YV_003",
+              "YV_004",
+              "YV_006",
+              "YV_008",
+              "YV_009",
+              "YV_011",
+              "YV_012",
+              "YV_016"
+            ],
+            "validation_levels": [
+              "HH_009",
+              "SL_004",
+              "SL_005",
+              "SL_016",
+              "SL_021",
+              "SL_026",
+              "SL_027",
+              "YV_005",
+              "YV_013"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_012",
+              "CA2023_013",
+              "CA2023_014",
+              "CA2023_015",
+              "CA2023_025",
+              "CA2023_026",
+              "CA2023_027",
+              "CA2023_042",
+              "CA2023_043",
+              "CA2023_053",
+              "CA2023_054",
+              "CA2023_065"
+            ],
+            "fold_id": "outer:2",
+            "seen_ids": [],
+            "training_levels": [
+              "HH_001",
+              "HH_003",
+              "HH_004",
+              "HH_005",
+              "HH_006",
+              "HH_007",
+              "HH_008",
+              "HH_009",
+              "HH_010",
+              "HH_011",
+              "HH_012",
+              "SL_002",
+              "SL_004",
+              "SL_005",
+              "SL_006",
+              "SL_007",
+              "SL_010",
+              "SL_014",
+              "SL_016",
+              "SL_018",
+              "SL_021",
+              "SL_022",
+              "SL_023",
+              "SL_024",
+              "SL_026",
+              "SL_027",
+              "SL_028",
+              "SL_029",
+              "YV_004",
+              "YV_005",
+              "YV_006",
+              "YV_008",
+              "YV_009",
+              "YV_012",
+              "YV_013",
+              "YV_016"
+            ],
+            "validation_levels": [
+              "HH_002",
+              "SL_008",
+              "SL_009",
+              "SL_013",
+              "SL_019",
+              "SL_020",
+              "YV_002",
+              "YV_003",
+              "YV_011"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_030",
+              "CA2023_039",
+              "CA2023_044",
+              "CA2023_045",
+              "CA2023_047",
+              "CA2023_050",
+              "CA2023_051",
+              "CA2023_066",
+              "CA2023_072",
+              "CA2023_073",
+              "CA2023_074",
+              "CA2023_075"
+            ],
+            "fold_id": "outer:3",
+            "seen_ids": [],
+            "training_levels": [
+              "HH_001",
+              "HH_002",
+              "HH_004",
+              "HH_005",
+              "HH_009",
+              "HH_010",
+              "HH_011",
+              "HH_012",
+              "SL_002",
+              "SL_004",
+              "SL_005",
+              "SL_006",
+              "SL_007",
+              "SL_008",
+              "SL_009",
+              "SL_010",
+              "SL_013",
+              "SL_014",
+              "SL_016",
+              "SL_018",
+              "SL_019",
+              "SL_020",
+              "SL_021",
+              "SL_023",
+              "SL_024",
+              "SL_026",
+              "SL_027",
+              "SL_028",
+              "YV_002",
+              "YV_003",
+              "YV_005",
+              "YV_008",
+              "YV_011",
+              "YV_012",
+              "YV_013",
+              "YV_016"
+            ],
+            "validation_levels": [
+              "HH_003",
+              "HH_006",
+              "HH_007",
+              "HH_008",
+              "SL_022",
+              "SL_029",
+              "YV_004",
+              "YV_006",
+              "YV_009"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_016",
+              "CA2023_023",
+              "CA2023_029",
+              "CA2023_031",
+              "CA2023_032",
+              "CA2023_038",
+              "CA2023_049",
+              "CA2023_055",
+              "CA2023_056",
+              "CA2023_064",
+              "CA2023_067",
+              "CA2023_068",
+              "CA2023_069",
+              "CA2023_081",
+              "CA2023_082"
+            ],
+            "fold_id": "outer:4",
+            "seen_ids": [],
+            "training_levels": [
+              "HH_002",
+              "HH_003",
+              "HH_005",
+              "HH_006",
+              "HH_007",
+              "HH_008",
+              "HH_009",
+              "HH_010",
+              "HH_011",
+              "SL_002",
+              "SL_004",
+              "SL_005",
+              "SL_006",
+              "SL_007",
+              "SL_008",
+              "SL_009",
+              "SL_013",
+              "SL_014",
+              "SL_016",
+              "SL_019",
+              "SL_020",
+              "SL_021",
+              "SL_022",
+              "SL_024",
+              "SL_026",
+              "SL_027",
+              "SL_029",
+              "YV_002",
+              "YV_003",
+              "YV_004",
+              "YV_005",
+              "YV_006",
+              "YV_009",
+              "YV_011",
+              "YV_013",
+              "YV_016"
+            ],
+            "validation_levels": [
+              "HH_001",
+              "HH_004",
+              "HH_012",
+              "SL_010",
+              "SL_018",
+              "SL_023",
+              "SL_028",
+              "YV_008",
+              "YV_012"
+            ]
+          }
+        ],
+        "provenance": "Original EcoSIS supplemental CSV; sample_id join; diagnostic only under plot holdout",
+        "rare_levels": [
+          "HH_001",
+          "HH_002",
+          "HH_003",
+          "HH_004",
+          "HH_005",
+          "HH_006",
+          "HH_007",
+          "HH_008",
+          "HH_009",
+          "HH_010",
+          "HH_011",
+          "HH_012",
+          "SL_002",
+          "SL_004",
+          "SL_005",
+          "SL_006",
+          "SL_007",
+          "SL_008",
+          "SL_009",
+          "SL_010",
+          "SL_013",
+          "SL_014",
+          "SL_016",
+          "SL_018",
+          "SL_019",
+          "SL_020",
+          "SL_021",
+          "SL_022",
+          "SL_023",
+          "SL_024",
+          "SL_026",
+          "SL_027",
+          "SL_028",
+          "SL_029",
+          "YV_002",
+          "YV_003",
+          "YV_004",
+          "YV_005",
+          "YV_006",
+          "YV_008",
+          "YV_009",
+          "YV_011",
+          "YV_012",
+          "YV_013",
+          "YV_016"
+        ],
+        "scope": "observed metadata levels under declared component holdout; no causal attribution",
+        "seen_count": 0,
+        "singleton_levels": [
+          "HH_001",
+          "HH_002",
+          "HH_003",
+          "HH_007",
+          "HH_008",
+          "HH_009",
+          "SL_004",
+          "SL_006",
+          "SL_008",
+          "SL_010",
+          "SL_013",
+          "SL_014",
+          "SL_016",
+          "SL_018",
+          "SL_019",
+          "SL_021",
+          "SL_022",
+          "SL_024",
+          "SL_027",
+          "SL_028",
+          "SL_029",
+          "YV_002",
+          "YV_003",
+          "YV_005",
+          "YV_006",
+          "YV_008",
+          "YV_013"
+        ],
+        "source_column": "plot_name"
+      },
+      "conditional": {
+        "reason": "INSUFFICIENT_SEEN_LEVEL_OR_INDEPENDENT_COMPONENT_SUPPORT",
+        "status": "unavailable",
+        "value": null
+      },
+      "factor": "plot_name",
+      "paired_bootstrap": {
+        "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+        "failed": 0,
+        "interval_95": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "group_over_null": [
+              0.0,
+              0.0
+            ],
+            "residual_over_group": [
+              -12.91270039909628,
+              17.932245424070643
+            ],
+            "spectral_over_null": [
+              2.476650607059952,
+              68.43936769739639
+            ]
+          }
+        },
+        "requested": 200,
+        "seed": 17,
+        "successful": 200
+      },
+      "paired_rmse_improvement_over_group": 4.951486404496592,
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 124.06733348789534
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06012918467528228
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 146.99331012135553
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 114.56265940313483
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.010089045443838485
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 142.04182371685894
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 124.06733348789534
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06012918467528228
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 146.99331012135553
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 76.87552684527856
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3969209605752606
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 110.86776478755294
+            }
+          }
+        }
+      },
+      "selected_components": [
+        3,
+        4,
+        3,
+        3,
+        5
+      ]
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 8.0,
+          "df_within": 56.0,
+          "eta_squared": 0.36650448931891383,
+          "f": {
+            "reason": null,
+            "value": 4.049802061697539
+          },
+          "known_reference_units": 65,
+          "levels": [
+            {
+              "components": 4,
+              "level": "7/1/2023",
+              "mean_y": 273.1832594016667,
+              "n": 6
+            },
+            {
+              "components": 4,
+              "level": "7/2/2023",
+              "mean_y": 335.96747505,
+              "n": 6
+            },
+            {
+              "components": 5,
+              "level": "7/3/2023",
+              "mean_y": 106.77658345399999,
+              "n": 5
+            },
+            {
+              "components": 6,
+              "level": "7/4/2023",
+              "mean_y": 269.659565499,
+              "n": 10
+            },
+            {
+              "components": 3,
+              "level": "7/5/2023",
+              "mean_y": 485.87637149999995,
+              "n": 3
+            },
+            {
+              "components": 6,
+              "level": "7/6/2023",
+              "mean_y": 152.92111501999997,
+              "n": 7
+            },
+            {
+              "components": 5,
+              "level": "7/7/2023",
+              "mean_y": 174.29916528888887,
+              "n": 9
+            },
+            {
+              "components": 5,
+              "level": "7/8/2023",
+              "mean_y": 169.12672533375002,
+              "n": 8
+            },
+            {
+              "components": 7,
+              "level": "7/9/2023",
+              "mean_y": 275.0839557909091,
+              "n": 11
+            }
+          ],
+          "n_components": 45,
+          "n_levels": 9,
+          "n_physical": 65,
+          "native_permutations": 0,
+          "overall_mean": 236.32445696276923,
+          "sample_variance": 20699.97075047407,
+          "ss_between": 485544.4613644129,
+          "ss_total": 1324798.1280303404,
+          "ss_within": 839253.6666659275,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision."
+          ]
+        }
+      },
+      "association_bootstrap": {
+        "failed": 0,
+        "interval_95": [
+          0.2520284320664883,
+          0.6396581961049876
+        ],
+        "interval_reason": null,
+        "requested": 200,
+        "seed": 17,
+        "successful": 200,
+        "unit": "whole declared dependency components with replacement; multiplicity retained; conditional observed-design uncertainty"
+      },
+      "audit": {
+        "available_at_prediction": true,
+        "components_spanning_levels": [],
+        "eligibility_reason": null,
+        "eligible_conditional_evidence": true,
+        "fallback_fraction": 0.0,
+        "field": "sampling_date",
+        "level_support": [
+          {
+            "level": "7/1/2023",
+            "n_components": 4,
+            "n_samples": 6
+          },
+          {
+            "level": "7/2/2023",
+            "n_components": 4,
+            "n_samples": 6
+          },
+          {
+            "level": "7/3/2023",
+            "n_components": 5,
+            "n_samples": 5
+          },
+          {
+            "level": "7/4/2023",
+            "n_components": 6,
+            "n_samples": 10
+          },
+          {
+            "level": "7/5/2023",
+            "n_components": 3,
+            "n_samples": 3
+          },
+          {
+            "level": "7/6/2023",
+            "n_components": 6,
+            "n_samples": 7
+          },
+          {
+            "level": "7/7/2023",
+            "n_components": 5,
+            "n_samples": 9
+          },
+          {
+            "level": "7/8/2023",
+            "n_components": 5,
+            "n_samples": 8
+          },
+          {
+            "level": "7/9/2023",
+            "n_components": 7,
+            "n_samples": 11
+          }
+        ],
+        "missing_ids": [],
+        "n_levels": 9,
+        "outer_overlap": [
+          {
+            "fallback_ids": [],
+            "fold_id": "outer:0",
+            "seen_ids": [
+              "CA2023_003",
+              "CA2023_004",
+              "CA2023_009",
+              "CA2023_010",
+              "CA2023_011",
+              "CA2023_020",
+              "CA2023_033",
+              "CA2023_062",
+              "CA2023_063",
+              "CA2023_070",
+              "CA2023_071",
+              "CA2023_077",
+              "CA2023_078",
+              "CA2023_079",
+              "CA2023_080"
+            ],
+            "training_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ],
+            "validation_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ]
+          },
+          {
+            "fallback_ids": [],
+            "fold_id": "outer:1",
+            "seen_ids": [
+              "CA2023_006",
+              "CA2023_007",
+              "CA2023_008",
+              "CA2023_022",
+              "CA2023_028",
+              "CA2023_035",
+              "CA2023_036",
+              "CA2023_037",
+              "CA2023_046",
+              "CA2023_057",
+              "CA2023_076"
+            ],
+            "training_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ],
+            "validation_levels": [
+              "7/1/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/9/2023"
+            ]
+          },
+          {
+            "fallback_ids": [],
+            "fold_id": "outer:2",
+            "seen_ids": [
+              "CA2023_012",
+              "CA2023_013",
+              "CA2023_014",
+              "CA2023_015",
+              "CA2023_025",
+              "CA2023_026",
+              "CA2023_027",
+              "CA2023_042",
+              "CA2023_043",
+              "CA2023_053",
+              "CA2023_054",
+              "CA2023_065"
+            ],
+            "training_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ],
+            "validation_levels": [
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023"
+            ]
+          },
+          {
+            "fallback_ids": [],
+            "fold_id": "outer:3",
+            "seen_ids": [
+              "CA2023_030",
+              "CA2023_039",
+              "CA2023_044",
+              "CA2023_045",
+              "CA2023_047",
+              "CA2023_050",
+              "CA2023_051",
+              "CA2023_066",
+              "CA2023_072",
+              "CA2023_073",
+              "CA2023_074",
+              "CA2023_075"
+            ],
+            "training_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ],
+            "validation_levels": [
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ]
+          },
+          {
+            "fallback_ids": [],
+            "fold_id": "outer:4",
+            "seen_ids": [
+              "CA2023_016",
+              "CA2023_023",
+              "CA2023_029",
+              "CA2023_031",
+              "CA2023_032",
+              "CA2023_038",
+              "CA2023_049",
+              "CA2023_055",
+              "CA2023_056",
+              "CA2023_064",
+              "CA2023_067",
+              "CA2023_068",
+              "CA2023_069",
+              "CA2023_081",
+              "CA2023_082"
+            ],
+            "training_levels": [
+              "7/1/2023",
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ],
+            "validation_levels": [
+              "7/2/2023",
+              "7/3/2023",
+              "7/4/2023",
+              "7/5/2023",
+              "7/6/2023",
+              "7/7/2023",
+              "7/8/2023",
+              "7/9/2023"
+            ]
+          }
+        ],
+        "provenance": "Original EcoSIS supplemental CSV; sample_id join; historical date overlap only, not new-date transfer",
+        "rare_levels": [],
+        "scope": "observed metadata levels under declared component holdout; no causal attribution",
+        "seen_count": 65,
+        "singleton_levels": [],
+        "source_column": "sampling_date"
+      },
+      "conditional": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 45,
+          "n_samples": 65,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 109.29301655477695
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.1449207449079325
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 132.0144162561014
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 90.39730118535356
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.3136185836716745
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 118.27717222150945
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  -3.2200372586697483,
+                  34.11184057905797
+                ],
+                "residual_over_group": [
+                  -2.94215193496737,
+                  28.056256849108706
+                ],
+                "spectral_over_null": [
+                  2.476650607059952,
+                  68.43936769739639
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 90.39730118535357
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.1971851220329658
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 118.27717222150945
+              }
+            }
+          }
+        }
+      },
+      "factor": "sampling_date",
+      "paired_bootstrap": {
+        "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+        "failed": 0,
+        "interval_95": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "group_over_null": [
+              -3.2200372586697483,
+              34.11184057905797
+            ],
+            "residual_over_group": [
+              -2.94215193496737,
+              28.056256849108706
+            ],
+            "spectral_over_null": [
+              2.476650607059952,
+              68.43936769739639
+            ]
+          }
+        },
+        "requested": 200,
+        "seed": 17,
+        "successful": 200
+      },
+      "paired_rmse_improvement_over_group": 13.737244034591967,
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 109.29301655477695
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.1449207449079325
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 132.0144162561014
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 90.39730118535356
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3136185836716745
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 118.27717222150945
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 124.06733348789534
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06012918467528228
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 146.99331012135553
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 76.87552684527856
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3969209605752606
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 110.86776478755294
+            }
+          }
+        }
+      },
+      "selected_components": [
+        3,
+        4,
+        3,
+        3,
+        4
+      ]
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 14.0,
+          "df_within": 46.0,
+          "eta_squared": 0.6080471687639338,
+          "f": {
+            "reason": null,
+            "value": 5.097218618105868
+          },
+          "known_reference_units": 61,
+          "levels": [
+            {
+              "components": 7,
+              "level": "Abies",
+              "mean_y": 395.77440828,
+              "n": 10
+            },
+            {
+              "components": 1,
+              "level": "Acer",
+              "mean_y": 45.77102893,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "Alnus",
+              "mean_y": 123.2711588,
+              "n": 1
+            },
+            {
+              "components": 4,
+              "level": "Arctostaphylos",
+              "mean_y": 251.429989675,
+              "n": 4
+            },
+            {
+              "components": 5,
+              "level": "Calocedrus",
+              "mean_y": 326.5033671555556,
+              "n": 9
+            },
+            {
+              "components": 4,
+              "level": "Ceanothus",
+              "mean_y": 111.550562584,
+              "n": 5
+            },
+            {
+              "components": 2,
+              "level": "Chamaebatia",
+              "mean_y": 113.66034015000001,
+              "n": 2
+            },
+            {
+              "components": 8,
+              "level": "Pinus",
+              "mean_y": 294.47570410461543,
+              "n": 13
+            },
+            {
+              "components": 1,
+              "level": "Prunus",
+              "mean_y": 66.12176492,
+              "n": 1
+            },
+            {
+              "components": 2,
+              "level": "Pseudotsuga",
+              "mean_y": 217.2408559,
+              "n": 4
+            },
+            {
+              "components": 1,
+              "level": "Pteridium",
+              "mean_y": 80.75368623,
+              "n": 1
+            },
+            {
+              "components": 6,
+              "level": "Quercus",
+              "mean_y": 138.68893099000002,
+              "n": 6
+            },
+            {
+              "components": 2,
+              "level": "Salix",
+              "mean_y": 92.66019695,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "Sambucus",
+              "mean_y": 80.03509109,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "Schoenoplectus",
+              "mean_y": 366.5864977,
+              "n": 1
+            }
+          ],
+          "n_components": 43,
+          "n_levels": 15,
+          "n_physical": 61,
+          "native_permutations": 0,
+          "overall_mean": 248.59358399327868,
+          "sample_variance": 19588.62414096864,
+          "ss_between": 714648.4469338096,
+          "ss_total": 1175317.4484581184,
+          "ss_within": 460669.0015243088,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision.",
+            "SINGLETON_LEVELS",
+            "SPARSE_INDEPENDENT_COMPONENT_SUPPORT"
+          ]
+        }
+      },
+      "association_bootstrap": {
+        "failed": 0,
+        "interval_95": [
+          0.4666122186404357,
+          0.8239254965311972
+        ],
+        "interval_reason": null,
+        "requested": 200,
+        "seed": 17,
+        "successful": 200,
+        "unit": "whole declared dependency components with replacement; multiplicity retained; conditional observed-design uncertainty"
+      },
+      "audit": {
+        "available_at_prediction": true,
+        "components_spanning_levels": [
+          "dependency:72b42f5ad298ddd6f906170e52da0a413f9580d348761cac547df5a7a0b0cd0f",
+          "dependency:75551908580502cb9397287f9e08a2a5989c4df3e3d8cbe497a98006fa42f889",
+          "dependency:76c4910efa587c4e1312078afd04c8d1b73e9eaa3d6a51b26fab8782919e06f8"
+        ],
+        "eligibility_reason": null,
+        "eligible_conditional_evidence": true,
+        "fallback_fraction": 0.15384615384615385,
+        "field": "genus",
+        "level_support": [
+          {
+            "level": "Abies",
+            "n_components": 7,
+            "n_samples": 10
+          },
+          {
+            "level": "Acer",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "Alnus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "Arctostaphylos",
+            "n_components": 4,
+            "n_samples": 4
+          },
+          {
+            "level": "Calocedrus",
+            "n_components": 5,
+            "n_samples": 9
+          },
+          {
+            "level": "Ceanothus",
+            "n_components": 4,
+            "n_samples": 5
+          },
+          {
+            "level": "Chamaebatia",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "Pinus",
+            "n_components": 8,
+            "n_samples": 13
+          },
+          {
+            "level": "Prunus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "Pseudotsuga",
+            "n_components": 2,
+            "n_samples": 4
+          },
+          {
+            "level": "Pteridium",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "Quercus",
+            "n_components": 6,
+            "n_samples": 6
+          },
+          {
+            "level": "Salix",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "Sambucus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "Schoenoplectus",
+            "n_components": 1,
+            "n_samples": 1
+          }
+        ],
+        "missing_ids": [
+          "CA2023_009",
+          "CA2023_025",
+          "CA2023_068",
+          "CA2023_069"
+        ],
+        "n_levels": 15,
+        "outer_overlap": [
+          {
+            "fallback_ids": [
+              "CA2023_009"
+            ],
+            "fold_id": "outer:0",
+            "seen_ids": [
+              "CA2023_003",
+              "CA2023_004",
+              "CA2023_010",
+              "CA2023_011",
+              "CA2023_020",
+              "CA2023_033",
+              "CA2023_062",
+              "CA2023_063",
+              "CA2023_070",
+              "CA2023_071",
+              "CA2023_077",
+              "CA2023_078",
+              "CA2023_079",
+              "CA2023_080"
+            ],
+            "training_levels": [
+              "Abies",
+              "Acer",
+              "Alnus",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Prunus",
+              "Pseudotsuga",
+              "Pteridium",
+              "Quercus",
+              "Salix",
+              "Sambucus",
+              "Schoenoplectus"
+            ],
+            "validation_levels": [
+              "Abies",
+              "Calocedrus",
+              "Pinus",
+              "Pseudotsuga",
+              "Quercus"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_022"
+            ],
+            "fold_id": "outer:1",
+            "seen_ids": [
+              "CA2023_006",
+              "CA2023_007",
+              "CA2023_008",
+              "CA2023_028",
+              "CA2023_035",
+              "CA2023_036",
+              "CA2023_037",
+              "CA2023_046",
+              "CA2023_057",
+              "CA2023_076"
+            ],
+            "training_levels": [
+              "Abies",
+              "Alnus",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Prunus",
+              "Pseudotsuga",
+              "Pteridium",
+              "Quercus",
+              "Salix",
+              "Sambucus",
+              "Schoenoplectus"
+            ],
+            "validation_levels": [
+              "Abies",
+              "Acer",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Pinus",
+              "Quercus"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_025"
+            ],
+            "fold_id": "outer:2",
+            "seen_ids": [
+              "CA2023_012",
+              "CA2023_013",
+              "CA2023_014",
+              "CA2023_015",
+              "CA2023_026",
+              "CA2023_027",
+              "CA2023_042",
+              "CA2023_043",
+              "CA2023_053",
+              "CA2023_054",
+              "CA2023_065"
+            ],
+            "training_levels": [
+              "Abies",
+              "Acer",
+              "Alnus",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Prunus",
+              "Pseudotsuga",
+              "Pteridium",
+              "Quercus",
+              "Salix",
+              "Sambucus",
+              "Schoenoplectus"
+            ],
+            "validation_levels": [
+              "Abies",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Quercus",
+              "Salix"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_066"
+            ],
+            "fold_id": "outer:3",
+            "seen_ids": [
+              "CA2023_030",
+              "CA2023_039",
+              "CA2023_044",
+              "CA2023_045",
+              "CA2023_047",
+              "CA2023_050",
+              "CA2023_051",
+              "CA2023_072",
+              "CA2023_073",
+              "CA2023_074",
+              "CA2023_075"
+            ],
+            "training_levels": [
+              "Abies",
+              "Acer",
+              "Alnus",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Prunus",
+              "Pseudotsuga",
+              "Quercus",
+              "Salix",
+              "Sambucus",
+              "Schoenoplectus"
+            ],
+            "validation_levels": [
+              "Abies",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Chamaebatia",
+              "Pseudotsuga",
+              "Pteridium",
+              "Quercus"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_032",
+              "CA2023_055",
+              "CA2023_064",
+              "CA2023_067",
+              "CA2023_068",
+              "CA2023_069"
+            ],
+            "fold_id": "outer:4",
+            "seen_ids": [
+              "CA2023_016",
+              "CA2023_023",
+              "CA2023_029",
+              "CA2023_031",
+              "CA2023_038",
+              "CA2023_049",
+              "CA2023_056",
+              "CA2023_081",
+              "CA2023_082"
+            ],
+            "training_levels": [
+              "Abies",
+              "Acer",
+              "Arctostaphylos",
+              "Calocedrus",
+              "Ceanothus",
+              "Chamaebatia",
+              "Pinus",
+              "Pseudotsuga",
+              "Pteridium",
+              "Quercus",
+              "Salix"
+            ],
+            "validation_levels": [
+              "Abies",
+              "Alnus",
+              "Arctostaphylos",
+              "Ceanothus",
+              "Pinus",
+              "Prunus",
+              "Quercus",
+              "Salix",
+              "Sambucus",
+              "Schoenoplectus"
+            ]
+          }
+        ],
+        "provenance": "Original EcoSIS supplemental CSV via Datasets public y('genus'); sample_id join; source taxonomy, no relabeling",
+        "rare_levels": [
+          "Acer",
+          "Alnus",
+          "Chamaebatia",
+          "Prunus",
+          "Pseudotsuga",
+          "Pteridium",
+          "Salix",
+          "Sambucus",
+          "Schoenoplectus"
+        ],
+        "scope": "observed metadata levels under declared component holdout; no causal attribution",
+        "seen_count": 55,
+        "singleton_levels": [
+          "Acer",
+          "Alnus",
+          "Prunus",
+          "Pteridium",
+          "Sambucus",
+          "Schoenoplectus"
+        ],
+        "source_column": "genus"
+      },
+      "conditional": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 39,
+          "n_samples": 55,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 76.30416262618928
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.442834857524791
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 100.90113577422352
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 68.2633955823642
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.5959689114612755
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 85.92340469866659
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  22.33967692953462,
+                  60.3980104108211
+                ],
+                "residual_over_group": [
+                  0.20324332412771184,
+                  26.736481884220154
+                ],
+                "spectral_over_null": [
+                  33.9686086460989,
+                  72.02799714125233
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 68.2633955823642
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.27404773687114736
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 85.92340469866656
+              }
+            }
+          }
+        }
+      },
+      "factor": "genus",
+      "paired_bootstrap": {
+        "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+        "failed": 0,
+        "interval_95": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "group_over_null": [
+              14.297612789956133,
+              47.75667285267731
+            ],
+            "residual_over_group": [
+              0.5989762358330353,
+              26.083020786939173
+            ],
+            "spectral_over_null": [
+              2.476650607059952,
+              68.43936769739639
+            ]
+          }
+        },
+        "requested": 200,
+        "seed": 17,
+        "successful": 200
+      },
+      "paired_rmse_improvement_over_group": 13.434662306942727,
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 90.6854656827914
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3535972256437371
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 114.7809408878023
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 78.16625397037416
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.4960594993933989
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 101.34627858085958
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 124.06733348789534
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06012918467528228
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 146.99331012135553
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 76.87552684527856
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3969209605752606
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 110.86776478755294
+            }
+          }
+        }
+      },
+      "selected_components": [
+        5,
+        4,
+        3,
+        2,
+        5
+      ]
+    },
+    {
+      "association": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "df_between": 22.0,
+          "df_within": 31.0,
+          "eta_squared": 0.6804362100494347,
+          "f": {
+            "reason": null,
+            "value": 3.000328910685567
+          },
+          "known_reference_units": 54,
+          "levels": [
+            {
+              "components": 1,
+              "level": "aquilinum",
+              "mean_y": 80.75368623,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "cerulea",
+              "mean_y": 80.03509109,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "chrysolepis",
+              "mean_y": 195.1552657,
+              "n": 1
+            },
+            {
+              "components": 5,
+              "level": "concolor",
+              "mean_y": 368.94089015,
+              "n": 8
+            },
+            {
+              "components": 1,
+              "level": "contorta",
+              "mean_y": 223.61281820000002,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "cordulatus",
+              "mean_y": 65.44850731,
+              "n": 1
+            },
+            {
+              "components": 5,
+              "level": "decurrens",
+              "mean_y": 326.5033671555556,
+              "n": 9
+            },
+            {
+              "components": 1,
+              "level": "emarginata",
+              "mean_y": 66.12176492,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "integerrimus",
+              "mean_y": 80.26000741,
+              "n": 1
+            },
+            {
+              "components": 2,
+              "level": "jeffreyi",
+              "mean_y": 387.60222365000004,
+              "n": 2
+            },
+            {
+              "components": 4,
+              "level": "kelloggii",
+              "mean_y": 106.450738085,
+              "n": 4
+            },
+            {
+              "components": 1,
+              "level": "lambertiana",
+              "mean_y": 322.0627212,
+              "n": 1
+            },
+            {
+              "components": 2,
+              "level": "lasiolepis",
+              "mean_y": 92.66019695,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "macrophyllum",
+              "mean_y": 45.77102893,
+              "n": 1
+            },
+            {
+              "components": 2,
+              "level": "magnifica",
+              "mean_y": 503.1084808,
+              "n": 2
+            },
+            {
+              "components": 2,
+              "level": "menziesii",
+              "mean_y": 217.2408559,
+              "n": 4
+            },
+            {
+              "components": 1,
+              "level": "monticola",
+              "mean_y": 218.66173598,
+              "n": 2
+            },
+            {
+              "components": 2,
+              "level": "parvifolius",
+              "mean_y": 95.15743285,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "ponderosa",
+              "mean_y": 308.15612345,
+              "n": 2
+            },
+            {
+              "components": 1,
+              "level": "prostratus",
+              "mean_y": 221.7294325,
+              "n": 1
+            },
+            {
+              "components": 1,
+              "level": "rhombifolia",
+              "mean_y": 123.2711588,
+              "n": 1
+            },
+            {
+              "components": 2,
+              "level": "sabiniana",
+              "mean_y": 307.5139074,
+              "n": 4
+            },
+            {
+              "components": 1,
+              "level": "wislizeni",
+              "mean_y": 211.1753679,
+              "n": 1
+            }
+          ],
+          "n_components": 37,
+          "n_levels": 23,
+          "n_physical": 54,
+          "native_permutations": 0,
+          "overall_mean": 251.19595346092592,
+          "sample_variance": 21123.966105687035,
+          "ss_between": 761796.1062228193,
+          "ss_total": 1119570.203601413,
+          "ss_within": 357774.09737859364,
+          "warnings": [
+            "Exploratory; declared components do not verify biological/assay independence or precision.",
+            "SINGLETON_LEVELS",
+            "SPARSE_INDEPENDENT_COMPONENT_SUPPORT"
+          ]
+        }
+      },
+      "association_bootstrap": {
+        "failed": 0,
+        "interval_95": [
+          0.5028155217380144,
+          0.8633059491840218
+        ],
+        "interval_reason": null,
+        "requested": 200,
+        "seed": 17,
+        "successful": 200,
+        "unit": "whole declared dependency components with replacement; multiplicity retained; conditional observed-design uncertainty"
+      },
+      "audit": {
+        "available_at_prediction": true,
+        "components_spanning_levels": [
+          "dependency:3c28b9f5c06811d05f28bcd8587cb467414ad46a6dd4fc3f476678c92064a5c5",
+          "dependency:72b42f5ad298ddd6f906170e52da0a413f9580d348761cac547df5a7a0b0cd0f",
+          "dependency:75551908580502cb9397287f9e08a2a5989c4df3e3d8cbe497a98006fa42f889"
+        ],
+        "eligibility_reason": null,
+        "eligible_conditional_evidence": true,
+        "fallback_fraction": 0.4307692307692308,
+        "field": "species",
+        "level_support": [
+          {
+            "level": "aquilinum",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "cerulea",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "chrysolepis",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "concolor",
+            "n_components": 5,
+            "n_samples": 8
+          },
+          {
+            "level": "contorta",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "cordulatus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "decurrens",
+            "n_components": 5,
+            "n_samples": 9
+          },
+          {
+            "level": "emarginata",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "integerrimus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "jeffreyi",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "kelloggii",
+            "n_components": 4,
+            "n_samples": 4
+          },
+          {
+            "level": "lambertiana",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "lasiolepis",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "macrophyllum",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "magnifica",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "menziesii",
+            "n_components": 2,
+            "n_samples": 4
+          },
+          {
+            "level": "monticola",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "parvifolius",
+            "n_components": 2,
+            "n_samples": 2
+          },
+          {
+            "level": "ponderosa",
+            "n_components": 1,
+            "n_samples": 2
+          },
+          {
+            "level": "prostratus",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "rhombifolia",
+            "n_components": 1,
+            "n_samples": 1
+          },
+          {
+            "level": "sabiniana",
+            "n_components": 2,
+            "n_samples": 4
+          },
+          {
+            "level": "wislizeni",
+            "n_components": 1,
+            "n_samples": 1
+          }
+        ],
+        "missing_ids": [
+          "CA2023_006",
+          "CA2023_009",
+          "CA2023_025",
+          "CA2023_031",
+          "CA2023_043",
+          "CA2023_047",
+          "CA2023_067",
+          "CA2023_068",
+          "CA2023_069",
+          "CA2023_074",
+          "CA2023_076"
+        ],
+        "n_levels": 23,
+        "outer_overlap": [
+          {
+            "fallback_ids": [
+              "CA2023_009",
+              "CA2023_077",
+              "CA2023_078"
+            ],
+            "fold_id": "outer:0",
+            "seen_ids": [
+              "CA2023_003",
+              "CA2023_004",
+              "CA2023_010",
+              "CA2023_011",
+              "CA2023_020",
+              "CA2023_033",
+              "CA2023_062",
+              "CA2023_063",
+              "CA2023_070",
+              "CA2023_071",
+              "CA2023_079",
+              "CA2023_080"
+            ],
+            "training_levels": [
+              "aquilinum",
+              "cerulea",
+              "chrysolepis",
+              "concolor",
+              "contorta",
+              "cordulatus",
+              "decurrens",
+              "emarginata",
+              "integerrimus",
+              "jeffreyi",
+              "kelloggii",
+              "lambertiana",
+              "lasiolepis",
+              "macrophyllum",
+              "magnifica",
+              "menziesii",
+              "monticola",
+              "parvifolius",
+              "prostratus",
+              "rhombifolia",
+              "sabiniana",
+              "wislizeni"
+            ],
+            "validation_levels": [
+              "concolor",
+              "decurrens",
+              "jeffreyi",
+              "kelloggii",
+              "menziesii",
+              "ponderosa",
+              "sabiniana"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_006",
+              "CA2023_022",
+              "CA2023_035",
+              "CA2023_036",
+              "CA2023_057",
+              "CA2023_076"
+            ],
+            "fold_id": "outer:1",
+            "seen_ids": [
+              "CA2023_007",
+              "CA2023_008",
+              "CA2023_028",
+              "CA2023_037",
+              "CA2023_046"
+            ],
+            "training_levels": [
+              "aquilinum",
+              "cerulea",
+              "chrysolepis",
+              "concolor",
+              "cordulatus",
+              "decurrens",
+              "emarginata",
+              "integerrimus",
+              "jeffreyi",
+              "kelloggii",
+              "lambertiana",
+              "lasiolepis",
+              "magnifica",
+              "menziesii",
+              "monticola",
+              "parvifolius",
+              "ponderosa",
+              "rhombifolia",
+              "sabiniana",
+              "wislizeni"
+            ],
+            "validation_levels": [
+              "concolor",
+              "contorta",
+              "decurrens",
+              "kelloggii",
+              "macrophyllum",
+              "magnifica",
+              "prostratus"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_012",
+              "CA2023_025",
+              "CA2023_026",
+              "CA2023_027",
+              "CA2023_043",
+              "CA2023_054"
+            ],
+            "fold_id": "outer:2",
+            "seen_ids": [
+              "CA2023_013",
+              "CA2023_014",
+              "CA2023_015",
+              "CA2023_042",
+              "CA2023_053",
+              "CA2023_065"
+            ],
+            "training_levels": [
+              "aquilinum",
+              "cerulea",
+              "chrysolepis",
+              "concolor",
+              "contorta",
+              "cordulatus",
+              "decurrens",
+              "emarginata",
+              "jeffreyi",
+              "kelloggii",
+              "lasiolepis",
+              "macrophyllum",
+              "magnifica",
+              "menziesii",
+              "parvifolius",
+              "ponderosa",
+              "prostratus",
+              "rhombifolia",
+              "sabiniana",
+              "wislizeni"
+            ],
+            "validation_levels": [
+              "concolor",
+              "integerrimus",
+              "kelloggii",
+              "lambertiana",
+              "lasiolepis",
+              "monticola",
+              "parvifolius"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_047",
+              "CA2023_066",
+              "CA2023_074",
+              "CA2023_075"
+            ],
+            "fold_id": "outer:3",
+            "seen_ids": [
+              "CA2023_030",
+              "CA2023_039",
+              "CA2023_044",
+              "CA2023_045",
+              "CA2023_050",
+              "CA2023_051",
+              "CA2023_072",
+              "CA2023_073"
+            ],
+            "training_levels": [
+              "cerulea",
+              "chrysolepis",
+              "concolor",
+              "contorta",
+              "cordulatus",
+              "decurrens",
+              "emarginata",
+              "integerrimus",
+              "jeffreyi",
+              "kelloggii",
+              "lambertiana",
+              "lasiolepis",
+              "macrophyllum",
+              "magnifica",
+              "menziesii",
+              "monticola",
+              "parvifolius",
+              "ponderosa",
+              "prostratus",
+              "rhombifolia",
+              "sabiniana"
+            ],
+            "validation_levels": [
+              "aquilinum",
+              "decurrens",
+              "magnifica",
+              "menziesii",
+              "wislizeni"
+            ]
+          },
+          {
+            "fallback_ids": [
+              "CA2023_023",
+              "CA2023_029",
+              "CA2023_031",
+              "CA2023_032",
+              "CA2023_055",
+              "CA2023_064",
+              "CA2023_067",
+              "CA2023_068",
+              "CA2023_069"
+            ],
+            "fold_id": "outer:4",
+            "seen_ids": [
+              "CA2023_016",
+              "CA2023_038",
+              "CA2023_049",
+              "CA2023_056",
+              "CA2023_081",
+              "CA2023_082"
+            ],
+            "training_levels": [
+              "aquilinum",
+              "concolor",
+              "contorta",
+              "decurrens",
+              "integerrimus",
+              "jeffreyi",
+              "kelloggii",
+              "lambertiana",
+              "lasiolepis",
+              "macrophyllum",
+              "magnifica",
+              "menziesii",
+              "monticola",
+              "parvifolius",
+              "ponderosa",
+              "prostratus",
+              "sabiniana",
+              "wislizeni"
+            ],
+            "validation_levels": [
+              "cerulea",
+              "chrysolepis",
+              "concolor",
+              "cordulatus",
+              "emarginata",
+              "jeffreyi",
+              "lasiolepis",
+              "parvifolius",
+              "rhombifolia",
+              "sabiniana"
+            ]
+          }
+        ],
+        "provenance": "Original EcoSIS supplemental CSV via Datasets public y('species'); sample_id join; source epithet kept literally, not an inferred taxonomic identity",
+        "rare_levels": [
+          "aquilinum",
+          "cerulea",
+          "chrysolepis",
+          "contorta",
+          "cordulatus",
+          "emarginata",
+          "integerrimus",
+          "jeffreyi",
+          "lambertiana",
+          "lasiolepis",
+          "macrophyllum",
+          "magnifica",
+          "menziesii",
+          "monticola",
+          "parvifolius",
+          "ponderosa",
+          "prostratus",
+          "rhombifolia",
+          "sabiniana",
+          "wislizeni"
+        ],
+        "scope": "observed metadata levels under declared component holdout; no causal attribution",
+        "seen_count": 37,
+        "singleton_levels": [
+          "aquilinum",
+          "cerulea",
+          "chrysolepis",
+          "cordulatus",
+          "emarginata",
+          "integerrimus",
+          "lambertiana",
+          "macrophyllum",
+          "prostratus",
+          "rhombifolia",
+          "wislizeni"
+        ],
+        "source_column": "species"
+      },
+      "conditional": {
+        "reason": null,
+        "status": "computed",
+        "value": {
+          "denominator": "seen-level OOF only; residual R2 uses Y minus the fold training baseline",
+          "n_components": 26,
+          "n_samples": 37,
+          "original_unit_metrics": {
+            "group_only": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 66.09998664851351
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.5731318770987842
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 93.83512286249236
+                }
+              }
+            },
+            "group_plus_residual": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "mae": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 70.06407706243237
+                },
+                "r2": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 0.6281259076140022
+                },
+                "rmse": {
+                  "reason": null,
+                  "status": "computed",
+                  "value": 87.58233636881207
+                }
+              }
+            }
+          },
+          "paired_uncertainty": {
+            "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+            "failed": 0,
+            "interval_95": {
+              "reason": null,
+              "status": "computed",
+              "value": {
+                "group_over_null": [
+                  39.578469740049,
+                  97.28152746675185
+                ],
+                "residual_over_group": [
+                  -10.842084097309353,
+                  17.872105036048637
+                ],
+                "spectral_over_null": [
+                  41.95559069546894,
+                  92.34066428622828
+                ]
+              }
+            },
+            "requested": 200,
+            "seed": 17,
+            "successful": 200
+          },
+          "residual_target_metrics": {
+            "reason": null,
+            "status": "computed",
+            "value": {
+              "mae": {
+                "reason": null,
+                "status": "computed",
+                "value": 70.06407706243237
+              },
+              "r2": {
+                "reason": null,
+                "status": "computed",
+                "value": 0.12720052059593945
+              },
+              "rmse": {
+                "reason": null,
+                "status": "computed",
+                "value": 87.58233636881207
+              }
+            }
+          }
+        }
+      },
+      "factor": "species",
+      "paired_bootstrap": {
+        "conditioning": "paired frozen OOF predictions; whole components with replacement; excludes model-refit uncertainty",
+        "failed": 0,
+        "interval_95": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "group_over_null": [
+              18.208400194146563,
+              49.518839922304124
+            ],
+            "residual_over_group": [
+              -14.307175591569774,
+              24.14220793440802
+            ],
+            "spectral_over_null": [
+              2.476650607059952,
+              68.43936769739639
+            ]
+          }
+        },
+        "requested": 200,
+        "seed": 17,
+        "successful": 200
+      },
+      "paired_rmse_improvement_over_group": 6.719433181393072,
+      "scores": {
+        "group_only": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 86.43946672342243
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3771157696394847
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 112.67351489770584
+            }
+          }
+        },
+        "group_plus_residual": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 80.689322307391
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.4491935279320921
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 105.95408171631277
+            }
+          }
+        },
+        "null": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 124.06733348789534
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": -0.06012918467528228
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 146.99331012135553
+            }
+          }
+        },
+        "spectral": {
+          "reason": null,
+          "status": "computed",
+          "value": {
+            "mae": {
+              "reason": null,
+              "status": "computed",
+              "value": 76.87552684527856
+            },
+            "r2": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.3969209605752606
+            },
+            "rmse": {
+              "reason": null,
+              "status": "computed",
+              "value": 110.86776478755294
+            }
+          }
+        }
+      },
+      "selected_components": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ]
+    }
+  ],
+  "real_report_sha256": [
+    "eade36e2deb98e2517b795077579990228c80991e90326ae8db5820b4e4978cd",
+    "eade36e2deb98e2517b795077579990228c80991e90326ae8db5820b4e4978cd"
+  ],
+  "results_directory": "results/dependence-alpha6-final",
+  "shootout": "No documented explanatory metadata factors qualified; fragile X clusters cannot be predictive factors.",
+  "source_files_sha256_local_execution": {
+    "bridges/python/nirs4all_domains/dependence.py": "0e0a4e00154501bedb41260d1bd39be7cd6219a6e108e8915860f976a87a9096",
+    "bridges/python/nirs4all_domains/predictive.py": "39f3f75858e0947382afd91836c527aa68a3c8a69bb7168b65a557bae9ce28ea",
+    "crates/nirs4all-domains/src/association.rs": "4777edfc9fc85d845b5860fcff646d997536c2b26a117dd8864e0e3b7efa0d82",
+    "scripts/run_dependence_pilot.py": "b8166f556f429024e109848a300f988ec0c6e710da4ff604657ad9e844a22f6b"
+  }
+}

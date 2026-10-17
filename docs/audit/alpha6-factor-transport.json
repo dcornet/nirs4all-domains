@@ -1,0 +1,1753 @@
+{
+  "canonical_metadata_columns": [
+    "campaign",
+    "instrument",
+    "latitude_of_plot",
+    "longitude_of_plot",
+    "plot_name",
+    "sample_id",
+    "sampling_date"
+  ],
+  "cluster_factors": "unavailable; no qualified fold-local held-out assignment",
+  "coordinates": {
+    "latitude_column": "latitude_of_plot",
+    "longitude_column": "longitude_of_plot",
+    "missing_development_ids": [],
+    "use": "audited only; no coordinate bins or invented regional groups"
+  },
+  "factors": [
+    {
+      "available_at_prediction": true,
+      "components_spanning_levels": [],
+      "eligibility_reason": "INSUFFICIENT_SEEN_LEVEL_OR_INDEPENDENT_COMPONENT_SUPPORT",
+      "eligible_conditional_evidence": false,
+      "fallback_fraction": 1.0,
+      "field": "plot_name",
+      "level_support": [
+        {
+          "level": "HH_001",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_002",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_003",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_004",
+          "n_components": 1,
+          "n_samples": 3
+        },
+        {
+          "level": "HH_005",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "HH_006",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "HH_007",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_008",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_009",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "HH_010",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "HH_011",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "HH_012",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_002",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_004",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_005",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_006",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_007",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_008",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_009",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_010",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_013",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_014",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_016",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_018",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_019",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_020",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_021",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_022",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_023",
+          "n_components": 1,
+          "n_samples": 3
+        },
+        {
+          "level": "SL_024",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_026",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "SL_027",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_028",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "SL_029",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_002",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_003",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_004",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "YV_005",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_006",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_008",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_009",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "YV_011",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "YV_012",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "YV_013",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "YV_016",
+          "n_components": 1,
+          "n_samples": 2
+        }
+      ],
+      "missing_ids": [],
+      "n_levels": 45,
+      "outer_overlap": [
+        {
+          "fallback_ids": [
+            "CA2023_003",
+            "CA2023_004",
+            "CA2023_009",
+            "CA2023_010",
+            "CA2023_011",
+            "CA2023_020",
+            "CA2023_033",
+            "CA2023_062",
+            "CA2023_063",
+            "CA2023_070",
+            "CA2023_071",
+            "CA2023_077",
+            "CA2023_078",
+            "CA2023_079",
+            "CA2023_080"
+          ],
+          "fold_id": "outer:0",
+          "seen_ids": [],
+          "training_levels": [
+            "HH_001",
+            "HH_002",
+            "HH_003",
+            "HH_004",
+            "HH_006",
+            "HH_007",
+            "HH_008",
+            "HH_009",
+            "HH_012",
+            "SL_004",
+            "SL_005",
+            "SL_008",
+            "SL_009",
+            "SL_010",
+            "SL_013",
+            "SL_016",
+            "SL_018",
+            "SL_019",
+            "SL_020",
+            "SL_021",
+            "SL_022",
+            "SL_023",
+            "SL_026",
+            "SL_027",
+            "SL_028",
+            "SL_029",
+            "YV_002",
+            "YV_003",
+            "YV_004",
+            "YV_005",
+            "YV_006",
+            "YV_008",
+            "YV_009",
+            "YV_011",
+            "YV_012",
+            "YV_013"
+          ],
+          "validation_levels": [
+            "HH_005",
+            "HH_010",
+            "HH_011",
+            "SL_002",
+            "SL_006",
+            "SL_007",
+            "SL_014",
+            "SL_024",
+            "YV_016"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_006",
+            "CA2023_007",
+            "CA2023_008",
+            "CA2023_022",
+            "CA2023_028",
+            "CA2023_035",
+            "CA2023_036",
+            "CA2023_037",
+            "CA2023_046",
+            "CA2023_057",
+            "CA2023_076"
+          ],
+          "fold_id": "outer:1",
+          "seen_ids": [],
+          "training_levels": [
+            "HH_001",
+            "HH_002",
+            "HH_003",
+            "HH_004",
+            "HH_005",
+            "HH_006",
+            "HH_007",
+            "HH_008",
+            "HH_010",
+            "HH_011",
+            "HH_012",
+            "SL_002",
+            "SL_006",
+            "SL_007",
+            "SL_008",
+            "SL_009",
+            "SL_010",
+            "SL_013",
+            "SL_014",
+            "SL_018",
+            "SL_019",
+            "SL_020",
+            "SL_022",
+            "SL_023",
+            "SL_024",
+            "SL_028",
+            "SL_029",
+            "YV_002",
+            "YV_003",
+            "YV_004",
+            "YV_006",
+            "YV_008",
+            "YV_009",
+            "YV_011",
+            "YV_012",
+            "YV_016"
+          ],
+          "validation_levels": [
+            "HH_009",
+            "SL_004",
+            "SL_005",
+            "SL_016",
+            "SL_021",
+            "SL_026",
+            "SL_027",
+            "YV_005",
+            "YV_013"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_012",
+            "CA2023_013",
+            "CA2023_014",
+            "CA2023_015",
+            "CA2023_025",
+            "CA2023_026",
+            "CA2023_027",
+            "CA2023_042",
+            "CA2023_043",
+            "CA2023_053",
+            "CA2023_054",
+            "CA2023_065"
+          ],
+          "fold_id": "outer:2",
+          "seen_ids": [],
+          "training_levels": [
+            "HH_001",
+            "HH_003",
+            "HH_004",
+            "HH_005",
+            "HH_006",
+            "HH_007",
+            "HH_008",
+            "HH_009",
+            "HH_010",
+            "HH_011",
+            "HH_012",
+            "SL_002",
+            "SL_004",
+            "SL_005",
+            "SL_006",
+            "SL_007",
+            "SL_010",
+            "SL_014",
+            "SL_016",
+            "SL_018",
+            "SL_021",
+            "SL_022",
+            "SL_023",
+            "SL_024",
+            "SL_026",
+            "SL_027",
+            "SL_028",
+            "SL_029",
+            "YV_004",
+            "YV_005",
+            "YV_006",
+            "YV_008",
+            "YV_009",
+            "YV_012",
+            "YV_013",
+            "YV_016"
+          ],
+          "validation_levels": [
+            "HH_002",
+            "SL_008",
+            "SL_009",
+            "SL_013",
+            "SL_019",
+            "SL_020",
+            "YV_002",
+            "YV_003",
+            "YV_011"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_030",
+            "CA2023_039",
+            "CA2023_044",
+            "CA2023_045",
+            "CA2023_047",
+            "CA2023_050",
+            "CA2023_051",
+            "CA2023_066",
+            "CA2023_072",
+            "CA2023_073",
+            "CA2023_074",
+            "CA2023_075"
+          ],
+          "fold_id": "outer:3",
+          "seen_ids": [],
+          "training_levels": [
+            "HH_001",
+            "HH_002",
+            "HH_004",
+            "HH_005",
+            "HH_009",
+            "HH_010",
+            "HH_011",
+            "HH_012",
+            "SL_002",
+            "SL_004",
+            "SL_005",
+            "SL_006",
+            "SL_007",
+            "SL_008",
+            "SL_009",
+            "SL_010",
+            "SL_013",
+            "SL_014",
+            "SL_016",
+            "SL_018",
+            "SL_019",
+            "SL_020",
+            "SL_021",
+            "SL_023",
+            "SL_024",
+            "SL_026",
+            "SL_027",
+            "SL_028",
+            "YV_002",
+            "YV_003",
+            "YV_005",
+            "YV_008",
+            "YV_011",
+            "YV_012",
+            "YV_013",
+            "YV_016"
+          ],
+          "validation_levels": [
+            "HH_003",
+            "HH_006",
+            "HH_007",
+            "HH_008",
+            "SL_022",
+            "SL_029",
+            "YV_004",
+            "YV_006",
+            "YV_009"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_016",
+            "CA2023_023",
+            "CA2023_029",
+            "CA2023_031",
+            "CA2023_032",
+            "CA2023_038",
+            "CA2023_049",
+            "CA2023_055",
+            "CA2023_056",
+            "CA2023_064",
+            "CA2023_067",
+            "CA2023_068",
+            "CA2023_069",
+            "CA2023_081",
+            "CA2023_082"
+          ],
+          "fold_id": "outer:4",
+          "seen_ids": [],
+          "training_levels": [
+            "HH_002",
+            "HH_003",
+            "HH_005",
+            "HH_006",
+            "HH_007",
+            "HH_008",
+            "HH_009",
+            "HH_010",
+            "HH_011",
+            "SL_002",
+            "SL_004",
+            "SL_005",
+            "SL_006",
+            "SL_007",
+            "SL_008",
+            "SL_009",
+            "SL_013",
+            "SL_014",
+            "SL_016",
+            "SL_019",
+            "SL_020",
+            "SL_021",
+            "SL_022",
+            "SL_024",
+            "SL_026",
+            "SL_027",
+            "SL_029",
+            "YV_002",
+            "YV_003",
+            "YV_004",
+            "YV_005",
+            "YV_006",
+            "YV_009",
+            "YV_011",
+            "YV_013",
+            "YV_016"
+          ],
+          "validation_levels": [
+            "HH_001",
+            "HH_004",
+            "HH_012",
+            "SL_010",
+            "SL_018",
+            "SL_023",
+            "SL_028",
+            "YV_008",
+            "YV_012"
+          ]
+        }
+      ],
+      "provenance": "Original EcoSIS supplemental CSV; sample_id join; diagnostic only under plot holdout",
+      "rare_levels": [
+        "HH_001",
+        "HH_002",
+        "HH_003",
+        "HH_004",
+        "HH_005",
+        "HH_006",
+        "HH_007",
+        "HH_008",
+        "HH_009",
+        "HH_010",
+        "HH_011",
+        "HH_012",
+        "SL_002",
+        "SL_004",
+        "SL_005",
+        "SL_006",
+        "SL_007",
+        "SL_008",
+        "SL_009",
+        "SL_010",
+        "SL_013",
+        "SL_014",
+        "SL_016",
+        "SL_018",
+        "SL_019",
+        "SL_020",
+        "SL_021",
+        "SL_022",
+        "SL_023",
+        "SL_024",
+        "SL_026",
+        "SL_027",
+        "SL_028",
+        "SL_029",
+        "YV_002",
+        "YV_003",
+        "YV_004",
+        "YV_005",
+        "YV_006",
+        "YV_008",
+        "YV_009",
+        "YV_011",
+        "YV_012",
+        "YV_013",
+        "YV_016"
+      ],
+      "scope": "observed metadata levels under declared component holdout; no causal attribution",
+      "seen_count": 0,
+      "singleton_levels": [
+        "HH_001",
+        "HH_002",
+        "HH_003",
+        "HH_007",
+        "HH_008",
+        "HH_009",
+        "SL_004",
+        "SL_006",
+        "SL_008",
+        "SL_010",
+        "SL_013",
+        "SL_014",
+        "SL_016",
+        "SL_018",
+        "SL_019",
+        "SL_021",
+        "SL_022",
+        "SL_024",
+        "SL_027",
+        "SL_028",
+        "SL_029",
+        "YV_002",
+        "YV_003",
+        "YV_005",
+        "YV_006",
+        "YV_008",
+        "YV_013"
+      ],
+      "source_column": "plot_name"
+    },
+    {
+      "available_at_prediction": true,
+      "components_spanning_levels": [],
+      "eligibility_reason": null,
+      "eligible_conditional_evidence": true,
+      "fallback_fraction": 0.0,
+      "field": "sampling_date",
+      "level_support": [
+        {
+          "level": "7/1/2023",
+          "n_components": 4,
+          "n_samples": 6
+        },
+        {
+          "level": "7/2/2023",
+          "n_components": 4,
+          "n_samples": 6
+        },
+        {
+          "level": "7/3/2023",
+          "n_components": 5,
+          "n_samples": 5
+        },
+        {
+          "level": "7/4/2023",
+          "n_components": 6,
+          "n_samples": 10
+        },
+        {
+          "level": "7/5/2023",
+          "n_components": 3,
+          "n_samples": 3
+        },
+        {
+          "level": "7/6/2023",
+          "n_components": 6,
+          "n_samples": 7
+        },
+        {
+          "level": "7/7/2023",
+          "n_components": 5,
+          "n_samples": 9
+        },
+        {
+          "level": "7/8/2023",
+          "n_components": 5,
+          "n_samples": 8
+        },
+        {
+          "level": "7/9/2023",
+          "n_components": 7,
+          "n_samples": 11
+        }
+      ],
+      "missing_ids": [],
+      "n_levels": 9,
+      "outer_overlap": [
+        {
+          "fallback_ids": [],
+          "fold_id": "outer:0",
+          "seen_ids": [
+            "CA2023_003",
+            "CA2023_004",
+            "CA2023_009",
+            "CA2023_010",
+            "CA2023_011",
+            "CA2023_020",
+            "CA2023_033",
+            "CA2023_062",
+            "CA2023_063",
+            "CA2023_070",
+            "CA2023_071",
+            "CA2023_077",
+            "CA2023_078",
+            "CA2023_079",
+            "CA2023_080"
+          ],
+          "training_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ],
+          "validation_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ]
+        },
+        {
+          "fallback_ids": [],
+          "fold_id": "outer:1",
+          "seen_ids": [
+            "CA2023_006",
+            "CA2023_007",
+            "CA2023_008",
+            "CA2023_022",
+            "CA2023_028",
+            "CA2023_035",
+            "CA2023_036",
+            "CA2023_037",
+            "CA2023_046",
+            "CA2023_057",
+            "CA2023_076"
+          ],
+          "training_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ],
+          "validation_levels": [
+            "7/1/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/9/2023"
+          ]
+        },
+        {
+          "fallback_ids": [],
+          "fold_id": "outer:2",
+          "seen_ids": [
+            "CA2023_012",
+            "CA2023_013",
+            "CA2023_014",
+            "CA2023_015",
+            "CA2023_025",
+            "CA2023_026",
+            "CA2023_027",
+            "CA2023_042",
+            "CA2023_043",
+            "CA2023_053",
+            "CA2023_054",
+            "CA2023_065"
+          ],
+          "training_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ],
+          "validation_levels": [
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023"
+          ]
+        },
+        {
+          "fallback_ids": [],
+          "fold_id": "outer:3",
+          "seen_ids": [
+            "CA2023_030",
+            "CA2023_039",
+            "CA2023_044",
+            "CA2023_045",
+            "CA2023_047",
+            "CA2023_050",
+            "CA2023_051",
+            "CA2023_066",
+            "CA2023_072",
+            "CA2023_073",
+            "CA2023_074",
+            "CA2023_075"
+          ],
+          "training_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ],
+          "validation_levels": [
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ]
+        },
+        {
+          "fallback_ids": [],
+          "fold_id": "outer:4",
+          "seen_ids": [
+            "CA2023_016",
+            "CA2023_023",
+            "CA2023_029",
+            "CA2023_031",
+            "CA2023_032",
+            "CA2023_038",
+            "CA2023_049",
+            "CA2023_055",
+            "CA2023_056",
+            "CA2023_064",
+            "CA2023_067",
+            "CA2023_068",
+            "CA2023_069",
+            "CA2023_081",
+            "CA2023_082"
+          ],
+          "training_levels": [
+            "7/1/2023",
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ],
+          "validation_levels": [
+            "7/2/2023",
+            "7/3/2023",
+            "7/4/2023",
+            "7/5/2023",
+            "7/6/2023",
+            "7/7/2023",
+            "7/8/2023",
+            "7/9/2023"
+          ]
+        }
+      ],
+      "provenance": "Original EcoSIS supplemental CSV; sample_id join; historical date overlap only, not new-date transfer",
+      "rare_levels": [],
+      "scope": "observed metadata levels under declared component holdout; no causal attribution",
+      "seen_count": 65,
+      "singleton_levels": [],
+      "source_column": "sampling_date"
+    },
+    {
+      "available_at_prediction": true,
+      "components_spanning_levels": [
+        "dependency:72b42f5ad298ddd6f906170e52da0a413f9580d348761cac547df5a7a0b0cd0f",
+        "dependency:75551908580502cb9397287f9e08a2a5989c4df3e3d8cbe497a98006fa42f889",
+        "dependency:76c4910efa587c4e1312078afd04c8d1b73e9eaa3d6a51b26fab8782919e06f8"
+      ],
+      "eligibility_reason": null,
+      "eligible_conditional_evidence": true,
+      "fallback_fraction": 0.15384615384615385,
+      "field": "genus",
+      "level_support": [
+        {
+          "level": "Abies",
+          "n_components": 7,
+          "n_samples": 10
+        },
+        {
+          "level": "Acer",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "Alnus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "Arctostaphylos",
+          "n_components": 4,
+          "n_samples": 4
+        },
+        {
+          "level": "Calocedrus",
+          "n_components": 5,
+          "n_samples": 9
+        },
+        {
+          "level": "Ceanothus",
+          "n_components": 4,
+          "n_samples": 5
+        },
+        {
+          "level": "Chamaebatia",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "Pinus",
+          "n_components": 8,
+          "n_samples": 13
+        },
+        {
+          "level": "Prunus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "Pseudotsuga",
+          "n_components": 2,
+          "n_samples": 4
+        },
+        {
+          "level": "Pteridium",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "Quercus",
+          "n_components": 6,
+          "n_samples": 6
+        },
+        {
+          "level": "Salix",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "Sambucus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "Schoenoplectus",
+          "n_components": 1,
+          "n_samples": 1
+        }
+      ],
+      "missing_ids": [
+        "CA2023_009",
+        "CA2023_025",
+        "CA2023_068",
+        "CA2023_069"
+      ],
+      "n_levels": 15,
+      "outer_overlap": [
+        {
+          "fallback_ids": [
+            "CA2023_009"
+          ],
+          "fold_id": "outer:0",
+          "seen_ids": [
+            "CA2023_003",
+            "CA2023_004",
+            "CA2023_010",
+            "CA2023_011",
+            "CA2023_020",
+            "CA2023_033",
+            "CA2023_062",
+            "CA2023_063",
+            "CA2023_070",
+            "CA2023_071",
+            "CA2023_077",
+            "CA2023_078",
+            "CA2023_079",
+            "CA2023_080"
+          ],
+          "training_levels": [
+            "Abies",
+            "Acer",
+            "Alnus",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Prunus",
+            "Pseudotsuga",
+            "Pteridium",
+            "Quercus",
+            "Salix",
+            "Sambucus",
+            "Schoenoplectus"
+          ],
+          "validation_levels": [
+            "Abies",
+            "Calocedrus",
+            "Pinus",
+            "Pseudotsuga",
+            "Quercus"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_022"
+          ],
+          "fold_id": "outer:1",
+          "seen_ids": [
+            "CA2023_006",
+            "CA2023_007",
+            "CA2023_008",
+            "CA2023_028",
+            "CA2023_035",
+            "CA2023_036",
+            "CA2023_037",
+            "CA2023_046",
+            "CA2023_057",
+            "CA2023_076"
+          ],
+          "training_levels": [
+            "Abies",
+            "Alnus",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Prunus",
+            "Pseudotsuga",
+            "Pteridium",
+            "Quercus",
+            "Salix",
+            "Sambucus",
+            "Schoenoplectus"
+          ],
+          "validation_levels": [
+            "Abies",
+            "Acer",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Pinus",
+            "Quercus"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_025"
+          ],
+          "fold_id": "outer:2",
+          "seen_ids": [
+            "CA2023_012",
+            "CA2023_013",
+            "CA2023_014",
+            "CA2023_015",
+            "CA2023_026",
+            "CA2023_027",
+            "CA2023_042",
+            "CA2023_043",
+            "CA2023_053",
+            "CA2023_054",
+            "CA2023_065"
+          ],
+          "training_levels": [
+            "Abies",
+            "Acer",
+            "Alnus",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Prunus",
+            "Pseudotsuga",
+            "Pteridium",
+            "Quercus",
+            "Salix",
+            "Sambucus",
+            "Schoenoplectus"
+          ],
+          "validation_levels": [
+            "Abies",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Quercus",
+            "Salix"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_066"
+          ],
+          "fold_id": "outer:3",
+          "seen_ids": [
+            "CA2023_030",
+            "CA2023_039",
+            "CA2023_044",
+            "CA2023_045",
+            "CA2023_047",
+            "CA2023_050",
+            "CA2023_051",
+            "CA2023_072",
+            "CA2023_073",
+            "CA2023_074",
+            "CA2023_075"
+          ],
+          "training_levels": [
+            "Abies",
+            "Acer",
+            "Alnus",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Prunus",
+            "Pseudotsuga",
+            "Quercus",
+            "Salix",
+            "Sambucus",
+            "Schoenoplectus"
+          ],
+          "validation_levels": [
+            "Abies",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Chamaebatia",
+            "Pseudotsuga",
+            "Pteridium",
+            "Quercus"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_032",
+            "CA2023_055",
+            "CA2023_064",
+            "CA2023_067",
+            "CA2023_068",
+            "CA2023_069"
+          ],
+          "fold_id": "outer:4",
+          "seen_ids": [
+            "CA2023_016",
+            "CA2023_023",
+            "CA2023_029",
+            "CA2023_031",
+            "CA2023_038",
+            "CA2023_049",
+            "CA2023_056",
+            "CA2023_081",
+            "CA2023_082"
+          ],
+          "training_levels": [
+            "Abies",
+            "Acer",
+            "Arctostaphylos",
+            "Calocedrus",
+            "Ceanothus",
+            "Chamaebatia",
+            "Pinus",
+            "Pseudotsuga",
+            "Pteridium",
+            "Quercus",
+            "Salix"
+          ],
+          "validation_levels": [
+            "Abies",
+            "Alnus",
+            "Arctostaphylos",
+            "Ceanothus",
+            "Pinus",
+            "Prunus",
+            "Quercus",
+            "Salix",
+            "Sambucus",
+            "Schoenoplectus"
+          ]
+        }
+      ],
+      "provenance": "Original EcoSIS supplemental CSV via Datasets public y('genus'); sample_id join; source taxonomy, no relabeling",
+      "rare_levels": [
+        "Acer",
+        "Alnus",
+        "Chamaebatia",
+        "Prunus",
+        "Pseudotsuga",
+        "Pteridium",
+        "Salix",
+        "Sambucus",
+        "Schoenoplectus"
+      ],
+      "scope": "observed metadata levels under declared component holdout; no causal attribution",
+      "seen_count": 55,
+      "singleton_levels": [
+        "Acer",
+        "Alnus",
+        "Prunus",
+        "Pteridium",
+        "Sambucus",
+        "Schoenoplectus"
+      ],
+      "source_column": "genus"
+    },
+    {
+      "available_at_prediction": true,
+      "components_spanning_levels": [
+        "dependency:3c28b9f5c06811d05f28bcd8587cb467414ad46a6dd4fc3f476678c92064a5c5",
+        "dependency:72b42f5ad298ddd6f906170e52da0a413f9580d348761cac547df5a7a0b0cd0f",
+        "dependency:75551908580502cb9397287f9e08a2a5989c4df3e3d8cbe497a98006fa42f889"
+      ],
+      "eligibility_reason": null,
+      "eligible_conditional_evidence": true,
+      "fallback_fraction": 0.4307692307692308,
+      "field": "species",
+      "level_support": [
+        {
+          "level": "aquilinum",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "cerulea",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "chrysolepis",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "concolor",
+          "n_components": 5,
+          "n_samples": 8
+        },
+        {
+          "level": "contorta",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "cordulatus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "decurrens",
+          "n_components": 5,
+          "n_samples": 9
+        },
+        {
+          "level": "emarginata",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "integerrimus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "jeffreyi",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "kelloggii",
+          "n_components": 4,
+          "n_samples": 4
+        },
+        {
+          "level": "lambertiana",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "lasiolepis",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "macrophyllum",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "magnifica",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "menziesii",
+          "n_components": 2,
+          "n_samples": 4
+        },
+        {
+          "level": "monticola",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "parvifolius",
+          "n_components": 2,
+          "n_samples": 2
+        },
+        {
+          "level": "ponderosa",
+          "n_components": 1,
+          "n_samples": 2
+        },
+        {
+          "level": "prostratus",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "rhombifolia",
+          "n_components": 1,
+          "n_samples": 1
+        },
+        {
+          "level": "sabiniana",
+          "n_components": 2,
+          "n_samples": 4
+        },
+        {
+          "level": "wislizeni",
+          "n_components": 1,
+          "n_samples": 1
+        }
+      ],
+      "missing_ids": [
+        "CA2023_006",
+        "CA2023_009",
+        "CA2023_025",
+        "CA2023_031",
+        "CA2023_043",
+        "CA2023_047",
+        "CA2023_067",
+        "CA2023_068",
+        "CA2023_069",
+        "CA2023_074",
+        "CA2023_076"
+      ],
+      "n_levels": 23,
+      "outer_overlap": [
+        {
+          "fallback_ids": [
+            "CA2023_009",
+            "CA2023_077",
+            "CA2023_078"
+          ],
+          "fold_id": "outer:0",
+          "seen_ids": [
+            "CA2023_003",
+            "CA2023_004",
+            "CA2023_010",
+            "CA2023_011",
+            "CA2023_020",
+            "CA2023_033",
+            "CA2023_062",
+            "CA2023_063",
+            "CA2023_070",
+            "CA2023_071",
+            "CA2023_079",
+            "CA2023_080"
+          ],
+          "training_levels": [
+            "aquilinum",
+            "cerulea",
+            "chrysolepis",
+            "concolor",
+            "contorta",
+            "cordulatus",
+            "decurrens",
+            "emarginata",
+            "integerrimus",
+            "jeffreyi",
+            "kelloggii",
+            "lambertiana",
+            "lasiolepis",
+            "macrophyllum",
+            "magnifica",
+            "menziesii",
+            "monticola",
+            "parvifolius",
+            "prostratus",
+            "rhombifolia",
+            "sabiniana",
+            "wislizeni"
+          ],
+          "validation_levels": [
+            "concolor",
+            "decurrens",
+            "jeffreyi",
+            "kelloggii",
+            "menziesii",
+            "ponderosa",
+            "sabiniana"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_006",
+            "CA2023_022",
+            "CA2023_035",
+            "CA2023_036",
+            "CA2023_057",
+            "CA2023_076"
+          ],
+          "fold_id": "outer:1",
+          "seen_ids": [
+            "CA2023_007",
+            "CA2023_008",
+            "CA2023_028",
+            "CA2023_037",
+            "CA2023_046"
+          ],
+          "training_levels": [
+            "aquilinum",
+            "cerulea",
+            "chrysolepis",
+            "concolor",
+            "cordulatus",
+            "decurrens",
+            "emarginata",
+            "integerrimus",
+            "jeffreyi",
+            "kelloggii",
+            "lambertiana",
+            "lasiolepis",
+            "magnifica",
+            "menziesii",
+            "monticola",
+            "parvifolius",
+            "ponderosa",
+            "rhombifolia",
+            "sabiniana",
+            "wislizeni"
+          ],
+          "validation_levels": [
+            "concolor",
+            "contorta",
+            "decurrens",
+            "kelloggii",
+            "macrophyllum",
+            "magnifica",
+            "prostratus"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_012",
+            "CA2023_025",
+            "CA2023_026",
+            "CA2023_027",
+            "CA2023_043",
+            "CA2023_054"
+          ],
+          "fold_id": "outer:2",
+          "seen_ids": [
+            "CA2023_013",
+            "CA2023_014",
+            "CA2023_015",
+            "CA2023_042",
+            "CA2023_053",
+            "CA2023_065"
+          ],
+          "training_levels": [
+            "aquilinum",
+            "cerulea",
+            "chrysolepis",
+            "concolor",
+            "contorta",
+            "cordulatus",
+            "decurrens",
+            "emarginata",
+            "jeffreyi",
+            "kelloggii",
+            "lasiolepis",
+            "macrophyllum",
+            "magnifica",
+            "menziesii",
+            "parvifolius",
+            "ponderosa",
+            "prostratus",
+            "rhombifolia",
+            "sabiniana",
+            "wislizeni"
+          ],
+          "validation_levels": [
+            "concolor",
+            "integerrimus",
+            "kelloggii",
+            "lambertiana",
+            "lasiolepis",
+            "monticola",
+            "parvifolius"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_047",
+            "CA2023_066",
+            "CA2023_074",
+            "CA2023_075"
+          ],
+          "fold_id": "outer:3",
+          "seen_ids": [
+            "CA2023_030",
+            "CA2023_039",
+            "CA2023_044",
+            "CA2023_045",
+            "CA2023_050",
+            "CA2023_051",
+            "CA2023_072",
+            "CA2023_073"
+          ],
+          "training_levels": [
+            "cerulea",
+            "chrysolepis",
+            "concolor",
+            "contorta",
+            "cordulatus",
+            "decurrens",
+            "emarginata",
+            "integerrimus",
+            "jeffreyi",
+            "kelloggii",
+            "lambertiana",
+            "lasiolepis",
+            "macrophyllum",
+            "magnifica",
+            "menziesii",
+            "monticola",
+            "parvifolius",
+            "ponderosa",
+            "prostratus",
+            "rhombifolia",
+            "sabiniana"
+          ],
+          "validation_levels": [
+            "aquilinum",
+            "decurrens",
+            "magnifica",
+            "menziesii",
+            "wislizeni"
+          ]
+        },
+        {
+          "fallback_ids": [
+            "CA2023_023",
+            "CA2023_029",
+            "CA2023_031",
+            "CA2023_032",
+            "CA2023_055",
+            "CA2023_064",
+            "CA2023_067",
+            "CA2023_068",
+            "CA2023_069"
+          ],
+          "fold_id": "outer:4",
+          "seen_ids": [
+            "CA2023_016",
+            "CA2023_038",
+            "CA2023_049",
+            "CA2023_056",
+            "CA2023_081",
+            "CA2023_082"
+          ],
+          "training_levels": [
+            "aquilinum",
+            "concolor",
+            "contorta",
+            "decurrens",
+            "integerrimus",
+            "jeffreyi",
+            "kelloggii",
+            "lambertiana",
+            "lasiolepis",
+            "macrophyllum",
+            "magnifica",
+            "menziesii",
+            "monticola",
+            "parvifolius",
+            "ponderosa",
+            "prostratus",
+            "sabiniana",
+            "wislizeni"
+          ],
+          "validation_levels": [
+            "cerulea",
+            "chrysolepis",
+            "concolor",
+            "cordulatus",
+            "emarginata",
+            "jeffreyi",
+            "lasiolepis",
+            "parvifolius",
+            "rhombifolia",
+            "sabiniana"
+          ]
+        }
+      ],
+      "provenance": "Original EcoSIS supplemental CSV via Datasets public y('species'); sample_id join; source epithet kept literally, not an inferred taxonomic identity",
+      "rare_levels": [
+        "aquilinum",
+        "cerulea",
+        "chrysolepis",
+        "contorta",
+        "cordulatus",
+        "emarginata",
+        "integerrimus",
+        "jeffreyi",
+        "lambertiana",
+        "lasiolepis",
+        "macrophyllum",
+        "magnifica",
+        "menziesii",
+        "monticola",
+        "parvifolius",
+        "ponderosa",
+        "prostratus",
+        "rhombifolia",
+        "sabiniana",
+        "wislizeni"
+      ],
+      "scope": "observed metadata levels under declared component holdout; no causal attribution",
+      "seen_count": 37,
+      "singleton_levels": [
+        "aquilinum",
+        "cerulea",
+        "chrysolepis",
+        "cordulatus",
+        "emarginata",
+        "integerrimus",
+        "lambertiana",
+        "macrophyllum",
+        "prostratus",
+        "rhombifolia",
+        "wislizeni"
+      ],
+      "source_column": "species"
+    }
+  ],
+  "independence": "plot constraints retained; original plant/assay independence and precision remain unverified",
+  "input_task_sha256": "d29a02793aaf7e4c196dff9e2845c904e4d02152e02d4ae7ce1c59b6a90ab596",
+  "phase": "metadata audit before new outcome experiments",
+  "protocol_version": "domains.structural_dependence.v0.1",
+  "source_traits_sha256": "afb9604e20dc870571fc2e5e4c0dce79f800fb8f13a523173d14cc287b50b13f",
+  "test_target_accessed": false,
+  "transport": [
+    {
+      "canonical_getter": "y(genus)",
+      "descriptor_role": "target",
+      "field": "genus",
+      "in_old_metadata": false,
+      "join": "exact sample_id; never position",
+      "normalization": "strip leading/trailing whitespace; source blanks remain missing",
+      "old_task_present": false,
+      "source_canonical_parity": true
+    },
+    {
+      "canonical_getter": "y(species)",
+      "descriptor_role": "target",
+      "field": "species",
+      "in_old_metadata": false,
+      "join": "exact sample_id; never position",
+      "normalization": "strip leading/trailing whitespace; source blanks remain missing",
+      "old_task_present": false,
+      "source_canonical_parity": true
+    }
+  ],
+  "unchanged_X_Y_axis_partitions_order": true
+}

@@ -1,0 +1,39 @@
+{
+  "execution_date": "2026-10-17",
+  "platform": "Windows",
+  "version": "0.1.0-alpha.6",
+  "rust_tests": 35,
+  "python_tests": 34,
+  "total_tests": 69,
+  "alpha5_baseline_tests_preserved": 56,
+  "native_methods": "1.3.6 / ABI 2.19.0",
+  "dag_ml": "0.3.41",
+  "checks": {
+    "fmt": "passed",
+    "clippy_warnings_denied": "passed",
+    "workspace_tests": "passed",
+    "native_ignored_gates": "passed",
+    "rustdoc": "passed",
+    "workspace_build": "passed",
+    "generated_schemas": "passed unchanged canonical/structure schemas",
+    "python_integration": "34 passed",
+    "updated_dependence_gates": "9 passed",
+    "json_schema_semantic_checks": "passed all seven controls and two complete real workflows",
+    "canonical_regression": "native/mean scalar metrics and fitted states exactly unchanged",
+    "wheel": "isolated PEP 517 build passed; packaged config schema matches root contract"
+  },
+  "reproducibility": {
+    "real_reports_byte_identical": true,
+    "alpha4_original_pls_oof_metrics_folds_artifacts_exact": true,
+    "old_reports_unchanged": 30,
+    "retained_label_access": false
+  },
+  "qualification": "alpha6-dependence-qualification.json",
+  "native_contract": "alpha6-native-contract.json",
+  "wheel_sha256": "3172221d45a2ab7a8f5bc9b51ffb095489805c0def2b2fbfec439770b8ba5f1f",
+  "limits": [
+    "upstream scientific suites not rerun",
+    "bootstrap conditions on declared components and fitted OOF; no model-refit uncertainty",
+    "no causal attribution or cluster held-out assignment"
+  ]
+}

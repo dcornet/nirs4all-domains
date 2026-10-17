@@ -1,5 +1,18 @@
 # Architecture and ownership
 
+Alpha.6 adds `association.rs` and `group-target` within the same two crates.
+Public Methods factor association and summaries provide descriptive physical-
+unit variance decomposition. `dependence` invokes the existing Python predictive
+bridge: original PLS stays on its unchanged callback-free native route; residual
+PLS uses DAG-ML's public callback CV/SELECT/REFIT twin. Native data-view IDs bind
+each fold-local target baseline and Methods PLS fit. Native N4ME replay restores
+selected nondegenerate residual models. Exact-zero residuals are explicitly
+degenerate baseline cases, with no PLS fit or fabricated N4ME artifact.
+Singleton physical exports retain original JSON float values after renewed Rust
+identity/reference auditing, avoiding a needless second numerical parse.
+Separate config/report v1 schemas and protocol
+`domains.structural_dependence.v0.1` preserve canonical/alpha.5 contracts.
+
 Alpha.5 adds a separate structural report and CLI in the existing two crates.
 `structure.rs` owns physical-unit selection, component subsampling, matched IDs,
 support counts and exploratory classification. Methods supplies public ABI 2.19
@@ -10,8 +23,9 @@ PCA refits once per component draw, independently of HDBSCAN parameters. All
 settings use that draw's same fitted scores, with their own reference partitions
 and stability evidence. Only train X enters fits. Canonical alpha.4 reports and
 the optional predictive workflow retain separate semantics. Test HDBSCAN labels
-and group-derived OOF prediction remain unavailable. Structural reliance
-experiments are specified in STRUCTURAL_SHORTCUT_RISK.md, not implemented.
+and spectral-cluster-derived OOF prediction remain unavailable. Alpha.6 metadata
+association/baselines are separate workflows described above; split interventions
+remain specified only in STRUCTURAL_SHORTCUT_RISK.md.
 
 Audit date: 2026-10-16. The methodological Word document
 `qualification_nirs_architecture_plan(1).docx` (working version 2026-09-14) was

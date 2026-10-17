@@ -1,12 +1,24 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.6's additional `domains.structural_dependence.v0.1` is frozen in
+GROUP_TARGET_ASSOCIATION_PROTOCOL.md and STRUCTURAL_PREDICTIVE_BASELINES.md.
+It distinguishes descriptive group–target association, fold-local group-only
+prediction and residual spectral gain on matched development OOF IDs. No
+retained target is inspected; reference blocks and whole dependency components
+precede all X–Y work. Independent inner/outer residual baselines and native
+candidate artifacts are adversarially verified. Results and distinct uncertainty
+denominators are in STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md. Alpha.7 is a design
+only in SPLIT_STRESS_ALPHA7_PROTOCOL.md. Existing canonical metric semantics and
+alpha.5 structural contracts remain unchanged.
+
 Alpha.5 adds separate `domains.structure.v0.1`; see
 [CLUSTERING_STABILITY_PROTOCOL.md](CLUSTERING_STABILITY_PROTOCOL.md). Canonical
 task/report v1 schemas and metric semantics are unchanged. Structural config/
 report v1 schemas are additional contracts. Canonical structure/probe slots do
 not execute optional workflows and retain previous availability reasons. Actual
-evidence is in CLUSTERING_REAL_DATA_PILOT.md; predictive structural reliance
-experiments remain planned in STRUCTURAL_SHORTCUT_RISK.md.
+evidence is in CLUSTERING_REAL_DATA_PILOT.md; alpha.6 metadata predictive evidence
+is in STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md. Split/target interventions remain
+planned in STRUCTURAL_SHORTCUT_RISK.md.
 
 This is a descriptive pre-training audit, not a test of predictive degradation or
 a calibration model. The independent unit, source axis and partitions are explicit.

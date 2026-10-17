@@ -1,5 +1,31 @@
 # Method reuse matrix
 
+## Alpha.6 executable additions
+
+Methods 1.3.6 / ABI 2.19 `n4m_preflight_factor_association` (metrics.h) and
+Preflight's existing public Methods summary provider supply continuous eta²,
+F/df and native summary means/SD. Rust owns physical-unit selection, scalar SS
+assembly and whole-component bootstrap only; unrestricted native permutations
+are disabled. Analytical eta²=0/1/.8 and SS identities execute against the DLL.
+
+DAG-ML 0.3.41's public native `run_cv_refit_in_process` in
+`crates/dag-ml-py/src/in_process.rs` is the callback twin of the already qualified
+`run_cv_refit_methods_in_process`. Its native compilation, data views, inner
+CV/SELECT/REFIT and scoring own residual-model selection. Domains' bounded host
+callback checks the actual native fold IDs, uses native summary group means and
+fits Methods public `roles.PLSRegression`. Methods `to_n4me` /
+`NativeEstimator.from_n4me` exports/replays nondegenerate artifacts. No sklearn
+numerical fit or alternate optimizer is used. Constant zero residual targets
+are labeled no-fit degenerate cases, not native PLS qualification.
+
+Actual candidate-artifact invariance under inner-validation Y mutation, outer
+scope isolation, source/Task metadata parity, original PLS exact regression,
+paired frozen-OOF bootstrap and deterministic controls execute locally. The
+upstream callback examples/contracts were inspected, but upstream suites were
+not rerun. See alpha.6 validation records for platform execution evidence.
+
+## Historical audit snapshot
+
 Snapshot audited on 2026-10-16. Commits: Methods
 `131a15a6bbf73a8ab941c7b3fb81b21f6b71b059`, Preflight
 `2f0574af0d04a9dbb0f64a978e9f2995ccf1a05d`, Datasets

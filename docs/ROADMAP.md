@@ -82,12 +82,16 @@ confounding, AOM and spectral networks remain later lots.
 The owner authorized repository creation and commit/push on 2026-10-16. This
 continuation uses that authorization for the Domains repository only.
 
-**Next lot — alpha.6:** descriptive metadata group–Y decomposition using native
+**Delivered alpha.6:** descriptive metadata group–Y decomposition using native
 factor association/summaries, SS identity, reference/component guards and
-uncertainty. Then fold-local group-only means with explicit unseen-level fallback
+uncertainty, fold-local group-only means with explicit unseen-level fallback
 and within-group skill through the existing DAG-ML/Methods grouped workflow.
-Qualify analytical between-group-only, within-group and independent-Y controls
-before real interpretation. Cluster-derived baselines remain unavailable without
+Analytical between-group-only, within-group and independent-Y controls precede
+real interpretation. Cluster-derived baselines remain unavailable without
 a public qualified held-out assignment API. Split sensitivity and training-target
 interventions follow those gates; conditional causal attribution, AOM and networks
 remain outside alpha.6. See STRUCTURAL_SHORTCUT_RISK.md for all five protocols.
+Actual associations, overlap and paired uncertainties are recorded in
+STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md. Alpha.7's concrete proposed size-
+controlled group holdout and training-target intervention design is frozen in
+SPLIT_STRESS_ALPHA7_PROTOCOL.md; the full programme has not been executed.

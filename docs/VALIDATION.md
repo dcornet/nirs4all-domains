@@ -1,5 +1,30 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.6 — executed 2026-10-17
+
+Local Windows gates pass **35 Rust + 34 Python = 69 tests**, preserving all
+56 alpha.5 tests. Four added native Rust gates cover analytical eta², undefined
+statistics, SS identity, physical weighting, missing/shared references and
+failed component draws without redraw. Nine Python gates execute real Methods
+and DAG-ML on frozen group-only, trait-only, mixed, independent-Y, unseen,
+saturated and repeated-acquisition controls. They verify native data-view scopes,
+candidate-artifact invariance under inner-validation target mutation, exact
+original-unit reconstruction, illegal-fold rejection, retained X/Y and row-order
+invariance, bootstrap multiplicity, packaged schemas and new-directory CLI
+reproducibility. Exact-zero residuals are explicitly no-fit cases; nonzero
+controls qualify native PLS, not just unavailability.
+
+fmt, clippy with warnings denied, workspace/native ignored gates, rustdoc,
+workspace build and generated schemas pass. The full repeated EcoSIS workflow
+executes twice with byte-identical JSON, all 200 association/paired draws per
+factor successful. Additional seen-level paired bootstrap uses its own
+denominator. Alpha.4 original spectral metrics, fold IDs, OOF values, native
+artifacts and lineage are exactly reproduced. Thirty frozen previous report
+files retain their hashes; no source data or upstream repository is changed.
+Full private-data artifacts are under `results/dependence-alpha6-final`; compact
+proof is in audit/alpha6-dependence-qualification.json and alpha6-validation.json.
+The actual alpha.6 Windows/Ubuntu CI URL/status is recorded after completion.
+
 ## Alpha.5 structural gates
 
 Local Windows execution passes **31 Rust + 25 Python = 56 tests**, retaining all

@@ -1,0 +1,12 @@
+{
+  "grouped_native": {
+    "scalar_metrics_unchanged": true,
+    "fitted_state_unchanged": true,
+    "report_sha256": "aecd0061cd60161f35cc10fe610ca09a2b58c0cb639b9f1e37cad0556284b874"
+  },
+  "technical_mean": {
+    "scalar_metrics_unchanged": true,
+    "fitted_state_unchanged": true,
+    "report_sha256": "47cec1536dab5d4b6ca053bdcf0f65393a92e81e6ac1decb4acf09a10b376a75"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Structural dependence report v1",
+  "type":"object","additionalProperties":false,
+  "required":["protocol_version","test_target_accessed","context","target_unit","development_input_sha256","config","n_samples","n_components","engine_versions","factors"],
+  "properties":{
+    "protocol_version":{"const":"domains.structural_dependence.v0.1"},
+    "test_target_accessed":{"const":false},
+    "context":{"type":"object","required":["dataset_id","content_version","source_id","target_id","split_id"]},
+    "target_unit":{"type":["string","null"]},
+    "development_input_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "config":{"type":"object"},
+    "n_samples":{"type":"integer","minimum":2},"n_components":{"type":"integer","minimum":3},
+    "engine_versions":{"type":"object","required":["dag-ml","nirs4all-methods","nirs4all-domains-bridge"]},
+    "factors":{"type":"array","minItems":1,"maxItems":8,"items":{"$ref":"#/$defs/factor"}}
+  },
+  "$defs":{
+    "state":{"type":"object","required":["status","reason","value"],"additionalProperties":false,
+      "properties":{"status":{"enum":["computed","unavailable","insufficient_data","error"]},"reason":{"type":["string","null"]},"value":{}},
+      "allOf":[{"if":{"properties":{"status":{"const":"computed"}}},"then":{"properties":{"reason":{"const":null},"value":{"not":{"type":"null"}}}},"else":{"properties":{"value":{"const":null},"reason":{"type":"string","minLength":1}}}}]},
+    "oof":{"type":"object","additionalProperties":false,
+      "required":["physical_sample_id","component_id","y","spectral","fold_id","factor_level","group_only","null","group_plus_residual","residual_correction","residual_truth","baseline_source"],
+      "properties":{"physical_sample_id":{"type":"string"},"component_id":{"type":"string"},"y":{"type":"number"},"spectral":{"type":"number"},
+        "fold_id":{"type":"string"},"factor_level":{"type":["string","null"]},"group_only":{"type":"number"},"null":{"type":"number"},
+        "group_plus_residual":{"type":"number"},"residual_correction":{"type":"number"},"residual_truth":{"type":"number"},
+        "baseline_source":{"enum":["level_training_mean","global_training_fallback"]}}},
+    "factor":{"type":"object","additionalProperties":false,
+      "required":["factor","audit","scores","oof","outer_fold_set","lineage","spectral_lineage","prediction.group_only","prediction.spectral","prediction.within_group_incremental_skill","paired_rmse_improvement_over_group","uncertainty","prediction.structural_dependence_evidence","cluster_derived_prediction","target.group_association"],
+      "properties":{"factor":{"type":"string"},"audit":{"type":"object"},"scores":{"type":"object","required":["null","group_only","spectral","group_plus_residual"],"additionalProperties":{"$ref":"#/$defs/state"}},
+        "oof":{"type":"array","items":{"$ref":"#/$defs/oof"}},"outer_fold_set":{"type":"object"},"lineage":{"type":"array"},"spectral_lineage":{"type":"array"},
+        "prediction.group_only":{"$ref":"#/$defs/state"},"prediction.spectral":{"$ref":"#/$defs/state"},"prediction.within_group_incremental_skill":{"$ref":"#/$defs/state"},
+        "paired_rmse_improvement_over_group":{"type":"number"},"uncertainty":{"type":"object"},"prediction.structural_dependence_evidence":{"$ref":"#/$defs/state"},
+        "cluster_derived_prediction":{"$ref":"#/$defs/state"},"target.group_association":{"type":"object","required":["protocol_version","factor","test_target_accessed","association","bootstrap"],
+          "properties":{"protocol_version":{"const":"domains.structural_dependence.v0.1"},"test_target_accessed":{"const":false},"association":{"$ref":"#/$defs/state"}}}}}
+  }
+}

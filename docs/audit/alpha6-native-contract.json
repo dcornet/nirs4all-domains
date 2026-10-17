@@ -1,0 +1,36 @@
+{
+  "execution_date": "2026-10-17",
+  "protocol_version": "domains.structural_dependence.v0.1",
+  "methods": {
+    "version": "1.3.6",
+    "abi": "2.19.0",
+    "source_commit": "131a15a6bbf73a8ab941c7b3fb81b21f6b71b059",
+    "factor_interface": "n4m_preflight_factor_association",
+    "outputs": [
+      "eta_squared",
+      "F",
+      "df_between",
+      "df_within",
+      "levels",
+      "distinct_targets",
+      "log10_permutation_bound",
+      "unrestricted_MC_p"
+    ],
+    "permutations": 0,
+    "undefined_outputs": "null with explicit reason; never NaN/Inf",
+    "summary": "Preflight public MethodsProvider::summary / n4m_preflight_summary_compute"
+  },
+  "dag_ml": {
+    "version": "0.3.41",
+    "source_commit": "c6b52979745397ae4e8662580df79341f0378d28",
+    "original_spectral_interface": "run_cv_refit_methods_in_process",
+    "residual_interface": "run_cv_refit_in_process",
+    "ownership": "native compile/data views/CV/SELECT/REFIT/scoring; bounded host callback fits Methods PLS",
+    "scope_checks": "actual fold_train/fold_validation/full_train data-view sample IDs match declared scopes",
+    "artifact_replay": "Methods roles.PLSRegression.to_n4me / NativeEstimator.from_n4me",
+    "constant_zero_residual": "explicit no-PLS-fit case; JSON lineage artifact distinct from N4ME"
+  },
+  "upstream_suites_rerun": false,
+  "upstream_modified": false,
+  "cluster_heldout_assignment": "unavailable; no qualified public API"
+}

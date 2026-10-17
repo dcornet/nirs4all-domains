@@ -22,6 +22,32 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    Dependence {
+        task: PathBuf,
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, default_value = "python")]
+        python: String,
+        #[arg(long)]
+        audit_only: bool,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
+    GroupTarget {
+        task: PathBuf,
+        #[arg(long)]
+        factor: String,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, default_value_t = 200)]
+        draws: usize,
+        #[arg(long, default_value_t = 17)]
+        seed: u64,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
     Structure {
         task: PathBuf,
         #[arg(long)]
@@ -83,6 +109,60 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::Dependence {
+            task,
+            config,
+            out,
+            python,
+            audit_only,
+            methods_library,
+        } => {
+            let mut command = Command::new(python);
+            command
+                .args(["-m", "nirs4all_domains.dependence"])
+                .arg(task)
+                .arg("--config")
+                .arg(config)
+                .arg("--out")
+                .arg(out)
+                .arg("--methods-library")
+                .arg(methods_library)
+                .env(
+                    "N4DOMAINS_BIN",
+                    std::env::current_exe().map_err(|e| e.to_string())?,
+                );
+            if audit_only {
+                command.arg("--audit-only");
+            }
+            Ok(command
+                .status()
+                .map_err(|e| e.to_string())?
+                .code()
+                .unwrap_or(2) as u8)
+        }
+        Action::GroupTarget {
+            task,
+            factor,
+            out,
+            draws,
+            seed,
+            methods_library,
+        } => {
+            let result = nirs4all_domains::association::group_target_association(
+                &read(&task)?,
+                &factor,
+                &methods_library,
+                draws,
+                seed,
+            )?;
+            let file = std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(out)
+                .map_err(|e| e.to_string())?;
+            serde_json::to_writer_pretty(file, &result).map_err(|e| e.to_string())?;
+            Ok(0)
+        }
         Action::Structure {
             task,
             config,

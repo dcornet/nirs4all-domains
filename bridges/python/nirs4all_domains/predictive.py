@@ -56,7 +56,7 @@ def group_folds(rows, n_folds, seed, scope):
     return result
 
 
-def _inner_fit(rows, library, seed, inner_folds, max_components, scope):
+def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual_factor=None):
     import dag_ml
     from dag_ml import _dag_ml as native
     from n4m.roles import NativeEstimator
@@ -81,6 +81,8 @@ def _inner_fit(rows, library, seed, inner_folds, max_components, scope):
         "data_bindings": [{"node_id": "model:compat.0", "input_name": "x", "request_id": "domains-mean-spectra",
             **{k: envelope[k] for k in ("schema_fingerprint", "plan_fingerprint", "relation_fingerprint")},
             "output_representation": "tabular_numeric", "feature_set_id": "x", "source_ids": ["X"], "require_relations": True}]}
+    if residual_factor is not None:
+        return _residual_cv(rows, dsl, envelope, folds, residual_factor)
     payload_json, artifacts = native.run_cv_refit_methods_in_process(
         json.dumps(dsl), json.dumps(envelope), json.dumps(inputs), str(library), "rmse", refit=True)
     payload = json.loads(payload_json)
@@ -181,3 +183,133 @@ def predictive_sanity(task, library, *, seed=17, outer_folds=5, inner_folds=3, m
             "results":permuted,"exchangeability":"assumed for plots within cardinality strata; not a confirmatory test"},
         interpretation="Development-only nested group OOF sanity check; no retained-test performance or production calibration")
     return result
+
+
+def group_means(rows, factor):
+    """Fold-local native means. No validation target is accepted by this function."""
+    levels = {}
+    for row in rows:
+        level = row["metadata"].get(factor)
+        if level and level.strip():
+            levels.setdefault(level, []).append(row["y"])
+    return {"global": native_summary(r["y"] for r in rows)["mean"],
+            "levels": {k: native_summary(v)["mean"] for k, v in sorted(levels.items())},
+            "training_ids": [r["physical_sample_id"] for r in rows]}
+
+
+def group_prediction(row, baseline, factor):
+    level = row["metadata"].get(factor)
+    return baseline["levels"].get(level, baseline["global"]), (
+        "level_training_mean" if level in baseline["levels"] else "global_training_fallback")
+
+
+class _ZeroResidual:
+    """Exact degenerate target case, not a fitted alternative to PLS."""
+    n_components = 0
+
+    def predict(self, x):
+        import numpy as np
+        return np.zeros((len(x), 1))  # output buffer only; no numerical fit
+
+
+def _residual_cv(rows, dsl, envelope, folds, factor):
+    """DAG scheduler/SELECT/REFIT, with Methods fitting in a scope-bound callback.
+
+    The callback-free API accepts one static Y buffer. Its public callback twin
+    supplies the fold scope needed to fit a different target baseline per fold.
+    """
+    import dag_ml
+    from dag_ml import _dag_ml as native
+    from n4m.roles import PLSRegression, NativeEstimator
+    import copy
+    dsl = copy.deepcopy(dsl)
+    controller = "controller:domains.residual_pls"
+    dsl["pipeline"][0]["model"] = "domains:residual_pls"
+    dsl["pipeline"][0]["metadata"] = {"controller_id": controller}
+    graph = dag_ml.compile_pipeline_dsl_artifact(dsl).graph.to_dict()
+    node = next(n for n in graph["nodes"] if n["kind"] == "model")
+    manifest = {"controller_id": controller, "controller_version": "0.1.0-alpha.6",
+                "operator_kind": "model", "priority": 0,
+                "supported_phases": ["FIT_CV", "REFIT", "PREDICT"],
+                "input_ports": node["ports"]["inputs"], "output_ports": node["ports"]["outputs"],
+                "data_requirements": None,
+                "capabilities": ["deterministic", "emits_predictions", "emits_artifacts", "stateful"],
+                "fit_scope": "fold_train", "rng_policy": "uses_core_seed", "artifact_policy": "serializable"}
+    by_id = {r["physical_sample_id"]: r for r in rows}
+    fold_by_id = {f["fold_id"]: f for f in folds["folds"]}
+    events, refits = [], {}
+
+    def callback(task):
+        plan = task["node_plan"]
+        refit = task["phase"] == "REFIT"
+        if task["phase"] not in ("FIT_CV", "REFIT"):
+            raise ValueError("Unexpected residual callback phase")
+        scope = {"train_sample_ids": list(by_id), "validation_sample_ids": []} if refit else fold_by_id[task["fold_id"]]
+        train_ids, valid_ids = scope["train_sample_ids"], scope["validation_sample_ids"]
+        if set(train_ids) & set(valid_ids):
+            raise ValueError("Residual fit scope crosses validation")
+        train, valid = [by_id[s] for s in train_ids], [by_id[s] for s in valid_ids]
+        # Bind the numerical input to the actual native scheduler data-view IDs.
+        views = task["data_views"]
+        native_train = [v["sample_ids"] for v in views.values() if v["partition"] in ("fold_train", "full_train")]
+        native_valid = [v["sample_ids"] for v in views.values() if v["partition"] == "fold_validation"]
+        if not native_train or (not refit and not native_valid) or any(set(v) != set(train_ids) for v in native_train) or any(set(v) != set(valid_ids) for v in native_valid):
+            raise ValueError("Native residual data views differ from declared fit scope: " + repr(views))
+        baseline = group_means(train, factor)
+        residual = [r["y"] - group_prediction(r, baseline, factor)[0] for r in train]
+        zero_residual = native_summary(residual)["min"] == native_summary(residual)["max"] == 0.
+        if zero_residual:
+            # Methods refuses constant Y. There is exactly zero training residual
+            # to learn; keep the group baseline and state the degenerate case.
+            model = _ZeroResidual()
+            artifact_bytes = json.dumps({"kind":"domains.exact_zero_residual.v1", "training_ids":train_ids}).encode()
+        else:
+            model = PLSRegression(n_components=int(plan["params"]["n_components"]),
+                                  center_x=True, scale_x=False, center_y=True, scale_y=False)
+            model.fit([r["x"] for r in train], [[y] for y in residual])
+            artifact_bytes = model.to_n4me()
+        digest = hashlib.sha256(artifact_bytes).hexdigest()
+        event = {"phase": task["phase"], "fold_id": task["fold_id"],
+                 "n_components": int(model.n_components), "baseline": baseline,
+                 "validation_ids": valid_ids, "residual_target_sha256": fingerprint(list(zip(train_ids, residual))),
+                 "artifact_sha256": digest, "native_fit_lineage_verified": True}
+        event["fit_kind"] = "exact_zero_training_residual_no_pls_fit" if zero_residual else "native_methods_pls"
+        events.append(event)
+        artifacts, handles = [], {}
+        if refit:
+            aid = "artifact:domains.residual:" + digest
+            artifacts = [{"id": aid, "kind": "exact_zero_residual" if zero_residual else "n4me", "controller_id": controller,
+                          "content_fingerprint": digest, "size_bytes": len(artifact_bytes)}]
+            handles = {aid: {"handle": 80001, "kind": "model", "owner_controller": controller}}
+            refits[digest] = (artifact_bytes, event)
+        predictions, targets = [], []
+        if valid:
+            correction = model.predict([r["x"] for r in valid]).reshape(-1).tolist()
+            predictions = [{"producer_node": plan["node_id"], "producer_port": "oof",
+                            "partition": "validation", "fold_id": task["fold_id"],
+                            "sample_ids": valid_ids, "values": [[group_prediction(r, baseline, factor)[0]+p] for r,p in zip(valid, correction, strict=True)],
+                            "target_names": ["y"]}]
+            targets = [{"level": "sample", "unit_ids": [{"level": "sample", "id": s} for s in valid_ids],
+                        "values": [[r["y"]] for r in valid], "target_names": ["y"]}]
+        return {"node_id": plan["node_id"], "outputs": {"oof": {"handle": 80002, "kind": "prediction", "owner_controller": controller}},
+                "predictions": predictions, "regression_targets": targets,
+                "artifacts": artifacts, "artifact_handles": handles,
+                "lineage": {"record_id": "lineage:"+fingerprint([task["phase"],task["fold_id"],task["variant_id"],digest]),
+                            "run_id": task["run_id"], "node_id": plan["node_id"], "phase": task["phase"],
+                            "controller_id": controller, "controller_version": plan["controller_version"],
+                            "variant_id": task["variant_id"], "fold_id": task["fold_id"], "branch_path": task["branch_path"],
+                            "input_lineage": [], "artifact_refs": artifacts, "params_fingerprint": plan["params_fingerprint"],
+                            "seed": task["seed"], "unsafe_flags": [], "metrics": {}}}
+
+    payload = json.loads(native.run_cv_refit_in_process(json.dumps(dsl), json.dumps(envelope),
+        json.dumps([manifest]), callback, "rmse", refit=True))
+    if len(refits) != 1:
+        raise RuntimeError("Exactly one DAG-selected residual REFIT artifact required")
+    artifact, refit = next(iter(refits.values()))
+    model = _ZeroResidual() if refit["fit_kind"]=="exact_zero_training_residual_no_pls_fit" else NativeEstimator.from_n4me(artifact)
+    return model, {"inner_fold_set": folds, "n_components": int(model.n_components),
+                   "artifact_sha256": refit["artifact_sha256"], "native_fit_lineage_verified": True,
+                   "residual_fit_events": sorted(events, key=lambda e:(e["phase"],e["fold_id"] or "",e["n_components"])),
+                   "outer_training_baseline": refit["baseline"],
+                   "selection_engine": "DAG-ML public run_cv_refit_in_process; original-unit validation RMSE",
+                   "selection_payload_sha256": fingerprint(payload)}

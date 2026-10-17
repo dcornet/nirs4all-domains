@@ -1,5 +1,13 @@
 # Structural shortcut risk research programme
 
+Alpha.6 now implements experiments 1–3 for documented metadata in separate
+`domains.structural_dependence.v0.1` reports. See
+GROUP_TARGET_ASSOCIATION_PROTOCOL.md, STRUCTURAL_PREDICTIVE_BASELINES.md and
+STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md for qualified scopes and actual results.
+This historical alpha.5 plan continues to specify experiments 4–5; alpha.7's
+bounded design is in SPLIT_STRESS_ALPHA7_PROTOCOL.md. No causal risk estimator
+or cluster-derived held-out predictor is implemented.
+
 Specification `domains.structural_dependence.plan.v0.1`, alpha.5. This is a
 research protocol, not an implemented risk estimator. It asks how predictive
 gain changes when recognizable groups, neighborhoods and split-specific

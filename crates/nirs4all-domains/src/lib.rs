@@ -1,4 +1,5 @@
 //! Task-specific protocols over public Preflight and Methods interfaces.
+pub mod association;
 mod bootstrap;
 pub mod contract;
 pub mod methods;

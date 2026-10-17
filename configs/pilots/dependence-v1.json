@@ -1,0 +1,14 @@
+{
+  "protocol_version": "domains.structural_dependence.v0.1",
+  "seed": 17,
+  "outer_folds": 5,
+  "inner_folds": 3,
+  "max_components": 5,
+  "draws": 200,
+  "factors": [
+    {"field":"plot_name","source_column":"plot_name","provenance":"Original EcoSIS supplemental CSV; sample_id join; diagnostic only under plot holdout","available_at_prediction":true},
+    {"field":"sampling_date","source_column":"sampling_date","provenance":"Original EcoSIS supplemental CSV; sample_id join; historical date overlap only, not new-date transfer","available_at_prediction":true},
+    {"field":"genus","source_column":"genus","provenance":"Original EcoSIS supplemental CSV via Datasets public y('genus'); sample_id join; source taxonomy, no relabeling","available_at_prediction":true},
+    {"field":"species","source_column":"species","provenance":"Original EcoSIS supplemental CSV via Datasets public y('species'); sample_id join; source epithet kept literally, not an inferred taxonomic identity","available_at_prediction":true}
+  ]
+}

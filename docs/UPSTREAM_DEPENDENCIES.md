@@ -1,5 +1,23 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.6 outcome
+
+No upstream modification is needed for the qualified metadata association and
+group/residual baselines. Methods' public factor and summary kernels suffice.
+DAG-ML's static native input route cannot encode a different residual Y per
+inner fold; its public callback twin supplies native fold data views and owns
+CV/selection/refit while a bounded Domains callback invokes native Methods PLS.
+This removes the anticipated scientific blocker without a new optimizer.
+
+Optional proposal, not posted: a native grouped target-baseline/residualization
+role and a high-level fold-local target-transform example, including baseline
+serialization, source metadata bindings, missing/unseen fallback, candidate
+artifact invariance under holdout-target mutation and original-unit scoring.
+The current qualified callback is host-local: replay of a combined predictor
+needs its baseline record plus the selected N4ME, not a standalone PLS artifact
+alone. Methods' constant-Y failure is explicitly a degenerate no-fit case.
+HDBSCAN held-out assignment remains the separate outstanding upstream need.
+
 ## Alpha.5 structural integration
 
 Existing public Methods ABI 2.19 HDBSCAN and ARI suffice for the completed
