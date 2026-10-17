@@ -36,8 +36,12 @@ a final guard. No cleanup, migration, raw spectral acquisition or upstream write
 The [public manifest](benchmarks/alpha12/storage.json), finite/schema/identity
 checks and executed-source hashes are checked with
 `python scripts/check_alpha12_results.py --require-manifest` on both CI platforms.
-Actual pushed-source Windows/Ubuntu conclusions are recorded separately only
-after completion; workflow configuration is not execution proof.
+[Actual Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39059440119)
+on scientific source `8a1d53e93c562273e0cc979cfe5946f613c395f2`. Both completed jobs
+record 190 Python and 35 Rust tests, exact manifest/source checks and 207 portable
+historical files. The [job/step/log proof](audit/github-ci-alpha12.json) records
+actual execution. The final evidence-publication HEAD is verified separately
+before handover; it does not rerun the real campaign.
 
 The extended map includes 28 older audit JSON files with existing CRLF local
 checkout bytes and LF baseline Git blobs. The additive

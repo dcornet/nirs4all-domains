@@ -22,6 +22,8 @@ Frozen unsupervised hypotheses await independent study-level confirmation.
 Local validation passes **225 tests: 35 Rust + 190 Python** and all 18 release
 checks; every one of 371 protected historical files is unchanged. Package/source
 parity and hosted CI conclusions are recorded in the linked validation evidence.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39059440119)
+on scientific source `8a1d53e`, with all 225 tests on each platform.
 
 Run `python scripts/check_alpha12_results.py --require-manifest` for portable
 evidence checks. Numerical reconstruction additionally requires exact authorized

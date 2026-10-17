@@ -125,6 +125,10 @@ def main():
         'wheel':{'sha256':digest(wheel),'bytes':wheel.stat().st_size,'matched_members':matched,'isolated_import_log_sha256':digest(smoke)},
         'executed_source_hashes':sources,'guarded_historical_cache_reuse':json.loads(Path('.audit/alpha11/guarded-model-cache-hit.json').read_text()),
         'storage_ref':'docs/audit/alpha12-storage.json','ci_status':'Pending actual Windows/Ubuntu execution; separate hosted proof required.'}
+    ci=Path('docs/audit/github-ci-alpha12.json')
+    if ci.exists():
+        hosted=json.loads(ci.read_text());assert hosted['status']=='completed' and hosted['conclusion']=='success'
+        result['ci_status']={'qualified_scientific_source':hosted['headSha'],'conclusion':'success','proof_ref':ci.as_posix(),'url':hosted['url']}
     atomic_json('docs/audit/alpha12-validation.json',result)
     print(json.dumps({'tests':225,'protected':371,'max_task_evidence_bytes':max(task_bytes.values()),'workspace_bytes':occupied,
         'campaign_reserved_bytes':journal['reserved_campaign_bytes'],'wheel_bytes':wheel.stat().st_size,'contracts_verified':len(receipts)}))

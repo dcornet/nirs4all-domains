@@ -119,8 +119,8 @@ caches; portable integrity checks do not claim a full raw-source archive.
 ## J — Validation and bounded next phase
 
 Local checks and package/source parity are recorded in
-[validation proof](audit/alpha12-validation.json); actual hosted execution is
-recorded separately after push. The suite retains all 173 baseline tests and adds
+[validation proof](audit/alpha12-validation.json); completed hosted execution is
+recorded in the [CI proof](audit/github-ci-alpha12.json). The suite retains all 173 baseline tests and adds
 52 Python tests, for **225 passing tests (35 Rust + 190 Python)**. A first full
 Python attempt exposed an unsuitable rank-one batching fixture; its corrected
 analytic fixture and rerun are preserved in the execution log. No real science
@@ -131,8 +131,10 @@ source/schema and imports in isolation. The local snapshot is 13,675,921,814
 workspace bytes under 13,873,678,017; cumulative reservations are 427,393,916
 bytes under 536,870,912. Maximum new-task essential evidence is 2,047,799 bytes
 under 4,194,304. All 371 protected files verify. Public manifest and executed-source
-checks are additional final gates. Hosted CI and commit identity are recorded
-after actual push/completion.
+checks pass. [Actual Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39059440119)
+on scientific source `8a1d53e93c562273e0cc979cfe5946f613c395f2`, with 225 tests on
+each platform and all 207 portable historical files verified. Final publication
+HEAD is verified separately before handover, without new real fits.
 
 Twenty-eight older audit JSON files have existing CRLF working-copy/LF Git-blob
 variants. The local preservation map remains frozen; an additive baseline
