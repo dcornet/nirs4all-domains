@@ -35,11 +35,16 @@ def native_summary(values):
                     (float(v) if math.isfinite(v) else None for v in out), strict=True))
 
 
-def group_folds(rows, n_folds, seed, scope):
+def group_folds(rows, n_folds, seed, scope, allocation="hash"):
     """Declare identity-only folds; DAG-ML validates the complete FoldSet."""
     import dag_ml
     groups = sorted({r["independence_group"] for r in rows},
                     key=lambda g: fingerprint([seed, scope, g]))
+    if allocation == "shuffle":
+        groups = sorted(groups)
+        random.Random(seed).shuffle(groups)
+    elif allocation != "hash":
+        raise ValueError("Unknown component allocation")
     if len(groups) < n_folds:
         raise ValueError("Insufficient independent groups for the prespecified CV")
     assignment = {group: i % n_folds for i, group in enumerate(groups)}
@@ -56,7 +61,8 @@ def group_folds(rows, n_folds, seed, scope):
     return result
 
 
-def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual_factor=None):
+def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual_factor=None,
+               training_intervention=None):
     import dag_ml
     from dag_ml import _dag_ml as native
     from n4m.roles import NativeEstimator
@@ -81,8 +87,8 @@ def _inner_fit(rows, library, seed, inner_folds, max_components, scope, residual
         "data_bindings": [{"node_id": "model:compat.0", "input_name": "x", "request_id": "domains-mean-spectra",
             **{k: envelope[k] for k in ("schema_fingerprint", "plan_fingerprint", "relation_fingerprint")},
             "output_representation": "tabular_numeric", "feature_set_id": "x", "source_ids": ["X"], "require_relations": True}]}
-    if residual_factor is not None:
-        return _residual_cv(rows, dsl, envelope, folds, residual_factor)
+    if residual_factor is not None or training_intervention is not None:
+        return _residual_cv(rows, dsl, envelope, folds, residual_factor, training_intervention)
     payload_json, artifacts = native.run_cv_refit_methods_in_process(
         json.dumps(dsl), json.dumps(envelope), json.dumps(inputs), str(library), "rmse", refit=True)
     payload = json.loads(payload_json)
@@ -212,7 +218,7 @@ class _ZeroResidual:
         return np.zeros((len(x), 1))  # output buffer only; no numerical fit
 
 
-def _residual_cv(rows, dsl, envelope, folds, factor):
+def _residual_cv(rows, dsl, envelope, folds, factor, training_intervention=None):
     """DAG scheduler/SELECT/REFIT, with Methods fitting in a scope-bound callback.
 
     The callback-free API accepts one static Y buffer. Its public callback twin
@@ -224,6 +230,8 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
     import copy
     dsl = copy.deepcopy(dsl)
     controller = "controller:domains.residual_pls"
+    if training_intervention is not None:
+        controller = "controller:domains.training_intervention_pls"
     dsl["pipeline"][0]["model"] = "domains:residual_pls"
     dsl["pipeline"][0]["metadata"] = {"controller_id": controller}
     graph = dag_ml.compile_pipeline_dsl_artifact(dsl).graph.to_dict()
@@ -235,9 +243,12 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
                 "data_requirements": None,
                 "capabilities": ["deterministic", "emits_predictions", "emits_artifacts", "stateful"],
                 "fit_scope": "fold_train", "rng_policy": "uses_core_seed", "artifact_policy": "serializable"}
+    if training_intervention is not None:
+        manifest["controller_version"] = "0.1.0-alpha.7"
     by_id = {r["physical_sample_id"]: r for r in rows}
     fold_by_id = {f["fold_id"]: f for f in folds["folds"]}
     events, refits = [], {}
+    intervention_scopes = {}
 
     def callback(task):
         plan = task["node_plan"]
@@ -255,8 +266,15 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
         native_valid = [v["sample_ids"] for v in views.values() if v["partition"] == "fold_validation"]
         if not native_train or (not refit and not native_valid) or any(set(v) != set(train_ids) for v in native_train) or any(set(v) != set(valid_ids) for v in native_valid):
             raise ValueError("Native residual data views differ from declared fit scope: " + repr(views))
+        intervention_key = None
+        if training_intervention is not None:
+            train, receipt = training_intervention(train)
+            if [r["physical_sample_id"] for r in train] != train_ids:
+                raise ValueError("Intervention changed native training identities/order")
+            intervention_key = fingerprint(receipt)
+            intervention_scopes[intervention_key] = receipt
         baseline = group_means(train, factor)
-        residual = [r["y"] - group_prediction(r, baseline, factor)[0] for r in train]
+        residual = [r["y"] - (group_prediction(r, baseline, factor)[0] if factor is not None else 0.) for r in train]
         zero_residual = native_summary(residual)["min"] == native_summary(residual)["max"] == 0.
         if zero_residual:
             # Methods refuses constant Y. There is exactly zero training residual
@@ -274,6 +292,8 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
                  "validation_ids": valid_ids, "residual_target_sha256": fingerprint(list(zip(train_ids, residual))),
                  "artifact_sha256": digest, "native_fit_lineage_verified": True}
         event["fit_kind"] = "exact_zero_training_residual_no_pls_fit" if zero_residual else "native_methods_pls"
+        if intervention_key is not None:
+            event["intervention_sha256"] = intervention_key
         events.append(event)
         artifacts, handles = [], {}
         if refit:
@@ -287,7 +307,7 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
             correction = model.predict([r["x"] for r in valid]).reshape(-1).tolist()
             predictions = [{"producer_node": plan["node_id"], "producer_port": "oof",
                             "partition": "validation", "fold_id": task["fold_id"],
-                            "sample_ids": valid_ids, "values": [[group_prediction(r, baseline, factor)[0]+p] for r,p in zip(valid, correction, strict=True)],
+                            "sample_ids": valid_ids, "values": [[(group_prediction(r, baseline, factor)[0] if factor is not None else 0.)+p] for r,p in zip(valid, correction, strict=True)],
                             "target_names": ["y"]}]
             targets = [{"level": "sample", "unit_ids": [{"level": "sample", "id": s} for s in valid_ids],
                         "values": [[r["y"]] for r in valid], "target_names": ["y"]}]
@@ -307,9 +327,13 @@ def _residual_cv(rows, dsl, envelope, folds, factor):
         raise RuntimeError("Exactly one DAG-selected residual REFIT artifact required")
     artifact, refit = next(iter(refits.values()))
     model = _ZeroResidual() if refit["fit_kind"]=="exact_zero_training_residual_no_pls_fit" else NativeEstimator.from_n4me(artifact)
-    return model, {"inner_fold_set": folds, "n_components": int(model.n_components),
+    evidence = {"inner_fold_set": folds, "n_components": int(model.n_components),
                    "artifact_sha256": refit["artifact_sha256"], "native_fit_lineage_verified": True,
                    "residual_fit_events": sorted(events, key=lambda e:(e["phase"],e["fold_id"] or "",e["n_components"])),
                    "outer_training_baseline": refit["baseline"],
                    "selection_engine": "DAG-ML public run_cv_refit_in_process; original-unit validation RMSE",
                    "selection_payload_sha256": fingerprint(payload)}
+    if training_intervention is not None:
+        evidence["intervention_scopes"] = dict(sorted(intervention_scopes.items()))
+        evidence["outer_intervention_sha256"] = refit["intervention_sha256"]
+    return model, evidence

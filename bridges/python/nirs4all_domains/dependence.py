@@ -197,6 +197,30 @@ def predictive_dependence(task, library, factor_audit, *, seed=17, outer_folds=5
             "cluster_derived_prediction":state(reason="NO_QUALIFIED_PUBLIC_FOLD_LOCAL_HDBSCAN_ASSIGNMENT_API")}
 
 
+def audit_representation(task, binary, library, output):
+    """Shared Rust audit/mean transport, preserving original singleton floats."""
+    import copy
+    task=copy.deepcopy(task)
+    for row in task["observations"]:
+        if row["partition"]=="test":row["y"]=None;row["category"]=None
+    task["policy"]["audit_mode"]="pre_training"
+    input_path=output/"sanitized-task.json";represented=output/"mean-task.json"
+    input_path.write_text(json.dumps(task,allow_nan=False))
+    subprocess.run([str(binary),"represent",str(input_path),"--out",str(represented),"--methods-library",str(library)],check=True)
+    audited=json.loads(represented.read_text())
+    if len({r["physical_sample_id"] for r in task["observations"]})==len(task["observations"]):
+        original={r["physical_sample_id"]:r for r in task["observations"]}
+        if set(original)!={r["physical_sample_id"] for r in audited["observations"]}:
+            raise ValueError("Rust audit excluded an input physical unit")
+        for row in audited["observations"]:
+            source=original[row["physical_sample_id"]]
+            if row["observation_id"]!=source["observation_id"] or row["partition"]!=source["partition"]:
+                raise ValueError("Rust audit changed singleton identities or partitions")
+            row["x"]=source["x"];row["y"]=source.get("y")
+    represented.write_text(json.dumps(audited,allow_nan=False),encoding="utf-8")
+    return audited
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("task", type=Path)
@@ -213,32 +237,8 @@ def main():
         raise ValueError("Duplicate factor fields")
     args.out.mkdir(parents=True,exist_ok=False)
     binary = os.environ.get("N4DOMAINS_BIN", "n4domains")
-    # Use the existing Rust reference/mean path. Hide retained labels before handing it a Task.
-    task = json.loads(args.task.read_text())
-    for row in task["observations"]:
-        if row["partition"]=="test":
-            row["y"]=None;row["category"]=None
-    task["policy"]["audit_mode"]="pre_training"
-    input_path=args.out/"sanitized-task.json"
-    input_path.write_text(json.dumps(task,allow_nan=False))
     represented=args.out/"mean-task.json"
-    subprocess.run([binary,"represent",str(input_path),"--out",str(represented),"--methods-library",str(args.methods_library)],check=True)
-    audited=json.loads(represented.read_text())
-    # No mean operation is needed for an already singleton physical view. Keep
-    # its original JSON float values: a second Rust JSON parse can move a value
-    # by one ULP, changing native model artifacts. Use only the freshly audited
-    # identities/reference decision/components, never trust old provenance.
-    if len({r["physical_sample_id"] for r in task["observations"]})==len(task["observations"]):
-        original={r["physical_sample_id"]:r for r in task["observations"]}
-        if set(original)!={r["physical_sample_id"] for r in audited["observations"]}:
-            raise ValueError("Rust audit excluded an input physical unit")
-        for row in audited["observations"]:
-            source=original[row["physical_sample_id"]]
-            if row["observation_id"]!=source["observation_id"] or row["partition"]!=source["partition"]:
-                raise ValueError("Rust audit changed singleton identities or partitions")
-            row["x"]=source["x"];row["y"]=source.get("y")
-    task=audited
-    represented.write_text(json.dumps(task,allow_nan=False),encoding="utf-8")
+    task=audit_representation(json.loads(args.task.read_text()),binary,args.methods_library,args.out)
     rows=development_rows(task)
     folds=group_folds(rows,config["outer_folds"],config["seed"],"outer")
     audit=audit_factors(rows,config["factors"],folds)

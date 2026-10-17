@@ -22,6 +22,21 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    SplitStress {
+        task: PathBuf,
+        #[arg(long)]
+        config: PathBuf,
+        #[arg(long)]
+        out: PathBuf,
+        #[arg(long, default_value = "python")]
+        python: String,
+        #[arg(long)]
+        audit_only: bool,
+        #[arg(long)]
+        reference_report: Option<PathBuf>,
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
     Dependence {
         task: PathBuf,
         #[arg(long)]
@@ -109,6 +124,41 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::SplitStress {
+            task,
+            config,
+            out,
+            python,
+            audit_only,
+            reference_report,
+            methods_library,
+        } => {
+            let mut command = Command::new(python);
+            command
+                .args(["-m", "nirs4all_domains.split_stress"])
+                .arg(task)
+                .arg("--config")
+                .arg(config)
+                .arg("--out")
+                .arg(out)
+                .arg("--methods-library")
+                .arg(methods_library)
+                .env(
+                    "N4DOMAINS_BIN",
+                    std::env::current_exe().map_err(|e| e.to_string())?,
+                );
+            if audit_only {
+                command.arg("--audit-only");
+            }
+            if let Some(reference) = reference_report {
+                command.arg("--reference-report").arg(reference);
+            }
+            Ok(command
+                .status()
+                .map_err(|e| e.to_string())?
+                .code()
+                .unwrap_or(2) as u8)
+        }
         Action::Dependence {
             task,
             config,

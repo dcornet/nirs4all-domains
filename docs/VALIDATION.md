@@ -1,5 +1,30 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.7 — executed 2026-10-17
+
+**35 Rust + 49 Python = 84 tests pass locally**, retaining all 69 alpha.6 tests.
+Fifteen additional gates exercise transitive factor closure, source-independent
+fold allocation, compatible whole target-vector maps, missing/shared references,
+ordered reference patterns, missing component targets, power failure, matching
+granularity, actual native intervention response, all inner/outer target scopes,
+forbidden-label artifact invariance, size-only and extrapolation controls,
+failed-attempt scheduling, packaged schemas and byte-identical controlled CLI.
+
+fmt, clippy with warnings denied, workspace tests, actual native ignored gates,
+rustdoc, build and generated schema checks pass. The real pilot executes all
+prescribed sensitivity seeds, genus/date closure holdout, three matching orders,
+19 effective global interventions and 19 explicitly unavailable within-genus
+attempts. Four generating-mechanism controls each execute 19+19 attempts;
+ineffective attempts are retained and not counted as positive evidence.
+123 frozen result/schema files remain unchanged. Native real genus-holdout,
+global attempt 0 and one size-matched cell replay exactly; this does not claim
+repeating the whole real campaign. Full artifacts stay in
+`results/split-stress-alpha7`, with compact proof in audit/alpha7-qualification.json.
+All target maps and scoring use original development identities/truth; retained
+test labels remain sealed. Bootstrap uncertainty conditions on frozen OOF and
+does not include model-refit uncertainty. Alpha.7 remote CI is recorded only
+after actual Windows/Ubuntu completion.
+
 ## Alpha.6 — executed 2026-10-17
 
 Local Windows gates pass **35 Rust + 34 Python = 69 tests**, preserving all

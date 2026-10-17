@@ -1,0 +1,28 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Split stress and training-target interventions report v1",
+  "type":"object","additionalProperties":false,
+  "required":["protocol_version","test_target_accessed","context","target_unit","input_provenance","development_input_sha256","n_samples","n_components","config","engine_versions","audit","experiments","interventions","findings","cluster_derived_prediction"],
+  "properties":{
+    "protocol_version":{"const":"domains.split_stress.v0.1"},"test_target_accessed":{"const":false},
+    "context":{"type":"object","required":["dataset_id","content_version","source_id","target_id","split_id"]},
+    "target_unit":{"type":["string","null"]},"input_provenance":{"type":"object"},
+    "development_input_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},"frozen_reference_file_sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "n_samples":{"type":"integer","minimum":2,"maximum":500},"n_components":{"type":"integer","minimum":3},
+    "config":{"type":"object"},"engine_versions":{"type":"object","required":["dag-ml","nirs4all-methods","nirs4all-domains-bridge"]},
+    "audit":{"type":"object","required":["reference_fold_set","factor_holdouts","interventions","date_area_audit"]},
+    "experiments":{"type":"array","minItems":1,"maxItems":9,"items":{"allOf":[{"$ref":"#/$defs/state"}],
+      "required":["design_id","kind","seed"],"properties":{"design_id":{"type":"string"},"kind":{"enum":["reference","reference_sensitivity","component_shuffle","factor_holdout"]},"seed":{"type":"integer"}}}},
+    "interventions":{"type":"array","maxItems":2,"items":{"type":"object","required":["kind","requested","successful","failed_or_unavailable","effective_attempts","attempts"],
+      "properties":{"kind":{"enum":["global","within_factor"]},"requested":{"type":"integer","minimum":1,"maximum":19},"successful":{"type":"integer","minimum":0},
+        "failed_or_unavailable":{"type":"integer","minimum":0},"effective_attempts":{"type":"integer","minimum":0},
+        "attempts":{"type":"array","minItems":1,"maxItems":19,"items":{"allOf":[{"$ref":"#/$defs/state"}],"required":["attempt","kind"]}}}}},
+    "findings":{"type":"array","minItems":1,"items":{"type":"object","required":["observation","confidence","consequence","action"]}},
+    "cluster_derived_prediction":{"$ref":"#/$defs/state"}
+  },
+  "$defs":{
+    "state":{"type":"object","required":["status","reason","value"],
+      "properties":{"status":{"enum":["computed","unavailable","insufficient_data","error"]},"reason":{"type":["string","null"]},"value":{}},
+      "allOf":[{"if":{"properties":{"status":{"const":"computed"}}},"then":{"properties":{"reason":{"const":null},"value":{"not":{"type":"null"}}}},"else":{"properties":{"value":{"const":null},"reason":{"type":"string","minLength":1}}}}]}
+  }
+}

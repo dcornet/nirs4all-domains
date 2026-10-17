@@ -1,5 +1,14 @@
 # Structural shortcut risk research programme
 
+Alpha.7 executes experiments 4–5 through `domains.split_stress.v0.1` while
+preserving alpha.6 evidence. True genus holdout, conditional size matching and
+global training interventions are computed on EcoSIS; within-genus intervention
+remains unavailable under the frozen exchangeability/power gates. Synthetic
+cases qualify scope-local interventions and their generating-mechanism response.
+See SPLIT_STRESS_REAL_DATA_PILOT.md. Evidence is compatible with structural
+sensitivity, with sample-size/range/composition alternatives explicitly retained;
+no causal chemical fraction or global shortcut score follows.
+
 Alpha.6 now implements experiments 1–3 for documented metadata in separate
 `domains.structural_dependence.v0.1` reports. See
 GROUP_TARGET_ASSOCIATION_PROTOCOL.md, STRUCTURAL_PREDICTIVE_BASELINES.md and

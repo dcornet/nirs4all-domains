@@ -1,5 +1,14 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.7 adds `domains.split_stress.v0.1`; see SPLIT_STRESS_ALPHA7_PROTOCOL.md
+and TARGET_INTERVENTION_PROTOCOL.md. Original reference folds, true factor
+closure holdout, paired size-control intersections and post-evaluation Y-range
+diagnostics have distinct denominators. Whole-component training-target maps
+are rebuilt independently in every inner/outer fit and scored against original
+validation Y. Low effective perturbation and inadmissible designs yield limited
+or unavailable evidence, not a shortcut probability. Existing canonical,
+structural and alpha.6 schemas/semantics remain unchanged.
+
 Alpha.6's additional `domains.structural_dependence.v0.1` is frozen in
 GROUP_TARGET_ASSOCIATION_PROTOCOL.md and STRUCTURAL_PREDICTIVE_BASELINES.md.
 It distinguishes descriptive group–target association, fold-local group-only

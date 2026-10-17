@@ -1,0 +1,64 @@
+{
+  "execution_date": "2026-10-17",
+  "version": "0.1.0-alpha.7",
+  "platform": "Windows",
+  "rust_tests": 35,
+  "python_tests": 49,
+  "total_tests": 84,
+  "preserved_alpha6_tests": 69,
+  "engine_versions": {
+    "nirs4all-methods": "1.3.6",
+    "dag-ml": "0.3.41",
+    "nirs4all-domains-bridge": "0.1.0a7"
+  },
+  "checks": {
+    "fmt": "passed",
+    "clippy_warnings_denied": "passed",
+    "workspace_tests": "passed",
+    "actual_native_ignored_gates": "passed",
+    "rustdoc": "passed",
+    "workspace_build": "passed",
+    "generated_schemas": "passed; previous contracts unchanged",
+    "python_integration": "49 passed",
+    "new_scientific_gates": 15,
+    "all_controlled_and_real_report_schemas_and_scope_invariants": "passed",
+    "packaged_config_contract": "passed",
+    "PEP517_wheel": "passed"
+  },
+  "scientific_execution": {
+    "real_reference_fits": "frozen alpha.6 predictions/folds/artifacts reused; not rerun",
+    "additional_reference_seeds": [
+      31,
+      47,
+      61,
+      79,
+      97
+    ],
+    "real_global_attempts": 19,
+    "real_effective_global_attempts": 19,
+    "real_within_genus_unavailable_attempts": 19,
+    "controlled_attempts_per_family": 19,
+    "frozen_files_unchanged": 123,
+    "replay": {
+      "real_genus_holdout_full_identical": true,
+      "real_global_attempt_0_full_identical": true,
+      "scope": "Real selected protocols replayed, not the whole 19-attempt real campaign; full controlled CLI byte replay is a test gate",
+      "size_matched_cell_identical": true
+    }
+  },
+  "wheel_sha256": "3b047f52bf229b91ef25136757f25f7188926f629ddfe554f543188c656e6777",
+  "source_sha256_normalized_lf": {
+    "bridges/python/nirs4all_domains/predictive.py": "948a7ff4453fad922021c53cca16ae97c32140baf1468d6590e886ec7f1ad907",
+    "bridges/python/nirs4all_domains/dependence.py": "2804e230943228d46f7ee9623b3440a9202d7e70ad8bec0f23ba1d2055705052",
+    "bridges/python/nirs4all_domains/interventions.py": "ddb8afa966e7e6ad62c1b6e45a79b69d72b5581428226ece68731f1675339a92",
+    "bridges/python/nirs4all_domains/split_stress.py": "8836bc47f2823a9f6e9ecbe6d9c2d1bde853e3135d31cf92dfba1af50336c59c",
+    "scripts/run_split_stress_pilot.py": "8e461767a4d2c9902f832cb90fa68200805143fcc9bdd6ef929f42c98f848450"
+  },
+  "limits": [
+    "declared plot/reference independence remains conditional",
+    "within-genus real intervention fails prespecified inner-scope power gates",
+    "frozen-OOF uncertainty excludes refit uncertainty",
+    "native six-component rank failures documented; no adaptive silent retry",
+    "upstream suites not rerun; no upstream modified"
+  ]
+}

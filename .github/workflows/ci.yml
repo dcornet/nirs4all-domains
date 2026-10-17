@@ -49,6 +49,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_dependence_report.py results/dependence-ci/report.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          & $env:N4DOMAINS_BIN split-stress tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/split-stress-ci --python python
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_split_stress_report.py results/split-stress-ci/report.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           & $env:N4DOMAINS_BIN batch --catalog-config configs/synthetic-batch.yaml --out results/batch
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: git diff --exit-code -- schemas

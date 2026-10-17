@@ -1,5 +1,17 @@
 # Architecture and ownership
 
+Alpha.7 adds a separate `split-stress` workflow using the same Rust audit/mean
+transport and Python predictive bridge. `group_folds` retains its default
+identity-hash assignments and adds an explicit whole-component shuffle mode.
+Factor closure, matching and target source-ID maps are bounded task protocols;
+Methods still owns every model/summary/metric. The existing public DAG callback
+now accepts a training-scope intervention before either raw-target or residual
+PLS fitting. FIT_CV never receives an intervention source outside native train
+IDs; SELECT scores original validation outcomes. Alpha.6 calls without the new
+option retain their prior controller contract, folds and numerical behavior.
+New report/config v1 schemas are separate. Frozen alpha.6 OOF is reused rather
+than re-executing completed real experiments.
+
 Alpha.6 adds `association.rs` and `group-target` within the same two crates.
 Public Methods factor association and summaries provide descriptive physical-
 unit variance decomposition. `dependence` invokes the existing Python predictive

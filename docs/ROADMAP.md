@@ -1,5 +1,16 @@
 # Roadmap and acceptance gates
 
+**Alpha.7 delivered:** separate split-stress and training-intervention protocol,
+same native Methods/DAG-ML engines, identity closure and component-only splits,
+three size-matching orders and original-Y post-evaluation range diagnostics.
+The real reference OOF is reused exactly; five additional seeds, component
+shuffle, genus/date holdout and 19 global training interventions execute. Real
+within-genus intervention is unavailable under prespecified inner-scope power
+gates; synthetic group/trait/mixed/independent controls qualify the capability.
+See SPLIT_STRESS_REAL_DATA_PILOT.md for actual paired populations and limits.
+Alpha.8 is a proposed bounded multi-dataset campaign in
+ALPHA8_MULTIDATASET_PROTOCOL.md, not an executed or universally qualified method.
+
 | Phase / WP | Scope | Acceptance |
 |---|---|---|
 | 0 / WP0 | Audit, ownership, ABI and result contracts | Pinned source evidence, registry/runtime distinction, explicit absence states; delivered in this slice |
@@ -94,4 +105,5 @@ remain outside alpha.6. See STRUCTURAL_SHORTCUT_RISK.md for all five protocols.
 Actual associations, overlap and paired uncertainties are recorded in
 STRUCTURAL_DEPENDENCE_REAL_DATA_PILOT.md. Alpha.7's concrete proposed size-
 controlled group holdout and training-target intervention design is frozen in
-SPLIT_STRESS_ALPHA7_PROTOCOL.md; the full programme has not been executed.
+SPLIT_STRESS_ALPHA7_PROTOCOL.md; alpha.7's execution and explicit real-data
+unavailability findings now supersede that historical next-lot statement.

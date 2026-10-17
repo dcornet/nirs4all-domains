@@ -1,0 +1,10 @@
+{
+  "protocol_version":"domains.split_stress.v0.1",
+  "seed":17,"outer_folds":5,"inner_folds":3,"max_components":5,
+  "factor":"genus","audit_factors":["genus","sampling_date","species"],
+  "holdout_factors":["genus","sampling_date"],
+  "sensitivity_seeds":[31,47,61,79,97],"shuffle_reference":true,
+  "size_draws":3,"size_max_gap":2,
+  "interventions":["global","within_factor"],"intervention_attempts":19,"bootstrap_draws":500,
+  "min_swappable_fraction":0.5,"min_swappable_components":6,"min_changed_target_fraction":0.5
+}

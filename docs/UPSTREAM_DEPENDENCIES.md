@@ -1,5 +1,24 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.7 integration and observed constraint
+
+The public DAG-ML 0.3.41 callback scheduler and Methods 1.3.6 PLS/summary/scoring
+APIs suffice for scope-local training interventions; no generic kernel or second
+optimizer is introduced. The alpha.6 callback extension applies target maps only
+after native train data views are checked, then uses the same public native PLS
+and N4ME replay. Whole-component closure/matching/exchangeability are task-level
+identity protocols. No upstream repository was changed or issue posted.
+
+Controlled factor holdout / size reduction demonstrated Methods numerical errors
+"Y score vanished at component 5" and "X weights vanished at component 5" for a
+six-component request after known rank loss. The native DAG campaign propagates
+that candidate failure. The stress-control design fixes grid 1–3 before further
+execution; analytical full-rank controls retain 1–6 and EcoSIS 1–5. No adaptive
+retry or silent smaller-grid refit hides native failures. Optional upstream
+proposal: explicit per-candidate failure receipts/selection policy plus a public
+technical component/rank admissibility contract. This is separate from the
+still-missing qualified HDBSCAN held-out assignment API.
+
 ## Alpha.6 outcome
 
 No upstream modification is needed for the qualified metadata association and

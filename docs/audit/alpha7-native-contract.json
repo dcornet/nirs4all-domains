@@ -1,0 +1,27 @@
+{
+  "protocol": "domains.split_stress.v0.1",
+  "methods": {
+    "version": "1.3.6",
+    "abi": "2.19.0",
+    "interfaces": [
+      "n4m_preflight_summary_compute",
+      "roles.PLSRegression.fit/predict/to_n4me",
+      "roles.NativeEstimator.from_n4me",
+      "n4m.metrics.scoring.rmse/mae/r2"
+    ]
+  },
+  "dag_ml": {
+    "version": "0.3.41",
+    "original_training": "run_cv_refit_methods_in_process",
+    "intervened_training": "run_cv_refit_in_process",
+    "validation_truth": "original inner/outer Y; fit training-only target maps after checking native fold_train/full_train data views"
+  },
+  "algorithm_ownership": "All fits, summaries and regression metrics remain Methods; native DAG controls CV/SELECT/REFIT; Python identity/scope/report orchestration only",
+  "default_alpha6_callback_contract_unchanged": true,
+  "source_commits": {
+    "methods": "131a15a6bbf73a8ab941c7b3fb81b21f6b71b059",
+    "dag_ml": "c6b52979745397ae4e8662580df79341f0378d28"
+  },
+  "proposed_upstream_extension": "Explicit per-candidate failure receipts/rank admissibility; documented only, no issue posted",
+  "upstream_modified": false
+}

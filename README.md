@@ -45,7 +45,7 @@ predictive reliance as distinct scientific questions.
 
 ## Implemented features
 
-Alpha.6 builds on the qualified alpha.4/5 protocols:
+Alpha.7 builds on the qualified alpha.4–alpha.6 protocols:
 
 - Explicit versioned dataset/content/source/target/split/policy contracts.
 - Physical/reference dependency checks, strict split guards and keyed joins.
@@ -67,6 +67,12 @@ Alpha.6 builds on the qualified alpha.4/5 protocols:
   unseen labels use the training global mean. Seen-level skill has its own
   eligibility and denominator.
 - Algorithmic exclusion of retained Y_test from pre-training fits and selection.
+- Separate split stress: preserved reference folds, prespecified seeds,
+  whole-component shuffle, transitive factor holdout, size-matched evaluation
+  intersections and post-evaluation target-range diagnostics.
+- Training-target interventions rebuilt independently inside every native inner
+  and outer fit. Original validation outcomes remain the scoring reference;
+  exchangeability, failed attempts and actual perturbation strength are explicit.
 
 HDBSCAN held-out assignment remains **unavailable**. No train+test fit is presented
 as cluster prediction. Canonical slots for separate structural/predictive
@@ -80,8 +86,9 @@ workflows retain their earlier availability semantics.
 | Descriptive metadata-group/target variance decomposition | Implemented alpha.6; complete factor/target physical units only |
 | Group-only prediction versus null and spectra | Implemented alpha.6; explicit seen/unseen fallback and matched OOF |
 | Within-group predictive skill | Implemented alpha.6; qualified seen-level populations and fold-local residual fitting |
-| Group-safe random, group-holdout and leave-group-out sensitivity | Alpha.7 design only |
-| Global and within-group training-target permutation controls | Alpha.7 design only |
+| Component-safe random and true factor-holdout sensitivity | Implemented alpha.7; closure, matched populations and size/range controls |
+| Global training-target intervention | Implemented alpha.7; 19 effective EcoSIS attempts |
+| Within-factor training-target intervention | Qualified on synthetic controls; unavailable on EcoSIS under strict inner-scope power gates |
 
 The [research specification](docs/STRUCTURAL_SHORTCUT_RISK.md) defines metrics,
 populations, fold ownership, negative controls and gates. Eta-squared alone will
@@ -100,6 +107,17 @@ The output directory must be new. A metadata audit is written before fitting;
 `--audit-only` stops there. `group-target` exposes the native-backed descriptive
 slice separately. [Protocols](docs/STRUCTURAL_PREDICTIVE_BASELINES.md) describe
 the exact populations, fold-local lineage and no-fit constant-residual case.
+
+```sh
+target/debug/n4domains split-stress tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/split-stress-demo --python python
+python scripts/check_split_stress_report.py results/split-stress-demo/report.json
+```
+
+The [frozen split protocol](docs/SPLIT_STRESS_ALPHA7_PROTOCOL.md) distinguishes
+plot-grouped evaluation from genuine genus holdout. Size controls match training
+sample counts on evaluation intersections; training-target interventions change
+training relationships while preserving original evaluation truth. These tests
+answer different questions, and a decline alone cannot establish shortcut learning.
 
 ## Architecture and ecosystem
 
@@ -159,6 +177,9 @@ is documented in [the repeated pilot](docs/REPEATED_DATA_PILOT.md).
 | EcoSIS train structure | 65 means / 45 components; 100 paired 80% subsamples, five settings | Insufficient information: primary all-noise; smaller clusters appear with weak sensitivity support |
 | Shootout train structure | 155 source-row identity aliases; same structural design | Fragile structure: primary three groups, 27.10% noise; median eligible ARI 0.533 |
 | EcoSIS genus baseline | Same 65 development means / 45 plots; 55 seen-level OOF samples | Group RMSE 114.78; group+residual 101.35 g/m²; exploratory paired gain 13.43 [0.60, 26.08] |
+| EcoSIS true genus holdout | Same 65 means; 14 closure units, five outer folds | Spectral RMSE 142.72 versus frozen 110.87; target extrapolation rises from 2/65 to 7/65 |
+| EcoSIS size-controlled comparison | 45 matched evaluation means / 29 components | Spectral RMSE 85.41–118.60 versus holdout 144.05 on those same IDs; partial population, remaining distribution differences |
+| EcoSIS global training intervention | Same reference validation IDs; 19 effective attempts | Spectral median RMSE 139.16; within-genus intervention unavailable in two inner fit scopes |
 
 These are not established production or new-region performance. Coverage
 fractions have different denominators and are not prediction-failure probabilities.
@@ -170,6 +191,11 @@ association (genus eta²=.608 on 61 nonmissing means) from prediction on all 65.
 Plots have eta²=.709 but every OOF plot is unseen, so their group baseline is
 exactly the null. Taxonomic labels predict variation; this does not identify
 shortcut learning, causal confounding or a fraction of chemical information.
+The [alpha.7 pilot](docs/SPLIT_STRESS_REAL_DATA_PILOT.md) reports all six reference
+seeds (spectral RMSE 85.75–115.04), true holdout, size/range alternatives and
+effective global interventions. The observed sensitivity is compatible with
+structural dependence; small samples, Y composition and biological shifts remain
+alternative explanations. No chemical percentage or causal effect is identified.
 
 ## Scientific limitations
 
@@ -187,11 +213,13 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.6**. **35 Rust + 34 Python = 69 tests pass locally**,
-retaining all 56 alpha.5 tests. Two complete EcoSIS runs give byte-identical
-reports; alpha.4 PLS predictions/artifacts and 30 old reports are unchanged.
-[Alpha.6 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39007794047)
-on source commit `28b99e9`. Detailed execution evidence is in
+Exploratory **0.1.0-alpha.7**. **35 Rust + 49 Python = 84 tests pass locally**,
+retaining all 69 alpha.6 tests. The alpha.7 pilot preserves 123 frozen files and
+exactly replays selected real holdout/intervention/size-control protocols.
+Alpha.7 Windows/Ubuntu execution will be recorded in
+[VALIDATION.md](docs/VALIDATION.md) after completion. The
+[previous alpha.6 CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39008048398)
+passed on `88ed198`. Detailed execution evidence is in
 [VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
 
 ```sh
@@ -208,8 +236,8 @@ python -m unittest discover -s tests/integration -v
 Provider-free tests do not qualify unavailable methods. CI executes real native
 gates on Windows and Ubuntu. Validate structural output with
 `python scripts/check_structure_report.py <report.json>`.
-The [alpha.7 design](docs/SPLIT_STRESS_ALPHA7_PROTOCOL.md) proposes split-size
-controls and training-target interventions; that programme is not executed here.
+The [alpha.8 design](docs/ALPHA8_MULTIDATASET_PROTOCOL.md) proposes a bounded
+campaign beyond EcoSIS; it has not been executed.
 
 License: **AGPL-3.0-or-later**, selected by the owner. Native upstream libraries
 and raw dataset bytes are not redistributed here. No upstream repository was modified.
