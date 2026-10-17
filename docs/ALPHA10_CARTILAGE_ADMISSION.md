@@ -20,8 +20,10 @@ locations; no missing third spectrum is manufactured.
 All 869 original location spectral multisets match the derived X exactly after
 float32 transport. The comparison joins X observation key → M observation key →
 original MAT sample key, then compares within-location spectra independently of
-row order. Derived wavelength labels match original values rounded to two decimals;
-the full-precision original axis remains the source contract. This is spectral
+row order. The first audit checked wavelength labels rounded to two decimals;
+a subsequent [exact digest check](benchmarks/alpha10/cartilage-axis-verification.json)
+confirms full original/derived axis identity and corrects that audit's overly
+conservative non-identical-axis wording. No remapping is needed. This is spectral
 membership evidence, not proof of target-table equivalence: derived Y has no
 observation/location key. Positional X/Y reconstruction is refused. Original MAT
 reference ownership supplies a separate keyed reference adapter.

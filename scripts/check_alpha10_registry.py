@@ -71,6 +71,9 @@ def main():
     ids = cartilage["original_identity_evidence"]["value"]
     assert (ids["locations"], ids["acquisitions"], len(ids["joint_counts"]), len(ids["region_counts"])) == (869, 2605, 5, 44)
     assert cartilage["predictive_qualification"]["status"] == "not_identifiable" and cartilage["no_predictive_fit"]
+    axis = read(root/"cartilage-axis-verification.json")
+    assert axis["value"]["exact_full_axis_digest_match"]
+    assert axis["value"]["axis_sha256"] == cartilage["original_to_derived"]["axis"]["original_sha256"]
     assert read(root/"paired-admission.json")["admitted_tasks"] == 0
     records = {r["task_id"]: r for r in (record, read("docs/benchmarks/alpha8/ecosis-evidence.json"))}
     for path in root.glob("*suite.json"):

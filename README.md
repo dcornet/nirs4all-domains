@@ -308,6 +308,8 @@ preserving all 129 alpha.9 tests. Native gates, schemas, bridge/report checks an
 replay exactly; adaptive replay uses its declared 1e-9 tolerance.
 [Full alpha.10 A–J report](docs/ALPHA10_RELEASE_REPORT.md) and
 [validation evidence](docs/VALIDATION.md) record actual hosted execution separately.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39029167305)
+on scientific source `d122124`, with all 117 Python tests on each platform.
 
 Historical alpha.9:
 [Actual alpha.9 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)

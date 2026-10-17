@@ -77,6 +77,10 @@ def main():
         "isolated_wheel_smoke_log_sha256": digest(validation/"wheel-smoke.log"),
         "additional_report_checks": {"canonical": digest(validation/"canonical/report.json"),
                                      "structural": digest(validation/"structure/report.json")},
+        "followup_exact_axis": {"evidence_sha256": digest("docs/benchmarks/alpha10/cartilage-axis-verification.json"),
+                                "registry_check_log_sha256": digest(validation/"axis-registry-check.log"),
+                                "registry_checker_sha256": digest("scripts/check_alpha10_registry.py"),
+                                "scope": "Header-only exact-axis confirmation; original audit/OOF/fit controllers unchanged"},
         "hosted_CI": "Recorded separately from actual GitHub execution after source commit; no configuration-only proof"}
     atomic_json("docs/audit/alpha10-validation.json", result)
     print(json.dumps({"tests": 152, "protected_files": len(protected), "wheel_bytes": wheel.stat().st_size,

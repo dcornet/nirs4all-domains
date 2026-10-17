@@ -30,16 +30,22 @@ checkpoints also reuse. Cartilage and paired predictive admission remain pending
 No retained target is accessed and no TabPFN run is performed.
 
 All **177 protected outputs** retain their hashes. The scientific combined
-essential evidence is 2,815,216 unique bytes under the 4 MiB cap; the cumulative
-campaign reserves 196,676,888 bytes under 512 MiB. Validation stopped when Rust
+essential evidence is 2,816,169 unique bytes under the 4 MiB cap; the cumulative
+campaign reserves 196,680,984 bytes under 512 MiB. Validation stopped when Rust
 build growth crossed the initially approved workspace ceiling; the owner approved
 the additional 256 MiB before remaining checks resumed. Final measured workspace
-12,654,715,975 bytes is below 12,799,936,193, with both volume reserves preserved.
+12,655,682,997 bytes is below 12,799,936,193, with both volume reserves preserved.
 No historical file is deleted or migrated. Exact logs/package/source/byte proofs
 are in audit/alpha10-validation.json and audit/alpha10-storage.json.
 
-Actual hosted Windows/Ubuntu execution is recorded after the scientific source
-commit. Local success and CI configuration alone are not hosted execution proof.
+[Actual Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39029167305)
+on scientific source `d12212454d4bde7f623725ab402162da0ce16450`. Both complete jobs
+pass every native/schema/report gate; actual logs show 117 Python tests in
+96.490 s on Ubuntu and 109.455 s on Windows. Step/log hashes are pinned in
+audit/github-ci-alpha10.json. A follow-up exact digest check confirms that the
+Cartilage original/derived axes are identical, correcting conservative first-audit
+wording without changing any fit or OOF prediction. Its source-bound registry
+check passes locally. Final-HEAD CI is checked separately before handover.
 
 ## Alpha.9 — local execution 2026-10-17
 

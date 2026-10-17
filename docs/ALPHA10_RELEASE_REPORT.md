@@ -159,13 +159,17 @@ the complete-size checkpoint are resumable content-bound stages.
 **152 tests pass locally: 35 Rust + 117 Python.** fmt, Clippy with denied warnings,
 native ignored gates, schemas, reports and isolated wheel import pass. The
 80,061-byte wheel matches the executed controllers; all 177 protected outputs
-retain their hashes. Combined unique alpha.10 essential evidence is 2,815,216
-bytes; cumulative campaign reservations are 196,676,888 bytes. Measured workspace
-12,654,715,975 bytes is below the final owner-reviewed ceiling, with free-volume
+retain their hashes. Combined unique alpha.10 essential evidence is 2,816,169
+bytes; cumulative campaign reservations are 196,680,984 bytes. Measured workspace
+12,655,682,997 bytes is below the final owner-reviewed ceiling, with free-volume
 reserves preserved. Exact receipts are in audit/alpha10-validation.json and
-audit/alpha10-storage.json. Commit and actual Windows/Ubuntu CI are recorded in
-[VALIDATION.md](VALIDATION.md) after hosted execution; configuration alone is not
-execution proof.
+audit/alpha10-storage.json.
+[Actual Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39029167305)
+on scientific source `d12212454d4bde7f623725ab402162da0ce16450`, with 117 Python
+tests and all native/report gates on both platforms. Step/log proof is pinned in
+audit/github-ci-alpha10.json. An additive exact-axis check corrects conservative
+Cartilage axis wording; original audits and every fitted prediction are preserved.
+Final-HEAD CI is checked separately before handover. See [VALIDATION.md](VALIDATION.md).
 
 ## J — Bounded alpha.11 and deliberately separate TabPFN study
 
