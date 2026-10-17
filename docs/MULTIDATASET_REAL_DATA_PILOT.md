@@ -1,5 +1,14 @@
 # Bounded real-data bank pilots
 
+Alpha.10 preserves the existing real tasks and evaluates estimator/pipeline
+responses on frozen Perten IDs: tuned Ridge, native SNV/PLS and requested nirs4all
+hard-chain/sparse-MKR FastAOM, with paired interactions and an additional exact-size
+control covering all 359 development IDs. No favorable-score replacement occurs.
+Cartilage's original keyed 869-location/2,605-spectrum correspondence is audited;
+donor/reference dependencies still block predictive admission. Paired transfer
+remains pending, including the original Shootout 655 versus announcement 654
+finding. See ALPHA10_RELEASE_REPORT.md; no full-catalog expensive run occurs.
+
 Alpha.9 adds **one real non-leaf task**, Perten X/Moisture, with all 450 original
 specimens, 359/91 development/retained split and 17/5 conservative context blocks.
 P0–P4, native PCA/coverage, three associations, nested PLS, two closure holdouts,

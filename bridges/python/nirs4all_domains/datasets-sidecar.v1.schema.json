@@ -29,7 +29,8 @@
           "structure_sensitive_challenge",
           "transfer_challenge",
           "insufficient_evidence",
-          "not_suitable_for_current_benchmark"
+          "not_suitable_for_current_benchmark",
+          "within_population_estimator_comparison"
         ]
       },
       "type": "array"

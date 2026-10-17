@@ -1,5 +1,21 @@
 # Roadmap and acceptance gates
 
+**Alpha.10 scientific execution:** fixed historical anchors, nested Ridge,
+native SNV/PLS and requested nirs4all hard-chain/sparse-MKR FastAOM use the same
+frozen Perten evaluation. Conditional interactions and a separate exact-size
+control on all 359 IDs expose estimator/pipeline-specific responses. Original
+Cartilage keys and spectral membership are verified for 869 locations/2,605
+spectra; donor closure and keyed derived targets remain unresolved, so predictive
+qualification is pending. No real paired task or low-dependence certificate is
+issued. See ALPHA10_RELEASE_REPORT.md for validation/publication status.
+
+**Bounded alpha.11:** acquire source-confirmed donor/assay and paired-specimen
+maps, then freeze a scientifically diverse small task subset before new-model
+scores. Qualify complete-population grouped execution and repeated fitted-design
+uncertainty. A later TabPFNNIRSRegressor study must first audit weights/license,
+GPU/RAM/feature limits, preprocessing, grouped evaluation and compute costs;
+no TabPFN execution is part of alpha.10. No full-bank adaptive search is planned.
+
 **Alpha.9 delivered:** one additional real non-leaf Perten/Moisture task; official
 rights/original IDs, tested keyed reference adapter, native P0–P4, PCA/coverage,
 metadata associations, context-safe PLS, closure holdouts, partial size/range

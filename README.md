@@ -10,15 +10,29 @@ evidence, uncertainty and the distinction between trait signal and structural
 dependence. Source, target, representation, independence policy and split define
 the benchmark task.
 
-Alpha.9 admits and qualifies **one new real non-leaf task: Perten cereals /
-moisture**, alongside frozen EcoSIS. All 450 original specimens are preserved;
-359 development specimens form 17 conservative acquisition-context blocks,
-with 91 retained outcomes sealed. PLS RMSE rises from **2.39 to 5.09** under
-cereal holdout; fixed Ridge gives **2.62 to 2.85** on the same IDs. Instrument-model
-holdout degrades both. This is a structure-sensitive challenge with estimator-
-specific behavior, not a low-dependence certificate.
-See [real results](docs/ALPHA9_NONLEAF_PILOT.md) and
-[the frozen two-family comparison](docs/ALPHA9_BENCHMARK_COMPARISON.md).
+Alpha.10 compares **estimator and pipeline responses to the same structural
+stress**. Perten moisture preserves all 450 specimens: 359 development records
+in 17 conservative context blocks, with 91 retained outcomes sealed. Historical
+PLS/fixed Ridge remain unchanged; new configurations use identical frozen outer
+and group-safe inner evaluations.
+
+| Pipeline | Reference RMSE | Cereal holdout | Instrument holdout |
+|---|---:|---:|---:|
+| Historical PLS | 2.39 | 5.09 | 3.49 |
+| Historical fixed Ridge | 2.62 | 2.85 | 3.43 |
+| Nested-selected Ridge | 1.88 | 2.95 | 3.04 |
+| Native SNV/PLS | 1.82 | 3.06 | 2.45 |
+| nirs4all FastAOM hard chain | 2.01 | 1.50 | 2.02 |
+| nirs4all FastAOM sparse MKR | 2.53 | 2.60 | 2.02 |
+
+Units are source moisture percentage points. Tuning, preprocessing and adaptive
+operator selection change the observed response. A separate exact-size control
+also covers all 359 IDs. **Only two cereal closure units** support these transfer
+directions: paired context intervals do not describe arbitrary unseen cereals.
+Better FastAOM performance does not establish lower structural dependence.
+**No low-dependence certificate has been issued.**
+See [matched results, uncertainty and measured costs](docs/ALPHA10_MULTIFAMILY_RESULTS.md)
+and [the frozen protocol](docs/ALPHA10_MULTIFAMILY_PROTOCOL.md).
 
 The disk-first P0–P4 bank remains bounded and resumable. The pinned catalog has
 **164 datasets / 171 sources / 1,936 declared targets**; alpha.9 screens all 42
@@ -26,9 +40,11 @@ public entries and re-audits four private candidates. Numeric specimen codes do
 not qualify as chemical outcomes. Perten's official CC-BY-4.0 rights and original
 IDs resolve stale catalog blockers; CORN, Shootout and UCPH still need original
 keys or reuse permission. **No new paired-source task is qualified.** Cartilage's
-original Figshare route/CC0 rights are resolved, while source alignment, biological
-closure and scalable execution remain pending. Previously reported poor cartilage
-prediction is neither corrected nor reclassified as a positive benchmark.
+original revised CC0 MAT now verifies **869 keyed locations / 2,605 spectra /
+44 regions / five joints** and all derived spectral memberships. Its derived Y
+is unkeyed; joint-to-animal and assay dependencies remain unresolved. No Cartilage
+predictive fit is run, and no population is truncated to the old 500-row guard.
+Previously weak prediction remains an unresolved observation.
 Full-bank scientific qualification remains incomplete; see
 [admission evidence](docs/audit/alpha9-source-admission.json).
 
@@ -46,16 +62,20 @@ Datasets cache revision. Compact task evidence, including identical shared local
 exports, occupies 4.06 MB against the reviewed 4 MiB cap. Historical outputs are
 preserved. [Measured bytes](docs/audit/alpha9-storage.json) distinguish these
 figures from fixed Rust/tooling costs.
+Alpha.10 adds one 26.66 MB original MAT cache and about 175 MB of isolated optional
+runtime; versioned Rust builds dominate further growth. The owner reviewed two
+workspace-ceiling increases while retaining the scientific task/campaign caps.
+See [alpha.10 storage evidence](docs/audit/alpha10-storage.json).
 
 With the optional bridge installed, these commands perform no acquisition or fit:
 
 ```sh
 python -m nirs4all_domains.bank inventory --catalog-root /local/pinned/datasets --out results/catalog-inventory.json
-python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
-python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha9/storage.json --root docs/benchmarks/alpha9
-python -m nirs4all_domains.bank freeze-suite --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge --metrics configs/bank/taskwise-rmse-v1.json --out results/my-frozen-suite.json
+python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha10 --purpose within_population_estimator_comparison
+python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha10/storage.json --root docs/benchmarks/alpha10
+python -m nirs4all_domains.bank freeze-suite --registry docs/benchmarks/alpha10 --purpose within_population_estimator_comparison --metrics configs/bank/taskwise-rmse-v1.json --out results/my-frozen-suite.json
 python -m nirs4all_domains.bank plan-task --task tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/bank-plan.json
-python -m nirs4all_domains.bank estimate --plan results/bank-plan.json --policy configs/bank/storage-policy-alpha8.json --workspace . --scratch results/bank-scratch --evidence results/bank-evidence
+python -m nirs4all_domains.bank estimate --plan results/bank-plan.json --policy configs/bank/storage-policy-alpha10.json --workspace . --scratch results/bank-scratch --evidence results/bank-evidence
 ```
 
 `/local/pinned/datasets` is an explicit input checkout. The example policy records
@@ -194,6 +214,10 @@ answer different questions, and a decline alone cannot establish shortcut learni
 
 Two Rust crates remain the core and CLI. Python provides keyed transport, batch
 orchestration and a bounded native predictive adapter, without numerical fallbacks.
+The explicitly requested optional nirs4all FastAOM candidate owns its upstream
+Python/NumPy/SciPy calculations. It is distinct from native Methods FastAOM
+facades; its isolated public-entry deployment is qualified separately from the
+full nirs4all application. TabPFN is a planned, separate study and is not run.
 See [architecture](docs/ARCHITECTURE.md) and [method ownership](docs/METHOD_REUSE_MATRIX.md).
 
 ## Setup on Windows and Linux
@@ -278,7 +302,14 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 
 ## Verification and project status
 
-Exploratory **0.1.0-alpha.9**. **35 Rust + 94 Python = 129 tests pass locally**.
+Exploratory **0.1.0-alpha.10**. **35 Rust + 117 Python = 152 tests pass locally**,
+preserving all 129 alpha.9 tests. Native gates, schemas, bridge/report checks and
+177 historical artifact hashes pass. All 2,154 historical anchor predictions
+replay exactly; adaptive replay uses its declared 1e-9 tolerance.
+[Full alpha.10 A–J report](docs/ALPHA10_RELEASE_REPORT.md) and
+[validation evidence](docs/VALIDATION.md) record actual hosted execution separately.
+
+Historical alpha.9:
 [Actual alpha.9 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39020893216)
 on scientific source `e711cc8`. [Full A–J report](docs/ALPHA9_RELEASE_REPORT.md)
 and [validation evidence](docs/VALIDATION.md) retain the incomplete paired-source

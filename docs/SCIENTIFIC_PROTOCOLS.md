@@ -1,5 +1,23 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.10 adds `domains.multifamily.v0.1` and `domains.size_match.v0.1`, without
+altering historical canonical/split-stress outputs. ALPHA10_MULTIFAMILY_PROTOCOL.md
+freezes Perten populations, shared inner folds, Ridge's five-alpha grid, one
+native SNV/PLS pipeline and requested upstream FastAOM configurations before new
+predictions. FastAOM screening/bases/basis fitting occur on each native training
+scope; shuffled internal CV and multi-lambda rowwise selection are forbidden.
+The additional size protocol fixes six exact whole-component subsets using
+identities/counts only, before those fits, and evaluates all 359 original IDs.
+
+Paired estimator-by-split contrasts resample the same original contexts for all
+four prediction vectors. Conditional specimen-context intervals do not estimate
+model-refit or unseen-cereal uncertainty; only two cereal closures are available.
+Native analytical tolerance is abs 1e-10, the dimension-matched full-shape Ridge
+control uses abs 1e-8, adaptive serialization/repeat replay uses abs/rel 1e-9,
+and same-input native real replay is exact. Fingerprints and identities are exact.
+Cartilage remains pending despite verified original spectral membership: missing
+donor/assay dependencies prevent predictive admission. No population is truncated.
+
 Alpha.9's additive `domains.admission.v0.1` freezes separate access/analysis/result
 publication/raw redistribution evidence and meaningful target semantics before
 prediction. ALPHA9_REAL_DATA_ADMISSION.md states expected scientific behavior,

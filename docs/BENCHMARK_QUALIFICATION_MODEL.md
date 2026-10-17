@@ -1,5 +1,22 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.10 adds the backward-compatible purpose `within_population_estimator_comparison`
+and a separate multifamily-result schema. Perten's pre-score evaluation manifest
+fixes membership/content/folds; enriched response evidence and its hashes are
+produced after execution and frozen for future comparisons. Purpose does not
+depend on the new estimator's score. Structure-challenge and within-population
+objectives coexist; transfer and low-dependence suites remain empty. Standard
+estimator, tuning and adaptive-preprocessing response are distinct dimensions.
+All fifteen pairwise interactions use matched original physical/reference IDs
+and identical component draws. Compact artifact byte counts are metadata;
+serialized numerical payloads remain prohibited.
+
+New protocol identities link their unchanged alpha.9 parent; historical PLS and
+fixed Ridge are not overwritten or relabeled as optimized equally. A small tuned
+Ridge grid and the two adaptive families have explicit different search budgets.
+Native Methods FastAOM availability does not qualify the separate nirs4all model.
+See ALPHA10_MULTIFAMILY_RESULTS.md and the versioned alpha10 registry.
+
 Alpha.9 adds `domains.admission.v0.1` and a packaged/root task-admission schema.
 Four rights dimensions are independent. A documented quantitative measurement
 and original specimen/reference alignment are required; numeric IDs and repeated

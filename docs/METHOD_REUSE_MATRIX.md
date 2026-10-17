@@ -1,5 +1,22 @@
 # Method reuse matrix
 
+## Alpha.10 executable additions
+
+| Need | Actual public provider | Local evidence / limits |
+|---|---|---|
+| Tuned Ridge | Methods 1.3.6 roles/N4ME and DAG-ML 0.3.41 native grid CV/refit | Five frozen alphas, identical group-safe inner folds, all three real designs; distinct from fixed alpha 1 |
+| Controlled preprocessing | Methods native SNV → PLS, exported transformer and regressor state | Two-step N4ME replay, per-spectrum held-out isolation, nested components 1–3; one fixed pipeline |
+| Requested adaptive pipeline | nirs4all 1.4.10 public FastAOMPLSRidge + FastAOMConfig; source 1aefd473a0ebeef28adc0d808c4a4b0c9c45fa9f | Hard chain and sparse MKR execute through native DAG callback CV/refit; group-safe fresh fits, singleton lambdas, internal shuffled CV disabled; upstream Python algorithms are not copied |
+| Interactions/size control | Existing native Methods RMSE plus Domains identity/contrast assembly | Same component draw for all four vectors; exact whole-context count matching on all 359 IDs; unseen-cereal uncertainty unavailable |
+| Full-shape provider feasibility | Native Methods Ridge on synthetic 869×812 | All 869 outputs checked against analytical regularization; this is not a Cartilage predictive qualification |
+
+The installed Methods FastAOMPLSRegressor/FastAOMRidgeRegressor interfaces and
+calibration symbols are available but scientifically unexecuted here. Their
+strict10 branch-CV protocols differ from the requested upstream families.
+Deployment/source/ABI/publication distinctions and the tested minimal optional
+import environment are in audit/alpha10-fastaom-provider.json. No upstream code
+is modified. TabPFN and PCR are deferred.
+
 ## Alpha.9 executable additions
 
 Methods 1.3.6 `roles.Ridge` / catalog `models.regularized.ridge`, generated role

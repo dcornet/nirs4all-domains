@@ -59,7 +59,14 @@ def main():
                      "status":{"enum":["admitted", "pending"]}, "reasons":{"type":"array", "items":string}, "selection_basis":string})
     admission["allOf"] = [{"if":{"properties":{"status":{"const":"admitted"}}}, "then":{"properties":{"reasons":{"maxItems":0}}},
                            "else":{"properties":{"reasons":{"minItems":1}}}}]
-    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission)):
+    failed_design = obj({"status":{"const":"failed"}, "reason":string, "value":{"type":"null"},
+                         "failed_fold_id":string, "completed_folds":{"type":"array"}, "partial_oof_count":integer})
+    design_state = {"anyOf":[state, failed_design]}
+    comparison = obj({"protocol_version":{"const":"domains.multifamily.v0.1"}, "task_id":digest, "parent_task_id":digest,
+                      "evaluation_id":digest, "specification":{"type":"object"}, "designs":{"type":"object", "minProperties":1, "additionalProperties":design_state},
+                      "wall_seconds":{"type":"number", "minimum":0}, "memory":{"type":"object"}, "expected_fit_upper":integer,
+                      "source_fingerprints":{"type":"object"}, "test_target_accessed":{"const":False}})
+    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison)):
         schema = {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":f"https://dcornet.github.io/nirs4all-domains/schemas/{name}.v1.schema.json", **schema}
         data = json.dumps(schema, indent=2, sort_keys=True)+"\n"
         for root in (Path("schemas"), Path("bridges/python/nirs4all_domains")):

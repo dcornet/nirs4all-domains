@@ -1,5 +1,46 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.10 — local execution 2026-10-17
+
+**35 Rust + 117 Python = 152 tests pass**, preserving all 129 alpha.9 tests.
+Twenty-three new controlled gates cover original Cartilage keys, repeat spectra,
+region/joint/donor/reference closure, missing donors, reordered/missing-key
+canonical joins, a full synthetic native 869×812 Ridge fit, exact whole-component
+size matching, identical inner folds, fixed/tuned Ridge, native serialized SNV
+chains, failed full grids with schema-valid receipts, paired interactions and
+few-component uncertainty, suite/configuration invalidation, adaptive serialization
+and repeatability, inner-validation X/Y and retained-X/Y leakage adversaries.
+All estimator fits use native Methods/DAG or the explicitly requested upstream
+nirs4all adaptive implementation; no numerical algorithm is duplicated.
+
+fmt, Clippy with denied warnings, workspace tests, all native ignored gates,
+rustdoc, build, generated schemas, bridge integration, canonical/structural JSON
+checks and both historical/new registry checks pass. The **80,061-byte** alpha.10
+wheel matches every actual Python controller and imports from an isolated target
+with its packaged schema and optional public FastAOM entry point. The bounded
+entry-point deployment is distinct from a complete nirs4all application install;
+absent unused application dependencies are explicitly recorded.
+
+Real Perten execution: four prespecified new pipelines across all three frozen
+designs, all matched interactions/null gains, and six unchanged families in the
+separate exact-size 359-ID control. All **2,154 anchor predictions** replay exactly.
+One tuned-Ridge outer scope replays exactly and one hard-FastAOM scope at abs/rel
+1e-9. Primary checkpoints reuse 4/4; the complete-size and original-MAT audit
+checkpoints also reuse. Cartilage and paired predictive admission remain pending.
+No retained target is accessed and no TabPFN run is performed.
+
+All **177 protected outputs** retain their hashes. The scientific combined
+essential evidence is 2,815,216 unique bytes under the 4 MiB cap; the cumulative
+campaign reserves 196,676,888 bytes under 512 MiB. Validation stopped when Rust
+build growth crossed the initially approved workspace ceiling; the owner approved
+the additional 256 MiB before remaining checks resumed. Final measured workspace
+12,654,715,975 bytes is below 12,799,936,193, with both volume reserves preserved.
+No historical file is deleted or migrated. Exact logs/package/source/byte proofs
+are in audit/alpha10-validation.json and audit/alpha10-storage.json.
+
+Actual hosted Windows/Ubuntu execution is recorded after the scientific source
+commit. Local success and CI configuration alone are not hosted execution proof.
+
 ## Alpha.9 — local execution 2026-10-17
 
 **35 Rust + 94 Python = 129 tests pass**, preserving all 105 alpha.8 tests.

@@ -1,5 +1,28 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.10 prepared source/API requests
+
+No upstream repository or issue tracker is modified. The executed optional
+nirs4all hard-chain/sparse-MKR FastAOM is distinct from installed native Methods
+FastAOM branch-CV facades. A documented minimal estimator deployment, grouped
+internal selection API, stable model interchange and explicit solver/rank-budget
+reporting would improve integration. Domains disables incompatible internal CV
+and uses fresh training-only instances through the public native DAG scheduler.
+
+Cartilage: publish joint-to-animal and assay-event/reference maps, preserve the
+original full-precision axis and explicit MAT specimen keys in a corrected
+Datasets adapter. All 869 location spectral multisets match derived X; unkeyed
+derived Y cannot establish target equivalence. Full-population grouped execution
+needs independent-support admission before a scientific cost/accuracy campaign.
+
+Perten: clarify oven basis/protocol, precision/event IDs, farm/harvest links,
+country meaning and serial-instrument relationships. CORN remains pending by
+owner decision; supply original physical/reference keys and permitted analysis/
+publication scope. Shootout's original MAT totals 655, while the official page
+says 654; row keys are empty. UCPH needs source-confirmed NIR/NIT/Raman specimen/
+assay correspondence. Detailed prepared requests are in the alpha.10 admission
+documents. Same-object source transfer and new-object generalization stay distinct.
+
 ## Alpha.9 source and protocol requests
 
 No upstream code change is needed for Perten's admitted task or the bounded

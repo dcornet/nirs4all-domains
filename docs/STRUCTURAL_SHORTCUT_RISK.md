@@ -1,5 +1,16 @@
 # Structural shortcut risk research programme
 
+Alpha.10 demonstrates estimator-dependent responses on the same frozen Perten
+design: tuned Ridge, native SNV/PLS and nirs4all hard-chain/sparse-MKR FastAOM
+supplement unchanged PLS/fixed-Ridge anchors. Estimator-by-split interaction is a
+paired predictive-error contrast, without a causal shortcut interpretation.
+A separate exact whole-context sample-count control covers all 359 IDs; cereal
+composition, context diversity and extrapolation remain unequal. Two cereal
+closure units cannot support uncertainty over arbitrary unseen cereals. Better
+adaptive performance, unavailable interventions and missing donor/assay metadata
+do not certify low structural dependence. See ALPHA10_MULTIFAMILY_RESULTS.md;
+TabPFN remains a separately designed future study.
+
 Alpha.8 packages task-specific evidence for estimator-independent benchmark
 selection. Missing clusters/metadata, successful PLS or powerless permutations
 cannot certify low structural dependence. EcoSIS is a structure-sensitive

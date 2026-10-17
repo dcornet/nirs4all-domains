@@ -1,5 +1,23 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.10 retains the cumulative alpha.9 journal and all historical outputs.
+The owner approved a 512 MiB workspace-ceiling increase, then an additional
+256 MiB after new Rust build artifacts exceeded the first ceiling by 27.84 MiB.
+The guard stopped validation before the second review. The final ceiling is
+12,799,936,193 bytes; the 512 MiB cumulative campaign reservations, 256 MiB task,
+4 MiB persistent evidence, serial execution and 2 GiB free-volume reserve remain
+unchanged. Fixed runtime/build bytes differ from scientific task reservations.
+No cleanup or migration is performed.
+
+Datasets retrieves one 26,657,431-byte original Cartilage MAT into an explicit
+provider cache, verified against official MD5 and pinned SHA-256. Models reuse
+the frozen Perten input without per-fold disk matrices. Four new primary family
+records, exact-size controls, anchor replay and source audits use atomic stage
+publication; identical portable exports share stage file identities. An isolated
+optional FastAOM import runtime occupies about 175 MB, without upgrading the
+existing Methods/DAG environment. Final measured costs, evidence caps and cache
+replay are recorded in audit/alpha10-storage.json.
+
 Alpha.9 reuses the reviewed ceilings without increasing them. Perten's existing
 499,245-byte original archive is verified against the official checksum; no raw
 acquisition occurs. Public Datasets `build_canonical` writes one external shared

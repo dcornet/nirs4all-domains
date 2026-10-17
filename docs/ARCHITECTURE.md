@@ -1,5 +1,22 @@
 # Architecture and ownership
 
+Alpha.10 adds matched multi-family responses and exact whole-component size
+matching in the existing Python bridge. Methods/DAG own classical fitting,
+preprocessing, CV/selection/refit and all scores. At the owner's explicit request,
+the optional nirs4all 1.4.10 FastAOM entry point owns its Python/NumPy/SciPy adaptive
+calculations; Domains supplies identity-checked native scheduler callbacks and
+copies no solver or preprocessing algorithm. This is a named experimental
+provider, without a numerical fallback. It is distinct from native Methods
+FastAOM branch-CV facades. Two crates remain sufficient.
+
+Original-source adapters transport MAT-owned location/reference keys; a source
+audit does not automatically admit a predictive task. New registry identities
+carry the additive qualification protocol and link the frozen alpha.9 parent.
+The stage budget key groups the corresponding bounded protocol responses;
+registry identities additionally carry the full standard task fields. Primary
+evaluation and additional size-control manifests are separate immutable inputs.
+See ALPHA10_MULTIFAMILY_PROTOCOL.md and ALPHA10_CARTILAGE_ADMISSION.md.
+
 Alpha.9 keeps both crates and the existing bank stages. `admission.py` handles
 rights/semantic/original-key decisions; `comparison.py` checks frozen development
 contracts and invokes the existing native DAG-ML/Methods seam for fixed Ridge.

@@ -15,7 +15,7 @@ TASK_FIELDS = ("dataset_id", "content_version", "dataset_revision", "source_id",
 EXECUTION_FIELDS = ("input_sha256", "source_content_sha256", "split_folds_sha256", "dependency_policy",
                     "preprocessing", "models", "protocol", "binaries", "providers", "settings", "controller_sha256")
 PURPOSES = ("candidate_low_structural_dependence", "structure_sensitive_challenge", "transfer_challenge",
-            "insufficient_evidence", "not_suitable_for_current_benchmark")
+            "insufficient_evidence", "not_suitable_for_current_benchmark", "within_population_estimator_comparison")
 
 
 def task_identity(specification):
@@ -104,7 +104,8 @@ def compact_stress(report):
 
 def reject_heavy_payload(value):
     if isinstance(value, dict):
-        if set(value) & {"x", "X", "pca_scores", "n4me", "artifact_json", "artifact_bytes", "loadings"}:
+        if set(value) & {"x", "X", "pca_scores", "n4me", "artifact_json", "loadings"} or (
+                "artifact_bytes" in value and (type(value["artifact_bytes"]) is not int or value["artifact_bytes"] < 0)):
             raise ValueError("HEAVY_NUMERICAL_PAYLOAD_IN_PERSISTENT_EVIDENCE")
         for child in value.values():
             reject_heavy_payload(child)
