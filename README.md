@@ -216,10 +216,8 @@ exclusion is tested, storage isolation is not promised. See [protocols](docs/SCI
 Exploratory **0.1.0-alpha.7**. **35 Rust + 49 Python = 84 tests pass locally**,
 retaining all 69 alpha.6 tests. The alpha.7 pilot preserves 123 frozen files and
 exactly replays selected real holdout/intervention/size-control protocols.
-Alpha.7 Windows/Ubuntu execution will be recorded in
-[VALIDATION.md](docs/VALIDATION.md) after completion. The
-[previous alpha.6 CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39008048398)
-passed on `88ed198`. Detailed execution evidence is in
+[Alpha.7 Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39011303916)
+on source commit `f50d463`. Detailed execution evidence is in
 [VALIDATION.md](docs/VALIDATION.md); the badge links the actual workflow.
 
 ```sh

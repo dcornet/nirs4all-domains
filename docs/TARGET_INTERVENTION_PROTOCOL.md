@@ -5,6 +5,10 @@ and eligibility thresholds are in SPLIT_STRESS_ALPHA7_PROTOCOL.md. Methods
 1.3.6 / DAG-ML 0.3.41 remain the numerical engines. No regression, metric or
 generic optimizer is reimplemented.
 
+The six-component / 50% eligibility and perturbation cutoffs are conservative
+protocol choices, not calibrated statistical-power estimates or universal
+evidence thresholds. Their values were fixed before numerical interpretation.
+
 An intervention exchanges complete target vectors between declared dependency
 components, with explicit destination/source physical IDs. Global strata have
 equal cardinality and compatible reference status/unit patterns.

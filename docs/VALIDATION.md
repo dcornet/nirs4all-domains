@@ -22,8 +22,11 @@ repeating the whole real campaign. Full artifacts stay in
 `results/split-stress-alpha7`, with compact proof in audit/alpha7-qualification.json.
 All target maps and scoring use original development identities/truth; retained
 test labels remain sealed. Bootstrap uncertainty conditions on frozen OOF and
-does not include model-refit uncertainty. Alpha.7 remote CI is recorded only
-after actual Windows/Ubuntu completion.
+does not include model-refit uncertainty.
+[Actual Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39011303916)
+completed successfully on source `f50d46373bf4e33bbec7b03d4bfe42d46c0893a5`.
+Both platforms execute all native gates, 49 Python tests and the bounded CLI
+schema/scope checks. Step-level execution evidence is in audit/github-ci-alpha7.json.
 
 ## Alpha.6 — executed 2026-10-17
 
