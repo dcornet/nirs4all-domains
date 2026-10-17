@@ -66,7 +66,14 @@ def main():
                       "evaluation_id":digest, "specification":{"type":"object"}, "designs":{"type":"object", "minProperties":1, "additionalProperties":design_state},
                       "wall_seconds":{"type":"number", "minimum":0}, "memory":{"type":"object"}, "expected_fit_upper":integer,
                       "source_fingerprints":{"type":"object"}, "test_target_accessed":{"const":False}})
-    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison)):
+    adaptive = {"type":"object", "required":["schema_version","protocol_version","record_id","dataset_id","source_id","identity_evidence","levels","universal_shortcut_score"],
+        "properties":{"schema_version":version,"protocol_version":{"const":"domains.adaptive_structure.v0.1"},"record_id":digest,
+            "dataset_id":string,"source_id":string,"identity_evidence":{"enum":["verified_physical_identity","declared_but_unverified_identity","observation_identity_only","identity_unavailable"]},
+            "levels":obj({k:state for k in ("X0","X1","XY","XYM","MODEL")}),"universal_shortcut_score":{"type":"null"}},"additionalProperties":True}
+    repeated = {"type":"object", "required":["evaluation_id","models","test_target_accessed"],
+        "properties":{"evaluation_id":digest,"test_target_accessed":{"const":False},"models":{"type":"object","minProperties":1,
+            "additionalProperties":obj({"designs":{"type":"array","minItems":3,"maxItems":3,"items":design_state},"refit_variation":state})}},"additionalProperties":True}
+    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison), ("adaptive-coverage",adaptive), ("repeated-design-result",repeated)):
         schema = {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":f"https://dcornet.github.io/nirs4all-domains/schemas/{name}.v1.schema.json", **schema}
         data = json.dumps(schema, indent=2, sort_keys=True)+"\n"
         for root in (Path("schemas"), Path("bridges/python/nirs4all_domains")):

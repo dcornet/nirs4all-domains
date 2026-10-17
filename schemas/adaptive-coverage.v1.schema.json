@@ -1,0 +1,345 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/adaptive-coverage.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "dataset_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "identity_evidence": {
+      "enum": [
+        "verified_physical_identity",
+        "declared_but_unverified_identity",
+        "observation_identity_only",
+        "identity_unavailable"
+      ]
+    },
+    "levels": {
+      "additionalProperties": false,
+      "properties": {
+        "MODEL": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "computed",
+                    "exploratory"
+                  ]
+                },
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "inconclusive",
+                    "insufficient_information",
+                    "not_identifiable",
+                    "unavailable",
+                    "ineligible",
+                    "failed"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "X0": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "computed",
+                    "exploratory"
+                  ]
+                },
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "inconclusive",
+                    "insufficient_information",
+                    "not_identifiable",
+                    "unavailable",
+                    "ineligible",
+                    "failed"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "X1": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "computed",
+                    "exploratory"
+                  ]
+                },
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "inconclusive",
+                    "insufficient_information",
+                    "not_identifiable",
+                    "unavailable",
+                    "ineligible",
+                    "failed"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "XY": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "computed",
+                    "exploratory"
+                  ]
+                },
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "inconclusive",
+                    "insufficient_information",
+                    "not_identifiable",
+                    "unavailable",
+                    "ineligible",
+                    "failed"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "XYM": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "computed",
+                    "exploratory"
+                  ]
+                },
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "reason": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "inconclusive",
+                    "insufficient_information",
+                    "not_identifiable",
+                    "unavailable",
+                    "ineligible",
+                    "failed"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "reason",
+                "value"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "required": [
+        "X0",
+        "X1",
+        "XY",
+        "XYM",
+        "MODEL"
+      ],
+      "type": "object"
+    },
+    "protocol_version": {
+      "const": "domains.adaptive_structure.v0.1"
+    },
+    "record_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "universal_shortcut_score": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "record_id",
+    "dataset_id",
+    "source_id",
+    "identity_evidence",
+    "levels",
+    "universal_shortcut_score"
+  ],
+  "type": "object"
+}

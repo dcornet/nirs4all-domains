@@ -1,5 +1,11 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.11 adds `domains.adaptive_structure.v0.1` and `domains.repeated_design.v0.1`. X-only evidence can use scoped observation keys; physical identity and biological/assay independence remain distinct. Full-source descriptive PCA is separate from train-fitted split support. Raw/projection neighborhoods, parameter agreement, unavailable full moments and missing higher stages have separate states. Views/targets are not independent studies by their names.
+
+Three fixed grouped seeds repeat nested selection/refitting on original keyed paired-preparation identities. Across-design prediction SD/range is descriptive; frozen-OOF block intervals remain separate. Unknown GEN/assay links prevent calibrated new-biological-group inference. `domains.alpha11.source_isolation.v0.1` corrects the initial source-audit access flag, with retained-cell adversaries and exactly unchanged numerical inputs; no retained Y enters models.
+
+The additional transfer-geometry probe is post-response explanatory work, frozen before its own execution. Native same-input replay is exact; analytical scalars use abs1e-10, adaptive replay retains 1e-9, and identities/hashes are exact. Expectations precede execution in the new ALPHA11_*_PROTOCOL documents. Historical scientific protocols remain unchanged.
+
 Alpha.10 adds `domains.multifamily.v0.1` and `domains.size_match.v0.1`, without
 altering historical canonical/split-stress outputs. ALPHA10_MULTIFAMILY_PROTOCOL.md
 freezes Perten populations, shared inner folds, Ridge's five-alpha grid, one

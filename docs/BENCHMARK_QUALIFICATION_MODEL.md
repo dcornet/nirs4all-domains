@@ -1,5 +1,20 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.11 separates **structural susceptibility** (X or X/split), **structural target association** and **demonstrated estimator dependence**. Missing metadata, targets or physical identity do not block descriptive X evidence. Observation identity does not authorize independent-sample predictive evaluation. Every public entry receives supported stages and blockers; source-only evidence is shared across targets.
+
+```mermaid
+flowchart LR
+  X[X0: geometry and neighborhoods] --> S[X1: documented split support]
+  X --> Y[XY: keyed permitted target association]
+  Y --> M[XYM: documented factors and targets]
+  Y --> P[MODEL: admitted independent-unit protocol]
+  M --> P
+```
+
+X0 uses descriptive full-source X. X1 fits training representations only on train. Any proposed split built using full X is transductive and must be frozen before Y evaluation. No held-out HDBSCAN assignment or nuisance label is invented.
+
+New registry fields separate task properties, model response and benchmark suitability. Conditional litter preparation transfer remains useful despite unresolved higher biological support. Repeated fits keep one physical-ID denominator per design; the independent biological group count can remain unavailable when 24 declared blocks are evaluated. Limited-dependence membership remains empty; TabPFN remains gated.
+
 Alpha.10 adds the backward-compatible purpose `within_population_estimator_comparison`
 and a separate multifamily-result schema. Perten's pre-score evaluation manifest
 fixes membership/content/folds; enriched response evidence and its hashes are

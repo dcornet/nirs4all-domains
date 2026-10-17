@@ -1,5 +1,18 @@
 # Method reuse matrix
 
+## Alpha.11 execution
+
+| Need | Reused public provider | Evidence / scope |
+|---|---|---|
+| X-only geometry | Existing Methods FlexiblePCA, full trace, optional exact moments | 37 public entries; all observations/axes; no Y or physical-ID requirement |
+| Continuous neighborhoods | Preflight NativeMethodsProvider nearest_neighbors and summary | Observation-self exclusion; complete/PCA spaces separate; explicit product budgets |
+| Descriptive X groups | Existing Methods HDBSCAN/ARI | Two settings, noise/membership and parameter agreement; broad resampling stability unqualified |
+| Keyed XY / metadata agreement | Methods factor_association and ARI | 35 metadata profiles, original crop/litter references; zero unrestricted permutations |
+| Repeated fitted evaluations | Existing native DAG CV/select/refit and Methods PLS/Ridge/SNV/N4ME | 324 primary + 30 residual + 30 fresh replay model fits |
+| Paired-X coverage | Unchanged canonical train-fit geometry | Exact same training state; 0/24 intact versus 22/24 ground heuristic flags |
+
+Methods1.3.6/ABI2.19 and DAG-ML0.3.41 remain unchanged. Observation geometry does not qualify biological sample size, nuisance mechanisms or held-out HDBSCAN assignment. The pinned TabPFN wrapper source matches its wheel; no TabPFN numerical execution.
+
 ## Alpha.10 executable additions
 
 | Need | Actual public provider | Local evidence / limits |

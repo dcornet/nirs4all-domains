@@ -6,6 +6,7 @@ pub mod methods;
 mod protocol;
 pub mod structure;
 mod units;
+pub mod x_structure;
 pub use contract::*;
 pub use protocol::{analyze, train_refit_stability, validate};
 /// Export the exact comparison task through the same native mean and safety policy as analysis.

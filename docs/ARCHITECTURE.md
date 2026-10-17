@@ -1,5 +1,9 @@
 # Architecture and ownership
 
+Alpha.11 adds an observation-scoped `x-structure` stdin contract in the existing core/CLI crates. It bypasses physical-unit admission for descriptive X geometry, without inventing physical identities or using a target. Existing Methods PCA, Preflight native neighbor/summary providers and Methods HDBSCAN/ARI own all numerical work. Streamed input avoids persistent duplicate matrices; Python transports keys, axes and information-level evidence.
+
+Original-key adapters and stricter reference/physical closure still gate MODEL. Repeated grouped designs reuse the unchanged native DAG/Methods fitting seam and keep refit sensitivity separate from frozen-OOF bootstrap. The corrected source adapter filters retained reference cells before numeric comparison; its explicit correction preserves the initial audit and all model outputs. See ALPHA11_ADAPTIVE_CAMPAIGN_PROTOCOL.md and ALPHA11_RELEASE_REPORT.md.
+
 Alpha.10 adds matched multi-family responses and exact whole-component size
 matching in the existing Python bridge. Methods/DAG own classical fitting,
 preprocessing, CV/selection/refit and all scores. At the owner's explicit request,

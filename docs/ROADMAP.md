@@ -1,5 +1,9 @@
 # Roadmap and acceptance gates
 
+**Alpha.11 scientific execution:** adaptive public campaign, 37/42 X-only profiles, 35 metadata agreement profiles, original crop association, and a new conditional litter population with repeated nested refits and paired preparation response. Task properties/model response/suitability remain separate. The source-audit access defect is disclosed and corrected with identical numerical inputs and retained-label adversaries. See ALPHA11_RELEASE_REPORT.md for validation/publication.
+
+**Bounded alpha.12:** resolve five public source/access/rights/modality blockers; qualify affordable full-axis neighborhoods and component-aware stability on prespecified profiles; obtain litter/crop/Cartilage biological/assay maps and admit a clearly sourced non-leaf population. Broad characterization precedes more heavy models. TabPFN requires an adequate frozen subset, checkpoint/rights, fold-local preprocessing and reviewed resources.
+
 **Alpha.10 scientific execution:** fixed historical anchors, nested Ridge,
 native SNV/PLS and requested nirs4all hard-chain/sparse-MKR FastAOM use the same
 frozen Perten evaluation. Conditional interactions and a separate exact-size

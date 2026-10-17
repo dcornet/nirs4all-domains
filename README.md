@@ -4,11 +4,50 @@
 
 **Qualifying NIRS benchmark tasks for trustworthy estimator and pipeline comparison.**
 
-Domains characterizes how much apparent predictive improvement may depend on
-dataset structure, sample grouping and favorable evaluation splits. It preserves
-evidence, uncertainty and the distinction between trait signal and structural
-dependence. Source, target, representation, independence policy and split define
-the benchmark task.
+Domains characterizes structural properties of NIRS data that may enable
+shortcut learning, using spectral geometry, neighborhoods, split support, target
+associations and predictive stress tests whenever the required information is
+available. **X-only analysis does not require targets, explanatory metadata or
+verified physical identities.** These remain necessary for stronger interpretations
+and valid independent-sample prediction. Structural susceptibility, target
+association and demonstrated model dependence are separate evidence levels.
+
+**Alpha.11 covers all 42 pinned public catalog entries:** 37 execute complete-source
+X geometry; five retain explicit source/access/rights/dimension blockers. There
+are 35 metadata agreement profiles, two split-support cases, two original-keyed
+X-partition/target cases, three target/factor cases and two public model cases
+(including reused CA2023 evidence). Preparations, targets and repeated designs
+do not count as independent scientific populations. See the
+[coverage matrix](docs/benchmarks/alpha11/COVERAGE.md) and
+[adaptive protocol](docs/ALPHA11_ADAPTIVE_CAMPAIGN_PROTOCOL.md).
+
+New litter nitrogen evidence preserves **322 intact samples / 321 ground
+counterparts / 2001 bands**, with 298 development and 24 retained samples.
+Three fixed grouped designs repeat complete native selection/refitting:
+
+| Pipeline | Intact RMSE range | Ground-preparation RMSE range |
+|---|---:|---:|
+| Raw PLS | .315–.340 | .447–.837 |
+| Nested Ridge | .187–.255 | .596–.820 |
+| Native SNV/PLS | .263–.292 | .735–.858 |
+
+Units are nitrogen dry-mass percentage points; exact matched populations and
+per-design outcomes are preserved. Better intact prediction does not guarantee
+preparation transfer. The 24 development blocks are declared plots/contexts;
+GEN collection and assay links remain unresolved. Refit sensitivity is descriptive,
+separate from conditional OOF bootstrap. **No low-dependence certificate.**
+Crop nitrogen adds descriptive original-keyed association; Cartilage adds X-only
+geometry while donor/assay evidence still blocks modeling. Source isolation is
+adversarially verified, with an explicit correction to the initial paired-source
+audit. [Full alpha.11 report](docs/ALPHA11_RELEASE_REPORT.md).
+
+Local release gates pass **173 tests: 35 Rust + 138 Python**, retaining every
+baseline test and all 224 protected files. TabPFN is a
+[frozen future study](docs/ALPHA11_TABPFN_STUDY_PLAN.md), without installation,
+weights or predictions. Windows/Ubuntu execution status is recorded in
+[validation](docs/VALIDATION.md).
+
+## Historical alpha.10 estimator comparison
 
 Alpha.10 compares **estimator and pipeline responses to the same structural
 stress**. Perten moisture preserves all 450 specimens: 359 development records

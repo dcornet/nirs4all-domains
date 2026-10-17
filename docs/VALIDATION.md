@@ -1,5 +1,38 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.11 — local execution 2026-10-17
+
+**35 Rust + 138 Python = 173 tests pass**, preserving the complete 152-test
+alpha.10 baseline. Twenty-one new gates cover target-free native geometry,
+continuous/separated/imbalanced controls, unknown versus verified identity,
+coincident spectra without physical merging, complete-population budget failure,
+invalid axes/keys, native association/ARI, shared-study/specimen distinctions,
+repeated native grouped refits, unique identity denominators, frozen source and
+transfer mismatch, retained X/Y invariance and source-level retained-reference
+adversaries. All calculations use existing Methods/DAG or previously qualified
+optional FastAOM providers; no numerical estimator is implemented in Domains.
+
+All 18 local release gates pass: fmt, Clippy with denied warnings, workspace and
+native ignored tests, rustdoc/build, generated schemas, bridge integration,
+historical/new registry checks, source isolation and guarded checkpoint reuse,
+canonical/structural report checks and isolated wheel build. All 224 protected
+files retain exact hashes. A fresh complete PLS design replays 298 predictions,
+297 paired predictions and selected artifacts exactly. Corrected source
+adaptation ignores all 24 retained numeric references, preserving exact sanitized
+task/transfer inputs; the initial source-audit access defect is disclosed rather
+than rewriting its output.
+
+Actual new evidence: 37 public X0 profiles, 35 metadata agreement profiles,
+original-keyed crop/litter XY, litter nested repeated fits and paired preparation,
+fold-local group/residual controls and a paired-X support probe with identical
+training fit. GEN/assay ambiguity prevents calibrated independent biological
+group uncertainty; broad cluster resampling and held-out HDBSCAN assignment
+remain unqualified. No TabPFN is installed or fitted.
+
+Completed Windows/Ubuntu CI is recorded separately after push; configuration
+alone is not execution proof. The local machine/package/storage records are
+published with the release after their final byte and wheel-import checks.
+
 ## Alpha.10 — local execution 2026-10-17
 
 **35 Rust + 117 Python = 152 tests pass**, preserving all 129 alpha.9 tests.

@@ -1,0 +1,192 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/repeated-design-result.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "evaluation_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "models": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "designs": {
+            "items": {
+              "anyOf": [
+                {
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "type": "null"
+                        },
+                        "status": {
+                          "enum": [
+                            "computed",
+                            "exploratory"
+                          ]
+                        },
+                        "value": {
+                          "not": {
+                            "type": "null"
+                          }
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "status": {
+                          "enum": [
+                            "inconclusive",
+                            "insufficient_information",
+                            "not_identifiable",
+                            "unavailable",
+                            "ineligible",
+                            "failed"
+                          ]
+                        },
+                        "value": {
+                          "type": "null"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "completed_folds": {
+                      "type": "array"
+                    },
+                    "failed_fold_id": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "partial_oof_count": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "reason": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": "failed"
+                    },
+                    "value": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reason",
+                    "value",
+                    "failed_fold_id",
+                    "completed_folds",
+                    "partial_oof_count"
+                  ],
+                  "type": "object"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "refit_variation": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "reason": {
+                    "type": "null"
+                  },
+                  "status": {
+                    "enum": [
+                      "computed",
+                      "exploratory"
+                    ]
+                  },
+                  "value": {
+                    "not": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "reason",
+                  "value"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "reason": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "enum": [
+                      "inconclusive",
+                      "insufficient_information",
+                      "not_identifiable",
+                      "unavailable",
+                      "ineligible",
+                      "failed"
+                    ]
+                  },
+                  "value": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "status",
+                  "reason",
+                  "value"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "designs",
+          "refit_variation"
+        ],
+        "type": "object"
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "test_target_accessed": {
+      "const": false
+    }
+  },
+  "required": [
+    "evaluation_id",
+    "models",
+    "test_target_accessed"
+  ],
+  "type": "object"
+}

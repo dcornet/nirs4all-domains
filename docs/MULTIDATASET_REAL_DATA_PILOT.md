@@ -1,5 +1,9 @@
 # Bounded real-data bank pilots
 
+Alpha.11 executes complete-source native X geometry/neighborhoods on 37/42 public entries, including cases without qualified targets or biological identity. Five retain explicit rights/access/dimension blockers; 35 metadata agreement profiles remain separate from verified factor semantics. P0–P4 storage/checkpoint machinery stays shared and serial. Heavy predictive admission is not an X0 gate.
+
+A new litter population supplies keyed nitrogen, 322 intact/321 ground samples, repeated grouped PLS/Ridge/SNV fits and a paired preparation challenge. Crop nitrogen supports descriptive association only. Cartilage retains X-only findings while donor/assay ownership blocks models. Source views/targets/repeated designs do not multiply independent studies. Source isolation is explicitly corrected with unchanged numerical inputs/folds/predictions. See ALPHA11_RELEASE_REPORT.md and benchmarks/alpha11/COVERAGE.md; sections below remain historical evidence.
+
 Alpha.10 preserves the existing real tasks and evaluates estimator/pipeline
 responses on frozen Perten IDs: tuned Ridge, native SNV/PLS and requested nirs4all
 hard-chain/sparse-MKR FastAOM, with paired interactions and an additional exact-size

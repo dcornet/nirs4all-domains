@@ -1,5 +1,11 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Alpha.11 prepared needs
+
+No upstream change or external message. ALPHA11_SOURCE_SHORTLIST.md prepares requests for litter trap/plot/tree and assay links, crop leaf/plant ownership, Cartilage donors/assays, paired instrument keys and Garrett modality provenance. Missing higher-level evidence does not suppress descriptive X.
+
+Broader exact/approximate full-axis neighborhoods and component-aware stability need separate public Methods/protocol qualification at larger dimensions. No alternate numerical implementation, invented nuisance label or held-out HDBSCAN assignment is introduced. Existing native kernels supply alpha.11 calculations. Later TabPFN checkpoint/license/device/sample/feature and supervised OSC leakage gates remain separate, without installing the model.
+
 ## Alpha.10 prepared source/API requests
 
 No upstream repository or issue tracker is modified. The executed optional

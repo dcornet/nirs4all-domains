@@ -1,0 +1,54 @@
+{
+  "protocol_version": "domains.alpha11.interpretation.v0.1",
+  "findings": [
+    {
+      "observation": "Complete-source X geometry is computed for 37 of 42 public catalog entries. Primary HDBSCAN produces multiple groups in 36, without broad resampling qualification.",
+      "confidence": "High for the executed numerical descriptions; limited for stability, nuisance mechanism and biological independence.",
+      "consequence": "Structural susceptibility can be investigated before target or metadata admission; parameter-specific groups do not demonstrate shortcut learning.",
+      "action": "Preserve all entry-level blockers, qualify component-aware stability and verify explanatory source metadata before stronger interpretations.",
+      "evidence_ref": "public-coverage.json"
+    },
+    {
+      "observation": "Only 12 of 37 X0 profiles support full-axis nearest neighbors under the frozen product bound; none meets the prespecified 1e-6 relative proximity threshold.",
+      "confidence": "High for those numerical populations and tolerances; unavailable for omitted full-axis neighborhoods and physical repetition.",
+      "consequence": "No absence-of-redundancy or independent-sample conclusion applies to the other sources or to larger tolerances.",
+      "action": "Qualify a bounded upstream neighborhood method before expanding dimensions; never infer physical duplication or silently downsample.",
+      "evidence_ref": "public-coverage.json"
+    },
+    {
+      "observation": "Litter Ridge and SNV/PLS improve intact errors relative to raw PLS while preparation-transfer errors remain substantially larger and depend on the fitted design.",
+      "confidence": "Exploratory, conditional on 298 development sample bags and 24 declared plot/context blocks; higher biological independence is not identified.",
+      "consequence": "Benchmark suitability and observed estimator robustness are separate properties; reference improvement does not certify transfer robustness or low structural dependence.",
+      "action": "Report every frozen design and matched 297-ID preparation contrast; obtain collection, tree and assay links before new-population claims.",
+      "evidence_ref": "litter-model-results.json"
+    },
+    {
+      "observation": "Original-keyed crop nitrogen has weak observed X-partition and species association, while leaf-to-plant and assay ownership remain unresolved.",
+      "confidence": "Descriptive for 183 finite matched leaf records; independent predictive support unavailable.",
+      "consequence": "Weak measured association and missing metadata do not establish a low-dependence benchmark.",
+      "action": "Obtain the original plant/time/assay map before admitting a grouped predictive experiment.",
+      "evidence_ref": "crop-association.json"
+    },
+    {
+      "observation": "The initial paired-source integrity audit compared retained numeric references and mislabeled its access flag. The corrected adapter ignores those cells; 24 adversarial mutations preserve exact sanitized task and transfer inputs.",
+      "confidence": "High for the explicit access correction and exact input invariance; model fits, hyperparameter selection and performance scoring always used development outcomes only.",
+      "consequence": "The original source-audit flag needs the published correction; unchanged model inputs and folds permit preserving the executed numerical evidence.",
+      "action": "Retain the correction, source-level adversarial gates and guarded exact checkpoint reuse.",
+      "evidence_ref": "source-isolation.json"
+    },
+    {
+      "observation": "The paired retained-X probe flags 0 of 24 intact and 22 of 24 ground spectra while preserving the complete training fitted state exactly.",
+      "confidence": "High for the fixed numerical support contrast; explanatory and post-response, with no retained-outcome evaluation.",
+      "consequence": "Preparation changes geometric support. Coverage flags do not estimate prediction-failure probability or identify a shortcut mechanism.",
+      "action": "Keep this support probe separate from the frozen predictive experiment and validate any stronger interpretation on independent source populations.",
+      "evidence_ref": "transfer-geometry.json"
+    },
+    {
+      "observation": "Many other public target tables still lack an original-key, unit and reference audit in this release.",
+      "confidence": "High for recorded availability; no inference about their unexecuted associations.",
+      "consequence": "The two newly qualified XY cases cannot estimate target-structure prevalence across the bank.",
+      "action": "Broaden original-keyed XY admission before adding heavy models in the next bounded iteration.",
+      "evidence_ref": "public-coverage.json"
+    }
+  ]
+}

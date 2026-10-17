@@ -22,6 +22,10 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    XStructure {
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
     SplitStress {
         task: PathBuf,
         #[arg(long)]
@@ -124,6 +128,25 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::XStructure { methods_library } => {
+            use std::io::Read;
+            let mut bytes = Vec::new();
+            std::io::stdin()
+                .take(256_000_001)
+                .read_to_end(&mut bytes)
+                .map_err(|e| e.to_string())?;
+            if bytes.len() > 256_000_000 {
+                return Err("X_INPUT_TRANSPORT_BUDGET_EXCEEDED".into());
+            }
+            let request: nirs4all_domains::x_structure::XRequest =
+                serde_json::from_slice(&bytes).map_err(|e| e.to_string())?;
+            let report = nirs4all_domains::x_structure::characterize(&request, &methods_library)?;
+            println!(
+                "{}",
+                serde_json::to_string(&report).map_err(|e| e.to_string())?
+            );
+            Ok(0)
+        }
         Action::SplitStress {
             task,
             config,
@@ -304,6 +327,10 @@ fn run() -> Result<u8, String> {
             std::fs::create_dir_all(&out).map_err(|e| e.to_string())?;
             for (name, schema) in [
                 ("task.v1.schema.json", schemars::schema_for!(Task)),
+                (
+                    "x-structure-input.v1.schema.json",
+                    schemars::schema_for!(nirs4all_domains::x_structure::XRequest),
+                ),
                 ("report.v1.schema.json", schemars::schema_for!(Report)),
                 (
                     "structure-config.v1.schema.json",

@@ -1,5 +1,11 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.11 reuses the cumulative alpha.9 journal and native/Python tooling. After measuring 12,656,201,578 occupied bytes and about 150/330 GiB free on C:/D:, the owner approved another 512 MiB workspace-ceiling increase to **13,336,807,105 bytes**. Campaign/task/evidence/serial/free-reserve limits remain 512 MiB / 256 MiB / 4 MiB / one / 2 GiB. No historical deletion or migration.
+
+Broad X0 streams complete matrices without retaining X in every source/target/fold report. Datasets retrieves 17,143,168 original crop/litter bytes. Models retain fitted state in memory and share OOF references. Identical newly produced alpha.11 exports share immutable stage bytes through hardlinks; historical artifacts stay unchanged.
+
+Post-execution attestation distinguishes the actual model driver from its corrected source-isolation wrapper. Guarded resume checks exact sanitized inputs, numerical controllers, providers and original checkpoint, refusing a refit under another contract. Original source caches/providers remain necessary for full reproduction; GitHub evidence does not bundle every matrix/wheel/source page. Final byte/reservation/replay proofs accompany release validation.
+
 Alpha.10 retains the cumulative alpha.9 journal and all historical outputs.
 The owner approved a 512 MiB workspace-ceiling increase, then an additional
 256 MiB after new Rust build artifacts exceeded the first ceiling by 27.84 MiB.

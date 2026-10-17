@@ -1,5 +1,9 @@
 # Structural shortcut risk research programme
 
+Alpha.11 characterizes susceptibility before requiring supervised admission. **X-only organization, target association and model reliance are different claims.** Geometry, neighborhoods, support imbalance and parameter-specific groups can be described while physical/assay identities remain unknown. Spectral groups receive no instrument/batch/biological meaning without independent evidence. No clusters does not imply safety.
+
+The 42-entry campaign executes X0 on 37 and provides 35 metadata agreement profiles. Original nitrogen association differs between crops and litter; unresolved plant/assay ownership remains a separate limitation. Litter repeated refits and paired preparation show that better intact prediction need not improve transfer. No universal shortcut probability or low-dependence certificate follows. See ALPHA11_REAL_DATA_PILOT.md and ALPHA11_ADAPTIVE_CAMPAIGN_PROTOCOL.md.
+
 Alpha.10 demonstrates estimator-dependent responses on the same frozen Perten
 design: tuned Ridge, native SNV/PLS and nirs4all hard-chain/sparse-MKR FastAOM
 supplement unchanged PLS/fixed-Ridge anchors. Estimator-by-split interaction is a
