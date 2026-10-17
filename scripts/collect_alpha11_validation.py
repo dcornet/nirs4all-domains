@@ -77,6 +77,11 @@ def main():
         'guarded_checkpoint_reuse':json.loads((root/'guarded-model-cache-hit.json').read_text()),
         'fresh_replay':json.loads((public/'replay.json').read_text()),'tabpfn_source_audit':json.loads((root/'tabpfn-source-audit.json').read_text()),
         'storage_snapshot_ref':'docs/audit/alpha11-storage.json','ci_status':'Pending actual pushed-source Windows/Ubuntu execution; recorded separately.'}
+    ci=Path('docs/audit/github-ci-alpha11.json')
+    if ci.exists():
+        proof=json.loads(ci.read_text())
+        assert proof['status']=='completed' and proof['conclusion']=='success'
+        result['ci_status']={'qualified_scientific_source':proof['headSha'],'conclusion':'success','proof_ref':ci.as_posix(),'url':proof['url']}
     atomic_json('docs/audit/alpha11-validation.json',result)
     print(json.dumps({'tests':173,'protected':224,'essential_unique_bytes':essential,'workspace_unique_bytes':occupied,
         'campaign_reserved':journal['reserved_campaign_bytes'],'wheel_bytes':wheel.stat().st_size,'isolated_import':True}))

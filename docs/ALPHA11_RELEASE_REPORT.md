@@ -125,6 +125,13 @@ All **173 local tests (35 Rust + 138 Python)** and 18 release gates pass.
 The earlier source snapshot and every protected artifact are verified after
 execution; no complete second campaign or independent new-group interval is claimed.
 
+[Actual Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39043282178)
+on scientific source `666f43f172be52a619c074aa6f7fa5f95c6ad19b`, with 138 Python
+and 35 Rust tests recorded on each platform. The committed
+[job/step/log proof](audit/github-ci-alpha11.json) distinguishes completed
+execution from workflow configuration. The final metadata-only HEAD is verified
+separately before handover.
+
 ## J — Bounded alpha.12
 
 Resolve the five public access/modality/rights blockers; qualify affordable exact

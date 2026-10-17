@@ -29,9 +29,16 @@ training fit. GEN/assay ambiguity prevents calibrated independent biological
 group uncertainty; broad cluster resampling and held-out HDBSCAN assignment
 remain unqualified. No TabPFN is installed or fitted.
 
-Completed Windows/Ubuntu CI is recorded separately after push; configuration
-alone is not execution proof. The local machine/package/storage records are
-published with the release after their final byte and wheel-import checks.
+[Actual Windows/Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39043282178)
+on scientific source `666f43f172be52a619c074aa6f7fa5f95c6ad19b`. Both platform
+logs explicitly report 138 Python and 35 Rust tests, with every native/report/
+schema/registry step completed. [Step/log proof](audit/github-ci-alpha11.json)
+records execution. The 87,319-byte wheel exactly matches all working package
+sources/schemas and imports from an isolated target. The storage snapshot is
+below the approved ceiling, with 3.34 MB combined unique essential evidence and
+all free-volume reserves preserved. Local proofs: audit/alpha11-validation.json
+and audit/alpha11-storage.json. Final metadata-HEAD CI is checked separately
+before handover; no real-source acquisition or TabPFN run occurs in ordinary CI.
 
 ## Alpha.10 — local execution 2026-10-17
 

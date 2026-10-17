@@ -44,8 +44,9 @@ audit. [Full alpha.11 report](docs/ALPHA11_RELEASE_REPORT.md).
 Local release gates pass **173 tests: 35 Rust + 138 Python**, retaining every
 baseline test and all 224 protected files. TabPFN is a
 [frozen future study](docs/ALPHA11_TABPFN_STUDY_PLAN.md), without installation,
-weights or predictions. Windows/Ubuntu execution status is recorded in
-[validation](docs/VALIDATION.md).
+weights or predictions. [Completed Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39043282178)
+validates scientific source `666f43f`; [validation](docs/VALIDATION.md) records
+the actual jobs, test logs and package/source parity.
 
 ## Historical alpha.10 estimator comparison
 
