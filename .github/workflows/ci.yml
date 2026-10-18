@@ -8,6 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
@@ -35,6 +37,7 @@ jobs:
       - run: cargo build --workspace --locked
       - run: cargo run --locked -p nirs4all-domains-cli -- schema --out schemas
       - run: python scripts/generate_bank_schemas.py
+      - run: python scripts/generate_privacy_schemas.py
       - name: Bridge and end-to-end gates
         shell: pwsh
         run: |
@@ -55,6 +58,10 @@ jobs:
           python scripts/check_alpha12_results.py --require-manifest
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_alpha13_results.py --require-complete
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_alpha14_results.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_alpha14_publication.py --public-only
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

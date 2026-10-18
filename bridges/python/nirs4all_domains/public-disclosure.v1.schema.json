@@ -1,0 +1,271 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/public-disclosure.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "counts": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "value": {
+                  "type": "integer"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "suppressed": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "cell": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "suppressed": {
+            "type": "boolean"
+          },
+          "value": {
+            "minimum": 0,
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "cell",
+          "suppressed",
+          "value"
+        ],
+        "type": "object"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "decision": {
+      "enum": [
+        "approved_for_publication",
+        "approved_with_suppression"
+      ]
+    },
+    "indicators": {
+      "items": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "else": {
+              "properties": {
+                "reason": {
+                  "enum": [
+                    "CONFIDENTIALITY_REVIEW_REQUIRED",
+                    "NOT_RELEASED",
+                    "NUMERIC_UNAVAILABLE",
+                    "SOURCE_PERMISSION_MISSING",
+                    "SUPPRESSED"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "computed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "reason": {
+                  "type": "null"
+                },
+                "value": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "indicator": {
+                  "not": {
+                    "enum": [
+                      "relative_skill",
+                      "matched_skill_difference",
+                      "partition_agreement",
+                      "stability_ari"
+                    ]
+                  }
+                },
+                "status": {
+                  "const": "computed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "maximum": 1,
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "indicator": {
+                  "enum": [
+                    "partition_agreement",
+                    "stability_ari"
+                  ]
+                },
+                "status": {
+                  "const": "computed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "maximum": 1,
+                  "minimum": -1
+                }
+              }
+            }
+          }
+        ],
+        "properties": {
+          "indicator": {
+            "enum": [
+              "matched_skill_difference",
+              "near_coincidence_fraction",
+              "neighbor_overlap",
+              "noise_fraction",
+              "partition_agreement",
+              "pc1_fraction",
+              "pc5_fraction",
+              "relative_skill",
+              "retained_fraction",
+              "stability_ari"
+            ]
+          },
+          "reason": {
+            "enum": [
+              null,
+              "CONFIDENTIALITY_REVIEW_REQUIRED",
+              "NOT_RELEASED",
+              "NUMERIC_UNAVAILABLE",
+              "SOURCE_PERMISSION_MISSING",
+              "SUPPRESSED"
+            ]
+          },
+          "statistic": {
+            "enum": [
+              "mean",
+              "median",
+              "p10",
+              "p90"
+            ]
+          },
+          "status": {
+            "enum": [
+              "computed",
+              "unavailable"
+            ]
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "indicator",
+          "statistic",
+          "status",
+          "reason",
+          "value"
+        ],
+        "type": "object"
+      },
+      "maxItems": 32,
+      "type": "array"
+    },
+    "limitations": {
+      "allOf": [
+        {
+          "contains": {
+            "const": "NOT_ANONYMITY_GUARANTEE"
+          }
+        },
+        {
+          "contains": {
+            "const": "NOT_DIFFERENTIAL_PRIVACY"
+          }
+        }
+      ],
+      "items": {
+        "enum": [
+          "NOT_ANONYMITY_GUARANTEE",
+          "NOT_DIFFERENTIAL_PRIVACY",
+          "NOT_REPRESENTATIVE_OF_NIRS",
+          "NOT_SUPERVISED_VALIDATION",
+          "OBSERVATION_CONDITIONAL",
+          "STUDY_OVERLAP_UNRESOLVED",
+          "WITHIN_SOURCE_NORMALIZATION"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "policy_version": {
+      "const": "domains.disclosure.v0.1"
+    },
+    "protocol": {
+      "const": "domains.disclosure.v0.1"
+    },
+    "receipt_id": {
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "review_id": {
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "visibility": {
+      "const": "public"
+    }
+  },
+  "required": [
+    "protocol",
+    "visibility",
+    "receipt_id",
+    "review_id",
+    "policy_version",
+    "decision",
+    "indicators",
+    "counts",
+    "limitations"
+  ],
+  "type": "object"
+}

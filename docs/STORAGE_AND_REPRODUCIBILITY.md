@@ -1,5 +1,22 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.14's owner-approved ceilings are **15,484,290,753 combined local bytes**
+and **805,306,368 cumulative campaign-reservation bytes**. The existing journal,
+including failed reservations, is retained. New alpha.14 reservations are bounded
+to 256 MiB. Keep 256 MiB/task, 4 MiB persistent evidence/task, serial execution and
+2 GiB free per volume. The separately reviewed resource plan excludes supervision.
+No historical deletion, cache migration or new uncontrolled matrix store.
+
+Private source X stays in the configured existing external cache. A distinct
+owner-protected external root holds full admissions, source fingerprints,
+scientific receipts, identity maps, prefixes and local reports; secrets have a
+separate protected directory. Its bytes and participating existing X files count
+toward the combined ceiling. Public exports require independent exact-byte review.
+Private source fingerprints are not public provenance by default; use opaque
+receipts. Public replay validates code/synthetic fixtures and published artifacts;
+private reconstruction additionally requires authorized sources, keys, mappings,
+full frozen plans and exact providers. CI never receives those private inputs.
+
 Alpha.13 retains the cumulative 512 MiB campaign, 256 MiB/task, 4 MiB evidence/task,
 one scientific task at a time and 2 GiB free/volume. The owner approved only
 +512 MiB on 2026-10-18, setting the workspace ceiling to **14,410,548,929 bytes**.

@@ -1,5 +1,17 @@
 # Method reuse matrix
 
+## Alpha.14 execution boundary
+
+The confidential workflow reuses the exact qualified alpha.13 native executable
+and Methods1.3.6/ABI2.19 library for geometry, SNV, PCA, full moments, neighbors,
+HDBSCAN, ARI and summaries. B60 scheduling/panels and quality gates reuse unchanged
+alpha.13 modules. Python adds authorization, identity transport, storage and
+disclosure controls. HMAC-SHA256 uses the standard cryptographic library; this is
+identity handling, not a numerical science backend. Exact executed provider and
+controller bindings stay in protected local receipts. Native alpha.14 packaging
+and synthetic CI are separate evidence from these reused scientific binaries.
+No upstream repository, solver, intrinsic QC method or supervised estimator changes.
+
 ## Alpha.13 execution
 
 | Need | Reused owner/API | Evidence and limit |

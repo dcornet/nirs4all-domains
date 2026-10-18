@@ -1,5 +1,31 @@
 # Architecture and ownership
 
+Alpha.14 adds a private transport/publication boundary in the existing Python
+bridge. `privacy` owns permission gates, owner-protected external evidence and
+scoped HMAC mappings; `private_batch` reuses the serial cumulative StageStore and
+unchanged native raw/SNV characterization; `disclosure` and `publication` own
+closed-schema review and outgoing bytes. No new crate or numerical kernel.
+Private X remains in its original authorized cache. Original source contracts,
+fingerprints, identities, labels, neighborhoods and B60 panels stay protected.
+The shared scheduler records opaque task references and resource accounting.
+Public schemas and synthetic tests contain no real confidential source data.
+
+```mermaid
+flowchart LR
+  S[Authorized source cache] --> G[Access and analysis gates]
+  G --> N[Existing native X protocols]
+  N --> L[Protected local evidence]
+  L --> R[Rights and cumulative disclosure review]
+  R --> A[Closed-schema sanitized candidate]
+  A --> V[Exact approval and outgoing validation]
+  V --> P[Optional public export]
+```
+
+Publication is separate from fitting. Unknown fields, permissions, participation
+clearance or byte bindings refuse export without deleting scientific evidence.
+OS ACLs and separate secrets reduce accidental disclosure, not administrator or
+same-user process access. Identity preservation does not certify independence.
+
 Alpha.13 adds serial `x-profile-stream` transport in the existing CLI, calling
 unchanged native characterization with fresh contexts. No kernel or third crate
 is added. New Python modules own task-specific component exposure, pair allocation,

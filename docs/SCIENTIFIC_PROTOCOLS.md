@@ -1,5 +1,15 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.14 adds `domains.private_corpus.v0.1` and `domains.disclosure.v0.1` as
+execution/publication contracts. Existing geometry, B60 thresholds, numerical
+tolerances and H1–H5 descriptors remain unchanged. Rights, participation disclosure,
+physical/reference dependencies and scientific evidence are separate gates.
+Authorized X-only descriptions do not require Y or biological identity. Unknown
+identities permit only observation-conditional interpretation. Private panels,
+labels, neighbors and fingerprints stay local; a failed export preserves them.
+Expected behavior precedes adversarial tests in ALPHA14_PRIVATE_CORPUS_PROTOCOL.md
+and ALPHA14_DISCLOSURE_POLICY.md. No supervised response tunes these descriptors.
+
 Alpha.13 preserves all historical protocols. `domains.stability_power.v0.1`
 calibrates exposure and decisions on fixed controlled X;
 `domains.stability_power.v0.2` is separately frozen before 720 new real PCA refits.

@@ -1,5 +1,35 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.14 — local execution 2026-10-18
+
+All **338 tests (303 Python + 35 Rust)** and **24 local release gates** pass.
+The 59 new controls exercise permission-before-access, scoped/collision-checked
+identities, authorized pairing, component/split preservation, native private X
+execution without targets, exact cache recovery, default-deny export fields,
+small-cell/complementary/cumulative review, secret/path/fingerprint suppression,
+actual Git index blobs and real synthetic wheel/sdist adversaries.
+
+Both actual release archives are inspected member by member; packaged module and
+schema bytes match their sources, unknown/private members are refused, and the
+wheel imports in an isolated target. Full source/package evidence is in
+[alpha14-validation.json](audit/alpha14-validation.json). Local confidential
+verification is separate from portable CI, which never receives real private
+source matrices, identities, keys, targets or results.
+
+The extended preservation map verifies **617 original local files / 453 repository
+files**. Historical content and the frozen H1–H5/B60 scientific protocols remain
+unchanged. New private numerical evidence and exact resource accounting stay in
+the protected external report. Public source/staging/package checks validate
+reviewed provenance as well as sensitive literals; `.gitignore` alone is not the
+publication boundary. No new private scientific payload is approved for export.
+
+The initial validation found a CLI dependency still pinned to alpha.13; its
+manifest version was corrected before Clippy/workspace/native checks passed.
+All failed engineering attempts remain locally recorded. Reused alpha.13 native
+scientific execution is distinguished from the new alpha.14 build/package tests.
+Actual completed hosted-job evidence is added after push; local checks alone do
+not establish Windows/Ubuntu hosted CI success.
+
 ## Alpha.13 — local execution 2026-10-18
 
 **35 Rust + 244 Python = 279 tests pass**, preserving all 225 alpha.12 tests.

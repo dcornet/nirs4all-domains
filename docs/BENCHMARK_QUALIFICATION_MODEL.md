@@ -1,5 +1,15 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.14 separates screening, authorized scientific execution and approved
+publication populations. All 164 catalog entries enter metadata screening;
+122 are private-tier. Local analysis can be lawful while raw redistribution and
+aggregate publication remain unavailable. A valid confidential X profile need
+not create a public benchmark task or public numeric artifact. Independent study
+counts require original population/dependency evidence, regardless of privacy.
+Pseudonymization preserves existing relationships and supplies no new independence.
+Supervised eligibility still requires the frozen task/reference/holdout contract
+and a separately reviewed pilot budget. No universal shortcut-risk score.
+
 Alpha.13 strengthens measurement: exposure feasibility and observed stability
 are separate gates; controlled decision calibration does not estimate real
 shortcut prevalence; X-only source admission does not admit a predictive benchmark.

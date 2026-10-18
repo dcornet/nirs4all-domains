@@ -1,5 +1,18 @@
 # Roadmap and acceptance gates
 
+Alpha.14 adds full-bank rights screening, owner-scoped local-private X execution,
+protected scoped identities and a separately reviewed publication boundary.
+Public corpus, authorized confidential corpus and disclosure-safe synthesis have
+distinct denominators. No private metric or source participation becomes public
+through numerical success. Frozen H1–H5 and calibrated B60 gates are retained.
+
+The next phase should first qualify narrowly defined aggregate releases under
+source rights and cumulative confidentiality review, then resolve independent
+original physical/assay relationships in alternative source populations. A new
+study pilot still requires exact frozen tasks and its own reviewed budget.
+Cross-study confirmation needs independent study support and a prospective power
+plan. A later TabPFN comparison remains separately gated; no installation here.
+
 Alpha.13 delivers prospective exposure-calibrated conditional stability, two
 additional nonvegetation X-only views, complete 164-entry metadata review and a
 frozen study-separated falsification contract. Revised real outcomes are six

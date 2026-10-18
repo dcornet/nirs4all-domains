@@ -4,6 +4,28 @@
 
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
+**Alpha.14** separates the public scientific corpus, the authorized confidential
+corpus and disclosure-reviewed public synthesis. The pinned catalog remains the
+screening population (164 entries, including 122 private-tier entries); access,
+local execution, publication and independent-study counts have separate meanings.
+Private tier alone neither prohibits analysis nor grants rights.
+
+The shared native X-only pipeline needs neither targets nor physical identifiers
+for descriptive geometry. Local-private source data stay in their authorized
+cache; confidential evidence, scoped HMAC identities and mapping secrets stay
+outside Git. Numerical success never triggers public export. A closed export
+schema, explicit source permissions, exact-byte review, cumulative disclosure
+review and outgoing Git/package checks guard publication. These controls do not
+establish anonymity, differential privacy or biological independence.
+
+[Private corpus protocol](docs/ALPHA14_PRIVATE_CORPUS_PROTOCOL.md) ·
+[disclosure policy](docs/ALPHA14_DISCLOSURE_POLICY.md) ·
+[full-bank screening](docs/ALPHA14_FULL_BANK_SCREENING.md) ·
+[public synthesis](docs/ALPHA14_PUBLIC_SYNTHESIS.md).
+Detailed private findings are retained locally and are not automatically released.
+The alpha.12/13 H1–H5 contracts remain frozen; X-only clustering does not establish
+shortcut learning or supervised confirmation.
+
 **Alpha.13:** an independently versioned exposure-calibrated stability design
 uses 60 whole-component draws. Nine controlled mechanisms receive 6,498 PCA fits;
 three real source views receive 720 refits, yielding 6 robust, 17 fragile and one
