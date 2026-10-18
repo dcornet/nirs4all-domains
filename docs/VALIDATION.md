@@ -30,6 +30,12 @@ scientific execution is distinguished from the new alpha.14 build/package tests.
 Actual completed hosted-job evidence is added after push; local checks alone do
 not establish Windows/Ubuntu hosted CI success.
 
+The initial hosted attempt refused Windows ACL setup. The portable correction
+uses an atomic Win32 DACL replacement and exact read-back, including a synthetic
+explicit-extra-principal adversary. The full 303-test Python suite, local private
+verification and new wheel/sdist/source checks pass again. Original packages and
+scientific source `c3104f8` remain preserved; no real numerical fit was repeated.
+
 ## Alpha.13 — local execution 2026-10-18
 
 **35 Rust + 244 Python = 279 tests pass**, preserving all 225 alpha.12 tests.

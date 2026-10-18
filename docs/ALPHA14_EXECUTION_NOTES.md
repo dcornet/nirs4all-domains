@@ -54,3 +54,12 @@ Fixed-code failures and every selected source remain in their frozen denominator
 No source is replaced because of an unfavorable or unsupported structure result.
 Private contents, source fingerprints and original identifiers are not copied
 into these notes, public result directories, CLI diagnostics or CI inputs.
+
+The first hosted run at scientific source `c3104f8147bab51542e534934dc49bfb96fc83a8`
+failed closed in the Windows shell ACL helper; Ubuntu was matrix-cancelled.
+The release helper now replaces the DACL atomically through Win32 and verifies
+exact owner/SYSTEM principals, protection, inheritance flags and access masks.
+It never resets to a temporarily broader parent ACL. An explicit-extra-principal
+synthetic adversary is included. The original scientific controllers and initial
+packages remain preserved; no real scientific fit is repeated for this portability
+fix. Later qualification/package attempts use separate artifact directories.

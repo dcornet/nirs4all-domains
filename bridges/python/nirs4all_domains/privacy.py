@@ -69,27 +69,12 @@ def protect_directory(path, workspace):
         fail('PRIVATE_ROOT_MUST_BE_OUTSIDE_GIT')
     path.mkdir(parents=True, exist_ok=True)
     if os.name == 'nt':
-        # Values travel as environment data, never interpolated PowerShell code.
-        command = """
-$ErrorActionPreference='Stop'
-$p=$env:N4DOMAINS_ACL_TARGET
-$owner=[System.Security.Principal.WindowsIdentity]::GetCurrent().User
-$system=[System.Security.Principal.SecurityIdentifier]::new('S-1-5-18')
-& icacls $p /inheritance:r /grant:r ('*'+$owner.Value+':(OI)(CI)F') '*S-1-5-18:(OI)(CI)F' | Out-Null
-if($LASTEXITCODE -ne 0) { throw 'ACL' }
-$actual=Get-Acl -LiteralPath $p
-if(-not $actual.AreAccessRulesProtected) { throw 'ACL' }
-foreach($r in $actual.GetAccessRules($true,$true,[System.Security.Principal.SecurityIdentifier])) {
- if($r.IdentityReference.Value -notin @($owner.Value,$system.Value) -or $r.AccessControlType -ne 'Allow') { throw 'ACL' }
-}
-"""
-        env = {**os.environ, 'N4DOMAINS_ACL_TARGET': str(path)}
+        from .windows_security import WindowsAcl,WindowsAclError
         try:
-            value = subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-Command', command],
-                                   env=env, capture_output=True, timeout=30)
-            if value.returncode:
-                fail('PRIVATE_ROOT_ACL_UNAVAILABLE')
-        except (OSError, subprocess.TimeoutExpired):
+            WindowsAcl().restrict(path)
+        except WindowsAclError as error:
+            fail('PRIVATE_ROOT_ACL_UNAVAILABLE_'+str(error))
+        except Exception:
             fail('PRIVATE_ROOT_ACL_UNAVAILABLE')
     else:
         path.chmod(0o700)

@@ -21,7 +21,7 @@ BASELINE='dd4496718f449cd8d02839fa7b33ac155fbbcccb'
 ROSTER='docs/audit/alpha14-public-source-roster.json'
 NEW={
     'configs/bank/storage-policy-alpha14.json',
-    *('bridges/python/nirs4all_domains/'+x for x in ['privacy.py','disclosure.py','publication.py','private_batch.py','private_corpus.py','private-admission.v1.schema.json','public-disclosure.v1.schema.json']),
+    *('bridges/python/nirs4all_domains/'+x for x in ['privacy.py','windows_security.py','disclosure.py','publication.py','private_batch.py','private_corpus.py','private-admission.v1.schema.json','public-disclosure.v1.schema.json']),
     *('schemas/'+x+'.v1.schema.json' for x in ['private-admission','public-disclosure']),
     *('tests/integration/'+x for x in ['test_privacy.py','test_private_batch.py','test_publication.py']),
     *('scripts/'+x+'.py' for x in ['generate_privacy_schemas','prepare_alpha14_audit','screen_alpha14_catalog',

@@ -109,6 +109,15 @@ class PrivateEvidenceControls(unittest.TestCase):
         self.assertNotIn(SENSITIVE, str(self.store.evidence / (receipt + '.json')))
         self.assertEqual(len((self.store.keys / 'scope.key').read_bytes()), 32)
         if os.name != 'nt': self.assertEqual(self.store.keys.stat().st_mode & 0o777, 0o700)
+        else:
+            import subprocess
+            directory=Path(self.temp.name)/'synthetic-extra-explicit-ACE';directory.mkdir()
+            subprocess.run(['icacls',str(directory),'/grant','*S-1-5-32-544:(OI)(CI)F'],check=True,capture_output=True)
+            # Entire DACL replacement must remove the explicit extra principal;
+            # grant:r to owner/SYSTEM alone would leave that ACE behind.
+            protect_directory(directory,Path.cwd())
+            from nirs4all_domains.windows_security import WindowsAcl
+            acl=WindowsAcl();acl.verify(directory,{acl.current_user(),'S-1-5-18'})
 
     def test_private_root_inside_workspace_is_refused(self):
         with self.assertRaisesRegex(PrivacyError, 'OUTSIDE_WORKSPACE'):

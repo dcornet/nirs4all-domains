@@ -12,7 +12,9 @@ from nirs4all_domains.storage import atomic_json,digest,tree_bytes
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--start',default='editable');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--start',default='editable')
+    p.add_argument('--only',default='');p.add_argument('--artifact-suffix',default='');a=p.parse_args()
+    assert a.artifact_suffix in ['', '-portable-acl']
     root=Path('.audit/alpha14');out=root/'validation';out.mkdir(parents=True,exist_ok=True)
     cfg=json.loads((root/'private-root.json').read_text());private=Path(cfg['root'])
     freeze=json.loads((private/'execution-freeze.json').read_text())['freeze']
@@ -36,19 +38,22 @@ def main():
         ('source-isolation',[py,'scripts/verify_alpha11_source_isolation.py']),('guarded-cache',[py,'scripts/run_alpha11_litter.py','replay']),
         ('canonical-render',[env['N4DOMAINS_BIN'],'analyze','tests/fixtures/translation.json','--out',str(root/'report-check')]),
         ('canonical-report',[py,'scripts/check_report.py',str(root/'report-check/report.json')]),
-        ('wheel',[py,'-m','pip','wheel','--no-deps','bridges/python','--wheel-dir',str(out/'wheel')]),
+        ('wheel',[py,'-m','pip','wheel','--no-deps','bridges/python','--wheel-dir',str(out/('wheel'+a.artifact_suffix))]),
         ('sdist-tools',[py,'-m','pip','install','--no-deps','--target',str(root/'build-runtime'),'setuptools>=77']),
         ('sdist',[py,'-c',"import os;from setuptools.build_meta import build_sdist;print(build_sdist(os.environ['ALPHA14_SDIST_OUT']))"])]
     labels=[name for name,cmd in checks];assert a.start in labels
+    selected=set(a.only.split(',')) if a.only else set(labels)
+    assert selected<=set(labels)
     records=json.loads((out/'checks.json').read_text()) if (out/'checks.json').exists() else []
     for name,command in checks[labels.index(a.start):]:
+        if name not in selected:continue
         growth=(320 if name=='clippy' else 240 if name=='workspace' else 64 if name in ['native','rustdoc','build'] else 16)*1024*1024
         used=tree_bytes([Path.cwd(),private,*files]);assert used+growth<=policy['workspace_max_bytes'],'VALIDATION_GROWTH_REQUIRES_REVIEW'
         assert all(shutil.disk_usage(d).free>growth+policy['reserve_free_bytes'] for d in ['C:/','D:/'])
         local_env=env.copy();cwd=Path.cwd()
         if name=='sdist':
             local_env['PYTHONPATH']=str((root/'build-runtime').resolve())
-            local_env['ALPHA14_SDIST_OUT']=str((out/'sdist').resolve());cwd=Path('bridges/python')
+            local_env['ALPHA14_SDIST_OUT']=str((out/('sdist'+a.artifact_suffix)).resolve());cwd=Path('bridges/python')
             Path(local_env['ALPHA14_SDIST_OUT']).mkdir(parents=True,exist_ok=True)
         log=out/(name+'.'+str(time.time_ns())+'.log');begin=time.perf_counter()
         with log.open('w',encoding='utf-8') as stream:

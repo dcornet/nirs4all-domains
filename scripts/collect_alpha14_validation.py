@@ -1,5 +1,6 @@
 """Engineering/package evidence may be public; private science remains local."""
 import json
+import argparse
 from importlib.metadata import version
 import os
 from pathlib import Path
@@ -14,6 +15,8 @@ from nirs4all_domains.storage import atomic_json,digest,tree_bytes
 
 
 def main():
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--artifact-suffix',default='');args=p.parse_args()
+    assert args.artifact_suffix in ['', '-portable-acl']
     root=Path('.audit/alpha14');checks=json.loads((root/'validation/checks.json').read_text());last={v['check']:v for v in checks}
     assert len(last)==24 and all(v['exit_code']==0 and v['combined_ceiling_respected'] for v in last.values())
     assert all(digest(v['log'])==v['log_sha256'] for v in checks)
@@ -23,8 +26,8 @@ def main():
     rust=sum(sum(map(int,re.findall(r'test result: ok\. (\d+) passed',Path(last[k]['log']).read_text(encoding='utf-8')))) for k in ['workspace','native'])
     assert rust==35
     literals,new_private_literals,store=private_taints();literals+=new_private_literals
-    wheel,=list((root/'validation/wheel').glob('*0.1.0a14*.whl'))
-    sdist,=list((root/'validation/sdist').glob('*0.1.0a14*.tar.gz'))
+    wheel,=list((root/('validation/wheel'+args.artifact_suffix)).glob('*0.1.0a14*.whl'))
+    sdist,=list((root/('validation/sdist'+args.artifact_suffix)).glob('*0.1.0a14*.tar.gz'))
     sources={p.name:p for p in Path('bridges/python/nirs4all_domains').iterdir() if p.suffix in ['.py','.json']}
     packaged={};archives=[]
     for archive in [wheel,sdist]:
@@ -50,7 +53,7 @@ def main():
         archives.append({'name':archive.name,'sha256':digest(archive),'bytes':archive.stat().st_size,
             'members_verified':audit['outgoing_surfaces'],'unknown_or_private_members':0})
     assert set(packaged)==set(sources)
-    smoke=root/'wheel-smoke';log=root/'validation/wheel-smoke.log'
+    smoke=root/('wheel-smoke'+args.artifact_suffix);log=root/('validation/wheel-smoke'+args.artifact_suffix+'.log')
     with log.open('w',encoding='utf-8') as stream:
         subprocess.run([sys.executable,'-m','pip','install','--no-deps','--no-index','--target',str(smoke),str(wheel)],check=True,stdout=stream,stderr=subprocess.STDOUT)
         code="from pathlib import Path;import nirs4all_domains;from nirs4all_domains import privacy,disclosure,publication,private_batch,private_corpus;root=Path(nirs4all_domains.__file__).resolve().parent;assert 'wheel-smoke' in str(root);assert (root/'public-disclosure.v1.schema.json').is_file();print('isolated alpha14 wheel imports and schemas passed')"

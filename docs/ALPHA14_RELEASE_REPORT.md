@@ -85,6 +85,9 @@ artifacts. The private scientific runtime reuses the recorded alpha.13 native
 binary; later alpha.14 packaging tests are not retroactive scientific executions.
 Public CI uses only public and synthetic inputs and cannot verify confidential
 sources, keys or private numerical results. Local private verification is separate.
+The scientific controllers are preserved at source `c3104f8`; the later atomic
+Windows ACL portability correction is separately tested and packaged without
+rerunning those scientific calculations.
 
 ## J — Next phase
 
