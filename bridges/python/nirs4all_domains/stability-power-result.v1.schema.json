@@ -1,0 +1,183 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/stability-power-result.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "conditions": {
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "status": {
+                "enum": [
+                  "computed",
+                  "exploratory"
+                ]
+              },
+              "value": {
+                "not": {
+                  "type": "null"
+                }
+              }
+            },
+            "required": [
+              "status",
+              "reason",
+              "value"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "reason": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "inconclusive",
+                  "insufficient_information",
+                  "not_identifiable",
+                  "unavailable",
+                  "ineligible",
+                  "failed"
+                ]
+              },
+              "value": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "status",
+              "reason",
+              "value"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "dataset_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "overall_classification": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "enum": [
+                "computed",
+                "exploratory"
+              ]
+            },
+            "value": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "inconclusive",
+                "insufficient_information",
+                "not_identifiable",
+                "unavailable",
+                "ineligible",
+                "failed"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "protocol_version": {
+      "const": "domains.stability_power.v0.2"
+    },
+    "record_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "resampling_design": {
+      "type": "object"
+    },
+    "resource_cost": {
+      "type": "object"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "source_content_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "test_target_accessed": {
+      "const": false
+    },
+    "universal_shortcut_score": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "record_id",
+    "dataset_id",
+    "source_id",
+    "source_content_sha256",
+    "resampling_design",
+    "conditions",
+    "overall_classification",
+    "resource_cost",
+    "test_target_accessed",
+    "universal_shortcut_score",
+    "limitations"
+  ],
+  "type": "object"
+}

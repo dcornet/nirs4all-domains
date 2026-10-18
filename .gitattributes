@@ -1,2 +1,5 @@
 * text=auto eol=lf
 *.png binary
+# Preserve exact executed artifact bytes (native renderer/CSV writer line endings).
+docs/benchmarks/alpha13/figures/stability-support.svg binary
+docs/benchmarks/alpha13/stability-matrix.csv binary

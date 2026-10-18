@@ -1,5 +1,20 @@
 # Method reuse matrix
 
+## Alpha.13 execution
+
+| Need | Reused owner/API | Evidence and limit |
+|---|---|---|
+| Controlled power | Methods PCA/HDBSCAN/ARI/SNV/summary | 6,498 PCA / 12,996 HDBSCAN attempts; identity simulation is task protocol |
+| New X-only views | Same native geometry/neighbors/moments | Complete 310×404 tablets and 108×700 soil, four PCA/eight clustering attempts |
+| Revised stability | Same solvers/ARI, whole verified components | 720 PCA / 1,440 clustering attempts, three prospectively selected views |
+| Serial transport | Unchanged characterization via JSON lines | 33 paired fixtures plus paired recovery, 68 engineering PCA / 136 HDBSCAN attempts; exact same-platform outputs |
+| Acquisition/projection | Public Datasets retrieve_raw; SciPy headers and pandas usecols | Original archives, target-free X and exact keyed tablet CSV audit; no vendor decoder |
+| Future supervision | Existing Methods/DAG-ML PLS/Ridge grouped selection/refit | Frozen anchors; no admitted new real task, zero model fits |
+
+Methods1.3.6/ABI2.19, Datasets0.3.11 and DAG-ML0.3.41 are unchanged. Generic tail
+probabilities, selective MATLAB/RDA projection and source dependency contracts
+remain upstream proposals, not advertised qualified capabilities.
+
 ## Alpha.12 execution
 
 | Need | Public provider | Qualified scope |

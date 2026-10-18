@@ -1,5 +1,15 @@
 # Benchmark qualification model — domains.bank.v0.1
 
+Alpha.13 strengthens measurement: exposure feasibility and observed stability
+are separate gates; controlled decision calibration does not estimate real
+shortcut prevalence; X-only source admission does not admit a predictive benchmark.
+The revised real study retains 6 robust / 17 fragile / 1 insufficient settings
+and no all-combination pass. Two added material families remain source-study
+candidates with zero admitted confirmation studies. H1–H5 are frozen for future
+independent falsification. Benchmark selection for new estimators must await
+separately validated relationships; no estimator-independent low-risk certificate
+follows. See ALPHA13_CONFIRMATION_FEASIBILITY.md.
+
 Alpha.12 separates observable geometry from independent-sample prediction.
 Its 42-entry matrix has 39 raw/SNV sources, 22 complete neighbor censuses,
 17 query samples, 37 variable-metadata sources and seven actually resampled views.

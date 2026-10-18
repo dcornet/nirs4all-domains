@@ -82,11 +82,41 @@ def main():
         'split_support':state,'resource_cost':{'type':'object'},'baseline_ref':obj({'path':relative,'sha256':digest}),
         'test_target_accessed':{'const':False},'universal_shortcut_score':{'type':'null'},
         'limitations':{'type':'array','minItems':1,'items':string}})
-    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison), ("adaptive-coverage",adaptive), ("repeated-design-result",repeated), ('unsupervised-evidence',unsupervised)):
+    power = obj({'schema_version':version,'protocol_version':{'const':'domains.stability_power.v0.2'},
+        'record_id':digest,'dataset_id':string,'source_id':string,'source_content_sha256':digest,
+        'resampling_design':{'type':'object'},'conditions':{'type':'object','minProperties':1,'additionalProperties':state},
+        'overall_classification':state,'resource_cost':{'type':'object'},'test_target_accessed':{'const':False},
+        'universal_shortcut_score':{'type':'null'},'limitations':{'type':'array','minItems':1,'items':string}})
+    binding = obj({'hypothesis_id':{'enum':['H1','H2','H3','H4','H5']},'primary_descriptor_ids':{'type':'array','minItems':1,'uniqueItems':True,'items':string},
+        'descriptor_paths':{'type':'array','minItems':1,'items':string},'representation_and_scale':string,'population_scope':string,
+        'provider':string,'missingness_rule':string,'qualitative_prediction':string,'future_response':string,
+        'controls':{'type':'array','minItems':1,'items':string},'effective_independent_support':string,
+        'admissible_falsification':{'type':'array','minItems':1,'items':string},'secondary_policy':string})
+    falsification = obj({'schema_version':version,'protocol_version':{'const':'domains.falsification.v0.1'},'contract_id':digest,
+        'hypothesis_register_ref':obj({'path':relative,'sha256':digest}),'future_outcome_ref':obj({'path':relative,'sha256':digest}),
+        'operational_preregistration_ref':obj({'path':relative,'sha256':digest}),
+        'descriptor_bindings':{'type':'array','minItems':5,'maxItems':5,'items':binding},'study_roles':{'type':'object'},
+        'candidate_sources':{'type':'array','items':{'type':'object'}},'model_anchors':{'type':'object'},'response_definitions':{'type':'object'},
+        'confirmation_power':state,'pilot_admission':state,'test_target_accessed':{'const':False},'model_performance_used':{'const':False},
+        'universal_shortcut_score':{'type':'null'}})
+    falsification['properties']['descriptor_bindings']['allOf']=[
+        {'contains':{'type':'object','properties':{'hypothesis_id':{'const':h}},'required':['hypothesis_id']},'minContains':1,'maxContains':1}
+        for h in ['H1','H2','H3','H4','H5']]
+    x_admission=obj({'protocol_version':{'const':'domains.x_source_admission.v0.1'},'admission_id':digest,'status':{'const':'admitted_x_only'},
+        'specification':obj({'dataset_id':string,'content_version':string,'source_id':string,'catalog_tier':{'enum':['public','private']},
+            'original_source_url':string,'provenance_urls':{'type':'array','minItems':1,'items':string},
+            'permissions':obj({k:permission for k in ['access','local_analysis','publish_statistics','redistribute_raw']}),
+            'metadata_hashes':{'type':'object','minProperties':1,'additionalProperties':digest},'identity_scope':{'const':'observation_conditional'}}),
+        'numeric_original_equivalence':obj({'status':{'const':'unavailable'},'reason':string,'value':{'type':'null'}}),
+        'supervised_admission':obj({'status':{'const':'unavailable'},'reason':string,'value':{'type':'null'}}),
+        'test_target_accessed':{'const':False},'model_performance_used':{'const':False}})
+    for name, schema in (("benchmark-task",task), ("qualification-evidence",evidence), ("storage-manifest",storage), ("benchmark-suite",suite), ("datasets-sidecar",sidecar), ("task-admission",admission), ("multifamily-result",comparison), ("adaptive-coverage",adaptive), ("repeated-design-result",repeated), ('unsupervised-evidence',unsupervised), ('stability-power-result',power), ('falsification-contract',falsification),('x-source-admission',x_admission)):
         schema = {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":f"https://dcornet.github.io/nirs4all-domains/schemas/{name}.v1.schema.json", **schema}
         data = json.dumps(schema, indent=2, sort_keys=True)+"\n"
         for root in (Path("schemas"), Path("bridges/python/nirs4all_domains")):
-            (root/f"{name}.v1.schema.json").write_text(data, encoding="utf-8")
+            path=root/f"{name}.v1.schema.json"
+            if name in ('stability-power-result','falsification-contract','x-source-admission'):path.write_bytes(data.encode('utf-8'))
+            else:path.write_text(data, encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -54,6 +54,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_alpha12_results.py --require-manifest
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_alpha13_results.py --require-complete
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank plan-task --task tests/fixtures/dependence/mixed.json --config configs/pilots/split-stress-controls-v1.json --out results/bank-plan.json

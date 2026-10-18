@@ -1,5 +1,25 @@
 # Storage and reproducibility — alpha.8
 
+Alpha.13 retains the cumulative 512 MiB campaign, 256 MiB/task, 4 MiB evidence/task,
+one scientific task at a time and 2 GiB free/volume. The owner approved only
++512 MiB on 2026-10-18, setting the workspace ceiling to **14,410,548,929 bytes**.
+Additional alpha.13 reservations are capped at 96 MiB, including failed attempts.
+The local validation guard also counts selected existing external X matrices.
+No historical cache, artifact or build directory is deleted or migrated.
+
+Executed source/binary hashes retain their original run attribution. Exact
+streaming parity qualifies transport reuse without repeating fits. A failed
+proof-size estimate retains 240 completed draws; a cost-only review recovers them.
+Native ZIP expansion is measured and conservatively re-reserved. No X is stored
+per fold or draw; exports share immutable stage bytes. The extended map protects
+511 local files and 347 repository files, preserving prior newline-only variants.
+Portable checking does not require ignored local caches.
+
+Worker/native peaks stay separate. Real stability observes 508,489,728 worker
+bytes and 101,818,368 native CLI bytes through its last request. No combined peak
+or OS memory quota is asserted. Controlled native-child peaks remain unavailable.
+Final byte, cache, failed-attempt and package/source proofs accompany validation.
+
 Alpha.12 retains serial execution, 512 MiB cumulative campaign reservations,
 256 MiB/task, 4 MiB evidence/task and 2 GiB free/volume. The owner's explicit
 +512 MiB workspace approval sets its ceiling to 13,873,678,017 bytes. No cleanup

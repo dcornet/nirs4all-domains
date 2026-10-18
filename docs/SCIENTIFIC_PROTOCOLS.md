@@ -1,5 +1,16 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.13 preserves all historical protocols. `domains.stability_power.v0.1`
+calibrates exposure and decisions on fixed controlled X;
+`domains.stability_power.v0.2` is separately frozen before 720 new real PCA refits.
+Thresholds stay unchanged. Pair allocation, whole-component inclusion probabilities,
+planned feasibility, degenerate comparisons and missing draws have separate
+support. X-only source admission is distinct from physical/reference modeling
+admission. The H1–H5 operational contract precedes responses; unmatched outcomes,
+unknown study overlap and inadequate power cannot produce confirmation. See
+ALPHA13_STABILITY_POWER_PROTOCOL.md, ALPHA13_SOURCE_X_PROTOCOL.md,
+ALPHA13_ORIGINAL_KEY_AUDIT_PROTOCOL.md and ALPHA13_SUPERVISED_PREREGISTRATION.md.
+
 Alpha.12 adds `domains.unsupervised.v0.1`, preserving all historical protocols.
 ALPHA12_UNSUPERVISED_PROTOCOL.md freezes raw/SNV, complete populations,
 exact/query-subset neighbors, within-source normalization, seven-case conditional

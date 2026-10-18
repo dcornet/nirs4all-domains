@@ -3,7 +3,7 @@ resolver = "2"
 members = ["crates/nirs4all-domains", "crates/nirs4all-domains-cli"]
 
 [workspace.package]
-version = "0.1.0-alpha.12"
+version = "0.1.0-alpha.13"
 edition = "2021"
 rust-version = "1.85"
 license = "AGPL-3.0-or-later"
@@ -17,3 +17,10 @@ sha2 = "0.10"
 nirs4all-preflight = "=0.1.0-alpha.1"
 rand = "=0.8.5"
 rand_chacha = "=0.3.1"
+
+# Keep older local builds without paying their debug-symbol cost again.
+# Numeric optimization/assertion settings still inherit dev.
+[profile.qualification]
+inherits = "dev"
+debug = 0
+incremental = false

@@ -4,6 +4,45 @@
 
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
+**Alpha.13:** an independently versioned exposure-calibrated stability design
+uses 60 whole-component draws. Nine controlled mechanisms receive 6,498 PCA fits;
+three real source views receive 720 refits, yielding 6 robust, 17 fragile and one
+insufficient setting, with no all-combination robust source. Alpha.12 is unchanged.
+
+Two new material-family views add complete raw/SNV evidence for **310 tablets ×
+404 bands** and **108 soil observations × 700 bands**. Original-key projection
+matches all 310 tablet spectra without target reads. All 164 catalog entries are
+reviewed, including original public-source permissions for these private-tier
+views. The bank has 41 characterized views, without claiming 41 independent
+studies. H1–H5 have a frozen operational falsification contract; original physical/
+reference closure still blocks the optional supervised pilot. No new real
+supervised fits or TabPFN.
+
+nirs4all-domains characterizes structural properties of NIRS datasets that may
+enable shortcut learning, using spectral geometry, neighborhoods, representation
+sensitivity, structural stability and evaluation-support evidence. These
+predominantly unsupervised findings generate hypotheses that can be tested later
+through independently designed supervised generalization experiments.
+
+[Power and real results](docs/ALPHA13_STABILITY_POWER_RESULTS.md) ·
+[bank extension](docs/ALPHA13_UNSUPERVISED_BANK_EXTENSION.md) ·
+[source audit](docs/ALPHA13_SOURCE_DIVERSITY_AUDIT.md) ·
+[confirmation feasibility](docs/ALPHA13_CONFIRMATION_FEASIBILITY.md) ·
+[A–J release report](docs/ALPHA13_RELEASE_REPORT.md).
+
+![Conditional stability support](docs/benchmarks/alpha13/figures/stability-support.svg)
+
+Run `python scripts/check_alpha13_results.py --require-complete` for portable
+scientific evidence checks. Add `--require-local-preservation` in the original
+workspace to verify every historical local cache artifact. Native reconstruction
+requires exact authorized sources/providers. Actual local/package and hosted CI
+execution evidence are recorded in [validation](docs/VALIDATION.md).
+
+Local alpha.13 validation passes **279 tests: 35 Rust + 244 Python**, all 19
+release checks and isolated wheel/source parity, preserving all protected history.
+
+## Historical alpha.12
+
 **Alpha.12:** 39 of 42 public entries have full-population raw/SNV geometry,
 22 have complete-source full-axis neighborhoods and 17 have prespecified query
 samples against complete references. Seven selected views have 560 actual PCA

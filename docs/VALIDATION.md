@@ -1,5 +1,44 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.13 — local execution 2026-10-18
+
+**35 Rust + 244 Python = 279 tests pass**, preserving all 225 alpha.12 tests.
+The 54 new Python controls cover exact exposure, unequal complete components,
+fragment-balanced panels, low power versus instability, native oracle decisions,
+representation/continuous cases, restart corruption/conflicts, stream isolation,
+original rights versus tier, target-free source keys, study-role separation,
+matched responses, frozen descriptors, complete outcome retention and schemas.
+
+All **19 local release checks pass**: editable install, fmt, Clippy with warnings
+denied, workspace/native ignored gates, rustdoc/build, schema generators, bridge
+integration, alpha.9–13 evidence checks, historical source isolation/cache reuse,
+canonical JSON report and wheel. The isolated wheel import and every packaged
+Python/schema source are checked against the executed source files. Actual logs,
+attempts and hashes are in [alpha13-validation.json](audit/alpha13-validation.json).
+Hosted CI execution is recorded separately after the push; local success does
+not assert a hosted result.
+
+All **511 protected local files** remain exact; 347 repository artifacts have
+portable hash coverage with recorded pre-existing newline-only variants. Ignored
+historical caches need not exist in CI, while the original workspace additionally
+checks their bytes. The published native stream parity covers 33 paired cases
+plus paired recovery and preserves original-binary attribution for reused stages.
+
+Scientific runs used alpha.13 source with editable metadata still reporting
+alpha.12. Later alpha.13 editable/wheel qualification establishes exact packaged
+source parity, not retroactive released-wheel execution. Providers remain
+Methods1.3.6/ABI2.19, DAG-ML0.3.41 and Datasets0.3.11. Source, ABI, binding,
+publication and executable evidence remain distinct.
+
+The first packaging attempt bypassed build isolation and encountered an older
+installed setuptools incompatible with the declared SPDX metadata. Restoring the
+project's declared build-system isolation fixed packaging; numerical protocols
+and results did not change. Source header and compact-publication failures are
+preserved separately. The proof-size estimate correction recovers 240 exact
+completed draws without fitting again. These failures remain charged to the
+campaign; no cleanup/migration occurs. See [storage](audit/alpha13-storage.json)
+and ALPHA13_EXECUTION_NOTES.md for actual measurement scopes.
+
 ## Alpha.12 — local execution 2026-10-17
 
 **35 Rust + 190 Python = 225 tests pass**, preserving all 173 baseline tests.

@@ -1,0 +1,242 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/x-source-admission.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admission_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "model_performance_used": {
+      "const": false
+    },
+    "numeric_original_equivalence": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "const": "unavailable"
+        },
+        "value": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "type": "object"
+    },
+    "protocol_version": {
+      "const": "domains.x_source_admission.v0.1"
+    },
+    "specification": {
+      "additionalProperties": false,
+      "properties": {
+        "catalog_tier": {
+          "enum": [
+            "public",
+            "private"
+          ]
+        },
+        "content_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "dataset_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "identity_scope": {
+          "const": "observation_conditional"
+        },
+        "metadata_hashes": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "minProperties": 1,
+          "type": "object"
+        },
+        "original_source_url": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "permissions": {
+          "additionalProperties": false,
+          "properties": {
+            "access": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "local_analysis": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "publish_statistics": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            },
+            "redistribute_raw": {
+              "additionalProperties": false,
+              "properties": {
+                "evidence": {
+                  "items": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "evidence"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "access",
+            "local_analysis",
+            "publish_statistics",
+            "redistribute_raw"
+          ],
+          "type": "object"
+        },
+        "provenance_urls": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "source_id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "dataset_id",
+        "content_version",
+        "source_id",
+        "catalog_tier",
+        "original_source_url",
+        "provenance_urls",
+        "permissions",
+        "metadata_hashes",
+        "identity_scope"
+      ],
+      "type": "object"
+    },
+    "status": {
+      "const": "admitted_x_only"
+    },
+    "supervised_admission": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "const": "unavailable"
+        },
+        "value": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "type": "object"
+    },
+    "test_target_accessed": {
+      "const": false
+    }
+  },
+  "required": [
+    "protocol_version",
+    "admission_id",
+    "status",
+    "specification",
+    "numeric_original_equivalence",
+    "supervised_admission",
+    "test_target_accessed",
+    "model_performance_used"
+  ],
+  "type": "object"
+}

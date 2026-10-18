@@ -1,5 +1,17 @@
 # Roadmap and acceptance gates
 
+Alpha.13 delivers prospective exposure-calibrated conditional stability, two
+additional nonvegetation X-only views, complete 164-entry metadata review and a
+frozen study-separated falsification contract. Revised real outcomes are six
+robust, seventeen fragile and one insufficient setting; no all-combination pass.
+The optional pilot remains unavailable without original physical/reference closure.
+The [bounded alpha.14 plan](ALPHA14_CONFRONTATION_PLAN.md) prioritizes that ownership
+and independent study-level power before a small PLS/Ridge confrontation. More
+views, folds or favorable structural labels do not supply independent validation.
+TabPFN remains deferred.
+
+## Historical alpha.12 roadmap
+
 Alpha.12 delivers representation-aware evidence, expanded exact full-axis
 neighbors, conditional resampling and source-view accounting without new real
 supervised fits. Alpha.13 should first calibrate pair-panel exposure across

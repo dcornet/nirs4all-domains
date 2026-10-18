@@ -1,5 +1,18 @@
 # Structural shortcut risk research programme
 
+Alpha.13 separates planned joint exposure, effective comparison support and
+partition quality. More draws improve support on controlled mechanisms without
+forcing robust classifications. The real 60-draw study has six robust, seventeen
+fragile and one insufficient setting; none passes every combination. Cartilage's
+raw/SNV stability disagreement and soil's all-noise setting remain descriptive.
+No predictive response constructed or selected these descriptors.
+
+Observable X structure, susceptibility, X–Y association and demonstrated estimator
+dependence remain different claims. Causal shortcut attribution is not identified.
+Original reference/assay closure and independent study-level support still block
+supervised confirmation. See ALPHA13_STABILITY_POWER_RESULTS.md and
+ALPHA13_SUPERVISED_PREREGISTRATION.md.
+
 Alpha.12 investigates Level A susceptibility without new real Y associations
 or supervised fits. Raw/SNV sensitivity, density and conditional resampling
 provide descriptors rather than a universal risk score. Proximity does not prove

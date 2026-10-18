@@ -1,0 +1,405 @@
+{
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/falsification-contract.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_sources": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "confirmation_power": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "enum": [
+                "computed",
+                "exploratory"
+              ]
+            },
+            "value": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "inconclusive",
+                "insufficient_information",
+                "not_identifiable",
+                "unavailable",
+                "ineligible",
+                "failed"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "contract_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "descriptor_bindings": {
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "hypothesis_id": {
+                "const": "H1"
+              }
+            },
+            "required": [
+              "hypothesis_id"
+            ],
+            "type": "object"
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "hypothesis_id": {
+                "const": "H2"
+              }
+            },
+            "required": [
+              "hypothesis_id"
+            ],
+            "type": "object"
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "hypothesis_id": {
+                "const": "H3"
+              }
+            },
+            "required": [
+              "hypothesis_id"
+            ],
+            "type": "object"
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "hypothesis_id": {
+                "const": "H4"
+              }
+            },
+            "required": [
+              "hypothesis_id"
+            ],
+            "type": "object"
+          },
+          "maxContains": 1,
+          "minContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "hypothesis_id": {
+                "const": "H5"
+              }
+            },
+            "required": [
+              "hypothesis_id"
+            ],
+            "type": "object"
+          },
+          "maxContains": 1,
+          "minContains": 1
+        }
+      ],
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "admissible_falsification": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "controls": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "descriptor_paths": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "effective_independent_support": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "future_response": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "hypothesis_id": {
+            "enum": [
+              "H1",
+              "H2",
+              "H3",
+              "H4",
+              "H5"
+            ]
+          },
+          "missingness_rule": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "population_scope": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "primary_descriptor_ids": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "provider": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "qualitative_prediction": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "representation_and_scale": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "secondary_policy": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "hypothesis_id",
+          "primary_descriptor_ids",
+          "descriptor_paths",
+          "representation_and_scale",
+          "population_scope",
+          "provider",
+          "missingness_rule",
+          "qualitative_prediction",
+          "future_response",
+          "controls",
+          "effective_independent_support",
+          "admissible_falsification",
+          "secondary_policy"
+        ],
+        "type": "object"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "type": "array"
+    },
+    "future_outcome_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\:]+$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "hypothesis_register_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\:]+$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "model_anchors": {
+      "type": "object"
+    },
+    "model_performance_used": {
+      "const": false
+    },
+    "operational_preregistration_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\:]+$",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "pilot_admission": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "enum": [
+                "computed",
+                "exploratory"
+              ]
+            },
+            "value": {
+              "not": {
+                "type": "null"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "inconclusive",
+                "insufficient_information",
+                "not_identifiable",
+                "unavailable",
+                "ineligible",
+                "failed"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "protocol_version": {
+      "const": "domains.falsification.v0.1"
+    },
+    "response_definitions": {
+      "type": "object"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "study_roles": {
+      "type": "object"
+    },
+    "test_target_accessed": {
+      "const": false
+    },
+    "universal_shortcut_score": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "contract_id",
+    "hypothesis_register_ref",
+    "future_outcome_ref",
+    "operational_preregistration_ref",
+    "descriptor_bindings",
+    "study_roles",
+    "candidate_sources",
+    "model_anchors",
+    "response_definitions",
+    "confirmation_power",
+    "pilot_admission",
+    "test_target_accessed",
+    "model_performance_used",
+    "universal_shortcut_score"
+  ],
+  "type": "object"
+}

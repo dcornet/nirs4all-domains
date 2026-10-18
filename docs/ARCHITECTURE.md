@@ -1,5 +1,15 @@
 # Architecture and ownership
 
+Alpha.13 adds serial `x-profile-stream` transport in the existing CLI, calling
+unchanged native characterization with fresh contexts. No kernel or third crate
+is added. New Python modules own task-specific component exposure, pair allocation,
+compact restart, rights-scoped X admission, CSV key projection and study-role/
+response guards. Methods/Preflight retain all numerical operations; DAG-ML owns
+any later admitted fitting/selection/refit. Source admission, original numeric
+correspondence, physical/reference closure and confirmation power have separate
+evidence. Missing generic seams are proposed in ALPHA13_ECOSYSTEM_GAPS.md without
+upstream changes.
+
 Alpha.12 adds `unsupervised.rs` and the target-free `x-profile` CLI within the
 same two crates. Public Methods/Preflight provide PCA, full moments, exact
 neighbors, HDBSCAN, ARI, summaries and factor association. Python owns field

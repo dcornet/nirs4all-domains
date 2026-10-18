@@ -22,6 +22,10 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    XProfileStream {
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
+    },
     XProfile {
         #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
         methods_library: PathBuf,
@@ -132,6 +136,49 @@ fn read(path: &Path) -> Result<Task, String> {
 }
 fn run() -> Result<u8, String> {
     match Args::parse().command {
+        Action::XProfileStream { methods_library } => {
+            use std::io::{BufRead, Read, Write};
+            // Keep the DLL resident. Each request still executes the unchanged
+            // characterization function in its own fresh Methods context.
+            let _resident = nirs4all_domains::methods::Methods::load(&methods_library)?;
+            let stdin = std::io::stdin();
+            let mut reader = stdin.lock();
+            let stdout = std::io::stdout();
+            let mut output = stdout.lock();
+            loop {
+                let mut input = Vec::new();
+                let read = reader
+                    .by_ref()
+                    .take(256_000_001)
+                    .read_until(b'\n', &mut input)
+                    .map_err(|e| e.to_string())?;
+                if read == 0 {
+                    break;
+                }
+                if input.len() > 256_000_000 {
+                    return Err("X_INPUT_TRANSPORT_BUDGET_EXCEEDED".into());
+                }
+                let value = serde_json::from_slice::<
+                    nirs4all_domains::unsupervised::UnsupervisedRequest,
+                >(&input)
+                .map_err(|e| e.to_string())
+                .and_then(|request| {
+                    nirs4all_domains::unsupervised::characterize(&request, &methods_library)
+                });
+                let response = match value {
+                    Ok(value) => {
+                        serde_json::json!({"status":"computed","reason":null,"value":value})
+                    }
+                    Err(reason) => {
+                        serde_json::json!({"status":"failed","reason":reason,"value":null})
+                    }
+                };
+                serde_json::to_writer(&mut output, &response).map_err(|e| e.to_string())?;
+                output.write_all(b"\n").map_err(|e| e.to_string())?;
+                output.flush().map_err(|e| e.to_string())?;
+            }
+            Ok(0)
+        }
         Action::XProfile { methods_library } => {
             use std::io::Read;
             let mut input = Vec::new();
