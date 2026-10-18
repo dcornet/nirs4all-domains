@@ -78,8 +78,10 @@ reviewed; private evidence is never automatically uploaded.
 
 All **338 local tests (303 Python + 35 Rust)** and **24 local release gates** pass.
 Actual wheel/sdist members, source parity and isolated wheel imports pass.
-[Validation](VALIDATION.md) and the alpha.14 audit record this execution; hosted
-Windows/Ubuntu conclusions are added after completed-job verification.
+[Validation](VALIDATION.md) and the alpha.14 audit record this execution.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39125572748)
+on release source `5495ed4`, with 338 actual tests on each platform;
+[completed-job evidence](audit/github-ci-alpha14.json) verifies their logs.
 Historical protection covers 617 local and 453 repository
 artifacts. The private scientific runtime reuses the recorded alpha.13 native
 binary; later alpha.14 packaging tests are not retroactive scientific executions.

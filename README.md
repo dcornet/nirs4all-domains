@@ -26,6 +26,14 @@ Detailed private findings are retained locally and are not automatically release
 The alpha.12/13 H1–H5 contracts remain frozen; X-only clustering does not establish
 shortcut learning or supervised confirmation.
 
+Alpha.14 passes **338 local tests (303 Python + 35 Rust)** and 24 release gates,
+including actual wheel/sdist and public-source checks. Both
+[Windows and Ubuntu CI jobs passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39125572748)
+on release source `5495ed4`, with 338 actual tests per platform and public/synthetic
+inputs only. [Completed-job proof](docs/audit/github-ci-alpha14.json) and the
+[A–J release report](docs/ALPHA14_RELEASE_REPORT.md) distinguish that validation
+from the protected scientific execution preserved at source `c3104f8`.
+
 **Alpha.13:** an independently versioned exposure-calibrated stability design
 uses 60 whole-component draws. Nine controlled mechanisms receive 6,498 PCA fits;
 three real source views receive 720 refits, yielding 6 robust, 17 fragile and one

@@ -27,8 +27,12 @@ The initial validation found a CLI dependency still pinned to alpha.13; its
 manifest version was corrected before Clippy/workspace/native checks passed.
 All failed engineering attempts remain locally recorded. Reused alpha.13 native
 scientific execution is distinguished from the new alpha.14 build/package tests.
-Actual completed hosted-job evidence is added after push; local checks alone do
-not establish Windows/Ubuntu hosted CI success.
+[Actual Windows and Ubuntu CI jobs passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39125572748)
+on release source `5495ed43eb3d88227bcc18928b206c52aa357cdc`. The
+[completed-job proof](audit/github-ci-alpha14.json) verifies 303 Python and
+35 Rust tests on each platform, 453 protected repository artifacts and public
+source provenance. It records real job/log identities and hashes, with no claim
+of confidential numerical verification by CI.
 
 The initial hosted attempt refused Windows ACL setup. The portable correction
 uses an atomic Win32 DACL replacement and exact read-back, including a synthetic
