@@ -8,6 +8,12 @@ covered by established source permissions, each with raw and SNV profiles.
 No catalog-private veto, recurring owner byte approval or small-cell suppression
 is applied to ordinary source-permitted metrics.
 
+The frozen catalog has **171 declared source views**: 53 computed, 11 with a
+recorded failed execution, four unavailable and 103 not executed. These are
+operational execution states, not verdicts that a failed source is scientifically
+unusable. Unchanged failures are not retried in the current extension proposal;
+their records and the full-bank denominator remain intact.
+
 All observations and wavelengths represented by each original profile remain.
 This phase makes no new spectral fit and does not extrapolate missing full
 covariance moments from truncated PCA. Unexecuted bank entries remain unexecuted;

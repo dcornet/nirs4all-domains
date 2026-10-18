@@ -40,9 +40,9 @@ def main():
         '- OWNER_DECISION_PACKET.md: retained original requests and amended priorities.',
         '- EXPLORATORY_FIT_PROPOSAL.json: actual inspected identity blockers, not an admitted numeric task.',
         '- target-key-availability.json: bounded Y-header question, without target-value decoding.',
-        '- NEXT_X_CAMPAIGN_PLAN.json: exact prospective missing-view selection and costs; not approved.',
+        '- NEXT_X_CAMPAIGN_PLAN_v3.json: eight never-executed views and exact prospective costs; not approved. Earlier drafts are preserved, superseded and must not execute.',
         '- output-review.json / LOCAL_OUTPUT_INCIDENT.md: factual output-boundary review and uncertainty.',
-        '- final-delivery-local-validation.json: completed checks and actual storage measurement.','']
+        '- scope-delivery-local-validation.json: final full suite, package parity and actual storage measurement.','']
     (c.root/'CONFIDENTIAL_REPORT.md').write_text('\n'.join(lines),encoding='utf-8')
     packet=c.root/'OWNER_DECISION_PACKET.md'
     text=packet.read_text(encoding='utf-8').replace('Known dependency groups must be mapped and kept whole.',

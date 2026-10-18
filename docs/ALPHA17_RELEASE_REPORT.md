@@ -76,15 +76,21 @@ privacy architecture, key rotation, deletion or cache migration.
 
 ## I — Validation and resources
 
-The full local suite passes **399 tests (364 Python + 35 Rust)**, retaining the
+The full local suite passes **400 tests (365 Python + 35 Rust)**, retaining the
 394 prior tests. All **18 main checks** pass: native/Rust gates, bridge tests,
 historical results, schema/state checks, source isolation and packaging. The
-final focused five-test admission/output run passes after the type guard update;
-wheel/sdist are rebuilt in new directories, match current source, and isolated
-imports pass. The initial archives/logs are preserved. All 651 protected local
+focused five-test admission/output run passes after the type guard update. The
+complete 365-test Python suite then passes after adding a real source-split
+sealing adversary; documented `split_original` membership is respected even
+when IO does not automatically apply it. Wheel/sdist match current package source,
+and isolated imports pass. The initial archives/logs are preserved. All 651 protected local
 and 487 portable artifacts, prior private files, keys/mappings and old journal
 entries remain intact. [Actual local evidence](audit/alpha17-validation.json)
 records the checks; hosted CI status is recorded only after completed jobs.
+The [initial Windows/Ubuntu source jobs](https://github.com/dcornet/nirs4all-domains/actions/runs/39157697114)
+passed 399 tests each on `0f38263`, before the additional split-sealing adversary;
+[completed-job proof](audit/github-ci-alpha17.json) records that exact scope.
+Final-HEAD CI for the split correction is verified separately after push.
 Neither storage ceiling increases. No new private raw data enters Git, packages
 or CI. Python bridge advances to 0.1.0a17; unchanged Rust crates remain alpha.16.
 

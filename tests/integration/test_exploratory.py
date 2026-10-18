@@ -55,6 +55,24 @@ class ExploratoryAdmission(unittest.TestCase):
 
 
 class SafeInspection(unittest.TestCase):
+    def test_documented_split_is_sealed_even_when_io_does_not_auto_apply_it(self):
+        sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts'))
+        try:
+            from prepare_alpha17_pilot import development_scope
+        finally:
+            sys.path.pop(0)
+        rows=[{'observation_id':'development','sample_id':'s1','split_original':'calibration'},
+              {'observation_id':'held','sample_id':'s2','split_original':'test'}]
+        for applied in [False,True]:
+            dev,retained,_=development_scope(rows,{'splits':[{'name':'original','applied':applied}]})
+            self.assertEqual([r['observation_id'] for r in dev],['development'])
+            self.assertEqual(retained,['held'])
+        for broken in [[{**r,'split_original':''} for r in rows],
+                       [{**rows[0],'partition':'test'},rows[1]],
+                       [rows[0],{**rows[1],'sample_id':'s1'}]]:
+            with self.assertRaises(ValueError):
+                development_scope(broken,{'splits':[{'name':'original','applied':False}]})
+
     def test_shell_boundary_never_echoes_paths_or_exception_details(self):
         command = Path(__file__).resolve().parents[2]/'scripts/inspect_private_roots.py'
         with tempfile.TemporaryDirectory() as folder:

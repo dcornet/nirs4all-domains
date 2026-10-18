@@ -22,6 +22,33 @@ def projection(path, names):
     return fields, table.to_dict('records') if table is not None else []
 
 
+def development_scope(links, descriptor):
+    """Preserve documented source partitions even when not auto-applied by IO."""
+    labels={'train':'train','training':'train','calibration':'train',
+            'test':'retained','validation':'retained','val':'retained','retained':'retained'}
+    role={}
+    for row in links:
+        values=[row[k].strip().lower() for k in ['partition','split','split_original'] if row.get(k,'').strip()]
+        if not values:
+            if descriptor.get('splits'):
+                raise ValueError('DOCUMENTED_SOURCE_SPLIT_MEMBERSHIP_REQUIRED')
+            role[row['observation_id']]='train'
+        else:
+            if any(v not in labels for v in values) or len({labels[v] for v in values})!=1:
+                raise ValueError('EXPLICIT_CONSISTENT_SOURCE_PARTITION_LABEL_MAPPING_REQUIRED')
+            role[row['observation_id']]=labels[values[0]]
+    owners={}
+    for row in links:
+        key=row.get('sample_id')
+        if key:
+            if key in owners and owners[key]!=role[row['observation_id']]:
+                raise ValueError('DECLARED_SAMPLE_DEPENDENCY_CROSSES_RETAINED_SCOPE')
+            owners[key]=role[row['observation_id']]
+    development=[r for r in links if role[r['observation_id']]=='train']
+    retained=[r['observation_id'] for r in links if role[r['observation_id']]=='retained']
+    return development,retained,'Source-defined retained membership sealed before numeric target access; IO applied flag does not change scope.'
+
+
 def build(context, entry):
     name = entry['dataset_id'];root = Path(context.cfg['source_root'])/name
     descriptor = Path('.audit/datasets/catalog/datasets')/(name+'.yaml')
@@ -34,7 +61,7 @@ def build(context, entry):
     context.guard(paths=[str(p) for p in paths])
     existing = context.load('candidate-inputs.json') if (context.root/'candidate-inputs.json').exists() else []
     context.save('candidate-inputs.json',sorted(set(existing)|{str(p) for p in paths}))
-    keys = ['observation_id','sample_id','partition','split']
+    keys = ['observation_id','sample_id','partition','split','split_original']
     xfields,xkeys = projection(paths[0],keys[:2]);mfields,links = projection(paths[1],keys)
     yfields,ykeys = projection(paths[2],['sample_id'])
     result['content'] = {p.name:{'path':str(p),'bytes':p.stat().st_size,'sha256':digest(p)} for p in paths}
@@ -55,18 +82,10 @@ def build(context, entry):
     target = targets[0]
     if target.get('type','').lower() not in ['float','float64','numeric','continuous','number','double']:
         result['blockers']=['DECLARED_CONTINUOUS_TARGET_REQUIRED'];return result
-    partitions = {r.get('partition',r.get('split','')) for r in links}
-    if partitions == {''}:
-        if any(s.get('applied') is True for s in metadata.get('splits',[])):
-            result['blockers']=['APPLIED_SOURCE_SPLIT_MEMBERSHIP_REQUIRED'];return result
-        development = links;retained=[]
-        role='Entire canonical collection declared development; no predefined retained test identified.'
-    elif partitions <= {'train','test','validation','val'}:
-        development=[r for r in links if r.get('partition',r.get('split'))=='train']
-        retained=[r['observation_id'] for r in links if r not in development]
-        role='Canonical non-training partitions sealed; only training rows may be numerically decoded.'
-    else:
-        result['blockers']=['EXPLICIT_CANONICAL_PARTITION_LABEL_MAPPING_REQUIRED'];return result
+    try:
+        development,retained,role=development_scope(links,metadata)
+    except ValueError as error:
+        result['blockers']=[str(error)];return result
     if len(development)<15:
         result['blockers']=['INSUFFICIENT_DEVELOPMENT_SUPPORT'];return result
     # Reuse the identity allocator. These transient legacy field aliases mean

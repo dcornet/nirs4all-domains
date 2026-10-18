@@ -13,7 +13,8 @@ def gh(*args):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('run_id');p.add_argument('--out',default='docs/audit/github-ci-alpha17.json');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('run_id');p.add_argument('--out',default='docs/audit/github-ci-alpha17.json')
+    p.add_argument('--expected-python',type=int,choices=[364,365],default=365);a=p.parse_args()
     repo='dcornet/nirs4all-domains'
     proof=json.loads(gh('run','view',a.run_id,'--repo',repo,'--json','status,conclusion,headSha,url,jobs,createdAt,updatedAt'))
     assert proof['status']=='completed' and proof['conclusion']=='success'
@@ -25,16 +26,16 @@ def main():
         path=root/(str(job['databaseId'])+'.log');path.write_bytes(data);text=data.decode('utf-8')
         runs=[int(n) for n in re.findall(r'Ran (\d+) tests in',text)]
         rust=sum(map(int,re.findall(r'test result: ok\. (\d+) passed',text)))
-        assert runs==[364] and rust==35
+        assert runs==[a.expected_python] and rust==35
         assert '"protected_repository_files": 487' in text
         assert 'ALPHA17_AGGREGATE_SCHEMA_STATES_AND_HISTORY_VERIFIED; NO_PRIVATE_INPUTS_IN_PORTABLE_CHECK' in text
         assert '"private_verification": "not_accessed_in_portable_verification"' in text
-        job.update(actual_python_tests=364,actual_rust_tests=35,log_sha256=digest(path),
+        job.update(actual_python_tests=a.expected_python,actual_rust_tests=35,log_sha256=digest(path),
             protected_portable_files_verified=487,private_source_inputs_used=False)
-    proof.update(repository=repo,run_id=a.run_id,tests_per_platform=399,
+    proof.update(repository=repo,run_id=a.run_id,tests_per_platform=a.expected_python+35,
         scope='Completed public/synthetic Windows/Ubuntu jobs; no private source matrices, keys or maps. Local private numerical verification is separate.')
     atomic_json(a.out,proof)
-    print(json.dumps({'source':proof['headSha'],'run_id':a.run_id,'platforms':2,'tests_per_platform':399,'status':'success'}))
+    print(json.dumps({'source':proof['headSha'],'run_id':a.run_id,'platforms':2,'tests_per_platform':a.expected_python+35,'status':'success'}))
 
 
 if __name__=='__main__':main()

@@ -25,6 +25,11 @@ The new target-key preflight exposes a separate canonical transport gap, so no
 new real fit runs. Historical model scores are reused without refitting. H1–H5
 remain frozen. Python bridge is 0.1.0a17; the unchanged Rust crates remain alpha.16.
 
+The current local suite passes **400 tests (365 Python + 35 Rust)**. Initial
+[Windows/Ubuntu source CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39157697114)
+passed 399 tests before the final source-split adversary; final-source CI is
+verified separately. See [validation](docs/VALIDATION.md).
+
 ## Historical alpha.16
 
 **Alpha.16** resolves original-file provenance separately from canonical

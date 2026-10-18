@@ -2,13 +2,15 @@
 
 ## Alpha.17 — execution 2026-10-18
 
-The full local suite passes **399 tests: 364 Python + 35 Rust**, preserving all
+The full local suite passes **400 tests: 365 Python + 35 Rust**, preserving all
 394 prior tests and adding four exploratory-admission cases and one focused
-shell-output regression. All **18 main checks** pass, including fmt, denied-warning
+shell-output regression, plus one source-defined split-sealing adversary. All
+**18 main checks** pass, including fmt, denied-warning
 Clippy, workspace/native ignored gates, bridge integration, historical preservation,
-JSON Schema/status invariants, source isolation and wheel/sdist builds. A final
-focused five-test run covers the last type-guard change; rebuilt packages match
-the current source and isolated wheel imports pass. Initial archives/logs remain.
+JSON Schema/status invariants, source isolation and wheel/sdist builds. A focused
+five-test run covers the type-guard change; the complete 365-test Python suite
+then passes after the source-split correction. Packages match current package
+source and isolated imports pass. Initial archives/logs remain.
 See [actual evidence](audit/alpha17-validation.json).
 
 All 651 historical local and 487 portable artifacts are verified. Prior private
@@ -22,7 +24,10 @@ The new CI check uses ordinary aggregate schemas/states, source-permission
 provenance locally, Git sensitive-path exclusion and existing secret/location
 scanning. Historical disclosure code and evidence stay intact; ordinary permitted
 metrics no longer require catalog-tier taints or renewed exact-byte owner reviews.
-Hosted Windows/Ubuntu execution is pending push and completed-job verification.
+The [initial Windows/Ubuntu jobs](https://github.com/dcornet/nirs4all-domains/actions/runs/39157697114)
+passed 399 tests each on `0f38263`, before the additional split-sealing adversary;
+[job/log proof](audit/github-ci-alpha17.json) records that exact source and scope.
+The final source receives separate hosted verification after push.
 
 ## Alpha.16 — execution 2026-10-18
 

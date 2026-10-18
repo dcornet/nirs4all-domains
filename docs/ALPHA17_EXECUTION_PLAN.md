@@ -26,6 +26,14 @@ independent groups or silently claim the known dependencies have been resolved.
 No row-position join, invented physical group or retained-target selection.
 Exact key/content equality is required; there is no numeric tolerance change.
 
+Source-defined `split_original` membership remains authoritative even when
+Datasets documents it as not automatically applied. Before numerical access,
+preserve train/calibration versus retained test/validation labels, reject unknown
+or contradictory labels, and refuse a declared sample key crossing those roles.
+Missing membership for a documented native split cannot become all-development
+by inspecting its `applied: false` flag. A synthetic adversary exercises this
+actual header boundary; the current unkeyed proposals stop before that boundary.
+
 Adversaries cover credible canonical XY with unknown physical ownership,
 unverified key mapping, retained-access violations, incomplete known groups and
 group-safe claims without complete verified groups. Old stricter admission
