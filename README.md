@@ -31,6 +31,9 @@ Alpha.15 passes **368 local tests (333 Python + 35 Rust)** and **25 local
 release gates**, including native ignored gates and package builds. Package
 member/source parity and completed hosted jobs are recorded separately from
 confidential scientific execution. Private source inputs never enter CI.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39140357795)
+on source `9e2b171`, with 368 actual tests per platform;
+[completed-job proof](docs/audit/github-ci-alpha15.json) records their logs.
 
 **Historical alpha.14** separates the public scientific corpus, the authorized confidential
 corpus and disclosure-reviewed public synthesis. The pinned catalog remains the

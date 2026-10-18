@@ -25,6 +25,13 @@ wheel-import evidence are recorded in
 [alpha15-validation.json](audit/alpha15-validation.json).
 Hosted CI qualification is separate and requires completed Windows/Ubuntu jobs
 on the released source; private numerical verification is never claimed by CI.
+[Both jobs passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39140357795)
+on `9e2b1713660fd354f5c490907a96d78a546d34e6`. The
+[completed-job evidence](audit/github-ci-alpha15.json) verifies 333 Python and
+35 Rust tests per platform, 471 portable preserved artifacts and actual public
+source checks. The final evidence/documentation commit receives its own CI;
+its final-HEAD delivery verification is retained locally to avoid a recursive
+proof-commit cycle.
 
 ## Alpha.14 — local execution 2026-10-18
 

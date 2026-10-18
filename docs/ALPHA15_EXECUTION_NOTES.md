@@ -80,3 +80,9 @@ receipt remains immutable rather than being relabeled after that guard change.
 Its exact executed source bytes are retained and authenticated locally. Cached
 source-investigation replay verifies the added input-accounting collection
 without repeating scientific computation or changing a completed result.
+
+Source `9e2b1713660fd354f5c490907a96d78a546d34e6` passes actual Windows and Ubuntu
+CI in run 39140357795: 333 Python plus 35 Rust tests on each platform, 471
+portable preserved artifacts and public source checks. Completed job/log proof
+is recorded publicly. The final evidence/documentation commit is validated by
+its own completed run; its HEAD-specific delivery receipt stays protected.

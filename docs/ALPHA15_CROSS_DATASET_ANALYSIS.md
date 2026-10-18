@@ -13,6 +13,14 @@ analysis permission is unresolved is retained as historical evidence and exclude
 from the new calculations. Cards, representations and failed attempts do not
 increase the calculated-source or independent-study denominators.
 
+Cache coverage for unexecuted views is based on file presence and declared
+dimensions. In the current cohort payload the legacy
+`available_complete_X_views` field records that declared availability; it does
+not verify finite values, original numeric equivalence or a qualified axis.
+`calculated_X_views` requires actual verified complete-profile receipts;
+partial/failed cases remain separate. Do not interpret cache presence as
+scientific qualification or count a source card as a completed calculation.
+
 The protected matrix contains per-source raw/SNV geometry, PCA concentration,
 optional exact effective dimension, both fixed partition/noise settings, full-axis
 neighbor summaries, proximity at all frozen radii, representation agreement,

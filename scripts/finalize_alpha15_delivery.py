@@ -27,6 +27,20 @@ def main():
     assert all(digest(context.store.root/p) == sha for p, sha in prior['preservation']['files'].items())
     public = read('docs/audit/alpha15-frozen-output-hashes.json')
     assert all(digest(p) == sha for p, sha in public.items())
+    cohort = read(context.load('cohort-v2.json')['artifact_path'])
+    scope = {'visibility':'local_private',
+        'declared_cache_coverage':cohort['denominators']['available_complete_X_views'],
+        'verified_complete_profile_execution':cohort['denominators']['calculated_X_views'],
+        'verified_partial_execution':cohort['denominators']['partial_X_views'],
+        'interpretation':'The legacy available_complete_X_views field denotes file presence and declared dimensions. It is not verification of finite X, original numeric equivalence or qualified axes; actual calculated and partial receipts are separate.'}
+    context.save('cohort-availability-scope.json',scope)
+    # Append a scope note to the entry-point document, keeping the immutable
+    # A–J scientific report and its authenticated receipt unchanged.
+    pointer = context.root/'CONFIDENTIAL_REPORT.md'
+    text = pointer.read_text(encoding='utf-8')
+    if 'Availability scope' not in text:
+        pointer.write_text(text+'\nAvailability scope: declared cache coverage is not numerical qualification. '
+            'See [cohort-availability-scope.json](cohort-availability-scope.json) for the distinct declared, verified complete and partial denominators.\n',encoding='utf-8')
     context.save('delivery-validation.json', {'visibility':'local_private', 'final_commit':head,
         'final_HEAD_CI': proof, 'resources':context.guard(), 'worktree_clean':True, 'remote_matches_HEAD':True,
         'historical_public_private_preservation':True, 'no_real_supervised_pilot':True,

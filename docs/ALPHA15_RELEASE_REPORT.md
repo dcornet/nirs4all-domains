@@ -3,9 +3,11 @@
 ## A — Actual research cohort
 
 Actual receipts, source/content identities and current analysis permissions are
-reconciled. Catalog entries, views, complete/calculateable X, calculated X, XY,
+reconciled. Catalog entries, views, declared cache availability, calculated X, XY,
 supervised admission and approved disclosure are separate denominators. Exact
 confidential participation and counts remain protected.
+Cache presence/declared dimensions are distinguished from actual verified
+complete-profile execution; unexecuted files are not numerically qualified.
 
 ## B — Cross-dataset structural findings
 
@@ -66,6 +68,11 @@ the original confidential files, keys and mappings through a separate signed
 manifest. All 368 local tests (333 Python + 35 Rust) and 25 release gates pass.
 Package/source and completed hosted CI evidence are recorded separately;
 configuration alone is not execution proof.
+[Windows and Ubuntu completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/39140357795)
+on source `9e2b171`, with 368 actual tests per platform. The
+[job/log proof](audit/github-ci-alpha15.json) records public/synthetic execution,
+471 portable preserved artifacts and source checks. Final-HEAD CI is separately
+verified after the evidence/documentation commit.
 
 ## J — Next scientific phase
 
