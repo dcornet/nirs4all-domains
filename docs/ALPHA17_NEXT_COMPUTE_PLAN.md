@@ -1,0 +1,39 @@
+# Bounded scientific coverage extension — awaiting approval
+
+The approved alpha.17 work reuses 53 existing full-source views and publishes
+ordinary aggregates for 40 source-permitted views. No new X profile or real
+supervised fit is authorized by that first decision.
+
+A concrete, protected `alpha17/NEXT_X_CAMPAIGN_PLAN.json` selects **eight missing
+views** from the existing authorized bank. Selection uses catalog family coverage,
+NIR eligibility, dimensions, actual local file size and fixed cost limits; never
+targets or performance. The planned existing input files total **6,755,316 bytes**.
+Source identities remain in the local packet pending the requested clarification
+about publishing already-public private-tier catalog names.
+
+Proposed authorization: **16 MiB additional cumulative reservations** in the
+same journal, with **128 MiB additional combined footprint** inside the original
+320 MiB alpha.17 allowance and unchanged ceilings. Reserve 2 MiB per view:
+1 MiB scratch and 1 MiB essential evidence. Execute serially; keep the existing
+256 MiB/task absolute limit, 4 MiB essential cap and 2 GiB free-volume reserve.
+The resulting campaign reservation would be **796,261,842 bytes**, below the
+unchanged **805,306,368-byte** ceiling. No ceiling increase or cleanup is proposed.
+
+Reuse `domains.unsupervised.v0.1` with raw/SNV and both fixed HDBSCAN settings:
+at most **16 PCA fits and 32 HDBSCAN attempts**, without B60 resampling. Keep every
+reference observation and wavelength. Bound exact query work at 200 million
+distance products per view and at most 256 queries; report sampled queries as
+sampled, without removing their full reference population. Verify source hashes,
+provider and binary before computing. Retain missing metrics and failures.
+
+Operational stop limits: 2 hours total and 1 GiB process RAM; these are prospective
+limits, not measured source-specific peaks. No target-value decoding, supervised
+model fit, TabPFN, upstream modification, acquisition or per-fold matrix copy.
+No refit of completed views. Reuse existing storage/native mechanisms.
+
+The supervised proposal remains separate. The first two extension targets and
+the bounded header check of already-profiled views expose no explicit Y join
+key. This is a canonical transport question, distinct from missing experimental
+specimen/assay evidence. Do not join Y to X by row position. A declared target-axis
+binding or exporter receipt is needed before those particular tasks can be frozen;
+meanwhile scientific X coverage and historical score analysis can proceed.

@@ -1,5 +1,29 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.17 — execution 2026-10-18
+
+The full local suite passes **399 tests: 364 Python + 35 Rust**, preserving all
+394 prior tests and adding four exploratory-admission cases and one focused
+shell-output regression. All **18 main checks** pass, including fmt, denied-warning
+Clippy, workspace/native ignored gates, bridge integration, historical preservation,
+JSON Schema/status invariants, source isolation and wheel/sdist builds. A final
+focused five-test run covers the last type-guard change; rebuilt packages match
+the current source and isolated wheel imports pass. Initial archives/logs remain.
+See [actual evidence](audit/alpha17-validation.json).
+
+All 651 historical local and 487 portable artifacts are verified. Prior private
+files, secrets, mappings and cumulative journal entries are preserved. Eight MiB
+is newly reserved under the owner-approved envelope; both storage ceilings remain
+unchanged. No new real fit, source numeric-target decode or broad X campaign is
+claimed. The 53-view local synthesis and 40-view source-permitted public aggregates
+are scientific work distinct from public/synthetic engineering tests.
+
+The new CI check uses ordinary aggregate schemas/states, source-permission
+provenance locally, Git sensitive-path exclusion and existing secret/location
+scanning. Historical disclosure code and evidence stay intact; ordinary permitted
+metrics no longer require catalog-tier taints or renewed exact-byte owner reviews.
+Hosted Windows/Ubuntu execution is pending push and completed-job verification.
+
 ## Alpha.16 — execution 2026-10-18
 
 All **394 local tests pass: 359 Python + 35 Rust**, retaining all 368 alpha.15

@@ -4,6 +4,29 @@
 
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
+**Alpha.17** prioritizes scientific comparison of the authorized bank. Existing
+profiles cover **53 source views**; ordinary source-permitted aggregates for
+**40 views** are now public. Median raw PC1 variance is **68.2%**, while median
+raw/SNV partition ARI is **0.233** on 38 evaluable views. These descriptors do not
+show an absolute native correlation above 0.5 in the three prespecified pairs.
+Composition sensitivity and missing full moments remain explicit.
+
+[Scientific results and figure](docs/ALPHA17_SCIENTIFIC_RESULTS.md) ·
+[aggregate JSON](docs/benchmarks/alpha17/structural-summary.json) ·
+[revised execution plan](docs/ALPHA17_EXECUTION_PLAN.md) ·
+[exploratory admission](docs/ALPHA17_REFERENCE_ADMISSION.md) ·
+[next bounded computation](docs/ALPHA17_NEXT_COMPUTE_PLAN.md).
+
+Private catalog tier alone does not prohibit publishing derived statistics.
+Raw matrices, sensitive identifiers and actual restrictions stay protected.
+Unknown specimen/assay ownership allows explicitly optimistic exploratory CV;
+independent-generalization claims retain their stronger evidence requirements.
+The new target-key preflight exposes a separate canonical transport gap, so no
+new real fit runs. Historical model scores are reused without refitting. H1–H5
+remain frozen. Python bridge is 0.1.0a17; the unchanged Rust crates remain alpha.16.
+
+## Historical alpha.16
+
 **Alpha.16** resolves original-file provenance separately from canonical
 observation identity, physical ownership and reference/assay independence.
 Strict manifest bindings reject unrelated basename matches and verify complete

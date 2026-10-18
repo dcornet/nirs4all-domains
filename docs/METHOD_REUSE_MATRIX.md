@@ -1,5 +1,18 @@
 # Method reuse matrix
 
+## Alpha.17 existing-bank science
+
+| Need | Reused provider | Actual scope |
+|---|---|---|
+| Descriptor distributions and paired changes | Methods native summary ABI | 53 local characterized views; 40 source-permitted public views |
+| Descriptive associations | Methods correlation-filter ABI | Three prespecified raw descriptor pairs; threshold decisions only |
+| Exploratory admission | Existing Python transport, additive evidence-tier predicate | Unknown physical ownership does not imply independent CV units |
+| Historical predictive skill | Existing alpha.11 native scores and frozen alpha.12 response formula | Nine historical model/design records, one discovery population; no refit |
+| Future baseline fitting | Existing Methods/DAG PLS/Ridge seam | Conditional; no new admitted numeric real task or fit authorization |
+
+No numerical algorithm, provider or upstream repository is changed. Bridge
+versioning is separate from the unchanged alpha.16 Rust crates.
+
 ## Alpha.16 original-reference boundary
 
 | Need | Reused public surface | Scope |

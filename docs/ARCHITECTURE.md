@@ -1,5 +1,20 @@
 # Architecture and ownership
 
+Alpha.17 adds the small `exploratory.admit` evidence-tier decision in the existing
+Python transport package. It does not change strict `confrontation` admission,
+invent physical identities or authorize fitting. Existing Methods summary and
+correlation APIs compare already executed profiles; native Methods/DAG retains
+all fitting. Ordinary source-permitted aggregates follow actual source terms,
+without catalog-tier veto or repeated owner byte approval. Historical private
+storage, secrets and frozen evidence remain protected. A fixed-code inspection
+command addresses the identified shell-output boundary. No new crate, numerical
+backend, generic privacy framework or upstream change. Python is alpha.17;
+unchanged Rust binaries/crates remain alpha.16.
+
+The historical protected-export diagram below still applies to explicitly
+sensitive/restricted material. Ordinary permitted aggregates use the simpler
+alpha.17 source-permission path, without a fresh owner byte-review transaction.
+
 Alpha.16 adds an explicit original-manifest binding and required-field keyed
 comparison adapter in the existing Python transport package. It introduces no
 numerical backend or crate. Protected source-resolution controllers reuse

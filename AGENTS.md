@@ -23,6 +23,8 @@
 - No absolute development paths in distributable manifests. Keep Cargo.lock.
   Large data use Datasets' cache; results/, .audit/, .tools/, .venv/ stay ignored.
 - Use ordinary single-agent work unless the user requests delegation.
+- Inspect private-root configuration with scripts/inspect_private_roots.py;
+  never dump its values to tools. Project JSON result fields before inspection.
 - The user authorized GitHub repository creation and the first commit/push on
   2026-10-16. Further changes to upstream repositories still require explicit
   authorization. Verify git identity; do not invent an author or change global config.

@@ -1,5 +1,21 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.17 adds `domains.exploratory.admission.v0.1`, prospectively specified in
+[the revised execution plan](ALPHA17_EXECUTION_PLAN.md). Credible content-bound
+canonical XY and declared quantitative targets support explicitly exploratory
+evaluation without asserting original physical/assay independence. Preserve
+verified dependencies, use groups when supported, and label observation CV as
+potentially optimistic when membership is unavailable. Explicitly unspecified
+canonical units permit within-task error and dimensionless skill, without
+cross-dataset absolute-error comparison. No row-position target join or retained
+label selection. The strict historical confrontation protocol is unchanged.
+
+Existing-bank descriptor synthesis reuses public Methods summaries and fixed
+correlation thresholds. Source permissions govern ordinary aggregate publication;
+catalog tier alone does not. No new fit follows from this policy or eligibility.
+H1–H5, formulas, descriptors and discovery roles remain frozen. Retrospective
+model-score reuse is labeled separately from prospective hypothesis evaluation.
+
 Alpha.16 adds `domains.alpha16.original_reference.v0.1`: declared original
 source/path/content binding precedes scientific ownership claims. Source keys,
 target units/access scope, physical/reference dependencies and study overlap are

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nirs4all.org/domains/structural-summary.v1.schema.json",
+  "title": "Existing-bank aggregate structural comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol", "scope", "coverage", "comparison", "limitations", "H1_H5_changed", "new_real_model_fits", "new_spectral_fits"],
+  "properties": {
+    "protocol": {"const": "domains.alpha17.existing_bank_science.v0.1"},
+    "scope": {"type": "string"},
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["catalog_entries", "locally_authorized_entries", "existing_characterized_views", "aggregate_permission_covered_views", "published_raw_and_SNV_rows"],
+      "properties": {
+        "catalog_entries": {"type": "integer", "minimum": 0},
+        "locally_authorized_entries": {"type": "integer", "minimum": 0},
+        "existing_characterized_views": {"type": "integer", "minimum": 0},
+        "aggregate_permission_covered_views": {"type": "integer", "minimum": 0},
+        "published_raw_and_SNV_rows": {"type": "integer", "minimum": 0}
+      }
+    },
+    "comparison": {
+      "type": "object", "additionalProperties": false,
+      "required": ["distributions", "paired_representation_changes", "leave_one_catalog_family_out", "native_abs_Pearson_screens"],
+      "properties": {
+        "distributions": {"type": "array", "items": {"type": "object", "required": ["metric", "representation", "total_views", "computed_views", "summary", "missing_reasons"]}},
+        "paired_representation_changes": {"type": "array", "items": {"type": "object", "required": ["metric", "matched_views", "SNV_minus_raw"]}},
+        "leave_one_catalog_family_out": {"type": "array", "items": {"type": "object", "required": ["excluded_catalog_family", "metric", "computed_views", "remaining_views", "summary"]}},
+        "native_abs_Pearson_screens": {"type": "array", "items": {"type": "object", "required": ["left", "right", "association"]}}
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "H1_H5_changed": {"const": false},
+    "new_real_model_fits": {"const": 0},
+    "new_spectral_fits": {"const": 0}
+  }
+}

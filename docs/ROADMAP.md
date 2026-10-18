@@ -5,14 +5,18 @@ from specimen, reference and assay ownership. Bounded source-specific requests
 are retained locally; no new real supervised fit or target decode occurs.
 Existing native software needs an admitted exact task, not another model engine.
 
-Alpha.17 should close the first source-specific original-reference request,
-verify keyed numeric X/Y and units under a prior target-access freeze, establish
-dependency-safe reference/stress/matched-size designs and cost the exact native
-fits before seeking separate pilot approval. Preserve H1–H5 and all contrary,
-missing and null outcomes. Accumulate independently verified studies only after
-admission; do not select studies by favorable predictive outcomes. Unknown
-overlap prevents confirmation-role separation. TabPFN remains deferred.
-See [alpha.16 report](ALPHA16_RELEASE_REPORT.md).
+Alpha.17 follows the owner's amended priority: publish ordinary permitted
+aggregates, compare existing full-source profiles and expand missing scientific
+coverage. The [scientific comparison](ALPHA17_SCIENTIFIC_RESULTS.md) uses 53 local
+views and 40 publication-permitted views. Unchanged owner investigations stop;
+original crosswalks still constrain stronger claims, not all exploratory science.
+
+Next: approve the [eight-view X extension](ALPHA17_NEXT_COMPUTE_PLAN.md), establish
+the missing declared canonical target-axis binding, then freeze and separately
+authorize simple PLS/Ridge tasks. Observation CV remains potentially optimistic
+when physical groups are unknown. Preserve H1–H5 and every contrary/missing/null
+outcome. Verified independent generalization retains its stricter evidence;
+TabPFN remains deferred. See [revised plan](ALPHA17_EXECUTION_PLAN.md).
 
 Alpha.15 converts the existing authorized X-only evidence into a protected
 cross-source scientific synthesis and an explicit PLS/Ridge admission pathway.
