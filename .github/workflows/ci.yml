@@ -39,6 +39,7 @@ jobs:
       - run: cargo run --locked -p nirs4all-domains-cli -- schema --out schemas
       - run: python scripts/generate_bank_schemas.py
       - run: python scripts/generate_privacy_schemas.py
+      - run: python scripts/generate_synthesis_schemas.py
       - name: Bridge and end-to-end gates
         shell: pwsh
         run: |
@@ -62,7 +63,9 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_alpha14_results.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python scripts/check_alpha14_publication.py --public-only
+          python scripts/check_alpha15_results.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_alpha15_publication.py --public-only
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank query --registry docs/benchmarks/alpha9 --purpose structure_sensitive_challenge
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

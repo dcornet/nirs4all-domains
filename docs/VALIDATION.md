@@ -1,5 +1,31 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.15 — local execution 2026-10-18
+
+All **368 tests (333 Python + 35 Rust)** pass, retaining all 338 previous tests.
+The 30 new controls cover actual-receipt denominators, unknown/shared population
+accounting, rights versus visibility, finite/state/schema invariants, exact
+moment unavailability, native correlation analytical cases, target-free
+synthesis, original assay/component ownership, retained-data isolation, exact
+PLS/Ridge grids and fit counts, budget-before-fit and native checkpoint recovery.
+Public synthetic model tests use actual Methods/DAG grouped selection/refit.
+
+Scientific synthesis reuses exact alpha.12/13/14 spectral receipts; only native
+summary/association kernels are newly applied. Protected matrices, figures,
+source investigations and A–J reporting remain outside Git. No real supervised
+pilot, new PCA/B60 campaign or private scientific export executes. Original
+private keys, mappings and files remain exact under a signed local manifest;
+635 historical local files and 471 repository artifacts are preserved.
+
+All **25 local release gates** pass: editable installation, fmt, Clippy with
+warnings denied, workspace/native gates, rustdoc/build, four schema generators,
+Python integration, alpha.9–15 checks, source isolation/cache recovery, canonical
+JSON render/check and wheel/sdist builds. Package/source parity and isolated
+wheel-import evidence are recorded in
+[alpha15-validation.json](audit/alpha15-validation.json).
+Hosted CI qualification is separate and requires completed Windows/Ubuntu jobs
+on the released source; private numerical verification is never claimed by CI.
+
 ## Alpha.14 — local execution 2026-10-18
 
 All **338 tests (303 Python + 35 Rust)** and **24 local release gates** pass.

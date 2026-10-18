@@ -1,5 +1,21 @@
 # Roadmap and acceptance gates
 
+Alpha.15 converts the existing authorized X-only evidence into a protected
+cross-source scientific synthesis and an explicit PLS/Ridge admission pathway.
+Descriptor relationships, representation sensitivity, n/p, family contrasts,
+support and missingness are descriptive while study overlap is unresolved.
+Original-document investigations of alternative studies leave specific keyed
+X/Y or specimen/reference/assay links to close. No new real pilot is executed.
+The owner approved synthesis resources only; aggregate drafts remain local-only.
+
+Bounded alpha.16: obtain original dependency crosswalks for an investigated
+alternative; verify keyed numeric X/Y, units and development membership; freeze
+reference/stress/matched-size folds, null, outcome formulas and exact native fit
+costs; seek separate pilot approval. Keep all contrary/null outcomes and reserve
+independent study roles for subsequent prospective-power confirmation. Do not
+use source-view counts as study counts or select H1–H5 by model response.
+TabPFN remains deferred. See ALPHA15_RELEASE_REPORT.md.
+
 Alpha.14 adds full-bank rights screening, owner-scoped local-private X execution,
 protected scoped identities and a separately reviewed publication boundary.
 Public corpus, authorized confidential corpus and disclosure-safe synthesis have

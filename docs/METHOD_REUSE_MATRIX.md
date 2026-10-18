@@ -1,5 +1,23 @@
 # Method reuse matrix
 
+## Alpha.15 synthesis and gated confrontation
+
+| Consumer | Public provider | Qualification / limit |
+|---|---|---|
+| Descriptor summaries | Methods summary ABI, existing `native_summary` | Native analytical fixtures; no Python moments/quantiles |
+| Family contrasts | Methods factor-association ABI | Descriptive eta², unadjusted n/p and study overlap |
+| Descriptor relationship screens | Methods correlation create/fit/output_cols/destroy C ABI | Fixed strict absolute thresholds .50/.80/.95; no exact r/sign getter |
+| Exploratory PLS/Ridge | Existing Methods/DAG grouped inner selection/refit | Actual public synthetic execution; real source/task/budget admission remains closed |
+| Checkpoint/privacy/disclosure | Existing Domains StageStore, PrivateStore and DisclosureBoundary | Shared cumulative ledger, opaque contracts, exact local-only draft review |
+
+The role correlation facade treats an empty selected-index set as a numerical
+failure. The published legacy C ABI supports zero output columns and passes the
+native orthogonal fixture. Domains uses that public ABI without implementing a
+correlation kernel. Proposed upstream work: a supported signed-coefficient getter
+and consistent empty-selection role transport, with explicit constant-vector
+states. No upstream repository is changed. Exact full PCA moments remain a
+separate provider capability; truncated PCA cannot supply them by assumption.
+
 ## Alpha.14 execution boundary
 
 The confidential workflow reuses the exact qualified alpha.13 native executable

@@ -4,7 +4,35 @@
 
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
-**Alpha.14** separates the public scientific corpus, the authorized confidential
+**Alpha.15** synthesizes existing authorized public and confidential X-only
+evidence across source views: native descriptor distributions, representation
+changes, n/p and family relationships, support and missingness. The comparative
+matrix, standalone figures and detailed A–J research report remain protected
+outside Git; no new confidential numerical finding is approved for publication.
+
+Actual execution receipts are reconciled separately from catalog cards and
+independent study/population evidence. Alternative-study source documents and
+original-file schemas are investigated before outcomes. Original X/Y and
+specimen/reference/assay closure still prevents a new real pilot; the owner's
+resource approval covers synthesis only. Native PLS/Ridge admission, exact freezes
+and checkpointed execution are qualified on public synthetic fixtures. H1–H5
+remain frozen, and TabPFN remains deferred.
+
+[Analysis method](docs/ALPHA15_CROSS_DATASET_ANALYSIS.md) ·
+[source closure](docs/ALPHA15_SOURCE_CLOSURE.md) ·
+[supervised admission](docs/ALPHA15_SUPERVISED_ADMISSION.md) ·
+[disclosure review](docs/ALPHA15_DISCLOSURE_REVIEW.md) ·
+[A–J report](docs/ALPHA15_RELEASE_REPORT.md).
+Run `python scripts/check_alpha15_results.py` for portable preservation/schema
+checks; original-workspace confidential verification uses `--require-local`.
+Release engineering and actual hosted CI are recorded in [validation](docs/VALIDATION.md).
+
+Alpha.15 passes **368 local tests (333 Python + 35 Rust)** and **25 local
+release gates**, including native ignored gates and package builds. Package
+member/source parity and completed hosted jobs are recorded separately from
+confidential scientific execution. Private source inputs never enter CI.
+
+**Historical alpha.14** separates the public scientific corpus, the authorized confidential
 corpus and disclosure-reviewed public synthesis. The pinned catalog remains the
 screening population (164 entries, including 122 private-tier entries); access,
 local execution, publication and independent-study counts have separate meanings.

@@ -1,5 +1,15 @@
 # Architecture and ownership
 
+Alpha.15 adds thin `cohort`, `synthesis` and `confrontation` Python orchestration
+modules. Cohort accounting joins declared source/content/receipt identities;
+synthesis reuses compact profiles and calls public Methods summary, factor and
+correlation ABIs. No numerical kernel moves into Domains. Source-closed pilot
+freezes reuse native DAG grouped selection/refit and existing stage checkpoints.
+The two Rust crates remain unchanged in structure. Protected execution uses the
+existing PrivateStore/HMAC scope and shared cumulative StageStore journal;
+new evidence stays in a version-specific subdirectory, preserving old keys,
+maps, scientific receipts and signed publication review.
+
 Alpha.14 adds a private transport/publication boundary in the existing Python
 bridge. `privacy` owns permission gates, owner-protected external evidence and
 scoped HMAC mappings; `private_batch` reuses the serial cumulative StageStore and

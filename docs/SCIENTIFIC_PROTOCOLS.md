@@ -1,5 +1,14 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.15 adds `domains.research_cohort.v0.1`, `domains.synthesis.v0.1` and
+`domains.confrontation.v0.1`. Expected behavior, adversaries and tolerances are
+fixed in ALPHA15_SCIENTIFIC_SYNTHESIS_PROTOCOL.md before new summaries. Existing
+X-only profile definitions, B60 exposure gates and H1–H5/outcome bindings remain
+exact. New descriptive source-view comparisons neither identify independent
+studies nor qualify a real supervised task. No retained target enters synthesis
+or task selection; source/reference closure and a separate owner budget precede
+real native PLS/Ridge execution.
+
 Alpha.14 adds `domains.private_corpus.v0.1` and `domains.disclosure.v0.1` as
 execution/publication contracts. Existing geometry, B60 thresholds, numerical
 tolerances and H1–H5 descriptors remain unchanged. Rights, participation disclosure,

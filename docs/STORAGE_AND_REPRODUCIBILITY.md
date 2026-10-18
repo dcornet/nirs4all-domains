@@ -1,6 +1,15 @@
 # Storage and reproducibility — alpha.8
 
-Alpha.14's owner-approved ceilings are **15,484,290,753 combined local bytes**
+Alpha.15's owner-approved combined local ceiling is **16,021,161,665 bytes**.
+The campaign ceiling remains **805,306,368 bytes**, with at most **64 MiB** of
+new alpha.15 reservations from the existing balance. Four work packages retain
+failed attempts and explicit revisions under the same task identities. Serial
+execution, 256 MiB/task, 4 MiB essential evidence/task and 2 GiB free/volume
+remain mandatory. No real pilot, new PCA/B60 campaign, matrix copy, deletion or
+migration is included. Protected reports reference existing evidence rather than
+duplicating large panels. Exact confidential accounting stays local.
+
+Historical alpha.14's owner-approved ceilings were **15,484,290,753 combined local bytes**
 and **805,306,368 cumulative campaign-reservation bytes**. The existing journal,
 including failed reservations, is retained. New alpha.14 reservations are bounded
 to 256 MiB. Keep 256 MiB/task, 4 MiB persistent evidence/task, serial execution and

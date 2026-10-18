@@ -19,6 +19,7 @@ from nirs4all_domains.storage import atomic_json
 
 BASELINE='dd4496718f449cd8d02839fa7b33ac155fbbcccb'
 ROSTER='docs/audit/alpha14-public-source-roster.json'
+REVIEW_FILE='public-source-review.json'
 NEW={
     'configs/bank/storage-policy-alpha14.json',
     *('bridges/python/nirs4all_domains/'+x for x in ['privacy.py','windows_security.py','disclosure.py','publication.py','private_batch.py','private_corpus.py','private-admission.v1.schema.json','public-disclosure.v1.schema.json']),
@@ -115,13 +116,13 @@ def main():
                 variants[path]={'checkout_sha256':hashlib.sha256(data).hexdigest(),'repository_sha256':records[path]['sha256']}
         value={'schema_version':1,'baseline_commit':BASELINE,'files':records,'newline_only_variants':variants}
         atomic_json(ROSTER,value)
-        atomic_json(store.root/'public-source-review.json',{'roster':value,'authentication':store.authenticate(value)})
+        atomic_json(store.root/REVIEW_FILE,{'roster':value,'authentication':store.authenticate(value)})
         print(json.dumps({'status':'explicit_public_source_roster_frozen','private_scientific_exports_approved':0}));return
     value=json.loads(Path(ROSTER).read_text())
     if set(value)!={'schema_version','baseline_commit','files','newline_only_variants'} or value['schema_version']!=1 or value['baseline_commit']!=BASELINE:
         fail('PUBLIC_SOURCE_ROSTER_INVALID')
     if store is not None:
-        signed=json.loads((store.root/'public-source-review.json').read_text())
+        signed=json.loads((store.root/REVIEW_FILE).read_text())
         if signed['roster']!=value or not hmac.compare_digest(signed['authentication'],store.authenticate(signed['roster'])):
             fail('PUBLIC_SOURCE_REVIEW_AUTHENTICATION_FAILED')
     roster=value['files']
