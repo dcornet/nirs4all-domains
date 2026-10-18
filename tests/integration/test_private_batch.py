@@ -92,12 +92,18 @@ class PrivateBatchControls(unittest.TestCase):
         from nirs4all_domains.storage import atomic_json as actual_write
         source=copy.deepcopy(self.source);source['evidence_receipt_id']=opaque_id();source['source_receipt_id']=opaque_id()
         batch=self._batch()
+        stage_root=(self.store.root/'stages').resolve()
+        interruptions=[]
         def interrupted(path,*args,**kwargs):
-            if Path(path).is_relative_to(self.store.root/'stages'):
+            # StageStore resolves its artifact path; Windows TEMP may use a
+            # short-name alias. Compare the same resolved namespace on both sides.
+            if Path(path).resolve().is_relative_to(stage_root):
+                interruptions.append(True)
                 raise OSError('SYNTHETIC_STAGE_PUBLICATION_INTERRUPTION')
             return actual_write(path,*args,**kwargs)
         with patch('nirs4all_domains.storage.atomic_json',side_effect=interrupted):
             with self.assertRaisesRegex(PrivacyError,'STAGE_NOT_COMPUTED'):batch.profile(source)
+        self.assertEqual(interruptions,[True])
         self.assertTrue((self.store.evidence/(source['evidence_receipt_id']+'.json')).is_file())
         before=json.loads((self.workspace/'state/journal.json').read_text())['reserved_campaign_bytes']
         with patch('nirs4all_domains.private_batch.NativeProfileStream') as native:

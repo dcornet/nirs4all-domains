@@ -36,6 +36,12 @@ explicit-extra-principal adversary. The full 303-test Python suite, local privat
 verification and new wheel/sdist/source checks pass again. Original packages and
 scientific source `c3104f8` remain preserved; no real numerical fit was repeated.
 
+The second hosted attempt passed Ubuntu and Windows ACL controls but exposed an
+unresolved-versus-resolved temporary-path comparison in the publication fault
+injection test. Both sides now resolve consistently, and exactly one injected
+failure is required. All 303 local Python tests and protected local verification
+pass again; the production scheduler and scientific calculations are unchanged.
+
 ## Alpha.13 — local execution 2026-10-18
 
 **35 Rust + 244 Python = 279 tests pass**, preserving all 225 alpha.12 tests.

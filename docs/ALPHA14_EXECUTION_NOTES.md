@@ -63,3 +63,11 @@ It never resets to a temporarily broader parent ACL. An explicit-extra-principal
 synthetic adversary is included. The original scientific controllers and initial
 packages remain preserved; no real scientific fit is repeated for this portability
 fix. Later qualification/package attempts use separate artifact directories.
+
+The next hosted run passed Ubuntu and Windows ACL tests, but Windows exposed a
+fault-injection test comparing a resolved StageStore path with an unresolved
+temporary-directory path. Windows short-name TEMP aliases can represent the
+same directory with different lexical prefixes. The test now resolves both
+paths and asserts that exactly one publication interruption was injected before
+checking evidence recovery without refitting. Runtime scheduling, scientific
+code and numerical results are unchanged; the complete suite is rerun.
