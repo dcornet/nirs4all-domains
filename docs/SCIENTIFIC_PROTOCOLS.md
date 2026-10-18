@@ -1,5 +1,15 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Alpha.16 adds `domains.alpha16.original_reference.v0.1`: declared original
+source/path/content binding precedes scientific ownership claims. Source keys,
+target units/access scope, physical/reference dependencies and study overlap are
+separate evidence. Expected adversaries and exact transport tolerances precede
+tests in ALPHA16_ORIGINAL_REFERENCE_CLOSURE.md. Existing H1–H5, B60, native
+numerical kernels and outcome formulas stay unchanged. No numeric target decode
+or real fit follows from a manifest, unique row key or successful synthetic test.
+Real execution requires a scientifically admitted exact freeze and separate
+owner authorization. Source-specific requests and reconciliation stay protected.
+
 Alpha.15 adds `domains.research_cohort.v0.1`, `domains.synthesis.v0.1` and
 `domains.confrontation.v0.1`. Expected behavior, adversaries and tolerances are
 fixed in ALPHA15_SCIENTIFIC_SYNTHESIS_PROTOCOL.md before new summaries. Existing

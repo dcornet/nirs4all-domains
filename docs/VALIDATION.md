@@ -1,5 +1,24 @@
 # Validation evidence — 2026-10-16
 
+## Alpha.16 — execution 2026-10-18
+
+All **394 local tests pass: 359 Python + 35 Rust**, retaining all 368 alpha.15
+tests and adding 26 original-reference adversaries. All **27 local release
+checks pass**, including formatting, Clippy with warnings denied, workspace and
+ignored native tests, bridge/native integration, schemas/JSON, source isolation,
+checkpoint recovery, protected history and wheel/sdist builds. A focused final
+source-boundary run records exact current code/test hashes after preflight
+hardening. Wheel/sdist members match source bytes and isolated imports pass.
+See [actual local evidence](audit/alpha16-validation.json) and
+[resource compliance](audit/alpha16-storage.json).
+
+All 651 protected local and 487 repository artifacts are preserved. Signed
+manifests additionally protect previous confidential files, keys, mappings,
+workspace evidence and every old shared-journal entry. New private scientific
+payloads are excluded from Git and packages. Hosted qualification is pending
+completed Windows/Ubuntu jobs on the actual pushed source; CI configuration is
+not execution proof. Private numerical verification is local only.
+
 ## Alpha.15 — local execution 2026-10-18
 
 All **368 tests (333 Python + 35 Rust)** pass, retaining all 338 previous tests.

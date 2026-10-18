@@ -1,5 +1,14 @@
 # Method reuse matrix
 
+## Alpha.16 original-reference boundary
+
+| Need | Reused public surface | Scope |
+|---|---|---|
+| Original identity/value parity | Existing keyed equivalence and keyed X projection | Added complete required-field gate; no absent/absent success |
+| Original metadata | Standard CSV/ZIP metadata and SciPy `whosmat` where supported | Selective headers/schema only; unsupported mixed structures stay unavailable |
+| Scientific admission and evaluation | Existing confrontation admission/freeze/execute, group folds and whole-component size matching | No copied algorithm or replacement model engine |
+| Protected evidence | Existing PrivateStore, StageStore, disclosure and package/Git gates | Same journal and keys; no historical reset or private publication |
+
 ## Alpha.15 synthesis and gated confrontation
 
 | Consumer | Public provider | Qualification / limit |

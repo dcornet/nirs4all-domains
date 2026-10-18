@@ -4,6 +4,35 @@
 
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
+**Alpha.16** resolves original-file provenance separately from canonical
+observation identity, physical ownership and reference/assay independence.
+Strict manifest bindings reject unrelated basename matches and verify complete
+SHA256, including explicitly tagged digests. Keyed parity requires actual values
+on both sides. Source-specific evidence and actionable owner requests remain
+protected; no new private scientific export is approved.
+
+The owner approved bounded original-reference work, excluding real supervision.
+No new real fit or numeric target decode occurs. Existing native PLS/Ridge
+freeze/execute APIs remain ready for a scientifically admitted exact task and
+separate pilot approval. H1–H5 remain unchanged; TabPFN stays deferred.
+
+[Original-reference protocol](docs/ALPHA16_ORIGINAL_REFERENCE_CLOSURE.md) ·
+[admission](docs/ALPHA16_STUDY_ADMISSION.md) ·
+[exact pilot gate](docs/ALPHA16_EXACT_PILOT_FREEZE.md) ·
+[source-owner requests](docs/ALPHA16_UNRESOLVED_SOURCE_REQUESTS.md) ·
+[A–J report](docs/ALPHA16_RELEASE_REPORT.md).
+Run `python scripts/check_alpha16_results.py` for portable preservation;
+`--require-local` additionally verifies protected evidence in the original
+authorized workspace. Actual tests, packaging and hosted CI are recorded in
+[validation](docs/VALIDATION.md).
+
+Local alpha.16 validation passes **394 tests (359 Python + 35 Rust)** and **27
+release checks**, including native gates and wheel/sdist source parity. All
+651 protected local and 487 repository artifacts are preserved. Hosted CI is
+qualified separately on the actual pushed source.
+
+## Historical alpha.15
+
 **Alpha.15** synthesizes existing authorized public and confidential X-only
 evidence across source views: native descriptor distributions, representation
 changes, n/p and family relationships, support and missingness. The comparative

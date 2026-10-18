@@ -1,5 +1,19 @@
 # Roadmap and acceptance gates
 
+Alpha.16 checks original source/path/content bindings and separates those facts
+from specimen, reference and assay ownership. Bounded source-specific requests
+are retained locally; no new real supervised fit or target decode occurs.
+Existing native software needs an admitted exact task, not another model engine.
+
+Alpha.17 should close the first source-specific original-reference request,
+verify keyed numeric X/Y and units under a prior target-access freeze, establish
+dependency-safe reference/stress/matched-size designs and cost the exact native
+fits before seeking separate pilot approval. Preserve H1–H5 and all contrary,
+missing and null outcomes. Accumulate independently verified studies only after
+admission; do not select studies by favorable predictive outcomes. Unknown
+overlap prevents confirmation-role separation. TabPFN remains deferred.
+See [alpha.16 report](ALPHA16_RELEASE_REPORT.md).
+
 Alpha.15 converts the existing authorized X-only evidence into a protected
 cross-source scientific synthesis and an explicit PLS/Ridge admission pathway.
 Descriptor relationships, representation sensitivity, n/p, family contrasts,

@@ -1,5 +1,12 @@
 # Architecture and ownership
 
+Alpha.16 adds an explicit original-manifest binding and required-field keyed
+comparison adapter in the existing Python transport package. It introduces no
+numerical backend or crate. Protected source-resolution controllers reuse
+PrivateStore and the same cumulative StageStore journal. Read-only original
+header/container-schema reconciliation and exact owner requests are separate
+from target decoding and the existing native supervised execution gate.
+
 Alpha.15 adds thin `cohort`, `synthesis` and `confrontation` Python orchestration
 modules. Cohort accounting joins declared source/content/receipt identities;
 synthesis reuses compact profiles and calls public Methods summary, factor and
