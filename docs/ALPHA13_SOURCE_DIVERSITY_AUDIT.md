@@ -1,5 +1,10 @@
 # Alpha.13 source diversity and rights audit
 
+Soil has an axis-provenance limitation: OHPL documentation describes 400–2500 nm,
+while the 700 canonical labels span 1100–2500 nm. Original-axis correspondence
+is unverified. These calculations preserve the complete canonical grid without
+relabeling/interpolation; original wavelength-specific conclusions are unqualified.
+
 All **164 pinned entries** are reviewed through catalog descriptors: 42 public
 and 122 private. The inventory distinguishes four rights dimensions and reviews
 original sources instead of equating private tier with prohibition or public

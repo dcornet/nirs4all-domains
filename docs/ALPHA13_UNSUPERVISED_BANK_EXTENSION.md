@@ -1,5 +1,10 @@
 # Alpha.13 unsupervised bank extension
 
+Soil's canonical labels span 1100–2500 nm, whereas package documentation describes
+400–2500 nm. Original-axis correspondence remains unavailable. The results below
+describe the complete canonical array with its declared labels; wavelength-specific
+original-source interpretation is not qualified.
+
 Two independently sourced material-family candidates add full-population raw/SNV
 evidence to the protected 39 alpha.12 public-catalog views. The bank now has
 **41 characterized views**, comprising the unchanged 39/42 public cohort plus two

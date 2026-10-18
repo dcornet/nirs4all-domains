@@ -47,3 +47,12 @@ The owner approved this +512 MiB ceiling on 2026-10-18. The decision and fresh
 disk measurement are retained in the private approval receipt; the portable
 policy is `configs/bank/storage-policy-alpha13.json`. Other limits are unchanged.
 The earlier preparation measurements above describe the proposal, not current use.
+
+Execution closes at 88,894,038 additional reserved bytes, below the 96 MiB bound;
+cumulative campaign reservations are 516,287,954 / 536,870,912 bytes. The unused
+pilot envelope covers the compact-publication retry rather than model fitting;
+total/task/evidence limits do not change. The initial fixed-build allowance was
+an estimate: actual versioned compilation grew more, and each validation guard
+checked the approved ceiling including selected external X files. The final
+local/package snapshot is 14,382,291,979 combined bytes, with a separate Git/CI
+metadata guard before completion. No implicit budget increase or cleanup occurs.

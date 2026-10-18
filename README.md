@@ -40,6 +40,9 @@ execution evidence are recorded in [validation](docs/VALIDATION.md).
 
 Local alpha.13 validation passes **279 tests: 35 Rust + 244 Python**, all 19
 release checks and isolated wheel/source parity, preserving all protected history.
+[Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39113244041)
+on scientific source `037aafa`, with 279 actual tests on each platform;
+[completed-job evidence](docs/audit/github-ci-alpha13.json) records their logs.
 
 ## Historical alpha.12
 

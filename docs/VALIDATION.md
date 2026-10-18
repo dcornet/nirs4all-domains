@@ -15,8 +15,11 @@ integration, alpha.9–13 evidence checks, historical source isolation/cache reu
 canonical JSON report and wheel. The isolated wheel import and every packaged
 Python/schema source are checked against the executed source files. Actual logs,
 attempts and hashes are in [alpha13-validation.json](audit/alpha13-validation.json).
-Hosted CI execution is recorded separately after the push; local success does
-not assert a hosted result.
+[Windows and Ubuntu jobs completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/39113244041)
+on scientific source `037aafa1a8ee7fc9d07a9bb23689fcd3f08deed3`. Actual logs show
+244 Python and 35 Rust tests on each platform, plus 347 protected repository
+artifacts and portable scientific manifests. The [hosted proof](audit/github-ci-alpha13.json)
+distinguishes these completed jobs from the independent local checks.
 
 All **511 protected local files** remain exact; 347 repository artifacts have
 portable hash coverage with recorded pre-existing newline-only variants. Ignored

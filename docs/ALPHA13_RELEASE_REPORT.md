@@ -1,5 +1,9 @@
 # Alpha.13 — calibrated structural evidence and independent falsification readiness
 
+Axis limitation: soil's 700 canonical labels span 1100–2500 nm versus 400–2500 nm
+in OHPL documentation. Original-axis correspondence is unresolved. No relabeling,
+interpolation or original wavelength-assignment claim accompanies these profiles.
+
 Execution date: 2026-10-18. Historical baseline:
 `ebb1b9b8a45d01618931d846d059641701cac7da`. Scientific source version:
 `0.1.0-alpha.13` / Python `0.1.0a13`.
@@ -128,6 +132,14 @@ proposals cover native probability tails, selective MATLAB/RDA fields, expanded
 archive bounds and source dependency contracts; no issue was posted upstream.
 
 ## I — Verification and publication
+
+All **279 local tests (35 Rust + 244 Python)** and **19 release checks** pass.
+The 112,265-byte wheel matches all 43 packaged Python/schema files and imports
+in isolation. [Windows/Ubuntu CI completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/39113244041)
+on scientific source `037aafa1a8ee7fc9d07a9bb23689fcd3f08deed3`, with 279 actual
+tests per platform and verified portable science/historical artifacts. The final
+proof/documentation publication follows that scientific commit without changing
+its numerical protocols or outputs.
 
 Actual local tests, packaging/source parity, protected files, commit and completed
 hosted CI are recorded in [validation](VALIDATION.md) and its alpha.13 audit.
