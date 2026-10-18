@@ -15,9 +15,12 @@ See [actual local evidence](audit/alpha16-validation.json) and
 All 651 protected local and 487 repository artifacts are preserved. Signed
 manifests additionally protect previous confidential files, keys, mappings,
 workspace evidence and every old shared-journal entry. New private scientific
-payloads are excluded from Git and packages. Hosted qualification is pending
-completed Windows/Ubuntu jobs on the actual pushed source; CI configuration is
-not execution proof. Private numerical verification is local only.
+payloads are excluded from Git and packages. [Windows and Ubuntu jobs](https://github.com/dcornet/nirs4all-domains/actions/runs/39148545813) completed successfully on source
+`253aef303745fade4c3626c1b06cc87c81b967c5`. The [job/log proof](audit/github-ci-alpha16.json)
+records 359 Python and 35 Rust tests per platform, 487 portable preserved artifacts
+and actual public-source checks. Private numerical verification is local only.
+The final documentation/proof commit receives its own CI; its signed final-HEAD
+delivery receipt stays local to avoid a recursive proof-commit cycle.
 
 ## Alpha.15 — local execution 2026-10-18
 

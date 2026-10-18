@@ -28,8 +28,9 @@ authorized workspace. Actual tests, packaging and hosted CI are recorded in
 
 Local alpha.16 validation passes **394 tests (359 Python + 35 Rust)** and **27
 release checks**, including native gates and wheel/sdist source parity. All
-651 protected local and 487 repository artifacts are preserved. Hosted CI is
-qualified separately on the actual pushed source.
+651 protected local and 487 repository artifacts are preserved. [Windows and Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39148545813) completed successfully on source `253aef3`
+with 394 actual tests per platform. [Completed-job proof](docs/audit/github-ci-alpha16.json)
+uses public/synthetic inputs only.
 
 ## Historical alpha.15
 

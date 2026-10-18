@@ -70,8 +70,10 @@ plus all prior confidential files and workspace evidence through signed maps.
 Actual local tests, package parity and completed hosted jobs are recorded in
 [validation](VALIDATION.md); CI configuration alone is not execution evidence.
 All 394 local tests (359 Python + 35 Rust) and 27 release checks pass, with
-wheel/source member parity and isolated imports. Hosted evidence is recorded
-after the actual pushed source completes both jobs.
+wheel/source member parity and isolated imports. [Windows and Ubuntu CI passed](https://github.com/dcornet/nirs4all-domains/actions/runs/39148545813) on source `253aef3`,
+with 394 actual tests per platform; [job/log proof](audit/github-ci-alpha16.json)
+records the public/synthetic scope. Final-HEAD CI is verified separately after
+the evidence/documentation commit.
 
 ## J — Next phase
 
