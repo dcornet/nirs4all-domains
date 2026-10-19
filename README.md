@@ -12,7 +12,7 @@ show an absolute native correlation above 0.5 in the three prespecified pairs.
 Composition sensitivity and missing full moments remain explicit.
 
 [Scientific results and figure](docs/ALPHA17_SCIENTIFIC_RESULTS.md) ·
-[aggregate JSON](docs/benchmarks/alpha17/structural-summary.json) ·
+[current aggregate JSON](docs/benchmarks/alpha17/X-extension-summary.json) ·
 [revised execution plan](docs/ALPHA17_EXECUTION_PLAN.md) ·
 [exploratory admission](docs/ALPHA17_REFERENCE_ADMISSION.md) ·
 [next bounded computation](docs/ALPHA17_NEXT_COMPUTE_PLAN.md).

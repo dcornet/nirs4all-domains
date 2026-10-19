@@ -99,8 +99,9 @@ and 487 portable historical artifacts, prior private files, keys/maps and origin
 journal entries remain unchanged. Later spending is assessed under current
 approvals rather than attributed to old alpha.16 budgets.
 
-The actual tablet worker used **3.234 s** and **198.99 MiB** lifetime resident
-peak, distinct from prospective limits. Campaign reservations are
+The measured fit/evaluation callback took **3.234 s after imports**; the worker
+showed a **198.99 MiB** lifetime resident peak, distinct from prospective limits.
+Campaign reservations are
 **804,650,450 / 805,306,368 bytes**, leaving **655,918 bytes**. Final combined
 storage and completed hosted job evidence are recorded at delivery. CI uses
 public/synthetic inputs only and is distinct from local real-data execution.

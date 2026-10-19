@@ -63,8 +63,9 @@ and evaluation without refit. PC1/2 score summaries are available. Qualified
 continuous-support scores and exact full train covariance moments remain
 unavailable; no exact moment is invented from the 20-component PCA.
 
-The actual worker completed in **3.234 seconds**, with a **198.99 MiB** lifetime
-resident peak, including imports. These observations are distinct from the
+The measured fit/evaluation callback took **3.234 seconds after imports**;
+the worker's observed lifetime resident peak was **198.99 MiB**, including
+imports. These observations are distinct from the
 prospective 1-hour/1-GiB stop limits. The task reserved 8 MiB; the shared campaign
 now reserves **804,650,450 / 805,306,368 bytes**, leaving 655,918 bytes. No further
 real fits or acquisitions are implied by that small remainder.

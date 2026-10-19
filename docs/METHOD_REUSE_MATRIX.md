@@ -4,7 +4,7 @@
 
 | Need | Reused provider | Actual scope |
 |---|---|---|
-| Descriptor distributions and paired changes | Methods native summary ABI | 53 local characterized views; 40 source-permitted public views |
+| Descriptor distributions and paired changes | Methods native summary ABI | 56 local characterized views; 42 source-permitted public views; initial 53/40 snapshot preserved |
 | Descriptive associations | Methods correlation-filter ABI | Three prespecified raw descriptor pairs; threshold decisions only |
 | Exploratory admission | Existing Python transport, additive evidence-tier predicate | Unknown physical ownership does not imply independent CV units |
 | Historical predictive skill | Existing alpha.11 native scores and frozen alpha.12 response formula | Nine historical model/design records, one discovery population; no refit |

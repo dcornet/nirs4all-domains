@@ -1,5 +1,14 @@
 # Alpha.17 revised scientific execution plan
 
+The subsequently approved work is now executed: eight X attempts (three computed,
+five retained failures), then the exact original-keyed tablet pilot (104 model
+fits and four train-only PCA fits). The current footprint allocation is
+112/200/8 MiB and campaign reservations are 804,650,450 bytes, under unchanged
+global ceilings. [Actual results](ALPHA17_TABLET_PILOT_RESULTS.md) and the
+[A–J report](ALPHA17_RELEASE_REPORT.md) distinguish this completed scope from
+the initial synthesis-only authorization described below. No further real task
+is authorized by the remaining 655,918 campaign bytes.
+
 The owner's 2026-10-18 amendment takes precedence over the initial alpha.17
 source-closure priority. No original crosswalk or owner clarification has arrived.
 Keep the alpha.16 requests once, stop unchanged investigations, and proceed with
