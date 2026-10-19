@@ -1,5 +1,16 @@
 # Architecture and ownership
 
+The full-bank workflow adds one bounded `full_bank` Python transport module:
+owner-attested same-export alignment, explicit key precedence, retained-row
+filtering before target conversion, declared-component FoldSets, and fixed
+native PLS/Ridge calls. Methods owns model/PCA fitting and scores; DAG-ML
+validates folds. No tuning or solver is implemented in Domains. Generic geometry
+can transport logical feature indices while preserving every original column
+and label; this disables physical-axis operations rather than sorting data.
+Shared source/target matrices and existing checkpoints support progressive
+coverage. Additive study interpretation joins independently of frozen numeric
+results. See ALPHA18_SCIENTIFIC_PROTOCOL.md and STUDY_EVIDENCE_IMPORT.md.
+
 The approved alpha.17 task-specific tablet controller now reuses native
 Methods/DAG inner selection/refit and FlexiblePCA fit/transform, with exact
 original-key joining and fixed source-context FoldSets. No new solver or general

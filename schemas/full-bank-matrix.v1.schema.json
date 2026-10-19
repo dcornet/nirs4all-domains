@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Full-bank aggregate result matrices",
+  "type": "object",
+  "required": ["schema_version", "protocol"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "protocol": {"enum": ["domains.full_bank.structural_matrix.v0.1", "domains.bank_reference.v0.1", "domains.full_bank.confrontation.v0.1"]},
+    "descriptor_freeze_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sources": {"type": "array", "minItems": 171, "maxItems": 171, "items": {"type": "object", "required": ["view_id", "execution_state", "aggregates"]}},
+    "tasks": {"type": "array", "minItems": 2054, "maxItems": 2054, "items": {"type": "object", "required": ["task_id", "view_id", "target", "execution_state", "aggregates"]}},
+    "independent_generalization_validated": {"const": false},
+    "independent_confirmation": {"const": false}
+  },
+  "allOf": [
+    {"if": {"properties": {"protocol": {"const": "domains.full_bank.structural_matrix.v0.1"}}}, "then": {"required": ["sources", "counts", "descriptor_freeze_id", "target_used_for_descriptors"]}},
+    {"if": {"properties": {"protocol": {"const": "domains.bank_reference.v0.1"}}}, "then": {"required": ["tasks", "counts", "descriptor_freeze_id", "model_fit_attempts", "model_fit_successes", "independent_generalization_validated"]}},
+    {"if": {"properties": {"protocol": {"const": "domains.full_bank.confrontation.v0.1"}}}, "then": {"required": ["joined_source_views", "native_absolute_correlation_screens", "stress_tasks", "independent_confirmation"]}}
+  ]
+}

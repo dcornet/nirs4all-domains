@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Additive source-study interpretation, separate from frozen X descriptors",
+  "type": "object",
+  "required": ["schema_version", "records"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "records": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset_id", "content_version", "source_id", "evidence_level", "source_url", "study_id", "population_id", "interpretation", "known_dependencies", "limitations"],
+      "properties": {
+        "dataset_id": {"type": "string", "minLength": 1},
+        "content_version": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "evidence_level": {"enum": ["verified_from_original_study", "declared_by_catalog", "inferred_from_original_documentation", "not_documented", "contradictory"]},
+        "source_url": {"type": ["string", "null"]},
+        "study_id": {"type": ["string", "null"]},
+        "population_id": {"type": ["string", "null"]},
+        "interpretation": {"type": "string"},
+        "known_dependencies": {"type": "array", "items": {"type": "string"}},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    }}
+  }
+}

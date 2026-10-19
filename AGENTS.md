@@ -7,7 +7,10 @@
   or Python. Generic missing kernels belong in Methods; intrinsic qualification
   belongs in Preflight. Document proposed upstream work without changing upstream.
 - Keep the task explicit: dataset/content version/source/target/split/policy.
-  Join sources and tables by declared identities, never row position. Preserve axes.
+  Prefer declared identities. The owner's content-bound same-export X/Y/M
+  order contract may support exploratory positional alignment when counts,
+  order, exclusions and absence of independent sorting/filtering are verified.
+  It does not establish physical/reference independence. Preserve original axes.
 - No fit on retained test. Never read Y_test for pre-training selection. Preserve
   references/groups and check indivisible identities before any aggregation/CV.
 - Preflight alpha availability is not scientific qualification. Capabilities need
@@ -23,6 +26,10 @@
 - No absolute development paths in distributable manifests. Keep Cargo.lock.
   Large data use Datasets' cache; results/, .audit/, .tools/, .venv/ stay ignored.
 - Use ordinary single-agent work unless the user requests delegation.
+- The owner authorizes budget increases up to 5,000,000,000 bytes per alpha
+  without another budget approval request. Freeze a concrete staged plan and
+  report increases, actual usage, limits and scientific scope. Preserve volume
+  reserves, history and actual access restrictions; ask before exceeding this cap.
 - Inspect private-root configuration with scripts/inspect_private_roots.py;
   never dump its values to tools. Project JSON result fields before inspection.
 - The user authorized GitHub repository creation and the first commit/push on

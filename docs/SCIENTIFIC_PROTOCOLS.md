@@ -1,5 +1,13 @@
 # Scientific protocols — domains.canonical.v0.3
 
+The current bank-wide operational protocol is
+[ALPHA18_SCIENTIFIC_PROTOCOL.md](ALPHA18_SCIENTIFIC_PROTOCOL.md), with the
+prospective [stress estimands](ALPHA18_STRESS_ESTIMANDS.md) and explicitly
+recorded [execution qualifications](ALPHA18_EXECUTION_NOTES.md). Same-export
+owner attestation permits exploratory row alignment; physical independence is
+separate. Historical protocols and H1-H5 retain their definitions. Fixed-model
+CV skill is not substituted for a registered deterioration endpoint.
+
 The additive `domains.alpha17.original_keyed_context_pilot.v0.1` task was frozen
 before quantitative access, approved and executed on 2026-10-19. It uses explicit
 original record keys, all 310 observations, nested original-Type holdout and

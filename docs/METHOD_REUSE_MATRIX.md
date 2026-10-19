@@ -1,5 +1,22 @@
 # Method reuse matrix
 
+## Full-bank fixed references
+
+| Need | Existing public provider | Scope |
+|---|---|---|
+| Same-export/key alignment | Domains CSV/key transport | Explicit owner contract; counts alone refused; no specimen-independence assertion |
+| Generic ordered-feature geometry | Existing native X-profile CLI and Methods/Preflight | Original columns retained; logical axis disables physical-axis interpretation |
+| Null, target and score distributions | Methods summary ABI | Development-only means; finite explicit states |
+| Fixed PLS/Ridge | `n4m.roles.PLSRegression` / `Ridge` | Singleton frozen parameters; raw centered, unscaled X; fresh outer-train fits |
+| Explicit component CV | Existing `group_folds`, DAG-ML FoldSet validation | Known identity connectivity preserved; observation CV labeled optimistic |
+| Matched-size controls | Existing `exact_training_subset` | Exact whole-component cardinality, no outcome-driven seed search |
+| Train-fitted stress support | Public FlexiblePCA fit/transform | One-PC training-range diagnostic; no refit on evaluation |
+| Descriptor/outcome screens | Existing native summary and correlation-filter APIs | Per-view target median; fixed absolute thresholds, no signed r or p-value |
+
+Python remains transport/orchestration. No upstream code, numerical kernel,
+third crate or privacy framework is added. Actual executed counts are generated
+in docs/campaign/status.json; availability alone remains separate from evidence.
+
 ## Alpha.17 existing-bank science
 
 | Need | Reused provider | Actual scope |
