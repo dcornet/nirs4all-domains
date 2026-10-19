@@ -1,5 +1,11 @@
 # Alpha.17 exploratory and independent-evaluation evidence
 
+Current outcome: the [original-keyed tablet task](ALPHA17_TABLET_PILOT_RESULTS.md)
+is executed at the exploratory source-context level. It preserves all declared
+blocks, uses the original co-located reference column, and leaves unverified
+specimen/assay ownership unknown. The initial canonical-Y blockers below still
+describe those export files, without blocking the separate verified keyed route.
+
 The owner's amended direction separates these claims prospectively:
 
 | Evidence | Permitted analysis | Remaining limitation |

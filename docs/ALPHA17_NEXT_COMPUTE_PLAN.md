@@ -1,4 +1,20 @@
-# Bounded scientific coverage extension — awaiting approval
+# Bounded scientific coverage extension — approved and executed
+
+The owner approved **version 3**, superseding the earlier unexecuted drafts.
+All eight planned views have a recorded attempt: three computed, five failed.
+Six complete raw/SNV PCA profiles and 12 clustering attempts are available.
+The three initial native-start failures and two axis-contract failures are
+retained. No failed view was retried. The DLL child-environment correction
+enabled subsequent views without changing source content or numerical protocol.
+[Aggregate results and all attempt states](benchmarks/alpha17/X-extension-summary.json)
+include two newly source-permitted noncommercial result sets; the third remains
+local because no source publication grant was established.
+
+Names/links from the public catalog are explicitly authorized. Source permissions
+govern ordinary aggregate publication. The plan below records the approved bounds;
+the [separate tablet pilot](ALPHA17_TABLET_PILOT_RESULTS.md) has now also completed.
+
+## Registered version 3 bounds
 
 The approved alpha.17 work reuses 53 existing full-source views and publishes
 ordinary aggregates for 40 source-permitted views. No new X profile or real

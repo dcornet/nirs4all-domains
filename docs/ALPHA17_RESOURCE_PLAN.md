@@ -54,3 +54,31 @@ PLS/Ridge execution still requires a concrete budget and separate approval.
 
 Section 10 requires fresh expenditure approval even within historical ceilings.
 This records the received decision; no supervised fitting approval is inferred.
+
+## Additive owner decisions, 2026-10-18
+
+The owner approved X extension **version 3** and the internal redistribution:
+128 MiB transcript inputs, 184 MiB engineering, 8 MiB already reserved reporting.
+The controller conservatively includes reporting bytes inside its 184 MiB
+non-transcript guard. The 128 MiB X footprint is a subset of this allowance;
+it is not added to the original 320 MiB envelope. Original approvals are preserved.
+X adds at most 16 MiB reservations, so alpha.17 totals at most 24 MiB; the combined
+and campaign ceilings remain unchanged. No real supervised fit is authorized.
+Public catalog names/links may be used; aggregate publication follows source terms.
+
+## Final received decisions — 2026-10-19
+
+The owner approved **112 MiB transcript / 200 MiB engineering / 8 MiB reporting**,
+still 320 MiB in total, and explicitly authorized the exact tablet pilot:
+104 PLS/Ridge fits plus four train-only PCA fits, 8 MiB new reservations,
+64 MiB additional-footprint bound inside the same envelope. The aggregate
+non-transcript ceiling is the approved 200 + 8 MiB; reporting tasks retain
+their original 8 MiB reservation cap. Old decisions and evidence stay intact.
+No additional local Rust compilation is authorized; cached native test binaries
+are re-executed and hosted CI separately rebuilds public/synthetic source.
+
+The pilot completed within its time/RAM bounds. Campaign reservations are
+804,650,450 bytes, below 805,306,368 by 655,918 bytes. Neither global ceiling
+increases. No cleanup, migration, ledger reset, source acquisition, SNV model,
+B60 or unapproved retry is performed. Actual combined storage is measured again
+at final delivery rather than inferred from the prospective maximum.

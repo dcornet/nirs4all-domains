@@ -7,13 +7,15 @@ Existing native software needs an admitted exact task, not another model engine.
 
 Alpha.17 follows the owner's amended priority: publish ordinary permitted
 aggregates, compare existing full-source profiles and expand missing scientific
-coverage. The [scientific comparison](ALPHA17_SCIENTIFIC_RESULTS.md) uses 53 local
-views and 40 publication-permitted views. Unchanged owner investigations stop;
+coverage. The [scientific comparison](ALPHA17_SCIENTIFIC_RESULTS.md) uses 56 local
+views and 42 publication-permitted views. Unchanged owner investigations stop;
 original crosswalks still constrain stronger claims, not all exploratory science.
 
-Next: approve the [eight-view X extension](ALPHA17_NEXT_COMPUTE_PLAN.md), establish
-the missing declared canonical target-axis binding, then freeze and separately
-authorize simple PLS/Ridge tasks. Observation CV remains potentially optimistic
+The [eight-view X extension](ALPHA17_NEXT_COMPUTE_PLAN.md) and separately approved
+[original-keyed tablet pilot](ALPHA17_TABLET_PILOT_RESULTS.md) are complete.
+Next science should add diverse eligible populations and meaningful matched
+stress/control designs, under a fresh concrete budget: only 655,918 campaign
+bytes remain unreserved. Observation CV remains potentially optimistic
 when physical groups are unknown. Preserve H1–H5 and every contrary/missing/null
 outcome. Verified independent generalization retains its stricter evidence;
 TabPFN remains deferred. See [revised plan](ALPHA17_EXECUTION_PLAN.md).

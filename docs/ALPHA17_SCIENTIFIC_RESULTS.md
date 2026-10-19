@@ -1,5 +1,51 @@
 # Alpha.17 scientific comparison of the existing bank
 
+## Approved extension and first predictive experiment — 2026-10-19
+
+The current bank has **56 characterized source views** and **42 views with
+publishable ordinary aggregates**. Across 171 declared views the execution
+accounting is 56 computed, 16 failed, four unavailable and 95 not executed.
+The original 53-view/40-permitted-view synthesis below is preserved separately.
+[Extension JSON](benchmarks/alpha17/X-extension-summary.json) contains the updated
+42-view distributions and all eight approved attempt outcomes. Median raw PC1
+remains 0.68234; median raw/SNV ARI is now 0.22665 on 40 evaluable views.
+
+The eight-view extension computed three full raw/SNV views (six PCA profiles,
+12 fixed clustering attempts) and retained five failures. Two axes fail the
+strictly increasing-axis contract, without silent sorting or dropped bands.
+Three initial native starts failed because the repaired-wheel DLL directory
+was absent from the child environment. That transport cause was corrected for
+subsequent views; the failed attempts were not retried or hidden.
+
+| Newly published source | n × p | Raw → SNV PC1 | Raw/SNV ARI | Raw → SNV clusters |
+|---|---:|---:|---:|---:|
+| AQGRAD | 190 × 2101 | .52173 → .84009 | .22612 | 4 → 7 |
+| Floating/emergent macrophytes | 325 × 1024 | .81691 → .62666 | −.01722 | 5 → 2 |
+
+Observation: SNV changes variance concentration and clustering in opposite
+directions across these two sources. Confidence: native, complete-population
+descriptions; neither source views nor cluster labels establish independent
+studies. Consequence: preprocessing sensitivity is not a universal scalar risk
+direction. Action: retain both representations and contrary cases before outcomes.
+
+The source API declares [AQGRAD](https://data.ecosis.org/api/3/action/package_show?id=leaf-reflectance-and-traits-of-plants-sampled-along-a-water-affinity-gradient--aqgrad-)
+and [macrophytes](https://data.ecosis.org/api/3/action/package_show?id=leaf-reflectance-and-tratis-of-floating-and-emergent-macrophytes)
+under [CC BY-NC 2.0](https://creativecommons.org/licenses/by-nc/2.0/).
+These derived research statistics retain the attribution and noncommercial
+conditions; full creator/title/citation notices are in the JSON. Software
+licensing is unchanged. The third new view's aggregate permission remains
+unresolved; its full scientific result stays in the authorized local report.
+The catalog private tier itself is not the publication criterion.
+
+The separately approved [tablet experiment](ALPHA17_TABLET_PILOT_RESULTS.md)
+executes 104 native model fits and four train-only ACP/PCA fits on all 310 × 404
+observations/bands. Pooled skill is positive but a complete original context has
+negative R² for both anchors. This is new exploratory predictive knowledge paired
+with frozen X descriptors, without a matched stress/control or independent-study
+claim. No H1–H5 definition, descriptor or threshold changes.
+
+## Initial existing-evidence synthesis — preserved scope
+
 The analysis reuses **53 actually characterized source views**, from a catalog
 of 164 datasets with 159 locally authorized entries. These are different units:
 source views, entries and independent studies must not be conflated. The local

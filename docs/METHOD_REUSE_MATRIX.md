@@ -8,7 +8,8 @@
 | Descriptive associations | Methods correlation-filter ABI | Three prespecified raw descriptor pairs; threshold decisions only |
 | Exploratory admission | Existing Python transport, additive evidence-tier predicate | Unknown physical ownership does not imply independent CV units |
 | Historical predictive skill | Existing alpha.11 native scores and frozen alpha.12 response formula | Nine historical model/design records, one discovery population; no refit |
-| Future baseline fitting | Existing Methods/DAG PLS/Ridge seam | Conditional; no new admitted numeric real task or fit authorization |
+| Baseline fitting | Existing Methods/DAG PLS/Ridge seam | Approved tablet task: 104 fits, four context holdouts, known blocks preserved |
+| Train-fitted diagnostic PCA | Public Methods FlexiblePCA fit/transform | Four train-only fits; evaluation transformed without refit; no exact truncated moment substitute |
 
 No numerical algorithm, provider or upstream repository is changed. Bridge
 versioning is separate from the unchanged alpha.16 Rust crates.

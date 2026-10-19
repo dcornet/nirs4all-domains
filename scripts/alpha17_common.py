@@ -29,6 +29,36 @@ class Context:
             assert self.load(path.name) == self.approval
         else:
             self.save(path.name, self.approval)
+        # Preserve the initial approval; record the received additive decisions.
+        # 184 MiB = 192,937,984 bytes. Conservatively include reporting bytes
+        # inside that non-transcript guard; do not add their 8 MiB allowance.
+        self.extension = {'owner_approved': True, 'decision_date': '2026-10-18',
+            'owner_statements': ['Valider l’extension X version 3', 'Valider cette répartition interne',
+                'Oui, noms et liens publics avec agrégats autorisés'],
+            'X_plan_id': 'dff31d8dec3b1b885b8a4019b076be19fa8683915f78df981de49a74e011d242',
+            'additional_X_reservations_bytes': 16*1048576,
+            'X_additional_combined_bytes': 128*1048576,
+            'transcript_input_bytes': 128*1048576, 'nontranscript_bytes': 184*1048576,
+            'real_fitting_authorized': False,
+            'public_catalog_names_and_links_authorized': True,
+            'aggregate_publication_requires_source_permission': True}
+        supplement = self.root/'owner-extension-approval.json'
+        if supplement.exists():
+            assert self.load(supplement.name) == self.extension
+        else:
+            self.save(supplement.name, self.extension)
+        # 2026-10-19 owner decision: 112 + 200 + 8 = 320 MiB, unchanged.
+        # The last 8 MiB is the existing reporting allocation, not extra budget.
+        self.final_limits = {'owner_approved': True, 'decision_date': '2026-10-19',
+            'owner_statement': 'Valider cette répartition finale',
+            'transcript_input_bytes': 112*1048576, 'engineering_bytes': 200*1048576,
+            'reporting_bytes': 8*1048576, 'additional_combined_bytes': 320*1048576,
+            'new_local_Rust_compilation_authorized': False}
+        final_path = self.root/'owner-final-resource-approval.json'
+        if final_path.exists():
+            assert self.load(final_path.name) == self.final_limits
+        else:
+            self.save(final_path.name, self.final_limits)
         freeze = self.auth(self.store.root/'execution-freeze.json', 'freeze')
         old = self.auth(self.store.root/'alpha15/closure-input-accounting.json')
         current = self.auth(self.store.root/'alpha16/participating-inputs.json')
@@ -62,15 +92,27 @@ class Context:
 
     def guard(self, extra=0, paths=()):
         transcripts = self.load('incident-inputs.json') if (self.root/'incident-inputs.json').exists() else []
-        assert sum(Path(p).stat().st_size for p in transcripts) <= self.approval['transcript_input_bytes'], 'TRANSCRIPT_INPUT_CAP'
+        transcript_bytes = sum(Path(p).stat().st_size for p in transcripts)
+        assert transcript_bytes <= self.final_limits['transcript_input_bytes'], 'TRANSCRIPT_INPUT_CAP'
         candidates = self.load('candidate-inputs.json') if (self.root/'candidate-inputs.json').exists() else []
         assert sum(Path(p).stat().st_size for p in set(candidates)|set(paths)) <= 33554432, 'CANONICAL_KEY_PROJECTION_INPUT_CAP'
         used = tree_bytes([Path.cwd(), self.store.root, *self.files, *transcripts, *candidates, *paths])
         assert used+extra <= min(self.policy['workspace_max_bytes'],
             self.approval['baseline_combined_bytes']+self.approval['additional_combined_bytes']), 'ALPHA17_COMBINED_CAP'
+        nontranscript_cap = self.final_limits['engineering_bytes']+self.final_limits['reporting_bytes']
+        assert used+extra-transcript_bytes <= self.approval['baseline_combined_bytes']+nontranscript_cap, 'ALPHA17_NONTRANSCRIPT_CAP'
         assert all(shutil.disk_usage(p).free >= extra+self.policy['reserve_free_bytes'] for p in ['C:/','D:/'])
         ledger = read(self.scheduler.root/'journal.json')
-        assert 0 <= ledger['reserved_campaign_bytes']-self.approval['previous_campaign_reserved'] <= self.approval['new_reservation_envelope'], 'ALPHA17_RESERVATION_CAP'
+        pilot_bytes = 0
+        grant_path = self.root/'owner-tablet-pilot-approval.json'
+        if grant_path.exists():
+            grant = self.load(grant_path.name)
+            pilot = self.load('ORIGINAL_KEYED_TABLET_PILOT_FREEZE.json')
+            assert grant.get('owner_approved') is True and grant.get('plan_id') == pilot['plan_id']
+            assert grant.get('new_reservation_bytes') == 8388608
+            assert grant.get('native_model_fit_upper') == 104 and grant.get('train_only_PCA_fit_upper') == 4
+            pilot_bytes = 8388608
+        assert 0 <= ledger['reserved_campaign_bytes']-self.approval['previous_campaign_reserved'] <= self.approval['new_reservation_envelope']+self.extension['additional_X_reservations_bytes']+pilot_bytes, 'ALPHA17_RESERVATION_CAP'
         assert ledger['reserved_campaign_bytes'] <= self.policy['campaign_bytes']
         return {'combined_bytes': used, 'campaign_reserved_bytes': ledger['reserved_campaign_bytes']}
 

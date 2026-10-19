@@ -1,5 +1,12 @@
 # Architecture and ownership
 
+The approved alpha.17 task-specific tablet controller now reuses native
+Methods/DAG inner selection/refit and FlexiblePCA fit/transform, with exact
+original-key joining and fixed source-context FoldSets. No new solver or general
+supervised framework is added. Aggregate publication reuses source permissions;
+only statistical summaries leave protected execution evidence. See the executed
+ALPHA17_TABLET_PILOT_PLAN.md and results for the deliberately exploratory scope.
+
 Alpha.17 adds the small `exploratory.admit` evidence-tier decision in the existing
 Python transport package. It does not change strict `confrontation` admission,
 invent physical identities or authorize fitting. Existing Methods summary and

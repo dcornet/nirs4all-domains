@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dcornet.github.io/nirs4all-domains/schemas/exploratory-pilot-summary.v1.schema.json",
+  "title": "Source-permitted exploratory pilot aggregate summary v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol", "dataset_id", "source_id", "content_version", "source_url", "target", "evaluation_scope", "n_observations", "n_bands", "original_contexts", "declared_blocks_preserved", "numeric_target_values_qualified", "retained_target_accessed", "independent_generalization", "anchors", "native_model_fits", "train_only_PCA_fits", "pooled_outcomes", "contexts", "frozen_full_source_X_descriptors", "hypothesis_scope", "observed_resources", "findings", "limitations", "publication"],
+  "properties": {
+    "protocol": {"const": "domains.alpha17.original_keyed_context_pilot.v0.1"},
+    "dataset_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "content_version": {"type": "string"},
+    "source_url": {"type": "string", "pattern": "^https://"},
+    "target": {"type": "object", "additionalProperties": false, "required": ["meaning", "unit"], "properties": {"meaning": {"type": "string"}, "unit": {"type": "string"}}},
+    "evaluation_scope": {"type": "string"},
+    "n_observations": {"type": "integer", "minimum": 1},
+    "n_bands": {"type": "integer", "minimum": 1},
+    "original_contexts": {"type": "integer", "minimum": 2},
+    "declared_blocks_preserved": {"type": "integer", "minimum": 1},
+    "numeric_target_values_qualified": {"const": true},
+    "retained_target_accessed": {"const": false},
+    "independent_generalization": {"const": false},
+    "anchors": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "native_model_fits": {"type": "integer", "minimum": 0},
+    "train_only_PCA_fits": {"type": "integer", "minimum": 0},
+    "pooled_outcomes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/outcome"}},
+    "contexts": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/context"}},
+    "frozen_full_source_X_descriptors": {"type": "array", "items": {"type": "object"}},
+    "hypothesis_scope": {"type": "object", "additionalProperties": false, "required": ["H1_H5_changed", "descriptor_selection_uses_outcomes", "D_RMSE", "D_skill", "independent_confirmation"], "properties": {"H1_H5_changed": {"const": false}, "descriptor_selection_uses_outcomes": {"const": false}, "D_RMSE": {"$ref": "#/$defs/state"}, "D_skill": {"$ref": "#/$defs/state"}, "independent_confirmation": {"$ref": "#/$defs/state"}}},
+    "observed_resources": {"type": "object", "additionalProperties": false, "required": ["native_worker_wall_seconds", "worker_lifetime_peak_resident_bytes", "reservation_bytes", "campaign_reserved_bytes"], "properties": {"native_worker_wall_seconds": {"type": "number", "minimum": 0}, "worker_lifetime_peak_resident_bytes": {"type": "integer", "minimum": 1}, "reservation_bytes": {"type": "integer", "minimum": 0}, "campaign_reserved_bytes": {"type": "integer", "minimum": 0}}},
+    "findings": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["observation", "confidence", "consequence", "action"], "properties": {"observation": {"type": "string"}, "confidence": {"type": "string"}, "consequence": {"type": "string"}, "action": {"type": "string"}}}},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "publication": {"type": "string"}
+  },
+  "$defs": {
+    "state": {"type": "object", "additionalProperties": false, "properties": {"status": {}, "reason": {}, "value": {}}, "required": ["status", "reason", "value"], "oneOf": [{"properties": {"status": {"const": "computed"}, "reason": {"type": "null"}, "value": {"not": {"type": "null"}}}}, {"properties": {"status": {"enum": ["unavailable", "failed", "insufficient_data", "insufficient_information", "not_identifiable", "inconclusive"]}, "reason": {"type": "string", "minLength": 1}, "value": {"type": "null"}}}]},
+    "outcome": {"type": "object", "additionalProperties": false, "required": ["model", "null", "S"], "properties": {"model": {"$ref": "#/$defs/state"}, "null": {"$ref": "#/$defs/state"}, "S": {"$ref": "#/$defs/state"}}},
+    "context": {"type": "object", "additionalProperties": false, "required": ["source_type", "n_train", "n_evaluation", "target_below_training_min", "target_above_training_max", "training_target_summary", "train_fitted_PC1_PC2_summaries", "continuous_support", "exact_full_moments", "models"], "properties": {"source_type": {"type": "string"}, "n_train": {"type": "integer", "minimum": 1}, "n_evaluation": {"type": "integer", "minimum": 1}, "target_below_training_min": {"type": "integer", "minimum": 0}, "target_above_training_max": {"type": "integer", "minimum": 0}, "training_target_summary": {"type": "object"}, "train_fitted_PC1_PC2_summaries": {"type": "object"}, "continuous_support": {"$ref": "#/$defs/state"}, "exact_full_moments": {"$ref": "#/$defs/state"}, "models": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["scores", "null", "S", "selected_parameters", "native_inner_training_lineage_verified", "candidate_count"], "properties": {"scores": {"$ref": "#/$defs/state"}, "null": {"$ref": "#/$defs/state"}, "S": {"$ref": "#/$defs/state"}, "selected_parameters": {"type": "object"}, "native_inner_training_lineage_verified": {"const": true}, "candidate_count": {"type": "integer", "minimum": 1}}}}}}
+  }
+}

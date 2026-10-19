@@ -2,6 +2,22 @@
 
 ## Alpha.17 — execution 2026-10-18
 
+Follow-up on 2026-10-19: **401 tests (366 Python + 35 Rust)** pass. The full
+Python suite includes the original-keyed context/block adversary. The 35 cached
+Rust tests rerun workspace and ignored gates, with no further local compilation;
+fmt and denied-warning Clippy pass. New extension/pilot JSON and schemas,
+source permissions and historical preservation are checked separately.
+The task-specific controller executed 104 real model fits and four train-only
+PCA fits under the owner's exact approval. Real-data artifacts stay local;
+permitted aggregate results are separate from public/synthetic CI.
+[Follow-up local evidence](audit/alpha17-followup-validation.json) records the
+actual logs and package-source parity. The original record below remains its
+initial 18-gate/400-test scope, rather than being rewritten as new execution.
+The [completed intermediate Windows/Ubuntu jobs](https://github.com/dcornet/nirs4all-domains/actions/runs/39160401211)
+passed 400 tests on `b06be32`; final follow-up HEAD jobs are recorded after push.
+
+### Initial release verification
+
 The full local suite passes **400 tests: 365 Python + 35 Rust**, preserving all
 394 prior tests and adding four exploratory-admission cases and one focused
 shell-output regression, plus one source-defined split-sealing adversary. All

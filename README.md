@@ -5,9 +5,9 @@
 **Characterizing spectral structures that may enable shortcut learning in NIRS datasets.**
 
 **Alpha.17** prioritizes scientific comparison of the authorized bank. Existing
-profiles cover **53 source views**; ordinary source-permitted aggregates for
-**40 views** are now public. Median raw PC1 variance is **68.2%**, while median
-raw/SNV partition ARI is **0.233** on 38 evaluable views. These descriptors do not
+profiles cover **56 source views**; ordinary source-permitted aggregates for
+**42 views** are now public. Median raw PC1 variance is **68.2%**, while median
+raw/SNV partition ARI is **0.227** on 40 evaluable views. These descriptors do not
 show an absolute native correlation above 0.5 in the three prespecified pairs.
 Composition sensitivity and missing full moments remain explicit.
 
@@ -17,15 +17,23 @@ Composition sensitivity and missing full moments remain explicit.
 [exploratory admission](docs/ALPHA17_REFERENCE_ADMISSION.md) ·
 [next bounded computation](docs/ALPHA17_NEXT_COMPUTE_PLAN.md).
 
+The first real exploratory UCPH tablet pilot retains all 310 observations and
+404 bands, with nested original-Type holdout preserving 31 declared blocks.
+Pooled RMSE is **0.777 PLS / 0.752 Ridge**, versus **1.600** for the training-only
+null (percentage points mass/mass). Both models have negative R² in one whole
+target-extrapolating context. [Pilot results](docs/ALPHA17_TABLET_PILOT_RESULTS.md)
+retain that adverse result and the frozen X descriptors, without claiming
+independent generalization or a matched H1–H5 degradation test.
+
 Private catalog tier alone does not prohibit publishing derived statistics.
 Raw matrices, sensitive identifiers and actual restrictions stay protected.
 Unknown specimen/assay ownership allows explicitly optimistic exploratory CV;
 independent-generalization claims retain their stronger evidence requirements.
-The new target-key preflight exposes a separate canonical transport gap, so no
-new real fit runs. Historical model scores are reused without refitting. H1–H5
+The original-keyed tablet route supports the approved pilot despite an unkeyed
+canonical Y export. Historical model scores are reused without refitting. H1–H5
 remain frozen. Python bridge is 0.1.0a17; the unchanged Rust crates remain alpha.16.
 
-The current local suite passes **400 tests (365 Python + 35 Rust)**. Initial
+The current local suite passes **401 tests (366 Python + 35 Rust)**. Initial
 [Windows/Ubuntu source CI](https://github.com/dcornet/nirs4all-domains/actions/runs/39157697114)
 passed 399 tests before the final source-split adversary; final-source CI is
 verified separately. See [validation](docs/VALIDATION.md).

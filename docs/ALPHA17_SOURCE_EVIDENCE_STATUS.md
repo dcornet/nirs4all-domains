@@ -1,5 +1,17 @@
 # Alpha.17 source evidence status
 
+The owner's later authorization allowed a bounded technical search, rather than
+repeating experimental-owner questions. Existing tablet/soil exporter code and
+their original public documentation were inspected. A cached original tablet
+table already has an explicit record key and co-located active-substance target;
+the earlier exact keyed X proof supports the executed exploratory pilot without
+new owner evidence. [Canonical transport status](ALPHA17_CANONICAL_TARGET_AXIS.md)
+distinguishes this working route from unverified current unkeyed Y exports.
+
+Live source metadata also resolves CC BY-NC 2.0 aggregate permission for the two
+new aquatic-plant views. Their attributed noncommercial research statistics are
+published without changing historical permissions or the raw-data policy.
+
 No new original crosswalk, source-owner clarification or reference document has
 been received since alpha.16. The existing protected `OWNER_NEXT_ACTIONS.md`
 remains the source-specific handoff; it is reused in the concise local alpha.17

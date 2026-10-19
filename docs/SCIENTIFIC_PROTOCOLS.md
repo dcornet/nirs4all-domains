@@ -1,5 +1,16 @@
 # Scientific protocols — domains.canonical.v0.3
 
+The additive `domains.alpha17.original_keyed_context_pilot.v0.1` task was frozen
+before quantitative access, approved and executed on 2026-10-19. It uses explicit
+original record keys, all 310 observations, nested original-Type holdout and
+the unchanged raw anchor grids. Type/block membership is not relabeled as
+physical/assay independence. H1–H5, full-source descriptors and outcome formulas
+remain unchanged; unmatched degradation endpoints are unavailable. The
+[frozen design](ALPHA17_TABLET_PILOT_PLAN.md) states expected behavior and bounds;
+[results](ALPHA17_TABLET_PILOT_RESULTS.md) preserve the adverse context. The keyed
+metadata adversary tests reordered originals, duplicate/conflicting keys,
+cross-context blocks and retained-marker changes before real target access.
+
 Alpha.17 adds `domains.exploratory.admission.v0.1`, prospectively specified in
 [the revised execution plan](ALPHA17_EXECUTION_PLAN.md). Credible content-bound
 canonical XY and declared quantitative targets support explicitly exploratory

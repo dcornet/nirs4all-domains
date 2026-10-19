@@ -14,7 +14,7 @@ def gh(*args):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('run_id');p.add_argument('--out',default='docs/audit/github-ci-alpha17.json')
-    p.add_argument('--expected-python',type=int,choices=[364,365],default=365);a=p.parse_args()
+    p.add_argument('--expected-python',type=int,choices=[364,365,366],default=366);a=p.parse_args()
     repo='dcornet/nirs4all-domains'
     proof=json.loads(gh('run','view',a.run_id,'--repo',repo,'--json','status,conclusion,headSha,url,jobs,createdAt,updatedAt'))
     assert proof['status']=='completed' and proof['conclusion']=='success'

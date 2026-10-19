@@ -55,6 +55,39 @@ class ExploratoryAdmission(unittest.TestCase):
 
 
 class SafeInspection(unittest.TestCase):
+    def test_original_keyed_context_plan_preserves_blocks_and_refuses_conflicts(self):
+        import copy
+        sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts'))
+        try:
+            from prepare_alpha17_tablet_pilot import identity_plan
+        finally:
+            sys.path.pop(0)
+        marker='by_batch_grouping_documented_not_applied'
+        original=[];canonical=[]
+        for context in range(4):
+            for block in range(2):
+                for replicate in range(2):
+                    key=f'original:{context}:{block}:{replicate}'
+                    original.append({'Unnamed: 0':key,'Type':str(context),'Scale':'lab'})
+                    canonical.append({'observation_id':'observation:'+key,'source_sample_id':key,
+                        'batch':f'{context}:{block}','scale':'lab','split_original':marker})
+        result=identity_plan(list(reversed(original)),canonical,marker)
+        self.assertEqual(result['declared_blocks'],8)
+        self.assertEqual(result['original_contexts'],4)
+        self.assertEqual(len(result['development_observation_ids']),16)
+        self.assertEqual(result['retained_observation_ids'],[])
+        for fold in result['outer_folds']['folds']:
+            rows={r['observation_id']:r for r in result['records']}
+            train={rows[k]['declared_block'] for k in fold['train_sample_ids']}
+            valid={rows[k]['declared_block'] for k in fold['validation_sample_ids']}
+            self.assertFalse(train & valid)
+        for field,value in [('source_sample_id',canonical[0]['source_sample_id']),
+                            ('batch',canonical[0]['batch']),('split_original','test'),('scale','wrong')]:
+            broken=copy.deepcopy(canonical);broken[4][field]=value
+            with self.subTest(field=field),self.assertRaises(ValueError):
+                identity_plan(original,broken,marker)
+        with self.assertRaises(ValueError):identity_plan(original+[original[0]],canonical,marker)
+
     def test_documented_split_is_sealed_even_when_io_does_not_auto_apply_it(self):
         sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts'))
         try:

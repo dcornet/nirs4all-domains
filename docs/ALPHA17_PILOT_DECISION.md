@@ -1,5 +1,22 @@
 # Alpha.17 real-fit decision
 
+## Current decision — 2026-10-19
+
+The owner approved the exact [original-keyed tablet pilot](ALPHA17_TABLET_PILOT_PLAN.md).
+It completed 104 native model fits and four train-only PCA fits, preserving all
+310 observations and all declared blocks. [Results](ALPHA17_TABLET_PILOT_RESULTS.md)
+report both pooled improvement and adverse contexts. No new owner crosswalk was
+required for this explicitly exploratory level. The canonical Y export is unused;
+the target comes from the keyed original record. Physical/assay dependencies
+remain unknown and genuine independent-generalization claims stay unavailable.
+
+The original conditional proposals below are superseded for the tablet pilot;
+their blockers remain evidence about those particular unkeyed canonical routes.
+Their hypothetical 260-fit batch was never run. The shared campaign has only
+655,918 bytes unreserved; there is no authorization for additional real fits.
+
+## Initial unexecuted conditional proposals
+
 **No new real supervised fit is approved or executed.** The owner's approved
 320 MiB / 8 MiB plan excludes it. The present work produces scientific comparisons
 and reuses historical scores without retraining.
