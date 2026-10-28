@@ -1,0 +1,938 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "design_id": {
+      "const": "domains.structural_fragility.research.v2"
+    },
+    "schema_status": {
+      "const": "proposed_not_runtime_contract"
+    },
+    "example_only": {
+      "type": "boolean"
+    },
+    "database_support": {
+      "$ref": "#/$defs/count_metric"
+    },
+    "portals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/portal"
+      }
+    },
+    "databases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/database"
+      }
+    },
+    "database_overlap": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/overlap"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "estimators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/estimator"
+      }
+    },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/protocol"
+      }
+    },
+    "synthetic_mechanisms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/mechanism"
+      }
+    },
+    "experiments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/experiment"
+      }
+    }
+  },
+  "required": [
+    "design_id",
+    "schema_status",
+    "example_only",
+    "database_support",
+    "portals",
+    "databases",
+    "database_overlap",
+    "sources",
+    "targets",
+    "estimators",
+    "protocols",
+    "synthetic_mechanisms",
+    "experiments"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposed structural-fragility research hierarchy v2",
+  "description": "Design proposal only. Record IDs and multiple targets are not evidence of independent databases. Cross-record identity, leakage and uncertainty semantics require separate qualification before execution.",
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "computed",
+            "unavailable",
+            "inapplicable",
+            "failed"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "computed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "value": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "nonnegative_metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/metric"
+        },
+        {
+          "properties": {
+            "value": {
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "count_metric": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/metric"
+        },
+        {
+          "properties": {
+            "value": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "portal": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "portal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "portal_id",
+        "name",
+        "url"
+      ]
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "database_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "original_database_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "portal_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "identity_evidence": {
+          "enum": [
+            "verified_original",
+            "declared",
+            "inferred",
+            "unknown",
+            "contradictory"
+          ]
+        },
+        "study_publication_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "population_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "known_specimen_overlap_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "unknown_overlap_note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "database_record_id",
+        "original_database_id",
+        "portal_ids",
+        "identity_evidence",
+        "study_publication_refs",
+        "population_refs",
+        "known_specimen_overlap_refs",
+        "unknown_overlap_note"
+      ]
+    },
+    "overlap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "database_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "status": {
+          "enum": [
+            "established_shared_population",
+            "documented_disjoint_population",
+            "unknown",
+            "contradictory"
+          ]
+        },
+        "evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dependency_block_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "database_record_ids",
+        "status",
+        "evidence_ref",
+        "dependency_block_id",
+        "limitations"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_dataset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observation_population_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shared_specimen_view_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "axis_contract_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "X_descriptor_freeze_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source_record_id",
+        "database_record_id",
+        "catalog_dataset_id",
+        "content_version",
+        "source_id",
+        "observation_population_ref",
+        "shared_specimen_view_refs",
+        "axis_contract_ref",
+        "X_descriptor_freeze_ref"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "meaning_evidence": {
+          "enum": [
+            "verified_original",
+            "declared",
+            "inferred",
+            "unknown",
+            "contradictory"
+          ]
+        },
+        "quantitative_admissibility": {
+          "enum": [
+            "admissible",
+            "ineligible",
+            "unknown"
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "target_record_id",
+        "database_record_id",
+        "source_record_ids",
+        "target_id",
+        "target_family",
+        "unit",
+        "meaning_evidence",
+        "quantitative_admissibility",
+        "limitations"
+      ]
+    },
+    "estimator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "estimator_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configuration_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_evidence_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "estimator_id",
+        "provider",
+        "version",
+        "configuration_ref",
+        "execution_evidence_ref"
+      ]
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "split_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contrast_family": {
+          "enum": [
+            "benchmark_spxy_vs_logo",
+            "known_vs_unseen_group",
+            "loco_x_support",
+            "continuous_support"
+          ]
+        },
+        "split_scheme": {
+          "enum": [
+            "SPXY",
+            "LOGO",
+            "GroupKFold",
+            "within_group",
+            "observation_cv",
+            "LOCO-X",
+            "continuous_region",
+            "random_pseudo_groups"
+          ]
+        },
+        "group_basis": {
+          "enum": [
+            "verified_experimental",
+            "declared_context",
+            "X_derived",
+            "none"
+          ]
+        },
+        "group_membership_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "indivisible_component_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "membership_freeze_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "transductive_full_X": {
+          "type": "boolean"
+        },
+        "outer_Y_used_for_selection": {
+          "const": false
+        },
+        "physical_independence_claim": {
+          "const": false
+        },
+        "evaluation_pairing": {
+          "enum": [
+            "common_observations",
+            "different_populations",
+            "not_frozen"
+          ]
+        },
+        "training_size_control": {
+          "enum": [
+            "exact_whole_components",
+            "unmatched",
+            "not_frozen"
+          ]
+        },
+        "reference_regime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stress_regime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "common_null_prediction_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "SPXY_null_mode": {
+          "enum": [
+            "not_applicable",
+            "frozen_partition",
+            "regenerated_per_random_target"
+          ]
+        }
+      },
+      "required": [
+        "protocol_id",
+        "split_id",
+        "contrast_family",
+        "split_scheme",
+        "group_basis",
+        "group_membership_ref",
+        "indivisible_component_ref",
+        "membership_freeze_ref",
+        "transductive_full_X",
+        "outer_Y_used_for_selection",
+        "physical_independence_claim",
+        "evaluation_pairing",
+        "training_size_control",
+        "reference_regime",
+        "stress_regime",
+        "common_null_prediction_ref",
+        "SPXY_null_mode"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "split_scheme": {
+                "const": "LOGO"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "group_basis": {
+                "enum": [
+                  "verified_experimental",
+                  "declared_context"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "split_scheme": {
+                "const": "LOCO-X"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "group_basis": {
+                "const": "X_derived"
+              },
+              "contrast_family": {
+                "const": "loco_x_support"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mechanism_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "real_target",
+            "iid_random",
+            "group_random",
+            "signal_plus_group",
+            "real_target_plus_group"
+          ]
+        },
+        "generator_status": {
+          "enum": [
+            "proposed",
+            "frozen"
+          ]
+        },
+        "generator_function_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coefficient_hash_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "random_seed_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "group_assignment_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signal_scale_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "noise_scale": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "lambda": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "engineering_interpretation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "mechanism_id",
+        "kind",
+        "generator_status",
+        "generator_function_ref",
+        "coefficient_hash_ref",
+        "random_seed_ref",
+        "group_assignment_ref",
+        "signal_scale_ref",
+        "noise_scale",
+        "lambda",
+        "engineering_interpretation"
+      ]
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "n_train_reference": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "n_train_stress": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "n_evaluation": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "n_groups": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "X_support_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Y_support_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "uncertainty_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uncertainty_interval_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "n_train_reference",
+        "n_train_stress",
+        "n_evaluation",
+        "n_groups",
+        "X_support_ref",
+        "Y_support_ref",
+        "uncertainty_scope",
+        "uncertainty_interval_ref"
+      ]
+    },
+    "outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "RMSE_reference": {
+          "$ref": "#/$defs/nonnegative_metric"
+        },
+        "RMSE_stress": {
+          "$ref": "#/$defs/nonnegative_metric"
+        },
+        "RMSE_reference_training_null": {
+          "$ref": "#/$defs/nonnegative_metric"
+        },
+        "RMSE_null_common": {
+          "$ref": "#/$defs/nonnegative_metric"
+        },
+        "G": {
+          "$ref": "#/$defs/metric"
+        },
+        "S_reference": {
+          "$ref": "#/$defs/metric"
+        },
+        "S_stress_common": {
+          "$ref": "#/$defs/metric"
+        },
+        "D_skill_common": {
+          "$ref": "#/$defs/metric"
+        }
+      },
+      "required": [
+        "RMSE_reference",
+        "RMSE_stress",
+        "RMSE_reference_training_null",
+        "RMSE_null_common",
+        "G",
+        "S_reference",
+        "S_stress_common",
+        "D_skill_common"
+      ]
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "experiment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_record_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "protocol_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "estimator_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mechanism_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "representation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "population_and_exclusions_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "support": {
+          "$ref": "#/$defs/support"
+        },
+        "state": {
+          "enum": [
+            "planned",
+            "frozen",
+            "computed",
+            "partial",
+            "unavailable",
+            "failed"
+          ]
+        },
+        "analysis_role": {
+          "enum": [
+            "illustrative_design_only",
+            "exploratory",
+            "prospectively_registered"
+          ]
+        },
+        "independent_confirmation": {
+          "const": false
+        },
+        "outcomes": {
+          "$ref": "#/$defs/outcomes"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "database_record_id",
+        "source_record_id",
+        "target_record_id",
+        "protocol_id",
+        "estimator_id",
+        "mechanism_id",
+        "representation",
+        "population_and_exclusions_ref",
+        "support",
+        "state",
+        "analysis_role",
+        "independent_confirmation",
+        "outcomes"
+      ]
+    }
+  }
+}

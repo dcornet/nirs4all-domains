@@ -1,0 +1,175 @@
+{
+  "design_id": "domains.structural_fragility.research.v2",
+  "schema_status": "proposed_not_runtime_contract",
+  "example_only": true,
+  "database_support": {
+    "status": "unavailable",
+    "reason": "ORIGINAL_DATABASE_MAPPING_AND_DEPENDENCE_NOT_VERIFIED",
+    "value": null
+  },
+  "portals": [
+    {
+      "portal_id": "example-portal",
+      "name": "Fictitious portal; not an independence unit",
+      "url": null
+    }
+  ],
+  "databases": [
+    {
+      "database_record_id": "example-db-record",
+      "original_database_id": null,
+      "portal_ids": [
+        "example-portal"
+      ],
+      "identity_evidence": "unknown",
+      "study_publication_refs": [],
+      "population_refs": [],
+      "known_specimen_overlap_refs": [],
+      "unknown_overlap_note": "Illustration only; no real database or biological independence asserted."
+    }
+  ],
+  "database_overlap": [],
+  "sources": [
+    {
+      "source_record_id": "example-view",
+      "database_record_id": "example-db-record",
+      "catalog_dataset_id": "fictitious-example",
+      "content_version": "illustrative-1",
+      "source_id": "X",
+      "observation_population_ref": "illustrative/development-population",
+      "shared_specimen_view_refs": [],
+      "axis_contract_ref": "illustrative/original-axis",
+      "X_descriptor_freeze_ref": "illustrative/X-freeze"
+    }
+  ],
+  "targets": [
+    {
+      "target_record_id": "example-target",
+      "database_record_id": "example-db-record",
+      "source_record_ids": [
+        "example-view"
+      ],
+      "target_id": "illustrative_quantitative_target",
+      "target_family": "illustrative",
+      "unit": null,
+      "meaning_evidence": "unknown",
+      "quantitative_admissibility": "unknown",
+      "limitations": [
+        "Not a real target or fitted task."
+      ]
+    }
+  ],
+  "estimators": [
+    {
+      "estimator_id": "example-pls",
+      "provider": "Methods public PLS role",
+      "version": null,
+      "configuration_ref": "illustrative/fixed-PLS",
+      "execution_evidence_ref": null
+    }
+  ],
+  "protocols": [
+    {
+      "protocol_id": "example-loco-x",
+      "split_id": "example-unfrozen-split",
+      "contrast_family": "loco_x_support",
+      "split_scheme": "LOCO-X",
+      "group_basis": "X_derived",
+      "group_membership_ref": null,
+      "indivisible_component_ref": "illustrative/components",
+      "membership_freeze_ref": null,
+      "transductive_full_X": true,
+      "outer_Y_used_for_selection": false,
+      "physical_independence_claim": false,
+      "evaluation_pairing": "not_frozen",
+      "training_size_control": "not_frozen",
+      "reference_regime": "illustrative-known-X-region",
+      "stress_regime": "illustrative-excluded-X-region",
+      "common_null_prediction_ref": null,
+      "SPXY_null_mode": "not_applicable"
+    }
+  ],
+  "synthetic_mechanisms": [
+    {
+      "mechanism_id": "example-weak-group",
+      "kind": "signal_plus_group",
+      "generator_status": "proposed",
+      "generator_function_ref": null,
+      "coefficient_hash_ref": null,
+      "random_seed_ref": null,
+      "group_assignment_ref": null,
+      "signal_scale_ref": null,
+      "noise_scale": 0.25,
+      "lambda": 0.1,
+      "engineering_interpretation": "Proposed spectral signal plus engineered X-group effect; not biological LOGO or evidence of real-label leakage."
+    }
+  ],
+  "experiments": [
+    {
+      "experiment_id": "example-only-not-executed",
+      "database_record_id": "example-db-record",
+      "source_record_id": "example-view",
+      "target_record_id": null,
+      "protocol_id": "example-loco-x",
+      "estimator_id": "example-pls",
+      "mechanism_id": "example-weak-group",
+      "representation": "raw",
+      "population_and_exclusions_ref": "illustrative/development-only-no-sealed-test",
+      "support": {
+        "n_train_reference": null,
+        "n_train_stress": null,
+        "n_evaluation": null,
+        "n_groups": null,
+        "X_support_ref": null,
+        "Y_support_ref": null,
+        "uncertainty_scope": "not evaluated",
+        "uncertainty_interval_ref": null
+      },
+      "state": "planned",
+      "analysis_role": "illustrative_design_only",
+      "independent_confirmation": false,
+      "outcomes": {
+        "RMSE_reference": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "RMSE_stress": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "RMSE_reference_training_null": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "RMSE_null_common": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "G": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "S_reference": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "S_stress_common": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        },
+        "D_skill_common": {
+          "status": "unavailable",
+          "reason": "ILLUSTRATIVE_DESIGN_NOT_EXECUTED",
+          "value": null
+        }
+      }
+    }
+  ]
+}

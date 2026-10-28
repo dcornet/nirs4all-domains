@@ -1,5 +1,11 @@
 # Scientific protocols — domains.canonical.v0.3
 
+The additive [structural-fragility research v2 proposal](STRUCTURAL_FRAGILITY_RESEARCH_V2.md)
+defines database-level, baseline-skill-conditional deterioration and proposed
+null/synthetic controls. It is a research design, not an executed numerical
+protocol or an amendment of frozen H1-H5. The [pilot plan](STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md)
+does not authorize fitting; historical outcome definitions remain intact.
+
 The current bank-wide operational protocol is
 [ALPHA18_SCIENTIFIC_PROTOCOL.md](ALPHA18_SCIENTIFIC_PROTOCOL.md), with the
 prospective [stress estimands](ALPHA18_STRESS_ESTIMANDS.md) and explicitly
