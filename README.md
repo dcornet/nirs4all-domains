@@ -1,97 +1,68 @@
 # nirs4all-domains
 
-**To what extent do structural properties of NIRS spectral data contribute to statistically detectable, estimator- and target-dependent performance degradation when evaluation moves from representative or within-group sampling to structurally independent or out-of-support prediction — even when substantial genuine X–Y predictive signal remains?**
-
-nirs4all-domains studies how spectral population structure, experimental context,
-sample similarity and distribution shift influence NIRS model evaluation, so that
-estimator and pipeline comparisons can be made on scientifically understood benchmarks.
+**nirs4all-domains characterizes structural organization, population support and
+evaluation-related limitations in NIRS datasets, helping researchers choose
+appropriate validation strategies and interpret calibration results.**
 
 [![Scientific gates](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml/badge.svg)](https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml)
 
-## Why study structure before comparing models?
+Domains is a reusable diagnostic product. It is useful with X alone, without Y,
+complete group metadata, a trained predictor, a demonstrated shortcut mechanism
+or a known deployment scenario. Descriptive diagnostics do not wait for H1–H5
+confirmation. Missing evidence limits the relevant interpretation, not every
+available diagnostic.
 
-Good NIRS prediction may reflect useful chemistry, population composition, close
-samples, acquisition context, shared references, or interacting mechanisms.
-Conventional validation may not distinguish them. Useful chemical signal and a
-small group-dependent contribution can coexist. A statistically detectable
-structural effect need not dominate prediction, and statistical significance
-and practical magnitude answer different questions. Predictive dependence alone
-does not identify a causal or undesirable shortcut.
+## Structural evidence and its limits
 
-The primary outcome is **validation sensitivity conditional on baseline skill**,
-not absolute RMSE or unconditional model quality. For positive paired errors,
-`G = log(RMSE_stress / RMSE_reference)` accompanies
-`S_reference = 1 - RMSE_reference / RMSE_training_null` and, where valid,
-common-null stress skill. Negative-skill tasks remain included. Effect sizes,
-uncertainty, independent-database support and multiple comparisons matter;
-there is no minimum 20%/30% deterioration rule or universal risk scalar.
+| Capability | Available evidence and qualification |
+|---|---|
+| X-only geometry and populations | Raw/SNV PCA, applicable exact effective dimension, continuity and density profiles; missing full moments remain explicit |
+| Neighborhoods, proximity and support | Native distances/neighbors and dependency-aware comparisons; query sampling and admissible references are documented |
+| Discrete and multi-scale structure | HDBSCAN labels, membership strength, persistence and hierarchy transport; a generic qualified multi-scale interpretation is still planned |
+| Representation sensitivity | Paired raw/SNV geometry, partition agreement and neighborhood changes |
+| Metadata corroboration | Factor associations, agreement/disagreement and unknown correspondence; crossed factors need not form a tree |
+| Evaluation partitions | Train-fitted projection, overlap/extrapolation diagnostics and known identity/reference guards |
+| Compatible model results | Exploratory PLS/Ridge and historical FastAOM sensitivity evidence, bound to source, target, split and pipeline |
+| Reusable reporting | Explicit status/reason/value, uncertainty scope, provenance, original axes and source-specific limitations |
 
-| Evidence level | What it establishes | What it does not establish |
+A cluster is an X observation, not a biological batch or proof of a harmful
+shortcut. Membership strength is not a probability. Weak clustering does not
+certify low risk; a protocol gap is not a causal shortcut percentage. There is
+no universal deployment-quality label or mandatory low-risk certification.
+See [method ownership](docs/METHOD_REUSE_MATRIX.md) and the
+[multi-scale audit and research concept note](docs/MULTISCALE_AND_AUGMENTATION_NOTES.md).
+
+The evidence vocabulary separates **structural observation**, **validation
+concern**, **empirical sensitivity**, **scientific mechanism hypothesis** and
+**validated interpretation**. Domains can generically report the first three;
+mechanism and validated-scope conclusions require their own supporting evidence.
+
+## Which validation answers the intended prediction question?
+
+| Intended use | Candidate evaluation, subject to actual dependencies | Supported interpretation |
 |---|---|---|
-| Observable X structure | Subpopulations, gradients, neighborhoods/proximity, representation sensitivity, stability and support | A cluster is not proof of shortcut learning; weak clustering is not low-risk certification |
-| Potential shortcut susceptibility | Frozen, falsifiable predictions about validation sensitivity | Genuine chemistry may generate strong structure; no universal shortcut probability |
-| Observed predictive sensitivity | Model responses to estimator, preprocessing, split, grouping and support changes | Poor transfer alone does not identify causal shortcut reliance |
-| Scientific generalization evidence | Reproducibility across original databases/populations with study and specimen dependencies accounted for | Views, folds and targets do not create additional independent databases |
+| Within-experiment proof of concept | Representative/within-population validation with repeat and shared-reference controls | Exploitable X–Y relation within observed support, not independent transfer |
+| Operational prediction in a stable known context | New-specimen, acquisition/session, batch or time holdout matching the process | New predictions within the defined domain, subject to verified unit assumptions |
+| Prediction outside the experimental context | Hold out the relevant genotype, treatment, site, campaign, instrument, lab or entire experiment; external data where supported | Transfer only to the kind of unseen context actually tested |
 
-## Scientific workflow
+KFold, SPXY, GroupKFold and LOGO answer different questions; none is universally
+superior. A categorical column alone does not justify GroupKFold. Genotype
+holdout is not new-experiment validation; block holdout is not new-instrument
+transfer. Entire-experiment holdout has a different scope from a group excluded
+inside that experiment. SPXY must not use external evaluation Y for calibration
+selection. Indivisible specimens and reference dependencies always remain intact.
 
-1. Characterize X and map original experimental databases, views and dependencies.
-2. Freeze descriptors, target-aware questions and evaluation-specific estimands.
-3. Compare representative/within-group and group- or support-exclusive prediction.
-4. Test deterioration conditional on baseline skill, estimator and preprocessing.
-5. Add IID random targets, group-random targets and useful spectral signals with weak injected group effects.
-6. Synthesize at database level and build purpose-qualified benchmark suites.
+If intended use is unknown, report several conditional interpretations rather
+than choose a single correct split. The proposed [validation-intent description](docs/VALIDATION_INTENTS.md)
+records population, group basis, unseen context, support, transduction, limitations
+and supported/unsupported claims. It is initially documentation, not a new runtime API.
 
-Discovery, exploratory confrontation and independent confirmation remain distinct
-while these activities overlap operationally. Existing H1-H5 stay frozen.
+LOCO-X (Leave-One-X-Cluster-Out) remains an exploratory geometric support test.
+Full-X construction is explicitly transductive and must not use held-out Y.
+Treating it as a proxy for a particular deployment shift requires separate
+evidence; it is not automatically physical or experimental LOGO.
 
-## Databases, validation contrasts and controls
-
-The hierarchy is **repository/portal → original experimental database → spectral
-source/view → target → validation protocol → estimator**. The original database
-is the default macro-analysis unit. EcoSIS hosts multiple experimental databases;
-sharing its portal, namespace or biological material does not make them one
-database. Conversely, extra views, targets and folds do not create independent
-replications. Known study/specimen overlap requires hierarchical dependence;
-unknown overlap remains unknown. A curated independent-database count is not yet
-available. Retain all admissible targets, report within-database median effects
-and dispersion, give databases comparable influence, and examine aggregation and
-source-family sensitivity. Never pool raw RMSE across different target units.
-
-Two contrasts remain distinct. **SPXY versus LOGO** measures a benchmark-protocol
-gap combining sampling, coverage, group novelty, training size and model response.
-SPXY selection uses development labels only, with outer evaluation labels kept
-untouched. **Known-group versus unseen-group prediction** preferably compares
-common evaluation observations with whole-group size controls. True LOGO and
-GroupKFold have different estimands. Neither contrast alone isolates a causal
-shortcut contribution; indivisible sample/reference identities always stay intact.
-
-When experimental groups are missing, **LOCO-X (Leave-One-X-Cluster-Out)** is an
-exploratory X-defined stress test, not experimental LOGO or proof of physical-domain
-transfer. Full-X partitions are explicitly transductive; held-out Y cannot choose
-clusters or representations. Stability, noise, sizes, continuous geometry and
-size-matched random pseudo-groups must be considered without forcing clusters.
-
-The proposed controls complement real outcomes: IID Y audits null response;
-group-random Y probes group recognition; controlled spectral signal plus weak
-group effects probes additional dependence while useful signal remains. SPXY
-needs both frozen-split randomization and per-realization split regeneration.
-Favorable null scores or learning engineered cluster labels alone do not prove
-real-target leakage. These extensions are **planned, not executed or validated**.
-See the [versioned research design](docs/STRUCTURAL_FRAGILITY_RESEARCH_V2.md) and
-[bounded pilot proposal](docs/STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md).
-
-## Implemented methods
-
-Catalog-driven screening; raw/SNV geometry; PCA and applicable exact effective
-dimension; neighborhood, density and near-proximity profiles; HDBSCAN and
-conditional stability; metadata corroboration; supported group/structural splits;
-native PLS/Ridge and historical FastAOM experiments. Methods/Preflight/DAG own
-numerical kernels. Missing full covariance moments do not disable valid PCA or
-neighborhood evidence. [Method ownership](docs/METHOD_REUSE_MATRIX.md) and
-[scientific protocols](docs/SCIENTIFIC_PROTOCOLS.md) state actual capabilities.
-
-## Current scientific evidence
+## Current implemented and experimental evidence
 
 <!-- scientific-status:start -->
 | Scientific unit | Executed full-bank status |
@@ -108,68 +79,64 @@ neighborhood evidence. [Method ownership](docs/METHOD_REUSE_MATRIX.md) and
 | Public source views joined to quantitative outcomes | 35 |
 <!-- scientific-status:end -->
 
-[Machine-readable status](docs/campaign/status.json) is the status source. These
-are source views, not independent studies. The full-bank campaign accounts for
-every entry; local limitations restrict only the affected stage or claim.
+The table is generated from [campaign status](docs/campaign/status.json).
+Source views, catalog entries, targets and folds are not independent experimental
+databases. Original-database/overlap support remains incompletely curated; EcoSIS
+collections are not collapsed into one database merely because they share a portal.
+Research fit counts document executed evidence, not completed product features.
+No universal structural-risk model or causal mechanism has been validated.
 
-The new campaign includes 682 complete primary quantitative tasks. Across 35
-source-permitted paired views, none of six tested X descriptors exceeds absolute
-Pearson correlation .50 with median target CV skill for either fixed model.
-Context experiments show that SNV reduces matched stress deterioration on tablets,
-increases it on aquatic-leaf LMA, and has opposite effects on PLS and Ridge for
-leaf nitrogen. These exploratory effects combine context, chemistry and training
-composition. [Outcomes and limitations](docs/ALPHA18_SCIENTIFIC_RESULTS.md)
-retain null and adverse cases. The correlation screens concern ordinary CV
-skill, not the new conditional deterioration question; their weak associations
-do not establish that the research question has failed. **No database-level
-conditional fragility model, calibrated random-target program or independent
-confirmation under this new design has been validated.**
+- [Per-source structural evidence](docs/campaign/source-matrix.md) and [JSON matrix](docs/campaign/structural-matrix.json).
+- [Compatible supervised task results](docs/campaign/experiment-matrix.md) and [context/pipeline comparison](docs/campaign/confrontation.json).
+- [Scientific results, figures and limitations](docs/ALPHA18_SCIENTIFIC_RESULTS.md).
+- [Source attribution and aggregate permissions](docs/campaign/source-attribution.md).
 
-## Permanent scientific milestones
+## Product roadmap
 
-| Milestone | Scientific output | Current evidence/status |
+| Milestone | Permanent product objective | Current status |
 |---|---|---|
-| M1 - Full-bank structural characterization | Database and view coverage with multidimensional X profiles | 137/171 complete raw/SNV profiles; database support not yet curated |
-| M2 - Scientific structural hypotheses | Frozen X descriptors and conditional, target-aware questions | H1-H5 unchanged; v2 addendum is a prospective design proposal |
-| M3 - Broad comparative supervised experiments | Distinct protocol-gap and known/unseen-group comparisons | 682 complete primary quantitative tasks; exploratory context/plot contrasts |
-| M4 - Mechanism testing and statistical validation | Conditional deterioration, null controls and database-aware inference | Conditional model, null calibration and independent confirmation pending |
-| M5 - Purpose-qualified NIRS benchmark suites | Benchmarks frozen by purpose and supporting evidence | Exploratory suites exist; weak clustering or favorable CV does not certify low risk |
+| D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; multi-scale interpretation remains partial |
+| D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Documented scenarios and proposed interpretation fields; no automatic selector |
+| D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | 682 complete primary quantitative tasks; exploratory context/plot sensitivity |
+| D4 - Usable integration | Stable reports and public Datasets/Preflight/Methods/model interfaces | Existing two-crate core/CLI and thin bridge; read-only research interface specified |
+| D5 - Evidence-supported guidance | Validated and calibrated diagnostic interpretation | Task-specific evidence exists; no universal shortcut or deployment certification |
 
-Goals and completion measurements are stable in the [scientific roadmap](docs/ROADMAP.md).
-The v2 revision refines their research questions while preserving M1-M5 and all
-historical evidence; future releases update their status and supporting evidence.
+[D1–D5 roadmap and bounded next decisions](docs/ROADMAP.md) distinguish implemented,
+planned and unverified capabilities. Research success does not automatically add a
+product feature, and missing causal confirmation does not remove useful diagnostics.
 
-## Use the scientific evidence
+## Associated research, with a separate owner
 
-- [Scientific findings, distributions and figures](docs/ALPHA18_SCIENTIFIC_RESULTS.md).
-- [Per-source structural matrix and limitations](docs/campaign/source-matrix.md).
-- [Machine-readable structural matrix](docs/campaign/structural-matrix.json).
-- [Supervised task matrix and limitations](docs/campaign/experiment-matrix.md).
-- [Descriptor, model, context and pipeline confrontation](docs/campaign/confrontation.json).
-- [Proposed database/source/target/model/synthetic hierarchy](schemas/structural-fragility-research.v2.schema.json).
-- [Frozen hypotheses and outcome contracts](docs/ALPHA13_SUPERVISED_PREREGISTRATION.md).
-- [Source attribution and derived-output permissions](docs/campaign/source-attribution.md).
-- [Benchmark registry and task protocols](docs/SCIENTIFIC_PROTOCOLS.md).
-- [Storage and reproducibility instructions](docs/STORAGE_AND_REPRODUCIBILITY.md).
+A prospective program investigates mechanisms, database-level inference, random
+and weak group-dependent targets, model remedies and synthetic spectra. Useful
+chemical signal may coexist with small structural contributions. It reuses
+Domains evidence; speculative estimators and generators do not become product
+behavior by default. [Product–research ownership](docs/PRODUCT_RESEARCH_BOUNDARY.md)
+defines promotion criteria and upstream model ownership.
 
-The matrices cover the consolidated bank, structural profiles, tasks and outcomes.
-Ordinary aggregates follow actual source terms, irrespective of catalog private
-tier. Raw data, sensitive identities and explicit restrictions remain protected.
+The proposed future repository is `nirs4all-structural-research`; this assignment
+does not create it. [R1–R5 research program](docs/STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md)
+and the [read-only interface/transition plan](docs/RESEARCH_INTEROPERABILITY_AND_TRANSITION.md)
+are proposals, not authorization for fitting, GPU setup, archive migration or publication.
 
-## Technical integration and reproducibility
+The [v2 research design](docs/STRUCTURAL_FRAGILITY_RESEARCH_V2.md),
+[bounded v2 pilot](docs/STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md), associated schema/example,
+[frozen H1–H5](docs/ALPHA13_SUPERVISED_PREREGISTRATION.md) and
+[M1–M5 research lineage](https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ROADMAP.md)
+remain intact and accessible. Their research questions do not define the generic product.
 
-Two Rust crates provide the core/CLI; Python supplies dataset transport and batch
-orchestration. Public Methods/Preflight and DAG APIs provide native computation.
-Keep Cargo.lock and explicit dataset/content/source/target/split/policy contracts.
-[Architecture](docs/ARCHITECTURE.md), [validation](docs/VALIDATION.md), and
-[upstream capability notes](docs/UPSTREAM_DEPENDENCIES.md) document integration.
+## Integration and reproducibility
 
-Actual native, bridge, report and package execution is recorded in the
-[validation report](docs/audit/alpha18-validation.json); completed Windows/Ubuntu
-execution is recorded in [CI evidence](docs/audit/github-ci-alpha18.json). Data sources
-retain their own licenses and attribution, including the noncommercial conditions
-on the two new aquatic-plant aggregate sets. Software is AGPL-3.0-or-later.
+Two Rust crates provide core/CLI contracts; Python provides transport and batch
+orchestration. Public Methods/Preflight and DAG APIs retain numerical ownership.
+No new estimator, recursive clustering engine or result schema is introduced by
+this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
+[validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
+describe actual interfaces and evidence.
 
-Historical citations, full scientific reports and alpha-by-alpha implementation
-notes remain in [release history](docs/RELEASE_HISTORY.md). Historical artifacts
-are preserved; no past result is relabeled as independent confirmation.
+Raw inputs, sensitive identifiers and explicit restrictions remain protected.
+Ordinary publishable aggregates follow source terms, not a catalog private-tier
+veto. Data retain their source licenses; software is AGPL-3.0-or-later.
+[Release history](docs/RELEASE_HISTORY.md) preserves earlier reports and citations.
+The [transition validation review](docs/audit/product-research-transition-review.json)
+records documentation continuity, regression/package checks and measured resources.

@@ -42,6 +42,8 @@ jobs:
       - run: python scripts/generate_synthesis_schemas.py
       - name: Validate proposed fragility research schema
         run: python -c "import json; from jsonschema import Draft202012Validator; s=json.load(open('schemas/structural-fragility-research.v2.schema.json')); Draft202012Validator.check_schema(s); Draft202012Validator(s).validate(json.load(open('docs/examples/structural-fragility-v2.design.json')))"
+      - name: Product and research documentation continuity
+        run: python scripts/check_product_research_docs.py
       - name: Bridge and end-to-end gates
         shell: pwsh
         run: |

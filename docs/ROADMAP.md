@@ -1,73 +1,63 @@
-# Permanent scientific roadmap
+# Domains product roadmap
 
-The central objective is to test whether spectral structure anticipates additional
-generalization fragility conditional on baseline predictive skill, target,
-estimator, preprocessing and evaluation design, then qualify NIRS benchmarks.
-A small statistically supported contribution matters even with substantial useful
-signal. Statistical significance, practical magnitude and causal attribution stay
-separate. M1-M5 persist; this [v2 research revision](STRUCTURAL_FRAGILITY_RESEARCH_V2.md)
-refines their descriptions without rewriting H1-H5 or historical results.
-Numerical status comes from [campaign evidence](campaign/status.json).
+Domains provides reusable structural diagnostics and deployment-aware validation
+interpretation. Product objectives D1–D5 remain stable; releases update qualified
+capabilities, coverage, limitations and evidence. A research result is not a
+product feature, and useful descriptive diagnostics do not require causal shortcut
+confirmation. Status comes from [campaign evidence](campaign/status.json).
 
-| Milestone | Goal | Scientific output | Completion measurement |
+| Product milestone | Responsibilities | Completion evidence | Current next decision |
 |---|---|---|---|
-| M1 | Full-bank structural characterization | Original-database map, dependencies and multidimensional X profiles | Eligible databases and views covered, identity/overlap evidence and metric completeness |
-| M2 | Scientific structural hypotheses | Frozen descriptors and conditional/target-aware predictions, including weak effects | Explicit estimands and possible falsifiers; H1-H5 preserved and new questions versioned |
-| M3 | Broad comparative supervised experiments | Separate SPXY/LOGO protocol gaps, known/unseen-group and X-support stress contrasts | Database diversity, all-target coverage and matched comparison support, not fit count |
-| M4 | Mechanism testing and statistical validation | Baseline-skill-conditional deterioration, random-target calibration and weak structured-signal experiments | Effect sizes, intervals, multiplicity control, effective independent database support and falsifying cases |
-| M5 | Purpose-qualified NIRS benchmark suites | Frozen within-population, structure-sensitive, population/domain and paired-instrument suites | Evidence adequate for each intended use; no low-risk certificate from weak clustering or favorable raw CV |
+| D1 — Comprehensive structural evidence | Authorized X, populations, neighborhoods/proximity, known factors and qualified multi-scale geometry | Source/protocol coverage, support, missingness, provider and executable qualification | Expose existing hierarchy information only after auditing its scientific meaning; keep continuous/noise cases |
+| D2 — Validation interpretation | Intended use, target population, dependencies, group basis and spectral support | Descriptions that state supported and stronger unsupported claims; adversarial scenario checks | Add a small optional validation-intent annotation while preserving existing reports |
+| D3 — Model-result contextualization | Compatible estimator/pipeline outcomes, evaluation populations and sensitivity | Source/content/target/split/pipeline identity, null comparison and uncertainty scope | Demonstrate read-only interpretation of an existing matched comparison without refitting |
+| D4 — Usable integration | Stable reports/APIs and Datasets, Preflight, Methods, DAG/model interoperability | Existing schema compatibility, reproducible artifacts and actual tests/CI | Validate a pointer-based research import against current schemas; do not rebuild a framework |
+| D5 — Evidence-supported guidance | Calibrated diagnostic interpretation and purpose-specific recommendations | Controlled tests, benefits/failures, stable providers and explicit scientific limits | Qualify one limited guidance rule for an explicit intended use; no universal risk score |
 
-A cluster is not a shortcut mechanism; poor transfer is not causal attribution.
-Exploratory CV without complete groups remains potentially optimistic. Common
-evaluation observations and whole-group size matching reduce specific confounding;
-even matched contexts do not establish a causal shortcut contribution. Unknown
-metadata limits the relevant claim, rather than halting the program.
+Current baseline: 164 entries / 171 views, 137 complete raw/SNV profiles, 43
+source-permitted public profiles and 682 complete primary quantitative reference
+tasks. These counts describe coverage and compatible research evidence, not
+independent databases or validated product guidance. Multi-scale fields exist in
+the native adapter, while a generic interpreted multi-scale descriptor family
+remains planned. The current task adds documentation/ownership, not numerical
+capabilities, synthetic spectra, estimators or causal validation.
 
-The default macro-unit is the original experimental database, nested between
-portal and source/view. Do not collapse EcoSIS collections merely because they
-share a portal or material family. Do not count multiple targets, views or folds
-as independent databases. Record original database/publication identities, known
-specimen overlap and unresolved relationships. Account for established cross-database
-dependencies hierarchically; publish no invented effective independent count.
-Aggregate all admissible within-database target effects by median and dispersion,
-give databases comparable macro influence, and inspect weighting/aggregation and
-source-family sensitivity. Do not average RMSE across unlike target units.
+## Deployment changes interpretation
 
-Current evidence: M1 has 137 complete raw/SNV profiles of 171 declared views;
-all 164 entries and 2,054 source/target tasks are accounted for. M2 preserves
-H1-H5. M3 includes 682 complete primary quantitative reference tasks, paired
-raw/SNV context experiments and five declared-plot sensitivity cases. Public
-descriptor/outcome confrontation covers 35 views; full authorized local
-confrontation covers 48. M4 has exploratory, heterogeneous pipeline and context
-effects, with no validated independent cross-study descriptor/fragility
-relationship. M5 has provisional task-specific suites.
+Within-experiment proof of concept, new specimens/acquisitions in a stable known
+context, and new experimental contexts are distinct intended uses. KFold/SPXY and
+group-exclusive designs can each be appropriate for different questions. An
+unseen genotype, block or instrument is not an unseen whole experiment by default.
+No split is selected merely because a metadata column is categorical. Unknown
+intent produces multiple conditional interpretations, not a quality label.
+See [validation intents](VALIDATION_INTENTS.md).
 
-The existing association screens are source-view comparisons with ordinary CV
-skill. They neither test conditional deterioration nor invalidate the revised
-research question. Current database identities/dependencies are insufficiently
-curated for a database-level significance claim. Historical context, pipeline and
-plot comparisons remain exploratory; no v2 null-control experiment has run.
+## Bounded next product improvement — proposal only
 
-Next actions, in order:
+Propose an optional, documented validation-intent annotation referencing an
+existing report. Scope: the three intended uses plus unknown intent; supported
+and unsupported claims, population/unit evidence, unseen factor, group basis,
+support and transductive status. Preserve old schemas and defaults; no automatic
+split recommendation or risk score. Before coding, state expected scenario
+behavior and add only necessary compatibility/interpretation checks. No new
+numerical kernel, model fit, raw acquisition or private artifact is required.
+Suggested engineering envelope: one annotation/example and at most eight small
+scenario fixtures, 16 MiB local output, zero campaign reservations and no ceiling
+increase. This is a next-step proposal, not implementation in this assignment.
 
-1. Map candidate original databases from existing references using the additive
-   study contract; retain unknown overlap and multiple-view/target relationships.
-   Do not restart unresolved owner investigations without new evidence.
-2. Reuse frozen descriptors, PLS/Ridge outputs and matched populations; specify
-   `G = log(RMSE_stress / RMSE_reference)` jointly with reference/null skill.
-   Post-outcome derivations from existing results remain exploratory.
-3. Freeze a database-diverse pilot separating protocol gaps from known/unseen-group
-   contrasts, with complete target sets and explicit support/size limitations.
-4. Qualify IID and group-random controls, weak spectral-signal/group-effect
-   simulations, and exploratory LOCO-X where metadata are missing. Preserve
-   continuous/noise cases rather than manufacturing clusters.
-5. Register database-aware inference, interactions, uncertainty and multiple-testing
-   families before new outcomes. Separate later independent confirmation.
+## Separate research decisions
 
-The [bounded computational proposal](STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md)
-prices these stages; this documentation update authorizes no model fitting.
-Missing-data/low-n improvements remain local coverage work, not prerequisites
-for the research program. Null, adverse, weak and unavailable outcomes remain.
+[R1–R5](STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md) covers mechanisms,
+multi-scale correspondence, deployment-dependent degradation, remedies and
+publication. The [boundary](PRODUCT_RESEARCH_BOUNDARY.md) assigns ownership;
+promotion requires generic usefulness and scientific qualification, not success
+on one dataset. No research fitting or new repository creation follows from this
+roadmap. The two programs can progress independently.
 
-[Earlier roadmap notes](ROADMAP_PRE_SCIENTIFIC_RESET.md) and
-[release history](RELEASE_HISTORY.md) preserve chronology and original evidence.
+The M1–M5 research-oriented roadmap is preserved at the immutable
+[5b0354a snapshot](https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ROADMAP.md).
+[Earlier roadmap](ROADMAP_PRE_SCIENTIFIC_RESET.md),
+[v2 design](STRUCTURAL_FRAGILITY_RESEARCH_V2.md),
+[v2 pilot](STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md), frozen H1–H5 and historical
+results remain unchanged. The [continuity manifest](research-continuity.json)
+references these records without moving or duplicating an archive.

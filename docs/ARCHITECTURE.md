@@ -1,5 +1,28 @@
 # Architecture and ownership
 
+## Product and associated research
+
+Domains owns reusable structural/source/split diagnostics, validation-intent
+descriptions, metadata corroboration, representation sensitivity, compatible
+model-result interpretation and reproducible evidence. The future research
+repository owns prospective mechanism studies, cross-database inference,
+synthetic targets/spectra, SSL/invariant learning, local/hierarchical experts
+and publication analyses. New generic estimators/kernels belong in appropriate
+upstream packages, not automatically in Domains. See the
+[ownership matrix](PRODUCT_RESEARCH_BOUNDARY.md) and
+[read-only evidence/transition contract](RESEARCH_INTEROPERABILITY_AND_TRANSITION.md).
+
+Validation interpretation depends on the target deployment population, unit
+dependencies, actual unseen factor and measured support. No universal split
+ranking or deployment-quality label is added. The documented
+[intent concept](VALIDATION_INTENTS.md) and
+[multi-scale descriptor proposal](MULTISCALE_AND_AUGMENTATION_NOTES.md) add no
+required runtime fields or numerical implementation. Existing schemas, APIs,
+two crates and numerical providers remain unchanged. Legacy campaign controllers
+and evidence remain for compatibility/reproducibility; future speculative studies
+do not expand them into a universal research framework. Historical architecture
+notes below retain their original execution scope.
+
 The full-bank workflow adds one bounded `full_bank` Python transport module:
 owner-attested same-export alignment, explicit key precedence, retained-row
 filtering before target conversion, declared-component FoldSets, and fixed

@@ -1,5 +1,21 @@
 # Method reuse matrix
 
+## Generic diagnostic boundary
+
+Existing Methods/Preflight/DAG APIs remain numerical owners. A new source/binding
+inspection of the pinned public HDBSCAN header and current Rust transport is in
+[the multi-scale audit](MULTISCALE_AND_AUGMENTATION_NOTES.md). It distinguishes
+native labels, membership strength, persistence and condensed-tree fields from
+resampling stability, effective independent support and biological interpretation.
+Broad compact profiles do not export every adapter field. No new recursive
+clustering, generator, estimator or kernel is implemented; availability does not
+establish scientific qualification or out-of-sample assignment.
+
+Domains owns qualified descriptive/validation interpretation; the proposed
+research repository owns new null mechanisms, augmentation, SSL and expert-model
+experiments. [Ownership and promotion](PRODUCT_RESEARCH_BOUNDARY.md) and
+[research R1–R5](STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md) keep those distinct.
+
 ## Full-bank fixed references
 
 | Need | Existing public provider | Scope |

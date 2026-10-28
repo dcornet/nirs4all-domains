@@ -1,0 +1,144 @@
+{
+  "manifest_kind": "immutable_reference_inventory",
+  "version": 1,
+  "baseline_commit": "5b0354a236318e42188a17f9703363a33e6df706",
+  "source_repository": "https://github.com/dcornet/nirs4all-domains",
+  "proposed_research_repository_name": "nirs4all-structural-research",
+  "mode": "references_only_no_migration",
+  "creation_authorized": false,
+  "repository_created_by_this_assignment": false,
+  "raw_data_copied": false,
+  "private_evidence_moved": false,
+  "archives_duplicated": false,
+  "new_research_results_published": false,
+  "new_global_results_schema": false,
+  "records": [
+    {
+      "path": "docs/ROADMAP.md",
+      "git_blob_id": "e8cb95195ad40425e1de76e359e9b36d8e0c3a12",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ROADMAP.md",
+      "role": "M1-M5 research roadmap at its original commit; current path becomes the product roadmap",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/STRUCTURAL_FRAGILITY_RESEARCH_V2.md",
+      "git_blob_id": "82993af81e7e44248b75aa62c3e2623c1e57a226",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/STRUCTURAL_FRAGILITY_RESEARCH_V2.md",
+      "role": "Preserved v2 design, not an executed/confirmatory study",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md",
+      "git_blob_id": "17a8b0ddcd8f650a5fbc8a0172e0c20a7e12f4e8",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md",
+      "role": "Preserved bounded unexecuted pilot proposal",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "schemas/structural-fragility-research.v2.schema.json",
+      "git_blob_id": "2d5191f14fa064a64b4854c45526792ed8ca6af7",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/schemas/structural-fragility-research.v2.schema.json",
+      "role": "Preserved proposed research hierarchy",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/examples/structural-fragility-v2.design.json",
+      "git_blob_id": "d114603cbd649c66c8639e90f01c59a38171905d",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/examples/structural-fragility-v2.design.json",
+      "role": "Preserved fictitious design-only example",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/ALPHA13_SUPERVISED_PREREGISTRATION.md",
+      "git_blob_id": "c1ae5dc34bd1a3566fdd5d118a8b4926f7993560",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ALPHA13_SUPERVISED_PREREGISTRATION.md",
+      "role": "Frozen H1-H5 and original outcome definitions",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/ROADMAP_PRE_SCIENTIFIC_RESET.md",
+      "git_blob_id": "28649692b522cdea441f5603690c292d3aae30e4",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ROADMAP_PRE_SCIENTIFIC_RESET.md",
+      "role": "Earlier historical roadmap",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/ALPHA18_SCIENTIFIC_RESULTS.md",
+      "git_blob_id": "e67bc07dd27fa0c1ed7ae313e991e91fe8c9d70f",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/ALPHA18_SCIENTIFIC_RESULTS.md",
+      "role": "Existing exploratory scientific report; not relabeled as confirmation",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/campaign/status.json",
+      "git_blob_id": "aad2a81a3cab149a7359f82a961aad91361233fc",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/campaign/status.json",
+      "role": "Pinned source/task execution counts; not independent-database counts",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/campaign/structural-matrix.json",
+      "git_blob_id": "bad832c9a3698a95907a41658eaf6a5a033c10d5",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/campaign/structural-matrix.json",
+      "role": "Existing aggregate structural evidence",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/campaign/experiment-matrix.json",
+      "git_blob_id": "4103edfa5fa340084612c85f81f4c4a80de0d2fb",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/campaign/experiment-matrix.json",
+      "role": "Existing supervised task/outcome evidence",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/campaign/confrontation.json",
+      "git_blob_id": "6267de0a82100b2d83f1192b6ea3d744be6cb10c",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/campaign/confrontation.json",
+      "role": "Existing exploratory context/pipeline comparisons",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/audit/structural-fragility-research-v2-review.json",
+      "git_blob_id": "e84982c4d0d2a4b832e57030716015318ecae9f6",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/audit/structural-fragility-research-v2-review.json",
+      "role": "Original v2 documentation-validation evidence",
+      "preserve_current_bytes": true,
+      "current_path_policy": "frozen_research_record",
+      "disposition": "retain_and_reference"
+    },
+    {
+      "path": "docs/RELEASE_HISTORY.md",
+      "git_blob_id": "00c72832481f38dd691f48f69f1780a6e508182a",
+      "immutable_url": "https://github.com/dcornet/nirs4all-domains/blob/5b0354a236318e42188a17f9703363a33e6df706/docs/RELEASE_HISTORY.md",
+      "role": "Historical reports, source citations and attribution",
+      "preserve_current_bytes": false,
+      "current_path_policy": "evolving_index_with_pinned_snapshot",
+      "disposition": "retain_and_reference"
+    }
+  ],
+  "terms_note": "References preserve existing public lineage; they do not grant new access, raw redistribution or research-publication rights."
+}

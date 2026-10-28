@@ -1,5 +1,12 @@
 # Scientific protocols — domains.canonical.v0.3
 
+Generic Domains diagnostics are independent of completion of the associated
+research program. [Product–research ownership](PRODUCT_RESEARCH_BOUNDARY.md)
+and [deployment intents](VALIDATION_INTENTS.md) define a documentation-only
+interpretation layer: no protocol is universally superior across deployment
+questions, and no new runtime/schema/numerical behavior is introduced. Research
+designs below remain preserved associated records rather than product prerequisites.
+
 The additive [structural-fragility research v2 proposal](STRUCTURAL_FRAGILITY_RESEARCH_V2.md)
 defines database-level, baseline-skill-conditional deterioration and proposed
 null/synthetic controls. It is a research design, not an executed numerical
