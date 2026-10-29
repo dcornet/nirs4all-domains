@@ -156,6 +156,10 @@ class ValidationIntent(unittest.TestCase):
         self.assertTrue(any("support is unavailable" in s for s in result["missing_information"]))
         self.assertTrue(any("not full support or a risk probability" in s for s in result["limitations"]))
         self.assertIn("No calibrated probability", markdown(result))
+        for status in ("error", "insufficient_data", "unavailable"):
+            state = {"status": status, "reason": "SUPPORT_NOT_COMPUTED", "value": None}
+            failed = interpret({**self.report, "support": state}, {"spectral_support": [support]})
+            self.assertTrue(any(status in s and "SUPPORT_NOT_COMPUTED" in s for s in failed["missing_information"]))
         with self.assertRaises(ValueError):
             interpret(self.report, {"spectral_support": [{**support, "pointer": "/not-found"}]})
 

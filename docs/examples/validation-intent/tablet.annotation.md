@@ -51,7 +51,7 @@ Not established:
 
 - Dependency separation/evidence is incomplete for Physical specimen.
 - Dependency separation/evidence is incomplete for Original assay event/shared reference.
-- Referenced spectral support is unavailable at /contexts/0/continuous_support.
+- Referenced spectral support is unavailable at /contexts/0/continuous_support. Status: unavailable; reason: QUALIFIED_CONTINUOUS_SUPPORT_NOT_IMPLEMENTED_FOR_THIS_TASK.
 
 ### Limitations
 

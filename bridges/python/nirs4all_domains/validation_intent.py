@@ -119,8 +119,9 @@ def interpret(report, request=None):
         missing.append("No spectral-support evidence is referenced.")
     for support in facts["spectral_support"]:
         value = _pointer(report, support["pointer"])
-        if value is None or (isinstance(value, dict) and value.get("status") == "unavailable"):
-            missing.append(f"Referenced spectral support is unavailable at {support['pointer']}.")
+        if value is None or (isinstance(value, dict) and "status" in value and value["status"] != "computed"):
+            detail = f" Status: {value['status']}; reason: {value.get('reason') or 'unspecified'}." if isinstance(value, dict) else ""
+            missing.append(f"Referenced spectral support is unavailable at {support['pointer']}.{detail}")
     if not facts["prediction_metrics"]:
         missing.append("No computed prediction-error evidence is referenced; target and estimator may be absent.")
     relevant = [f for f in facts["factors"] if f["relevant_to_intent"]]
