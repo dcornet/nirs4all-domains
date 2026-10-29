@@ -104,6 +104,30 @@
       "exit_code": 0,
       "seconds": 1.109,
       "sha256": "b841b89e78bc8241e9823f5f10589ef72eb8029b033a93e7215af6ce9051c85c"
+    },
+    {
+      "check": "interpretation_final",
+      "exit_code": 0,
+      "seconds": 2.281,
+      "sha256": "4278ba1ad462a623049b02f2b0b6b5d393099b87766fd6b35f6160aa5f20fab8"
+    },
+    {
+      "check": "docs",
+      "exit_code": 0,
+      "seconds": 4.094,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "wheel",
+      "exit_code": 0,
+      "seconds": 6.078,
+      "sha256": "11a31e23a19468d9317e0508a805d64ec9abd70c5be7e6dfe7a38b367756c59b"
+    },
+    {
+      "check": "sdist",
+      "exit_code": 0,
+      "seconds": 3.125,
+      "sha256": "b841b89e78bc8241e9823f5f10589ef72eb8029b033a93e7215af6ce9051c85c"
     }
   ],
   "tests": {
@@ -116,18 +140,18 @@
     {
       "name": "nirs4all_domains_bridge-0.1.0a19-py3-none-any.whl",
       "package_source_parity": true,
-      "sha256": "520b195e7e4df85efc714e98c4685ab065d9ca6b3b0a60d0bc2b6aa933b5854d"
+      "sha256": "b669405e4d3fad6f19f65ee9e19c76210bbf3d7aa6572da6f6b73cefa1ac6936"
     },
     {
       "name": "nirs4all_domains_bridge-0.1.0a19.tar.gz",
       "package_source_parity": true,
-      "sha256": "8a31fc6a2f796323068de8523d56dffb4f302ae215d0f4f1c1c230f7b4694463"
+      "sha256": "0fac41083e77da1fd79a57f6263a7af01e22bc9aa06b0731ea5d09e9e28bbe9f"
     }
   ],
   "resources": {
     "combined_before_bytes": 19091624153,
-    "combined_after_validation_bytes": 19092928098,
-    "incremental_engineering_bytes": 1303945,
+    "combined_after_validation_bytes": 19094109070,
+    "incremental_engineering_bytes": 2484917,
     "incremental_engineering_limit_bytes": 536870912,
     "combined_ceiling_bytes": 20289597121,
     "campaign_reserved_bytes_before_and_after": 1793195474,
@@ -135,11 +159,13 @@
     "campaign_reservations_added_bytes": 0,
     "ceiling_increases_bytes": 0,
     "volume_free_bytes": {
-      "C:/": 154754744320,
-      "D:/": 344400777216
+      "C:/": 154767683584,
+      "D:/": 344401756160
     },
     "reserve_free_bytes_per_volume": 2147483648,
-    "scope": "Domains, protected participating inputs and separate structural-research checkout; engineering validation only."
+    "scope": "Domains, protected participating inputs and separate structural-research checkout; engineering validation only.",
+    "combined_after_CI_measurement_bytes": 19094854603,
+    "incremental_engineering_after_CI_bytes": 3230450
   },
   "preservation": {
     "historical_private_evidence_verified": true,
@@ -156,10 +182,37 @@
     "note": "Existing synthetic software-regression gates execute unchanged."
   },
   "ci": {
-    "status": "pending",
-    "required_platforms": [
-      "ubuntu-latest",
-      "windows-latest"
-    ]
-  }
+    "status": "completed",
+    "conclusion": "success",
+    "headSha": "dfb2ea385aa1bcd20032bbc07fede095eb1a3c80",
+    "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/40910769905",
+    "createdAt": "2026-10-29T16:21:31Z",
+    "updatedAt": "2026-10-29T16:27:34Z",
+    "run_id": "40910769905",
+    "jobs": [
+      {
+        "name": "audit (ubuntu-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/40910769905/job/123577805328",
+        "bridge_tests": 390,
+        "rust_tests": 35,
+        "annotation_example": "success",
+        "schema_generation_drift_check": "success"
+      },
+      {
+        "name": "audit (windows-latest)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/40910769905/job/123577805965",
+        "bridge_tests": 390,
+        "rust_tests": 35,
+        "annotation_example": "success",
+        "schema_generation_drift_check": "success"
+      }
+    ],
+    "scope": "Public/synthetic fixture regression, no new scientific experiment or raw acquisition."
+  },
+  "tested_code_commit": "dfb2ea385aa1bcd20032bbc07fede095eb1a3c80",
+  "receipt_scope": "CI covers the complete executable feature; a following documentation-only receipt commit changes no runtime/test/schema source."
 }

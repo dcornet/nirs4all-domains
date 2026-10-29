@@ -20,15 +20,20 @@ computed-state metric adapter; annotation is interpretation, not verification.
 The [staged plan](VALIDATION_INTERPRETATION_V1_PLAN.md) freezes scenario behavior
 and engineering limits. The [execution receipt](audit/validation-intent-v1-review.json)
 records successful local fmt, Clippy with warnings denied, 6 Rust unit and 29
-native ignored tests, 390 bridge tests, JSON/schema checks and wheel/sdist source
-parity. The final 18 interpretation tests were rerun after review. Windows/Ubuntu
-CI execution is pending publication of the implementation commit.
+native ignored tests, 390 bridge tests, JSON/schema checks and final wheel/sdist
+source parity. The final 18 interpretation tests include unavailable/error
+support reasons and exact report invariance.
 
-Measured combined usage after local validation: **19,092,928,098 bytes**, up
-**1,303,945 bytes**, inside the 512 MiB engineering plan and unchanged
+**[Windows and Ubuntu CI completed successfully](https://github.com/dcornet/nirs4all-domains/actions/runs/40910769905)**:
+425 tests per platform (390 Python + 35 Rust), the read-only CLI example and all
+historical schema/registry gates. This verifies code commit `dfb2ea3`;
+the following receipt commit updates documentation only.
+
+Measured combined usage after CI: **19,094,854,603 bytes**, up
+**3,230,450 bytes**, inside the 512 MiB engineering plan and unchanged
 20,289,597,121-byte ceiling. **Budget increases: 0 bytes; new campaign
 reservations: 0 bytes.** The campaign remains at 1,793,195,474 of 1,805,306,368
-bytes. C:/D: have approximately 154.75/344.40 GB free, above the preserved 2 GiB
+bytes. C:/D: have approximately 154.77/344.40 GB free, above the preserved 2 GiB
 reserve per volume. Existing research artifacts and protected history were checked.
 
 Next D1–D5 priority: **D1**, qualify the meaning/scope of one existing native
