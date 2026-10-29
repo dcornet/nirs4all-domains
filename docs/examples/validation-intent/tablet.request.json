@@ -1,0 +1,71 @@
+{
+  "intended_use": "outside_context",
+  "prediction_population": "Held-out Type contexts within UCPH tablet development data, active substance percent mass/mass, X content 1.0.0. Future contexts remain unvalidated.",
+  "prediction_unit": "new_context",
+  "split": {
+    "family": "logo",
+    "description": "Four outer leave-one-original-Type-out folds, three inner remaining-Type folds; all 31 declared canonical blocks preserved. Not leave-one-experiment-out."
+  },
+  "dependencies": [
+    {
+      "unit": "31 declared canonical blocks",
+      "kind": "other",
+      "evidence": "verified",
+      "separated": true,
+      "reference": "docs/ALPHA17_TABLET_PILOT_PLAN.md; tablet-pilot-summary.json declared_blocks_preserved"
+    },
+    {
+      "unit": "Physical specimen",
+      "kind": "specimen",
+      "evidence": "unknown",
+      "separated": null,
+      "reference": null
+    },
+    {
+      "unit": "Original assay event/shared reference",
+      "kind": "assay_reference",
+      "evidence": "unknown",
+      "separated": null,
+      "reference": null
+    }
+  ],
+  "factors": [
+    {
+      "name": "Type",
+      "kind": "other",
+      "relevant_to_intent": true,
+      "excluded": true,
+      "evidence": "verified",
+      "reference": "docs/ALPHA17_TABLET_PILOT_PLAN.md; tablet-pilot-summary.json original_contexts and contexts",
+      "relationship": "Canonical blocks nested within original Type; Type/Scale source categories do not establish physical or experiment identity."
+    }
+  ],
+  "groups": {"basis": "declared_context", "construction": "declared"},
+  "transductive": false,
+  "prediction_metrics": [
+    {"name": "rmse", "pointer": "/pooled_outcomes/raw_pls/model/value/rmse"},
+    {"name": "rmse", "pointer": "/pooled_outcomes/raw_ridge/model/value/rmse"}
+  ],
+  "spectral_support": [
+    {
+      "pointer": "/contexts/0/train_fitted_PC1_PC2_summaries",
+      "description": "Existing train-fitted PC1/PC2 projection summaries for held-out Type A; no PCA is recomputed.",
+      "representation": "Raw spectra; PCA centered/fitted on the corresponding training fold",
+      "reference_population": "Type A fold training population, excluding Type A",
+      "limitations": ["Two projections do not establish full spectral support; other contexts have their own summaries."]
+    },
+    {
+      "pointer": "/contexts/0/continuous_support",
+      "description": "Qualified continuous support is explicitly unavailable in the source report.",
+      "representation": "raw",
+      "reference_population": "Type A fold training population",
+      "limitations": ["Do not substitute a truncated-PCA moment estimate or interpret support as a risk probability."]
+    }
+  ],
+  "limitations": [
+    "One exploratory development population; unknown physical/assay dependencies prevent independent-generalization claims.",
+    "The existing pooled scores hide context variation; Type A has negative R2 and target-range extrapolation for both models.",
+    "Full-source X descriptors elsewhere in the source report have a different scope from train-fitted diagnostics; they did not select these models.",
+    "No matched random-CV contrast, stress/control design or test of frozen H1-H5 is supplied."
+  ]
+}

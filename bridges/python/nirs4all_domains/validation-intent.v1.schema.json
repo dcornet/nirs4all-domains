@@ -1,0 +1,540 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "protocol_version": {
+      "const": "domains.validation_intent.v1"
+    },
+    "source_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "hash_scope": {
+          "const": "canonical_json_with_newline"
+        }
+      },
+      "required": [
+        "sha256",
+        "hash_scope"
+      ]
+    },
+    "facts": {
+      "$ref": "#/$defs/facts"
+    },
+    "uses_x_derived_groups": {
+      "type": "boolean"
+    },
+    "transductive": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "declared"
+            },
+            "reason": {
+              "type": "null"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "const": "TRANSDUCTIVE_STATUS_UNKNOWN"
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ]
+        }
+      ]
+    },
+    "interpretations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "intended_use": {
+            "enum": [
+              "proof_of_concept",
+              "known_context",
+              "outside_context"
+            ]
+          },
+          "conditional": {
+            "type": "boolean"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "supported_claims": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "stronger_claims_not_established": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "intended_use",
+          "conditional",
+          "conditions",
+          "supported_claims",
+          "stronger_claims_not_established"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 3
+    },
+    "missing_information": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "protocol_version",
+    "source_report",
+    "facts",
+    "uses_x_derived_groups",
+    "transductive",
+    "interpretations",
+    "missing_information",
+    "limitations"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nirs4all.org/domains/validation-intent.v1.schema.json",
+  "title": "Optional deployment-aware validation annotation v1",
+  "$defs": {
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intended_use": {
+          "enum": [
+            "proof_of_concept",
+            "known_context",
+            "outside_context",
+            "unknown"
+          ]
+        },
+        "prediction_population": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prediction_unit": {
+          "enum": [
+            "new_specimens",
+            "new_acquisitions",
+            "new_context",
+            "unknown"
+          ]
+        },
+        "split": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "family": {
+              "enum": [
+                "random_kfold",
+                "representative",
+                "group_kfold",
+                "logo",
+                "loco_x",
+                "context_holdout",
+                "external_holdout",
+                "temporal_holdout",
+                "other",
+                "unknown"
+              ]
+            },
+            "description": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": []
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "unit": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "specimen",
+                  "assay_reference",
+                  "acquisition",
+                  "session",
+                  "other"
+                ]
+              },
+              "evidence": {
+                "enum": [
+                  "unknown",
+                  "declared",
+                  "verified"
+                ]
+              },
+              "separated": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "reference": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "unit",
+              "kind",
+              "evidence",
+              "separated",
+              "reference"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "evidence": {
+                      "enum": [
+                        "declared",
+                        "verified"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "reference": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "uniqueItems": true
+        },
+        "factors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "genotype",
+                  "block",
+                  "instrument",
+                  "experiment",
+                  "site",
+                  "campaign",
+                  "session",
+                  "treatment",
+                  "time",
+                  "other"
+                ]
+              },
+              "relevant_to_intent": {
+                "type": "boolean"
+              },
+              "excluded": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "evidence": {
+                "enum": [
+                  "unknown",
+                  "declared",
+                  "verified"
+                ]
+              },
+              "reference": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "relationship": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "kind",
+              "relevant_to_intent",
+              "excluded",
+              "evidence",
+              "reference",
+              "relationship"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "evidence": {
+                      "enum": [
+                        "declared",
+                        "verified"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "reference": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "uniqueItems": true
+        },
+        "groups": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "basis": {
+              "enum": [
+                "physical",
+                "declared_context",
+                "x_derived",
+                "mixed",
+                "none",
+                "unknown"
+              ]
+            },
+            "construction": {
+              "enum": [
+                "declared",
+                "train_only",
+                "complete_x",
+                "unknown"
+              ]
+            }
+          },
+          "required": []
+        },
+        "transductive": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "prediction_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "enum": [
+                  "rmse",
+                  "mae",
+                  "mse",
+                  "r2"
+                ]
+              },
+              "pointer": {
+                "type": "string",
+                "pattern": "^(?:/(?:[^~/]|~[01])*)*$"
+              }
+            },
+            "required": [
+              "name",
+              "pointer"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "spectral_support": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "pointer": {
+                "type": "string",
+                "pattern": "^(?:/(?:[^~/]|~[01])*)*$"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "representation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reference_population": {
+                "type": "string",
+                "minLength": 1
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "pointer",
+              "description",
+              "representation",
+              "reference_population",
+              "limitations"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": []
+    },
+    "facts": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/request"
+        },
+        {
+          "required": [
+            "intended_use",
+            "prediction_population",
+            "prediction_unit",
+            "split",
+            "dependencies",
+            "factors",
+            "groups",
+            "transductive",
+            "prediction_metrics",
+            "spectral_support",
+            "limitations"
+          ],
+          "properties": {
+            "split": {
+              "required": [
+                "family",
+                "description"
+              ]
+            },
+            "groups": {
+              "required": [
+                "basis",
+                "construction"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

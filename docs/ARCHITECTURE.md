@@ -14,11 +14,15 @@ upstream packages, not automatically in Domains. See the
 
 Validation interpretation depends on the target deployment population, unit
 dependencies, actual unseen factor and measured support. No universal split
-ranking or deployment-quality label is added. The documented
-[intent concept](VALIDATION_INTENTS.md) and
-[multi-scale descriptor proposal](MULTISCALE_AND_AUGMENTATION_NOTES.md) add no
-required runtime fields or numerical implementation. Existing schemas, APIs,
-two crates and numerical providers remain unchanged. Legacy campaign controllers
+ranking or deployment-quality label is added. The optional Python
+[`validation_intent` interpreter](VALIDATION_INTERPRETATION_API.md) binds a
+sidecar to an existing JSON report using its canonical content hash; a consumer
+may append the rendered section to its own report. It imports no numerical
+provider and changes no native report fields, predictions or metrics. Its new
+standalone annotation schema is packaged with the bridge. Legacy report schemas,
+two crates and numerical providers remain unchanged. The
+[multi-scale descriptor proposal](MULTISCALE_AND_AUGMENTATION_NOTES.md) remains
+unimplemented. Legacy campaign controllers
 and evidence remain for compatibility/reproducibility; future speculative studies
 do not expand them into a universal research framework. Historical architecture
 notes below retain their original execution scope.

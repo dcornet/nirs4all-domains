@@ -53,9 +53,18 @@ inside that experiment. SPXY must not use external evaluation Y for calibration
 selection. Indivisible specimens and reference dependencies always remain intact.
 
 If intended use is unknown, report several conditional interpretations rather
-than choose a single correct split. The proposed [validation-intent description](docs/VALIDATION_INTENTS.md)
+than choose a single correct split. The optional [validation-intent annotation](docs/VALIDATION_INTENTS.md)
 records population, group basis, unseen context, support, transduction, limitations
-and supported/unsupported claims. It is initially documentation, not a new runtime API.
+and supported/unsupported claims. The Python API/CLI reads existing reports;
+it adds no fit and leaves their predictions and metrics unchanged.
+
+```shell
+python -m nirs4all_domains.validation_intent docs/benchmarks/alpha17/tablet-pilot-summary.json --intent docs/examples/validation-intent/tablet.request.json --out results/tablet-intent.json
+```
+
+This writes a linked JSON annotation and Markdown interpretation. Omit `--intent`
+for three conditional readings. See the [worked example](docs/examples/validation-intent/README.md)
+and [API/CLI reference](docs/VALIDATION_INTERPRETATION_API.md).
 
 LOCO-X (Leave-One-X-Cluster-Out) remains an exploratory geometric support test.
 Full-X construction is explicitly transductive and must not use held-out Y.
@@ -96,7 +105,7 @@ No universal structural-risk model or causal mechanism has been validated.
 | Milestone | Permanent product objective | Current status |
 |---|---|---|
 | D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; multi-scale interpretation remains partial |
-| D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Documented scenarios and proposed interpretation fields; no automatic selector |
+| D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Optional v1 API/CLI annotation with scenario and compatibility tests; no automatic selector |
 | D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | 682 complete primary quantitative tasks; exploratory context/plot sensitivity |
 | D4 - Usable integration | Stable reports and public Datasets/Preflight/Methods/model interfaces | Existing two-crate core/CLI and thin bridge; read-only research interface specified |
 | D5 - Evidence-supported guidance | Validated and calibrated diagnostic interpretation | Task-specific evidence exists; no universal shortcut or deployment certification |

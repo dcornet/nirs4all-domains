@@ -1,0 +1,165 @@
+{
+  "protocol": "domains.validation_intent.v1",
+  "bridge_version": "0.1.0a19",
+  "baseline_commit": "810d3b5ed9a763ec40c540ea10cfc71828f13278",
+  "local_checks": [
+    {
+      "check": "docs",
+      "exit_code": 0,
+      "seconds": 4.297,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "fmt",
+      "exit_code": 0,
+      "seconds": 15.125,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "clippy",
+      "exit_code": 0,
+      "seconds": 10.25,
+      "sha256": "fcc9dd94e2aea589663cb09673bc3827e2fe188f9f19f100d69f1c589f0c2d49"
+    },
+    {
+      "check": "workspace",
+      "exit_code": 0,
+      "seconds": 13.469,
+      "sha256": "258dd6f5518f3611ef9cabfec13fd808bd116b0598637e1ae90e8b120b96c29b"
+    },
+    {
+      "check": "native",
+      "exit_code": 0,
+      "seconds": 6.187,
+      "sha256": "e71b77e9b73d98aec9be7fe3abbeea049fa949bbe4ac0045bea8419728ac3853"
+    },
+    {
+      "check": "rustdoc",
+      "exit_code": 0,
+      "seconds": 1.281,
+      "sha256": "b0a4ccbd6ce994a420d3900f1a1e61a91bc2305280dd8fd09610d43106b4f1ae"
+    },
+    {
+      "check": "schema",
+      "exit_code": 0,
+      "seconds": 2.687,
+      "sha256": "55323cf78075ea13b51a1d2cc6f1412d53d1d941d626224321ee6898f0a927e8"
+    },
+    {
+      "check": "annotation_schema",
+      "exit_code": 0,
+      "seconds": 0.172,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "bridge",
+      "exit_code": 0,
+      "seconds": 154.016,
+      "sha256": "451bd20591b37edc90609a11ed183771ce68d8c485017d8fbe78b8cb61871250"
+    },
+    {
+      "check": "JSON_reports",
+      "exit_code": 0,
+      "seconds": 1.64,
+      "sha256": "338ead2972e63209d7ecfcd603206f5e606542b07b4cd7a711ff30d336cf7c6a"
+    },
+    {
+      "check": "annotation_cli",
+      "exit_code": 0,
+      "seconds": 0.5,
+      "sha256": "2564eebb5908df48434dca3615d6d5f9f713891245a4764d54ac8163dbce1b2e"
+    },
+    {
+      "check": "wheel",
+      "exit_code": 0,
+      "seconds": 5.797,
+      "sha256": "bbddfce8c52ca360e821291af19eb28633e2d71427298b918b50e2c63f17430e"
+    },
+    {
+      "check": "sdist",
+      "exit_code": 0,
+      "seconds": 1.625,
+      "sha256": "b841b89e78bc8241e9823f5f10589ef72eb8029b033a93e7215af6ce9051c85c"
+    },
+    {
+      "check": "interpretation_final",
+      "exit_code": 0,
+      "seconds": 2.438,
+      "sha256": "af6146a1fb06887d75fc304ffbf3d2021d2e7150fcc8d646105dfa4649fb24cc"
+    },
+    {
+      "check": "docs",
+      "exit_code": 0,
+      "seconds": 2.922,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "wheel",
+      "exit_code": 0,
+      "seconds": 3.25,
+      "sha256": "7842102857efcf472abb193180d25c36dbd5f04ad03df380f7e94e9f587c3eee"
+    },
+    {
+      "check": "sdist",
+      "exit_code": 0,
+      "seconds": 1.109,
+      "sha256": "b841b89e78bc8241e9823f5f10589ef72eb8029b033a93e7215af6ce9051c85c"
+    }
+  ],
+  "tests": {
+    "bridge": 390,
+    "interpretation_scenarios": 18,
+    "rust_unit": 6,
+    "rust_native_ignored": 29
+  },
+  "packages": [
+    {
+      "name": "nirs4all_domains_bridge-0.1.0a19-py3-none-any.whl",
+      "package_source_parity": true,
+      "sha256": "520b195e7e4df85efc714e98c4685ab065d9ca6b3b0a60d0bc2b6aa933b5854d"
+    },
+    {
+      "name": "nirs4all_domains_bridge-0.1.0a19.tar.gz",
+      "package_source_parity": true,
+      "sha256": "8a31fc6a2f796323068de8523d56dffb4f302ae215d0f4f1c1c230f7b4694463"
+    }
+  ],
+  "resources": {
+    "combined_before_bytes": 19091624153,
+    "combined_after_validation_bytes": 19092928098,
+    "incremental_engineering_bytes": 1303945,
+    "incremental_engineering_limit_bytes": 536870912,
+    "combined_ceiling_bytes": 20289597121,
+    "campaign_reserved_bytes_before_and_after": 1793195474,
+    "campaign_ceiling_bytes": 1805306368,
+    "campaign_reservations_added_bytes": 0,
+    "ceiling_increases_bytes": 0,
+    "volume_free_bytes": {
+      "C:/": 154754744320,
+      "D:/": 344400777216
+    },
+    "reserve_free_bytes_per_volume": 2147483648,
+    "scope": "Domains, protected participating inputs and separate structural-research checkout; engineering validation only."
+  },
+  "preservation": {
+    "historical_private_evidence_verified": true,
+    "legacy_schemas_changed": false,
+    "source_report_canonical_sha256": "0ea810ced51d38877a21d548798418b8361d9682d6b11ccef04d7be44dfeb247"
+  },
+  "scientific_scope": {
+    "new_experiments": 0,
+    "new_scientific_model_fits": 0,
+    "new_scientific_PCA_fits": 0,
+    "raw_acquisitions": 0,
+    "upstream_changes": 0,
+    "native_kernel_changes": 0,
+    "note": "Existing synthetic software-regression gates execute unchanged."
+  },
+  "ci": {
+    "status": "pending",
+    "required_platforms": [
+      "ubuntu-latest",
+      "windows-latest"
+    ]
+  }
+}

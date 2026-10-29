@@ -2,9 +2,12 @@
 
 Generic Domains diagnostics are independent of completion of the associated
 research program. [Product–research ownership](PRODUCT_RESEARCH_BOUNDARY.md)
-and [deployment intents](VALIDATION_INTENTS.md) define a documentation-only
+and [deployment intents](VALIDATION_INTENTS.md) define an optional
 interpretation layer: no protocol is universally superior across deployment
-questions, and no new runtime/schema/numerical behavior is introduced. Research
+questions. `domains.validation_intent.v1` adds deterministic metadata annotation,
+not numerical behavior; its [pre-test plan](VALIDATION_INTERPRETATION_V1_PLAN.md)
+and [API contract](VALIDATION_INTERPRETATION_API.md) leave the canonical scientific
+protocol and all historical result definitions unchanged. Research
 designs below remain preserved associated records rather than product prerequisites.
 
 The additive [structural-fragility research v2 proposal](STRUCTURAL_FRAGILITY_RESEARCH_V2.md)

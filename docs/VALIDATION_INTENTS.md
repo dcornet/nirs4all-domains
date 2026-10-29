@@ -1,6 +1,8 @@
 # Deployment-aware validation interpretation
 
-Status: documented concept v1, not a new runtime API or automatic split selector.
+Status: v1 interpretation API/CLI implemented as an optional linked annotation;
+see [public usage and schema](VALIDATION_INTERPRETATION_API.md). It is not an
+automatic split selector. The scenarios below define its scientific limits.
 The appropriate evaluation depends on what the deployed model must predict.
 KFold, SPXY, GroupKFold and LOGO are not universally ordered by quality.
 
@@ -53,7 +55,7 @@ support; a heuristic fence is not a calibrated probability. An unseen factor can
 remain spectrally in-support, and a known factor can contain out-of-support X.
 Do not equate categorical novelty and measured geometric novelty.
 
-## Optional interpretation concept
+## Optional interpretation record
 
 An interpretation references an existing result instead of replacing its schema:
 
@@ -73,7 +75,7 @@ An interpretation references an existing result instead of replacing its schema:
 
 X-only results may have no target or estimator. Unknown fields retain explicit
 reason/value states; do not invent intended use, groups, independent database
-count or a deployment-quality label. This concept is not currently a required
+count or a deployment-quality label. This annotation is not a required
 field of existing reports.
 
 For example, the same within-population score with unknown intended use can have
@@ -82,13 +84,15 @@ operational relevance only if new-unit and dependency assumptions are supported;
 and no demonstrated external-context transfer. Domains should present these
 alternatives rather than pronounce the split correct or incorrect universally.
 
-## Expectations before any future implementation
+## V1 interpretation expectations
 
-An annotation-only next step must preserve old schemas/defaults and work without
+The annotation preserves old schemas/defaults and works without
 Y or predictions. Changing the claimed deployment from known instrument to new
 instrument must change the supported interpretation, not recompute or reinterpret
 the old score as evidence of the new deployment. A categorical genotype column
 must not trigger automatic GroupKFold; X clusters must not be labeled physical
 batches. Unknown intent must retain alternatives, and crossed metadata must not
 be silently converted to a hierarchy. These are interpretation/compatibility
-expectations, not newly executed numerical protocols.
+expectations, not newly executed numerical protocols. The
+[pre-test implementation plan](VALIDATION_INTERPRETATION_V1_PLAN.md) and
+[API contract](VALIDATION_INTERPRETATION_API.md) record the executed scope.

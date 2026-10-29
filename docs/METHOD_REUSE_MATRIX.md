@@ -2,6 +2,11 @@
 
 ## Generic diagnostic boundary
 
+The v1 [validation interpreter](VALIDATION_INTERPRETATION_API.md) is symbolic
+report interpretation, with no numerical kernel or provider call. Existing
+computed metrics/support are referenced, never recomputed. Unknown physical
+identities and source permissions are not inferred from those references.
+
 Existing Methods/Preflight/DAG APIs remain numerical owners. A new source/binding
 inspection of the pinned public HDBSCAN header and current Rust transport is in
 [the multi-scale audit](MULTISCALE_AND_AUGMENTATION_NOTES.md). It distinguishes
