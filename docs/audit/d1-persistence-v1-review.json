@@ -1,0 +1,329 @@
+{
+  "protocol": "domains.selected_branch_persistence.v1",
+  "bridge_version": "0.1.0a20",
+  "baseline_commit": "378dc4ca752c3ab3e60f2514da1bdfa062e9a7da",
+  "local_checks": [
+    {
+      "check": "docs",
+      "exit_code": 0,
+      "seconds": 4.312,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "fmt",
+      "exit_code": 0,
+      "seconds": 1.64,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "clippy",
+      "exit_code": 0,
+      "seconds": 10.156,
+      "sha256": "d617ad49aa1bd74f2da3979222bbd35132b0c97cd8169378473a175c461a5daf"
+    },
+    {
+      "check": "workspace",
+      "exit_code": 0,
+      "seconds": 13.281,
+      "sha256": "80e773f2bd33804cb4523a04d060f972db8cc421079124e36b1642f0a5d39c98"
+    },
+    {
+      "check": "native",
+      "exit_code": 0,
+      "seconds": 8.25,
+      "sha256": "7c5e171ee51e5e996adc24e19c95d05fa8f069e5e617d40cecb5368b298f054b"
+    },
+    {
+      "check": "rustdoc",
+      "exit_code": 0,
+      "seconds": 9.234,
+      "sha256": "f025b01b2fa36853529e28f9155946dfab3afb6f1cae766bc4d2b4f57570d9af"
+    },
+    {
+      "check": "schema",
+      "exit_code": 0,
+      "seconds": 1.11,
+      "sha256": "5be16f635c040a6099d3dec6904a025c3b9e04ad0b658053399e030bd05c0ed8"
+    },
+    {
+      "check": "annotation_schema",
+      "exit_code": 0,
+      "seconds": 0.218,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "multiscale_schema",
+      "exit_code": 0,
+      "seconds": 0.203,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "bridge",
+      "exit_code": 0,
+      "seconds": 178.344,
+      "sha256": "3030e7b9dc3cfa2a9d8d38dfb272537747a0ae50cb35a1bfec479cbd36436493"
+    },
+    {
+      "check": "JSON_reports",
+      "exit_code": 0,
+      "seconds": 1.532,
+      "sha256": "338ead2972e63209d7ecfcd603206f5e606542b07b4cd7a711ff30d336cf7c6a"
+    },
+    {
+      "check": "multiscale_cli",
+      "exit_code": 0,
+      "seconds": 2.891,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "annotation_cli",
+      "exit_code": 0,
+      "seconds": 1.125,
+      "sha256": "ea4853687786a919d792fd4bfe81d1ad98661af609834a4b7271fe3a4ca6f485"
+    },
+    {
+      "check": "wheel",
+      "exit_code": 0,
+      "seconds": 3.422,
+      "sha256": "6ce103cdab1bc5bcb9a986eb8194d7d22798a4957410dfc8a3da57a444098d99"
+    },
+    {
+      "check": "sdist",
+      "exit_code": 0,
+      "seconds": 0.891,
+      "sha256": "ee036d6f0f31093bb3cb723761e02ea2167cc28cc1d74ac74a3f5713ec1a7a60"
+    },
+    {
+      "check": "contract_final",
+      "exit_code": 0,
+      "seconds": 9.234,
+      "sha256": "b32db07f832d4037d264b4035da4b38772b9ae2efeafdfdb4d9241addc59ba5d"
+    },
+    {
+      "check": "docs",
+      "exit_code": 0,
+      "seconds": 4.593,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "multiscale_cli",
+      "exit_code": 0,
+      "seconds": 6.047,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "wheel",
+      "exit_code": 0,
+      "seconds": 4.437,
+      "sha256": "5a5aae66df7173e662aecb8683c9bf3cc7c737cf023fff50df8305b5c85d2935"
+    },
+    {
+      "check": "sdist",
+      "exit_code": 0,
+      "seconds": 1.454,
+      "sha256": "ee036d6f0f31093bb3cb723761e02ea2167cc28cc1d74ac74a3f5713ec1a7a60"
+    }
+  ],
+  "tests": {
+    "Python_regression": 412,
+    "final_contract_tests_after_ABI_shape_guard": 19,
+    "new_D1_Python_tests": 22,
+    "Rust_workspace": 6,
+    "Rust_native_ignored": 30,
+    "public_HDBSCAN_reference_cases_per_native_gate": 8,
+    "final_native_geometry_compatibility_test": 1
+  },
+  "provider": {
+    "abi": "2.19.0",
+    "binary_sha256": "096bae41ffc5e4f6ec8d73b0ca43f0cec83f66dda806b2d43b2d893ba07db164",
+    "version": "1.3.6+abi.2.19.0"
+  },
+  "source_qualification": {
+    "Methods_commit": "131a15a6bbf73a8ab941c7b3fb81b21f6b71b059",
+    "header_sha256": "5d558fd975a638b16afc776d4725daf9fb0dfde66f0f5d3bc2c9cd00c136932c",
+    "implementation_sha256": "31b2d8592f412e69fd7374199bd45244c9d40a2e41f5c18d5f41fed504eaa26f",
+    "public_fixture_sha256": "294457336e820754b5047851760ea0d02391c1c552cd9420cc80223179297cd4",
+    "tree_links_labels_counts_tolerance": "exact",
+    "native_numeric_reference_abs_rel_tolerance": 1e-12,
+    "transport_scalar_tolerance": "exact copy"
+  },
+  "packages": [
+    {
+      "name": "nirs4all_domains_bridge-0.1.0a20-py3-none-any.whl",
+      "package_source_parity": true,
+      "sha256": "cf0e9419ff0b90514f96b1ff7e246c176c3743af2aeb928063249edde5e6b78c"
+    },
+    {
+      "name": "nirs4all_domains_bridge-0.1.0a20.tar.gz",
+      "package_source_parity": true,
+      "sha256": "3ea925386c44ea9c01ef38968c8acd23fee33ca85cdf9f454214163f44533f0a"
+    }
+  ],
+  "resources": {
+    "combined_before_bytes": 19105879817,
+    "combined_after_validation_bytes": 19428213578,
+    "incremental_engineering_bytes": 322333761,
+    "incremental_engineering_limit_bytes": 536870912,
+    "combined_ceiling_bytes": 20289597121,
+    "campaign_ceiling_bytes": 1805306368,
+    "campaign_reserved_bytes_before_and_after": 1793195474,
+    "new_reservations_bytes": 0,
+    "ceiling_increases_bytes": 0,
+    "volume_free_bytes": {
+      "C:/": 154637623296,
+      "D:/": 344072617984
+    },
+    "reserve_free_bytes_per_volume": 2147483648
+  },
+  "scientific_scope": {
+    "new_real_X_fits": 0,
+    "supervised_qualification_fits": 0,
+    "raw_acquisitions": 0,
+    "new_B60_campaigns": 0,
+    "upstream_changes": 0,
+    "local_D1_HDBSCAN_calls_including_initial_and_regression_repeats": 48,
+    "local_D1_PCA_attempts_including_three_zero_variance_failures": 16,
+    "local_D1_PCA_successes": 13,
+    "CI_job_fixed_D1_HDBSCAN_calls": 13,
+    "CI_job_fixed_D1_PCA_attempts": 5,
+    "note": "Local D1 calls include initial fixture corrections, three 8-case native-reference gates, three first-draft Python native passes, the first example, two final geometry-comparison fits and the final one-fit example. Final contract checks add no fit. Unchanged historical regression workloads and remote CI passes are separate."
+  },
+  "preservation": {
+    "tracked_historical_report_schema_test_blobs_verified": 491,
+    "legacy_report_schemas_changed": false,
+    "historical_private_evidence_verified": true,
+    "research_HEAD": "bd46073",
+    "research_worktree_changed": false,
+    "source_default_numerical_output_unchanged": true,
+    "legacy_native_source_restored_exactly": true,
+    "historical_source_hash_guards_unchanged": true
+  },
+  "CI_evidence": {
+    "workflow": "https://github.com/dcornet/nirs4all-domains/actions/workflows/ci.yml",
+    "required_jobs": [
+      "audit (ubuntu-latest)",
+      "audit (windows-latest)"
+    ],
+    "verification": "The final delivered commit must have both successful GitHub Actions checks; immutable run URL and checked SHA are collected in the local delivery receipt and final release delivery report. Configuration is not execution proof."
+  },
+  "correction_checks": [
+    {
+      "check": "correction_fmt",
+      "exit_code": 0,
+      "seconds": 2.031,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "correction_clippy",
+      "exit_code": 0,
+      "seconds": 10.328,
+      "sha256": "42ec7e847dbbe45fc453948a5366800fb47ad3bd0d2736c9dd7ede33011618b8"
+    },
+    {
+      "check": "correction_workspace",
+      "exit_code": 0,
+      "seconds": 14.063,
+      "sha256": "1a5ddaab3fd6f3e2c572611e3fe6ab7a77173e0d9fc96fbb3bf11c1507f85847"
+    },
+    {
+      "check": "correction_native",
+      "exit_code": 0,
+      "seconds": 7.656,
+      "sha256": "3f5521c8d8ee804bce789ace32cc977716b1ef110192c348cef7ae93d683b36b"
+    },
+    {
+      "check": "correction_schema",
+      "exit_code": 0,
+      "seconds": 1.579,
+      "sha256": "b028f0d5864c9071aa196d7d42c2f37deaf656648b00174f592ddeb8c7048ae7"
+    },
+    {
+      "check": "correction_docs",
+      "exit_code": 0,
+      "seconds": 3.672,
+      "sha256": "adf1c58bfb2220657e1dab16406526fddcbdd7da7a614aaae12aa1ed65e7344e"
+    },
+    {
+      "check": "historical_alpha9",
+      "exit_code": 0,
+      "seconds": 0.859,
+      "sha256": "d0dd19f65e6c608eedda1b9373bd8487eedb2fe450624ac9791203c05377d3c0"
+    },
+    {
+      "check": "historical_alpha10",
+      "exit_code": 0,
+      "seconds": 5.593,
+      "sha256": "ae7a86df3879f94db8f05852bb53af93d598601ac5839dd11d8c6f996fb0c452"
+    },
+    {
+      "check": "historical_alpha11",
+      "exit_code": 0,
+      "seconds": 4.343,
+      "sha256": "abae711e04c2a42de2572718673c71bd90ee845679224016630da2c8ca36f852"
+    },
+    {
+      "check": "historical_alpha12",
+      "exit_code": 0,
+      "seconds": 11.766,
+      "sha256": "ecf82d878ccf1c460f4c61da12c8de8b357782f73995940f3b68882854b875be"
+    },
+    {
+      "check": "historical_alpha13",
+      "exit_code": 0,
+      "seconds": 4.125,
+      "sha256": "41b153b24590c1743acf2ae033436160ee6fa86d5a7f1833104a35dac9fad51c"
+    },
+    {
+      "check": "historical_alpha14",
+      "exit_code": 0,
+      "seconds": 1.484,
+      "sha256": "432cdf7da648d02f72c899e0c6058ed271d4523abfa93e9b632929761b4f19b4"
+    },
+    {
+      "check": "historical_alpha15",
+      "exit_code": 0,
+      "seconds": 1.328,
+      "sha256": "56718e8124b6d266ae8c03f82c0d795e1c9489f277dc8a8621cc35b7541fffa4"
+    },
+    {
+      "check": "historical_alpha16",
+      "exit_code": 0,
+      "seconds": 1.734,
+      "sha256": "75766cebe6ebdcb10962ba46a5a405561b4de5d9ed92f7f5d176f42759033968"
+    },
+    {
+      "check": "historical_alpha17",
+      "exit_code": 0,
+      "seconds": 1.859,
+      "sha256": "d6294c330931a5f8a365bba84bd92fed292331f2db5c8c94831c5fb8373619cb"
+    },
+    {
+      "check": "historical_alpha18",
+      "exit_code": 0,
+      "seconds": 1.625,
+      "sha256": "338ead2972e63209d7ecfcd603206f5e606542b07b4cd7a711ff30d336cf7c6a"
+    },
+    {
+      "check": "correction_wheel",
+      "exit_code": 0,
+      "seconds": 4.093,
+      "sha256": "8a3907eb47f35599708923a10a1608209132010eff53d91f98850daa5572d813"
+    },
+    {
+      "check": "correction_sdist",
+      "exit_code": 0,
+      "seconds": 1.016,
+      "sha256": "ee036d6f0f31093bb3cb723761e02ea2167cc28cc1d74ac74a3f5713ec1a7a60"
+    }
+  ],
+  "public_example_native_output_equals_initial_reference": true,
+  "implementation_transport": "domains.hierarchy_profile.v1; dedicated native module, no edit to frozen unsupervised transport",
+  "initial_CI": {
+    "url": "https://github.com/dcornet/nirs4all-domains/actions/runs/41027758928",
+    "headSha": "ff3ec41682f86441d930b34479e0b891e87002be",
+    "conclusion": "failure",
+    "Python_tests_per_platform": 412,
+    "Rust_tests_per_platform": 36,
+    "reason": "Both platforms rejected changed content-frozen unsupervised.rs after tests passed. Restored original source without weakening the check."
+  }
+}

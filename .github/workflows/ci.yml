@@ -41,6 +41,7 @@ jobs:
       - run: python scripts/generate_privacy_schemas.py
       - run: python scripts/generate_synthesis_schemas.py
       - run: python scripts/generate_validation_intent_schema.py
+      - run: python scripts/generate_multiscale_schema.py
       - name: Validate proposed fragility research schema
         run: python -c "import json; from jsonschema import Draft202012Validator; s=json.load(open('schemas/structural-fragility-research.v2.schema.json')); Draft202012Validator.check_schema(s); Draft202012Validator(s).validate(json.load(open('docs/examples/structural-fragility-v2.design.json')))"
       - name: Product and research documentation continuity
@@ -53,6 +54,8 @@ jobs:
           $suffix = if ($IsWindows) { '.exe' } else { '' }
           $env:N4DOMAINS_BIN = Join-Path $PWD "target/debug/n4domains$suffix"
           python -m unittest discover -s tests/integration -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/run_multiscale_example.py --out results/multiscale-example
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -m nirs4all_domains.bank verify --manifest docs/benchmarks/alpha8/storage.json --root docs/benchmarks/alpha8
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

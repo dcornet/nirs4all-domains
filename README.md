@@ -18,7 +18,7 @@ available diagnostic.
 |---|---|
 | X-only geometry and populations | Raw/SNV PCA, applicable exact effective dimension, continuity and density profiles; missing full moments remain explicit |
 | Neighborhoods, proximity and support | Native distances/neighbors and dependency-aware comparisons; query sampling and admissible references are documented |
-| Discrete and multi-scale structure | HDBSCAN labels, membership strength, persistence and hierarchy transport; a generic qualified multi-scale interpretation is still planned |
+| Discrete and multi-scale structure | Qualified selected-branch persistence/support sidecar, original hierarchy references and explicit missing/resampling states |
 | Representation sensitivity | Paired raw/SNV geometry, partition agreement and neighborhood changes |
 | Metadata corroboration | Factor associations, agreement/disagreement and unknown correspondence; crossed factors need not form a tree |
 | Evaluation partitions | Train-fitted projection, overlap/extrapolation diagnostics and known identity/reference guards |
@@ -31,6 +31,16 @@ certify low risk; a protocol gap is not a causal shortcut percentage. There is
 no universal deployment-quality label or mandatory low-risk certification.
 See [method ownership](docs/METHOD_REUSE_MATRIX.md) and the
 [multi-scale audit and research concept note](docs/MULTISCALE_AND_AUGMENTATION_NOTES.md).
+
+The optional [D1 persistence/support descriptor](docs/SELECTED_BRANCH_PERSISTENCE.md)
+describes one existing density fit without Y or another model. It reports
+selected branches, noise, per-cluster persistence and observation support,
+keeping resampling robustness and independent-unit support distinct.
+The [public worked example](docs/examples/multiscale/README.md) retains the original tree.
+
+```shell
+python -m nirs4all_domains.multiscale docs/examples/multiscale/source-report.json --out results/branches.json
+```
 
 The evidence vocabulary separates **structural observation**, **validation
 concern**, **empirical sensitivity**, **scientific mechanism hypothesis** and
@@ -104,7 +114,7 @@ No universal structural-risk model or causal mechanism has been validated.
 
 | Milestone | Permanent product objective | Current status |
 |---|---|---|
-| D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; multi-scale interpretation remains partial |
+| D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; selected-branch persistence/support v1 qualified; broader multi-scale families remain partial |
 | D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Optional v1 API/CLI annotation with scenario and compatibility tests; no automatic selector |
 | D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | 682 complete primary quantitative tasks; exploratory context/plot sensitivity |
 | D4 - Usable integration | Stable reports and public Datasets/Preflight/Methods/model interfaces | Existing two-crate core/CLI and thin bridge; read-only research interface specified |

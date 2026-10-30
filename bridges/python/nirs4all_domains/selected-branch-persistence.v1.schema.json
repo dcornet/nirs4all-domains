@@ -1,0 +1,785 @@
+{
+  "$id": "https://nirs4all.org/domains/selected-branch-persistence.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "configuration": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_single_cluster": {
+          "type": "boolean"
+        },
+        "min_cluster_size": {
+          "minimum": 2,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "min_samples": {
+          "minimum": 1,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "selection_method": {
+          "enum": [
+            "eom",
+            "leaf"
+          ]
+        }
+      },
+      "required": [
+        "min_cluster_size",
+        "min_samples",
+        "selection_method",
+        "allow_single_cluster"
+      ],
+      "type": "object"
+    },
+    "finding": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "confidence": {
+          "const": "descriptive_within_fit"
+        },
+        "consequence": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observation": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "observation",
+        "confidence",
+        "consequence",
+        "action"
+      ],
+      "type": "object"
+    },
+    "hierarchy": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "const": "computed"
+            },
+            "value": {
+              "additionalProperties": false,
+              "properties": {
+                "n_nodes": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "pointer": {
+                  "pattern": "^/",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "pointer",
+                "n_nodes"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 8,
+      "type": "array"
+    },
+    "protocol_version": {
+      "const": "domains.selected_branch_persistence.v1"
+    },
+    "provider": {
+      "type": "object"
+    },
+    "representation": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "partition": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "pca": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "partition",
+        "pca"
+      ],
+      "type": "object"
+    },
+    "resampling_stability": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "const": "unavailable"
+        },
+        "value": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "selected_structure": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "const": "computed"
+            },
+            "value": {
+              "additionalProperties": false,
+              "properties": {
+                "clusters": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fraction_of_fitted_population": {
+                        "maximum": 1,
+                        "minimum": 0,
+                        "type": "number"
+                      },
+                      "hierarchy_node_index": {
+                        "oneOf": [
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "reason": {
+                                "type": "null"
+                              },
+                              "status": {
+                                "const": "computed"
+                              },
+                              "value": {
+                                "minimum": 0,
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "reason",
+                              "value"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "reason": {
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "status": {
+                                "enum": [
+                                  "unavailable",
+                                  "not_applicable"
+                                ]
+                              },
+                              "value": {
+                                "type": "null"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "reason",
+                              "value"
+                            ],
+                            "type": "object"
+                          }
+                        ]
+                      },
+                      "independent_unit_support": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "reason": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "status": {
+                            "const": "unavailable"
+                          },
+                          "value": {
+                            "type": "null"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "reason",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      "label": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "n_observations": {
+                        "minimum": 1,
+                        "type": "integer"
+                      },
+                      "persistence": {
+                        "oneOf": [
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "reason": {
+                                "type": "null"
+                              },
+                              "status": {
+                                "const": "computed"
+                              },
+                              "value": {
+                                "minimum": 0,
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "reason",
+                              "value"
+                            ],
+                            "type": "object"
+                          },
+                          {
+                            "additionalProperties": false,
+                            "properties": {
+                              "reason": {
+                                "minLength": 1,
+                                "type": "string"
+                              },
+                              "status": {
+                                "enum": [
+                                  "unavailable",
+                                  "not_applicable"
+                                ]
+                              },
+                              "value": {
+                                "type": "null"
+                              }
+                            },
+                            "required": [
+                              "status",
+                              "reason",
+                              "value"
+                            ],
+                            "type": "object"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "label",
+                      "n_observations",
+                      "fraction_of_fitted_population",
+                      "persistence",
+                      "hierarchy_node_index",
+                      "independent_unit_support"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "discrete_structure": {
+                  "enum": [
+                    "no_selected_clusters",
+                    "single_selected_cluster",
+                    "multiple_selected_clusters"
+                  ]
+                },
+                "distribution_weighting": {
+                  "const": "one vote per selected cluster; no noise-cluster vote"
+                },
+                "n_noise": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "n_observations": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "n_selected_clusters": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "noise_fraction": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                },
+                "observation_support_distribution": {
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "type": "null"
+                        },
+                        "status": {
+                          "const": "computed"
+                        },
+                        "value": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "count": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "max": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "mean": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "median": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "min": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "q25": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "q75": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "sd": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "min",
+                            "max",
+                            "mean",
+                            "sd",
+                            "q25",
+                            "median",
+                            "q75"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "status": {
+                          "enum": [
+                            "unavailable",
+                            "not_applicable"
+                          ]
+                        },
+                        "value": {
+                          "type": "null"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "persistence_convention": {
+                  "enum": [
+                    "unknown",
+                    "global_infinite_lambda_fallback_one",
+                    "global_zero_lambda_fallback_one",
+                    "finite_or_unknown_global_lambda"
+                  ]
+                },
+                "persistence_distribution": {
+                  "oneOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "type": "null"
+                        },
+                        "status": {
+                          "const": "computed"
+                        },
+                        "value": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "count": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "max": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "mean": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "median": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "min": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "q25": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "q75": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            },
+                            "sd": {
+                              "type": [
+                                "number",
+                                "null"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "count",
+                            "min",
+                            "max",
+                            "mean",
+                            "sd",
+                            "q25",
+                            "median",
+                            "q75"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    },
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reason": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "status": {
+                          "enum": [
+                            "unavailable",
+                            "not_applicable"
+                          ]
+                        },
+                        "value": {
+                          "type": "null"
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "reason",
+                        "value"
+                      ],
+                      "type": "object"
+                    }
+                  ]
+                },
+                "support_unit": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "n_observations",
+                "support_unit",
+                "n_selected_clusters",
+                "n_noise",
+                "noise_fraction",
+                "clusters",
+                "persistence_distribution",
+                "observation_support_distribution",
+                "distribution_weighting",
+                "persistence_convention",
+                "discrete_structure"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "separate_resampling_evidence_pointer": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "content_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "native_pointer": {
+          "pattern": "^/",
+          "type": "string"
+        },
+        "protocol_version": {
+          "enum": [
+            "domains.structure.v0.1",
+            "domains.unsupervised.v0.1",
+            "domains.hierarchy_profile.v1"
+          ]
+        },
+        "setting_index": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "content_sha256",
+        "protocol_version",
+        "setting_index",
+        "native_pointer"
+      ],
+      "type": "object"
+    },
+    "summary_provider": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "type": "null"
+            },
+            "status": {
+              "const": "computed"
+            },
+            "value": {
+              "additionalProperties": false,
+              "properties": {
+                "binary_sha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "name": {
+                  "const": "Methods summary ABI"
+                },
+                "version": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "version",
+                "binary_sha256"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "reason",
+            "value"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "source",
+    "configuration",
+    "representation",
+    "provider",
+    "summary_provider",
+    "selected_structure",
+    "hierarchy",
+    "resampling_stability",
+    "separate_resampling_evidence_pointer",
+    "finding",
+    "limitations"
+  ],
+  "type": "object"
+}
