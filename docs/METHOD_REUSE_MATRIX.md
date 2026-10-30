@@ -1,5 +1,11 @@
 # Method reuse matrix
 
+D3 comparison v1 uses existing D2 interpretation and storage binding; only
+scalar RMSE subtraction/ratio is local protocol assembly. Existing Methods/DAG
+scores, nulls and predictions are referenced unchanged. No fitting, numerical
+provider import, metric estimation or upstream modification is added; see
+[public contract](COMPARISON_INTERPRETATION_API.md).
+
 ## Generic diagnostic boundary
 
 D1 now qualifies [selected-branch persistence/support v1](SELECTED_BRANCH_PERSISTENCE.md):

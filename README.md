@@ -81,6 +81,17 @@ Full-X construction is explicitly transductive and must not use held-out Y.
 Treating it as a proxy for a particular deployment shift requires separate
 evidence; it is not automatically physical or experimental LOGO.
 
+The optional [D3 comparison interpreter](docs/COMPARISON_INTERPRETATION_API.md)
+explains two existing predictive results without refitting. It checks target
+and unit compatibility, evaluation identity matching, training/model conditions
+and separate null definitions before describing an RMSE contrast. The
+[public tablet example](docs/examples/comparison/README.md) shows why worse
+absolute error can coexist with better skill against a different null.
+
+```shell
+python -m nirs4all_domains.comparison_interpretation reference.json stress.json --request comparison.json --out results/comparison.json
+```
+
 ## Current implemented and experimental evidence
 
 <!-- scientific-status:start -->
@@ -116,7 +127,7 @@ No universal structural-risk model or causal mechanism has been validated.
 |---|---|---|
 | D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; selected-branch persistence/support v1 qualified; broader multi-scale families remain partial |
 | D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Optional v1 API/CLI annotation with scenario and compatibility tests; no automatic selector |
-| D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | 682 complete primary quantitative tasks; exploratory context/plot sensitivity |
+| D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | Optional read-only comparison v1 API/CLI; target/units, ID matching, null scope and baseline-context guards; 682 historical primary tasks |
 | D4 - Usable integration | Stable reports and public Datasets/Preflight/Methods/model interfaces | Existing two-crate core/CLI and thin bridge; read-only research interface specified |
 | D5 - Evidence-supported guidance | Validated and calibrated diagnostic interpretation | Task-specific evidence exists; no universal shortcut or deployment certification |
 

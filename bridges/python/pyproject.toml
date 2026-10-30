@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nirs4all-domains-bridge"
-version = "0.1.0a20"
+version = "0.1.0a21"
 description = "Domains transport, validation interpretation and qualified structural descriptors"
 requires-python = ">=3.11"
 license = "AGPL-3.0-or-later"

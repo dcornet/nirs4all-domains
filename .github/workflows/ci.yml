@@ -42,12 +42,15 @@ jobs:
       - run: python scripts/generate_synthesis_schemas.py
       - run: python scripts/generate_validation_intent_schema.py
       - run: python scripts/generate_multiscale_schema.py
+      - run: python scripts/generate_comparison_schema.py
       - name: Validate proposed fragility research schema
         run: python -c "import json; from jsonschema import Draft202012Validator; s=json.load(open('schemas/structural-fragility-research.v2.schema.json')); Draft202012Validator.check_schema(s); Draft202012Validator(s).validate(json.load(open('docs/examples/structural-fragility-v2.design.json')))"
       - name: Product and research documentation continuity
         run: python scripts/check_product_research_docs.py
       - name: Read-only deployment interpretation example
         run: python -m nirs4all_domains.validation_intent docs/benchmarks/alpha17/tablet-pilot-summary.json --intent docs/examples/validation-intent/tablet.request.json --out results/validation-intent-ci.json
+      - name: Read-only predictive comparison example
+        run: python scripts/run_comparison_example.py --out results/comparison-example
       - name: Bridge and end-to-end gates
         shell: pwsh
         run: |

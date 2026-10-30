@@ -1,5 +1,14 @@
 # Scientific protocols — domains.canonical.v0.3
 
+`domains.comparison_interpretation.v1` is a read-only optional D3 companion.
+The [pre-test behavior/resource plan](D3_COMPARISON_V1_PLAN.md) freezes exact
+identity/semantic comparisons, RMSE difference/fractional-change formulas,
+zero/missing/overflow states and adversarial scope. Existing metrics/nulls remain
+unchanged; skill interpretation requires a declared compatible definition and
+population. Matching row IDs establishes neither independence nor significance.
+Separate D2 readings retain physical/context/X-derived novelty and unknown use.
+No new predictive/hierarchy fit or historical scientific protocol change.
+
 The additive `domains.selected_branch_persistence.v1` describes one native
 HDBSCAN fit, under the [frozen D1 qualification plan](D1_PERSISTENCE_PLAN.md).
 Its [definition/API](SELECTED_BRANCH_PERSISTENCE.md) separates within-fit
