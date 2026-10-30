@@ -72,7 +72,7 @@ def main():
         if line.startswith('| D1 '):
             cells=line.split('|');cells[-2]=f" {s['computed_source_views']}/171 complete raw/SNV profiles; selected-branch persistence/support v1 qualified; broader multi-scale families remain partial ";line='|'.join(cells)
         if line.startswith('| D3 '):
-            cells=line.split('|');cells[-2]=f" {s['completed_primary_quantitative_tasks']} complete primary quantitative tasks; exploratory context/plot sensitivity ";line='|'.join(cells)
+            cells=line.split('|');cells[-2]=f" Optional read-only comparison v1 API/CLI; target/units, ID matching, null scope and baseline-context guards; {s['completed_primary_quantitative_tasks']} historical primary tasks ";line='|'.join(cells)
         lines.append(line)
     path.write_text('\n'.join(lines)+'\n',encoding='utf-8')
     attribution=['# Original source locators and aggregate scope','',

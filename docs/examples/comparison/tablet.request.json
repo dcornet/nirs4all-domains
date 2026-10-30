@@ -1,0 +1,174 @@
+{
+  "reference": {
+    "evaluation": "/contexts/1",
+    "pointers": {
+      "source": [
+        "/dataset_id",
+        "/content_version",
+        "/source_id"
+      ],
+      "target": "/target/meaning",
+      "units": "/target/unit",
+      "population": "/contexts/1/source_type",
+      "n_evaluation": "/contexts/1/n_evaluation",
+      "model": "/anchors/0/method",
+      "pipeline": "/anchors/0",
+      "n_train": "/contexts/1/n_train",
+      "rmse": "/contexts/1/models/raw_pls/scores/value/rmse",
+      "skill": "/contexts/1/models/raw_pls/S",
+      "null_rmse": "/contexts/1/models/raw_pls/null/value/rmse",
+      "null_population": "/contexts/1/source_type"
+    },
+    "null_definition": "Training-fold mean from other original Type contexts, scored on the named held-out Type.",
+    "skill_definition": "one_minus_rmse_over_null_rmse",
+    "intent": {
+      "intended_use": "outside_context",
+      "prediction_population": "Observed held-out original Type C in this tablet experiment",
+      "prediction_unit": "new_context",
+      "split": {
+        "family": "context_holdout",
+        "description": "Leave original Type C out; nested PLS selection on the other Types. Reference/stress name this retrospective contrast only; no controlled split manipulation."
+      },
+      "dependencies": [
+        {
+          "unit": "31 declared blocks",
+          "kind": "other",
+          "evidence": "declared",
+          "separated": true,
+          "reference": "Public report /declared_blocks_preserved and /evaluation_scope; physical specimen/assay independence unknown."
+        }
+      ],
+      "factors": [
+        {
+          "name": "original Type C",
+          "kind": "other",
+          "excluded": true,
+          "relevant_to_intent": true,
+          "evidence": "declared",
+          "reference": "Public report /contexts/1/source_type and /evaluation_scope",
+          "relationship": "Original formulation/context Type; not an instrument, genotype or whole independent experiment."
+        }
+      ],
+      "groups": {
+        "basis": "declared_context",
+        "construction": "declared"
+      },
+      "transductive": false,
+      "prediction_metrics": [
+        {
+          "name": "rmse",
+          "pointer": "/contexts/1/models/raw_pls/scores/value/rmse"
+        }
+      ],
+      "spectral_support": [
+        {
+          "pointer": "/contexts/1/train_fitted_PC1_PC2_summaries",
+          "description": "Two train-fitted PC summaries only; evaluation projected without refit.",
+          "representation": "raw/train-only PCA",
+          "reference_population": "Other Types used to train the Type C holdout",
+          "limitations": [
+            "Partial projection summaries are not full spectral support; context-specific PCA coordinates differ."
+          ]
+        },
+        {
+          "pointer": "/contexts/1/continuous_support",
+          "description": "Qualified continuous support unavailable.",
+          "representation": "raw",
+          "reference_population": "Type C training population",
+          "limitations": [
+            "No low-risk interpretation from missing support."
+          ]
+        }
+      ],
+      "limitations": [
+        "Physical and assay dependencies remain unknown. Type-specific target ranges and training populations differ. These two context results do not isolate a causal split effect. No repeated fit or independent-database evidence is added."
+      ]
+    }
+  },
+  "stress": {
+    "evaluation": "/contexts/0",
+    "pointers": {
+      "source": [
+        "/dataset_id",
+        "/content_version",
+        "/source_id"
+      ],
+      "target": "/target/meaning",
+      "units": "/target/unit",
+      "population": "/contexts/0/source_type",
+      "n_evaluation": "/contexts/0/n_evaluation",
+      "model": "/anchors/0/method",
+      "pipeline": "/anchors/0",
+      "n_train": "/contexts/0/n_train",
+      "rmse": "/contexts/0/models/raw_pls/scores/value/rmse",
+      "skill": "/contexts/0/models/raw_pls/S",
+      "null_rmse": "/contexts/0/models/raw_pls/null/value/rmse",
+      "null_population": "/contexts/0/source_type"
+    },
+    "null_definition": "Training-fold mean from other original Type contexts, scored on the named held-out Type.",
+    "skill_definition": "one_minus_rmse_over_null_rmse",
+    "intent": {
+      "intended_use": "outside_context",
+      "prediction_population": "Observed held-out original Type A in this tablet experiment",
+      "prediction_unit": "new_context",
+      "split": {
+        "family": "context_holdout",
+        "description": "Leave original Type A out; nested PLS selection on the other Types. Reference/stress name this retrospective contrast only; no controlled split manipulation."
+      },
+      "dependencies": [
+        {
+          "unit": "31 declared blocks",
+          "kind": "other",
+          "evidence": "declared",
+          "separated": true,
+          "reference": "Public report /declared_blocks_preserved and /evaluation_scope; physical specimen/assay independence unknown."
+        }
+      ],
+      "factors": [
+        {
+          "name": "original Type A",
+          "kind": "other",
+          "excluded": true,
+          "relevant_to_intent": true,
+          "evidence": "declared",
+          "reference": "Public report /contexts/0/source_type and /evaluation_scope",
+          "relationship": "Original formulation/context Type; not an instrument, genotype or whole independent experiment."
+        }
+      ],
+      "groups": {
+        "basis": "declared_context",
+        "construction": "declared"
+      },
+      "transductive": false,
+      "prediction_metrics": [
+        {
+          "name": "rmse",
+          "pointer": "/contexts/0/models/raw_pls/scores/value/rmse"
+        }
+      ],
+      "spectral_support": [
+        {
+          "pointer": "/contexts/0/train_fitted_PC1_PC2_summaries",
+          "description": "Two train-fitted PC summaries only; evaluation projected without refit.",
+          "representation": "raw/train-only PCA",
+          "reference_population": "Other Types used to train the Type A holdout",
+          "limitations": [
+            "Partial projection summaries are not full spectral support; context-specific PCA coordinates differ."
+          ]
+        },
+        {
+          "pointer": "/contexts/0/continuous_support",
+          "description": "Qualified continuous support unavailable.",
+          "representation": "raw",
+          "reference_population": "Type A training population",
+          "limitations": [
+            "No low-risk interpretation from missing support."
+          ]
+        }
+      ],
+      "limitations": [
+        "Physical and assay dependencies remain unknown. Type-specific target ranges and training populations differ. These two context results do not isolate a causal split effect. No repeated fit or independent-database evidence is added."
+      ]
+    }
+  }
+}

@@ -1,5 +1,12 @@
 # Architecture and ownership
 
+The optional Python [D3 comparison companion](COMPARISON_INTERPRETATION_API.md)
+reuses D2 interpretation, canonical hashes and strict schemas over two existing
+report objects. It assembles only RMSE subtraction/fractional change and reads
+stored skill/null evidence. No provider, estimator, metric kernel, global report
+envelope or third crate is added. Historical reports/default consumers remain
+unchanged. Source and evaluation pointers retain the actual comparison scope.
+
 ## Product and associated research
 
 Domains owns reusable structural/source/split diagnostics, validation-intent
