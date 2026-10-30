@@ -21,8 +21,12 @@ may append the rendered section to its own report. It imports no numerical
 provider and changes no native report fields, predictions or metrics. Its new
 standalone annotation schema is packaged with the bridge. Legacy report schemas,
 two crates and numerical providers remain unchanged. The
-[multi-scale descriptor proposal](MULTISCALE_AND_AUGMENTATION_NOTES.md) remains
-unimplemented. Legacy campaign controllers
+[first qualified multi-scale descriptor](SELECTED_BRANCH_PERSISTENCE.md) reuses
+the existing Methods HDBSCAN adapter, with opt-in original hierarchy transport
+in X-profile and an optional Python sidecar. Counts/ratios are protocol assembly;
+Methods retains persistence and summary numerical ownership. Default reports,
+schemas and numerical configurations are unchanged. Broader
+[multi-scale proposals](MULTISCALE_AND_AUGMENTATION_NOTES.md) remain planned. Legacy campaign controllers
 and evidence remain for compatibility/reproducibility; future speculative studies
 do not expand them into a universal research framework. Historical architecture
 notes below retain their original execution scope.

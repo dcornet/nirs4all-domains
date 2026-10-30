@@ -104,6 +104,23 @@ fn neighbors(
 }
 
 pub fn characterize(r: &UnsupervisedRequest, library: &Path) -> Result<Value, String> {
+    characterize_inner(r, library, false)
+}
+
+/// Opt-in original native evidence for the D1 persistence descriptor.
+/// Fits and numerical configuration are identical to `characterize`.
+pub fn characterize_with_hierarchy(
+    r: &UnsupervisedRequest,
+    library: &Path,
+) -> Result<Value, String> {
+    characterize_inner(r, library, true)
+}
+
+fn characterize_inner(
+    r: &UnsupervisedRequest,
+    library: &Path,
+    include_hierarchy: bool,
+) -> Result<Value, String> {
     let x = &r.spectral;
     let n = x.spectra.len();
     let p = x.axis.len();
@@ -176,11 +193,23 @@ pub fn characterize(r: &UnsupervisedRequest, library: &Path) -> Result<Value, St
             allow_single_cluster: false,
         };
         match m.hdbscan(&fit.train_scores, &parameters) {
-            Ok(h) => settings.push(computed(json!({"min_cluster_size":size,"min_samples":4,
+            Ok(h) => {
+                let evidence = include_hierarchy.then(|| {
+                    json!({
+                        "protocol_version":"domains.hdbscan_transport.v1",
+                        "parameters":parameters,"hdbscan":h
+                    })
+                });
+                let mut setting = computed(json!({"min_cluster_size":size,"min_samples":4,
                 "n_clusters":h.n_clusters,"labels":h.labels,
                 "membership_summary":summary(&m,h.membership_strengths)?,
                 "noise_fraction":h.labels.iter().filter(|v|**v<0).count() as f64/n as f64,
-                "nonfinite_diagnostics":h.nonfinite_diagnostics}))),
+                "nonfinite_diagnostics":h.nonfinite_diagnostics}));
+                if let Some(evidence) = evidence {
+                    setting["value"]["hierarchy_evidence"] = computed(evidence);
+                }
+                settings.push(setting);
+            }
             Err(e) => settings.push(unavailable(&e.reason)),
         }
     }

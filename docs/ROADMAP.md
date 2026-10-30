@@ -8,7 +8,7 @@ confirmation. Status comes from [campaign evidence](campaign/status.json).
 
 | Product milestone | Responsibilities | Completion evidence | Current next decision |
 |---|---|---|---|
-| D1 — Comprehensive structural evidence | Authorized X, populations, neighborhoods/proximity, known factors and qualified multi-scale geometry | Source/protocol coverage, support, missingness, provider and executable qualification | Expose existing hierarchy information only after auditing its scientific meaning; keep continuous/noise cases |
+| D1 — Comprehensive structural evidence | Authorized X, populations, neighborhoods/proximity, known factors and qualified multi-scale geometry | Selected-branch persistence/support v1, original hierarchy linkage, adversarial/native qualification | Extend verified unit support or separately qualify resampling interpretation; keep continuous/noise cases |
 | D2 — Validation interpretation | Intended use, target population, dependencies, group basis and spectral support | Optional v1 API/CLI annotation, supported/unsupported claims and adversarial compatibility checks | Gather consumer feedback on the v1 annotation; keep split choice conditional on intended use |
 | D3 — Model-result contextualization | Compatible estimator/pipeline outcomes, evaluation populations and sensitivity | Source/content/target/split/pipeline identity, null comparison and uncertainty scope | Demonstrate read-only interpretation of an existing matched comparison without refitting |
 | D4 — Usable integration | Stable reports/APIs and Datasets, Preflight, Methods, DAG/model interoperability | Existing schema compatibility, reproducible artifacts and actual tests/CI | Validate a pointer-based research import against current schemas; do not rebuild a framework |
@@ -17,9 +17,10 @@ confirmation. Status comes from [campaign evidence](campaign/status.json).
 Current baseline: 164 entries / 171 views, 137 complete raw/SNV profiles, 43
 source-permitted public profiles and 682 complete primary quantitative reference
 tasks. These counts describe coverage and compatible research evidence, not
-independent databases or validated product guidance. Multi-scale fields exist in
-the native adapter, while a generic interpreted multi-scale descriptor family
-remains planned. The v1 annotation adds symbolic interpretation of existing
+independent databases or validated product guidance. The first optional
+[multi-scale descriptor](SELECTED_BRANCH_PERSISTENCE.md) now qualifies selected
+branch persistence and support under one frozen native fit; broader descriptor
+families remain planned. The v1 validation annotation adds symbolic interpretation of existing
 evidence, with no numerical capability, synthetic spectra, estimator or causal
 validation.
 
@@ -45,10 +46,16 @@ fit, PCA, acquisition or native-kernel change is added. The staged
 [implementation/resource plan](VALIDATION_INTERPRETATION_V1_PLAN.md) and
 [release report](RELEASE_VALIDATION_INTENT_V1.md) record limits and execution.
 
-Next product priority is **D1**: audit the meaning and scope of existing native
-hierarchy fields before exposing one qualified multi-scale descriptor. Preserve
-continuous/noise cases and separate X hierarchy from experimental relationships.
-This is a future qualification task, not authorization for a research campaign.
+The next D1 increment is implemented: [selected-branch persistence/support v1](SELECTED_BRANCH_PERSISTENCE.md),
+an optional content-bound sidecar with an opt-in native hierarchy transport.
+Its [public example](examples/multiscale/README.md) and
+[release evidence](RELEASE_D1_PERSISTENCE_V1.md) distinguish within-fit persistence,
+observation support, resampling robustness and unknown independence.
+
+Next product priority is **D3**: contextualize one existing compatible model
+comparison alongside its source, target, split, spectral support and limitations,
+without refitting or turning geometry into a universal model/validation selector.
+Remaining D1 families require separate qualification; no bank campaign follows.
 
 ## Separate research decisions
 

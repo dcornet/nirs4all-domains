@@ -70,7 +70,7 @@ def main():
     lines=[]
     for line in text.splitlines():
         if line.startswith('| D1 '):
-            cells=line.split('|');cells[-2]=f" {s['computed_source_views']}/171 complete raw/SNV profiles; multi-scale interpretation remains partial ";line='|'.join(cells)
+            cells=line.split('|');cells[-2]=f" {s['computed_source_views']}/171 complete raw/SNV profiles; selected-branch persistence/support v1 qualified; broader multi-scale families remain partial ";line='|'.join(cells)
         if line.startswith('| D3 '):
             cells=line.split('|');cells[-2]=f" {s['completed_primary_quantitative_tasks']} complete primary quantitative tasks; exploratory context/plot sensitivity ";line='|'.join(cells)
         lines.append(line)
