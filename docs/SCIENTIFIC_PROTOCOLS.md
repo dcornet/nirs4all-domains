@@ -5,7 +5,8 @@ HDBSCAN fit, under the [frozen D1 qualification plan](D1_PERSISTENCE_PLAN.md).
 Its [definition/API](SELECTED_BRANCH_PERSISTENCE.md) separates within-fit
 persistence, observation support, unknown independent units and separate
 resampling robustness. Existing numerical definitions and report bytes remain
-unchanged; `domains.hdbscan_transport.v1` is opt-in original evidence retention.
+unchanged; `domains.hierarchy_profile.v1` is a separate explicit one-fit native
+entry point. Historical unsupervised source/transport hashes remain unchanged.
 
 Generic Domains diagnostics are independent of completion of the associated
 research program. [Product–research ownership](PRODUCT_RESEARCH_BOUNDARY.md)

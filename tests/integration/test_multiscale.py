@@ -189,12 +189,15 @@ class DescriptorTests(unittest.TestCase):
         self.assertEqual(current['source'], saved['source'])
         self.assertEqual(current['selected_structure']['value']['clusters'], saved['selected_structure']['value']['clusters'])
         self.assertEqual(current['hierarchy'], saved['hierarchy'])
-        self.assertEqual(source['cluster_settings'][0]['value']['hierarchy_evidence']['value']['hdbscan']['n_clusters'], 3)
+        self.assertEqual(source['hdbscan']['n_clusters'], 3)
 
     def test_public_provider_fixture_content_is_pinned(self):
         from nirs4all_domains.storage import digest
         self.assertEqual(digest(ROOT/'tests/fixtures/multiscale/methods-hdbscan-v1.json'),
                          '294457336e820754b5047851760ea0d02391c1c552cd9420cc80223179297cd4')
+        parity = json.loads((ROOT/'docs/benchmarks/alpha13/native-stream-parity.json').read_text())
+        self.assertEqual(digest(ROOT/'crates/nirs4all-domains/src/unsupervised.rs'),
+                         parity['contract']['native_characterization_source_sha256'])
 
     def test_cli_source_immutable_and_collision_refused(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -224,24 +227,28 @@ class NativeProfileTests(unittest.TestCase):
 
     @classmethod
     def run_profile(cls, spectral, representation='raw', include=True):
-        payload = {'spectral': spectral, 'representation': representation, 'query_ids': [], 'include_neighbors': False}
-        command = [cls.binary, 'x-profile', '--methods-library', cls.library]
-        if include: command.append('--include-hierarchy')
+        payload = {'spectral': spectral, 'representation': representation}
+        if include:
+            payload['parameters'] = {'min_cluster_size': 8, 'min_samples': 4,
+                                     'selection_method': 'eom', 'allow_single_cluster': False}
+        else:
+            payload.update(query_ids=[], include_neighbors=False)
+        command = [cls.binary, 'hierarchy-profile' if include else 'x-profile', '--methods-library', cls.library]
         return subprocess.run(command, input=json.dumps(payload), text=True, capture_output=True, timeout=60)
 
-    def test_opt_in_native_transport_preserves_default_numerical_report(self):
+    def test_dedicated_native_transport_matches_frozen_default_geometry(self):
         base = self.run_profile(self.spectral, include=False)
         extended = self.run_profile(self.spectral)
         self.assertEqual(base.returncode, 0, base.stderr); self.assertEqual(extended.returncode, 0, extended.stderr)
         old, new = json.loads(base.stdout), json.loads(extended.stdout)
-        cleaned = deepcopy(new)
-        for setting in cleaned['cluster_settings']: setting['value'].pop('hierarchy_evidence')
-        self.assertEqual(old, cleaned)
-        for index in (0, 1):
-            result = describe(new, setting_index=index)
-            self.assertEqual(result['selected_structure']['value']['n_observations'], 120)
-            self.assertEqual(result['hierarchy']['status'], 'computed')
-            self.assertEqual(result['selected_structure']['value']['persistence_distribution']['status'], 'computed')
+        self.assertEqual(old['pca'], new['pca'])
+        self.assertEqual(old['provider'], new['provider'])
+        self.assertEqual(old['cluster_settings'][0]['value']['labels'], new['hdbscan']['labels'])
+        self.assertEqual(old['cluster_settings'][0]['value']['n_clusters'], new['hdbscan']['n_clusters'])
+        result = describe(new)
+        self.assertEqual(result['selected_structure']['value']['n_observations'], 120)
+        self.assertEqual(result['hierarchy']['status'], 'computed')
+        self.assertEqual(result['selected_structure']['value']['persistence_distribution']['status'], 'computed')
 
     def test_raw_snv_geometries_remain_distinct(self):
         from nirs4all_domains.unsupervised import represent

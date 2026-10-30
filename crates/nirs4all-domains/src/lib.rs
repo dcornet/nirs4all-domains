@@ -2,6 +2,7 @@
 pub mod association;
 mod bootstrap;
 pub mod contract;
+pub mod hierarchy_profile;
 pub mod methods;
 mod protocol;
 pub mod structure;

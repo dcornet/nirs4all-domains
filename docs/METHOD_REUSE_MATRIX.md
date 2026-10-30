@@ -6,7 +6,7 @@ D1 now qualifies [selected-branch persistence/support v1](SELECTED_BRANCH_PERSIS
 the unchanged Methods 1.3.6/ABI 2.19 HDBSCAN adapter supplies label-indexed
 persistence and original nodes; the public summary ABI supplies distributions.
 Python validates membership/tree consistency and assembles counts/fractions and
-source references. Opt-in X-profile transport preserves the original hierarchy;
+source references. Dedicated hierarchy transport preserves the original nodes;
 default output and prior result schemas are unchanged. This is within-fit
 description, not resampling/biological qualification or a new numerical kernel.
 

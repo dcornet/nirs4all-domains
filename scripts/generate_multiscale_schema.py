@@ -36,7 +36,7 @@ def schema():
     root = record({'schema_version': {'const': 1},
                    'protocol_version': {'const': 'domains.selected_branch_persistence.v1'},
                    'source': record({'content_sha256': {'type': 'string', 'pattern': '^[0-9a-f]{64}$'},
-                       'protocol_version': {'enum': ['domains.structure.v0.1', 'domains.unsupervised.v0.1']},
+                       'protocol_version': {'enum': ['domains.structure.v0.1', 'domains.unsupervised.v0.1', 'domains.hierarchy_profile.v1']},
                        'setting_index': count, 'native_pointer': {'type': 'string', 'pattern': '^/'}}),
                    'configuration': record({'min_cluster_size': {'type': ['integer', 'null'], 'minimum': 2},
                        'min_samples': {'type': ['integer', 'null'], 'minimum': 1},

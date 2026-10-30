@@ -28,6 +28,16 @@ def _extract(report, index):
     if isinstance(index, bool) or not isinstance(index, int) or index < 0:
         raise ValueError('NONNEGATIVE_SETTING_INDEX_REQUIRED')
     protocol = report.get('protocol_version')
+    if protocol == 'domains.hierarchy_profile.v1':
+        if index != 0:
+            raise ValueError('SETTING_INDEX_OUT_OF_RANGE')
+        return {'setting': {'status': 'computed', 'reason': None},
+                'native': report['hdbscan'], 'parameters': report['parameters'],
+                'n': report['n_observations'], 'ids': None,
+                'representation': {'name': report['representation'],
+                    'partition': 'full source descriptive fit', 'pca': report['pca']},
+                'support_unit': 'observation', 'pointer': '/hdbscan',
+                'stability_pointer': None, 'noise_fraction': None}
     if protocol == 'domains.structure.v0.1':
         settings = report['settings']
         if index >= len(settings):
@@ -202,7 +212,7 @@ def _summary_provider():
 def describe(report, *, setting_index=0):
     """Describe one frozen setting without mutating or refitting its source.
 
-    Accept a full structure report or a native X-profile (including compact
+    Accept a hierarchy profile, a full structure report or an X-profile (including compact
     historical profiles). Independent-unit and resampling inference are outside
     this within-fit descriptor, even if a source has separate stability evidence.
     """

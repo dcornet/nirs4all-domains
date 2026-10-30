@@ -19,9 +19,10 @@ Domains rejects empty selected clusters). Duplicate/tied coordinates may trigger
 this convention. A value of 1 is not a probability or a validity certificate.
 
 The existing [Rust adapter](../crates/nirs4all-domains/src/methods.rs) transports
-label-indexed persistence and the original condensed cluster nodes. The new
-optional X-profile transport retains those same outputs, without another fit
-or a change in representation/configuration. Methods' public summary ABI owns
+label-indexed persistence and the original condensed cluster nodes. A dedicated
+`hierarchy-profile` entry point retains those outputs in one native PCA/HDBSCAN
+fit, leaving the historical X-profile/stream source byte-frozen. Describing an
+existing report adds no fit. Methods' public summary ABI owns
 quartiles/median/mean/SD; Python only validates, counts memberships, assembles
 ratios and transports records. Numerical ownership remains upstream.
 
@@ -59,6 +60,10 @@ python -m nirs4all_domains.multiscale existing-report.json --setting-index 0 --o
 ```
 
 The CLI writes JSON plus `branches.md`. A source/output collision is refused.
+Rust consumers can call `hierarchy_profile::characterize` with a public
+`HierarchyRequest` and the published Methods library path. This is a new
+explicit fit entry point; `describe` and the annotation CLI only read its
+already produced result. The dedicated source has one setting (index 0).
 The input object/file is unchanged. Fixed input/provider gives deterministic
 serialization; source binding uses Domains' canonical JSON SHA-256. The
 `source.native_pointer` and `hierarchy.value.pointer` resolve in that original
@@ -70,17 +75,26 @@ a caller's report.
 
 Accepted sources:
 
+- `domains.hierarchy_profile.v1`: one explicit native fit, original observation
+  rows, supplied raw/SNV coordinates followed by centered, unscaled PCA with
+  up to min(20, p, n-1) components. `n4domains hierarchy-profile --methods-library ...`
+  reads JSON on stdin: `spectral` has existing XRequest fields (`source_id`,
+  `observation_ids`, `identity_evidence`, `axis`, `axis_unit`, `spectra`);
+  `representation` is raw/snv; `parameters` explicitly supplies
+  `min_cluster_size`, `min_samples`, `selection_method` (eom/leaf), and
+  `allow_single_cluster`. Apply public Methods SNV before supplying SNV rows.
+  The source retains the entire returned `hdbscan` node array, without
+  resampling or another fit to recover it. No row or original axis is removed.
 - Full `domains.structure.v0.1` reports: one reference fit/setting. These use
   train-fitted PCA and technical-mean rows; the reported support unit explicitly
   says fitted representation row, rather than original acquisition count.
   The existing resampling-evidence pointer remains separate; it is not relabeled
   or requalified by the new descriptor.
 - `domains.unsupervised.v0.1` native X-profiles: original observation rows,
-  raw or SNV followed by the source's centered, unscaled retained PCA. Use the
-  new **opt-in** `n4domains x-profile --include-hierarchy --methods-library ...`
-  stdin command with the unchanged X-profile request. It adds
-  `cluster_settings[i].value.hierarchy_evidence` with parameters and the entire
-  `HdbscanOutput`. Default CLI/stream output and historical schemas stay unchanged.
+  raw or SNV followed by the source's centered, unscaled retained PCA. The
+  historical producer/CLI/stream stays unchanged. The interpreter can also read
+  optional retained `hierarchy_evidence` from the initial D1 draft; this does
+  not assert that historical bank profiles carry those fields.
 - Compact historical profiles from that protocol: retained labels/counts can
   still support observation support. Missing persistence and tree stay
   unavailable. Higher-level bank matrices without keyed/native populations are

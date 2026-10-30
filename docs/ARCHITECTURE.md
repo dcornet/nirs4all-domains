@@ -22,8 +22,9 @@ provider and changes no native report fields, predictions or metrics. Its new
 standalone annotation schema is packaged with the bridge. Legacy report schemas,
 two crates and numerical providers remain unchanged. The
 [first qualified multi-scale descriptor](SELECTED_BRANCH_PERSISTENCE.md) reuses
-the existing Methods HDBSCAN adapter, with opt-in original hierarchy transport
-in X-profile and an optional Python sidecar. Counts/ratios are protocol assembly;
+the existing Methods HDBSCAN adapter, with a dedicated `hierarchy-profile`
+entry point and an optional Python sidecar. The content-frozen historical
+X-profile/stream source is preserved exactly. Counts/ratios are protocol assembly;
 Methods retains persistence and summary numerical ownership. Default reports,
 schemas and numerical configurations are unchanged. Broader
 [multi-scale proposals](MULTISCALE_AND_AUGMENTATION_NOTES.md) remain planned. Legacy campaign controllers

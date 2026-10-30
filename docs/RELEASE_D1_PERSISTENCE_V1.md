@@ -1,14 +1,15 @@
 # D1 selected-branch persistence/support v1
 
 Bridge 0.1.0a20; descriptor protocol `domains.selected_branch_persistence.v1`.
-Native transport extension `domains.hdbscan_transport.v1` is opt-in. Historical
+Dedicated native source protocol `domains.hierarchy_profile.v1` is explicit. Historical
 numerical protocol versions, schemas, reports and default CLI output stay intact.
 
 Implemented: a deterministic optional JSON/Markdown sidecar over one existing
 structure fit, with selected-cluster persistence, assigned support/fractions,
 noise, equal-cluster distribution summaries, configuration/representation and
-content-bound original tree references. X-profile users may retain the native
-hierarchy with `--include-hierarchy`. No second clustering engine or universal
+content-bound original tree references. `hierarchy-profile` retains native
+nodes in one explicit PCA/HDBSCAN fit. Historical X-profile/stream sources and
+their hash checks remain unchanged. No second clustering engine or universal
 risk score. [API/meaning](SELECTED_BRANCH_PERSISTENCE.md),
 [public example](examples/multiscale/README.md),
 [prospective qualification/resource plan](D1_PERSISTENCE_PLAN.md).
@@ -23,11 +24,16 @@ is inferred. Existing provider identity fields are provenance, not authenticatio
 of externally supplied reports.
 
 Qualification and release execution are recorded in the [audit receipt](audit/d1-persistence-v1-review.json). Local validation passes 412 Python regression tests, 19 final contract checks, six Rust workspace tests and 30 native ignored gates. Wheel/sdist source parity and historical schema/report checks pass.
+The initial hosted run passed 412 Python and 36 Rust tests on each platform,
+then rejected the historical alpha.13 source-hash change. The correction
+restores the frozen source exactly and adds the dedicated entry point; no
+historical validator, scientific receipt or numerical tolerance is relaxed.
+Final hosted CI must exercise all tests on the corrected delivered commit.
 The native gate compares eight public frozen reference cases through the
 existing Rust adapter (exact labels/node links/sizes; abs/rel 1e-12 numerical
 fields). Adversarial Python cases cover all-noise, one/small clusters,
 degeneracy, raw/SNV, unavailable/nonfinite fields, inconsistent counts, compact
-history, repeats/crossed factors, Y invariance and old default-output equality.
+history, repeats/crossed factors, Y invariance and exact old/new geometry equality.
 Windows and Ubuntu Actions must both succeed on the final delivered commit;
 workflow configuration alone is not proof.
 
@@ -43,4 +49,4 @@ Next D1–D5 priority: **D3**, interpret one existing compatible model compariso
 against its task, split and support, without refitting. Remaining multi-scale
 and biological correspondence questions need their own qualification/research.
 
-Measured after final local validation: **19,413,577,856 bytes** combined, **307,698,039 bytes** incremental engineering output, within the 512 MiB plan and unchanged ceilings. This includes compiled application tests and packaging, not raw data or a bank recomputation. These are pre-commit measurements; the final delivery check also includes Git/CI-log overhead.
+Measured after correction validation: **19,428,213,578 bytes** combined, **322,333,761 bytes** incremental engineering output, within the 512 MiB plan and unchanged ceilings. This includes compiled application tests and packaging, not raw data or a bank recomputation. These are pre-commit measurements; the final delivery check also includes Git/CI-log overhead.

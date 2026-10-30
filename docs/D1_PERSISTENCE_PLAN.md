@@ -63,3 +63,23 @@ and campaign ceiling 1,805,306,368 bytes. **No ceiling increase is authorized by
 this mission or planned.** Stop/reduce work or seek review before exceeding an
 actual limit. Preserve research artifacts and all historical report bytes.
 Release report must give actual usage, test scope and final-commit CI evidence.
+
+## CI-driven implementation amendment, before further numerical tests
+
+The first CI run passed all 412 Python tests and native gates, then correctly
+refused a change to alpha.13's content-frozen `unsupervised.rs`. Restore that
+source exactly; do not change its historical hash checks or receipts. The final
+implementation uses a separate `hierarchy-profile` CLI/native module and
+`domains.hierarchy_profile.v1` input/output. It calls existing FlexiblePCA once
+and HDBSCAN once for one explicitly supplied configuration. Legacy X-profile
+and stream paths remain byte-frozen; annotation of an existing report still
+adds no fit. The abandoned opt-in edit above is retained as planning history.
+
+Before any further local feature fitting, allocate the three remaining PCA
+attempts of the existing 16-call bound: two for an old/new geometry comparison
+and one for the corrected public transport example. The new source must match
+the old raw PCA and 8/4 EOM labels exactly, with the same native persistence as
+the prior example. Final local contract checks add no fit. Final CI executes
+all native raw/SNV/degenerate cases on both platforms. Each remote job is a
+fixed regression pass, separate from local storage/campaign accounting.
+No larger scientific campaign or resource increase follows from this amendment.

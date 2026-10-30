@@ -47,7 +47,7 @@ fit, PCA, acquisition or native-kernel change is added. The staged
 [release report](RELEASE_VALIDATION_INTENT_V1.md) record limits and execution.
 
 The next D1 increment is implemented: [selected-branch persistence/support v1](SELECTED_BRANCH_PERSISTENCE.md),
-an optional content-bound sidecar with an opt-in native hierarchy transport.
+an optional content-bound sidecar with a dedicated native hierarchy transport.
 Its [public example](examples/multiscale/README.md) and
 [release evidence](RELEASE_D1_PERSISTENCE_V1.md) distinguish within-fit persistence,
 observation support, resampling robustness and unknown independence.

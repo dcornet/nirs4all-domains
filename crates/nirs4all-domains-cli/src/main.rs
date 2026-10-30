@@ -29,9 +29,11 @@ enum Action {
     XProfile {
         #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
         methods_library: PathBuf,
-        /// Retain original native hierarchy/persistence; default reports stay unchanged.
-        #[arg(long)]
-        include_hierarchy: bool,
+    },
+    /// One explicit X-only PCA/HDBSCAN fit retaining original native hierarchy.
+    HierarchyProfile {
+        #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
+        methods_library: PathBuf,
     },
     XStructure {
         #[arg(long, env = "N4DOMAINS_METHODS_LIBRARY")]
@@ -182,10 +184,27 @@ fn run() -> Result<u8, String> {
             }
             Ok(0)
         }
-        Action::XProfile {
-            methods_library,
-            include_hierarchy,
-        } => {
+        Action::HierarchyProfile { methods_library } => {
+            use std::io::Read;
+            let mut input = Vec::new();
+            std::io::stdin()
+                .take(256_000_001)
+                .read_to_end(&mut input)
+                .map_err(|e| e.to_string())?;
+            if input.len() > 256_000_000 {
+                return Err("X_INPUT_TRANSPORT_BUDGET_EXCEEDED".into());
+            }
+            let request: nirs4all_domains::hierarchy_profile::HierarchyRequest =
+                serde_json::from_slice(&input).map_err(|e| e.to_string())?;
+            let report =
+                nirs4all_domains::hierarchy_profile::characterize(&request, &methods_library)?;
+            println!(
+                "{}",
+                serde_json::to_string(&report).map_err(|e| e.to_string())?
+            );
+            Ok(0)
+        }
+        Action::XProfile { methods_library } => {
             use std::io::Read;
             let mut input = Vec::new();
             std::io::stdin()
@@ -197,14 +216,7 @@ fn run() -> Result<u8, String> {
             }
             let request: nirs4all_domains::unsupervised::UnsupervisedRequest =
                 serde_json::from_slice(&input).map_err(|e| e.to_string())?;
-            let report = if include_hierarchy {
-                nirs4all_domains::unsupervised::characterize_with_hierarchy(
-                    &request,
-                    &methods_library,
-                )?
-            } else {
-                nirs4all_domains::unsupervised::characterize(&request, &methods_library)?
-            };
+            let report = nirs4all_domains::unsupervised::characterize(&request, &methods_library)?;
             println!(
                 "{}",
                 serde_json::to_string(&report).map_err(|e| e.to_string())?

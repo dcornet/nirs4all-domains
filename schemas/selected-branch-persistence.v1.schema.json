@@ -681,7 +681,8 @@
         "protocol_version": {
           "enum": [
             "domains.structure.v0.1",
-            "domains.unsupervised.v0.1"
+            "domains.unsupervised.v0.1",
+            "domains.hierarchy_profile.v1"
           ]
         },
         "setting_index": {
