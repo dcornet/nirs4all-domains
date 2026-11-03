@@ -13,6 +13,8 @@ import math
 from pathlib import Path
 import random
 
+from .providers import native_qualified
+
 
 def fingerprint(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True, allow_nan=False).encode()).hexdigest()
@@ -168,8 +170,8 @@ def permute_group_targets(rows, seed):
 
 def predictive_sanity(task, library, *, seed=17, outer_folds=5, inner_folds=3, max_components=5, permutations=19, progress=None):
     from n4m._ffi import library_path
-    if version("dag-ml") != "0.3.41" or version("nirs4all-methods") != "1.3.6":
-        raise ValueError("This probe is qualified only with dag-ml 0.3.41 and Methods 1.3.6")
+    if not native_qualified():
+        raise ValueError("This probe is qualified only with the published DAG-ML/Methods versions in providers.py")
     if Path(library).resolve() != Path(library_path()).resolve():
         raise ValueError("DAG-ML and Methods artifact replay must use the same explicit library")
     if task["policy"]["representation"] != "technical_mean":

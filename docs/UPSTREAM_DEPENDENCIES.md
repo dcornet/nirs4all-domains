@@ -1,5 +1,14 @@
 # Dependencies encountered in the unit/reference sprint
 
+## Upstream alignment v1 (Rust 0.1.0-alpha.17)
+
+Domains now consumes Preflight 0.1.6, Methods 1.3.13 / ABI 2.20, DAG-ML 0.3.44 and
+nirs4all 1.4.14 without upstream edits. Proposals, not posted: Methods could apply
+its 2^32 spread rule to HDBSCAN distances (or treat resolved zeros as exact) so
+rank-deficient PCA scores are not refused; Domains could later report the
+effective PLS component count from Methods' unresolved-component flags. Details in
+[upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md).
+
 ## Alpha.11 prepared needs
 
 No upstream change or external message. ALPHA11_SOURCE_SHORTLIST.md prepares requests for litter trap/plot/tree and assay links, crop leaf/plant ownership, Cartilage donors/assays, paired instrument keys and Garrett modality provenance. Missing higher-level evidence does not suppress descriptive X.

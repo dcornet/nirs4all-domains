@@ -305,7 +305,7 @@ pub fn representation(
                                 values: rows.iter().map(|r| r.x[c].unwrap()).collect(),
                             })
                             .map(|s| Some(s.mean))
-                            .map_err(|e| e.0)
+                            .map_err(|e| e.reason)
                     })
                     .collect::<Result<_, _>>()?;
             }

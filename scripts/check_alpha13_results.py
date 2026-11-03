@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 
 from nirs4all_domains.bank import schema_check
+from nirs4all_domains.providers import frozen_transport_digest
 from nirs4all_domains.storage import digest,fingerprint
 from nirs4all_domains.x_admission import authorize_x_source
 
@@ -85,7 +86,7 @@ def check(strict_local=False):
     for key,path in [('native_characterization_source_sha256','crates/nirs4all-domains/src/unsupervised.rs'),
                      ('native_adapter_source_sha256','crates/nirs4all-domains/src/methods.rs'),
                      ('stream_bridge_sha256','bridges/python/nirs4all_domains/native_profile_stream.py')]:
-        assert parity['contract'][key]==digest(path),('QUALIFIED_NATIVE_TRANSPORT_SOURCE_CHANGED',path)
+        assert parity['contract'][key]==frozen_transport_digest(path),('QUALIFIED_NATIVE_TRANSPORT_SOURCE_CHANGED',path)
     controls=[read(p) for p in (ROOT/'controls').glob('*.json')]
     completed_pca=sum(v['pca_fits'] for v in controls)
     expected=freeze['native_reference_pca_fits']+freeze['native_draw_pca_fits']

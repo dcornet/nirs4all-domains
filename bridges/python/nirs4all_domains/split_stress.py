@@ -9,6 +9,7 @@ import random
 
 from .dependence import development_rows, state, validate_folds, score_oof
 from .interventions import components, exchangeability, intervene
+from .providers import native_qualified
 from .predictive import fingerprint, group_folds, group_means, group_prediction, native_summary, _inner_fit
 
 PROTOCOL = "domains.split_stress.v0.1"
@@ -286,7 +287,7 @@ def design_audit(rows, config):
 
 def run_experiments(task, library, config, audit, reference_report=None, progress=None):
     rows=stress_rows(task)
-    if version("dag-ml")!="0.3.41" or version("nirs4all-methods")!="1.3.6":raise ValueError("Qualified native versions required")
+    if not native_qualified():raise ValueError("Qualified native versions required")
     from n4m._ffi import library_path
     if Path(library).resolve()!=Path(library_path()).resolve():raise ValueError("DAG and artifact replay library mismatch")
     if fingerprint(audit)!=fingerprint(design_audit(rows,config)):raise ValueError("Pre-experiment audit differs from current design")

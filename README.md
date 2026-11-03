@@ -162,11 +162,18 @@ orchestration. Public Methods/Preflight and DAG APIs retain numerical ownership.
 No new estimator, recursive clustering engine or result schema is introduced by
 this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
-describe actual interfaces and evidence.
+describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
+records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
 
 Raw inputs, sensitive identifiers and explicit restrictions remain protected.
 Ordinary publishable aggregates follow source terms, not a catalog private-tier
-veto. Data retain their source licenses; software is AGPL-3.0-or-later.
+veto. Data retain their source licenses.
 [Release history](docs/RELEASE_HISTORY.md) preserves earlier reports and citations.
 The [transition validation review](docs/audit/product-research-transition-review.json)
 records documentation continuity, regression/package checks and measured resources.
+
+## License
+
+`nirs4all-domains` is dual-licensed open-source — **`CECILL-2.1 OR AGPL-3.0-or-later`**
+(your choice), like the rest of the nirs4all ecosystem. See [`LICENSING.md`](LICENSING.md)
+and the texts under [`LICENSES/`](LICENSES/). Data retain their source licenses.

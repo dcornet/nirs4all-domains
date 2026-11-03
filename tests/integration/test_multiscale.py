@@ -162,6 +162,12 @@ class DescriptorTests(unittest.TestCase):
         self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
         report = profile(); report['provider']['abi'] = [99, 0, 0]
         self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
+        # Methods 1.3.13 / ABI 2.20.0 passes the frozen public HDBSCAN reference gate
+        # (exact labels/tree, 1e-12 lambdas); another ABI pairing stays unqualified.
+        report = profile(); report['provider'].update(version='1.3.13+abi.2.20.0', abi='2.20.0')
+        self.assertIsNone(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'])
+        report = profile(); report['provider'].update(version='1.3.13+abi.2.20.0', abi='2.19.0')
+        self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
 
     def test_unavailable_summary_preserves_native_rows(self):
         with patch('nirs4all_domains.multiscale.native_summary', side_effect=ImportError()):
@@ -192,11 +198,12 @@ class DescriptorTests(unittest.TestCase):
         self.assertEqual(source['hdbscan']['n_clusters'], 3)
 
     def test_public_provider_fixture_content_is_pinned(self):
+        from nirs4all_domains.providers import frozen_transport_digest
         from nirs4all_domains.storage import digest
         self.assertEqual(digest(ROOT/'tests/fixtures/multiscale/methods-hdbscan-v1.json'),
                          '294457336e820754b5047851760ea0d02391c1c552cd9420cc80223179297cd4')
         parity = json.loads((ROOT/'docs/benchmarks/alpha13/native-stream-parity.json').read_text())
-        self.assertEqual(digest(ROOT/'crates/nirs4all-domains/src/unsupervised.rs'),
+        self.assertEqual(frozen_transport_digest(ROOT/'crates/nirs4all-domains/src/unsupervised.rs'),
                          parity['contract']['native_characterization_source_sha256'])
 
     def test_cli_source_immutable_and_collision_refused(self):
@@ -251,8 +258,19 @@ class NativeProfileTests(unittest.TestCase):
         self.assertEqual(result['selected_structure']['value']['persistence_distribution']['status'], 'computed')
 
     def test_raw_snv_geometries_remain_distinct(self):
+        import random
         from nirs4all_domains.unsupervised import represent
-        snv = represent(self.spectral, 'snv')
+        # Two-band SNV collapses to two antipodal points: the second retained
+        # score is round-off, outside the Methods 1.3.13 numerical domain
+        # (max/min nonzero |x| <= 2^32). It is refused, never summarized.
+        collapsed = self.run_profile(represent(self.spectral, 'snv'), 'snv')
+        self.assertNotEqual(collapsed.returncode, 0)
+        self.assertIn('METHODS_HDBSCAN_STATUS_10', collapsed.stderr)
+        # Seeded full-rank nuisance bands keep every retained SNV score inside the domain.
+        rng = random.Random(17)
+        wide = deepcopy(self.spectral); wide['axis'] = list(range(1, 25))
+        wide['spectra'] = [row + [rng.gauss(0, .05) for _ in range(22)] for row in self.spectral['spectra']]
+        snv = represent(wide, 'snv')
         result = self.run_profile(snv, 'snv')
         self.assertEqual(result.returncode, 0, result.stderr)
         report = json.loads(result.stdout); descriptor = describe(report)
@@ -261,7 +279,7 @@ class NativeProfileTests(unittest.TestCase):
         self.assertEqual(descriptor['source']['content_sha256'], fingerprint(report))
         # Tied/duplicate SNV coordinates may trigger provider persistence conventions;
         # do not require the raw partition to survive this geometry change.
-        self.assertNotEqual(snv['spectra'], self.spectral['spectra'])
+        self.assertNotEqual(snv['spectra'], wide['spectra'])
 
     def test_zero_variance_spectra_fail_without_inventing_descriptor(self):
         spectral = deepcopy(self.spectral); spectral['spectra'] = [[1., 1.]]*120

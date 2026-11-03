@@ -1,5 +1,10 @@
 # Architecture and ownership
 
+[Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) keeps the two crates and
+the Python transport. It changes only provider pins, the Preflight error accessor,
+one qualified-provider table (`providers.py`) and the licence. Methods' new
+numerical-domain refusals surface as explicit `unavailable` statuses.
+
 The optional Python [D3 comparison companion](COMPARISON_INTERPRETATION_API.md)
 reuses D2 interpretation, canonical hashes and strict schemas over two existing
 report objects. It assembles only RMSE subtraction/fractional change and reads

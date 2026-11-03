@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import subprocess
 
+from .providers import native_qualified
 from .storage import StageStore, atomic_json, cleanup_plan, digest, encoded, estimate, fingerprint, safe_path
 from .registry import (TASK_FIELDS, compact_stress, evidence, execution_contract, freeze_suite, select,
                        task_identity, verify_evidence, verify_storage)
@@ -55,7 +56,7 @@ def bounded_qualify(task_path, task_spec, config, policy, *, workspace, state, s
     if identity["representation"] != "technical_mean" or identity["qualification_protocol"] != "domains.split_stress.v0.1":
         raise ValueError("TASK_MUST_DECLARE_EXECUTED_REPRESENTATION_AND_PROTOCOL")
     schema_check(config, "split-stress-config")
-    if version("dag-ml") != "0.3.41" or version("nirs4all-methods") != "1.3.6":
+    if not native_qualified():
         raise ValueError("QUALIFIED_NATIVE_PROVIDER_VERSIONS_REQUIRED")
     if config["intervention_attempts"] > 19 or len(config["sensitivity_seeds"]) > 1 or config["size_draws"] > 3:
         raise ValueError("ALPHA8_BOUNDED_CAMPAIGN_EXCEEDED")

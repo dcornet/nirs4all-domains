@@ -1,5 +1,12 @@
 # Integration, dependencies and obstacles
 
+Since Rust `0.1.0-alpha.17` / bridge `0.1.0a22`, Preflight crates are pinned to
+`=0.1.6` (DAG-ML core `=0.3.44`), the native library must be Methods 1.3.13 /
+ABI 2.20, and the predictive extra pins DAG-ML 0.3.44 and Methods 1.3.13; the
+optional FastAOM entry point is nirs4all 1.4.14. `providers.py` holds the
+qualified versions for new fits. Older version statements below are historical.
+See [upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md).
+
 Alpha.6 adds `group-target` (Rust/native descriptive association) and `dependence`
 (bounded Python/DAG-ML workflow) without another crate. Install the `predictive`
 extra, select Methods 1.3.6 and the interpreter with `--python`. The new-directory
@@ -80,8 +87,10 @@ issues or claims of missing code across every possible ecosystem repository.
 The limited requests actually encountered in alpha.3, including API shapes and
 scientific gates, are in [UPSTREAM_DEPENDENCIES.md](UPSTREAM_DEPENDENCIES.md).
 
-AGPL-3.0-or-later was explicitly selected by the user. Preflight manifests declare
-`CECILL-2.1 OR AGPL-3.0-or-later`; Datasets declares the same alternatives. Methods
+AGPL-3.0-or-later was initially selected by the user. Since Rust `0.1.0-alpha.17` /
+bridge `0.1.0a22` the maintainer aligned Domains with the ecosystem's
+`CECILL-2.1 OR AGPL-3.0-or-later` ([LICENSING.md](../LICENSING.md)). Preflight manifests declare
+the same expression; Datasets declares the same alternatives. Methods
 uses CeCILL-2.1 with third-party notices, including BSD-3 HDBSCAN code; native
 libraries are not redistributed in this repository. A release bundling binaries
 must include their actual notices/SBOM and validate its dependency closure. This

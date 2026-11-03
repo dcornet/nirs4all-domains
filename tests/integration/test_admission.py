@@ -164,6 +164,11 @@ class NativeSecondaryFamilyTests(unittest.TestCase):
         for i,r in enumerate(rows):r["x"]=[float((i+1)*(j+1)) for j in range(6)];r["y"]=float(i+1)
         folds=group_folds(rows,4,17,"outer")
         cfg=json.loads((ROOT/"configs/pilots/split-stress-controls-v1.json").read_text());cfg["max_components"]=6
+        # Methods 1.3.13 publishes components beyond the rank of X as flagged null
+        # components (truncated-model predictions) instead of refusing the fit.
+        self.assertEqual(run_design(rows,folds,os.environ["N4DOMAINS_METHODS_LIBRARY"],cfg)["n_samples"],len(rows))
+        # A grid beyond min(n - 1, p) is still refused natively and propagates unretried.
+        cfg["max_components"]=8
         with self.assertRaisesRegex(RuntimeError,"(?i)(vanished|native|Methods|component)"):
             run_design(rows,folds,os.environ["N4DOMAINS_METHODS_LIBRARY"],cfg)
 

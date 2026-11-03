@@ -78,7 +78,7 @@ pub fn characterize(request: &XRequest, library: &Path) -> Result<Value, String>
         let s = m
             .provider
             .summary(&SummaryRequest { values })
-            .map_err(|e| e.0)?;
+            .map_err(|e| e.reason)?;
         Ok(
             json!({"count":s.count,"min":s.min,"max":s.max,"mean":s.mean,"sd":s.sample_sd,"q25":s.q25,"median":s.median,"q75":s.q75}),
         )
@@ -94,7 +94,7 @@ pub fn characterize(request: &XRequest, library: &Path) -> Result<Value, String>
                 reference_group_ids: codes,
                 k: 1,
             })
-            .map_err(|e| e.0)?;
+            .map_err(|e| e.reason)?;
         result
             .distances
             .into_iter()

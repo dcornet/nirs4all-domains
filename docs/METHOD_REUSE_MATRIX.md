@@ -1,5 +1,9 @@
 # Method reuse matrix
 
+[Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) moves numerical ownership
+unchanged to Preflight 0.1.6, Methods 1.3.13 / ABI 2.20 and DAG-ML 0.3.44. No
+kernel moves into Domains; per-alpha provider versions below stay historical.
+
 D3 comparison v1 uses existing D2 interpretation and storage binding; only
 scalar RMSE subtraction/ratio is local protocol assembly. Existing Methods/DAG
 scores, nulls and predictions are referenced unchanged. No fitting, numerical

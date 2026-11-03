@@ -4,16 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nirs4all-domains-bridge"
-version = "0.1.0a21"
+version = "0.1.0a22"
 description = "Domains transport, validation interpretation and qualified structural descriptors"
 requires-python = ">=3.11"
-license = "AGPL-3.0-or-later"
-license-files = ["LICENSE"]
+license = "CECILL-2.1 OR AGPL-3.0-or-later"
+license-files = ["LICENSE", "LICENSES/*.txt"]
 dependencies = ["PyYAML==6.0.3", "jsonschema>=4.23"]
 
 [project.optional-dependencies]
 datasets = ["nirs4all-datasets==0.3.11"]
-predictive = ["dag-ml==0.3.41", "nirs4all-methods==1.3.6", "scikit-learn==1.7.2", "jsonschema>=4.23"]
+predictive = ["dag-ml==0.3.44", "nirs4all-methods==1.3.13", "scikit-learn==1.7.2", "jsonschema>=4.23"]
 test = ["pandas>=2.2", "numpy>=1.26", "jsonschema>=4.23"]
 
 [tool.setuptools.packages.find]

@@ -16,7 +16,8 @@ from .predictive import native_summary
 from .storage import fingerprint
 
 PROTOCOL = 'domains.selected_branch_persistence.v1'
-QUALIFIED_PROVIDER = '1.3.6'
+# (Methods version, ABI) pairs whose native gate matches the frozen public reference.
+QUALIFIED_PROVIDERS = (('1.3.6', '2.19.0'), ('1.3.13', '2.20.0'))
 
 
 def state(value=None, reason=None, status='unavailable'):
@@ -167,8 +168,7 @@ def _partition(extracted, provider):
     persistence = native.get('cluster_persistence')
     if persistence is not None and (not isinstance(persistence, list) or len(persistence) != k):
         raise ValueError('INCONSISTENT_NATIVE_PERSISTENCE_COUNT')
-    qualified = (str(provider.get('version', '')).split('+')[0] == QUALIFIED_PROVIDER
-                 and provider.get('abi') == '2.19.0')
+    qualified = (str(provider.get('version', '')).split('+')[0], provider.get('abi')) in QUALIFIED_PROVIDERS
     rows = []
     for label in range(k):
         value = persistence[label] if persistence is not None else None

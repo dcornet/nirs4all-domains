@@ -327,7 +327,7 @@ fn summary(methods: &Methods, values: Vec<f64>) -> Result<Value, NativeFailure> 
         .summary(&SummaryRequest {
             values: values.clone(),
         })
-        .map_err(|e| NativeFailure::transport(e.0))?;
+        .map_err(|e| NativeFailure::transport(e.reason))?;
     let mut ordered = values;
     ordered.sort_by(f64::total_cmp);
     let p10 = ordered[((ordered.len() as f64 * 0.1).ceil() as usize).saturating_sub(1)];

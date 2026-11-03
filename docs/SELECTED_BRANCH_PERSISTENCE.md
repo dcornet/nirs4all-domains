@@ -8,7 +8,10 @@ nor complete experimental metadata. It does not choose a validation split.
 
 ## Meaning and qualification
 
-Methods 1.3.6 / ABI 2.19 owns clustering. Its public
+Methods 1.3.6 / ABI 2.19 owns clustering (requalified for 1.3.13 / ABI 2.20, whose
+native gate reproduces the frozen public reference: labels and tree structure
+exactly, persistence and lambdas within `1e-12 * max(1, |expected|)`; see
+[upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md)). Its public
 [header](https://github.com/GBeurier/nirs4all-methods/blob/131a15a6bbf73a8ab941c7b3fb81b21f6b71b059/cpp/include/n4m/metrics.h)
 and [implementation](https://github.com/GBeurier/nirs4all-methods/blob/131a15a6bbf73a8ab941c7b3fb81b21f6b71b059/cpp/src/core/clustering/_vendored/hdbscan.cpp)
 define selected-cluster persistence as excess-of-mass node stability divided by
