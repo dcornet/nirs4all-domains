@@ -1,0 +1,69 @@
+{
+  "protocol": "domains.d3_comparison_v1.review",
+  "date": "2026-10-30",
+  "d1_review": {
+    "main_commit": "378dc4ca752c3ab3e60f2514da1bdfa062e9a7da",
+    "branch_commit": "93c503b1298e3cddea6f495730307d8d932f6acd",
+    "ahead": 2,
+    "behind": 0,
+    "pull_request": "https://github.com/dcornet/nirs4all-domains/pull/1",
+    "state": "open_owner_controlled_merge",
+    "head_ci": "https://github.com/dcornet/nirs4all-domains/actions/runs/41030197917",
+    "head_ci_windows_ubuntu": "success",
+    "known_compatibility_blockers": [],
+    "scope_limitations": ["Within-fit persistence is not resampling robustness.", "Observation support is not independent-unit support.", "Cluster-node transport does not supply point-level ancestor paths."]
+  },
+  "implementation": {
+    "bridge_version": "0.1.0a21",
+    "annotation_protocol": "domains.comparison_interpretation.v1",
+    "module": "nirs4all_domains.comparison_interpretation",
+    "new_global_report_framework": false,
+    "new_numerical_provider": false,
+    "historical_comparison_api_preserved": true,
+    "historical_report_bytes_preserved": true,
+    "new_real_or_hierarchy_fits": 0,
+    "raw_source_acquisitions": 0,
+    "main_changed": false,
+    "upstream_repositories_changed": false
+  },
+  "local_validation": {
+    "fmt": "passed",
+    "clippy_warnings_denied": "passed",
+    "rust_workspace_tests": 6,
+    "rust_native_ignored_gates": 30,
+    "full_python_regression_passed": 446,
+    "final_focused_D3_tests_passed": 36,
+    "expected_final_hosted_python_tests": 448,
+    "historical_json_checks_alpha9_to_18": "passed",
+    "documentation_and_research_continuity": "passed",
+    "public_read_only_replay": "passed",
+    "wheel_sdist_source_schema_parity": "passed",
+    "initial_failure": "Optional existing FastAOM runtime missing from local search path; corrected environment rerun passed."
+  },
+  "public_example": {
+    "source": "docs/benchmarks/alpha17/tablet-pilot-summary.json",
+    "source_byte_sha256": "0ea810ced51d38877a21d548798418b8361d9682d6b11ccef04d7be44dfeb247",
+    "reference": "original Type C raw PLS",
+    "stress": "original Type A raw PLS",
+    "direct_comparison": "compatible",
+    "evaluation_matching": "unmatched_ids",
+    "null_comparison": "separate_definitions"
+  },
+  "resources": {
+    "scope": "combined workspace, authorized cache, participating originals and existing research repository; measured after local validation before Git delivery",
+    "initial_combined_bytes": 19440245007,
+    "measured_combined_bytes": 19442624622,
+    "measured_increment_bytes": 2379615,
+    "engineering_bound_bytes": 536870912,
+    "workspace_ceiling_bytes": 20289597121,
+    "campaign_ceiling_bytes": 1805306368,
+    "campaign_reserved_bytes": 1801584082,
+    "workspace_ceiling_increase_bytes": 0,
+    "campaign_ceiling_increase_bytes": 0,
+    "new_campaign_reservations_bytes": 0,
+    "shared_journal_unchanged": true,
+    "reserve_free_bytes_per_volume": 2147483648,
+    "free_volume_reserves_verified": true
+  },
+  "next_product_priority": "D4: one concrete consumer of optional D1-D3 evidence companions"
+}

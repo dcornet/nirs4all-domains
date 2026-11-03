@@ -1,5 +1,17 @@
 # Architecture and ownership
 
+[Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) keeps the two crates and
+the Python transport. It changes only provider pins, the Preflight error accessor,
+one qualified-provider table (`providers.py`) and the licence. Methods' new
+numerical-domain refusals surface as explicit `unavailable` statuses.
+
+The optional Python [D3 comparison companion](COMPARISON_INTERPRETATION_API.md)
+reuses D2 interpretation, canonical hashes and strict schemas over two existing
+report objects. It assembles only RMSE subtraction/fractional change and reads
+stored skill/null evidence. No provider, estimator, metric kernel, global report
+envelope or third crate is added. Historical reports/default consumers remain
+unchanged. Source and evaluation pointers retain the actual comparison scope.
+
 ## Product and associated research
 
 Domains owns reusable structural/source/split diagnostics, validation-intent
@@ -21,8 +33,13 @@ may append the rendered section to its own report. It imports no numerical
 provider and changes no native report fields, predictions or metrics. Its new
 standalone annotation schema is packaged with the bridge. Legacy report schemas,
 two crates and numerical providers remain unchanged. The
-[multi-scale descriptor proposal](MULTISCALE_AND_AUGMENTATION_NOTES.md) remains
-unimplemented. Legacy campaign controllers
+[first qualified multi-scale descriptor](SELECTED_BRANCH_PERSISTENCE.md) reuses
+the existing Methods HDBSCAN adapter, with a dedicated `hierarchy-profile`
+entry point and an optional Python sidecar. The content-frozen historical
+X-profile/stream source is preserved exactly. Counts/ratios are protocol assembly;
+Methods retains persistence and summary numerical ownership. Default reports,
+schemas and numerical configurations are unchanged. Broader
+[multi-scale proposals](MULTISCALE_AND_AUGMENTATION_NOTES.md) remain planned. Legacy campaign controllers
 and evidence remain for compatibility/reproducibility; future speculative studies
 do not expand them into a universal research framework. Historical architecture
 notes below retain their original execution scope.

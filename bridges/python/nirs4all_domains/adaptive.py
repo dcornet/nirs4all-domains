@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import ctypes
+from importlib.metadata import version
 import json
 import math
 from pathlib import Path
@@ -72,7 +73,7 @@ def association(labels, targets):
         return state(reason="NATIVE_UNDEFINED_ASSOCIATION")
     return state({"eta_squared": out[0], "n_observations": len(labels), "n_levels": len(levels),
                   "scope": "descriptive matched development observations; not independent predictive evidence",
-                  "permutations": 0, "provider": "Methods 1.3.6 factor_association"})
+                  "permutations": 0, "provider": f"Methods {version('nirs4all-methods')} factor_association"})
 
 
 def partition_agreement(a, b):

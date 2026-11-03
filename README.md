@@ -18,7 +18,7 @@ available diagnostic.
 |---|---|
 | X-only geometry and populations | Raw/SNV PCA, applicable exact effective dimension, continuity and density profiles; missing full moments remain explicit |
 | Neighborhoods, proximity and support | Native distances/neighbors and dependency-aware comparisons; query sampling and admissible references are documented |
-| Discrete and multi-scale structure | HDBSCAN labels, membership strength, persistence and hierarchy transport; a generic qualified multi-scale interpretation is still planned |
+| Discrete and multi-scale structure | Qualified selected-branch persistence/support sidecar, original hierarchy references and explicit missing/resampling states |
 | Representation sensitivity | Paired raw/SNV geometry, partition agreement and neighborhood changes |
 | Metadata corroboration | Factor associations, agreement/disagreement and unknown correspondence; crossed factors need not form a tree |
 | Evaluation partitions | Train-fitted projection, overlap/extrapolation diagnostics and known identity/reference guards |
@@ -31,6 +31,16 @@ certify low risk; a protocol gap is not a causal shortcut percentage. There is
 no universal deployment-quality label or mandatory low-risk certification.
 See [method ownership](docs/METHOD_REUSE_MATRIX.md) and the
 [multi-scale audit and research concept note](docs/MULTISCALE_AND_AUGMENTATION_NOTES.md).
+
+The optional [D1 persistence/support descriptor](docs/SELECTED_BRANCH_PERSISTENCE.md)
+describes one existing density fit without Y or another model. It reports
+selected branches, noise, per-cluster persistence and observation support,
+keeping resampling robustness and independent-unit support distinct.
+The [public worked example](docs/examples/multiscale/README.md) retains the original tree.
+
+```shell
+python -m nirs4all_domains.multiscale docs/examples/multiscale/source-report.json --out results/branches.json
+```
 
 The evidence vocabulary separates **structural observation**, **validation
 concern**, **empirical sensitivity**, **scientific mechanism hypothesis** and
@@ -71,6 +81,17 @@ Full-X construction is explicitly transductive and must not use held-out Y.
 Treating it as a proxy for a particular deployment shift requires separate
 evidence; it is not automatically physical or experimental LOGO.
 
+The optional [D3 comparison interpreter](docs/COMPARISON_INTERPRETATION_API.md)
+explains two existing predictive results without refitting. It checks target
+and unit compatibility, evaluation identity matching, training/model conditions
+and separate null definitions before describing an RMSE contrast. The
+[public tablet example](docs/examples/comparison/README.md) shows why worse
+absolute error can coexist with better skill against a different null.
+
+```shell
+python -m nirs4all_domains.comparison_interpretation reference.json stress.json --request comparison.json --out results/comparison.json
+```
+
 ## Current implemented and experimental evidence
 
 <!-- scientific-status:start -->
@@ -104,9 +125,9 @@ No universal structural-risk model or causal mechanism has been validated.
 
 | Milestone | Permanent product objective | Current status |
 |---|---|---|
-| D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; multi-scale interpretation remains partial |
+| D1 - Comprehensive structural evidence | Authorized X, factors, proximity and qualified multi-scale geometry | 137/171 complete raw/SNV profiles; selected-branch persistence/support v1 qualified; broader multi-scale families remain partial |
 | D2 - Validation interpretation | Deployment intent, dependencies, group evidence and support | Optional v1 API/CLI annotation with scenario and compatibility tests; no automatic selector |
-| D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | 682 complete primary quantitative tasks; exploratory context/plot sensitivity |
+| D3 - Model-result contextualization | Compatible prediction results alongside scope, support and limitations | Optional read-only comparison v1 API/CLI; target/units, ID matching, null scope and baseline-context guards; 682 historical primary tasks |
 | D4 - Usable integration | Stable reports and public Datasets/Preflight/Methods/model interfaces | Existing two-crate core/CLI and thin bridge; read-only research interface specified |
 | D5 - Evidence-supported guidance | Validated and calibrated diagnostic interpretation | Task-specific evidence exists; no universal shortcut or deployment certification |
 
@@ -141,11 +162,18 @@ orchestration. Public Methods/Preflight and DAG APIs retain numerical ownership.
 No new estimator, recursive clustering engine or result schema is introduced by
 this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
-describe actual interfaces and evidence.
+describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
+records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
 
 Raw inputs, sensitive identifiers and explicit restrictions remain protected.
 Ordinary publishable aggregates follow source terms, not a catalog private-tier
-veto. Data retain their source licenses; software is AGPL-3.0-or-later.
+veto. Data retain their source licenses.
 [Release history](docs/RELEASE_HISTORY.md) preserves earlier reports and citations.
 The [transition validation review](docs/audit/product-research-transition-review.json)
 records documentation continuity, regression/package checks and measured resources.
+
+## License
+
+`nirs4all-domains` is dual-licensed open-source — **`CECILL-2.1 OR AGPL-3.0-or-later`**
+(your choice), like the rest of the nirs4all ecosystem. See [`LICENSING.md`](LICENSING.md)
+and the texts under [`LICENSES/`](LICENSES/). Data retain their source licenses.

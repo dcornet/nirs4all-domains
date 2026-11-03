@@ -1,5 +1,23 @@
 # Validation evidence — 2026-10-16
 
+## Upstream alignment v1 — Rust 0.1.0-alpha.17 / bridge 0.1.0a22 — 2026-11-03
+
+Local Linux execution (Rust 1.96, Python 3.11) with Preflight 0.1.6, Methods
+1.3.13 / ABI 2.20 (PyPI wheel library), DAG-ML 0.3.44, nirs4all 1.4.14 and
+Datasets 0.3.11. Every step of `.github/workflows/ci.yml` passes: fmt, Clippy
+(`-D warnings`), **6 workspace + 30 native ignored Rust tests**, rustdoc, schema
+generation with no `schemas/` diff, the documentation continuity check, the D2/D3
+read-only examples, **448 Python integration tests**, the multiscale example, the
+alpha.8–18 registry/result checks, bank plan/estimate and the CLI analyze,
+structure, dependence, split-stress and batch reports with their JSON checks.
+The wheel and sdist build with `License-Expression: CECILL-2.1 OR AGPL-3.0-or-later`
+and both licence texts; `cargo package --list` shows `LICENSE` and both
+`LICENSES/` texts in each crate. The same steps on the D3 head with the previous providers
+passed except the Rust 1.96 Clippy lint; the field-by-field comparison of both runs
+is summarized in [upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md).
+No real data, bank campaign or private evidence was touched; historical receipts
+were not regenerated or relaxed. Windows/Ubuntu hosted CI is recorded on the PR.
+
 ## Alpha.17 — execution 2026-10-18
 
 Follow-up on 2026-10-19: **401 tests (366 Python + 35 Rust)** pass. The full

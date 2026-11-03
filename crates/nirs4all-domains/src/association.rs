@@ -44,7 +44,7 @@ fn calculate(rows: &[&Observation], factor: &str, methods: &Methods) -> Result<V
     let summary = methods
         .provider
         .summary(&SummaryRequest { values: y })
-        .map_err(|e| e.0)?;
+        .map_err(|e| e.reason)?;
     let variance = summary.sample_sd.unwrap_or(0.0).powi(2);
     let total = (selected.len() - 1) as f64 * variance;
     let Some(eta) = native[0] else {
@@ -61,7 +61,7 @@ fn calculate(rows: &[&Observation], factor: &str, methods: &Methods) -> Result<V
             .summary(&SummaryRequest {
                 values: values.iter().map(|r| r.y.unwrap()).collect(),
             })
-            .map_err(|e| e.0)?;
+            .map_err(|e| e.reason)?;
         table.push(json!({"level":level,"n":values.len(),"mean_y":s.mean,
             "components":values.iter().map(|r| &r.metadata["validation_component_id"]).collect::<BTreeSet<_>>().len()}));
     }
@@ -190,7 +190,7 @@ pub fn group_target_association(
         "context":task.context,"target_unit":task.target_unit,"test_target_accessed":false,
         "methods_version":methods.version,"methods_abi":methods.abi,
         "population_ids":ids,"excluded_missing_y_ids":rows.iter().filter(|r|r.y.is_none()).map(|r|&r.physical_sample_id).collect::<Vec<_>>(),
-        "excluded_missing_factor_ids":rows.iter().filter(|r|!r.metadata.get(factor).is_some_and(|s|!s.trim().is_empty())).map(|r|&r.physical_sample_id).collect::<Vec<_>>(),
+        "excluded_missing_factor_ids":rows.iter().filter(|r|r.metadata.get(factor).is_none_or(|s|s.trim().is_empty())).map(|r|&r.physical_sample_id).collect::<Vec<_>>(),
         "association":association,"bootstrap":{"seed":seed,"requested":draws,"successful":values.len(),
             "failed":replicas.len()-values.len(),"interval_95":interval,"interval_reason":if interval.is_null(){Some("REQUIRES_100_SUCCESSFUL_DRAWS_AND_10_COMPONENTS")}else{None},
             "unit":"whole declared dependency components with replacement; multiplicity retained; conditional observed-design uncertainty","draws":replicas}}),

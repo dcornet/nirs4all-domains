@@ -1,6 +1,7 @@
 """Cross-source protocol assembly; published Methods owns every numeric kernel."""
 from itertools import combinations
 import ctypes
+from importlib.metadata import version
 import math
 
 from .adaptive import association
@@ -128,7 +129,7 @@ def threshold_association(left, right, identities):
             lib.n4m_feature_selection_correlation_destroy(handle)
     return state({'screens': decisions, 'n_source_views': len(left), 'source_view_ids': identities,
         'exact_coefficient': state(reason='PUBLIC_FILTER_EXPOSES_SELECTION_NOT_COEFFICIENT'),
-        'provider': 'Methods1.3.6 public correlation fit/output_cols ABI',
+        'provider': f"Methods {version('nirs4all-methods')} public correlation fit/output_cols ABI",
         'inference': 'Descriptive pairwise source-view screen; no independent-study p-value or sign supplied.'})
 
 

@@ -1,6 +1,24 @@
 # Method reuse matrix
 
+[Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) moves numerical ownership
+unchanged to Preflight 0.1.6, Methods 1.3.13 / ABI 2.20 and DAG-ML 0.3.44. No
+kernel moves into Domains; per-alpha provider versions below stay historical.
+
+D3 comparison v1 uses existing D2 interpretation and storage binding; only
+scalar RMSE subtraction/ratio is local protocol assembly. Existing Methods/DAG
+scores, nulls and predictions are referenced unchanged. No fitting, numerical
+provider import, metric estimation or upstream modification is added; see
+[public contract](COMPARISON_INTERPRETATION_API.md).
+
 ## Generic diagnostic boundary
+
+D1 now qualifies [selected-branch persistence/support v1](SELECTED_BRANCH_PERSISTENCE.md):
+the unchanged Methods 1.3.6/ABI 2.19 HDBSCAN adapter supplies label-indexed
+persistence and original nodes; the public summary ABI supplies distributions.
+Python validates membership/tree consistency and assembles counts/fractions and
+source references. Dedicated hierarchy transport preserves the original nodes;
+default output and prior result schemas are unchanged. This is within-fit
+description, not resampling/biological qualification or a new numerical kernel.
 
 The v1 [validation interpreter](VALIDATION_INTERPRETATION_API.md) is symbolic
 report interpretation, with no numerical kernel or provider call. Existing

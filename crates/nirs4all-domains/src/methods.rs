@@ -461,7 +461,7 @@ impl Methods {
         Ok(value.is_finite().then_some(value))
     }
     pub fn load(path: &Path) -> Result<Self, String> {
-        let provider = NativeMethodsProvider::load(path).map_err(|e| e.0)?;
+        let provider = NativeMethodsProvider::load(path).map_err(|e| e.reason)?;
         // SAFETY: explicit user-selected library; ABI and every symbol checked
         // before constructing a context. No handle crosses provider instances.
         unsafe {
@@ -542,7 +542,7 @@ impl Methods {
                         values: x.iter().map(|r| r[j]).collect(),
                     })
                     .map(|s| s.mean)
-                    .map_err(|e| e.0)
+                    .map_err(|e| e.reason)
             })
             .collect::<Result<Vec<_>, _>>()?;
         let mut input = x.iter().flatten().copied().collect::<Vec<_>>();
@@ -614,7 +614,7 @@ impl Methods {
                     .summary(&SummaryRequest {
                         values: x.iter().map(|r| r[j]).collect(),
                     })
-                    .map_err(|e| e.0)
+                    .map_err(|e| e.reason)
             })
             .collect::<Result<Vec<_>, _>>()?;
         let mean = summaries.iter().map(|s| s.mean).collect();
@@ -626,7 +626,7 @@ impl Methods {
                     .map(|s| s.sample_sd.unwrap_or(0.0).powi(2))
                     .collect(),
             })
-            .map_err(|e| e.0)?
+            .map_err(|e| e.reason)?
             .mean
             * p as f64;
         let state = unsafe {
@@ -685,7 +685,7 @@ impl Methods {
                         values: train_scores.iter().map(|r| r[j]).collect(),
                     })
                     .map(|s| s.sample_sd.unwrap_or(0.0).powi(2))
-                    .map_err(|e| e.0)
+                    .map_err(|e| e.reason)
             })
             .collect::<Result<Vec<_>, _>>()?;
         // Recover the fitted affine operator through public transforms, never private struct access.

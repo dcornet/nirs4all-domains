@@ -11,6 +11,7 @@ from pathlib import Path
 import random
 import subprocess
 
+from .providers import native_qualified
 from .predictive import (fingerprint, group_folds, group_means, group_prediction,
                          native_summary, _nested, _inner_fit)
 
@@ -138,8 +139,8 @@ def paired_bootstrap(oof, draws, seed):
 
 def predictive_dependence(task, library, factor_audit, *, seed=17, outer_folds=5, inner_folds=3, max_components=5, draws=200, spectral=None):
     from n4m._ffi import library_path
-    if version("dag-ml")!="0.3.41" or version("nirs4all-methods")!="1.3.6" or Path(library).resolve()!=Path(library_path()).resolve():
-        raise ValueError("Qualified Methods 1.3.6 / DAG-ML 0.3.41 and identical library required")
+    if not native_qualified() or Path(library).resolve()!=Path(library_path()).resolve():
+        raise ValueError("Qualified Methods / DAG-ML versions and identical library required")
     rows = development_rows(task)
     if draws<0 or draws>1000 or len(rows)>10_000 or len(rows)*draws>2_000_000:
         raise ValueError("Dependence resampling budget exceeded")

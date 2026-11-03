@@ -31,7 +31,7 @@ pub fn coverage(
             .provider
             .summary(&SummaryRequest { values })
             .map(|s| s.mean)
-            .map_err(|e| e.0)
+            .map_err(|e| e.reason)
     };
     let mut blocks = BTreeMap::<String, Vec<f64>>::new();
     for (sample, flags) in by_sample {

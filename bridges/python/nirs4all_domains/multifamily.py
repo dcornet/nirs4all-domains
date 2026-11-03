@@ -11,6 +11,7 @@ import random
 import time
 
 from .dependence import development_rows, score_oof, state, validate_folds
+from .providers import QUALIFIED_NIRS4ALL, native_qualified
 from .predictive import group_folds
 from .storage import fingerprint
 
@@ -122,7 +123,7 @@ def _fast_inner(rows, folds, spec):
     from dag_ml import _dag_ml as native
     import numpy as np
     from nirs4all.operators.models import FastAOMPLSRidge, FastAOMConfig
-    if version("nirs4all") != "1.4.10":
+    if version("nirs4all") != QUALIFIED_NIRS4ALL:
         raise ValueError("QUALIFIED_NIRS4ALL_VERSION_REQUIRED")
     dsl, envelope, _ = _request(rows, folds, spec)
     node, = [n for n in dag_ml.compile_pipeline_dsl_artifact(dsl).graph.to_dict()["nodes"] if n["kind"] == "model"]
@@ -220,7 +221,7 @@ def inner_fit(rows, folds, spec, library):
     from n4m._ffi import library_path
     validate_spec(spec)
     validate_folds(rows, folds)
-    if version("dag-ml") != "0.3.41" or version("nirs4all-methods") != "1.3.6":
+    if not native_qualified():
         raise ValueError("QUALIFIED_NATIVE_PROVIDER_VERSIONS_REQUIRED")
     if Path(library).resolve() != Path(library_path()).resolve():
         raise ValueError("IDENTICAL_NATIVE_LIBRARY_REQUIRED_FOR_FITTING_AND_SCORING")

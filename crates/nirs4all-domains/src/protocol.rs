@@ -275,7 +275,7 @@ pub fn analyze(task: &Task, library: Option<&Path>) -> Report {
     }
     let mut provenance = task.provenance.clone();
     provenance.insert("domains".into(), VERSION.into());
-    provenance.insert("preflight".into(), "0.1.0-alpha.1".into());
+    provenance.insert("preflight".into(), pf::ENGINE_VERSION.into());
     provenance.insert(
         "sanitized_task_sha256".into(),
         hash(&serde_json::to_vec(&sanitized).unwrap_or_default()),
@@ -778,7 +778,7 @@ fn geometry(
                 reference_group_ids: train_groups.clone(),
                 k: 1,
             })
-            .map_err(|e| err(e.0))
+            .map_err(|e| err(e.reason))
     };
     let train_nn = neighbors(train_scores.clone(), train_groups.clone())?;
     let test_nn = neighbors(test_scores.clone(), test_groups)?;
@@ -795,7 +795,7 @@ fn geometry(
         methods
             .provider
             .summary(&SummaryRequest { values })
-            .map_err(|e| err(e.0))
+            .map_err(|e| err(e.reason))
     };
     let nn_summary = summary(train_dist.clone())?;
     let q_summary = summary(train_q.clone())?;
@@ -1033,7 +1033,7 @@ fn native_repeatability(
                             .map(|r| r.x.iter().map(Option::is_some).collect())
                             .collect(),
                     })
-                    .map_err(|e| e.0)
+                    .map_err(|e| e.reason)
             });
         let mut output = match result {
             Ok(value) => metric(
@@ -1204,7 +1204,7 @@ fn target_audit(task: &Task, methods: Option<&Methods>, report: &mut Report, pop
     } else if let Some(m) = methods {
         match m.provider.summary(&SummaryRequest { values }) {
             Ok(summary) => (Status::Computed, json!(summary), None),
-            Err(e) => (Status::Error, Value::Null, Some(e.0)),
+            Err(e) => (Status::Error, Value::Null, Some(e.reason)),
         }
     } else {
         (

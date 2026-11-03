@@ -38,7 +38,7 @@ fn summary(m: &Methods, values: Vec<f64>) -> Result<Value, String> {
     let s = m
         .provider
         .summary(&SummaryRequest { values })
-        .map_err(|e| e.0)?;
+        .map_err(|e| e.reason)?;
     Ok(computed(
         json!({"count":s.count,"min":s.min,"max":s.max,"mean":s.mean,
         "sd":s.sample_sd,"q25":s.q25,"median":s.median,"q75":s.q75}),
@@ -78,7 +78,7 @@ fn neighbors(
                 reference_group_ids: groups.clone(),
                 k,
             })
-            .map_err(|e| e.0)?;
+            .map_err(|e| e.reason)?;
         if r.distances.iter().flatten().any(Option::is_none) {
             return Err("INCOMPLETE_NATIVE_NEIGHBORS".into());
         }
