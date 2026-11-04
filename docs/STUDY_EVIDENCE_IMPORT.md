@@ -14,3 +14,8 @@ without changing those numerical protocols. A citation or imported study ID
 alone does not verify biological independence or admit an independent benchmark.
 Any revised evaluation design is frozen separately before its outcomes.
 No importer scrapes websites, acquires raw data or silently edits Datasets.
+
+The [4 November 2026 reconciliation](SOURCE_STUDY_RECONCILIATION_20261104.md)
+documents the first source-bound import against the consolidated 241-record
+Datasets catalog and its limits. Those additive interpretations do not migrate
+the historical campaign's numerical results or admit new evaluations.
