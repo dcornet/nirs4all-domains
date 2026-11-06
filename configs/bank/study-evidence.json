@@ -1,4 +1,193 @@
 {
   "schema_version": 1,
-  "records": []
+  "records": [
+    {
+      "dataset_id": "cartilage_spectroscopy_scientificdata_nir",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6717194/",
+      "study_id": "doi:10.1038/s41597-019-0170-y",
+      "population_id": null,
+      "interpretation": "Documentary context: product: articular cartilage; sample_type: tissue surface; domain: medicine; brand: Avantes; model: AvaSpec-ULS2048XL; probe: diffuse reflectance fibre optic contact probe; signal_representation: absorbance, -log10 normalized reflectance; framework: MATLAB R2015–2017 (example preprocessing and PLS/CV code); Avasoft 8.0 acquisition is separate; design: 869 measurement locations nested in 44 areas and five joints; three consecutive acquisitions per location; exported 2605 rows must not be equated with independent specimens.",
+      "known_dependencies": [
+        "869 measurement locations nested in 44 areas and five joints; three consecutive acquisitions per location; exported 2605 rows must not be equated with independent specimens."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "harvard_dataverse_malaria_anopheles_gambiae_nir",
+      "content_version": "1.1.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6423776/",
+      "study_id": "doi:10.1186/s12936-019-2719-9",
+      "population_id": null,
+      "interpretation": "Documentary context: product: insect specimen; sample_type: intact specimen spectral acquisition; domain: biomedical; brand: ASD; model: Labspec 4i; probe: bifurcated fibre-optic reflectance probe; signal_representation: absorbance; framework: GRAMS Plus/IQ; IQPredict (Thermo Galactic); partition: Author calibration LOOCV plus a separate prediction/test dataset; preserve supplied cohort labels, not a new random split.; outliers: Authors visually excluded prominently flat/noisy spectra and uncertain reference labels. 72 of 634 observations excluded overall; per-export exclusions not reconstructed.",
+      "known_dependencies": [],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "ohpl_beer_nir",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://github.com/nanxstats/OHPL/blob/master/R/OHPL-datalist.R",
+      "study_id": "doi:10.1366/0003702001949500",
+      "population_id": null,
+      "interpretation": "Documentary context: product: beer; sample_type: undiluted degassed liquid; domain: food; probe: 30 mm quartz cell (accessory, not instrument brand); design: 60 beer samples; original extract reference; sampling hierarchy unknown.",
+      "known_dependencies": [
+        "60 beer samples; original extract reference; sampling hierarchy unknown."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "ohpl_wheat_nir",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://github.com/nanxstats/OHPL/blob/master/R/OHPL-datalist.R",
+      "study_id": "doi:10.1016/s0169-7439(97)00038-5",
+      "population_id": null,
+      "interpretation": "Documentary context: product: wheat grain; domain: agriculture / food; signal_representation: log(1/R), diffuse reflectance; design: 100 wheat samples; protein and moisture; physical sampling hierarchy unknown.",
+      "known_dependencies": [
+        "100 wheat samples; protein and moisture; physical sampling hierarchy unknown."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "perten_cereals_nir",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://zenodo.org/records/15838136",
+      "study_id": null,
+      "population_id": null,
+      "interpretation": "Documentary context: design: 150 samples per cereal in the repository; multiple Perten spectrometers, years and countries. Trait exports share origins; confirm sample keys before pooling.",
+      "known_dependencies": [
+        "150 samples per cereal in the repository; multiple Perten spectrometers, years and countries. Trait exports share origins; confirm sample keys before pooling."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "recherche_data_gouv_grapevine_leaf_wvapol",
+      "content_version": "1.1.0",
+      "source_id": "X_asd",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://doi.org/10.57745/WVAPOL",
+      "study_id": "doi:10.1002/ppj2.70059",
+      "population_id": null,
+      "interpretation": "Documentary context: product: grapevine leaf; sample_type: dried leaf disks; domain: agriculture / ecology; design: Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument.",
+      "known_dependencies": [
+        "Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "recherche_data_gouv_grapevine_leaf_wvapol",
+      "content_version": "1.1.0",
+      "source_id": "X_micronir",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://doi.org/10.57745/WVAPOL",
+      "study_id": "doi:10.1002/ppj2.70059",
+      "population_id": null,
+      "interpretation": "Documentary context: product: grapevine leaf; sample_type: fresh leaf; domain: agriculture / ecology; design: Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument.",
+      "known_dependencies": [
+        "Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "recherche_data_gouv_grapevine_leaf_wvapol",
+      "content_version": "1.1.0",
+      "source_id": "X_neospectra",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://doi.org/10.57745/WVAPOL",
+      "study_id": "doi:10.1002/ppj2.70059",
+      "population_id": null,
+      "interpretation": "Documentary context: product: grapevine leaf; sample_type: fresh leaf; domain: agriculture / ecology; design: Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument.",
+      "known_dependencies": [
+        "Cultivar × experiment (outdoor 2021 / greenhouse 2022) × water treatment (WW/WD1/WD2); leaf IDs join design/covariates. MicroNIR and NeoSpectra leaf-face readings averaged; ASD four disk locations averaged. Combined block is a derived view, not a fourth instrument."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "recherche_data_gouv_raw_manure_nir_e1ji8u",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8529085/",
+      "study_id": "doi:10.1016/j.dib.2021.107475",
+      "population_id": null,
+      "interpretation": "Documentary context: product: solid animal manure; sample_type: fresh raw solid, unprepared; domain: agriculture / environment; brand: Q-interline; model: AgriQuant B8; probe: rotating borosilicate Agritube spiral sampler; signal_representation: absorbance log(1/reflectance); design: 490 composite samples from 270 farms, Brittany, 2018/2019; six product categories; three tube measurements averaged per sample, each acquisition averaging 180 scans. Farm/product/year link to retained M still to validate.",
+      "known_dependencies": [
+        "490 composite samples from 270 farms, Brittany, 2018/2019; six product categories; three tube measurements averaged per sample, each acquisition averaging 180 scans. Farm/product/year link to retained M still to validate."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    },
+    {
+      "dataset_id": "ucph_tablet_nir",
+      "content_version": "1.2.0",
+      "source_id": "X",
+      "evidence_level": "inferred_from_original_documentation",
+      "source_url": "https://ucphchemometrics.com/tablet/",
+      "study_id": "doi:10.1366/0003702021955358",
+      "population_id": null,
+      "interpretation": "Documentary context: product: pharmaceutical tablet; sample_type: tablet; domain: pharmaceutics; signal_representation: transmittance (source page; exported numeric convention unknown); design: Dosage, formulation/API level, coating and calibration batches; tablet number is not a technical repeat.",
+      "known_dependencies": [
+        "Dosage, formulation/API level, coating and calibration batches; tablet number is not a technical repeat."
+      ],
+      "limitations": [
+        "First-pass documentary import; review the original methods and exact export before scientific admission.",
+        "Dataset/source identifiers follow the 241-record catalog; historical results are not rebound to its new content versions.",
+        "No observation memberships, independent population identity, executable split or model state is supplied.",
+        "Publication descriptions do not prove that every current source observation shares the reported design."
+      ]
+    }
+  ]
 }
