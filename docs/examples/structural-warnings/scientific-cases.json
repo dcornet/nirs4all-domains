@@ -1,0 +1,1442 @@
+{
+  "scope": "Qualified aggregate snapshots; five datasets are not multiple factor-row replications. Original source terms/attribution retained through source references; no raw observations.",
+  "cases": [
+    {
+      "dataset_id": "ucph_tablet_nir",
+      "source_report": {
+        "origin": {
+          "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+          "row_index": 0,
+          "native_result_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+        },
+        "factor_evidence": [
+          {
+            "eta_squared": [
+              0.9793056177015933,
+              0.8192379628723995,
+              0.9370239457955439
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.038110815186653484
+            },
+            "n_levels": 31,
+            "n_missing": 0,
+            "primary_X_only_eligible": true,
+            "factor": "batch",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+          },
+          {
+            "eta_squared": [
+              0.008461128189322166,
+              0.2736181831329686,
+              0.6036686804281672
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.047597386734030495
+            },
+            "n_levels": 3,
+            "n_missing": 0,
+            "primary_X_only_eligible": true,
+            "factor": "scale",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+          }
+        ],
+        "comparison": {
+          "parameter_ari_min": 0.986250843778543,
+          "cluster_counts": [
+            5,
+            4
+          ],
+          "noise_fractions": [
+            0.05806451612903226,
+            0.041935483870967745
+          ],
+          "all_noise_settings": 0,
+          "native_refusals": []
+        },
+        "context": {
+          "physical_units_known": false,
+          "reference_units_known": false,
+          "acquisition_context_known": false
+        }
+      },
+      "request": {
+        "source": {
+          "dataset_id": "ucph_tablet_nir",
+          "source_id": "X",
+          "content_version": "1.1.0",
+          "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+          "scope_kind": "full_source",
+          "representation": "raw",
+          "n_observations": 310,
+          "identity_scope": "current_canonical_id",
+          "references": [
+            "https://ucphchemometrics.com/tablet/",
+            "https://ucphchemometrics.com/datasets/"
+          ],
+          "original_source_identifiers": [
+            "source-url:ucphchemometrics.com/tablet"
+          ],
+          "provenance_group": "provenance:08babb771919a7e25a3d5a87",
+          "original_study_family": null,
+          "study_reference": null
+        },
+        "evidence": [
+          {
+            "kind": "representation",
+            "root": "/comparison",
+            "scope": {
+              "dataset_id": "ucph_tablet_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 310
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+              "version": "P1",
+              "settings": {
+                "representation": "raw",
+                "population_scope": "full_source",
+                "query_support": {
+                  "n_query": 64,
+                  "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+                },
+                "native_settings_receipt": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c",
+                "preprocessing": {
+                  "family": "raw",
+                  "method_id": null,
+                  "parameters": {}
+                },
+                "actual_native_configuration": {
+                  "PCA": {
+                    "retained_components": 20,
+                    "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+                  },
+                  "HDBSCAN": [
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 8,
+                      "min_samples": 4
+                    },
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 12,
+                      "min_samples": 4
+                    }
+                  ],
+                  "query_design": {
+                    "mode": "query_subset",
+                    "n_query": 64,
+                    "n_source": 310,
+                    "sampling": "fixed simple random query sample; complete original reference retained",
+                    "seed": 12017
+                  },
+                  "provider": {
+                    "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+                    "version": "1.3.14+abi.2.20.0"
+                  },
+                  "native_profile_request_sha256": "71363bca40548f88200a09ddfa4d41fa042e39e96651653bd6d52a83f0eb9b12"
+                },
+                "comparison_kind": "raw_to_declared_representation_or_density_settings",
+                "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+              },
+              "reference": "R3d exact profile receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+            },
+            "metrics": {
+              "parameter_ari_min": "/comparison/parameter_ari_min",
+              "cluster_counts": "/comparison/cluster_counts",
+              "noise_fractions": "/comparison/noise_fractions",
+              "all_noise_settings": "/comparison/all_noise_settings",
+              "native_refusals": "/comparison/native_refusals"
+            },
+            "qualifications": {
+              "admissible": true,
+              "matched_observations": true,
+              "matched_queries": false,
+              "representations": [
+                "raw"
+              ],
+              "comparison_kind": "density_parameter"
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/0",
+            "scope": {
+              "dataset_id": "ucph_tablet_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 310
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/0/eta_squared",
+              "partition_ari": "/factor_evidence/0/partition_ari",
+              "n_levels": "/factor_evidence/0/n_levels",
+              "n_missing": "/factor_evidence/0/n_missing"
+            },
+            "qualifications": {
+              "factor": "batch",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/1",
+            "scope": {
+              "dataset_id": "ucph_tablet_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 310
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/1/eta_squared",
+              "partition_ari": "/factor_evidence/1/partition_ari",
+              "n_levels": "/factor_evidence/1/n_levels",
+              "n_missing": "/factor_evidence/1/n_missing"
+            },
+            "qualifications": {
+              "factor": "scale",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "context",
+            "root": "/context",
+            "scope": {
+              "dataset_id": "ucph_tablet_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 310
+            },
+            "method": {
+              "owner": "source_documentation",
+              "name": "reported metadata availability",
+              "version": "R3d saved evidence projection",
+              "settings": {
+                "no_identity_reconstruction": true
+              },
+              "reference": "R3d scoped evidence matrix and qualified factor bindings"
+            },
+            "metrics": {
+              "physical_units_known": "/context/physical_units_known",
+              "reference_units_known": "/context/reference_units_known",
+              "acquisition_context_known": "/context/acquisition_context_known"
+            },
+            "qualifications": {}
+          }
+        ]
+      }
+    },
+    {
+      "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+      "source_report": {
+        "origin": {
+          "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+          "row_index": 21,
+          "native_result_sha256": "d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+        },
+        "factor_evidence": [
+          {
+            "eta_squared": [
+              0.31745781346958196,
+              0.5438244011172649,
+              0.2571843845471863
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.01699585660203048
+            },
+            "n_levels": 10,
+            "n_missing": 24,
+            "primary_X_only_eligible": true,
+            "factor": "date",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+          },
+          {
+            "eta_squared": [
+              0.31745781346958196,
+              0.5438244011172649,
+              0.2571843845471863
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.01699585660203048
+            },
+            "n_levels": 10,
+            "n_missing": 24,
+            "primary_X_only_eligible": true,
+            "factor": "measurement_date",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+          },
+          {
+            "eta_squared": [
+              0.11479332637017328,
+              0.07514832191082657,
+              0.09548144020382847
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.0026141722397130663
+            },
+            "n_levels": 18,
+            "n_missing": 24,
+            "primary_X_only_eligible": true,
+            "factor": "site",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+          }
+        ],
+        "comparison": {
+          "parameter_ari_min": 1.0,
+          "cluster_counts": [
+            2,
+            2
+          ],
+          "noise_fractions": [
+            0.2587800369685767,
+            0.2587800369685767
+          ],
+          "all_noise_settings": 0,
+          "native_refusals": []
+        },
+        "context": {
+          "physical_units_known": false,
+          "reference_units_known": false,
+          "acquisition_context_known": false
+        }
+      },
+      "request": {
+        "source": {
+          "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+          "source_id": "X",
+          "content_version": "1.1.0",
+          "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+          "scope_kind": "full_source",
+          "representation": "raw",
+          "n_observations": 541,
+          "identity_scope": "current_canonical_id",
+          "references": [
+            "https://data.ecosis.org/dataset/leaf-and-canopy-spectroscopy-and-biochemical-data-of-field-grown-cucurbita-pepo-under-two-stresses"
+          ],
+          "original_source_identifiers": [
+            "source-url:data.ecosis.org/dataset/leaf-and-canopy-spectroscopy-and-biochemical-data-of-field-grown-cucurbita-pepo-under-two-stresses"
+          ],
+          "provenance_group": "provenance:591aad380c0f4151c11cc9d2",
+          "original_study_family": null,
+          "study_reference": null
+        },
+        "evidence": [
+          {
+            "kind": "representation",
+            "root": "/comparison",
+            "scope": {
+              "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 541
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+              "version": "P1",
+              "settings": {
+                "representation": "raw",
+                "population_scope": "full_source",
+                "query_support": {
+                  "n_query": 64,
+                  "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+                },
+                "native_settings_receipt": "d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c",
+                "preprocessing": {
+                  "family": "raw",
+                  "method_id": null,
+                  "parameters": {}
+                },
+                "actual_native_configuration": {
+                  "PCA": {
+                    "retained_components": 20,
+                    "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+                  },
+                  "HDBSCAN": [
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 8,
+                      "min_samples": 4
+                    },
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 12,
+                      "min_samples": 4
+                    }
+                  ],
+                  "query_design": {
+                    "mode": "query_subset",
+                    "n_query": 64,
+                    "n_source": 541,
+                    "sampling": "fixed simple random query sample; complete original reference retained",
+                    "seed": 12017
+                  },
+                  "provider": {
+                    "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+                    "version": "1.3.14+abi.2.20.0"
+                  },
+                  "native_profile_request_sha256": "73433e6ab2ed8cadf74e83c541efe45a6a9294e4ff96e2dd5bb91fde2b0d0f10"
+                },
+                "comparison_kind": "raw_to_declared_representation_or_density_settings",
+                "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+              },
+              "reference": "R3d exact profile receipt SHA256:d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+            },
+            "metrics": {
+              "parameter_ari_min": "/comparison/parameter_ari_min",
+              "cluster_counts": "/comparison/cluster_counts",
+              "noise_fractions": "/comparison/noise_fractions",
+              "all_noise_settings": "/comparison/all_noise_settings",
+              "native_refusals": "/comparison/native_refusals"
+            },
+            "qualifications": {
+              "admissible": true,
+              "matched_observations": true,
+              "matched_queries": false,
+              "representations": [
+                "raw"
+              ],
+              "comparison_kind": "density_parameter"
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/0",
+            "scope": {
+              "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 541
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 24,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/0/eta_squared",
+              "partition_ari": "/factor_evidence/0/partition_ari",
+              "n_levels": "/factor_evidence/0/n_levels",
+              "n_missing": "/factor_evidence/0/n_missing"
+            },
+            "qualifications": {
+              "factor": "date",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/1",
+            "scope": {
+              "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 541
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 24,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/1/eta_squared",
+              "partition_ari": "/factor_evidence/1/partition_ari",
+              "n_levels": "/factor_evidence/1/n_levels",
+              "n_missing": "/factor_evidence/1/n_missing"
+            },
+            "qualifications": {
+              "factor": "measurement_date",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/2",
+            "scope": {
+              "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 541
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 24,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:d5ec33cc70dce53f52b5c44f7484227f242eb576b51f2e09e15ef25015ce0f0c"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/2/eta_squared",
+              "partition_ari": "/factor_evidence/2/partition_ari",
+              "n_levels": "/factor_evidence/2/n_levels",
+              "n_missing": "/factor_evidence/2/n_missing"
+            },
+            "qualifications": {
+              "factor": "site",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "context",
+            "root": "/context",
+            "scope": {
+              "dataset_id": "ecosis_cucurbita_pepo_two_stresses_leaf_canopy_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:baa104c1c83cd85a501229e3ef40681c96a7a6ae5968f8a34e10c21e8c9586e8",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 541
+            },
+            "method": {
+              "owner": "source_documentation",
+              "name": "reported metadata availability",
+              "version": "R3d saved evidence projection",
+              "settings": {
+                "no_identity_reconstruction": true
+              },
+              "reference": "R3d scoped evidence matrix and qualified factor bindings"
+            },
+            "metrics": {
+              "physical_units_known": "/context/physical_units_known",
+              "reference_units_known": "/context/reference_units_known",
+              "acquisition_context_known": "/context/acquisition_context_known"
+            },
+            "qualifications": {}
+          }
+        ]
+      }
+    },
+    {
+      "dataset_id": "ecosis_intact_and_ground_leaf_litter_spectra_from_cedar_creek_reflectance_nirs",
+      "source_report": {
+        "origin": {
+          "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+          "row_index": 28,
+          "native_result_sha256": "9e3f3e377fc08f782fe2cc16ad5d27d7134b9d2bb499272471f82f89f4061e9d"
+        },
+        "factor_evidence": [
+          {
+            "eta_squared": [
+              0.5600528576315683,
+              0.22160990961066074,
+              0.38101182329580513
+            ],
+            "partition_ari": {
+              "reason": null,
+              "status": "computed",
+              "value": 0.17950311525077975
+            },
+            "n_levels": 31,
+            "n_missing": 0,
+            "primary_X_only_eligible": true,
+            "factor": "site",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "9e3f3e377fc08f782fe2cc16ad5d27d7134b9d2bb499272471f82f89f4061e9d"
+          }
+        ],
+        "comparison": {
+          "parameter_ari_min": 0.9657129284008684,
+          "cluster_counts": [
+            3,
+            2
+          ],
+          "noise_fractions": [
+            0.3167701863354037,
+            0.3416149068322981
+          ],
+          "all_noise_settings": 0,
+          "native_refusals": []
+        },
+        "context": {
+          "physical_units_known": false,
+          "reference_units_known": false,
+          "acquisition_context_known": false
+        }
+      },
+      "request": {
+        "source": {
+          "dataset_id": "ecosis_intact_and_ground_leaf_litter_spectra_from_cedar_creek_reflectance_nirs",
+          "source_id": "X",
+          "content_version": "1.1.0",
+          "population_id": "saved-population:e2774ad167eccab0a0d80d9bd67507ab0ebbd3f18e98d4ea00ed21c63101ce62",
+          "scope_kind": "full_source",
+          "representation": "raw",
+          "n_observations": 322,
+          "identity_scope": "current_canonical_id",
+          "references": [
+            "https://data.ecosis.org/dataset/intact--and-ground-leaf-litter-spectra-from-cedar-creek-and-minneapolis",
+            "10.5061/dryad.hdr7sqvrk"
+          ],
+          "original_source_identifiers": [
+            "doi:10.5061/dryad.hdr7sqvrk",
+            "source-url:data.ecosis.org/dataset/intact--and-ground-leaf-litter-spectra-from-cedar-creek-and-minneapolis"
+          ],
+          "provenance_group": "provenance:a3bfba658388a0d897936369",
+          "original_study_family": null,
+          "study_reference": null
+        },
+        "evidence": [
+          {
+            "kind": "representation",
+            "root": "/comparison",
+            "scope": {
+              "dataset_id": "ecosis_intact_and_ground_leaf_litter_spectra_from_cedar_creek_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:e2774ad167eccab0a0d80d9bd67507ab0ebbd3f18e98d4ea00ed21c63101ce62",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 322
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+              "version": "P1",
+              "settings": {
+                "representation": "raw",
+                "population_scope": "full_source",
+                "query_support": {
+                  "n_query": 64,
+                  "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+                },
+                "native_settings_receipt": "9e3f3e377fc08f782fe2cc16ad5d27d7134b9d2bb499272471f82f89f4061e9d",
+                "preprocessing": {
+                  "family": "raw",
+                  "method_id": null,
+                  "parameters": {}
+                },
+                "actual_native_configuration": {
+                  "PCA": {
+                    "retained_components": 20,
+                    "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+                  },
+                  "HDBSCAN": [
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 8,
+                      "min_samples": 4
+                    },
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 12,
+                      "min_samples": 4
+                    }
+                  ],
+                  "query_design": {
+                    "mode": "query_subset",
+                    "n_query": 64,
+                    "n_source": 322,
+                    "sampling": "fixed simple random query sample; complete original reference retained",
+                    "seed": 12017
+                  },
+                  "provider": {
+                    "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+                    "version": "1.3.14+abi.2.20.0"
+                  },
+                  "native_profile_request_sha256": "c5887da3a3283dc07607ef3f74344df141ae21d7224870e6cd3eec60fec761b1"
+                },
+                "comparison_kind": "raw_to_declared_representation_or_density_settings",
+                "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+              },
+              "reference": "R3d exact profile receipt SHA256:9e3f3e377fc08f782fe2cc16ad5d27d7134b9d2bb499272471f82f89f4061e9d"
+            },
+            "metrics": {
+              "parameter_ari_min": "/comparison/parameter_ari_min",
+              "cluster_counts": "/comparison/cluster_counts",
+              "noise_fractions": "/comparison/noise_fractions",
+              "all_noise_settings": "/comparison/all_noise_settings",
+              "native_refusals": "/comparison/native_refusals"
+            },
+            "qualifications": {
+              "admissible": true,
+              "matched_observations": true,
+              "matched_queries": false,
+              "representations": [
+                "raw"
+              ],
+              "comparison_kind": "density_parameter"
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/0",
+            "scope": {
+              "dataset_id": "ecosis_intact_and_ground_leaf_litter_spectra_from_cedar_creek_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:e2774ad167eccab0a0d80d9bd67507ab0ebbd3f18e98d4ea00ed21c63101ce62",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 322
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "first3 retained native profile PC axes",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:9e3f3e377fc08f782fe2cc16ad5d27d7134b9d2bb499272471f82f89f4061e9d"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/0/eta_squared",
+              "partition_ari": "/factor_evidence/0/partition_ari",
+              "n_levels": "/factor_evidence/0/n_levels",
+              "n_missing": "/factor_evidence/0/n_missing"
+            },
+            "qualifications": {
+              "factor": "site",
+              "role": "metadata",
+              "role_reference": "owner observation-keyed curated metadata",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "context",
+            "root": "/context",
+            "scope": {
+              "dataset_id": "ecosis_intact_and_ground_leaf_litter_spectra_from_cedar_creek_reflectance_nirs",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:e2774ad167eccab0a0d80d9bd67507ab0ebbd3f18e98d4ea00ed21c63101ce62",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 322
+            },
+            "method": {
+              "owner": "source_documentation",
+              "name": "reported metadata availability",
+              "version": "R3d saved evidence projection",
+              "settings": {
+                "no_identity_reconstruction": true
+              },
+              "reference": "R3d scoped evidence matrix and qualified factor bindings"
+            },
+            "metrics": {
+              "physical_units_known": "/context/physical_units_known",
+              "reference_units_known": "/context/reference_units_known",
+              "acquisition_context_known": "/context/acquisition_context_known"
+            },
+            "qualifications": {}
+          }
+        ]
+      }
+    },
+    {
+      "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+      "source_report": {
+        "origin": {
+          "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+          "row_index": 84,
+          "native_result_sha256": "6d96a734fd00c23bdfeb80158026d1af84b71b20c0137adb12ae85a124b2605f"
+        },
+        "factor_evidence": [
+          {
+            "eta_squared": [
+              0.9574655168813346,
+              0.9303352426078505,
+              0.48510596382684895
+            ],
+            "partition_ari": {
+              "reason": "NOT_IN_SAVED_FACTOR_RECORD",
+              "status": "unavailable",
+              "value": null
+            },
+            "n_levels": 6,
+            "n_missing": 0,
+            "partition_ari_range": [
+              0.14080459770114942,
+              0.5500666717513761
+            ],
+            "primary_X_only_eligible": true,
+            "factor": "commodity",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "d77aac0d2492a5be7e73e06f4be3c4d1056d634359fbc84c1ab5a9ab9c5ddad2"
+          },
+          {
+            "eta_squared": [
+              0.00014432045588563664,
+              1.9108379708448397e-05,
+              0.00030737566565581116
+            ],
+            "partition_ari": {
+              "reason": "NOT_IN_SAVED_FACTOR_RECORD",
+              "status": "unavailable",
+              "value": null
+            },
+            "n_levels": 2,
+            "n_missing": 0,
+            "partition_ari_range": [
+              -0.009517147957763943,
+              -0.005820232345646783
+            ],
+            "primary_X_only_eligible": true,
+            "factor": "original_split",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+          }
+        ],
+        "comparison": {
+          "parameter_ari_min": 1.0,
+          "cluster_counts": [
+            4,
+            4
+          ],
+          "noise_fractions": [
+            0.03333333333333333,
+            0.03333333333333333
+          ],
+          "all_noise_settings": 0,
+          "native_refusals": []
+        },
+        "context": {
+          "physical_units_known": false,
+          "reference_units_known": false,
+          "acquisition_context_known": false
+        }
+      },
+      "request": {
+        "source": {
+          "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+          "source_id": "X",
+          "content_version": "1.1.0",
+          "population_id": "saved-population:3a0ff1bb8fbb1bad89be74744a7a5057df7a30c3eba7ea44cb59035795c6faa7",
+          "scope_kind": "full_source",
+          "representation": "raw",
+          "n_observations": 300,
+          "identity_scope": "current_canonical_id",
+          "references": [
+            "https://data.mendeley.com/datasets/k55b8mvs84/1",
+            "https://data.mendeley.com/public-api/datasets/k55b8mvs84/snapshot/1",
+            "https://data.mendeley.com/public-api/datasets/k55b8mvs84/files?folder_id=root&version=1&$start=0&$limit=1000"
+          ],
+          "original_source_identifiers": [
+            "mendeley:k55b8mvs84"
+          ],
+          "provenance_group": "provenance:a3d2ef135862a56ca8e9a12d",
+          "original_study_family": "study:ca5bc72abe57366d3b557000aae5926f",
+          "study_reference": "mendeley:k55b8mvs84"
+        },
+        "evidence": [
+          {
+            "kind": "representation",
+            "root": "/comparison",
+            "scope": {
+              "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:3a0ff1bb8fbb1bad89be74744a7a5057df7a30c3eba7ea44cb59035795c6faa7",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 300
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+              "version": "P2b",
+              "settings": {
+                "representation": "raw",
+                "population_scope": "full_source",
+                "query_support": {
+                  "n_query": 64,
+                  "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+                },
+                "native_settings_receipt": "6d96a734fd00c23bdfeb80158026d1af84b71b20c0137adb12ae85a124b2605f",
+                "preprocessing": {
+                  "family": "raw",
+                  "method_id": null,
+                  "parameters": {}
+                },
+                "actual_native_configuration": {
+                  "PCA": {
+                    "retained_components": 20,
+                    "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+                  },
+                  "HDBSCAN": [
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 8,
+                      "min_samples": 4
+                    },
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 12,
+                      "min_samples": 4
+                    }
+                  ],
+                  "query_design": {
+                    "mode": "query_subset",
+                    "n_query": 64,
+                    "n_source": 300,
+                    "sampling": "fixed simple random query sample; complete original reference retained",
+                    "seed": 12017
+                  },
+                  "provider": {
+                    "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+                    "version": "1.3.14+abi.2.20.0"
+                  },
+                  "native_profile_request_sha256": "ec6230ad8d9a51fa20baa3eb0f18b46c02ab1f59f1cc097b6b1b41adbecd8752"
+                },
+                "comparison_kind": "raw_to_declared_representation_or_density_settings",
+                "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+              },
+              "reference": "R3d exact profile receipt SHA256:6d96a734fd00c23bdfeb80158026d1af84b71b20c0137adb12ae85a124b2605f"
+            },
+            "metrics": {
+              "parameter_ari_min": "/comparison/parameter_ari_min",
+              "cluster_counts": "/comparison/cluster_counts",
+              "noise_fractions": "/comparison/noise_fractions",
+              "all_noise_settings": "/comparison/all_noise_settings",
+              "native_refusals": "/comparison/native_refusals"
+            },
+            "qualifications": {
+              "admissible": true,
+              "matched_observations": true,
+              "matched_queries": false,
+              "representations": [
+                "raw"
+              ],
+              "comparison_kind": "density_parameter"
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/0",
+            "scope": {
+              "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:3a0ff1bb8fbb1bad89be74744a7a5057df7a30c3eba7ea44cb59035795c6faa7",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 300
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "supplemental FlexiblePCA3 raw",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:d77aac0d2492a5be7e73e06f4be3c4d1056d634359fbc84c1ab5a9ab9c5ddad2"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/0/eta_squared",
+              "partition_ari": "/factor_evidence/0/partition_ari",
+              "n_levels": "/factor_evidence/0/n_levels",
+              "n_missing": "/factor_evidence/0/n_missing",
+              "partition_ari_range": "/factor_evidence/0/partition_ari_range"
+            },
+            "qualifications": {
+              "factor": "commodity",
+              "role": "metadata",
+              "role_reference": "owner-keyed metadata; supplementary raw public FlexiblePCA3 only",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/1",
+            "scope": {
+              "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:3a0ff1bb8fbb1bad89be74744a7a5057df7a30c3eba7ea44cb59035795c6faa7",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 300
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "supplemental FlexiblePCA3 raw",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/1/eta_squared",
+              "partition_ari": "/factor_evidence/1/partition_ari",
+              "n_levels": "/factor_evidence/1/n_levels",
+              "n_missing": "/factor_evidence/1/n_missing",
+              "partition_ari_range": "/factor_evidence/1/partition_ari_range"
+            },
+            "qualifications": {
+              "factor": "original_split",
+              "role": "metadata",
+              "role_reference": "owner original_M exact source observation keys; supplemental raw FlexiblePCA3",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "context",
+            "root": "/context",
+            "scope": {
+              "dataset_id": "mendeley_cucurbitaceae_fruits_visnir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:3a0ff1bb8fbb1bad89be74744a7a5057df7a30c3eba7ea44cb59035795c6faa7",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 300
+            },
+            "method": {
+              "owner": "source_documentation",
+              "name": "reported metadata availability",
+              "version": "R3d saved evidence projection",
+              "settings": {
+                "no_identity_reconstruction": true
+              },
+              "reference": "R3d scoped evidence matrix and qualified factor bindings"
+            },
+            "metrics": {
+              "physical_units_known": "/context/physical_units_known",
+              "reference_units_known": "/context/reference_units_known",
+              "acquisition_context_known": "/context/acquisition_context_known"
+            },
+            "qualifications": {}
+          }
+        ]
+      }
+    },
+    {
+      "dataset_id": "zenodo_milk_composition_transmittance_nir",
+      "source_report": {
+        "origin": {
+          "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+          "row_index": 98,
+          "native_result_sha256": "f9928698ac2f1a481f45a653be55255a3158b816851195b1b577f61c5026a417"
+        },
+        "factor_evidence": [
+          {
+            "eta_squared": [
+              0.6002231023962316,
+              0.7260014458926627,
+              0.11763146196615276
+            ],
+            "partition_ari": {
+              "reason": "NOT_IN_SAVED_FACTOR_RECORD",
+              "status": "unavailable",
+              "value": null
+            },
+            "n_levels": 41,
+            "n_missing": 0,
+            "partition_ari_range": [
+              0.0014042884102926164,
+              0.003219829320313381
+            ],
+            "primary_X_only_eligible": true,
+            "factor": "Cow_ID",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+          },
+          {
+            "eta_squared": [
+              0.02104999087609963,
+              0.008892731883217802,
+              0.06055340176910658
+            ],
+            "partition_ari": {
+              "reason": "NOT_IN_SAVED_FACTOR_RECORD",
+              "status": "unavailable",
+              "value": null
+            },
+            "n_levels": 8,
+            "n_missing": 0,
+            "partition_ari_range": [
+              -0.0032559491786239275,
+              -2.4621903789615698e-05
+            ],
+            "primary_X_only_eligible": true,
+            "factor": "SET",
+            "high_cardinality": false,
+            "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+            "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+            "evidence_sha256": "85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+          }
+        ],
+        "comparison": {
+          "parameter_ari_min": 1.0,
+          "cluster_counts": [
+            3,
+            3
+          ],
+          "noise_fractions": [
+            0.06045751633986928,
+            0.06045751633986928
+          ],
+          "all_noise_settings": 0,
+          "native_refusals": []
+        },
+        "context": {
+          "physical_units_known": false,
+          "reference_units_known": false,
+          "acquisition_context_known": false
+        }
+      },
+      "request": {
+        "source": {
+          "dataset_id": "zenodo_milk_composition_transmittance_nir",
+          "source_id": "X",
+          "content_version": "1.1.0",
+          "population_id": "saved-population:f6987f75b854ba8a8f450b05c81ae0fe0bbdfe807baa1e819a7ebf55bbe85b09",
+          "scope_kind": "full_source",
+          "representation": "raw",
+          "n_observations": 1224,
+          "identity_scope": "current_canonical_id",
+          "references": [
+            "https://zenodo.org/records/8263430",
+            "https://zenodo.org/api/records/8263430/files/data_table.csv/content"
+          ],
+          "original_source_identifiers": [
+            "source-url:zenodo.org/records/8263430",
+            "zenodo:8263430"
+          ],
+          "provenance_group": "provenance:f3f078f25e7acf32ec4527a6",
+          "original_study_family": "study:92826fe585a8683b8d86adf24c2788cc",
+          "study_reference": "source-url:zenodo.org/records/8263430; zenodo:8263430"
+        },
+        "evidence": [
+          {
+            "kind": "representation",
+            "root": "/comparison",
+            "scope": {
+              "dataset_id": "zenodo_milk_composition_transmittance_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:f6987f75b854ba8a8f450b05c81ae0fe0bbdfe807baa1e819a7ebf55bbe85b09",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 1224
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+              "version": "P2b",
+              "settings": {
+                "representation": "raw",
+                "population_scope": "full_source",
+                "query_support": {
+                  "n_query": 64,
+                  "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+                },
+                "native_settings_receipt": "f9928698ac2f1a481f45a653be55255a3158b816851195b1b577f61c5026a417",
+                "preprocessing": {
+                  "family": "raw",
+                  "method_id": null,
+                  "parameters": {}
+                },
+                "actual_native_configuration": {
+                  "PCA": {
+                    "retained_components": 20,
+                    "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+                  },
+                  "HDBSCAN": [
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 8,
+                      "min_samples": 4
+                    },
+                    {
+                      "status": "computed",
+                      "reason": null,
+                      "min_cluster_size": 12,
+                      "min_samples": 4
+                    }
+                  ],
+                  "query_design": {
+                    "mode": "query_subset",
+                    "n_query": 64,
+                    "n_source": 1224,
+                    "sampling": "fixed simple random query sample; complete original reference retained",
+                    "seed": 12017
+                  },
+                  "provider": {
+                    "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+                    "version": "1.3.14+abi.2.20.0"
+                  },
+                  "native_profile_request_sha256": "dd73e1498caadf53ef98c204dda8e3077f40a4563bad922c90a24971dda2a02e"
+                },
+                "comparison_kind": "raw_to_declared_representation_or_density_settings",
+                "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+              },
+              "reference": "R3d exact profile receipt SHA256:f9928698ac2f1a481f45a653be55255a3158b816851195b1b577f61c5026a417"
+            },
+            "metrics": {
+              "parameter_ari_min": "/comparison/parameter_ari_min",
+              "cluster_counts": "/comparison/cluster_counts",
+              "noise_fractions": "/comparison/noise_fractions",
+              "all_noise_settings": "/comparison/all_noise_settings",
+              "native_refusals": "/comparison/native_refusals"
+            },
+            "qualifications": {
+              "admissible": true,
+              "matched_observations": true,
+              "matched_queries": false,
+              "representations": [
+                "raw"
+              ],
+              "comparison_kind": "density_parameter"
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/0",
+            "scope": {
+              "dataset_id": "zenodo_milk_composition_transmittance_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:f6987f75b854ba8a8f450b05c81ae0fe0bbdfe807baa1e819a7ebf55bbe85b09",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 1224
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "supplemental FlexiblePCA3 raw",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/0/eta_squared",
+              "partition_ari": "/factor_evidence/0/partition_ari",
+              "n_levels": "/factor_evidence/0/n_levels",
+              "n_missing": "/factor_evidence/0/n_missing",
+              "partition_ari_range": "/factor_evidence/0/partition_ari_range"
+            },
+            "qualifications": {
+              "factor": "Cow_ID",
+              "role": "metadata",
+              "role_reference": "owner original_M exact source observation keys; supplemental raw FlexiblePCA3",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "factor_geometry",
+            "root": "/factor_evidence/1",
+            "scope": {
+              "dataset_id": "zenodo_milk_composition_transmittance_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:f6987f75b854ba8a8f450b05c81ae0fe0bbdfe807baa1e819a7ebf55bbe85b09",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 1224
+            },
+            "method": {
+              "owner": "Methods",
+              "name": "factor_association / native partition agreement",
+              "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+              "settings": {
+                "PCs": "supplemental FlexiblePCA3 raw",
+                "permutations": 0,
+                "missing_factor_rows": 0,
+                "high_cardinality": false,
+                "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+              },
+              "reference": "Exact source association receipt SHA256:85d2ad4a1794c82769536da2fce3cb92015faf165f48731efb5b14244be8f7f5"
+            },
+            "metrics": {
+              "eta_squared": "/factor_evidence/1/eta_squared",
+              "partition_ari": "/factor_evidence/1/partition_ari",
+              "n_levels": "/factor_evidence/1/n_levels",
+              "n_missing": "/factor_evidence/1/n_missing",
+              "partition_ari_range": "/factor_evidence/1/partition_ari_range"
+            },
+            "qualifications": {
+              "factor": "SET",
+              "role": "metadata",
+              "role_reference": "owner original_M exact source observation keys; supplemental raw FlexiblePCA3",
+              "duplicated_from_target": false,
+              "factor_memberships_available": false
+            }
+          },
+          {
+            "kind": "context",
+            "root": "/context",
+            "scope": {
+              "dataset_id": "zenodo_milk_composition_transmittance_nir",
+              "source_id": "X",
+              "content_version": "1.1.0",
+              "population_id": "saved-population:f6987f75b854ba8a8f450b05c81ae0fe0bbdfe807baa1e819a7ebf55bbe85b09",
+              "scope_kind": "full_source",
+              "representation": "raw",
+              "n_observations": 1224
+            },
+            "method": {
+              "owner": "source_documentation",
+              "name": "reported metadata availability",
+              "version": "R3d saved evidence projection",
+              "settings": {
+                "no_identity_reconstruction": true
+              },
+              "reference": "R3d scoped evidence matrix and qualified factor bindings"
+            },
+            "metrics": {
+              "physical_units_known": "/context/physical_units_known",
+              "reference_units_known": "/context/reference_units_known",
+              "acquisition_context_known": "/context/acquisition_context_known"
+            },
+            "qualifications": {}
+          }
+        ]
+      }
+    }
+  ]
+}

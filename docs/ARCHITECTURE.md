@@ -5,6 +5,14 @@ the Python transport. It changes only provider pins, the Preflight error accesso
 one qualified-provider table (`providers.py`) and the licence. Methods' new
 numerical-domain refusals surface as explicit `unavailable` statuses.
 
+The optional `nirs4all_domains.structural_warnings` companion reads existing
+reports through explicit source/population/representation-scoped JSON pointers.
+Its deterministic interpretation and Markdown renderer reuse D2 intent and
+content fingerprints; legacy report schemas, numerical metrics and consumers
+remain unchanged. Methods owns measured geometry/statistics, Preflight owns
+identity/integrity checks, and Domains owns conditional wording. See
+[the v1 contract](STRUCTURAL_WARNINGS_API.md).
+
 The optional Python [D3 comparison companion](COMPARISON_INTERPRETATION_API.md)
 reuses D2 interpretation, canonical hashes and strict schemas over two existing
 report objects. It assembles only RMSE subtraction/fractional change and reads

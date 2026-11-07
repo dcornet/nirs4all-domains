@@ -38,6 +38,16 @@ selected branches, noise, per-cluster persistence and observation support,
 keeping resampling robustness and independent-unit support distinct.
 The [public worked example](docs/examples/multiscale/README.md) retains the original tree.
 
+The optional [conditional structural warnings](docs/STRUCTURAL_WARNINGS_API.md)
+turn qualified saved evidence into concrete checks about physical units,
+experimental factors, representation sensitivity, observed spectral support and
+missing context. They reuse validation intent, work without Y and preserve
+predictions/metrics. Each caution states its prerequisites and scientific limits.
+
+```shell
+python -m nirs4all_domains.structural_warnings docs/examples/structural-warnings/tablet.report.json --request docs/examples/structural-warnings/tablet.request.json --out results/tablet-warnings.json
+```
+
 ```shell
 python -m nirs4all_domains.multiscale docs/examples/multiscale/source-report.json --out results/branches.json
 ```

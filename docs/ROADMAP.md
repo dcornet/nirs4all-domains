@@ -68,6 +68,13 @@ qualification; no bank campaign or universal model/validation selector follows.
 
 ## Separate research decisions
 
+The next bounded D1 increment, [conditional structural warnings v1](STRUCTURAL_WARNINGS_API.md),
+adds five interpretation families over saved evidence. Source-scoped observations
+motivate deployment-dependent checks; no failure probability, preferred splitter
+or preprocessing winner is inferred. Five qualified public factor examples and
+synthetic/adversarial tests preserve contrary cases. D4 remains the next product
+priority: validate these companions with one concrete report consumer.
+
 [R1–R5](STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md) covers mechanisms,
 multi-scale correspondence, deployment-dependent degradation, remedies and
 publication. The [boundary](PRODUCT_RESEARCH_BOUNDARY.md) assigns ownership;

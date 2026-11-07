@@ -295,3 +295,12 @@ remain native. Resampling, co-membership counts and classification are task
 protocol assembly. No public HDBSCAN held-out assignment was found in audited
 headers/catalog/bindings. Factor association was inspected for alpha.6
 specification only. Upstream scientific suites were not rerun or modified.
+
+## D1 conditional structural warnings v1
+
+`structural_warnings` reads existing Methods statistics, source documentation
+and qualified Preflight identity/reference findings. It reuses D2 pointer/hash
+and intended-use conventions. Domains owns deterministic wording and conditional
+checks; no numerical kernel, physical-identity inference, leakage engine,
+splitter or research-only warning engine is added. Synthetic native factor
+fixtures use the existing Methods-backed `unsupervised.factor_profile`.

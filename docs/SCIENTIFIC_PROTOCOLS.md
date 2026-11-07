@@ -312,3 +312,20 @@ validation and `scripts/check_report.py`. Noncomputed metrics require null value
 and a reason. Confidence is a qualitative evidence label, not a probability.
 Scientific coverage findings remain low-confidence until calibrated against a
 broader corpus. No global score or automatic sample exclusion is produced.
+
+## Conditional structural-warning interpretation v1
+
+Expected behavior was frozen in D1_WARNINGS_V1_PLAN.md before counterexample
+tests. `domains.structural_warnings.v1` emits five optional content-bound findings
+with existing status/reason/value semantics. Explicit source/content/population,
+representation/query and method settings qualify each observation. Qualitative
+observed/conditional/contradicted values are not risk grades. Missing information
+stays unavailable; all-noise, trivial and native refusal remain distinct.
+Non-Y factor associations and weak ARI can coexist. Only declared meaningful
+units or qualified Preflight identity/reference findings support dependence;
+X clusters and spectral duplicates do not establish specimen identities.
+Training-fitted support requires observed evaluation X and cannot characterize
+an unseen future population. No real fit, PCA, parameter search or numerical
+evidence change is involved. No significance/severity threshold is introduced;
+synthetic native factor checks use absolute tolerance 1e-12. See
+[the public contract](STRUCTURAL_WARNINGS_API.md).

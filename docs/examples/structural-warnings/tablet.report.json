@@ -1,0 +1,67 @@
+{
+  "origin": {
+    "R3d_report_sha256": "405bb711df75280a8ecc5ddbfd49dfd6f9cf631ab09f324b26306685fed28e31",
+    "row_index": 0,
+    "native_result_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+  },
+  "factor_evidence": [
+    {
+      "eta_squared": [
+        0.9793056177015933,
+        0.8192379628723995,
+        0.9370239457955439
+      ],
+      "partition_ari": {
+        "reason": null,
+        "status": "computed",
+        "value": 0.038110815186653484
+      },
+      "n_levels": 31,
+      "n_missing": 0,
+      "primary_X_only_eligible": true,
+      "factor": "batch",
+      "high_cardinality": false,
+      "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+      "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+      "evidence_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+    },
+    {
+      "eta_squared": [
+        0.008461128189322166,
+        0.2736181831329686,
+        0.6036686804281672
+      ],
+      "partition_ari": {
+        "reason": null,
+        "status": "computed",
+        "value": 0.047597386734030495
+      },
+      "n_levels": 3,
+      "n_missing": 0,
+      "primary_X_only_eligible": true,
+      "factor": "scale",
+      "high_cardinality": false,
+      "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units",
+      "crossed_design": "Separate marginal associations, not conditional/crossed-factor attribution; no new joint-factor inference.",
+      "evidence_sha256": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+    }
+  ],
+  "comparison": {
+    "parameter_ari_min": 0.986250843778543,
+    "cluster_counts": [
+      5,
+      4
+    ],
+    "noise_fractions": [
+      0.05806451612903226,
+      0.041935483870967745
+    ],
+    "all_noise_settings": 0,
+    "native_refusals": []
+  },
+  "context": {
+    "physical_units_known": false,
+    "reference_units_known": false,
+    "acquisition_context_known": false
+  }
+}

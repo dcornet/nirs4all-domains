@@ -43,6 +43,9 @@ jobs:
       - run: python scripts/generate_validation_intent_schema.py
       - run: python scripts/generate_multiscale_schema.py
       - run: python scripts/generate_comparison_schema.py
+      - run: python scripts/generate_structural_warnings_schema.py
+      - name: Read-only conditional structural warnings example
+        run: python -m nirs4all_domains.structural_warnings docs/examples/structural-warnings/tablet.report.json --request docs/examples/structural-warnings/tablet.request.json --out results/structural-warnings-ci.json
       - name: Validate proposed fragility research schema
         run: python -c "import json; from jsonschema import Draft202012Validator; s=json.load(open('schemas/structural-fragility-research.v2.schema.json')); Draft202012Validator.check_schema(s); Draft202012Validator(s).validate(json.load(open('docs/examples/structural-fragility-v2.design.json')))"
       - name: Product and research documentation continuity
