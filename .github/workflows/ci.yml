@@ -44,6 +44,9 @@ jobs:
       - run: python scripts/generate_multiscale_schema.py
       - run: python scripts/generate_comparison_schema.py
       - run: python scripts/generate_structural_warnings_schema.py
+      - run: python scripts/generate_standalone_report_schema.py
+      - name: Read-only standalone report example
+        run: python scripts/run_standalone_example.py --out results/standalone-tablet
       - name: Read-only conditional structural warnings example
         run: python -m nirs4all_domains.structural_warnings docs/examples/structural-warnings/tablet.report.json --request docs/examples/structural-warnings/tablet.request.json --out results/structural-warnings-ci.json
       - name: Validate proposed fragility research schema

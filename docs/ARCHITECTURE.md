@@ -5,6 +5,12 @@ the Python transport. It changes only provider pins, the Preflight error accesso
 one qualified-provider table (`providers.py`) and the licence. Methods' new
 numerical-domain refusals surface as explicit `unavailable` statuses.
 
+The optional [standalone report consumer](STANDALONE_REPORT_API.md) validates
+existing D1/D2/D3 companions through their original APIs and renders new offline
+HTML/Markdown/JSON views. Native Preflight evidence stays separate. It adds no
+report-body mutation, numerical provider, browser interpretation engine, HTTP
+service or source change to Preflight, Studio or Datasets.
+
 The optional `nirs4all_domains.structural_warnings` companion reads existing
 reports through explicit source/population/representation-scoped JSON pointers.
 Its deterministic interpretation and Markdown renderer reuse D2 intent and

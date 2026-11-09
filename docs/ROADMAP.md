@@ -89,3 +89,8 @@ The M1–M5 research-oriented roadmap is preserved at the immutable
 [v2 pilot](STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md), frozen H1–H5 and historical
 results remain unchanged. The [continuity manifest](research-continuity.json)
 references these records without moving or duplicating an archive.
+
+
+## D4 standalone report consumer delivered
+
+The optional [standalone consumer](STANDALONE_REPORT_API.md) now combines existing D1-D3 annotations in offline HTML/Markdown/JSON, with exact owner validation, source/population provenance and explicit missing/native states. Preflight, Studio and Datasets remain unchanged. Prior plans to modify the Preflight UI are superseded by the owner's standalone direction. Next priority is user feedback on these conditional checks and narrowly qualified additional saved-report adapters, not automatic fitting or a universal risk score.

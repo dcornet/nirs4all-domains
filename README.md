@@ -59,6 +59,17 @@ mechanism and validated-scope conclusions require their own supporting evidence.
 
 ## Which validation answers the intended prediction question?
 
+The [standalone report consumer](docs/STANDALONE_REPORT_API.md) brings existing
+D1/D2/D3 companions together in new HTML, Markdown and JSON artifacts. It validates
+each companion against its original report, preserves source/population scopes,
+and reads native Preflight reports without modifying Preflight or inventing
+missing annotations. The HTML opens offline without a server or scientific runtime.
+
+```shell
+python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
+python scripts/run_standalone_example.py --out results/tablet-review
+```
+
 | Intended use | Candidate evaluation, subject to actual dependencies | Supported interpretation |
 |---|---|---|
 | Within-experiment proof of concept | Representative/within-population validation with repeat and shared-reference controls | Exploitable X–Y relation within observed support, not independent transfer |

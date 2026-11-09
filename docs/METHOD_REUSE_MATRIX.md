@@ -304,3 +304,8 @@ and intended-use conventions. Domains owns deterministic wording and conditional
 checks; no numerical kernel, physical-identity inference, leakage engine,
 splitter or research-only warning engine is added. Synthetic native factor
 fixtures use the existing Methods-backed `unsupervised.factor_profile`.
+
+
+## D4 standalone report consumer v1
+
+Existing D1/D2/D3 validators own interpretation and numerical meaning. The new report_view module only presents validated records and native Preflight fields. No new kernel, source parser, model, scoring rule or upstream change is added. Missing identities/companions remain explicit; full-source and predictive evaluation scopes use separate cases until a crosswalk is qualified.

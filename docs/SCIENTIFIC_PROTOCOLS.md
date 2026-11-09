@@ -329,3 +329,8 @@ an unseen future population. No real fit, PCA, parameter search or numerical
 evidence change is involved. No significance/severity threshold is introduced;
 synthetic native factor checks use absolute tolerance 1e-12. See
 [the public contract](STRUCTURAL_WARNINGS_API.md).
+
+
+## Standalone presentation v1
+
+`domains.standalone_report.v1` validates existing companions against their original complete report hashes before rendering. It introduces no numerical protocol or scientific fit. Counts describe saved cases and annotations, not independent studies or risk incidence. Database/study grouping remains unknown when unestablished. HTML/Markdown escape source text; missing, contradictory and computed owner states retain their meanings. See STANDALONE_REPORT_API.md and the frozen D4 standalone execution plan in Research.
