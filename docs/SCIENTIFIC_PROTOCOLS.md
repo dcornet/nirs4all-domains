@@ -1,5 +1,13 @@
 # Scientific protocols — domains.canonical.v0.3
 
+D5 qualifies decision consistency using 20 frozen simulated-purpose scenarios
+over existing D1-D4 evidence. Source values, annotations and D1/D2/D3 rules stay
+unchanged; new annotations bind only the simulated objective through the existing
+APIs. Eighteen scenarios conform; two manure prerequisite-state discrepancies
+remain explicit. No numerical threshold or new scientific fit is introduced.
+Automated consistency is distinct from expert/user utility validation; see
+[the qualification and human-review limits](D5_WARNING_UTILITY.md).
+
 `domains.comparison_interpretation.v1` is a read-only optional D3 companion.
 The [pre-test behavior/resource plan](D3_COMPARISON_V1_PLAN.md) freezes exact
 identity/semantic comparisons, RMSE difference/fractional-change formulas,

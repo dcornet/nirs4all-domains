@@ -31,6 +31,15 @@ try {
   }
   const embedded = JSON.parse(await page.locator("#domains-view-data").textContent());
   assert.deepEqual(embedded, view);
+  if (process.env.D5_DECISION_CHECKS === "1") {
+    for (let i = 0; i < view.cases.length; i++) {
+      const section = page.locator(`#case-${i}`);
+      assert(await section.getByRole("heading", { name: "Declared prediction objective", exact: true }).isVisible());
+      assert(await section.getByRole("heading", { name: "Actual evaluation split", exact: true }).isVisible());
+    }
+    assert(await page.getByText("Original specimen/reference membership", { exact: true }).first().isVisible());
+    assert((await page.locator("body").innerText()).includes("does not mean that a new analysis is authorized or has been executed"));
+  }
   assert.equal(await page.evaluate(() => window.D4_INJECTION), undefined);
   assert.equal(await page.locator("meta[http-equiv='Content-Security-Policy']").count(), 1);
   await page.locator('nav a[href="#case-0"]').click();

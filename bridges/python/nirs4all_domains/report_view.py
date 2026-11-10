@@ -19,6 +19,11 @@ from .storage import encoded, fingerprint, safe_path
 
 PROTOCOL = "domains.standalone_report.v1"
 SCHEMA_PATH = Path(__file__).with_name("standalone-report.v1.schema.json")
+CHECK_AVAILABILITY_NOTE = (
+    "Testability describes referenced prerequisites. It does not mean that a new analysis is authorized or has been executed. "
+    "Review existing evidence where available; new fits require a separate protocol and authorization. "
+    "A check requiring information remains deferred until its original mappings or other stated prerequisites are available."
+)
 LIMITS = [
     "This report presents existing evidence; it fits no model, PCA or clustering.",
     "Warning hypotheses and checks are conditional, not probabilities of calibration failure or a global risk grade.",
@@ -295,7 +300,47 @@ def build_report(cases, title="Observations and conditional analyses to consider
 
 def _sections(case):
     """Common presentation sections; no scientific decision or numeric estimate."""
-    out = [
+    out = []
+    intent = case["companions"]["d2"]
+    if intent["status"] == "computed":
+        facts = intent["value"]["facts"]
+        out += [
+            ("Declared prediction objective", facts["intended_use"], "text"),
+            (
+                "Intended prediction population",
+                facts["prediction_population"]
+                or "Not supplied; conditional interpretations follow.",
+                "text",
+            ),
+            ("Intended prediction unit", facts["prediction_unit"], "text"),
+            (
+                "Actual evaluation split",
+                facts["split"]["family"]
+                + " / "
+                + (
+                    facts["split"].get("description")
+                    or "No further split description supplied."
+                ),
+                "text",
+            ),
+            (
+                "Declared dependency, factor and grouping evidence",
+                {
+                    k: facts[k]
+                    for k in ("dependencies", "factors", "groups", "transductive")
+                },
+                "json",
+            ),
+        ]
+    else:
+        out.append(
+            (
+                "Declared prediction objective",
+                "Unavailable: no validated intended-use companion supplied.",
+                "text",
+            )
+        )
+    out += [
         ("Source and scope", case["identity"], "json"),
         ("Source report hashes", case["source_reports"], "json"),
     ]
@@ -321,8 +366,8 @@ def _sections(case):
                 + (w["value"] or "unavailable")
             )
             if w["status"] != "computed":
-                out.append((label + " (not assessable)", w, "json"))
-                continue
+                label += " (not assessable)"
+                out.append(("Why this finding is not assessable", w["reason"], "text"))
             out += [
                 (label, w["reason"] or w["value"], "heading"),
                 (
@@ -340,7 +385,11 @@ def _sections(case):
                 ),
                 ("When could it matter?", w["conditions"], "list"),
                 ("What should be checked next?", w["recommended_checks"], "checks"),
-                ("Missing information", w["required_information"], "list"),
+                (
+                    "Information needed for interpretation",
+                    w["required_information"],
+                    "list",
+                ),
                 (
                     "Alternatives and limits",
                     [*w["alternative_explanations"], *w["limitations"]],
@@ -454,6 +503,7 @@ def _render_html(view):
         + esc(view["title"])
         + "</h1>",
         "<p>Saved observations, plausible methodological concerns, proposed checks and scientific limits. No global risk grade; an absent warning is not a safety certificate.</p>",
+        "<p>" + esc(CHECK_AVAILABILITY_NOTE) + "</p>",
         "<p>"
         + esc(
             str(view["coverage"]["n_cases"])
@@ -562,6 +612,8 @@ def _render_markdown(view):
         "# " + _md(view["title"]),
         "",
         *["- " + _md(v) for v in view["limitations"]],
+        "",
+        CHECK_AVAILABILITY_NOTE,
         "",
         "## Coverage",
         "",

@@ -93,4 +93,11 @@ references these records without moving or duplicating an archive.
 
 ## D4 standalone report consumer delivered
 
+The [D5 qualification](D5_WARNING_UTILITY.md) now exercises 20 frozen decision
+scenarios: 18 meet all expectations and two manure prerequisite-state discrepancies
+remain explicit. Presentation makes intended use and deferred checks visible,
+without changing D1-D3 rules. Next priority is the registered expert/user review
+and separately qualified execution-feasibility wording, not another scientific
+campaign, automatic risk grading or upstream consumer changes.
+
 The optional [standalone consumer](STANDALONE_REPORT_API.md) now combines existing D1-D3 annotations in offline HTML/Markdown/JSON, with exact owner validation, source/population provenance and explicit missing/native states. Preflight, Studio and Datasets remain unchanged. Prior plans to modify the Preflight UI are superseded by the owner's standalone direction. Next priority is user feedback on these conditional checks and narrowly qualified additional saved-report adapters, not automatic fitting or a universal risk score.

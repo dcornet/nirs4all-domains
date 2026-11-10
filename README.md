@@ -65,6 +65,12 @@ each companion against its original report, preserves source/population scopes,
 and reads native Preflight reports without modifying Preflight or inventing
 missing annotations. The HTML opens offline without a server or scientific runtime.
 
+The [D5 decision-consistency qualification](docs/D5_WARNING_UTILITY.md) tests
+contrasting simulated objectives on the same saved observations, including
+negative and unavailable cases. Intended use and deferred checks are visible;
+automated consistency is not expert-validated user effectiveness or a prediction
+of calibration failure.
+
 ```shell
 python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
 python scripts/run_standalone_example.py --out results/tablet-review

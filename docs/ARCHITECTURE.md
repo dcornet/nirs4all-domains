@@ -5,6 +5,12 @@ the Python transport. It changes only provider pins, the Preflight error accesso
 one qualified-provider table (`providers.py`) and the licence. Methods' new
 numerical-domain refusals surface as explicit `unavailable` statuses.
 
+D5 refines only the existing report consumer's presentation: objective/population
+and actual split appear first, and unavailable checks keep readable prerequisites.
+The original D1/D2/D3 interpreters, schemas and source hashes remain unchanged.
+Scientific decision scenarios and expert-review qualification belong in Research;
+Domains adds no second diagnostic or report engine.
+
 The optional [standalone report consumer](STANDALONE_REPORT_API.md) validates
 existing D1/D2/D3 companions through their original APIs and renders new offline
 HTML/Markdown/JSON views. Native Preflight evidence stays separate. It adds no

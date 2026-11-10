@@ -1,5 +1,12 @@
 # D4 standalone report consumer v1
 
+The [D5 qualification](D5_WARNING_UTILITY.md) refines presentation only: declared
+objective/population/unit and actual split appear before findings. Checks for
+unavailable findings remain readable, with original reasons and prerequisites.
+Testability flags do not authorize or certify execution. View/companion schemas,
+interpretation rules and hash validation stay unchanged; historical exports are
+not rewritten.
+
 `nirs4all_domains.report_view` reads existing reports and validates their original
 D1/D2/D3 companions before presenting observations, plausible methodological
 concerns, proposed checks and scientific limits. It produces standalone HTML,
