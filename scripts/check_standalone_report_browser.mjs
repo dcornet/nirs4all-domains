@@ -40,6 +40,13 @@ try {
     assert(await page.getByText("Original specimen/reference membership", { exact: true }).first().isVisible());
     assert((await page.locator("body").innerText()).includes("does not mean that a new analysis is authorized or has been executed"));
   }
+  if (process.env.D6_READINESS_CHECKS === "1") {
+    const count = view.cases.reduce((n, c) => n + (c.companions.readiness?.value.records.length ?? 0), 0);
+    assert.equal(await page.getByRole("heading", { name: "Independent readiness dimensions", exact: true }).count(), count);
+    for (const label of ["A. Observation evidence", "B. Verification inputs", "C. Protocol readiness", "D. Execution authorization", "E. Execution result"]) {
+      assert.equal(await page.getByText(label, { exact: true }).count(), count);
+    }
+  }
   assert.equal(await page.evaluate(() => window.D4_INJECTION), undefined);
   assert.equal(await page.locator("meta[http-equiv='Content-Security-Policy']").count(), 1);
   await page.locator('nav a[href="#case-0"]').click();

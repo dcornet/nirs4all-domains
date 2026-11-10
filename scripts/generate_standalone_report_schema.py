@@ -97,6 +97,8 @@ def schema():
             "limitations": {"type": "array", "items": text},
         }
     )
+    # Optional only: old reports do not acquire a new required companion slot.
+    case["properties"]["companions"]["properties"]["readiness"] = slot
     value.update(
         {
             "$schema": "https://json-schema.org/draft/2020-12/schema",

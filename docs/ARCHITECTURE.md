@@ -5,6 +5,12 @@ the Python transport. It changes only provider pins, the Preflight error accesso
 one qualified-provider table (`providers.py`) and the licence. Methods' new
 numerical-domain refusals surface as explicit `unavailable` statuses.
 
+D6 adds only an optional readiness declaration interpreter and a presentation
+slot in the existing consumer. It validates original report/D1/check/scope hashes
+and supplied receipt pointers. It does not modify D1/D2/D3 rules, fetch inputs,
+run analyses or create a workflow engine. Expert-review preparation and its
+coordinator-only expectations remain in Research.
+
 D5 refines only the existing report consumer's presentation: objective/population
 and actual split appear first, and unavailable checks keep readable prerequisites.
 The original D1/D2/D3 interpreters, schemas and source hashes remain unchanged.

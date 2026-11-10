@@ -15,6 +15,7 @@ from jsonschema import Draft202012Validator
 from . import comparison_interpretation as d3
 from . import structural_warnings as d1
 from . import validation_intent as d2
+from . import verification_readiness as readiness
 from .storage import encoded, fingerprint, safe_path
 
 PROTOCOL = "domains.standalone_report.v1"
@@ -121,6 +122,8 @@ def _case(spec):
         "d3",
         "comparison_report",
         "source_ref",
+        "readiness",
+        "readiness_receipts",
     }
     if (
         set(spec) - allowed
@@ -188,7 +191,7 @@ def _case(spec):
         if a1 is not None
         else Counter()
     )
-    return {
+    result = {
         "case_id": spec["case_id"],
         "label": spec.get("label", spec["case_id"]),
         "source_ref": spec.get("source_ref"),
@@ -209,6 +212,15 @@ def _case(spec):
         },
         "native_preflight": _native(report),
     }
+    extra = spec.get("readiness")
+    if extra is not None:
+        if a1 is None:
+            raise ValueError("READINESS_REQUIRES_ORIGINAL_D1_COMPANION")
+        readiness.validate_annotation(report, a1, extra, spec.get("readiness_receipts"))
+        result["companions"]["readiness"] = _slot(extra)
+    elif spec.get("readiness_receipts"):
+        raise ValueError("RECEIPTS_REQUIRE_READINESS_COMPANION")
+    return result
 
 
 def build_report(cases, title="Observations and conditional analyses to consider"):
@@ -278,8 +290,24 @@ def build_report(cases, title="Observations and conditional analyses to consider
             for k in ("observed", "conditional", "contradicted", "unavailable")
         },
         "companion_slot_counts": {
-            kind: dict(Counter(c["companions"][kind]["status"] for c in rows))
-            for kind in ("d1", "d2", "d3")
+            kind: dict(
+                Counter(
+                    c["companions"][kind]["status"]
+                    if kind in c["companions"]
+                    else "unavailable"
+                    for c in rows
+                )
+            )
+            for kind in (
+                "d1",
+                "d2",
+                "d3",
+                *(
+                    ["readiness"]
+                    if any("readiness" in c["companions"] for c in rows)
+                    else []
+                ),
+            )
         },
         "new_scientific_fits": 0,
         "interpretation": "Counts describe presented saved cases and existing annotations, not independent studies, new scientific observations or failure prevalence.",
@@ -296,6 +324,62 @@ def build_report(cases, title="Observations and conditional analyses to consider
         view
     )
     return view
+
+
+def _readiness_rows(record):
+    def label(state):
+        return (
+            str(state["value"])
+            if state["status"] == "computed"
+            else "unknown / " + state["reason"]
+        )
+
+    observation = record["observation_evidence"]
+    return [
+        (
+            "A. Observation evidence",
+            observation["measurement"]["status"]
+            + " / finding: "
+            + label(observation["finding"]),
+            record["scope"]["population_id"]
+            + " / "
+            + record["scope"]["representation"],
+        ),
+        (
+            "Applicability to objective",
+            label(record["applicability"]),
+            record["applicability"]["rationale"],
+        ),
+        (
+            "B. Verification inputs",
+            label(record["inputs"]),
+            "Requirement completeness is declared for this exact action.",
+        ),
+        (
+            "C. Protocol readiness",
+            label(record["protocol"]),
+            record["protocol"]["reference"]
+            or "No qualified protocol reference supplied.",
+        ),
+        (
+            "D. Execution authorization",
+            label(record["authorization"]),
+            record["authorization"]["reference"]
+            or "No explicit authorization reference supplied.",
+        ),
+        (
+            "E. Execution result",
+            label(record["execution"]),
+            (record["execution_receipt_evidence"] or {}).get(
+                "receipt_sha256", "No executed-action receipt asserted."
+            ),
+        ),
+        (
+            "Original D1 prerequisite flag",
+            record["legacy_testability"],
+            "Unchanged; does not determine B, C, D or E.",
+        ),
+    ]
 
 
 def _sections(case):
@@ -409,6 +493,48 @@ def _sections(case):
             ]
     else:
         out.append(("Structural warnings (D1) unavailable", a1["reason"], "text"))
+    extra = case["companions"].get("readiness")
+    if extra:
+        for record in extra["value"]["records"]:
+            out += [
+                (
+                    "Verification action: " + record["record_id"],
+                    record["action_kind"],
+                    "heading",
+                ),
+                ("Exact action and scope", record["action"], "text"),
+                (
+                    "Independent readiness dimensions",
+                    _readiness_rows(record),
+                    "readiness",
+                ),
+                (
+                    "Verification requirements",
+                    [
+                        r["name"]
+                        + " / accessible: "
+                        + str(r["accessible"])
+                        + " / "
+                        + (r["reference"] or "not documented")
+                        for r in record["inputs"]["requirements"]
+                    ],
+                    "list",
+                ),
+                ("Protocol declaration", record["protocol"]["details"], "json"),
+                ("What remains to be verified", record["next_steps"], "list"),
+                (
+                    "Actual execution receipt, exact action only",
+                    record["execution_receipt_evidence"],
+                    "json",
+                ),
+            ]
+        out.append(
+            (
+                "Readiness interpretation limits",
+                extra["value"]["limitations"],
+                "details",
+            )
+        )
     for kind in ("d2", "d3"):
         slot = case["companions"][kind]
         if slot["status"] != "computed":
@@ -561,6 +687,19 @@ def _render_html(view):
                         for check in value
                     )
                 )
+            elif kind == "readiness":
+                parts.append(
+                    "<h4>"
+                    + esc(title)
+                    + "</h4><table><thead><tr><th>Dimension</th><th>Recorded interpretation</th><th>Reference or scope</th></tr></thead><tbody>"
+                    + "".join(
+                        "<tr>"
+                        + "".join("<td>" + esc(v) + "</td>" for v in row)
+                        + "</tr>"
+                        for row in value
+                    )
+                    + "</tbody></table>"
+                )
             elif kind == "measurements":
                 parts.append(
                     "<h4>"
@@ -638,6 +777,13 @@ def _render_markdown(view):
                 ]
             elif kind in ("list", "details"):
                 lines += [*["- " + _md(v) for v in value], ""]
+            elif kind == "readiness":
+                lines += [
+                    "| Dimension | Recorded interpretation | Reference or scope |",
+                    "|---|---|---|",
+                    *["| " + " | ".join(_md(v) for v in row) + " |" for row in value],
+                    "",
+                ]
             elif kind == "checks":
                 for check in value:
                     lines += [
@@ -705,6 +851,8 @@ def main(argv=None):
     parser.add_argument("--d2")
     parser.add_argument("--d3")
     parser.add_argument("--comparison-report")
+    parser.add_argument("--readiness")
+    parser.add_argument("--receipt", action="append", default=[], metavar="NAME=JSON")
     parser.add_argument("--out", required=True)
     args = parser.parse_args(argv)
     protected = []
@@ -714,7 +862,15 @@ def main(argv=None):
         return d2._read(path)
 
     if args.manifest:
-        if args.report or args.d1 or args.d2 or args.d3 or args.comparison_report:
+        if (
+            args.report
+            or args.d1
+            or args.d2
+            or args.d3
+            or args.comparison_report
+            or args.readiness
+            or args.receipt
+        ):
             parser.error("Manifest and individual input options are mutually exclusive")
         manifest = read(args.manifest)
         if set(manifest) - {"title", "cases"}:
@@ -730,12 +886,19 @@ def main(argv=None):
                 "d2",
                 "d3",
                 "comparison_report",
+                "readiness",
+                "readiness_receipts",
             }:
                 raise ValueError("UNKNOWN_MANIFEST_CASE_FIELD")
             case = {k: row[k] for k in ("case_id", "label") if k in row}
-            for key in ("report", "d1", "d2", "d3", "comparison_report"):
+            for key in ("report", "d1", "d2", "d3", "comparison_report", "readiness"):
                 if row.get(key) is not None:
                     case[key] = read(safe_path(base, row[key]))
+            if "readiness_receipts" in row:
+                case["readiness_receipts"] = {
+                    name: read(safe_path(base, path))
+                    for name, path in row["readiness_receipts"].items()
+                }
             case["source_ref"] = row["report"]
             specs.append(case)
         title = manifest.get(
@@ -749,9 +912,16 @@ def main(argv=None):
             "source_ref": Path(args.report).name,
             "report": read(args.report),
         }
-        for key in ("d1", "d2", "d3", "comparison_report"):
+        for key in ("d1", "d2", "d3", "comparison_report", "readiness"):
             if getattr(args, key):
                 spec[key] = read(getattr(args, key))
+        if args.receipt:
+            spec["readiness_receipts"] = {}
+            for item in args.receipt:
+                name, separator, path = item.partition("=")
+                if not separator or not name or name in spec["readiness_receipts"]:
+                    raise ValueError("INVALID_OR_DUPLICATE_RECEIPT_ARGUMENT")
+                spec["readiness_receipts"][name] = read(path)
         specs = [spec]
         title = "Observations and conditional analyses to consider"
     result = export_report(specs, args.out, protected, title)

@@ -1,5 +1,13 @@
 # Scientific protocols — domains.canonical.v0.3
 
+`domains.verification_readiness.v1` is an optional source/check-scoped companion.
+Observation evidence, verification inputs, protocol, declared authority and
+actual execution are separate. D1's prerequisite flag keeps its original meaning;
+only an exact supplied receipt can support an executed-action statement. Unknown
+states remain explicit; no follow-up runs automatically. D6's38-case contract
+qualification is distinct from D5's frozen18/20 and from independent expert/user
+effectiveness. See [the API and scientific limits](VERIFICATION_READINESS_API.md).
+
 D5 qualifies decision consistency using 20 frozen simulated-purpose scenarios
 over existing D1-D4 evidence. Source values, annotations and D1/D2/D3 rules stay
 unchanged; new annotations bind only the simulated objective through the existing

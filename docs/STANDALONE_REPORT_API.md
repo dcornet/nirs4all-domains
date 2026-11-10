@@ -1,5 +1,12 @@
 # D4 standalone report consumer v1
 
+[D6 verification readiness](VERIFICATION_READINESS_API.md) is an optional
+source-bound companion over an original D1 check. Add `readiness` and optional
+`readiness_receipts` to a case/manifest; the CLI accepts `--readiness` and repeated
+`--receipt NAME=JSON`. Absence of the new slot preserves old view JSON exactly.
+Observation, verification data, protocol, authorization and execution stay
+separate; an available observation is not an executed analysis.
+
 The [D5 qualification](D5_WARNING_UTILITY.md) refines presentation only: declared
 objective/population/unit and actual split appear before findings. Checks for
 unavailable findings remain readable, with original reasons and prerequisites.

@@ -1,5 +1,12 @@
 # Domains product roadmap
 
+D6 implements optional verification readiness over the existing consumer and
+prepares an independent expert-review package in Research. Its38 frozen cases
+include eight expected invalid-binding refusals; no human reviews or scientific
+fits occur. D5's18/20 remains unchanged. Next priority is an explicitly authorized
+independent review under the prepared protocol, retaining disagreements and
+unknown physical/source limits without automatic new experiments.
+
 Domains provides reusable structural diagnostics and deployment-aware validation
 interpretation. Product objectives D1–D5 remain stable; releases update qualified
 capabilities, coverage, limitations and evidence. A research result is not a

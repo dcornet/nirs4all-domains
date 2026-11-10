@@ -4,6 +4,11 @@
 unchanged to Preflight 0.1.6, Methods 1.3.13 / ABI 2.20 and DAG-ML 0.3.44. No
 kernel moves into Domains; per-alpha provider versions below stay historical.
 
+D6 [verification readiness](VERIFICATION_READINESS_API.md) is documentary
+interpretation only: it reuses original D1 warnings/D2 intent/D3 context and the
+standalone consumer, adds no numerical operation, and changes no upstream owner.
+Receipt validation reads JSON pointers/content hashes; it never executes them.
+
 D3 comparison v1 uses existing D2 interpretation and storage binding; only
 scalar RMSE subtraction/ratio is local protocol assembly. Existing Methods/DAG
 scores, nulls and predictions are referenced unchanged. No fitting, numerical

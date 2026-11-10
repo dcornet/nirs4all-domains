@@ -71,6 +71,12 @@ negative and unavailable cases. Intended use and deferred checks are visible;
 automated consistency is not expert-validated user effectiveness or a prediction
 of calibration failure.
 
+The optional [verification-readiness companion](docs/VERIFICATION_READINESS_API.md)
+separates existing observation evidence, verification inputs, protocol readiness,
+declared authorization and actual execution. It preserves old warning semantics
+and requires an exact linked receipt before describing an action as executed.
+It neither grants permission nor runs the proposed check.
+
 ```shell
 python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
 python scripts/run_standalone_example.py --out results/tablet-review

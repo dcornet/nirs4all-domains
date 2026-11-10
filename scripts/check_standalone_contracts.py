@@ -16,6 +16,7 @@ def main():
     for pattern in (
         "test_report_view.py",
         "test_warning_utility.py",
+        "test_verification_readiness.py",
         "test_validation_intent.py",
         "test_comparison.py",
     ):
