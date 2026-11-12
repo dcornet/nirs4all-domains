@@ -16,6 +16,7 @@ from . import comparison_interpretation as d3
 from . import structural_warnings as d1
 from . import validation_intent as d2
 from . import verification_readiness as readiness
+from . import decision_summary as decision
 from .storage import encoded, fingerprint, safe_path
 
 PROTOCOL = "domains.standalone_report.v1"
@@ -124,6 +125,7 @@ def _case(spec):
         "source_ref",
         "readiness",
         "readiness_receipts",
+        "decision_summary",
     }
     if (
         set(spec) - allowed
@@ -132,6 +134,8 @@ def _case(spec):
     ):
         raise ValueError("INVALID_STANDALONE_CASE_SPECIFICATION")
     report = spec["report"]
+    if "decision_summary" in spec and type(spec["decision_summary"]) is not bool:
+        raise ValueError("DECISION_SUMMARY_BOOLEAN_REQUIRED")
     if not isinstance(report, dict):
         raise TypeError("REPORT_OBJECT_REQUIRED")
     fingerprint(report)
@@ -220,6 +224,8 @@ def _case(spec):
         result["companions"]["readiness"] = _slot(extra)
     elif spec.get("readiness_receipts"):
         raise ValueError("RECEIPTS_REQUIRE_READINESS_COMPANION")
+    if spec.get("decision_summary"):
+        result["decision_summary"] = decision.summarize(result)
     return result
 
 
@@ -228,6 +234,7 @@ def build_report(cases, title="Observations and conditional analyses to consider
     if not isinstance(cases, list) or not cases or len(cases) > 128:
         raise ValueError("ONE_TO_128_CASES_REQUIRED")
     rows = [_case(c) for c in cases]
+    decision.qualify_pairs(rows)
     if len({c["case_id"] for c in rows}) != len(rows):
         raise ValueError("DUPLICATE_CASE_ID")
     sources = [
@@ -385,6 +392,18 @@ def _readiness_rows(record):
 def _sections(case):
     """Common presentation sections; no scientific decision or numeric estimate."""
     out = []
+    summary = case.get("decision_summary")
+    if summary:
+        reading = decision.sections(summary)
+        out += reading[:5]
+        out.append(
+            (
+                "Detailed scientific evidence and original declarations",
+                "",
+                "detail_start",
+            )
+        )
+        out += reading[5:]
     intent = case["companions"]["d2"]
     if intent["status"] == "computed":
         facts = intent["value"]["facts"]
@@ -452,16 +471,30 @@ def _sections(case):
             if w["status"] != "computed":
                 label += " (not assessable)"
                 out.append(("Why this finding is not assessable", w["reason"], "text"))
+            description = (
+                w["observation"]["value"]["description"]
+                if w["observation"]["value"]
+                else w["observation"]["reason"]
+            )
+            if summary and w["warning_id"] == "preprocessing_dependent_organization":
+                label = "Qualified organization comparison / " + (
+                    w["value"] or "unavailable"
+                )
+                description = " ".join(m["description"] for m in summary["mechanisms"])
             out += [
                 (label, w["reason"] or w["value"], "heading"),
                 (
                     "What was observed?",
-                    w["observation"]["value"]["description"]
-                    if w["observation"]["value"]
-                    else w["observation"]["reason"],
+                    description,
                     "text",
                 ),
-                ("Conditional methodological hypothesis", w["risk_hypothesis"], "text"),
+                (
+                    "Historical conditional hypothesis (not an active finding when contradicted/unavailable)"
+                    if summary
+                    else "Conditional methodological hypothesis",
+                    w["risk_hypothesis"],
+                    "text",
+                ),
                 (
                     "Recorded measurements (unchanged)",
                     (w["observation"]["value"] or {}).get("measurements", []),
@@ -499,7 +532,13 @@ def _sections(case):
             out += [
                 (
                     "Verification action: " + record["record_id"],
-                    record["action_kind"],
+                    (
+                        decision._action_reading(record)
+                        + " Original declaration: "
+                        + record["action_kind"]
+                    )
+                    if summary
+                    else record["action_kind"],
                     "heading",
                 ),
                 ("Exact action and scope", record["action"], "text"),
@@ -653,7 +692,9 @@ def _render_html(view):
     for i, c in enumerate(view["cases"]):
         parts.append(f'<section id="case-{i}"><h2>{esc(c["label"])}</h2>')
         for title, value, kind in _sections(c):
-            if kind == "json":
+            if kind == "detail_start":
+                parts.append("<details><summary>" + esc(title) + "</summary>")
+            elif kind == "json":
                 parts.append(
                     "<details><summary>"
                     + esc(title)
@@ -729,6 +770,8 @@ def _render_html(view):
                         else "<p>" + esc(value) + "</p>"
                     )
                 )
+        if c.get("decision_summary"):
+            parts.append("</details>")
         parts.append("</section>")
     # No executable script. JSON is preserved as escaped text, with exact hashes.
     parts += [
@@ -852,6 +895,11 @@ def main(argv=None):
     parser.add_argument("--d3")
     parser.add_argument("--comparison-report")
     parser.add_argument("--readiness")
+    parser.add_argument(
+        "--decision-summary",
+        action="store_true",
+        help="Add the optional D6.1 decision reading; preserve original annotations",
+    )
     parser.add_argument("--receipt", action="append", default=[], metavar="NAME=JSON")
     parser.add_argument("--out", required=True)
     args = parser.parse_args(argv)
@@ -888,9 +936,12 @@ def main(argv=None):
                 "comparison_report",
                 "readiness",
                 "readiness_receipts",
+                "decision_summary",
             }:
                 raise ValueError("UNKNOWN_MANIFEST_CASE_FIELD")
             case = {k: row[k] for k in ("case_id", "label") if k in row}
+            if "decision_summary" in row:
+                case["decision_summary"] = row["decision_summary"]
             for key in ("report", "d1", "d2", "d3", "comparison_report", "readiness"):
                 if row.get(key) is not None:
                     case[key] = read(safe_path(base, row[key]))
@@ -924,6 +975,9 @@ def main(argv=None):
                 spec["readiness_receipts"][name] = read(path)
         specs = [spec]
         title = "Observations and conditional analyses to consider"
+    if args.decision_summary:
+        for spec in specs:
+            spec["decision_summary"] = True
     result = export_report(specs, args.out, protected, title)
     print(json.dumps({"protocol": PROTOCOL, "cases": len(specs), "artifacts": result}))
 

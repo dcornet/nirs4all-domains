@@ -1,5 +1,9 @@
 # D4 standalone report consumer v1
 
+[D6.1 decision reading](DECISION_SUMMARY_API.md) is optional: set a case's
+`decision_summary=true` or pass `--decision-summary`. HTML/Markdown/JSON share
+one derived semantic object; default historical exports remain unchanged.
+
 [D6 verification readiness](VERIFICATION_READINESS_API.md) is an optional
 source-bound companion over an original D1 check. Add `readiness` and optional
 `readiness_receipts` to a case/manifest; the CLI accepts `--readiness` and repeated

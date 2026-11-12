@@ -344,3 +344,8 @@ wall-clock timestamps and durations from the scientific payload. A sanitized
 task hash intentionally excludes hidden Y_test; the native binary hash records
 the selected numerical provider. This is scientific reproducibility rather than
 a full raw-file chain-of-custody record.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

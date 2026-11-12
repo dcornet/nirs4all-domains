@@ -99,6 +99,30 @@ def schema():
     )
     # Optional only: old reports do not acquire a new required companion slot.
     case["properties"]["companions"]["properties"]["readiness"] = slot
+    case["properties"]["decision_summary"] = obj(
+        {
+            "protocol_version": {"const": "domains.decision_summary.v1"},
+            **{
+                k: {"type": "array", "items": text}
+                for k in (
+                    "observed",
+                    "why_it_may_matter",
+                    "verify_now",
+                    "additional_requirements",
+                    "not_established",
+                )
+            },
+            **{
+                k: {"type": "array", "items": {"type": "object"}}
+                for k in (
+                    "mechanisms",
+                    "factor_questions",
+                    "selected_readiness_checks",
+                    "paired_representation_counts",
+                )
+            },
+        }
+    )
     value.update(
         {
             "$schema": "https://json-schema.org/draft/2020-12/schema",

@@ -31,6 +31,30 @@ try {
   }
   const embedded = JSON.parse(await page.locator("#domains-view-data").textContent());
   assert.deepEqual(embedded, view);
+  if (process.env.D6_1_DECISION_CHECKS === "1") {
+    for (let i = 0; i < view.cases.length; i++) {
+      const section = page.locator(`#case-${i}`);
+      const summary = view.cases[i].decision_summary;
+      assert(summary && summary.protocol_version === "domains.decision_summary.v1");
+      for (const name of ["What was observed", "Why it could matter here", "What the analyst can verify now", "What needs further information or authorization", "What is not established"]) {
+        assert(await section.getByRole("heading", {name, exact:true}).isVisible());
+      }
+      for (const text of summary.verify_now.slice(0,2)) {
+        assert(await section.getByText(text, {exact:true}).first().isVisible());
+      }
+      const disclosure = section.locator(":scope > details").first();
+      assert.equal(await disclosure.getAttribute("open"), null);
+      if (view.cases[i].companions.d2.status === "computed") {
+        assert.equal(await section.getByRole("heading", {name:"Actual evaluation split",exact:true}).isVisible(),false);
+      }
+      await disclosure.locator(":scope > summary").click();
+      assert.notEqual(await disclosure.getAttribute("open"), null);
+      if (view.cases[i].companions.d2.status === "computed") {
+        assert(await section.getByRole("heading", {name:"Actual evaluation split",exact:true}).isVisible());
+      }
+      await disclosure.locator(":scope > summary").click();
+    }
+  }
   if (process.env.D5_DECISION_CHECKS === "1") {
     for (let i = 0; i < view.cases.length; i++) {
       const section = page.locator(`#case-${i}`);
@@ -42,7 +66,7 @@ try {
   }
   if (process.env.D6_READINESS_CHECKS === "1") {
     const count = view.cases.reduce((n, c) => n + (c.companions.readiness?.value.records.length ?? 0), 0);
-    assert.equal(await page.getByRole("heading", { name: "Independent readiness dimensions", exact: true }).count(), count);
+    assert.equal(await page.getByRole("heading", { name: "Independent readiness dimensions", exact: true, includeHidden: process.env.D6_1_DECISION_CHECKS === "1" }).count(), count);
     for (const label of ["A. Observation evidence", "B. Verification inputs", "C. Protocol readiness", "D. Execution authorization", "E. Execution result"]) {
       assert.equal(await page.getByText(label, { exact: true }).count(), count);
     }
@@ -57,6 +81,7 @@ try {
   assert.deepEqual(errors, []);
   assert(requests.every(url => url.startsWith("file:")), "Unexpected network resource");
   const receipt = { browser: browser.version(), cases: view.cases.length, canonical_dataset_ids: view.coverage.canonical_dataset_ids, original_database_count: view.coverage.original_database_count, source_view_matches: true, embedded_json_exact: true, network_resources: 0, executable_scripts: 0, fitting_calls: 0, html_sha256: hash(readFileSync(prefix + ".html")), markdown_sha256: hash(readFileSync(prefix + ".md")), json_sha256: hash(readFileSync(prefix + ".json")) };
+  if (process.env.D6_1_DECISION_CHECKS === "1") receipt.decision_summaries_checked = view.cases.length;
   writeFileSync(resolve(output, "browser-receipt.json"), JSON.stringify(receipt, null, 2) + "\n");
   console.log(JSON.stringify({ cases: view.cases.length, source_view_matches: true, embedded_json_exact: true, network_resources: 0, fitting_calls: 0 }));
 } finally { await browser.close(); }

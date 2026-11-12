@@ -314,3 +314,8 @@ fixtures use the existing Methods-backed `unsupervised.factor_profile`.
 ## D4 standalone report consumer v1
 
 Existing D1/D2/D3 validators own interpretation and numerical meaning. The new report_view module only presents validated records and native Preflight fields. No new kernel, source parser, model, scoring rule or upstream change is added. Missing identities/companions remain explicit; full-source and predictive evaluation scopes use separate cases until a crosswalk is qualified.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

@@ -631,6 +631,81 @@
                 }
               }
             ]
+          },
+          "decision_summary": {
+            "type": "object",
+            "properties": {
+              "protocol_version": {
+                "const": "domains.decision_summary.v1"
+              },
+              "observed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "why_it_may_matter": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verify_now": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "additional_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "not_established": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "mechanisms": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "factor_questions": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "selected_readiness_checks": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "paired_representation_counts": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "required": [
+              "protocol_version",
+              "observed",
+              "why_it_may_matter",
+              "verify_now",
+              "additional_requirements",
+              "not_established",
+              "mechanisms",
+              "factor_questions",
+              "selected_readiness_checks",
+              "paired_representation_counts"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [

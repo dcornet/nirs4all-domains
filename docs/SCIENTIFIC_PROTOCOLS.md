@@ -350,3 +350,8 @@ synthetic native factor checks use absolute tolerance 1e-12. See
 ## Standalone presentation v1
 
 `domains.standalone_report.v1` validates existing companions against their original complete report hashes before rendering. It introduces no numerical protocol or scientific fit. Counts describe saved cases and annotations, not independent studies or risk incidence. Database/study grouping remains unknown when unestablished. HTML/Markdown escape source text; missing, contradictory and computed owner states retain their meanings. See STANDALONE_REPORT_API.md and the frozen D4 standalone execution plan in Research.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

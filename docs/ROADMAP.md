@@ -108,3 +108,8 @@ and separately qualified execution-feasibility wording, not another scientific
 campaign, automatic risk grading or upstream consumer changes.
 
 The optional [standalone consumer](STANDALONE_REPORT_API.md) now combines existing D1-D3 annotations in offline HTML/Markdown/JSON, with exact owner validation, source/population provenance and explicit missing/native states. Preflight, Studio and Datasets remain unchanged. Prior plans to modify the Preflight UI are superseded by the owner's standalone direction. Next priority is user feedback on these conditional checks and narrowly qualified additional saved-report adapters, not automatic fitting or a universal risk score.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

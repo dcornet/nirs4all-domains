@@ -77,6 +77,12 @@ declared authorization and actual execution. It preserves old warning semantics
 and requires an exact linked receipt before describing an action as executed.
 It neither grants permission nor runs the proposed check.
 
+The optional [D6.1 decision reading](docs/DECISION_SUMMARY_API.md) distinguishes
+density settings from spectral representation changes, documentary checks from
+new calculations, and conditional deployment questions from the selected D6
+checks. Add `--decision-summary` to the existing report command for a compact
+reading followed by expandable original evidence. It changes no scientific values.
+
 ```shell
 python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
 python scripts/run_standalone_example.py --out results/tablet-review
