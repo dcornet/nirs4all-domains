@@ -83,6 +83,11 @@ new calculations, and conditional deployment questions from the selected D6
 checks. Add `--decision-summary` to the existing report command for a compact
 reading followed by expandable original evidence. It changes no scientific values.
 
+[D1–D6.1 integration notes](docs/D1_D6_1_INTEGRATION.md) describe baseline,
+licence/provider preservation and verification. Historical release pages retain
+their original execution scope; a feature branch becomes `main` only after review
+and an explicitly authorized merge.
+
 ```shell
 python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
 python scripts/run_standalone_example.py --out results/tablet-review
