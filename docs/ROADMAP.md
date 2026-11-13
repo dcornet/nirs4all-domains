@@ -1,5 +1,12 @@
 # Domains product roadmap
 
+D6 implements optional verification readiness over the existing consumer and
+prepares an independent expert-review package in Research. Its38 frozen cases
+include eight expected invalid-binding refusals; no human reviews or scientific
+fits occur. D5's18/20 remains unchanged. Next priority is an explicitly authorized
+independent review under the prepared protocol, retaining disagreements and
+unknown physical/source limits without automatic new experiments.
+
 Domains provides reusable structural diagnostics and deployment-aware validation
 interpretation. Product objectives D1–D5 remain stable; releases update qualified
 capabilities, coverage, limitations and evidence. A research result is not a
@@ -68,6 +75,13 @@ qualification; no bank campaign or universal model/validation selector follows.
 
 ## Separate research decisions
 
+The next bounded D1 increment, [conditional structural warnings v1](STRUCTURAL_WARNINGS_API.md),
+adds five interpretation families over saved evidence. Source-scoped observations
+motivate deployment-dependent checks; no failure probability, preferred splitter
+or preprocessing winner is inferred. Five qualified public factor examples and
+synthetic/adversarial tests preserve contrary cases. D4 remains the next product
+priority: validate these companions with one concrete report consumer.
+
 [R1–R5](STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md) covers mechanisms,
 multi-scale correspondence, deployment-dependent degradation, remedies and
 publication. The [boundary](PRODUCT_RESEARCH_BOUNDARY.md) assigns ownership;
@@ -82,3 +96,20 @@ The M1–M5 research-oriented roadmap is preserved at the immutable
 [v2 pilot](STRUCTURAL_FRAGILITY_V2_PILOT_PLAN.md), frozen H1–H5 and historical
 results remain unchanged. The [continuity manifest](research-continuity.json)
 references these records without moving or duplicating an archive.
+
+
+## D4 standalone report consumer delivered
+
+The [D5 qualification](D5_WARNING_UTILITY.md) now exercises 20 frozen decision
+scenarios: 18 meet all expectations and two manure prerequisite-state discrepancies
+remain explicit. Presentation makes intended use and deferred checks visible,
+without changing D1-D3 rules. Next priority is the registered expert/user review
+and separately qualified execution-feasibility wording, not another scientific
+campaign, automatic risk grading or upstream consumer changes.
+
+The optional [standalone consumer](STANDALONE_REPORT_API.md) now combines existing D1-D3 annotations in offline HTML/Markdown/JSON, with exact owner validation, source/population provenance and explicit missing/native states. Preflight, Studio and Datasets remain unchanged. Prior plans to modify the Preflight UI are superseded by the owner's standalone direction. Next priority is user feedback on these conditional checks and narrowly qualified additional saved-report adapters, not automatic fitting or a universal risk score.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

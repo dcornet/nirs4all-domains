@@ -38,6 +38,16 @@ selected branches, noise, per-cluster persistence and observation support,
 keeping resampling robustness and independent-unit support distinct.
 The [public worked example](docs/examples/multiscale/README.md) retains the original tree.
 
+The optional [conditional structural warnings](docs/STRUCTURAL_WARNINGS_API.md)
+turn qualified saved evidence into concrete checks about physical units,
+experimental factors, representation sensitivity, observed spectral support and
+missing context. They reuse validation intent, work without Y and preserve
+predictions/metrics. Each caution states its prerequisites and scientific limits.
+
+```shell
+python -m nirs4all_domains.structural_warnings docs/examples/structural-warnings/tablet.report.json --request docs/examples/structural-warnings/tablet.request.json --out results/tablet-warnings.json
+```
+
 ```shell
 python -m nirs4all_domains.multiscale docs/examples/multiscale/source-report.json --out results/branches.json
 ```
@@ -48,6 +58,40 @@ concern**, **empirical sensitivity**, **scientific mechanism hypothesis** and
 mechanism and validated-scope conclusions require their own supporting evidence.
 
 ## Which validation answers the intended prediction question?
+
+The [standalone report consumer](docs/STANDALONE_REPORT_API.md) brings existing
+D1/D2/D3 companions together in new HTML, Markdown and JSON artifacts. It validates
+each companion against its original report, preserves source/population scopes,
+and reads native Preflight reports without modifying Preflight or inventing
+missing annotations. The HTML opens offline without a server or scientific runtime.
+
+The [D5 decision-consistency qualification](docs/D5_WARNING_UTILITY.md) tests
+contrasting simulated objectives on the same saved observations, including
+negative and unavailable cases. Intended use and deferred checks are visible;
+automated consistency is not expert-validated user effectiveness or a prediction
+of calibration failure.
+
+The optional [verification-readiness companion](docs/VERIFICATION_READINESS_API.md)
+separates existing observation evidence, verification inputs, protocol readiness,
+declared authorization and actual execution. It preserves old warning semantics
+and requires an exact linked receipt before describing an action as executed.
+It neither grants permission nor runs the proposed check.
+
+The optional [D6.1 decision reading](docs/DECISION_SUMMARY_API.md) distinguishes
+density settings from spectral representation changes, documentary checks from
+new calculations, and conditional deployment questions from the selected D6
+checks. Add `--decision-summary` to the existing report command for a compact
+reading followed by expandable original evidence. It changes no scientific values.
+
+[D1–D6.1 integration notes](docs/D1_D6_1_INTEGRATION.md) describe baseline,
+licence/provider preservation and verification. Historical release pages retain
+their original execution scope; a feature branch becomes `main` only after review
+and an explicitly authorized merge.
+
+```shell
+python -m nirs4all_domains.report_view existing-report.json --d1 warnings.json --out results/review
+python scripts/run_standalone_example.py --out results/tablet-review
+```
 
 | Intended use | Candidate evaluation, subject to actual dependencies | Supported interpretation |
 |---|---|---|

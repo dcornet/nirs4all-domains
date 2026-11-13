@@ -1,0 +1,73 @@
+name: warning-report-contracts
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  readonly:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare interpretation schemas before packaging
+        shell: pwsh
+        run: |
+          python -B scripts/generate_structural_warnings_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/generate_standalone_report_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/generate_verification_readiness_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Install the bridge without optional numerical providers
+        run: python -m pip install ./bridges/python
+      - name: D1-D6.1 read-only contracts and documentation
+        shell: pwsh
+        run: |
+          python -B scripts/check_standalone_contracts.py --receipt results/warning-contracts.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/check_product_research_docs.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Warning and consumer schema parity
+        shell: pwsh
+        run: |
+          python -B scripts/generate_structural_warnings_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/generate_standalone_report_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/generate_verification_readiness_schema.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git diff --exit-code -- schemas bridges/python/nirs4all_domains
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Public read-only standalone, readiness and decision examples
+        shell: pwsh
+        run: |
+          python -B scripts/run_standalone_example.py --out results/public-standalone
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/run_verification_readiness_example.py --out results/public-readiness
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B -m nirs4all_domains.report_view docs/examples/structural-warnings/tablet.report.json --d1 docs/examples/structural-warnings/tablet.annotation.json --decision-summary --out results/public-decision
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Offline desktop and mobile browser contracts
+        shell: pwsh
+        run: |
+          npm install --prefix .audit/ci-tools playwright-core@1.58.2 --ignore-scripts --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:D4_PLAYWRIGHT_MODULE = Join-Path $PWD '.audit/ci-tools/node_modules/playwright-core'
+          node scripts/check_standalone_report_browser.mjs results/public-standalone .audit/browser-standalone
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:D6_READINESS_CHECKS = '1'
+          node scripts/check_standalone_report_browser.mjs results/public-readiness .audit/browser-readiness
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:D6_1_DECISION_CHECKS = '1'
+          node scripts/check_standalone_report_browser.mjs results/public-decision .audit/browser-decision
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

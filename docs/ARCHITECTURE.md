@@ -5,6 +5,32 @@ the Python transport. It changes only provider pins, the Preflight error accesso
 one qualified-provider table (`providers.py`) and the licence. Methods' new
 numerical-domain refusals surface as explicit `unavailable` statuses.
 
+D6 adds only an optional readiness declaration interpreter and a presentation
+slot in the existing consumer. It validates original report/D1/check/scope hashes
+and supplied receipt pointers. It does not modify D1/D2/D3 rules, fetch inputs,
+run analyses or create a workflow engine. Expert-review preparation and its
+coordinator-only expectations remain in Research.
+
+D5 refines only the existing report consumer's presentation: objective/population
+and actual split appear first, and unavailable checks keep readable prerequisites.
+The original D1/D2/D3 interpreters, schemas and source hashes remain unchanged.
+Scientific decision scenarios and expert-review qualification belong in Research;
+Domains adds no second diagnostic or report engine.
+
+The optional [standalone report consumer](STANDALONE_REPORT_API.md) validates
+existing D1/D2/D3 companions through their original APIs and renders new offline
+HTML/Markdown/JSON views. Native Preflight evidence stays separate. It adds no
+report-body mutation, numerical provider, browser interpretation engine, HTTP
+service or source change to Preflight, Studio or Datasets.
+
+The optional `nirs4all_domains.structural_warnings` companion reads existing
+reports through explicit source/population/representation-scoped JSON pointers.
+Its deterministic interpretation and Markdown renderer reuse D2 intent and
+content fingerprints; legacy report schemas, numerical metrics and consumers
+remain unchanged. Methods owns measured geometry/statistics, Preflight owns
+identity/integrity checks, and Domains owns conditional wording. See
+[the v1 contract](STRUCTURAL_WARNINGS_API.md).
+
 The optional Python [D3 comparison companion](COMPARISON_INTERPRETATION_API.md)
 reuses D2 interpretation, canonical hashes and strict schemas over two existing
 report objects. It assembles only RMSE subtraction/fractional change and reads
@@ -318,3 +344,8 @@ wall-clock timestamps and durations from the scientific payload. A sanitized
 task hash intentionally excludes hidden Y_test; the native binary hash records
 the selected numerical provider. This is scientific reproducibility rather than
 a full raw-file chain-of-custody record.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

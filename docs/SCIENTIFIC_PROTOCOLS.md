@@ -1,5 +1,21 @@
 # Scientific protocols — domains.canonical.v0.3
 
+`domains.verification_readiness.v1` is an optional source/check-scoped companion.
+Observation evidence, verification inputs, protocol, declared authority and
+actual execution are separate. D1's prerequisite flag keeps its original meaning;
+only an exact supplied receipt can support an executed-action statement. Unknown
+states remain explicit; no follow-up runs automatically. D6's38-case contract
+qualification is distinct from D5's frozen18/20 and from independent expert/user
+effectiveness. See [the API and scientific limits](VERIFICATION_READINESS_API.md).
+
+D5 qualifies decision consistency using 20 frozen simulated-purpose scenarios
+over existing D1-D4 evidence. Source values, annotations and D1/D2/D3 rules stay
+unchanged; new annotations bind only the simulated objective through the existing
+APIs. Eighteen scenarios conform; two manure prerequisite-state discrepancies
+remain explicit. No numerical threshold or new scientific fit is introduced.
+Automated consistency is distinct from expert/user utility validation; see
+[the qualification and human-review limits](D5_WARNING_UTILITY.md).
+
 `domains.comparison_interpretation.v1` is a read-only optional D3 companion.
 The [pre-test behavior/resource plan](D3_COMPARISON_V1_PLAN.md) freezes exact
 identity/semantic comparisons, RMSE difference/fractional-change formulas,
@@ -312,3 +328,30 @@ validation and `scripts/check_report.py`. Noncomputed metrics require null value
 and a reason. Confidence is a qualitative evidence label, not a probability.
 Scientific coverage findings remain low-confidence until calibrated against a
 broader corpus. No global score or automatic sample exclusion is produced.
+
+## Conditional structural-warning interpretation v1
+
+Expected behavior was frozen in D1_WARNINGS_V1_PLAN.md before counterexample
+tests. `domains.structural_warnings.v1` emits five optional content-bound findings
+with existing status/reason/value semantics. Explicit source/content/population,
+representation/query and method settings qualify each observation. Qualitative
+observed/conditional/contradicted values are not risk grades. Missing information
+stays unavailable; all-noise, trivial and native refusal remain distinct.
+Non-Y factor associations and weak ARI can coexist. Only declared meaningful
+units or qualified Preflight identity/reference findings support dependence;
+X clusters and spectral duplicates do not establish specimen identities.
+Training-fitted support requires observed evaluation X and cannot characterize
+an unseen future population. No real fit, PCA, parameter search or numerical
+evidence change is involved. No significance/severity threshold is introduced;
+synthetic native factor checks use absolute tolerance 1e-12. See
+[the public contract](STRUCTURAL_WARNINGS_API.md).
+
+
+## Standalone presentation v1
+
+`domains.standalone_report.v1` validates existing companions against their original complete report hashes before rendering. It introduces no numerical protocol or scientific fit. Counts describe saved cases and annotations, not independent studies or risk incidence. Database/study grouping remains unknown when unestablished. HTML/Markdown escape source text; missing, contradictory and computed owner states retain their meanings. See STANDALONE_REPORT_API.md and the frozen D4 standalone execution plan in Research.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.

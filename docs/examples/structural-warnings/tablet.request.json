@@ -1,0 +1,229 @@
+{
+  "source": {
+    "dataset_id": "ucph_tablet_nir",
+    "source_id": "X",
+    "content_version": "1.1.0",
+    "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+    "scope_kind": "full_source",
+    "representation": "raw",
+    "n_observations": 310,
+    "identity_scope": "current_canonical_id",
+    "references": [
+      "https://ucphchemometrics.com/tablet/",
+      "https://ucphchemometrics.com/datasets/"
+    ],
+    "original_source_identifiers": [
+      "source-url:ucphchemometrics.com/tablet"
+    ],
+    "provenance_group": "provenance:08babb771919a7e25a3d5a87",
+    "original_study_family": null,
+    "study_reference": null
+  },
+  "evidence": [
+    {
+      "kind": "representation",
+      "root": "/comparison",
+      "scope": {
+        "dataset_id": "ucph_tablet_nir",
+        "source_id": "X",
+        "content_version": "1.1.0",
+        "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+        "scope_kind": "full_source",
+        "representation": "raw",
+        "n_observations": 310
+      },
+      "method": {
+        "owner": "Methods",
+        "name": "frozen native PCA/neighborhood/HDBSCAN evidence",
+        "version": "P1",
+        "settings": {
+          "representation": "raw",
+          "population_scope": "full_source",
+          "query_support": {
+            "n_query": 64,
+            "scope": "outcome-blind fixed queries against full retained reference; original self excluded"
+          },
+          "native_settings_receipt": "15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c",
+          "preprocessing": {
+            "family": "raw",
+            "method_id": null,
+            "parameters": {}
+          },
+          "actual_native_configuration": {
+            "PCA": {
+              "retained_components": 20,
+              "backend": "Methods FlexiblePCA public fit/transform; affine operator via coordinate queries; variances via Methods summaries"
+            },
+            "HDBSCAN": [
+              {
+                "status": "computed",
+                "reason": null,
+                "min_cluster_size": 8,
+                "min_samples": 4
+              },
+              {
+                "status": "computed",
+                "reason": null,
+                "min_cluster_size": 12,
+                "min_samples": 4
+              }
+            ],
+            "query_design": {
+              "mode": "query_subset",
+              "n_query": 64,
+              "n_source": 310,
+              "sampling": "fixed simple random query sample; complete original reference retained",
+              "seed": 12017
+            },
+            "provider": {
+              "binary_sha256": "6390d0c81f97015c68b7da9a0cedeae854ea900c01fb85b4a4cf72d69dea5a2d",
+              "version": "1.3.14+abi.2.20.0"
+            },
+            "native_profile_request_sha256": "71363bca40548f88200a09ddfa4d41fa042e39e96651653bd6d52a83f0eb9b12"
+          },
+          "comparison_kind": "raw_to_declared_representation_or_density_settings",
+          "settings_definitions": "P1/P2b/alpha12/alpha17 original frozen native receipts; per-case settings are not pooled across generations."
+        },
+        "reference": "R3d exact profile receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+      },
+      "metrics": {
+        "parameter_ari_min": "/comparison/parameter_ari_min",
+        "cluster_counts": "/comparison/cluster_counts",
+        "noise_fractions": "/comparison/noise_fractions",
+        "all_noise_settings": "/comparison/all_noise_settings",
+        "native_refusals": "/comparison/native_refusals"
+      },
+      "qualifications": {
+        "admissible": true,
+        "matched_observations": true,
+        "matched_queries": false,
+        "representations": [
+          "raw"
+        ],
+        "comparison_kind": "density_parameter"
+      }
+    },
+    {
+      "kind": "factor_geometry",
+      "root": "/factor_evidence/0",
+      "scope": {
+        "dataset_id": "ucph_tablet_nir",
+        "source_id": "X",
+        "content_version": "1.1.0",
+        "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+        "scope_kind": "full_source",
+        "representation": "raw",
+        "n_observations": 310
+      },
+      "method": {
+        "owner": "Methods",
+        "name": "factor_association / native partition agreement",
+        "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+        "settings": {
+          "PCs": "first3 retained native profile PC axes",
+          "permutations": 0,
+          "missing_factor_rows": 0,
+          "high_cardinality": false,
+          "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+        },
+        "reference": "Exact source association receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+      },
+      "metrics": {
+        "eta_squared": "/factor_evidence/0/eta_squared",
+        "partition_ari": "/factor_evidence/0/partition_ari",
+        "n_levels": "/factor_evidence/0/n_levels",
+        "n_missing": "/factor_evidence/0/n_missing"
+      },
+      "qualifications": {
+        "factor": "batch",
+        "role": "metadata",
+        "role_reference": "owner observation-keyed curated metadata",
+        "duplicated_from_target": false,
+        "factor_memberships_available": false
+      }
+    },
+    {
+      "kind": "factor_geometry",
+      "root": "/factor_evidence/1",
+      "scope": {
+        "dataset_id": "ucph_tablet_nir",
+        "source_id": "X",
+        "content_version": "1.1.0",
+        "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+        "scope_kind": "full_source",
+        "representation": "raw",
+        "n_observations": 310
+      },
+      "method": {
+        "owner": "Methods",
+        "name": "factor_association / native partition agreement",
+        "version": "frozen P0/P1-P2b Methods1.3.14 ABI2.20",
+        "settings": {
+          "PCs": "first3 retained native profile PC axes",
+          "permutations": 0,
+          "missing_factor_rows": 0,
+          "high_cardinality": false,
+          "weighting": "one vote per acquisition; repeated acquisitions are not independent biological units"
+        },
+        "reference": "Exact source association receipt SHA256:15adafafc3b0bb082cee6e9bb5085422c73a0bff9755852a06554d479f34798c"
+      },
+      "metrics": {
+        "eta_squared": "/factor_evidence/1/eta_squared",
+        "partition_ari": "/factor_evidence/1/partition_ari",
+        "n_levels": "/factor_evidence/1/n_levels",
+        "n_missing": "/factor_evidence/1/n_missing"
+      },
+      "qualifications": {
+        "factor": "scale",
+        "role": "metadata",
+        "role_reference": "owner observation-keyed curated metadata",
+        "duplicated_from_target": false,
+        "factor_memberships_available": false
+      }
+    },
+    {
+      "kind": "context",
+      "root": "/context",
+      "scope": {
+        "dataset_id": "ucph_tablet_nir",
+        "source_id": "X",
+        "content_version": "1.1.0",
+        "population_id": "saved-population:7fab9c8f7422a1cf4f827843d1775e8d6836c136bf41b4bcd1564c2572a2a858",
+        "scope_kind": "full_source",
+        "representation": "raw",
+        "n_observations": 310
+      },
+      "method": {
+        "owner": "source_documentation",
+        "name": "reported metadata availability",
+        "version": "R3d saved evidence projection",
+        "settings": {
+          "no_identity_reconstruction": true
+        },
+        "reference": "R3d scoped evidence matrix and qualified factor bindings"
+      },
+      "metrics": {
+        "physical_units_known": "/context/physical_units_known",
+        "reference_units_known": "/context/reference_units_known",
+        "acquisition_context_known": "/context/acquisition_context_known"
+      },
+      "qualifications": {}
+    }
+  ],
+  "validation_intent": {
+    "intended_use": "outside_context",
+    "prediction_population": "Future production batches on the documented tablet process",
+    "prediction_unit": "new_context",
+    "factors": [
+      {
+        "name": "batch",
+        "kind": "block",
+        "relevant_to_intent": true,
+        "excluded": null,
+        "evidence": "declared",
+        "reference": "Qualified original batch metadata in the referenced evidence",
+        "relationship": "Batch/acquisition and assay confounding must be checked; no physical independence claimed."
+      }
+    ]
+  }
+}

@@ -4,6 +4,11 @@
 unchanged to Preflight 0.1.6, Methods 1.3.13 / ABI 2.20 and DAG-ML 0.3.44. No
 kernel moves into Domains; per-alpha provider versions below stay historical.
 
+D6 [verification readiness](VERIFICATION_READINESS_API.md) is documentary
+interpretation only: it reuses original D1 warnings/D2 intent/D3 context and the
+standalone consumer, adds no numerical operation, and changes no upstream owner.
+Receipt validation reads JSON pointers/content hashes; it never executes them.
+
 D3 comparison v1 uses existing D2 interpretation and storage binding; only
 scalar RMSE subtraction/ratio is local protocol assembly. Existing Methods/DAG
 scores, nulls and predictions are referenced unchanged. No fitting, numerical
@@ -295,3 +300,22 @@ remain native. Resampling, co-membership counts and classification are task
 protocol assembly. No public HDBSCAN held-out assignment was found in audited
 headers/catalog/bindings. Factor association was inspected for alpha.6
 specification only. Upstream scientific suites were not rerun or modified.
+
+## D1 conditional structural warnings v1
+
+`structural_warnings` reads existing Methods statistics, source documentation
+and qualified Preflight identity/reference findings. It reuses D2 pointer/hash
+and intended-use conventions. Domains owns deterministic wording and conditional
+checks; no numerical kernel, physical-identity inference, leakage engine,
+splitter or research-only warning engine is added. Synthetic native factor
+fixtures use the existing Methods-backed `unsupervised.factor_profile`.
+
+
+## D4 standalone report consumer v1
+
+Existing D1/D2/D3 validators own interpretation and numerical meaning. The new report_view module only presents validated records and native Preflight fields. No new kernel, source parser, model, scoring rule or upstream change is added. Missing identities/companions remain explicit; full-source and predictive evaluation scopes use separate cases until a crosswalk is qualified.
+
+
+## D6.1 optional decision reading
+
+The existing standalone consumer optionally derives a compact source-scoped decision reading from validated D1/D2/D3/D6 companions. It separates density parameters, representation/neighborhood evidence, documentary prerequisites and proposed calculations. No new metrics, kernels, split choice, grant, numerical experiment or external repository change. Historical annotations and default view JSON remain unchanged; exact-state/hash comparisons use no numerical tolerance or severity threshold. See DECISION_SUMMARY_API.md and the separately frozen Research24-case D6.1 correction matrix.
