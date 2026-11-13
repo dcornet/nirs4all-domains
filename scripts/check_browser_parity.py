@@ -84,7 +84,7 @@ def versions(value):
     if isinstance(value, dict):
         for key, child in value.items():
             if key == "backend_version":
-                assert child == "1.3.13", ("provider_version", child)
+                assert child == "1.3.13+abi.2.20.0", ("provider_version", child)
             else:
                 versions(child)
     elif isinstance(value, list):
@@ -109,7 +109,7 @@ def main():
         assert result["new_real_scientific_fits"] == 0
         assert set(result["reports"]) == {f["id"] for f in fixtures["fixtures"]}
         versions(result["reports"])
-    assert wasm["provider"]["version"] == "1.3.13"
+    assert wasm["provider"]["version"] == "1.3.13+abi.2.20.0"
     for fixture in fixtures["fixtures"]:
         name = fixture["id"]
         a, b = native["reports"][name], wasm["reports"][name]

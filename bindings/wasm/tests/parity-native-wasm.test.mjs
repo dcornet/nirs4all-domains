@@ -10,7 +10,7 @@ import { createDomainsRuntime } from '../index.js';
 test('produce real WASM parity reports from the common synthetic fixtures',async()=>{
   const bytes=await readFile(new URL('../native/nirs4all_domains_bg.wasm',import.meta.url));
   const runtime=await createDomainsRuntime({wasmModule:bytes});
-  assert.equal(runtime.provider.version,'1.3.13');
+  assert.equal(runtime.provider.version,'1.3.13+abi.2.20.0');
   const fixtureBytes=await readFile(new URL('./parity-fixtures.json',import.meta.url));
   const fixtures=JSON.parse(fixtureBytes);
   const reports={};

@@ -9,16 +9,6 @@
       "name": "@nirs4all/domains",
       "version": "0.1.0-alpha.17",
       "license": "CECILL-2.1 OR AGPL-3.0-or-later",
-      "resolved": null,
-      "integrity": null,
-      "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
-    },
-    {
-      "name": "@nirs4all/domains",
-      "version": "0.1.0-alpha.17",
-      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
       "resolved": "file:../bindings/wasm",
       "integrity": null,
       "source": "local workspace binding; generated WASM is built from the locked Rust workspace"
@@ -30,8 +20,7 @@
       "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
       "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "@nirs4all/io-wasm",
@@ -40,8 +29,7 @@
       "resolved": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz",
       "integrity": "sha512-zjF4zpf/Shoae4AUJU8uHCTW/i0KZZWJByvgkVRLfVkRZGT/OAKyV1mHqPi51h1XuSqHAaKLXczwKczen03qKg==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "@nirs4all/methods",
@@ -50,8 +38,7 @@
       "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
       "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA==",
       "lockfile": "bindings/wasm/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "ajv",
@@ -60,8 +47,7 @@
       "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.17.1.tgz",
       "integrity": "sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "fast-deep-equal",
@@ -70,8 +56,7 @@
       "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
       "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "fast-uri",
@@ -80,8 +65,7 @@
       "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
       "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "json-schema-traverse",
@@ -90,8 +74,7 @@
       "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz",
       "integrity": "sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "nirs4all-ui",
@@ -100,8 +83,7 @@
       "resolved": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz",
       "integrity": "sha512-ghuJQADFkn2nPCFYZn2hbS+Q0UBNkFnlB4wP+rMm+8UGtAVIKtjKcDtkUNToiOAGceyDhKM/RYS0MppSIaxaxQ==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "react",
@@ -110,8 +92,7 @@
       "resolved": "https://registry.npmjs.org/react/-/react-19.2.3.tgz",
       "integrity": "sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "react-dom",
@@ -120,8 +101,7 @@
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.3.tgz",
       "integrity": "sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "require-from-string",
@@ -130,8 +110,7 @@
       "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
       "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     },
     {
       "name": "scheduler",
@@ -140,17 +119,16 @@
       "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz",
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==",
       "lockfile": "demo/package-lock.json",
-      "localPath": null,
-      "installPath": null
+      "localPath": null
     }
   ],
   "installed_notice_packages": [
     {
-      "name": "nirs4all-ui",
-      "version": "0.2.1",
-      "license": "(CECILL-2.1 OR AGPL-3.0-or-later)",
-      "resolved": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz",
-      "integrity": "sha512-ghuJQADFkn2nPCFYZn2hbS+Q0UBNkFnlB4wP+rMm+8UGtAVIKtjKcDtkUNToiOAGceyDhKM/RYS0MppSIaxaxQ=="
+      "name": "@nirs4all/formats-wasm",
+      "version": "0.2.14",
+      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
+      "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA=="
     },
     {
       "name": "@nirs4all/io-wasm",
@@ -160,11 +138,46 @@
       "integrity": "sha512-zjF4zpf/Shoae4AUJU8uHCTW/i0KZZWJByvgkVRLfVkRZGT/OAKyV1mHqPi51h1XuSqHAaKLXczwKczen03qKg=="
     },
     {
-      "name": "@nirs4all/formats-wasm",
-      "version": "0.2.14",
-      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
-      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
-      "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA=="
+      "name": "@nirs4all/methods",
+      "version": "1.3.13",
+      "license": "CECILL-2.1",
+      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
+      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA=="
+    },
+    {
+      "name": "ajv",
+      "version": "8.17.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.17.1.tgz",
+      "integrity": "sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g=="
+    },
+    {
+      "name": "fast-deep-equal",
+      "version": "3.1.3",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz",
+      "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
+    },
+    {
+      "name": "fast-uri",
+      "version": "3.1.9",
+      "license": "BSD-3-Clause",
+      "resolved": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz",
+      "integrity": "sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ=="
+    },
+    {
+      "name": "json-schema-traverse",
+      "version": "1.0.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz",
+      "integrity": "sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug=="
+    },
+    {
+      "name": "nirs4all-ui",
+      "version": "0.2.1",
+      "license": "(CECILL-2.1 OR AGPL-3.0-or-later)",
+      "resolved": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz",
+      "integrity": "sha512-ghuJQADFkn2nPCFYZn2hbS+Q0UBNkFnlB4wP+rMm+8UGtAVIKtjKcDtkUNToiOAGceyDhKM/RYS0MppSIaxaxQ=="
     },
     {
       "name": "react",
@@ -181,18 +194,18 @@
       "integrity": "sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg=="
     },
     {
+      "name": "require-from-string",
+      "version": "2.0.2",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
+      "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw=="
+    },
+    {
       "name": "scheduler",
       "version": "0.27.0",
       "license": "MIT",
       "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz",
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="
-    },
-    {
-      "name": "@nirs4all/methods",
-      "version": "1.3.13",
-      "license": "CECILL-2.1",
-      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA=="
     }
   ],
   "methods_notice_source": {
@@ -274,161 +287,191 @@
       "origin": "repository LICENSES/CeCILL-2.1.txt"
     },
     {
-      "path": "packages/@nirs4all/formats-wasm/THIRD_PARTY_NOTICES.md",
+      "path": "packages/@nirs4all/formats-wasm/0.2.14/THIRD_PARTY_NOTICES.md",
       "sha256": "39e06e5ca05c5bc5bab725d15f2eb28bfde7c33d79906c9f38534b7bb731a34a",
       "bytes": 2630,
       "origin": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/COPY_PROVENANCE.md",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/COPY_PROVENANCE.md",
       "sha256": "9046c670f0f2ffe119a8d9ad5286ad29bf5d89d620058a41283e454b5c05c015",
       "bytes": 3133,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/COPY_PROVENANCE.md"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSE",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSE",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
       "bytes": 34020,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSE"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/AGPL-3.0-or-later.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/AGPL-3.0-or-later.txt",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
       "bytes": 34020,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/AGPL-3.0-or-later.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/Apache-2.0.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/Apache-2.0.txt",
       "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
       "bytes": 9723,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/Apache-2.0.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/BSD-3-Clause.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/BSD-3-Clause.txt",
       "sha256": "3cf06aba3588c41c514f6946bb2d757b413ff6491647d474800f55edca75dcb4",
       "bytes": 1459,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/BSD-3-Clause.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/CeCILL-2.1.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/CeCILL-2.1.txt",
       "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
       "bytes": 21778,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/CeCILL-2.1.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/COMMERCIAL-LICENSE_FR.md",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/COMMERCIAL-LICENSE_FR.md",
       "sha256": "7d1fd841891d4cb53836a6aca2fbbf7f36ef3bca540a394a9d94633af34ea3d6",
       "bytes": 759,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/COMMERCIAL-LICENSE_FR.md"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/COMMERCIAL-LICENSE.md",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/COMMERCIAL-LICENSE.md",
       "sha256": "e62a66dc45d618d419706048b17a840f87d0c0c5c940eadd1cf6ea13c7eae08f",
       "bytes": 670,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/COMMERCIAL-LICENSE.md"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/MIT.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/MIT.txt",
       "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
       "bytes": 1078,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/MIT.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSES/Unicode-3.0.txt",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSES/Unicode-3.0.txt",
       "sha256": "f7db81051789b729fea528a63ec4c938fdcb93d9d61d97dc8cc2e9df6d47f2a1",
       "bytes": 1995,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSES/Unicode-3.0.txt"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/LICENSING.md",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/LICENSING.md",
       "sha256": "b41ad1d4b8e62c89e42704fc4c9b5bb8a2099a0ad0680d72e95efb57c5d3326c",
       "bytes": 2113,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/LICENSING.md"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/nirs4all-io-wasm.cdx.json",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/nirs4all-io-wasm.cdx.json",
       "sha256": "3a86cfebaa19ffe93cd6e9085d8a7c26cb191f81d6333dfb39e8eb7e474c5786",
       "bytes": 34808,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/nirs4all-io-wasm.cdx.json"
     },
     {
-      "path": "packages/@nirs4all/io-wasm/THIRD_PARTY_NOTICES.md",
+      "path": "packages/@nirs4all/io-wasm/0.2.14/THIRD_PARTY_NOTICES.md",
       "sha256": "c2f5c9061e7bc5a259a2d630330930ce9438f157e9646724824730ce516a5179",
       "bytes": 5732,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSE",
+      "path": "packages/ajv/8.17.1/LICENSE",
+      "sha256": "a05350a88e318e4f5f2c2a1ff1e2e88daa4dd38e6e78b71cccae422bdc762cc3",
+      "bytes": 1090,
+      "origin": "https://registry.npmjs.org/ajv/-/ajv-8.17.1.tgz/LICENSE"
+    },
+    {
+      "path": "packages/fast-deep-equal/3.1.3/LICENSE",
+      "sha256": "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a",
+      "bytes": 1074,
+      "origin": "https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz/LICENSE"
+    },
+    {
+      "path": "packages/fast-uri/3.1.9/LICENSE",
+      "sha256": "b010b0dfdfdb23d7396e03b82cd4621fc9bb8f95d6b0aea70b9c24e12074c786",
+      "bytes": 1813,
+      "origin": "https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.9.tgz/LICENSE"
+    },
+    {
+      "path": "packages/json-schema-traverse/1.0.0/LICENSE",
+      "sha256": "7bf9b2de73a6b356761c948d0e9eeb4be6c1270bd04c79cd489c1e400ffdfc1a",
+      "bytes": 1074,
+      "origin": "https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz/LICENSE"
+    },
+    {
+      "path": "packages/nirs4all-ui/0.2.1/LICENSE",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
       "bytes": 34020,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSE"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/AGPL-3.0-or-later.txt",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/AGPL-3.0-or-later.txt",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
       "bytes": 34020,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/AGPL-3.0-or-later.txt"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/Apache-2.0.txt",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/Apache-2.0.txt",
       "sha256": "074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff",
       "bytes": 10280,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/Apache-2.0.txt"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/CeCILL-2.1.txt",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/CeCILL-2.1.txt",
       "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
       "bytes": 21778,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/CeCILL-2.1.txt"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/COMMERCIAL-LICENSE_FR.md",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/COMMERCIAL-LICENSE_FR.md",
       "sha256": "4411d56899820ff31de623c308b6f4a2ac7d5fefb4b49e2b56cf3939889168ae",
       "bytes": 759,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/COMMERCIAL-LICENSE_FR.md"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/COMMERCIAL-LICENSE.md",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/COMMERCIAL-LICENSE.md",
       "sha256": "b9e3872363e1e86b83f0e6edd43db7c745afa302b8aa017896b084b432d332a1",
       "bytes": 670,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/COMMERCIAL-LICENSE.md"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSES/MIT.txt",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSES/MIT.txt",
       "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
       "bytes": 1078,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSES/MIT.txt"
     },
     {
-      "path": "packages/nirs4all-ui/LICENSING.md",
+      "path": "packages/nirs4all-ui/0.2.1/LICENSING.md",
       "sha256": "d7cc987d29b8891432114882c857d6677c16a7dae22f698663c8721db1f57dfd",
       "bytes": 2053,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/LICENSING.md"
     },
     {
-      "path": "packages/nirs4all-ui/THIRD_PARTY_NOTICES.md",
+      "path": "packages/nirs4all-ui/0.2.1/THIRD_PARTY_NOTICES.md",
       "sha256": "d86e12f7c604f6be02946892ca6f11b92db69351d0fb8ae525ed71870e08372a",
       "bytes": 1251,
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.1.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
-      "path": "packages/react-dom/LICENSE",
+      "path": "packages/react-dom/19.2.3/LICENSE",
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
       "origin": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.3.tgz/LICENSE"
     },
     {
-      "path": "packages/react/LICENSE",
+      "path": "packages/react/19.2.3/LICENSE",
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
       "origin": "https://registry.npmjs.org/react/-/react-19.2.3.tgz/LICENSE"
     },
     {
-      "path": "packages/scheduler/LICENSE",
+      "path": "packages/require-from-string/2.0.2/license",
+      "sha256": "6ee0feb1f6ef996ff5a68600f8cf98909cf412d39ef3cdceaefd87d636fa1b7f",
+      "bytes": 1128,
+      "origin": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz/license"
+    },
+    {
+      "path": "packages/scheduler/0.27.0/LICENSE",
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
       "origin": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz/LICENSE"
     }
   ],
-  "generated_file_bytes": 318889
+  "generated_file_bytes": 325068
 }

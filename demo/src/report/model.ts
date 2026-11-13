@@ -20,6 +20,13 @@ export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
         hypothesis: 'The relevance of dependencies depends on the intended prediction unit and context.', relevance: report.interpretation.observation,
         verification: report.interpretation.action, limitation: report.interpretation.qualification,
         confidence: report.interpretation.confidence, evidenceIds: [report.evidence_sha256] },
+      ...report.interpretation.conditional_scenarios.map((scenario): UiFinding => ({
+        id: `conditional-${scenario.intended_use}`, title: scenario.question, status: 'conditional',
+        observation: 'The intended prediction population has not been specified.',
+        hypothesis: report.interpretation.consequence, relevance: scenario.question,
+        verification: report.interpretation.action, limitation: scenario.not_established,
+        confidence: 'Conditional scenario, not a selected protocol', evidenceIds: [report.evidence_sha256],
+      })),
     ],
     evidence: Object.entries(report.metrics).map(([id, evidence]) => ({ id,
       method: id === 'pca' ? 'Methods PCA via the public Preflight provider' : `Methods / Domains ${id}`,

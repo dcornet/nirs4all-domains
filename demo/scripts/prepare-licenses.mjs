@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -10,6 +10,12 @@ const maxFileBytes = 512 * 1024;
 const maxOutputBytes = 2 * 1024 * 1024;
 const generated = [];
 let outputBytes = 0;
+
+for (const name of ['families', 'packages']) {
+  const target = resolve(publicRoot, name);
+  if (!target.startsWith(`${resolve(publicRoot)}${sep}`)) throw new Error('Refusing to clean a path outside demo/public/licenses');
+  await rm(target, { recursive: true, force: true });
+}
 
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const normalized = path => path.split(sep).join('/');
@@ -46,13 +52,14 @@ async function readJson(path) { return JSON.parse(await readFile(path, 'utf8'));
 
 function collectLockPackages(lock, lockName, sourceRoot) {
   return Object.entries(lock.packages ?? {}).flatMap(([path, entry]) => {
-    if (!path || entry.link === true || entry.dev === true || entry.devOptional === true) return [];
+    if (!path.startsWith('node_modules/') || entry.link === true || entry.dev === true || entry.devOptional === true ||
+        (entry.resolved && !entry.integrity && !entry.resolved.startsWith('https://registry.npmjs.org/'))) return [];
     const pkgPath = path.startsWith('node_modules/') ? path.slice('node_modules/'.length) : path;
     const scopeEnd = pkgPath.startsWith('@') ? pkgPath.indexOf('/', pkgPath.indexOf('/') + 1) : -1;
     const name = entry.name ?? (scopeEnd > 0 ? pkgPath.slice(0, scopeEnd) : pkgPath);
     return [{ name, version: entry.version ?? null, license: entry.license ?? 'UNDECLARED', resolved: entry.resolved ?? null,
       integrity: entry.integrity ?? null, lockfile: lockName, localPath: entry.resolved?.startsWith('file:') ? entry.resolved : null,
-      installPath: entry.resolved?.startsWith('file:') ? resolve(sourceRoot, entry.resolved.slice(5)) : null }];
+      installPath: resolve(sourceRoot, path) }];
   });
 }
 
@@ -63,7 +70,7 @@ const packages = [
   ...collectLockPackages(demoLock, 'demo/package-lock.json', demo),
   ...collectLockPackages(bindingLock, 'bindings/wasm/package-lock.json', bindingDir),
 ];
-const uniquePackages = [...new Map(packages.map(pkg => [`${pkg.name}@${pkg.version ?? 'local'}|${pkg.lockfile}`, pkg])).values()]
+const uniquePackages = [...new Map(packages.map(pkg => [`${pkg.name}@${pkg.version ?? 'local'}`, pkg])).values()]
   .sort((a, b) => a.name.localeCompare(b.name) || String(a.version).localeCompare(String(b.version)) || a.lockfile.localeCompare(b.lockfile));
 
 // Core license choices for this application and its dual-licensed NIRS packages.
@@ -71,21 +78,14 @@ for (const file of ['CeCILL-2.1.txt', 'AGPL-3.0-or-later.txt']) {
   await copyAllowed(join(root, 'LICENSES', file), join(publicRoot, 'families', file), `repository LICENSES/${file}`);
 }
 
-const packageCopies = [
-  ['nirs4all-ui', join(demo, 'node_modules', 'nirs4all-ui')],
-  ['@nirs4all/io-wasm', join(demo, 'node_modules', '@nirs4all', 'io-wasm')],
-  ['@nirs4all/formats-wasm', join(demo, 'node_modules', '@nirs4all', 'formats-wasm')],
-  ['react', join(demo, 'node_modules', 'react')],
-  ['react-dom', join(demo, 'node_modules', 'react-dom')],
-  ['scheduler', join(demo, 'node_modules', 'scheduler')],
-];
 const installedMetadata = [];
-for (const [name, packageRoot] of packageCopies) {
+for (const locked of uniquePackages) {
+  const packageRoot = locked.installPath;
+  if (!packageRoot || locked.name === '@nirs4all/domains') continue;
   const metadata = await readJson(join(packageRoot, 'package.json'));
-  const locked = uniquePackages.find(pkg => pkg.name === name && pkg.version === metadata.version);
-  if (!locked) throw new Error(`No matching lockfile entry for ${name}@${metadata.version}`);
-  await copyNoticeTree(packageRoot, join(publicRoot, 'packages', name), locked.resolved ?? `installed package ${name}`);
-  installedMetadata.push({ name, version: metadata.version, license: metadata.license ?? 'UNDECLARED', resolved: locked.resolved, integrity: locked.integrity });
+  if (locked.version !== metadata.version) throw new Error(`Lockfile version mismatch for ${locked.name}: ${locked.version} != ${metadata.version}`);
+  await copyNoticeTree(packageRoot, join(publicRoot, 'packages', locked.name, metadata.version), locked.resolved ?? `installed package ${locked.name}`);
+  installedMetadata.push({ name: locked.name, version: metadata.version, license: metadata.license ?? 'UNDECLARED', resolved: locked.resolved, integrity: locked.integrity });
 }
 
 const methodsVersion = '1.3.13';
@@ -94,8 +94,6 @@ if (!methodsLock || methodsLock.license !== 'CECILL-2.1') {
   throw new Error(`Expected locked @nirs4all/methods@${methodsVersion} with the exact CECILL-2.1 npm license declaration`);
 }
 const methodsCommit = 'fa8ff57603ec23bce95f73d52170285e8f3e2861';
-installedMetadata.push({ name: '@nirs4all/methods', version: methodsVersion, license: methodsLock.license,
-  resolved: methodsLock.resolved, integrity: methodsLock.integrity });
 const localDomains = await readJson(join(bindingDir, 'package.json'));
 const localDomainsPackage = { name: localDomains.name, version: localDomains.version, license: localDomains.license,
   resolved: 'file:../bindings/wasm', integrity: null, source: 'local workspace binding; generated WASM is built from the locked Rust workspace' };
@@ -120,7 +118,9 @@ for (const path of methodsSourceFiles) {
 const manifest = {
   schema_version: 1,
   source_lockfiles: ['demo/package-lock.json', 'bindings/wasm/package-lock.json'],
-  packages: [...uniquePackages, localDomainsPackage].sort((a, b) => a.name.localeCompare(b.name) || String(a.version).localeCompare(String(b.version))),
+  packages: [...uniquePackages.map(({ name, version, license, resolved, integrity, lockfile, localPath }) =>
+    ({ name, version, license, resolved, integrity, lockfile, localPath })), localDomainsPackage]
+    .sort((a, b) => a.name.localeCompare(b.name) || String(a.version).localeCompare(String(b.version))),
   installed_notice_packages: installedMetadata,
   methods_notice_source: {
     name: '@nirs4all/methods', version: methodsVersion, license_declared_by_npm: methodsLock.license,
@@ -135,7 +135,7 @@ await writeFile(join(publicRoot, 'dependency-manifest.json'), `${JSON.stringify(
 const lines = [
   '# Browser demo dependency and license notices', '',
   'This document is generated by `node demo/scripts/prepare-licenses.mjs` from the two checked-in npm lockfiles and the installed packages. `dependency-manifest.json` records each locked package source URL, npm integrity, license metadata, and hashes for the copied notices. It is not a substitute for the original license terms.', '',
-  '## Direct browser runtime packages', '',
+  '## Pinned browser dependency tree', '',
   '| Package | Version | License declared by package | Source archive | Integrity |',
   '|---|---:|---|---|---|',
 ];

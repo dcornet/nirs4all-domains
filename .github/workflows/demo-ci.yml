@@ -1,6 +1,7 @@
 name: Domains browser qualification
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -91,6 +92,8 @@ jobs:
           name: domains-demo-preview-${{ matrix.os }}
           path: demo/dist/
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: domains-wasm-binding-${{ matrix.os }}
           path: bindings/wasm/native/
+          if-no-files-found: warn

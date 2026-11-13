@@ -11,7 +11,7 @@ const analytical = {schema_version:1,dataset_id:'analytical-three-row',source_id
   observation_ids:['a','b','c'],axis:[1000],axis_unit:'nm',spectra:[[0],[1],[2]],prediction_intent:'unknown'};
 
 test('actual Domains WASM invokes published Methods PCA and neighbors',()=>{
-  assert.equal(runtime.provider.version,'1.3.13');
+  assert.equal(runtime.provider.version,'1.3.13+abi.2.20.0');
   assert.equal(runtime.provider.abi[0],2);
   assert.ok(runtime.provider.abi[1]>=20);
   const report=runtime.analyze(analytical);
