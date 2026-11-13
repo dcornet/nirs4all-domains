@@ -41,4 +41,9 @@ describe('Single semantic model and original saved evidence', () => {
     Object.assign(value.cases[0].identity, { status: 'unavailable', reason: 'SOURCE_IDENTITY_NOT_CARRIED', value: null });
     expect(savedView(value).dataset.observations).toBeNull();
   });
+  it('keeps the one-component display limitation in the offline figure labels', () => {
+    const view = savedView(source);
+    view.pca = { points: [{ id: 'one-PC', x: 1, y: 0 }], eigenvalues: [1], totalVariance: 1, xLabel: 'PC1', yLabel: 'PC2 unavailable; displayed at zero' };
+    expect(serializeReport(reportModel(view, source, 'unknown', 'en'), 'html')).toContain('PC2 unavailable; displayed at zero');
+  });
 });

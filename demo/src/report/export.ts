@@ -13,7 +13,7 @@ function figure(report: DemoReport): string {
   const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
   const x = (v: number) => 35 + 530 * (v - minX) / (maxX - minX || 1);
   const y = (v: number) => 260 - 230 * (v - minY) / (maxY - minY || 1);
-  return `<svg viewBox="0 0 600 300" role="img" aria-label="PC1 / PC2 projection; observation coordinates, not certified specimen identities"><rect x="35" y="20" width="530" height="240" fill="#f3f7f7"/>${points.map(p => `<circle cx="${x(p.x)}" cy="${y(p.y)}" r="3" fill="#058e96"><title>${escape(p.id)}: ${p.x}, ${p.y}</title></circle>`).join('')}<text x="280" y="290">PC1</text><text x="3" y="140">PC2</text></svg><p>Full-X descriptive PCA; distances concern displayed components only. No predictive evaluation.</p>`;
+  return `<svg viewBox="0 0 600 300" role="img" aria-label="${escape(report.pca!.xLabel)} / ${escape(report.pca!.yLabel)}; observation coordinates, not certified specimen identities"><rect x="35" y="20" width="530" height="240" fill="#f3f7f7"/>${points.map(p => `<circle cx="${x(p.x)}" cy="${y(p.y)}" r="3" fill="#058e96"><title>${escape(p.id)}: ${p.x}, ${p.y}</title></circle>`).join('')}<text x="280" y="290">${escape(report.pca!.xLabel)}</text><text x="16" y="150" transform="rotate(-90 16 150)" text-anchor="middle" font-size="12">${escape(report.pca!.yLabel)}</text></svg><p>Full-X descriptive PCA; distances concern displayed components only. No predictive evaluation.</p>`;
 }
 export function serializeReport(report: DemoReport, format: 'html' | 'markdown' | 'json'): string {
   const text = JSON.stringify(report, null, 2);
