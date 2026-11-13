@@ -62,9 +62,12 @@ is required for success; an unavailable effective-unit denominator blocks a
 stronger robustness claim. Predictive fragility requires its own useful-baseline
 contrast and cannot be inferred from these X-only variations.
 
-Initial estimate: <=2 sources x 2 representations x 60 draws = 240 PCA fits,
-<=480 HDBSCAN fits and <=480 neighbor calls, plus at most eight full-source
-anchor density fits. One serial process, 1 hour, 960 MiB RAM, <=32 MiB local and
+Initial estimate: <=2 sources x 2 representations x 60 draws = 240 resampling
+PCA fits, 480 HDBSCAN fits and 480 neighbor calls. Including four full-source
+anchor PCA fits, eight anchor density fits and eight anchor neighbor calls,
+the total caps are 244 PCA, 488 HDBSCAN and 488 neighbor calls. Reuse compatible
+saved anchors when available, without increasing these caps. One serial
+process, 1 hour, 960 MiB RAM, <=32 MiB local and
 <=6 MiB total reservations; no acquisition or raw/fold copies. Admission must
 verify actual work bounds/dimensions and fixed draw membership before approval;
 otherwise execution remains unavailable. No automatic retries or budget raise.
