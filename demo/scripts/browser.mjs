@@ -87,6 +87,15 @@ try {
   await page.keyboard.press('Tab'); assert.equal(await page.locator(':focus').textContent(), 'Skip to content');
   await page.keyboard.press('Enter'); assert.equal(await page.locator(':focus').getAttribute('id'), 'main');
   check('Subpath landing and keyboard skip link');
+  const iconHref = await page.locator('link[rel="icon"]').getAttribute('href');
+  assert(iconHref, 'The page must declare its official icon');
+  const iconUrl = new URL(iconHref, url);
+  assert.equal(iconUrl.origin, new URL(url).origin);
+  assert(iconUrl.pathname.startsWith(base), 'Icon must use the deployment subpath');
+  const iconResponse = await page.request.get(iconUrl.href);
+  assert.equal(iconResponse.status(), 200);
+  assert.match(iconResponse.headers()['content-type'], /image\/svg\+xml/);
+  check('Official icon loads from the deployment subpath without a root favicon request');
 
   await example(page, 'Two spectral populations');
   const initial = await json(page);
