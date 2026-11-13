@@ -57,20 +57,23 @@ Live interpretation preserves the exact evidence fingerprint and changes
 only a contextual declaration. It cannot authorize or execute a verification
 action. Saved D1-D6.1 companion reading uses the exact packaged source report
 and saved annotations; it is not a live-protocol fallback. HTML, Markdown and
-JSON are the intended report-only export formats with raw X excluded by
-default, but the view exposes callbacks and a host exporter must be verified
-before the controls can be considered operational.
+JSON are report-only export formats with raw X excluded by default. The
+controller in `main.tsx` wires the export callbacks to one semantic report
+model and local Blob downloads. Offline HTML includes CSP and escaped values.
 
 ## Evidence and publication status
 
-The checked-in CI workflow covers repository scientific gates; it does not
-build or publish this Vite demo. A successful Rust/native gate is not evidence
-of generated WASM execution. Clean browser build, browser execution, GitHub
-Pages CI and deployed preview availability are pending verification. The Vite
-base is `/nirs4all-domains/`; deployment must preserve that prefix. Do not cite
-a CI configuration or this architecture page as proof of a published site.
-
-At this checkout, `demo/index.html` references a missing `src/main.tsx`, and
-`App` still needs host-supplied state and callbacks. The demo shell/runtime
-adapter is therefore incomplete; the build commands are a staged recipe, not
-a claim that the current tree compiles or runs.
+`demo/src/main.tsx` supplies state, input/runtime orchestration and callbacks to
+the presentational `App`. Existing scientific and read-only reporting gates
+remain separate from the demo workflow's actual WASM/build/browser gates.
+After integration, main `d1b14cceba483b5b5a0a4d9d0a42a1dd36270c92` passed
+[scientific gates](https://github.com/dcornet/nirs4all-domains/actions/runs/43508124497),
+[report contracts](https://github.com/dcornet/nirs4all-domains/actions/runs/43508124550),
+[browser qualification](https://github.com/dcornet/nirs4all-domains/actions/runs/43508124482)
+and [Pages deployment](https://github.com/dcornet/nirs4all-domains/actions/runs/43508124463).
+An additional actual public Chromium desktop/mobile smoke passed 25 checks,
+including IO CSV, four WASM assets, retained-partition refusal, exports and no
+external/upload request or console/page error. Its scope is distinct from CI's
+Firefox WASM smoke. The Vite base is `/nirs4all-domains/`; deployment preserves
+that prefix. See the [qualification review](qualification/README.md) for limits;
+passing these checks does not establish scientific generalization or user utility.

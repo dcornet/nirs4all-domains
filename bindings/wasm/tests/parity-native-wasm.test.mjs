@@ -19,7 +19,7 @@ test('produce real WASM parity reports from the common synthetic fixtures',async
     assert.equal(report.metrics.pca.status,fixture.expected.pca_status,fixture.id);
     if(fixture.expected.pca_reason) assert.equal(report.metrics.pca.reason,fixture.expected.pca_reason,fixture.id);
     if(fixture.expected.n_clusters!==undefined) assert.equal(report.metrics.density.value.n_clusters,fixture.expected.n_clusters,fixture.id);
-    if(fixture.expected.first_eigenvalue!==undefined) assert.ok(Math.abs(report.metrics.pca.value.eigenvalues[0]-fixture.expected.first_eigenvalue)<1e-8,fixture.id);
+    if(fixture.expected.first_eigenvalue!==undefined) assert.ok(Math.abs(report.metrics.pca.value.eigenvalues[0]-fixture.expected.first_eigenvalue)<=1e-10,fixture.id);
     if(fixture.expected.rows_with_neighbor!==undefined) assert.equal(report.metrics.raw_neighbors.value.rows_with_neighbor,fixture.expected.rows_with_neighbor,fixture.id);
     assert.equal(report.scope.n_observations,fixture.input.spectra.length,fixture.id);
     assert.equal(report.raw_spectra_included,false);

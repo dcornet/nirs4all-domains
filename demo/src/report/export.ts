@@ -1,7 +1,7 @@
 import type { DemoReport } from './model';
 
 const escape = (text: unknown) => String(text ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
-const md = (text: unknown) => String(text ?? '').replaceAll('\\', '\\\\').replaceAll('|', '\\|').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\n', ' ');
+const md = (text: unknown) => String(text ?? '').replaceAll('\\', '\\\\').replace(/([`*_{}\[\]()#+.!-])/g, '\\$1').replaceAll('|', '\\|').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\n', ' ');
 const labels = {
   en: { title: 'Understand your spectral structure', data: 'Understand the data', structure: 'Spectral structure', findings: 'Observations and conditional checks', evidence: 'Original evidence and methods', limits: 'Scientific limitations', glossary: 'Glossary', print: 'Use the browser print command to save a PDF.', note: 'Scientific source wording and values remain in their original language.', observed: 'Observed', hypothesis: 'Could mean', relevance: 'When relevant', check: 'Check next', limit: 'Not established' },
   fr: { title: 'Comprendre la structure de vos spectres', data: 'Comprendre les données', structure: 'Structure spectrale', findings: 'Observations et vérifications conditionnelles', evidence: 'Preuves originales et méthodes', limits: 'Limites scientifiques', glossary: 'Glossaire', print: 'Utilisez la commande d’impression du navigateur pour enregistrer un PDF.', note: 'Les formulations scientifiques et valeurs sources restent dans leur langue originale.', observed: 'Observé', hypothesis: 'Signification possible', relevance: 'Quand cela compte', check: 'À vérifier', limit: 'Non établi' },

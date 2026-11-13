@@ -3,7 +3,8 @@
 This is an engineering oracle, not a numerical backend: scalar comparisons,
 PCA score Gram products and pairwise partition relations are test-only checks.
 Signs, rotations in tied PCA eigenspaces and cluster label numbering may vary.
-Tolerance is abs+rel 1e-8; statuses, reasons, settings, populations and order are exact.
+Platform tolerance is abs+rel 1e-8; independent analytical scalars use abs 1e-10.
+Statuses, reasons, settings, populations and order are exact.
 """
 
 import argparse
@@ -14,11 +15,17 @@ from pathlib import Path
 
 ABS_TOL = 1e-8
 REL_TOL = 1e-8
+ANALYTICAL_ABS_TOL = 1e-10
 
 
 def near(left, right, path):
     assert math.isfinite(left) and math.isfinite(right), path
     assert math.isclose(left, right, rel_tol=REL_TOL, abs_tol=ABS_TOL), (path, left, right)
+
+
+def analytical_near(left, right, path):
+    assert math.isfinite(left) and math.isfinite(right), path
+    assert math.isclose(left, right, rel_tol=0, abs_tol=ANALYTICAL_ABS_TOL), (path, left, right)
 
 
 def compare(left, right, path="metrics"):
@@ -119,7 +126,7 @@ def main():
             if "pca_reason" in expected:
                 assert report["metrics"]["pca"]["reason"] == expected["pca_reason"]
             if "first_eigenvalue" in expected:
-                near(report["metrics"]["pca"]["value"]["eigenvalues"][0], expected["first_eigenvalue"], name+"/analytical-eigenvalue")
+                analytical_near(report["metrics"]["pca"]["value"]["eigenvalues"][0], expected["first_eigenvalue"], name+"/analytical-eigenvalue")
             if "n_clusters" in expected:
                 assert report["metrics"]["density"]["value"]["n_clusters"] == expected["n_clusters"]
             if "rows_with_neighbor" in expected:
@@ -133,6 +140,7 @@ def main():
         compare(a["interpretation"]["boundaries"], b["interpretation"]["boundaries"], name+"/boundaries")
     print(json.dumps({"native_wasm_parity": "passed", "fixtures": len(fixtures["fixtures"]),
                       "abs_tolerance": ABS_TOL, "rel_tolerance": REL_TOL,
+                      "analytical_abs_tolerance": ANALYTICAL_ABS_TOL,
                       "pca_score_check": "Gram geometry; signs and tied-subspace rotations ignored",
                       "partition_check": "exact pairwise membership and noise", "new_real_scientific_fits": 0}))
 
