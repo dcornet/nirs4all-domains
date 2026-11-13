@@ -1,5 +1,13 @@
 # Domains product roadmap
 
+The additive [browser consumer](WASM_DEMO_GUIDE.md) is the current D4 integration
+delivery: real owner-backed X diagnostics, explicit saved-companion reading and
+local offline reports. Its [capability matrix](WASM_CAPABILITIES.md) separates
+implemented live operations from saved-only and unqualified capabilities. This
+does not qualify universal guidance or a new scientific campaign; independent
+review remains pending. Actual build/browser qualification is recorded with the
+demo PR rather than inferred from a workflow file or a successful UI render.
+
 D6 implements optional verification readiness over the existing consumer and
 prepares an independent expert-review package in Research. Its38 frozen cases
 include eight expected invalid-binding refusals; no human reviews or scientific

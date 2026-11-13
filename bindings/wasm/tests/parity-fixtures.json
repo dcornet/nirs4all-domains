@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "protocol_version": "domains.browser_parity_fixtures.v1",
+  "data_origin": "synthetic engineering fixtures only",
+  "expected_scientific_behavior": "Exact statuses/settings/populations; rank-one variance 1; two separated populations select 2 clusters; constant X has unavailable PCA; equal declared groups leave no admissible neighbors. No independent physical support or predictive inference.",
+  "tolerance": {
+    "absolute": 1e-08,
+    "relative": 1e-08,
+    "pca_scores": "Gram geometry only",
+    "partitions": "pairwise membership and noise; label numbers may permute"
+  },
+  "fixtures": [
+    {
+      "id": "rank-one",
+      "input": {
+        "schema_version": 1,
+        "dataset_id": "synthetic-parity-rank-one",
+        "source_id": "x",
+        "content_sha256": "c60c401bca5b7ac0317ab51f2e78650cf6c67c689ef65714b67c54617d4e5732",
+        "observation_ids": [
+          "row-0",
+          "row-1",
+          "row-2"
+        ],
+        "axis": [
+          1100.0
+        ],
+        "axis_unit": "nm",
+        "spectra": [
+          [
+            0.0
+          ],
+          [
+            1.0
+          ],
+          [
+            2.0
+          ]
+        ],
+        "prediction_intent": "unknown"
+      },
+      "expected": {
+        "pca_status": "computed",
+        "first_eigenvalue": 1.0
+      }
+    },
+    {
+      "id": "two-populations",
+      "input": {
+        "schema_version": 1,
+        "dataset_id": "synthetic-parity-two-populations",
+        "source_id": "x",
+        "content_sha256": "53f8f1515e7d842178331cbed454153f35468b2480b02a1639a97f3f4966807f",
+        "observation_ids": [
+          "row-0",
+          "row-1",
+          "row-2",
+          "row-3",
+          "row-4",
+          "row-5",
+          "row-6",
+          "row-7",
+          "row-8",
+          "row-9",
+          "row-10",
+          "row-11",
+          "row-12",
+          "row-13",
+          "row-14",
+          "row-15",
+          "row-16",
+          "row-17",
+          "row-18",
+          "row-19",
+          "row-20",
+          "row-21",
+          "row-22",
+          "row-23",
+          "row-24",
+          "row-25",
+          "row-26",
+          "row-27",
+          "row-28",
+          "row-29",
+          "row-30",
+          "row-31"
+        ],
+        "axis": [
+          1100.0,
+          1090.0
+        ],
+        "axis_unit": "nm",
+        "spectra": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.05,
+            0.0
+          ],
+          [
+            0.1,
+            0.0
+          ],
+          [
+            0.15000000000000002,
+            0.0
+          ],
+          [
+            0.0,
+            0.05
+          ],
+          [
+            0.05,
+            0.05
+          ],
+          [
+            0.1,
+            0.05
+          ],
+          [
+            0.15000000000000002,
+            0.05
+          ],
+          [
+            0.0,
+            0.1
+          ],
+          [
+            0.05,
+            0.1
+          ],
+          [
+            0.1,
+            0.1
+          ],
+          [
+            0.15000000000000002,
+            0.1
+          ],
+          [
+            0.0,
+            0.15000000000000002
+          ],
+          [
+            0.05,
+            0.15000000000000002
+          ],
+          [
+            0.1,
+            0.15000000000000002
+          ],
+          [
+            0.15000000000000002,
+            0.15000000000000002
+          ],
+          [
+            10.0,
+            0.0
+          ],
+          [
+            10.05,
+            0.0
+          ],
+          [
+            10.1,
+            0.0
+          ],
+          [
+            10.15,
+            0.0
+          ],
+          [
+            10.0,
+            0.05
+          ],
+          [
+            10.05,
+            0.05
+          ],
+          [
+            10.1,
+            0.05
+          ],
+          [
+            10.15,
+            0.05
+          ],
+          [
+            10.0,
+            0.1
+          ],
+          [
+            10.05,
+            0.1
+          ],
+          [
+            10.1,
+            0.1
+          ],
+          [
+            10.15,
+            0.1
+          ],
+          [
+            10.0,
+            0.15000000000000002
+          ],
+          [
+            10.05,
+            0.15000000000000002
+          ],
+          [
+            10.1,
+            0.15000000000000002
+          ],
+          [
+            10.15,
+            0.15000000000000002
+          ]
+        ],
+        "prediction_intent": "unknown"
+      },
+      "expected": {
+        "pca_status": "computed",
+        "n_clusters": 2
+      }
+    },
+    {
+      "id": "constant",
+      "input": {
+        "schema_version": 1,
+        "dataset_id": "synthetic-parity-constant",
+        "source_id": "x",
+        "content_sha256": "2396eda67fcefd7c186e4413b900cd7aca89f757460dccb71883b7e7bb559726",
+        "observation_ids": [
+          "row-0",
+          "row-1",
+          "row-2",
+          "row-3",
+          "row-4",
+          "row-5"
+        ],
+        "axis": [
+          1100.0,
+          1090.0
+        ],
+        "axis_unit": "nm",
+        "spectra": [
+          [
+            2.0,
+            2.0
+          ],
+          [
+            2.0,
+            2.0
+          ],
+          [
+            2.0,
+            2.0
+          ],
+          [
+            2.0,
+            2.0
+          ],
+          [
+            2.0,
+            2.0
+          ],
+          [
+            2.0,
+            2.0
+          ]
+        ],
+        "prediction_intent": "unknown"
+      },
+      "expected": {
+        "pca_status": "unavailable",
+        "pca_reason": "ZERO_SPECTRAL_VARIANCE"
+      }
+    },
+    {
+      "id": "declared-group-exclusion",
+      "input": {
+        "schema_version": 1,
+        "dataset_id": "synthetic-parity-declared-group-exclusion",
+        "source_id": "x",
+        "content_sha256": "8d3fa9f4d641c8dbeac80bcf6d1ce85b783e83a920d187f4eaa9e9d9505ae9b2",
+        "observation_ids": [
+          "row-0",
+          "row-1",
+          "row-2",
+          "row-3",
+          "row-4",
+          "row-5",
+          "row-6",
+          "row-7"
+        ],
+        "axis": [
+          1100.0,
+          1090.0
+        ],
+        "axis_unit": "nm",
+        "spectra": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            0.25
+          ],
+          [
+            2.0,
+            0.5
+          ],
+          [
+            3.0,
+            0.0
+          ],
+          [
+            4.0,
+            0.25
+          ],
+          [
+            5.0,
+            0.5
+          ],
+          [
+            6.0,
+            0.0
+          ],
+          [
+            7.0,
+            0.25
+          ]
+        ],
+        "prediction_intent": "unknown",
+        "group_ids": [
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group",
+          "declared-same-group"
+        ]
+      },
+      "expected": {
+        "pca_status": "computed",
+        "rows_with_neighbor": 0,
+        "n_clusters": 0
+      }
+    }
+  ]
+}

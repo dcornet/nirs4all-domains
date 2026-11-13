@@ -1,5 +1,18 @@
 # Architecture and ownership
 
+## Optional browser consumer
+
+The existing core crate now has a `native` default feature and an additive
+`browser-wasm` binding. Historical numerical modules remain on the native route;
+the bounded `browser` protocol accepts the public Preflight `MethodsProvider`.
+Its WASM callback invokes published Methods kernels, while IO/Formats owns file
+decoding and assembly. React/UI owns presentation only. Worker termination is
+actual cancellation, not a numerical approximation. Live browser reading has an
+explicitly narrower qualification than the saved Python D1–D6.1 companions.
+See [browser architecture](WASM_DEMO_ARCHITECTURE.md) and the staged
+[pre-test expectations](WASM_DEMO_EXECUTION_PLAN.md). No third crate or upstream
+source change is introduced; native defaults and frozen reports remain intact.
+
 [Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) keeps the two crates and
 the Python transport. It changes only provider pins, the Preflight error accessor,
 one qualified-provider table (`providers.py`) and the licence. Methods' new

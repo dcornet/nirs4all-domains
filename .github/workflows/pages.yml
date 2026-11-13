@@ -1,0 +1,43 @@
+name: Domains demo Pages
+on:
+  push:
+    branches: [main]
+    paths: [demo/**, bindings/wasm/**, crates/nirs4all-domains/**, Cargo.lock, .github/workflows/pages.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install pinned wasm-pack
+        run: |
+          curl -fsSL https://github.com/rustwasm/wasm-pack/releases/download/v0.13.1/wasm-pack-v0.13.1-x86_64-unknown-linux-musl.tar.gz | tar xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/wasm-pack-v0.13.1-x86_64-unknown-linux-musl" >> "$GITHUB_PATH"
+      - run: npm run build:native --prefix bindings/wasm
+      - run: npm ci --ignore-scripts --no-audit --no-fund --prefix demo
+      - run: npm test --prefix demo
+      - run: npm run build --prefix demo
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

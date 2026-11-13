@@ -9,3 +9,7 @@ __pycache__/
 .pytest_cache/
 dist/
 build/
+/demo/node_modules/
+/demo/test-results/
+/bindings/wasm/native/
+/bindings/wasm/node_modules/

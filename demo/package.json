@@ -1,0 +1,19 @@
+{
+  "name": "nirs4all-domains-demo", "version": "0.1.0-alpha.17", "private": true, "type": "module",
+  "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+  "scripts": {
+    "dev": "vite", "typecheck": "tsc --noEmit", "test": "vitest run",
+    "prebuild": "node scripts/prepare-licenses.mjs", "build": "tsc --noEmit && vite build", "preview": "vite preview",
+    "test:browser": "node scripts/browser.mjs", "check:examples": "python ../scripts/check_demo_examples.py"
+  },
+  "dependencies": {
+    "@nirs4all/domains": "file:../bindings/wasm",
+    "@nirs4all/io-wasm": "0.2.14", "@nirs4all/formats-wasm": "0.2.14",
+    "nirs4all-ui": "0.2.1", "react": "19.2.3", "react-dom": "19.2.3", "ajv": "8.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1", "@types/react": "19.2.7", "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.0.0", "typescript": "5.8.3", "vite": "7.3.6",
+    "vitest": "4.1.12", "playwright-core": "1.58.2"
+  }
+}

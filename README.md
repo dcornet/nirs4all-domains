@@ -1,5 +1,14 @@
 # nirs4all-domains
 
+The [browser demonstration](demo/README.md) adds an optional Rust/WASM consumer:
+local X import through published IO/Formats, actual Methods-backed descriptive
+PCA/neighborhood/density evidence, conditional intended-use reading and offline
+HTML/Markdown/JSON exports. Qualified saved D1–D6.1 examples retain their original
+annotations and are explicitly separate from browser calculations. See the
+[capability matrix](docs/WASM_CAPABILITIES.md) for unavailable operations and the
+[user guide](docs/WASM_DEMO_GUIDE.md). Hosting is pending owner integration and
+GitHub Pages activation; a PR preview artifact is not a deployed public site.
+
 **nirs4all-domains characterizes structural organization, population support and
 evaluation-related limitations in NIRS datasets, helping researchers choose
 appropriate validation strategies and interpret calibration results.**

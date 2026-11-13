@@ -1,17 +1,32 @@
 //! Task-specific protocols over public Preflight and Methods interfaces.
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod association;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod bootstrap;
+pub mod browser;
+#[cfg(all(feature = "browser-wasm", target_arch = "wasm32"))]
+#[path = "../../../bindings/wasm/rust.rs"]
+mod browser_binding;
 pub mod contract;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod hierarchy_profile;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod methods;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod protocol;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod structure;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod units;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod unsupervised;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod x_structure;
 pub use contract::*;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub use protocol::{analyze, train_refit_stability, validate};
 /// Export the exact comparison task through the same native mean and safety policy as analysis.
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub fn comparison_task(task: &Task, library: &std::path::Path) -> Result<Task, String> {
     validate(task)?;
     let mut sanitized = task.clone();
