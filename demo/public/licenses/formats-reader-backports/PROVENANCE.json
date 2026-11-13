@@ -1,0 +1,33 @@
+{
+  "package": "@nirs4all/formats-wasm",
+  "version": "0.2.14",
+  "tarball": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
+  "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA==",
+  "scope": "Exact license texts of the two reader backports shipped in the pinned public npm package; no parser source changed.",
+  "files": [
+    {
+      "path": "hdf5-reader/LICENSE-MIT",
+      "package_path": "reader-backports/hdf5-reader/LICENSE-MIT",
+      "sha256": "24a4eeee33afc227bd3e796f772741250b2c93eae1cdba65e775ef8005dfb4b1",
+      "bytes": 1067
+    },
+    {
+      "path": "hdf5-reader/LICENSE-APACHE",
+      "package_path": "reader-backports/hdf5-reader/LICENSE-APACHE",
+      "sha256": "7e1c4927d7c8765c73e234c2da19c423dfafc9c662e6d028277f9e77476445bb",
+      "bytes": 8464
+    },
+    {
+      "path": "netcdf-reader/LICENSE-MIT",
+      "package_path": "reader-backports/netcdf-reader/LICENSE-MIT",
+      "sha256": "24a4eeee33afc227bd3e796f772741250b2c93eae1cdba65e775ef8005dfb4b1",
+      "bytes": 1067
+    },
+    {
+      "path": "netcdf-reader/LICENSE-APACHE",
+      "package_path": "reader-backports/netcdf-reader/LICENSE-APACHE",
+      "sha256": "7e1c4927d7c8765c73e234c2da19c423dfafc9c662e6d028277f9e77476445bb",
+      "bytes": 8464
+    }
+  ]
+}
