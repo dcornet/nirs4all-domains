@@ -1,5 +1,16 @@
 # Method reuse matrix
 
+## Additive browser consumer
+
+`domains.browser_x.v1` reuses the published Preflight 0.1.6 provider contracts
+and Methods 1.3.13 / ABI 2.20 WASM PCA, exact neighbors, summaries and one fixed
+HDBSCAN setting. Domains validates scope and composes the result; it copies no
+numerical algorithm. IO/Formats 0.2.14 owns import; UI 0.2.1 owns shared charts and
+official brand assets. Saved D1–D6.1 examples are produced by the unchanged Python
+consumer, rather than reimplemented in JavaScript. Browser/live/saved gaps are
+listed in [the capability matrix](WASM_CAPABILITIES.md); availability and actual
+executed qualification remain distinct.
+
 [Upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md) moves numerical ownership
 unchanged to Preflight 0.1.6, Methods 1.3.13 / ABI 2.20 and DAG-ML 0.3.44. No
 kernel moves into Domains; per-alpha provider versions below stay historical.

@@ -1,5 +1,17 @@
 # Scientific protocols — domains.canonical.v0.3
 
+## Additive bounded browser protocol
+
+`domains.browser_x.v1` is a descriptive complete-import X protocol, not a new
+validation score or a port of every historical native workflow. Its before-test
+expectations, adversaries, explicit tolerances, fixed density settings and bounded
+qualification scope are recorded in [WASM_DEMO_EXECUTION_PLAN.md](WASM_DEMO_EXECUTION_PLAN.md).
+No target or retained-label selection is admitted. Original axes/order, declared
+exclusions and partitions are retained; a full-X descriptive fit remains
+transductive. Unknown physical/reference independence stays unknown. A changed
+intent performs symbolic interpretation only and preserves the evidence hash.
+Saved qualified companions retain their original definitions and source hashes.
+
 `domains.verification_readiness.v1` is an optional source/check-scoped companion.
 Observation evidence, verification inputs, protocol, declared authority and
 actual execution are separate. D1's prerequisite flag keeps its original meaning;

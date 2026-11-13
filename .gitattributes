@@ -1,5 +1,7 @@
 * text=auto eol=lf
 *.png binary
+# Retain the exact upstream BSD template bytes recorded by the notice manifest.
+demo/public/licenses/methods/*/LICENSES/BSD-3-Clause.txt whitespace=-blank-at-eol
 # Preserve exact executed artifact bytes (native renderer/CSV writer line endings).
 docs/benchmarks/alpha13/figures/stability-support.svg binary
 docs/benchmarks/alpha13/stability-matrix.csv binary

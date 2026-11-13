@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_x.v1.input",
+  "title": "Bounded X-only browser input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","dataset_id","source_id","content_sha256","observation_ids","axis","axis_unit","spectra"],
+  "properties": {
+    "schema_version": {"const":1},
+    "dataset_id": {"type":"string","minLength":1},
+    "source_id": {"type":"string","minLength":1},
+    "content_sha256": {"type":"string","pattern":"^[0-9a-fA-F]{64}$"},
+    "observation_ids": {"type":"array","minItems":3,"maxItems":2000,"uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "axis": {"type":"array","minItems":1,"maxItems":1000000,"items":{"type":"number"}},
+    "axis_unit": {"type":"string","minLength":1},
+    "spectra": {"type":"array","minItems":3,"maxItems":2000,"items":{"type":"array","minItems":1,"items":{"type":"number"}}},
+    "group_ids": {"type":["array","null"],"items":{"type":"string","minLength":1}},
+    "prediction_intent": {"enum":["study","known_acquisitions","new_specimens","new_groups","new_context","unknown"]}
+  },
+  "$comment": "Rust additionally enforces finite numbers, row/axis and identity lengths, strict monotonic original axes, and total cell/work budgets. No target or verified independence assertion is accepted."
+}
