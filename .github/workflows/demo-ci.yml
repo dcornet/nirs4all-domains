@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-24.04, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -74,10 +74,12 @@ jobs:
       - run: npm run build --prefix demo
       - name: Verify reproducible notices and source identity
         run: git diff --exit-code -- demo/public/licenses demo/DEPENDENCIES.md
-      - name: Install hosted Chromium
+      - name: Install supported hosted browser engines
         working-directory: demo
-        run: npx playwright-core install --with-deps chromium
+        run: npx playwright-core install --with-deps chromium firefox
       - name: Real WASM, IO, worker, offline export and responsive browser tests
+        env:
+          DOMAINS_TEST_FIREFOX: '1'
         run: npm run test:browser --prefix demo
       - name: Verify bounded distributable without private artifacts
         run: python scripts/check_demo_distribution.py

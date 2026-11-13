@@ -11,6 +11,7 @@ describe('Single semantic model and original saved evidence', () => {
     expect(report.scientific_report).toBe(source); expect(JSON.stringify(source)).toBe(before);
     expect(report.dataset.variables).toBeNull(); expect(report.provenance.independent_original_study_count).toBeNull();
     expect(report.source_mode).toBe('saved_qualified_report');
+    expect(view.findings.find(f => f.id === 'preprocessing_dependent_organization')?.status).toBe('observed');
   });
   it('excludes display X from JSON and renders HTML/Markdown from exactly the same object', () => {
     const view = savedView(source); view.dataset.spectra = [{ id: 'display-only', values: [12345,67890] }];

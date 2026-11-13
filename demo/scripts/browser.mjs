@@ -62,9 +62,9 @@ function wire(context, label) {
   });
 }
 try {
-  const browser = await chromium.launch({ headless: true, ...(process.env.DOMAINS_BROWSER_EXE ? { executablePath: process.env.DOMAINS_BROWSER_EXE } : {}) });
+  const browser = await chromium.launch({ headless: true, args: ['--disable-gpu', '--disable-extensions', '--renderer-process-limit=1'], ...(process.env.DOMAINS_BROWSER_EXE ? { executablePath: process.env.DOMAINS_BROWSER_EXE } : {}) });
   browsers.push(browser); receipt.browsers.push({ name: 'chromium', version: browser.version() });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true, locale: 'en-US', colorScheme: 'light' });
+  let context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true, locale: 'en-US', colorScheme: 'light' });
   wire(context, 'chromium-desktop');
   await context.addInitScript(() => {
     const OriginalWorker = window.Worker;
@@ -74,7 +74,7 @@ try {
       terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
     };
   });
-  const page = await context.newPage(); page.setDefaultTimeout(120_000);
+  let page = await context.newPage(); page.setDefaultTimeout(120_000);
   await page.goto(url); await visible(page.getByRole('heading', { name: 'Analyze my data' }));
   await screenshot(page, 'landing-desktop');
   await page.keyboard.press('Tab'); assert.equal(await page.locator(':focus').textContent(), 'Skip to content');
@@ -126,6 +126,8 @@ try {
   assert(html.includes(translated.dataset.contentHash) && markdown.includes(translated.dataset.contentHash));
   assert.equal(translated.raw_x_included, false); assert(!('spectra' in translated.dataset));
   check('Theme, French UI and consistent HTML / Markdown / JSON exports');
+  const preferences = await context.storageState();
+  await context.close(); // Qualify the complete offline report serially, without retaining a WASM renderer.
   const reportContext = await browser.newContext({ offline: true, viewport: { width: 1200, height: 900 } });
   const reportPage = await reportContext.newPage();
   await reportPage.setContent(html); assert.equal(await reportPage.locator('script').count(), 0);
@@ -134,6 +136,17 @@ try {
   await screenshot(reportPage, 'report-offline');
   await reportPage.emulateMedia({ media: 'print' }); await screenshot(reportPage, 'report-print');
   await reportContext.close(); check('Standalone report renders offline with CSP and no scripts; print layout');
+  context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true, locale: 'en-US', colorScheme: 'light', storageState: preferences });
+  wire(context, 'chromium-desktop-import');
+  await context.addInitScript(() => {
+    const OriginalWorker = window.Worker;
+    window.__domainsWorkerAudit = { constructed: 0, terminated: 0 };
+    window.Worker = class extends OriginalWorker {
+      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; }
+      terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
+    };
+  });
+  page = await context.newPage(); page.setDefaultTimeout(120_000); await page.goto(url);
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await page.getByRole('button', { name: 'Switch theme' }).click();
 
@@ -188,9 +201,17 @@ try {
   for (const [name, buffer, expected] of [
     ['malformed.json', Buffer.from('{broken'), /JSON|Unexpected|property|position/i],
     ['X.csv', Buffer.from('1000,1100\n1,\n2,3\n4,5\n'), /NONFINITE|missing|finite|NaN/i],
-    ['too-large.csv', Buffer.alloc(8 * 1024 * 1024 + 1, 32), /BUDGET_EXCEEDED/i],
+    ['too-large.csv', null, /BUDGET_EXCEEDED/i],
   ]) {
-    await home(page); await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/plain', buffer });
+    await home(page);
+    if (buffer === null) {
+      // A real oversize browser File, without an unnecessary base64/CDP copy in the test harness.
+      await page.locator('input[type=file]').evaluate(input => {
+        const transfer = new DataTransfer();
+        transfer.items.add(new File([new Uint8Array(8 * 1024 * 1024 + 1)], 'too-large.csv', { type: 'text/csv' }));
+        input.files = transfer.files; input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    } else await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/plain', buffer });
     await visible(page.getByRole('alert'));
     assert(expected.test(await page.getByRole('alert').innerText()), `Unexpected refusal category: ${name}`);
     assert.equal(await page.locator('.workspace-summary').count(), 0);
@@ -217,8 +238,9 @@ try {
   assert.equal(await mobilePage.locator('html').getAttribute('lang'), 'fr');
   check('Chromium mobile example, language and no horizontal document overflow');
   await mobile.close();
-  if (process.env.DOMAINS_FIREFOX_EXE) {
-    const second = await firefox.launch({ headless: true, executablePath: process.env.DOMAINS_FIREFOX_EXE }); browsers.push(second);
+  await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
+  if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
+    const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);
     receipt.browsers.push({ name: 'firefox', version: second.version() });
     const secondContext = await second.newContext(); wire(secondContext, 'firefox'); const secondPage = await secondContext.newPage();
     await secondPage.goto(url); await example(secondPage, 'A justified unavailable result');

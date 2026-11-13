@@ -31,6 +31,8 @@ export async function adaptAssembled(full: Assembled, files: InputFile[], spec: 
   if (full.assembled_schema_version !== 2) throw new Error('IO_ASSEMBLED_SCHEMA_V2_REQUIRED');
   const blocks = Object.entries(full.blocks).filter(([, b]) => b.n_samples > 0);
   if (!blocks.length) throw new Error('NO_SPECTRAL_POPULATION');
+  if (blocks.some(([name]) => ['test','retained_test','predict','prediction'].includes(name.toLowerCase())))
+    throw new Error('PARTITIONED_IMPORT_REQUIRES_TRAIN_FITTED_BROWSER_PROTOCOL');
   if (blocks.some(([, b]) => b.x.length !== 1)) throw new Error('MULTISOURCE_SELECTION_REQUIRED_NO_IMPLICIT_FUSION');
   const first = blocks[0][1];
   const headers = first.feature_headers[0];

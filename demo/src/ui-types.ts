@@ -1,7 +1,7 @@
 /** Presentation contracts. Values and scientific statuses are supplied by the runtime adapter. */
 export type Locale = 'en' | 'fr';
 export type PredictionIntent = 'study' | 'known_acquisitions' | 'new_specimens' | 'new_groups' | 'new_context' | 'unknown';
-export type EvidenceStatus = 'available' | 'unavailable' | 'conditional' | 'contradicted' | 'not_qualified' | 'not_tested' | 'computed' | 'supported';
+export type EvidenceStatus = 'observed' | 'available' | 'unavailable' | 'conditional' | 'contradicted' | 'not_qualified' | 'not_tested' | 'computed' | 'supported';
 export interface UiFinding {
   id: string; title: string; status: EvidenceStatus; observation: string;
   hypothesis: string; relevance: string; verification: string; limitation: string;

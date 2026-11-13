@@ -1,7 +1,7 @@
 import type { BrowserReport, LocalDataset } from '../engine/types';
 import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations } from '../ui-types';
 
-const status = (value: string): EvidenceStatus => (['computed', 'unavailable', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
+const status = (value: string): EvidenceStatus => (['observed', 'computed', 'unavailable', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
 export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
   const pca = report.metrics.pca.value;
   return {
@@ -66,7 +66,7 @@ export function savedView(source: unknown): UiResult {
       provenance: 'saved_qualified_report · no browser refit', license: 'Already-published aggregate example; source restrictions remain applicable' },
     summary: prose(reading.observed ?? report.title),
     findings: (d1?.warnings ?? []).map((w: Record<string, any>): UiFinding => ({ id: w.warning_id,
-      title: w.warning_id.replaceAll('_', ' '), status: status(w.value?.assessment ?? w.status),
+      title: w.warning_id.replaceAll('_', ' '), status: status(typeof w.value === 'string' ? w.value : w.value?.assessment ?? w.status),
       observation: prose(w.observation?.value ?? w.observation?.reason), hypothesis: prose(w.risk_hypothesis),
       relevance: prose(w.conditions), verification: prose(w.recommended_checks), limitation: prose(w.limitations),
       confidence: 'Original qualified conditional interpretation', evidenceIds: [w.warning_id] })),

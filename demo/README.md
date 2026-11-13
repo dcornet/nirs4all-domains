@@ -58,8 +58,9 @@ are processed in the browser. The import path is capped at 32 files, 8 MiB
 combined input, 2,000 observations and 1,000,000 spectral cells. IO/Formats
 infer and assemble the source; multi-source fusion, aggregation, imputation,
 nonfinite X, and silent row deletion are refused. Original partitions are
-retained but a live fit uses the complete X population, so its geometry is
-transductive. A group column only excludes declared matching groups from
+preserved by IO. Declared test/prediction populations are refused before this
+full-source route; a train-fitted browser protocol is not yet qualified. A live
+fit of an unpartitioned source is descriptive/transductive. A group column only excludes declared matching groups from
 neighbor references; it does not prove that groups are independent units.
 
 `BrowserEngine` runs import and analysis in a module worker. Analysis has a

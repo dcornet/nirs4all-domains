@@ -21,6 +21,13 @@ describe('IO transport integrity, with original owner data already materialized'
     const value = assembled(); value.blocks.train.x[0].data[2] = NaN;
     await expect(adaptAssembled(value, files, {}, [])).rejects.toThrow('NONFINITE_X_NO_IMPLICIT_IMPUTATION');
   });
+  it('refuses retained test/prediction populations before a full-source numerical request', async () => {
+    const source = assembled();
+    for (const partition of ['test','retained_test','predict']) {
+      await expect(adaptAssembled({ ...source, blocks: { train: source.blocks.train, [partition]: source.blocks.train } }, files, {}, []))
+        .rejects.toThrow('PARTITIONED_IMPORT_REQUIRES_TRAIN_FITTED_BROWSER_PROTOCOL');
+    }
+  });
   it('refuses duplicate observation keys and implicit multisource fusion', async () => {
     const duplicates = assembled(); duplicates.blocks.train.metadata.columns[0].values[1] = 'a';
     await expect(adaptAssembled(duplicates, files, {}, [])).rejects.toThrow('DUPLICATE_OBSERVATION_ID');

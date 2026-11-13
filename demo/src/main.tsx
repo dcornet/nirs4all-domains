@@ -46,6 +46,9 @@ function Controller() {
           const source = JSON.parse(await files[0].text()); validateSaved(source);
           if (token !== epoch.current) return;
           const view = savedView(source); view.provenance.source_mode = 'user_saved_schema_validated';
+          view.dataset.provenance = 'User-supplied saved evidence; structural validation only';
+          view.dataset.license = 'Retain the supplied source terms; no redistribution permission is inferred';
+          view.findings.forEach(finding => { finding.confidence = 'Declared by the supplied report; not independently authenticated'; });
           view.provenance.source_qualification = 'User-supplied saved evidence; schema validated, authorship and numerical qualification not authenticated.';
           view.limitations.push('Imported saved report: structural validation is not a new scientific analysis or source-authenticity check.');
           scientific.current = source; dataset.current = null;

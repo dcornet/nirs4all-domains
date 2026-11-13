@@ -45,6 +45,11 @@ dataset name.
 
 ## Fixed live scope and refusal limits
 
+The [retained-partition safety amendment](WASM_PARTITION_GUARD.md) refuses
+IO-declared test/prediction populations before this full-source route. No retained
+population is fitted, dropped or relabeled; train-fitted browser support remains
+unqualified. Complete unpartitioned sources retain descriptive/transductive scope.
+
 The accepted request is one complete dense X source with unique observation
 IDs, unchanged strictly monotonic axis and declared source content hash. It
 has no Y, target, split, imputation, aggregation, source fusion, axis transform
