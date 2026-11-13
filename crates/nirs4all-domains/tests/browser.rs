@@ -53,16 +53,24 @@ impl MethodsProvider for Analytical {
     fn summary(&self, r: &SummaryRequest) -> Result<SummaryDiagnostics, ProviderError> {
         self.tick();
         self.summary_calls.set(self.summary_calls.get() + 1);
-        assert_eq!(r.values, vec![1., 1., 1.]);
+        let padded = matches!(self.neighbor_fixture, NeighborFixture::TrailingPadding);
+        assert_eq!(
+            r.values,
+            if padded {
+                vec![2., 1., 1.]
+            } else {
+                vec![1., 1., 1.]
+            }
+        );
         Ok(SummaryDiagnostics {
             count: 3,
             min: 1.,
-            max: 1.,
-            mean: 1.,
-            sample_sd: Some(0.),
+            max: if padded { 2. } else { 1. },
+            mean: if padded { 4. / 3. } else { 1. },
+            sample_sd: Some(if padded { (1.0_f64 / 3.).sqrt() } else { 0. }),
             q25: 1.,
             median: 1.,
-            q75: 1.,
+            q75: if padded { 1.5 } else { 1. },
             backend_version: "analytical-fixture".into(),
         })
     }
@@ -100,6 +108,8 @@ impl MethodsProvider for Analytical {
             }
             NeighborFixture::TrailingPadding => {
                 response.indices[0][0] = 2;
+                response.indices[1][0] = 2;
+                response.distances[0][0] = Some(2.);
                 for (indices, distances) in response
                     .indices
                     .iter_mut()
@@ -301,7 +311,11 @@ fn complete_equal_distance_and_trailing_padding_neighbors_remain_computed() {
             );
             assert_eq!(
                 value["first_neighbor_distance_summary"]["value"]["mean"],
-                1.
+                if matches!(neighbor_fixture, NeighborFixture::TrailingPadding) {
+                    4. / 3.
+                } else {
+                    1.
+                }
             );
         }
         assert_eq!(p.summary_calls.get(), 2);
