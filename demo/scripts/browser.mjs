@@ -55,6 +55,13 @@ async function importCsv(page, contents, name = 'X.csv') {
   await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/csv', buffer: Buffer.from(contents) });
 }
 function wire(context, label) {
+  receipt.network_violations ??= [];
+  context.on('request', request => {
+    if (!/^https?:/.test(request.url())) return;
+    const origin = new URL(request.url()).origin;
+    if (origin !== new URL(url).origin || !['GET', 'HEAD'].includes(request.method()))
+      receipt.network_violations.push({ browser: label, origin, method: request.method() });
+  });
   context.on('console', msg => { if (msg.type() === 'error') receipt.console_errors.push({ browser: label, message: msg.text().slice(0, 1000) }); });
   context.on('page', page => page.on('pageerror', error => receipt.page_errors.push({ browser: label, message: error.message.slice(0, 1000) })));
   context.on('response', response => {
@@ -249,6 +256,8 @@ try {
   } else receipt.second_engine = 'not_executed: DOMAINS_FIREFOX_EXE not supplied';
   assert.equal(receipt.page_errors.length, 0, 'Uncaught browser errors');
   assert.equal(receipt.console_errors.length, 0, 'Browser console errors');
+  assert.equal(receipt.network_violations.length, 0, 'Off-origin request or upload method');
+  check('Local-only execution: no off-origin request or upload method');
   receipt.success = true;
 } catch (error) {
   receipt.failure = { name: error.name, message: error.message, stack: error.stack?.split('\n').slice(0, 6).join('\n') };

@@ -13,7 +13,7 @@ export interface UiEvidence {
 }
 export interface UiDataset {
   name: string; id: string; source: string; contentHash: string;
-  observations: number; variables: number | null; axisUnit: string;
+  observations: number | null; variables: number | null; axisUnit: string;
   axis: number[]; spectra: { id: string; values: (number | null)[]; group?: string }[];
   metadata: string[]; identity: string; provenance: string; license: string;
 }

@@ -43,8 +43,10 @@ check fails; do not silently substitute a different parser or local checkout.
 The configured Vite base path is `/nirs4all-domains/`. A static host must serve
 the built files beneath that path and provide its normal SPA fallback. `npm
 run preview` is a local preview command only. GitHub Pages deployment and
-public preview availability are pending verification; this guide makes no
-claim that the site is deployed or its CI is green.
+public deployment require owner integration and Pages activation. The
+[stacked PR](https://github.com/dcornet/nirs4all-domains/pull/6) provides actual
+qualification runs and downloadable static preview artifacts; those are distinct
+from a deployed public website.
 
 `src/main.tsx` supplies state, IO/worker orchestration, pure intention changes
 and report exports to the presentation components. The commands above are the

@@ -53,8 +53,9 @@ unqualified. Complete unpartitioned sources retain descriptive/transductive scop
 The accepted request is one complete dense X source with unique observation
 IDs, unchanged strictly monotonic axis and declared source content hash. It
 has no Y, target, split, imputation, aggregation, source fusion, axis transform
-or claimed physical independence. All imported partitions remain in the
-descriptive fit, so the computation is transductive. Optional group IDs only
+or claimed physical independence. Complete unpartitioned source fits are
+descriptive/transductive; declared evaluation partitions are refused as described
+above. Optional group IDs only
 exclude rows from neighbor references; their scientific meaning is unverified.
 
 Limits: 32 MiB serialized request, 2,000 observations, 1,000,000 spectral

@@ -61,7 +61,7 @@ export function savedView(source: unknown): UiResult {
   return { mode: 'saved', protocol: report.protocol_version,
     dataset: { name: String(identity.dataset_id ?? row.label), id: String(identity.dataset_id ?? 'unknown'),
       source: String(identity.source_id ?? 'unknown'), contentHash: String(row.source_reports?.reference?.sha256 ?? 'unknown'),
-      observations: identity.n_observations ?? 0, variables: null, axisUnit: 'not carried', axis: [], spectra: [], metadata: [],
+      observations: identity.n_observations ?? null, variables: null, axisUnit: 'not carried', axis: [], spectra: [], metadata: [],
       identity: 'Original qualified report scope; physical/reference independence remains unknown',
       provenance: 'saved_qualified_report · no browser refit', license: 'Already-published aggregate example; source restrictions remain applicable' },
     summary: prose(reading.observed ?? report.title),

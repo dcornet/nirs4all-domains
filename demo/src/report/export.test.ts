@@ -36,4 +36,9 @@ describe('Single semantic model and original saved evidence', () => {
   it('refuses malformed or incomplete saved reports rather than deriving missing scientific states', () => {
     expect(() => validateSaved({ protocol_version: source.protocol_version, cases: [] })).toThrow();
   });
+  it('keeps unknown source counts null instead of inventing an empty population', () => {
+    const value = structuredClone(source);
+    Object.assign(value.cases[0].identity, { status: 'unavailable', reason: 'SOURCE_IDENTITY_NOT_CARRIED', value: null });
+    expect(savedView(value).dataset.observations).toBeNull();
+  });
 });

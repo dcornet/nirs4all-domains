@@ -20,7 +20,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t }
   const series = dataset.spectra.map((s, i) => ({ id: s.id, label: s.group, values: s.values.slice(start, end + 1), color: colors[i % colors.length]! }));
   return <>
     <div className="workspace-header"><div className="container"><div className="workspace-title"><div><span className={`mode-label ${result.mode}`}>{t(result.mode)}</span><h1>{dataset.name}</h1></div><button className="button secondary" onClick={callbacks.onReset}>← {t('newData')}</button></div>
-      <p className="workspace-summary">{result.summary}</p><div className="workspace-facts"><span><strong>{dataset.observations.toLocaleString(locale)}</strong> {t('samples')}</span><span><strong>{dataset.variables === null || (result.mode === 'saved' && dataset.variables === 0) ? t('notCarried') : dataset.variables.toLocaleString(locale)}</strong> {t('variables')}</span><span>{result.protocol}</span></div>
+      <p className="workspace-summary">{result.summary}</p><div className="workspace-facts"><span><strong>{dataset.observations === null ? t('notCarried') : dataset.observations.toLocaleString(locale)}</strong> {t('samples')}</span><span><strong>{dataset.variables === null || (result.mode === 'saved' && dataset.variables === 0) ? t('notCarried') : dataset.variables.toLocaleString(locale)}</strong> {t('variables')}</span><span>{result.protocol}</span></div>
     </div></div>
     <nav className="section-nav" aria-label={t('tagline')}><div className="container">{sections.map((section, i) => <a key={section} href={`#${section}`}><span>0{i + 1}</span>{t(section)}</a>)}</div></nav>
     <div className="container workspace-content">
