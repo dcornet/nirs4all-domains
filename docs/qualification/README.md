@@ -9,6 +9,7 @@ not promote one level into another, start Phase 2 or amend frozen H1–H5.
 - [Software, security, reproducibility and measured performance](SOFTWARE.md).
 - [Eleven-capability evidence matrix](capabilities.json).
 - [Critical D1–D6.1 evidence review and methodological gaps](SCIENCE_REVIEW.md).
+- [Prospective representation, parameter and unit-resampling robustness](ROBUSTNESS_PROPOSAL.md).
 - [Proposed train-fitted support protocol](TRAIN_FITTED_SUPPORT_PROPOSAL.md).
 - [Ranked experiments, resource estimates and owner decisions](DECISIONS.md).
 
