@@ -42,11 +42,11 @@ check fails; do not silently substitute a different parser or local checkout.
 
 The configured Vite base path is `/nirs4all-domains/`. A static host must serve
 the built files beneath that path and provide its normal SPA fallback. `npm
-run preview` is a local preview command only. GitHub Pages deployment and
-public deployment require owner integration and Pages activation. The
-[stacked PR](https://github.com/dcornet/nirs4all-domains/pull/6) provides actual
-qualification runs and downloadable static preview artifacts; those are distinct
-from a deployed public website.
+run preview` is a local preview command only. The Pages workflow publishes
+`main` when GitHub Pages is configured to use GitHub Actions. The
+[merged demo PR](https://github.com/dcornet/nirs4all-domains/pull/6) provides
+qualification runs and downloadable static preview artifacts; public deployment
+must be verified separately through the Pages workflow and hosted URL.
 
 `src/main.tsx` supplies state, IO/worker orchestration, pure intention changes
 and report exports to the presentation components. The commands above are the
@@ -64,6 +64,13 @@ preserved by IO. Declared test/prediction populations are refused before this
 full-source route; a train-fitted browser protocol is not yet qualified. A live
 fit of an unpartitioned source is descriptive/transductive. A group column only excludes declared matching groups from
 neighbor references; it does not prove that groups are independent units.
+
+Selecting one `.json` file opens the saved standalone Domains report path and
+validates its existing schema; arbitrary JSON matrices are not a qualified X
+format. The exception is an IO configuration with the exact lowercase suffix
+`.nirs4all.json`, which must be selected together with its referenced source
+files. A configuration alone provides no X. Malformed JSON or an incompatible
+report is refused, without a numerical fit or an implicit format fallback.
 
 `BrowserEngine` runs import and analysis in a module worker. Analysis has a
 120-second wall-clock limit; cancellation terminates the worker, which also

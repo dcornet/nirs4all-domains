@@ -24,6 +24,8 @@ jobs:
           echo "$RUNNER_TEMP/wasm-pack-v0.13.1-x86_64-unknown-linux-musl" >> "$GITHUB_PATH"
       - run: npm run build:native --prefix bindings/wasm
       - run: npm ci --ignore-scripts --no-audit --no-fund --prefix demo
+      - name: Install binding's direct provider dependency
+        run: npm ci --ignore-scripts --no-audit --no-fund --prefix bindings/wasm
       - run: npm test --prefix demo
       - run: npm run build --prefix demo
       - uses: actions/upload-pages-artifact@v3
