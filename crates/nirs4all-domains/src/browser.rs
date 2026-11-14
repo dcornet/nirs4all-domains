@@ -191,16 +191,23 @@ fn neighbors(provider: &impl MethodsProvider, rows: &[Vec<f64>], group_ids: &[i6
             let mut distances = Vec::new();
             for (i, (indices, values)) in v.indices.iter().zip(&v.distances).enumerate() {
                 let mut seen = BTreeSet::new();
+                let mut padding = false;
+                let mut previous_distance = None;
                 for (&index, distance) in indices.iter().zip(values) {
                     match (index, distance) {
-                        (-1, None) => {}
+                        (-1, None) => padding = true,
                         (j, Some(d))
-                            if j >= 0
+                            if !padding
+                                && j >= 0
                                 && (j as usize) < n
                                 && *d >= 0.
                                 && d.is_finite()
+                                && previous_distance.is_none_or(|previous| *d >= previous)
                                 && group_ids[i] != group_ids[j as usize]
-                                && seen.insert(j) => {}
+                                && seen.insert(j) =>
+                        {
+                            previous_distance = Some(*d);
+                        }
                         _ => return malformed(),
                     }
                 }

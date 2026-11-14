@@ -36,6 +36,22 @@ describe('Single semantic model and original saved evidence', () => {
   it('refuses malformed or incomplete saved reports rather than deriving missing scientific states', () => {
     expect(() => validateSaved({ protocol_version: source.protocol_version, cases: [] })).toThrow();
   });
+  it('keeps untrusted Markdown images and links literal outside the original evidence fence', () => {
+    const view = savedView(source);
+    view.dataset.name = '![spectra](https://external.invalid/beacon)';
+    view.findings[0].observation = '[study](https://external.invalid/action) and ![spectra][remote]';
+    const report = reportModel(view, source, 'unknown', 'en');
+    const before = JSON.stringify(report);
+    const markdown = serializeReport(report, 'markdown');
+    const prose = markdown.slice(0, markdown.indexOf('~~~~json'));
+    expect(prose).not.toContain('![spectra](');
+    expect(prose).not.toContain('[study](');
+    expect(prose).not.toContain('![spectra][remote]');
+    expect(prose).toContain('\\!\\[spectra\\]\\(https\\:\\/\\/external\\.invalid\\/beacon\\)');
+    expect(prose).toContain('\\[study\\]\\(https\\:\\/\\/external\\.invalid\\/action\\)');
+    expect(JSON.stringify(report)).toBe(before);
+    expect(report.scientific_report).toBe(source);
+  });
   it('keeps unknown source counts null instead of inventing an empty population', () => {
     const value = structuredClone(source);
     Object.assign(value.cases[0].identity, { status: 'unavailable', reason: 'SOURCE_IDENTITY_NOT_CARRIED', value: null });

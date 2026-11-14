@@ -6,8 +6,11 @@ PCA/neighborhood/density evidence, conditional intended-use reading and offline
 HTML/Markdown/JSON exports. Qualified saved D1–D6.1 examples retain their original
 annotations and are explicitly separate from browser calculations. See the
 [capability matrix](docs/WASM_CAPABILITIES.md) for unavailable operations and the
-[user guide](docs/WASM_DEMO_GUIDE.md). Hosting is pending owner integration and
-GitHub Pages activation; a PR preview artifact is not a deployed public site.
+[user guide](docs/WASM_DEMO_GUIDE.md). The [public demonstration](https://dcornet.github.io/nirs4all-domains/)
+was verified after integration on `d1b14cceba483b5b5a0a4d9d0a42a1dd36270c92`,
+with successful Pages/Windows/Ubuntu workflows and a real 25-check public smoke.
+The [qualification review](docs/qualification/README.md) separates implementation,
+tested numerical behavior, scientific scope and unvalidated practical utility.
 
 **nirs4all-domains characterizes structural organization, population support and
 evaluation-related limitations in NIRS datasets, helping researchers choose

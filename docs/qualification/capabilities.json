@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "d1b14cceba483b5b5a0a4d9d0a42a1dd36270c92",
+  "scope": "Evidence inventory, not an executable result schema or global qualification score",
+  "levels": ["software availability", "stated numerical tests", "scientific scope and external utility"],
+  "no_new_real_source_fits": true,
+  "capabilities": [
+    {
+      "id": "pca_and_full_moments",
+      "implementation": "Native fit_pca/FlexiblePCA and browser full-X PCA diagnostics",
+      "numerical_provider": "Methods 1.3.13 / ABI 2.20 through public native or Preflight callback APIs",
+      "protocol": "browser_x.v1; native train-only/full-source protocols retain their distinct scope",
+      "evidence": ["crates/nirs4all-domains/src/browser.rs", "crates/nirs4all-domains/src/methods.rs", "bindings/wasm/tests/actual-runtime.test.mjs"],
+      "executed_tests": "Baseline Windows/Ubuntu gates, 4 common native/WASM fixtures, direct WASM analytical eigenvalues 1 and 4 at 1e-12; stricter common-checker replay uses exact original fixture bytes",
+      "limits": "Browser retains at most 20 resolved components; full moments are provider outputs, never inferred from truncated eigenvalues. Native FlexiblePCA may lack exact squared moments.",
+      "missing_evidence": "Independent general-spectrum oracle, tied eigenspaces, >20-component moment/truncation and difficult-conditioning fixtures",
+      "qualification": {"software": "available in declared routes", "numerical": "tested finite fixtures and transport consistency", "scientific": "descriptive variance, not causal chemistry or external prediction"}
+    },
+    {
+      "id": "geometric_structure",
+      "implementation": "Native raw/SNV geometry/continuity and browser raw PCA score geometry",
+      "numerical_provider": "Methods PCA, summaries and distance primitives",
+      "protocol": "Native structure protocols; bounded descriptive browser_x.v1",
+      "evidence": ["docs/SCIENTIFIC_PROTOCOLS.md", "docs/RESEARCH_INTEROPERABILITY_AND_TRANSITION.md", "docs/WASM_CAPABILITIES.md"],
+      "executed_tests": "Baseline native integration and browser score/schema tests; public complete-population synthetic smoke",
+      "limits": "Geometry depends on representation, axes and population; displayed components are not full-space distances",
+      "missing_evidence": "General interpretation of continuous factors and small-population uncertainty; independent study validation",
+      "qualification": {"software": "native broader than live browser", "numerical": "bounded executable fixtures", "scientific": "observed structure only; no intrinsic good/bad dataset label"}
+    },
+    {
+      "id": "neighborhoods",
+      "implementation": "Native neighbors/support; browser exact full-reference raw/resolved-score queries with self or declared-group exclusion",
+      "numerical_provider": "Methods nearest-neighbor and summary APIs",
+      "protocol": "browser_x.v1 fixes k=min(8,n-1); historical overlap is intersection/k in its declared query scope",
+      "evidence": ["crates/nirs4all-domains/src/browser.rs", "crates/nirs4all-domains/tests/browser.rs", "docs/qualification/SCIENCE_REVIEW.md"],
+      "executed_tests": "Baseline 1D distance and same-group/no-reference cases; added malformed ordering/padding adversaries exercise current PR CI",
+      "limits": "Browser exports first-neighbor distance summaries, not independent physical support. Historical query sampling differs from browser complete queries.",
+      "missing_evidence": "Independent per-observation distance oracle over broader shapes and matched representation sensitivity",
+      "qualification": {"software": "available with explicit work limits", "numerical": "exact owner kernel on tested fixtures", "scientific": "proximity under stated exclusions, not identity, leakage or Jaccard by default"}
+    },
+    {
+      "id": "density_and_hierarchy",
+      "implementation": "Native HDBSCAN/hierarchy and selected-branch persistence; browser one fixed resolved-score HDBSCAN fit",
+      "numerical_provider": "Methods HDBSCAN EOM and summary APIs",
+      "protocol": "browser EOM min_cluster_size=8/min_samples=4, allow_single_cluster=false; selected_branch_persistence.v1 is one-fit evidence",
+      "evidence": ["docs/SELECTED_BRANCH_PERSISTENCE.md", "docs/MULTISCALE_AND_AUGMENTATION_NOTES.md", "bindings/wasm/tests/parity-fixtures.json"],
+      "executed_tests": "Baseline two-population, small-population and all-noise/degenerate state tests; label-invariant platform parity",
+      "limits": "Persistence/membership describe one fit. Rows are not automatically independent units. Browser has no parameter search or hierarchy comparison.",
+      "missing_evidence": "Resampling, parameter/preprocessing robustness and physical corroboration for a new population",
+      "qualification": {"software": "one fit live; native hierarchy is broader", "numerical": "tested label/state/persistence transport", "scientific": "exploratory density; no risk probability, causal batch or stability certificate"}
+    },
+    {
+      "id": "metadata_associations",
+      "implementation": "Native non-Y factor associations and saved D1 factor reading; no live browser metadata-factor protocol",
+      "numerical_provider": "Existing Methods factor-association/statistical APIs",
+      "protocol": "Exact source/membership binding and D1/D2 conditional deployment relevance",
+      "evidence": ["docs/STRUCTURAL_WARNINGS_API.md", "docs/METHOD_REUSE_MATRIX.md", "docs/qualification/SCIENCE_REVIEW.md"],
+      "executed_tests": "Baseline association-transport, semantic/source binding and intended-use companion contracts; no new association fit",
+      "limits": "Association is not causation; a categorical factor alone does not scientifically require LOGO. Crossed factors need not form a tree.",
+      "missing_evidence": "Original memberships, physical/context meaning and an appropriate independent confirmation contrast",
+      "qualification": {"software": "native/saved available; live browser unavailable", "numerical": "source-bound existing outputs", "scientific": "conditional corroboration, not a shortcut mechanism"}
+    },
+    {
+      "id": "physical_and_reference_dependencies",
+      "implementation": "Identity/exclusion guards and documentary dependency interpretation",
+      "numerical_provider": "IO/Datasets declared identities; Methods/Preflight/DAG operations only where admitted",
+      "protocol": "Preserve acquisitions/specimens/reference units and whole connected dependencies; never infer them from spectra or row position",
+      "evidence": ["docs/VALIDATION_INTENTS.md", "docs/PRODUCT_RESEARCH_BOUNDARY.md", "docs/qualification/SCIENCE_REVIEW.md"],
+      "executed_tests": "Baseline duplicate/group/source-binding/leakage adversaries and physical-identity fabrication refusal",
+      "limits": "D1 corpus carries no complete physical/reference roster; missing transported metadata does not prove original-source absence",
+      "missing_evidence": "Verified physical/assay crosswalk and effective experimental-unit denominator",
+      "qualification": {"software": "guards and conditional reading available", "numerical": "not a physical identity estimator", "scientific": "dependency independence unavailable without original evidence"}
+    },
+    {
+      "id": "representation_sensitivity",
+      "implementation": "Native and saved matched raw/preprocessed geometry/partition/neighbor comparisons",
+      "numerical_provider": "Methods preprocessing, PCA, neighbors and partition-agreement APIs",
+      "protocol": "Same source/content/population and compatible query/parameter scopes; D6.1 distinguishes parameter from representation comparisons",
+      "evidence": ["docs/SCIENTIFIC_PROTOCOLS.md", "docs/DECISION_SUMMARY_API.md", "docs/qualification/SCIENCE_REVIEW.md"],
+      "executed_tests": "Existing native/companion comparison contracts and frozen cartilage counterexample replay; no new preprocessing fit",
+      "limits": "High neighborhood overlap can coexist with low ARI. Browser has no qualified paired-representation protocol.",
+      "missing_evidence": "Prospective replication under fixed choices and independently qualified experimental units",
+      "qualification": {"software": "native/saved broader than browser", "numerical": "existing scope-bound comparisons", "scientific": "sensitivity in stated representation; no winner or predictive consequence inferred"}
+    },
+    {
+      "id": "resampling_robustness",
+      "implementation": "Native train_refit_stability and historical bounded stability protocols; not live browser",
+      "numerical_provider": "Methods PCA/neighbors/clustering through existing native protocols",
+      "protocol": "Freeze resampling unit, coverage, settings and effective sample limitations separately from one-fit persistence",
+      "evidence": ["docs/SCIENTIFIC_PROTOCOLS.md", "docs/SELECTED_BRANCH_PERSISTENCE.md", "crates/nirs4all-domains/src/lib.rs"],
+      "executed_tests": "Baseline native ignored/integration gates and saved-state contracts; no fresh bootstrap or real-source stability experiment",
+      "limits": "Repeatability, parameter sensitivity, within-fit persistence and resampling answer different questions",
+      "missing_evidence": "Admitted resampling units and adequate replicate/uncertainty evidence for each intended population",
+      "qualification": {"software": "native protocol available; live browser not qualified", "numerical": "bounded historical/test evidence only", "scientific": "no new robust-structure claim from this review"}
+    },
+    {
+      "id": "train_fitted_spectral_support",
+      "implementation": "Native fitted PCA/transform, train-reference distances and residuals; narrow saved PC1 evidence; browser full-X route refuses held-out inputs",
+      "numerical_provider": "Methods PCA/FlexiblePCA, transform, neighbors and summaries",
+      "protocol": "Existing native train-only scopes; proposed extension requires owner validation, no pooled-X fitting",
+      "evidence": ["crates/nirs4all-domains/src/protocol.rs", "crates/nirs4all-domains/src/methods.rs", "docs/qualification/TRAIN_FITTED_SUPPORT_PROPOSAL.md"],
+      "executed_tests": "Baseline native no-test-fit/retained-target invariance and FlexiblePCA tests; public IO test/predict refusal",
+      "limits": "PC1 range evidence is not multivariate support. Browser diagnostics do not expose reusable mean/loadings/fitted state.",
+      "missing_evidence": "Owner-approved browser fitted-state contract, adversarial projection/support qualification and source-specific units",
+      "qualification": {"software": "native seam available; browser feature not implemented", "numerical": "existing native tested seam, not browser parity", "scientific": "observed-evaluation geometric support only; future guarantee unavailable"}
+    },
+    {
+      "id": "new_population_transfer",
+      "implementation": "D2 intended-use interpretation and scope-aware D3 saved comparison; no transfer estimator or automatic validation choice",
+      "numerical_provider": "Existing prediction/report owners; interpreter performs no fit",
+      "protocol": "Distinguish specimens, groups, instruments and entire studies; use the strongest defensible design for the stated objective",
+      "evidence": ["docs/VALIDATION_INTERPRETATION_API.md", "docs/COMPARISON_INTERPRETATION_API.md", "docs/qualification/SCIENCE_REVIEW.md"],
+      "executed_tests": "Baseline intent/unknown-use/unchanged-metric/crossed-factor contracts and public intent purity",
+      "limits": "Conventional CV or LOCO-X does not certify physically meaningful LOGO or unseen-study transfer",
+      "missing_evidence": "Admitted untouched populations, context/identity closure, independent units and adequate study replication",
+      "qualification": {"software": "conditional interpretation available", "numerical": "saved metrics preserved", "scientific": "only the exact evaluated population/design; no generic transfer certification"}
+    },
+    {
+      "id": "predictive_performance_and_warning_utility",
+      "implementation": "Read-only compatible prediction comparison, existing exploratory PLS/Ridge research, D5/D6/D6.1 documentary reading",
+      "numerical_provider": "Methods/DAG model/scoring owners for historical fits; Domains reads source-bound evidence",
+      "protocol": "Train-only choices, matched evaluations, baseline-skill-conditional degradation and separate independent warning review",
+      "evidence": ["docs/COMPARISON_INTERPRETATION_API.md", "docs/D5_WARNING_UTILITY.md", "docs/qualification/SCIENCE_REVIEW.md", "docs/qualification/DECISIONS.md"],
+      "executed_tests": "Baseline D3/D5/D6 contracts and saved replays; no new real-source fit or human judgment",
+      "limits": "R3c/R3d have too few external families, estimator-dependent signs and weak-baseline/discovery limitations. D5 18/20 scenarios are simulated, not user benefit.",
+      "missing_evidence": "Adequate independent measured-target confirmation, useful reference skill, uncertainty and genuine expert/user effectiveness evidence",
+      "qualification": {"software": "saved comparison/reporting works; browser predictive fit unavailable", "numerical": "historical scoped scores only", "scientific": "no calibrated structural failure probability or demonstrated practical utility"}
+    }
+  ]
+}

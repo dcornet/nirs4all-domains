@@ -3,10 +3,21 @@ use nirs4all_domains::browser::{self, BrowserRequest, PredictionIntent};
 use nirs4all_preflight::*;
 use std::cell::Cell;
 
+#[derive(Clone, Copy)]
+enum NeighborFixture {
+    Complete,
+    Decreasing,
+    PaddingGap,
+    TrailingPadding,
+    AllPadding,
+}
+
 struct Analytical {
     calls: Cell<usize>,
+    summary_calls: Cell<usize>,
     self_neighbor: bool,
     failure: bool,
+    neighbor_fixture: NeighborFixture,
 }
 impl Analytical {
     fn tick(&self) {
@@ -41,16 +52,25 @@ impl MethodsProvider for Analytical {
     }
     fn summary(&self, r: &SummaryRequest) -> Result<SummaryDiagnostics, ProviderError> {
         self.tick();
-        assert_eq!(r.values, vec![1., 1., 1.]);
+        self.summary_calls.set(self.summary_calls.get() + 1);
+        let padded = matches!(self.neighbor_fixture, NeighborFixture::TrailingPadding);
+        assert_eq!(
+            r.values,
+            if padded {
+                vec![2., 1., 1.]
+            } else {
+                vec![1., 1., 1.]
+            }
+        );
         Ok(SummaryDiagnostics {
             count: 3,
             min: 1.,
-            max: 1.,
-            mean: 1.,
-            sample_sd: Some(0.),
+            max: if padded { 2. } else { 1. },
+            mean: if padded { 4. / 3. } else { 1. },
+            sample_sd: Some(if padded { (1.0_f64 / 3.).sqrt() } else { 0. }),
             q25: 1.,
             median: 1.,
-            q75: 1.,
+            q75: if padded { 1.5 } else { 1. },
             backend_version: "analytical-fixture".into(),
         })
     }
@@ -63,7 +83,7 @@ impl MethodsProvider for Analytical {
         assert_eq!(r.query.len(), 3);
         assert_eq!(r.k, 2);
         assert_eq!(r.query_group_ids, r.reference_group_ids);
-        Ok(NearestNeighborsDiagnostics {
+        let mut response = NearestNeighborsDiagnostics {
             indices: if self.self_neighbor {
                 vec![vec![0, 2], vec![0, 2], vec![1, 0]]
             } else {
@@ -75,7 +95,37 @@ impl MethodsProvider for Analytical {
                 vec![Some(1.), Some(2.)],
             ],
             backend_version: "analytical-fixture".into(),
-        })
+        };
+        // Mutate the last row so rejection also covers earlier accepted rows.
+        match self.neighbor_fixture {
+            NeighborFixture::Complete => {}
+            NeighborFixture::Decreasing => {
+                response.distances[2] = vec![Some(2.), Some(1.)];
+            }
+            NeighborFixture::PaddingGap => {
+                response.indices[2] = vec![-1, 0];
+                response.distances[2] = vec![None, Some(2.)];
+            }
+            NeighborFixture::TrailingPadding => {
+                response.indices[0][0] = 2;
+                response.indices[1][0] = 2;
+                response.distances[0][0] = Some(2.);
+                for (indices, distances) in response
+                    .indices
+                    .iter_mut()
+                    .zip(&mut response.distances)
+                    .take(2)
+                {
+                    indices[1] = -1;
+                    distances[1] = None;
+                }
+            }
+            NeighborFixture::AllPadding => {
+                response.indices = vec![vec![-1, -1]; 3];
+                response.distances = vec![vec![None, None]; 3];
+            }
+        }
+        Ok(response)
     }
     fn hdbscan(&self, _: &HdbscanRequest) -> Result<HdbscanDiagnostics, ProviderError> {
         panic!("three rows are below the frozen density setting")
@@ -98,8 +148,10 @@ fn fixture() -> BrowserRequest {
 fn provider() -> Analytical {
     Analytical {
         calls: Cell::new(0),
+        summary_calls: Cell::new(0),
         self_neighbor: false,
         failure: false,
+        neighbor_fixture: NeighborFixture::Complete,
     }
 }
 
@@ -219,4 +271,77 @@ fn shared_groups_and_forged_evidence_are_rejected() {
         browser::interpret(&forged, PredictionIntent::Study).unwrap_err(),
         "BROWSER_EVIDENCE_HASH_MISMATCH"
     );
+}
+
+#[test]
+fn decreasing_and_gapped_neighbors_are_rejected_before_any_summary() {
+    for neighbor_fixture in [NeighborFixture::Decreasing, NeighborFixture::PaddingGap] {
+        let mut p = provider();
+        p.neighbor_fixture = neighbor_fixture;
+        let report = browser::analyze(&fixture(), &p).unwrap();
+        for metric in ["raw_neighbors", "projected_neighbors"] {
+            assert_eq!(report["metrics"][metric]["status"], "error");
+            assert_eq!(
+                report["metrics"][metric]["reason"],
+                "INVALID_PROVIDER_RESPONSE"
+            );
+            assert!(report["metrics"][metric]["value"].is_null());
+        }
+        assert_eq!(p.summary_calls.get(), 0);
+    }
+}
+
+#[test]
+fn complete_equal_distance_and_trailing_padding_neighbors_remain_computed() {
+    for neighbor_fixture in [NeighborFixture::Complete, NeighborFixture::TrailingPadding] {
+        let mut p = provider();
+        p.neighbor_fixture = neighbor_fixture;
+        let mut input = fixture();
+        if matches!(neighbor_fixture, NeighborFixture::TrailingPadding) {
+            input.group_ids = Some(vec!["shared".into(), "shared".into(), "other".into()]);
+        }
+        let report = browser::analyze(&input, &p).unwrap();
+        for metric in ["raw_neighbors", "projected_neighbors"] {
+            let value = &report["metrics"][metric]["value"];
+            assert_eq!(report["metrics"][metric]["status"], "computed");
+            assert_eq!(value["rows_with_neighbor"], 3);
+            assert_eq!(
+                value["first_neighbor_distance_summary"]["status"],
+                "computed"
+            );
+            assert_eq!(
+                value["first_neighbor_distance_summary"]["value"]["mean"],
+                if matches!(neighbor_fixture, NeighborFixture::TrailingPadding) {
+                    4. / 3.
+                } else {
+                    1.
+                }
+            );
+        }
+        assert_eq!(p.summary_calls.get(), 2);
+    }
+}
+
+#[test]
+fn all_padding_neighbors_preserve_empty_summary_without_provider_summary() {
+    let mut p = provider();
+    p.neighbor_fixture = NeighborFixture::AllPadding;
+    let mut input = fixture();
+    input.group_ids = Some(vec!["shared".into(); 3]);
+    let report = browser::analyze(&input, &p).unwrap();
+    for metric in ["raw_neighbors", "projected_neighbors"] {
+        let value = &report["metrics"][metric]["value"];
+        assert_eq!(report["metrics"][metric]["status"], "computed");
+        assert_eq!(value["rows_with_neighbor"], 0);
+        assert_eq!(
+            value["first_neighbor_distance_summary"]["status"],
+            "unavailable"
+        );
+        assert_eq!(
+            value["first_neighbor_distance_summary"]["reason"],
+            "EMPTY_SUMMARY_POPULATION"
+        );
+        assert!(value["first_neighbor_distance_summary"]["value"].is_null());
+    }
+    assert_eq!(p.summary_calls.get(), 0);
 }
