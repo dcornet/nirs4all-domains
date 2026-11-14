@@ -1,5 +1,10 @@
 # Proposed train-fitted spectral support protocol
 
+The [methodological review and final approval candidate](TRAIN_FITTED_PROTOCOL_REVIEW.md)
+now resolves this initial draft's component boundaries, exclusion policies,
+residual definitions and calibration limits. Neither document implements or
+authorizes browser fitted-state execution or real-data fitting.
+
 Status: **draft requiring owner validation; not implemented or authorized for
 real-source execution**. This proposal does not amend H1–H5 or substitute a
 browser full-X fit for native training-only evidence.

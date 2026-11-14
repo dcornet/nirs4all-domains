@@ -13,6 +13,13 @@ not promote one level into another, start Phase 2 or amend frozen H1–H5.
 - [Proposed train-fitted support protocol](TRAIN_FITTED_SUPPORT_PROPOSAL.md).
 - [Ranked experiments, resource estimates and owner decisions](DECISIONS.md).
 
+The [PR #7 review closure](PR7_REVIEW_CLOSURE.md) links the corrected serialization
+tests and current checks. Approval-ready follow-ups are the
+[train-fitted protocol review](TRAIN_FITTED_PROTOCOL_REVIEW.md),
+[independent human utility plan/forms](HUMAN_UTILITY_EVALUATION_PLAN.md),
+[single Phase 2 candidate decision](PHASE2_EXPERIMENT_DECISION.md) and
+[owner decision list](OWNER_DECISIONS.md). They authorize no collection or fit.
+
 ## What is actually established
 
 The public [Domains demo](https://dcornet.github.io/nirs4all-domains/) uses real

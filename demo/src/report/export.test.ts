@@ -47,8 +47,8 @@ describe('Single semantic model and original saved evidence', () => {
     expect(prose).not.toContain('![spectra](');
     expect(prose).not.toContain('[study](');
     expect(prose).not.toContain('![spectra][remote]');
-    expect(prose).toContain('\\!\\[spectra\\]\\(https://external\\.invalid/beacon\\)');
-    expect(prose).toContain('\\[study\\]\\(https://external\\.invalid/action\\)');
+    expect(prose).toContain('\\!\\[spectra\\]\\(https\\:\\/\\/external\\.invalid\\/beacon\\)');
+    expect(prose).toContain('\\[study\\]\\(https\\:\\/\\/external\\.invalid\\/action\\)');
     expect(JSON.stringify(report)).toBe(before);
     expect(report.scientific_report).toBe(source);
   });

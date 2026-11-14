@@ -1,5 +1,12 @@
 # Priorities, candidate experiments and owner decisions
 
+The current [single-experiment decision](PHASE2_EXPERIMENT_DECISION.md),
+[train-fitted methodological review](TRAIN_FITTED_PROTOCOL_REVIEW.md),
+[human utility protocol/forms](HUMAN_UTILITY_EVALUATION_PLAN.md) and
+[precise owner decisions](OWNER_DECISIONS.md) supersede the broad next-step
+suggestions below for approval purposes. The historical estimates remain visible;
+no task or reservation is admitted by this update.
+
 No Phase 2 execution is authorized. Estimates below are upper bounds for review,
 not measured runtimes, new reservations or eligibility certificates. Reuse old
 results first; do not rerun a completed R1/R2/R3 or D1–D6.1 cell. Keep CORN pending
