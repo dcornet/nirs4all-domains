@@ -1,12 +1,13 @@
 import type { Operation, WorkerReply } from './types';
+import type { ProcessingStage } from '../ui-types';
 
 /** Killing the worker interrupts synchronous kernels; request IDs reject obsolete work. */
 export class BrowserEngine {
   private worker: Worker | null = null;
   private sequence = 0;
-  private pending: { id: number; resolve(value: unknown): void; reject(reason: Error): void; progress(stage: string): void; timer: ReturnType<typeof setTimeout> } | null = null;
+  private pending: { id: number; resolve(value: unknown): void; reject(reason: Error): void; progress(stage: string, step?: ProcessingStage): void; timer: ReturnType<typeof setTimeout> } | null = null;
   constructor(private factory: () => Worker = () => new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' })) {}
-  async request<T>(operation: Operation, payload: unknown, progress: (stage: string) => void = () => {}): Promise<T> {
+  async request<T>(operation: Operation, payload: unknown, progress: (stage: string, step?: ProcessingStage) => void = () => {}): Promise<T> {
     this.cancel();
     const id = ++this.sequence;
     this.worker = this.factory();
@@ -15,7 +16,7 @@ export class BrowserEngine {
         timer: setTimeout(() => this.fail(new Error('WORKER_TIME_BUDGET_EXCEEDED')), 120_000) };
       this.worker!.onmessage = ({ data }: MessageEvent<WorkerReply>) => {
         if (!this.pending || data.id !== this.pending.id) return;
-        if (data.stage) { this.pending.progress(data.stage); return; }
+        if (data.stage) { this.pending.progress(data.stage, data.stage_id); return; }
         const task = this.pending; this.pending = null; clearTimeout(task.timer);
         this.worker?.terminate(); this.worker = null;
         if (data.ok) task.resolve(data.result);

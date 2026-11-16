@@ -1,0 +1,108 @@
+import type { Locale,PredictionIntent } from '../ui-types';
+
+const en={
+  steps:['My data','What the spectra show','Why it may matter','My report'],
+  route:'Explore in four steps',direct:'Direct scientific sections',back:'Back to my data',returnSummary:'Back to summary',
+  importHelp:'How should I prepare my files?',formats:'Qualified file routes',
+  importHint:'Complete X-only CSV/TSV/text, SPC or JCAMP-DX; optional explicit IO configuration. Nothing is uploaded.',
+  csv:'For a simple X table, each row is an acquisition and each column a spectral variable. A numeric header supplies the spectral axis; nonnumeric headers retain their original labels with a logical index axis.',
+  metadata:'For metadata or several files, supply an explicit IO .nirs4all.json configuration together with its referenced files. Declare X roles, original identities, metadata and joins through IO; Domains provides no automatic merge or physical identity inference.',
+  saved:'A single ordinary JSON opens an existing standalone Domains report. Arbitrary JSON matrices and the browser export envelope are not X import formats.',
+  retained:'Declared test/prediction populations are refused by this complete-X route. They need a separately qualified train-fitted browser protocol; do not relabel or drop them to bypass the refusal.',
+  limits:'Limits: 32 files, 8 MiB combined, 2,000 observations, 1,000,000 X cells, 120 seconds per worker request. Kernels also have work limits and can be unavailable without rejecting other evidence.',
+  noRepair:'No row deletion, imputation, silent source fusion or automatic split is performed.',
+  help:'Understand a term',definition:'Definition',provides:'What it contributes',not:'What it does not establish',when:'When to examine it',
+  intent:'Choose a prediction question',intentUnknown:'Several conditional readings remain available. Choosing an objective is a declaration, not evidence of transfer.',
+  missing:'What is not documented here',populations:'Declared populations',noPopulations:'No partition information is carried in this view.',
+  documentationLimit:'Transported columns do not by themselves certify specimens, repeated acquisitions, reference units or physical independence. Missing fields here do not establish their absence in the original database.',
+  begin:'In brief',understand:'Understand the figure',details:'Scientific details and exact values',
+  purpose:'Conditional relevance',next:'Possible next verification',requirements:'Information and permissions needed',
+  execution:'Original execution evidence',notExecuted:'A proposed check is not an executed analysis. Read its original inputs, protocol, authorization and receipt separately.',
+  complete:'Complete scientific report',summary:'Short synthesis · partial',reading:'Choose a reading',
+  partial:'Partial synthesis: this is not a complete reproduction of scientific evidence. All original objects remain in this HTML and JSON; expand the complete reading before a full scientific assessment.',
+  completeOpen:'Open the complete scientific reading',summaryIntro:'The following synthesis reuses the F1 observations, statuses, conditional checks and limitations. It creates no diagnosis.',
+  share:'Before sharing an export',privacy:'Raw X is excluded, but filenames, observation IDs, PCA coordinates, metadata, source references and your declarations can still be sensitive. Review the file and applicable source permissions before sharing.',
+  print:'Prepare printable HTML',printHelp:'Downloads are autonomous. For a short PDF, download the partial synthesis HTML and print it; for full tables and parameters, choose the complete reading. Both retain the original objects in their file.',
+  stageTitle:'Processing locally — no percentage is estimated',
+  stages:{prepare:'Prepare files',import:'Read through IO / Formats',validate:'Validate the source',compute:'Compute existing X diagnostics',interpret:'Read the stated objective',report:'Prepare the report'},
+  pending:'Updating the contextual reading; the measurements stay unchanged.',
+  source:'Original source wording and technical reasons are retained below.',
+  refused:'The source could not be admitted to this route.',action:'What you can do next',technical:'Exact refusal and scope',
+  errorGeneric:'Review the source format, declared roles and exact technical reason. No repair is inferred from an unknown error.',
+  errorMissing:'This source has missing or nonfinite spectral values. The current analysis requires complete X.',
+  actionMissing:'Check the original file or use an explicitly qualified upstream treatment before analysis. No value was replaced automatically.',
+  errorPartition:'This file set declares test or prediction observations. The current full-X browser route cannot fit them.',
+  actionPartition:'Keep the original populations. Use a separately qualified train-fitted route; do not remove or relabel retained observations.',
+  errorBudget:'The request exceeds a file, population, work or time limit of this browser route.',
+  actionBudget:'Inspect the stated limit. Use a separately qualified execution route for larger work; no sampling or row deletion is proposed.',
+  errorJson:'This JSON is not an admissible standalone report or has contradictory source bindings.',
+  actionJson:'Select an original standalone report. Select an exact .nirs4all.json configuration together with its referenced files for X input.',
+  errorWorker:'The local WASM engine or its worker could not complete the request.',
+  actionWorker:'Check static-asset loading and the exact technical reason, then retry the original input if appropriate. No substitute numerical result is shown.',
+  errorConfig:'The file roles, source axes or identity/metadata correspondence need an explicit IO declaration.',
+  actionConfig:'Review the original files and the declared IO configuration. No source fusion, invented group, sort or automatic join is performed.',
+  errorSaved:'The objective is recorded as a declaration; the imported saved companions remain unchanged.',
+  actionSaved:'Use the qualified Domains API with the original evidence to generate a different saved reading. No browser refit occurs.',
+  modelAbsent:'No target, calibration model or predictive validation result is computed by the live X-only route.',
+};
+const fr:typeof en={
+  steps:['Mes données','Ce que montrent les spectres','Pourquoi cela peut compter','Mon rapport'],
+  route:'Explorer en quatre étapes',direct:'Accès direct aux sections scientifiques',back:'Revenir à mes données',returnSummary:'Revenir à la synthèse',
+  importHelp:'Comment préparer mes fichiers ?',formats:'Formats et parcours qualifiés',
+  importHint:'X complet en CSV/TSV/texte, SPC ou JCAMP-DX ; configuration IO explicite facultative. Aucun envoi de données.',
+  csv:'Dans une table X simple, chaque ligne est une acquisition et chaque colonne une variable spectrale. Un en-tête numérique fournit l’axe spectral ; les autres en-têtes conservent leurs noms avec un axe d’indices logiques.',
+  metadata:'Pour des métadonnées ou plusieurs fichiers, fournissez une configuration IO .nirs4all.json avec les fichiers référencés. Déclarez les rôles X, identités originales, métadonnées et jointures via IO ; Domains ne fusionne rien automatiquement et n’infère pas d’identité physique.',
+  saved:'Un JSON ordinaire isolé ouvre un rapport Domains autonome existant. Les matrices JSON arbitraires et l’enveloppe exportée par le navigateur ne sont pas des formats d’import X.',
+  retained:'Les populations test/prédiction déclarées sont refusées par ce parcours sur tout X. Elles exigent un protocole navigateur train-fitted qualifié séparément ; ne les renommez et ne les supprimez pas pour contourner le refus.',
+  limits:'Limites : 32 fichiers, 8 Mio cumulés, 2 000 observations, 1 000 000 de cellules X, 120 secondes par requête worker. Les kernels ont aussi des limites de travail ; une mesure peut être indisponible sans invalider les autres.',
+  noRepair:'Aucune suppression de ligne, imputation, fusion silencieuse de sources ou partition automatique.',
+  help:'Comprendre un terme',definition:'Définition',provides:'Ce que cela apporte',not:'Ce que cela ne démontre pas',when:'Quand l’examiner',
+  intent:'Choisir une question de prédiction',intentUnknown:'Plusieurs lectures conditionnelles restent possibles. Choisir un objectif est une déclaration, pas une preuve de transfert.',
+  missing:'Ce qui n’est pas documenté ici',populations:'Populations déclarées',noPopulations:'Aucune information de partition transportée dans cette vue.',
+  documentationLimit:'Les colonnes transportées ne certifient pas à elles seules les spécimens, acquisitions répétées, unités de référence ou l’indépendance physique. Les champs absents ici peuvent exister dans la base originale.',
+  begin:'En bref',understand:'Comprendre la figure',details:'Détails scientifiques et valeurs exactes',
+  purpose:'Pertinence conditionnelle',next:'Vérification envisageable',requirements:'Informations et permissions nécessaires',
+  execution:'Preuve d’exécution originale',notExecuted:'Une vérification proposée n’est pas une analyse exécutée. Consultez séparément ses entrées, son protocole, son autorisation et son reçu originaux.',
+  complete:'Rapport scientifique complet',summary:'Synthèse courte · partielle',reading:'Choisir une lecture',
+  partial:'Synthèse partielle : elle ne reproduit pas l’intégralité des preuves scientifiques. Tous les objets originaux restent dans cet HTML et le JSON ; dépliez la lecture complète pour une évaluation scientifique complète.',
+  completeOpen:'Ouvrir la lecture scientifique complète',summaryIntro:'Cette synthèse réutilise les observations, statuts, vérifications conditionnelles et limites F1. Elle ne crée aucun diagnostic.',
+  share:'Avant de partager un export',privacy:'X brut est exclu, mais noms de fichiers, identifiants, coordonnées PCA, métadonnées, références et déclarations peuvent rester sensibles. Vérifiez le fichier et les permissions de la source avant partage.',
+  print:'Préparer l’HTML imprimable',printHelp:'Les téléchargements sont autonomes. Pour un PDF court, téléchargez l’HTML de synthèse partielle puis imprimez-le ; pour tous les tableaux et paramètres, choisissez la lecture complète. Les objets originaux restent dans les deux fichiers.',
+  stageTitle:'Traitement local — aucun pourcentage estimé',
+  stages:{prepare:'Préparer les fichiers',import:'Lire via IO / Formats',validate:'Valider la source',compute:'Calculer les diagnostics X existants',interpret:'Lire l’objectif déclaré',report:'Préparer le rapport'},
+  pending:'Mise à jour de la lecture contextuelle ; les mesures restent inchangées.',
+  source:'Formulations sources et raisons techniques exactes conservées ci-dessous.',
+  refused:'La source n’a pas pu être admise dans ce parcours.',action:'Comment poursuivre',technical:'Refus exact et périmètre',
+  errorGeneric:'Vérifiez le format source, les rôles déclarés et la raison technique exacte. Aucune correction n’est inférée d’une erreur inconnue.',
+  errorMissing:'Cette source contient des valeurs spectrales manquantes ou non finies. L’analyse actuelle exige un X complet.',
+  actionMissing:'Vérifiez le fichier original ou utilisez un traitement amont explicitement qualifié avant l’analyse. Aucune valeur n’a été remplacée automatiquement.',
+  errorPartition:'Ces fichiers déclarent des observations test ou prédiction. Le parcours navigateur sur tout X ne peut pas les ajuster.',
+  actionPartition:'Conservez les populations originales. Utilisez un parcours train-fitted qualifié séparément ; ne supprimez et ne renommez pas les observations retenues.',
+  errorBudget:'La requête dépasse une limite de fichiers, de population, de travail ou de temps de ce parcours navigateur.',
+  actionBudget:'Consultez la limite indiquée. Utilisez un parcours qualifié séparément pour un travail plus grand ; aucun échantillonnage ni retrait de ligne n’est proposé.',
+  errorJson:'Ce JSON n’est pas un rapport autonome admissible ou présente des références sources contradictoires.',
+  actionJson:'Sélectionnez un rapport autonome original. Pour importer X, sélectionnez la configuration exacte .nirs4all.json avec les fichiers référencés.',
+  errorWorker:'Le moteur WASM local ou son worker n’a pas pu terminer la requête.',
+  actionWorker:'Vérifiez le chargement des ressources et la raison technique exacte, puis réessayez l’entrée originale si pertinent. Aucun résultat numérique de substitution n’est affiché.',
+  errorConfig:'Les rôles des fichiers, axes sources ou correspondances d’identités/métadonnées nécessitent une déclaration IO explicite.',
+  actionConfig:'Vérifiez les fichiers originaux et la configuration IO déclarée. Aucune fusion de sources, invention de groupe, opération de tri ou jointure automatique.',
+  errorSaved:'L’objectif est enregistré comme déclaration ; les annotations importées restent inchangées.',
+  actionSaved:'Utilisez l’API Domains qualifiée avec les preuves originales pour générer une autre lecture enregistrée. Aucun réajustement dans le navigateur.',
+  modelAbsent:'Le parcours live X seul ne calcule ni cible, ni modèle de calibration, ni performance de validation prédictive.',
+};
+export const uxCopy=(locale:Locale)=>locale==='fr'?fr:en;
+export const intentDescriptions:Record<Locale,Record<PredictionIntent,string>>={
+  en:{study:'Describe the population already measured; no future prediction claim.',known_acquisitions:'New acquisitions in a represented setting; repeated specimens may still be dependent.',new_specimens:'New physical specimens; original specimen/reference links need evidence.',new_groups:'New documented groups or batches; labels alone do not certify independent units.',new_context:'State the novelty: instrument, site, time or an entire experiment are different questions.',unknown:'Keep the conditional alternatives and clarify what the prediction should cover.'},
+  fr:{study:'Décrire la population déjà mesurée ; aucune conclusion sur une prédiction future.',known_acquisitions:'Nouvelles acquisitions dans un contexte représenté ; des spécimens répétés peuvent rester dépendants.',new_specimens:'Nouveaux spécimens physiques ; les liens spécimen/référence exigent des preuves originales.',new_groups:'Nouveaux groupes ou lots documentés ; leurs labels ne certifient pas des unités indépendantes.',new_context:'Précisez la nouveauté : instrument, site, temps et expérience entière sont des questions distinctes.',unknown:'Conserver les alternatives conditionnelles et préciser ce que la prédiction doit couvrir.'},
+};
+export function errorGuidance(code:string,message:string,locale:Locale){
+  const c=uxCopy(locale),reason=code+' '+message;
+  if(/SAVED_DECLARATION_ONLY/.test(reason))return {description:c.errorSaved,action:c.actionSaved};
+  if(/NONFINITE_X|MISSING_X|missing spectral/i.test(reason))return {description:c.errorMissing,action:c.actionMissing};
+  if(/PARTITIONED_IMPORT|RETAINED_TEST|PREDICTION_PARTITION/.test(reason))return {description:c.errorPartition,action:c.actionPartition};
+  if(/BUDGET|TIME_BUDGET|IMPORT_BYTE_OR_FILE|MAX_|CAPACITY/.test(reason))return {description:c.errorBudget,action:c.actionBudget};
+  if(/JSON|STALE_SAVED|ONE_QUALIFIED_STANDALONE/.test(reason))return {description:c.errorJson,action:c.actionJson};
+  if(/WORKER|WASM|WebAssembly|fetch|Loading chunk/i.test(reason))return {description:c.errorWorker,action:c.actionWorker};
+  if(/CONFIGURATION|SOURCE_AXES|MULTISOURCE|MISALIGNED|DUPLICATE_OBSERVATION|AMBIGUOUS|AGGREGATION/.test(reason))return {description:c.errorConfig,action:c.actionConfig};
+  return {description:c.refused,action:c.errorGeneric};
+}

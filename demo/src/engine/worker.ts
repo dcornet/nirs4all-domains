@@ -8,17 +8,19 @@ self.onmessage = async ({ data }: MessageEvent<WorkerRequest>) => {
   const reply = (message: Omit<WorkerReply, 'id'>) => self.postMessage({ id, ...message });
   try {
     if (operation === 'import') {
-      reply({ ok: true, stage: 'Reading with IO / Formats WASM' });
+      reply({ ok: true, stage: 'Reading with IO / Formats WASM', stage_id: 'import' });
       reply({ ok: true, result: await importFiles(payload as InputFile[]) }); return;
     }
-    reply({ ok: true, stage: 'Loading Domains Rust / Methods WASM' });
+    reply({ ok: true, stage: 'Loading Domains Rust / Methods WASM', stage_id: 'prepare' });
     const { createDomainsRuntime } = await import('@nirs4all/domains');
     const runtime = await createDomainsRuntime();
     if (operation === 'interpret') {
+      reply({ ok: true, stage: 'Reading the declared prediction objective; no fit', stage_id: 'interpret' });
       const request = payload as { report: BrowserReport; intent: PredictionIntent };
       reply({ ok: true, result: runtime.interpret(request.report, request.intent) }); return;
     }
-    reply({ ok: true, stage: 'Computing complete-population X evidence' });
+    reply({ ok: true, stage: 'Validating the full-X request', stage_id: 'validate' });
+    reply({ ok: true, stage: 'Computing complete-population X evidence', stage_id: 'compute' });
     reply({ ok: true, result: runtime.analyze(payload as BrowserInput) });
   } catch (error) {
     const value = error as { code?: string; message?: string };

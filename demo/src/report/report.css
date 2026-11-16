@@ -3,3 +3,5 @@
 .report-table-wrap table[data-columns="2"]{min-width:0}.metric-id{display:block;font:10px/1.5 ui-monospace,monospace;opacity:.75;margin-top:4px;overflow-wrap:anywhere}
 
 @media print{.report-evidence>details,.domains-report .report-complete pre{display:none!important}.report-complete{break-before:auto!important}.report-machine-note{font-size:9pt;border-left:2px solid #0f766e;padding-left:10px}}
+
+.report-partial{border-left:4px solid #0f766e;background:#ecf4f0;padding:15px;font-size:.9rem}.report-full-reading>summary{padding:18px;border:1px solid #dce5e2;border-radius:8px;background:#ecf4f0;font-size:1rem}.partial-synthesis .report-finding{break-inside:avoid}.report-full-reading{margin-top:24px}@media print{body[data-reading=summary] .report-full-reading{display:none!important}body[data-reading=summary] .report-cover{break-after:auto}body[data-reading=summary] .report-nav{display:none}body[data-reading=summary] .partial-synthesis{break-before:auto}body[data-reading=summary] .report-finding{break-inside:auto}}
