@@ -36,9 +36,9 @@ let screenshotBytes = 0;
 const browsers = [];
 function check(name, detail = {}) { receipt.checks.push({ name, ...detail }); process.stdout.write(`PASS ${name}\n`); }
 async function visible(locator) { await locator.waitFor({ state: 'visible', timeout: 120_000 }); }
-async function screenshot(page, name, fullPage = false) {
+async function screenshot(page, name, fullPage = false, selector) {
   const path = resolve(output, `${name}.png`);
-  const bytes = await page.screenshot({ path, fullPage, animations: 'disabled' });
+  const bytes = await (selector?page.locator(selector):page).screenshot({ path, ...(selector?{}:{fullPage}), animations: 'disabled' });
   screenshotBytes += bytes.length;
   assert(screenshotBytes <= receipt.bounds.screenshot_bytes, 'Screenshot budget exceeded');
   receipt.screenshots.push({ file: `${name}.png`, bytes: bytes.length });

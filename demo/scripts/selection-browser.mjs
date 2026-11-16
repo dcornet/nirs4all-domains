@@ -94,7 +94,10 @@ export async function qualifyLongSelection(browser,url,original,output,exported,
     assert.equal(report.provenance.browser_numerical_execution,false);assert(report.provenance.source_qualification.includes('not authenticated'));
     assert.equal(await page.evaluate(()=>window.__longWorkers),0);
     await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'FR',exact:true}).click();
-    await page.locator('.export-options').scrollIntoViewIfNeeded();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await screenshot(page,'f3-5-options-mobile');
+    await page.locator('.export-options').scrollIntoViewIfNeeded();await screenshot(page,'f3-5-options-mobile',false,'.export-options');
+    const layout=await page.evaluate(()=>({viewport:innerWidth,document_width:document.documentElement.scrollWidth}));
+    await writeFile(resolve(output,'f3_5','mobile-layout.json'),JSON.stringify(layout,null,2));
+    assert(layout.document_width<=layout.viewport+1);
     check('F3.5 long synthetic documentary copy: original public numerics unchanged, unauthenticated saved scope, mobile FR and no browser fit');
   }finally{await context.close();}
 }

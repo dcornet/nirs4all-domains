@@ -37,6 +37,14 @@ the fix; all original evidence equality checks remain strict. An added core-prin
 test also removes duplicate header JSON from custom readings. Final-head gates
 remain required after these corrections; preliminary failures are not called green.
 
+Head `d9a2c78` then passed all eight export cases and generated 16 PDFs before
+the mobile stress check exposed an unbroken saved-PCA unavailability reason.
+Development-only reproduction (existing installed cohort, strict 960 MiB Windows
+process-tree guard) measured 622-pixel document width at a 390-pixel viewport.
+Inherited `overflow-wrap:anywhere` on the workspace content reduced it to 390,
+with no text clipping or hidden overflow; unrelated title/grid changes were not
+needed. The candidate must still pass this unchanged assertion in hosted CI.
+
 PDF inspection uses test-only **PyMuPDF 1.28.2**, canonical hash-locked wheels,
 no dependencies, in hosted CI. It is AGPL-3.0 / commercially licensed and is not
 bundled with the application. The larger 2.x layout/model dependency cohort is
