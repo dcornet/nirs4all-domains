@@ -96,8 +96,9 @@ Initial combined footprint: **20,755,598,282 / 20,826,468,033 bytes**, with
 70,869,751 bytes headroom. Campaign remains **2,015,788,498 / 2,023,410,176**.
 An intermediate measurement was **20,782,371,965**; retained npm cache/browser
 temporary files required correcting the internal engineering estimate from
-16 to 32 MiB, plus unchanged 4 MiB essential evidence. Global ceilings and
-reservations increase by **zero**; 2 GiB volume reserves remain. Final actual
+16 to 48 MiB, plus unchanged 4 MiB essential evidence. Global ceilings and
+reservations increase by **zero**; 2 GiB volume reserves remain. Precommit measurement was **20,795,354,909 bytes**, an increase of
+**39,756,627 bytes**; essential evidence was **3,105,424 bytes**. Final actual
 measurement and protected-history/journal verification are recorded in the PR.
 The only dependency addition is test-only axe-core 4.14.1; scientific/provider
 versions, production notices, package versions and product licences do not change.

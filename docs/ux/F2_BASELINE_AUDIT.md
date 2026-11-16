@@ -38,9 +38,14 @@ Cancellation stops the actual worker and cannot publish a superseded result.
 Measured engineering correction: installing the test-only accessibility dependency
 also retained 11,221,152 bytes of npm cache; browser temporary files retained
 7,285,981 bytes after the guarded capture failure. The original 16 MiB engineering
-estimate was insufficient. The revised internal allocation is 32 MiB engineering
+estimate was insufficient. The revised internal allocation is 48 MiB engineering
 plus the unchanged 4 MiB essential evidence allocation, within the existing
 70,869,751-byte headroom. Global ceilings, reservations, volume reserves and RAM
 limits do not increase; caches, failed receipts and historical evidence remain.
 Large further examples/PDFs stay in CI. Stop local spending before those revised
 allocations or the unchanged cumulative ceiling are exceeded.
+
+The precommit whole measurement was 20,795,354,909 bytes (+39,756,627);
+further browser temporary allocations exceeded the intermediate 32 MiB estimate.
+The final internal engineering bound is 48 MiB, plus 4 MiB essential evidence,
+inside the unchanged original headroom. No further local browser replay is planned.
