@@ -86,6 +86,12 @@ HTML has no runtime/network dependency and retains the original evidence in an
 expandable section. Print/PDF uses the browser print dialog. Verify actual
 qualification through the matching PR's browser receipts.
 
+The [F1 report guide](../docs/report/F1_REPORT_GUIDE.md) explains the shared
+figure/table presentation, exact evidence navigation, bilingual explanations,
+one-component PCA, saved readiness and offline/print exports. Original scientific
+objects and their hashes remain present; an additive versioned presentation does
+not replace them. Raw spectra remain screen-only, including in embedded SVGs.
+
 ## Scientific scope
 
 See [WASM capabilities](../docs/WASM_CAPABILITIES.md) for the exact live versus

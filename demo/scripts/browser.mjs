@@ -5,12 +5,13 @@ import { readFile, mkdir, writeFile, stat } from 'node:fs/promises';
 import { resolve, dirname, extname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox } from 'playwright-core';
+import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffline } from './report-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
 const output = resolve(process.env.DOMAINS_BROWSER_RESULTS || resolve(demo, 'test-results/browser'));
 const base = '/nirs4all-domains/';
-const receipt = { started_at: new Date().toISOString(), base_path: base, checks: [], assets: [], screenshots: [], browsers: [], console_errors: [], page_errors: [], bounds: { screenshot_bytes: 10_000_000, operation_timeout_ms: 120_000 }, success: false };
+const receipt = { started_at: new Date().toISOString(), base_path: base, checks: [], assets: [], screenshots: [], browsers: [], console_errors: [], page_errors: [], bounds: { screenshot_bytes: Number(process.env.DOMAINS_SCREENSHOT_BUDGET??10_000_000), operation_timeout_ms: 120_000 }, success: false };
 await stat(resolve(dist, 'index.html'));
 await mkdir(output, { recursive: true });
 const mime = { '.html': 'text/html', '.js': 'text/javascript', '.wasm': 'application/wasm', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json' };
@@ -104,8 +105,11 @@ try {
   assert(initial.scientific_report.metrics.pca.value.eigenvalues[0] > 0);
   assert(receipt.assets.some(asset => /\.wasm/.test(asset.url) && asset.status === 200), 'No actual WASM response');
   check('Real synthetic example computes Methods PCA in WASM', { first_eigenvalue: initial.scientific_report.metrics.pca.value.eigenvalues[0] });
+  await reportArtifacts(page,initial,exported,output,'live-synthetic',check);
   await page.locator('#spectra').scrollIntoViewIfNeeded(); await screenshot(page, 'spectra');
   await page.locator('#geometry').scrollIntoViewIfNeeded(); await screenshot(page, 'pca');
+  await page.locator('#geometry .report-figure').nth(1).scrollIntoViewIfNeeded();await screenshot(page,'scree');
+  await page.locator('#evidence').scrollIntoViewIfNeeded();await screenshot(page,'evidence-tables');
   await page.getByLabel('Select an observation').selectOption({ index: 1 });
   await visible(page.locator('.selection')); check('Spectrum selection');
   await page.getByLabel('First displayed variable index').fill('2');
@@ -133,6 +137,7 @@ try {
 
   await page.getByRole('button', { name: 'Switch theme' }).click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
+  await page.locator('#geometry').scrollIntoViewIfNeeded();await screenshot(page,'geometry-dark');
   await page.getByRole('button', { name: 'FR', exact: true }).click();
   assert.equal(await page.locator('html').getAttribute('lang'), 'fr');
   const translated = await json(page), markdown = await exported(page, 'markdown'), html = await exported(page, 'html');
@@ -150,6 +155,7 @@ try {
   assert.equal(await reportPage.locator('[http-equiv="Content-Security-Policy"]').count(), 1);
   await visible(reportPage.getByRole('heading', { name: 'Comprendre la structure de vos spectres' }));
   await screenshot(reportPage, 'report-offline');
+  await verifyOfflineReport(reportPage,html,output,screenshot,check);
   await reportPage.emulateMedia({ media: 'print' }); await screenshot(reportPage, 'report-print');
   await reportContext.close(); check('Standalone report renders offline with CSP and no scripts; print layout');
   context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true, locale: 'en-US', colorScheme: 'light', storageState: preferences });
@@ -171,6 +177,7 @@ try {
   const imported = await json(page);
   assert.equal(imported.source_mode, 'user_computed_live');
   assert.equal(imported.dataset.observations, 3); assert.equal(imported.dataset.variables, 1);
+  assert.equal(imported.presentation.figures[0].kind,'scores1d','One resolved PC must not create a measured PC2');
   assert(Math.abs(imported.scientific_report.metrics.pca.value.eigenvalues[0] - 1) < 1e-10, '3×1 sample covariance must be one');
   assert.equal(imported.provenance.physical_independence, 'unknown');
   assert(receipt.assets.some(asset => /io.*\.wasm|\.wasm.*io/i.test(asset.url)), 'IO WASM was not loaded');
@@ -181,6 +188,7 @@ try {
   const small = await json(page);
   assert.equal(small.scientific_report.metrics.density.status, 'unavailable');
   assert(small.scientific_report.metrics.density.reason);
+  await reportArtifacts(page,small,exported,output,'live-unavailable',check);
   await page.locator('#evidence').scrollIntoViewIfNeeded(); await screenshot(page, 'unavailable');
   check('Small population preserves density unavailability and reason');
 
@@ -191,13 +199,19 @@ try {
   assert.equal(saved.provenance.browser_numerical_execution, false);
   assert.equal(await page.evaluate(() => window.__domainsWorkerAudit.constructed), beforeSavedWorkers);
   assert.equal(saved.dataset.variables, null);
+  const savedHtml=await reportArtifacts(page,saved,exported,output,'tablet-saved',check);
+  await verifySavedOffline(browser,savedHtml,saved,screenshot,check);
+  assert.equal(saved.presentation.figures.length,0);assert.equal(await page.locator('#spectra select').count(),0);
+  await page.locator('#evidence-decision_summary').scrollIntoViewIfNeeded();await screenshot(page,'saved-decision-tables');
   const variantResponse = page.waitForResponse(response => /tablet\.new_specimens\.saved\.json$/.test(response.url()) && response.status() === 200);
   await page.getByRole('radio', { name: 'New physical specimens' }).check();
   await variantResponse;
   await page.waitForFunction(() => !document.querySelector('[role=alert]'));
   const savedVariant = await json(page);
   assert.equal(savedVariant.intended_use, 'new_specimens');
+  assert.deepEqual(savedVariant.scientific_report.cases[0].companions.d1.value.warnings.map(w=>w.observation),saved.scientific_report.cases[0].companions.d1.value.warnings.map(w=>w.observation));
   assert.equal(await page.evaluate(() => window.__domainsWorkerAudit.constructed), beforeSavedWorkers);
+  await verifyEvidenceLinks(page);
   check('Qualified tablet saved report and intent variant without any worker numerical fit');
 
   await home(page);
@@ -250,6 +264,7 @@ try {
   await mobilePage.goto(url); await screenshot(mobilePage, 'landing-mobile', true);
   await example(mobilePage, 'A justified unavailable result');
   assert(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mobile document overflows');
+  await mobilePage.locator('#evidence').scrollIntoViewIfNeeded();await screenshot(mobilePage,'evidence-mobile');
   await mobilePage.getByRole('button', { name: 'FR', exact: true }).click();
   assert.equal(await mobilePage.locator('html').getAttribute('lang'), 'fr');
   check('Chromium mobile example, language and no horizontal document overflow');

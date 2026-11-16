@@ -6,6 +6,17 @@ import type { PredictionIntent } from '../ui-types';
 const validate = new Ajv2020({ strict: false, allErrors: false }).compile(schema);
 export function validateSaved(value: unknown): void {
   if (!validate(value)) throw new Error('INVALID_STANDALONE_REPORT_SCHEMA: ' + JSON.stringify(validate.errors));
+  // Compare only explicit carried bindings. The original report body is absent:
+  // this detects contradictions, not authorship or a new owner qualification.
+  for (const row of (value as any).cases) {
+    const reference = row.source_reports?.reference;
+    for (const slot of Object.values(row.companions??{}) as any[]) {
+      for (const binding of [slot.value?.source_report,slot.value?.validation_intent?.source_report]) {
+        if (binding?.sha256 && reference?.sha256 && (binding.sha256!==reference.sha256 || binding.hash_scope!==reference.hash_scope))
+          throw new Error('STALE_SAVED_SOURCE_BINDING');
+      }
+    }
+  }
 }
 export async function loadPublicSaved(intent: PredictionIntent): Promise<unknown> {
   const base = import.meta.env.BASE_URL + 'examples/';
