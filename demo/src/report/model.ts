@@ -1,7 +1,8 @@
 import type { BrowserReport, LocalDataset } from '../engine/types';
 import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations } from '../ui-types';
+import { presentation, type ReportPresentation } from './presentation';
 
-const status = (value: string): EvidenceStatus => (['observed', 'computed', 'unavailable', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
+const status = (value: string): EvidenceStatus => (['observed', 'available', 'computed', 'unavailable', 'unsupported', 'error', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
 export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
   const pca = report.metrics.pca.value;
   return {
@@ -10,7 +11,8 @@ export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
       contentHash: data.input.content_sha256, observations: data.input.spectra.length,
       variables: data.input.axis.length, axisUnit: data.input.axis_unit, axis: data.input.axis,
       spectra: data.input.spectra.map((values, i) => ({ id: data.input.observation_ids[i], values, group: data.input.group_ids?.[i] })),
-      metadata: data.metadata.map(c => c.name), identity: data.identityOrigin, provenance: data.mode, license: data.license },
+      metadata: data.metadata.map(c => c.name), identity: data.identityOrigin, provenance: data.mode, license: data.license,
+      representation: 'raw', population: String(report.scope.population) },
     summary: report.interpretation.consequence,
     findings: [
       ...report.findings.map((f, i): UiFinding => ({ id: `observation-${i}`, title: f.observation, status: 'conditional',
@@ -19,22 +21,25 @@ export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
       { id: 'intended-use', title: report.interpretation.observation, status: 'conditional', observation: report.interpretation.consequence,
         hypothesis: 'The relevance of dependencies depends on the intended prediction unit and context.', relevance: report.interpretation.observation,
         verification: report.interpretation.action, limitation: report.interpretation.qualification,
-        confidence: report.interpretation.confidence, evidenceIds: [report.evidence_sha256] },
+        confidence: report.interpretation.confidence, evidenceIds: ['interpretation'] },
       ...report.interpretation.conditional_scenarios.map((scenario): UiFinding => ({
         id: `conditional-${scenario.intended_use}`, title: scenario.question, status: 'conditional',
         observation: 'The intended prediction population has not been specified.',
         hypothesis: report.interpretation.consequence, relevance: scenario.question,
         verification: report.interpretation.action, limitation: scenario.not_established,
-        confidence: 'Conditional scenario, not a selected protocol', evidenceIds: [report.evidence_sha256],
+        confidence: 'Conditional scenario, not a selected protocol', evidenceIds: ['interpretation'],
       })),
     ],
-    evidence: Object.entries(report.metrics).map(([id, evidence]) => ({ id,
+    evidence: [...Object.entries(report.metrics).map(([id, evidence]) => ({ id,
       method: id === 'pca' ? 'Methods PCA via the public Preflight provider' : `Methods / Domains ${id}`,
       status: status(evidence.status), reason: evidence.reason, value: evidence.value,
-      scope: String(report.scope.population), provider: 'Methods 1.3.13 · ABI 2.20 · Domains Rust/WASM' })),
+      scope: String(report.scope.population), provider: 'Methods 1.3.13 · ABI 2.20 · Domains Rust/WASM',
+      representation: id === 'raw_neighbors' ? 'raw' : id === 'pca' ? 'raw → PCA' : ['density', 'projected_neighbors'].includes(id) ? 'resolved PCA scores' : 'not carried', pointer: `/metrics/${id}` })),
+      { id: 'interpretation', method: 'Domains contextual reading', status: 'conditional', reason: null,
+        value: report.interpretation, scope: String(report.scope.population), provider: 'Domains Rust/WASM', pointer: '/interpretation' }],
     pca: pca ? { points: pca.scores.map((row, i) => ({ id: data.input.observation_ids[i], x: row[0], y: row[1] ?? 0,
       group: data.input.group_ids?.[i] })), eigenvalues: pca.eigenvalues, totalVariance: pca.full_moments[0],
-      xLabel: 'PC1', yLabel: pca.n_components_resolved >= 2 ? 'PC2' : 'PC2 unavailable · displayed at zero' } : null,
+      xLabel: 'PC1', yLabel: pca.n_components_resolved >= 2 ? 'PC2' : 'PC2 unavailable · displayed at zero', resolvedComponents: pca.n_components_resolved } : null,
     geometryReason: report.metrics.pca.reason,
     limitations: [...report.limitations, ...data.warnings],
     provenance: { source_mode: data.mode, engine_version: report.engine_version,
@@ -57,24 +62,32 @@ export function savedView(source: unknown): UiResult {
   const d1 = row.companions?.d1?.value;
   if (!row.companions || typeof row.companions !== 'object') throw new Error('VALIDATED_COMPANION_SLOTS_REQUIRED');
   const reading = row.decision_summary ?? {};
-  const prose = (value: unknown): string => typeof value === 'string' ? value : Array.isArray(value) ? value.map(prose).join(' ') : JSON.stringify(value ?? 'Unknown');
+  const prose = (value: unknown): string => typeof value === 'string' ? value : Array.isArray(value) ? value.map(prose).join(' ') : value && typeof value === 'object' && 'description' in value ? prose(value.description) : JSON.stringify(value ?? 'Unknown');
   return { mode: 'saved', protocol: report.protocol_version,
     dataset: { name: String(identity.dataset_id ?? row.label), id: String(identity.dataset_id ?? 'unknown'),
       source: String(identity.source_id ?? 'unknown'), contentHash: String(row.source_reports?.reference?.sha256 ?? 'unknown'),
       observations: identity.n_observations ?? null, variables: null, axisUnit: 'not carried', axis: [], spectra: [], metadata: [],
       identity: 'Original qualified report scope; physical/reference independence remains unknown',
-      provenance: 'saved_qualified_report · no browser refit', license: 'Already-published aggregate example; source restrictions remain applicable' },
+      provenance: 'saved_qualified_report · no browser refit', license: 'Already-published aggregate example; source restrictions remain applicable',
+      representation: identity.representation ?? 'not carried', population: identity.population_id ?? 'not carried' },
     summary: prose(reading.observed ?? report.title),
     findings: (d1?.warnings ?? []).map((w: Record<string, any>): UiFinding => ({ id: w.warning_id,
       title: w.warning_id.replaceAll('_', ' '), status: status(typeof w.value === 'string' ? w.value : w.value?.assessment ?? w.status),
       observation: prose(w.observation?.value ?? w.observation?.reason), hypothesis: prose(w.risk_hypothesis),
       relevance: prose(w.conditions), verification: prose(w.recommended_checks), limitation: prose(w.limitations),
-      confidence: 'Original qualified conditional interpretation', evidenceIds: [w.warning_id] })),
-    evidence: Object.entries({ ...row.companions, native_preflight: row.native_preflight }).filter(([, value]) => value !== undefined).map(([id, value]) => {
+      confidence: 'Original qualified conditional interpretation', evidenceIds: [w.warning_id], prerequisites: w.required_information ?? [],
+      execution: row.companions.readiness?.value?.records?.filter((r: any) => r.warning_id === w.warning_id) ?? [] })),
+    evidence: [...Object.entries({ ...row.companions, native_preflight: row.native_preflight }).filter(([, value]) => value !== undefined).map(([id, value]) => {
       const slot = value as Record<string, any>;
       return { id, method: slot.protocol_version ?? id, status: status(slot.status), reason: slot.reason ?? null,
-        value: slot.value, scope: prose(identity), provider: 'Original published Domains Python consumer; saved only' };
-    }),
+        value: slot.value, scope: prose(identity), provider: 'Original published Domains Python consumer; saved only', representation: identity.representation, pointer: `/cases/0/${id === 'native_preflight' ? id : `companions/${id}`}` };
+    }), ...(d1?.warnings ?? []).map((w: any, index: number) => ({ id: w.warning_id,
+      method: w.warning_id, status: status(w.observation.status), reason: w.observation.reason,
+      value: w.observation.value, scope: prose(w.evidence_scope), representation: w.evidence_scope?.representation,
+      provider: 'Original D1 measured observation; saved only', pointer: `/cases/0/companions/d1/value/warnings/${index}/observation` })),
+      { id: 'decision_summary', method: 'Domains D6.1 decision summary', status: row.decision_summary ? 'computed' : 'unavailable',
+        reason: row.decision_summary ? null : 'DECISION_SUMMARY_NOT_CARRIED', value: row.decision_summary ?? null,
+        scope: prose(identity), provider: 'Original Domains Python consumer; saved only', representation: identity.representation, pointer: '/cases/0/decision_summary' }],
     pca: null, geometryReason: 'RAW_SPECTRA_AND_PCA_COORDINATES_NOT_REDISTRIBUTED_WITH_THIS_AGGREGATE_REPORT',
     limitations: report.limitations ?? [], provenance: { source_mode: 'saved_qualified_report',
       identity, source_reports: row.source_reports, decision_summary: reading, coverage: report.coverage,
@@ -91,6 +104,7 @@ export interface DemoReport {
   evidence: UiResult['evidence']; pca: UiResult['pca']; limitations: string[];
   provenance: Record<string, unknown>; scientific_report: unknown;
   raw_x_included: false; numerical_evidence_recomputed_for_export: false;
+  presentation?: ReportPresentation;
 }
 export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations): DemoReport {
   const { spectra: _privateDisplayOnly, ...dataset } = view.dataset;
@@ -99,5 +113,6 @@ export function reportModel(view: UiResult, scientific: unknown, intent: Predict
     user_declarations: { population: declarations?.population || null, prediction_unit: declarations?.prediction_unit || null, new_context: declarations?.new_context || null },
     dataset, summary: view.summary, findings: view.findings, evidence: view.evidence,
     pca: view.pca, limitations: view.limitations, provenance: view.provenance, scientific_report: scientific,
-    raw_x_included: false, numerical_evidence_recomputed_for_export: false };
+    raw_x_included: false, numerical_evidence_recomputed_for_export: false,
+    presentation: presentation(view, language, intent) };
 }
