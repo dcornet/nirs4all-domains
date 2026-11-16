@@ -3602,5 +3602,16 @@
       "url": "https://github.com/wasm-bindgen/wasm-pack/releases/tag/v0.15.1"
     }
   ],
-  "lookup_limits": "Unavailable lookups are explicit; version availability alone establishes no API or scientific compatibility."
+  "lookup_limits": "Unavailable lookups are explicit; version availability alone establishes no API or scientific compatibility.",
+  "engineering_and_build_tools": {
+    "rust": "1.100.0",
+    "node": "24.22.1",
+    "python_windows": "3.11.9",
+    "python_linux": "3.11.18",
+    "pip": "26.3",
+    "setuptools": "84.2.1",
+    "psutil": "7.2.2",
+    "wasm_pack": "0.13.1",
+    "scientific_cohort_migration": false
+  }
 }

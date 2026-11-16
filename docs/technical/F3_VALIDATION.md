@@ -61,3 +61,18 @@ the no-diff gate. If an initial candidate run reveals notice drift, collect its
 artifact, inspect exact licences/versions, commit those outputs and rerun the full
 final-head gates. Any preliminary failure stays visible and is not reported green.
 See [limits/debt](F3_REMAINING_DEBT.md) for untested/externally constrained paths.
+
+Initial head `ccf8b43` passed both scientific-gates jobs (including 522 Python
+tests each) in run 43923568889 and both read-only jobs in run 43923568680.
+Ubuntu's actual browser receipt records 46 passing checks, including seven F3
+loading/ownership checks, Chromium 159.0.8154.6 and Firefox 159.0, zero ordinary
+console/page/network violations and five targeted axe audits. Both four-fixture
+native/WASM report objects also compare exactly with the protected pre-F3
+qualification objects, beyond the unchanged parity tolerances.
+
+The initial browser workflow 43923568793 nevertheless failed during construction
+of the F2 benchmark frontend: the archive omitted `schemas/`, causing TS2307 for
+`standalone-report.v1.schema.json`. The baseline archive now includes the exact
+F2 schemas. This fixes the measurement harness without changing the baseline
+source, scientific fixtures or acceptance checks. Actual installed candidate
+notices were reviewed from that run and imported; all final gates must run again.

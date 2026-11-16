@@ -13,7 +13,7 @@ def main():
     destination = Path(os.environ["RUNNER_TEMP"]) / "domains-f3-baseline"
     assert not destination.exists(), "Baseline destination must be new"
     destination.mkdir()
-    data = subprocess.check_output(["git", "archive", BASE, "demo", "bindings/wasm", "LICENSES"])
+    data = subprocess.check_output(["git", "archive", BASE, "demo", "bindings/wasm", "LICENSES", "schemas"])
     with tarfile.open(fileobj=io.BytesIO(data), mode="r:") as archive:
         for member in archive:
             target = (destination / member.name).resolve()
