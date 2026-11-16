@@ -25,11 +25,17 @@ function custom(view:UiResult,ids:readonly typeof optionalSections[number][]){
 function originalFence(markdown:string){const walker=new Parser().parse(markdown).walker(),objects=[];for(let e=walker.next();e;e=walker.next())if(e.entering&&e.node.type==='code_block'&&e.node.info==='json')objects.push(JSON.parse(e.node.literal!));return objects;}
 
 describe('F3.5 scientific core and additive export selection',()=>{
+  it('keeps an imported saved source immutable when adding UI-only qualification limits',()=>{
+    const scientific=structuredClone(source),before=JSON.stringify(scientific),view=savedView(scientific);
+    view.limitations.push('UI-only import authenticity notice');
+    expect(JSON.stringify(scientific)===before,'UI qualification must not mutate original scientific evidence').toBe(true);
+  });
   it('keeps every finding/status/reason/value, missing prerequisite and trace with no supplements',()=>{
     const view=live(),r=custom(view,[]),html=serializeReport(r,'html'),markdown=serializeReport(r,'markdown');
     expect(r.export_selection!.mandatory_sections).toEqual(mandatorySections);expect(r.export_selection!.selected_sections).toEqual([]);
     for(const value of ['No measured predictive degradation','Original groups missing','NO_ADMISSIBLE_REFERENCE','contradicted','noise_count','evidence-density'])expect(html).toContain(value);
     expect(html).not.toContain('<figure');expect(html).toContain('All carried labels are noise');
+    expect(html.match(/<pre>/g)).toHaveLength(1); // the single named technical model, no duplicate header payload
     expect(markdown).toContain('NO\\_ADMISSIBLE\\_REFERENCE');expect(originalFence(markdown)).toEqual([r]);
     expect(JSON.parse(serializeReport(r,'json'))).toEqual(r);
   });
@@ -78,7 +84,8 @@ describe('F3.5 scientific core and additive export selection',()=>{
     const view=live();view.findings[0].observation='Long source sentence. '.repeat(4000)+'LONG_SOURCE_END';
     Object.assign(view.evidence[0].value!,Object.fromEntries(Array.from({length:650},(_,i)=>['carried_field_'+i,i])));
     const html=serializeReport(custom(view,['detailed_tables','machine_evidence']),'html');
-    expect(html).toContain('carried_field_649');expect(html).toContain('LONG_SOURCE_END');expect(html).toContain('data-machine-appendix="true"');
+    const reading=html.slice(0,html.indexOf('<section id="technical-evidence">'));
+    expect(reading).toContain('carried_field_649');expect(reading).toContain('LONG_SOURCE_END');expect(html).toContain('data-machine-appendix="true"');
     expect(html).not.toMatch(/max-pages|line-clamp|text-overflow:\s*ellipsis/);
   });
   it('keeps hostile Markdown inert and the full JSON fence exact for custom exports',()=>{

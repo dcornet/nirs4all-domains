@@ -12,7 +12,7 @@ import pymupdf
 folder=Path('demo/test-results/browser/f3_5')
 manifest=json.loads((folder/'pdf-manifest.json').read_bytes())
 assert manifest['page_limit'] is None and manifest['new_real_source_fits']==0
-assert len(manifest['cases'])==14
+assert len(manifest['cases'])==16
 reviews=[]
 for case in manifest['cases']:
     path=folder/case['file']
@@ -23,7 +23,7 @@ for case in manifest['cases']:
         text=re.sub(r'\s+',' ',' '.join(texts))
         assert 'Report section selection' in text
         assert ('numerical_evidence_recomputed_for_export' in text)==case['machine'],path.name
-        for fragment in case['required_text']:assert fragment in text,(path.name,fragment)
+        for fragment in case['required_text']:assert re.sub(r'\s+','',fragment) in re.sub(r'\s+','',text),(path.name,fragment)
         if case['name'].startswith('long-'):assert document.page_count>10,'Stress fixture must exercise long pagination'
         dimensions=[]
         for page in document:

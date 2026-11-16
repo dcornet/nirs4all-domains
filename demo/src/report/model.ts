@@ -90,7 +90,7 @@ export function savedView(source: unknown): UiResult {
         reason: row.decision_summary ? null : 'DECISION_SUMMARY_NOT_CARRIED', value: row.decision_summary ?? null,
         scope: prose(identity), provider: 'Original Domains Python consumer; saved only', representation: identity.representation, pointer: '/cases/0/decision_summary' }],
     pca: null, geometryReason: 'RAW_SPECTRA_AND_PCA_COORDINATES_NOT_REDISTRIBUTED_WITH_THIS_AGGREGATE_REPORT',
-    limitations: report.limitations ?? [], provenance: { source_mode: 'saved_qualified_report',
+    limitations: [...(report.limitations ?? [])], provenance: { source_mode: 'saved_qualified_report',
       identity, source_reports: row.source_reports, decision_summary: reading, coverage: report.coverage,
       independent_original_study_count: null, browser_numerical_execution: false,
       original_annotations_unchanged: true, original_source_ref: row.source_ref },

@@ -87,8 +87,10 @@ export async function qualifyLongSelection(browser,url,original,output,exported,
     const measurement=fixture.cases[0].companions.d1.value.warnings.find(w=>w.warning_id==='experimental_factor_structure').observation.value;
     measurement.documentary_fixture=Object.fromEntries(Array.from({length:650},(_,i)=>[`documentary_field_${i}`,`Synthetic text field ${i}; no new measurement`]));
     await page.locator('input[type=file]').setInputFiles({name:'synthetic-long-report.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fixture))});
-    await page.locator('.workspace-summary').waitFor();await clear(page);await option(page,'detailed_tables').check();await option(page,'machine_evidence').check();
-    const report=await exportedCase(page,browser,output,exported,'long-documentary-all',fixture,check);
+    await page.locator('.workspace-summary').waitFor();await clear(page);await option(page,'detailed_tables').check();
+    await exportedCase(page,browser,output,exported,'long-documentary-reading',fixture,check);
+    await option(page,'machine_evidence').check();
+    const report=await exportedCase(page,browser,output,exported,'long-documentary-machine',fixture,check);
     assert.equal(report.provenance.browser_numerical_execution,false);assert(report.provenance.source_qualification.includes('not authenticated'));
     assert.equal(await page.evaluate(()=>window.__longWorkers),0);
     await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'FR',exact:true}).click();
