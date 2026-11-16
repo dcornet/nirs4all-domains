@@ -24,7 +24,9 @@ X stays local; detailed spectral figure export is deferred.
 CommonMark escaping remains literal for untrusted prose, including punctuation,
 indentation and fence adversaries. Original JSON remains in one independently
 sized fence. HTML has restrictive CSP, no executable script/external resource,
-escaped strings, semantic tables/SVG, accessible disclosure and print expansion.
+escaped strings, semantic tables/SVG, accessible disclosure and print expansion of important technical provenance.
+Complete duplicate machine payloads remain in the offline file and JSON; they
+are omitted from paper while readable tables, parameters and lineage remain.
 Numeric formatting distinguishes null/zero and retains round-trip original values.
 
 Resources: no new scientific reservation or ceiling increase. Reuse installed

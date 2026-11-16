@@ -2,7 +2,7 @@
 
 Base: `457227a743f7f0655e8f858d029469bead8d94ec`; branch:
 `feat/domains-report-f1`. F1 is a presentation integration, not a scientific
-protocol, dependency or version change. The final PR records its exact delivered
+protocol, dependency or version change. [PR #8](https://github.com/dcornet/nirs4all-domains/pull/8) records its exact delivered
 SHA, Windows/Ubuntu run links, preview artifacts and disposition. A configured
 workflow is not execution proof; hosted results must be checked before delivery.
 
@@ -43,6 +43,13 @@ PCA percentage labels and technical-only scalar keys. Six-significant-digit
 axis labels and localized metric names with secondary exact IDs correct those
 defects. Two-column mobile tables now fit their container; wider factor tables
 remain horizontally scrollable. Full precision remains in data tables/JSON.
+
+The first hosted PDFs exposed a further demonstrated defect: repeated full
+machine payloads inflated the synthetic example to 99 A4 / 105 Letter pages.
+The print projection now omits those duplicate raw JSON sections while keeping
+scientific tables, parameters, original provenance and limits. Complete original
+objects remain in the offline HTML and JSON; print tests check their preservation
+and expansion of essential initially closed provenance independently.
 
 No artificial visual separation, causal interpretation, cluster robustness or
 successive-study claim was added. Technical original prose stays in its source

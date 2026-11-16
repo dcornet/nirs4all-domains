@@ -42,6 +42,7 @@ const copy = {
     unknownIntent: 'Intended use is unknown: within-study description, new specimens and new contexts remain separate conditional questions.',
     noExecution: 'Presentation only: no verification is authorized, scheduled or executed here.',
     tableNote: 'Values retain original status, population, representation, parameters and provenance. Exact precision is available in the original object.',
+    machinePrint: 'The complete machine evidence remains in this HTML and in the JSON export. Print includes the scientific tables, parameters, provenance and limits; duplicate machine payloads are omitted from paper.',
   },
   fr: {
     brief: 'En bref', structure: 'Structure spectrale', data: 'Comprendre les données', checks: 'Vérifications et prérequis',
@@ -82,6 +83,7 @@ const copy = {
     unknownIntent: 'Objectif inconnu : description dans l’étude, nouveaux spécimens et nouveaux contextes restent des questions conditionnelles distinctes.',
     noExecution: 'Présentation uniquement : aucune vérification autorisée, planifiée ou exécutée ici.',
     tableNote: 'Les valeurs gardent leur statut, population, représentation, paramètres et provenance. La précision exacte reste dans l’objet original.',
+    machinePrint: 'Les preuves machine complètes restent dans cet HTML et l’export JSON. L’impression conserve tableaux scientifiques, paramètres, provenance et limites ; les duplications des objets machine sont omises sur papier.',
   },
 };
 export type Copy = typeof copy.en;

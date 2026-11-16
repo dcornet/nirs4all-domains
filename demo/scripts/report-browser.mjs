@@ -34,8 +34,11 @@ export async function verifyOfflineReport(page, html, output, screenshot, check)
   assert(await page.locator('.report-figure svg text').count()>8,'Figure axes must have ticks');
   await page.locator('#proof').scrollIntoViewIfNeeded();await screenshot(page,'report-detail');
   await page.emulateMedia({media:'print'});
-  const hiddenOriginal=page.locator('.report-complete pre');
-  assert(await hiddenOriginal.evaluate(node=>node.getBoundingClientRect().height>0),'Print must expose originally closed technical detail');
+  const hiddenOriginal=page.locator('.report-print-important pre');
+  assert(await hiddenOriginal.evaluate(node=>node.getBoundingClientRect().height>0),'Print must expose originally closed provenance detail');
+  assert(await page.locator('.report-complete pre').evaluate(node=>node.getBoundingClientRect().height===0),'Print must not duplicate the full machine payload');
+  assert(await page.locator('table').first().evaluate(node=>node.getBoundingClientRect().height>0),'Scientific tables must remain printable');
+  assert(JSON.parse(await page.locator('.report-complete pre').textContent()).scientific_report,'Complete source remains in the offline file');
   await screenshot(page,'report-print-detail');
   if(process.env.CI) {
     const destination=resolve(output,'f1');await mkdir(destination,{recursive:true});
