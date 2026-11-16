@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "scope": "Exact published Node glue and binary admitted for the Domains browser bootstrap only; no parser or kernel changes",
+  "packages": {
+    "@nirs4all/io-wasm": {
+      "version": "0.2.14",
+      "glue_sha256": "ee0d68e5d65db929da37b0e7a8fa6ea4cd08b032b7b77f7754ebc39f8fe6386b",
+      "wasm_sha256": "3eb972aee81e9a8c912100bada96294250664b0e6fefe1e7879790ed2dd4540f"
+    },
+    "@nirs4all/formats-wasm": {
+      "version": "0.2.14",
+      "glue_sha256": "755ee3f48ece34ffd4e7cea33c0deaaffc808b7b26ccfd448b83e554809d9d5c",
+      "wasm_sha256": "280c30494a7dc951f891a91c3d5a8761213ca460eb408d3a2a75bce5885305e5"
+    }
+  }
+}

@@ -10,20 +10,37 @@ export class BrowserEngine {
   async request<T>(operation: Operation, payload: unknown, progress: (stage: string, step?: ProcessingStage) => void = () => {}): Promise<T> {
     this.cancel();
     const id = ++this.sequence;
-    this.worker = this.factory();
+    const worker = this.factory();
+    this.worker = worker;
+    const current = () => this.worker === worker && this.pending?.id === id;
     return new Promise<T>((resolve, reject) => {
       this.pending = { id, resolve: value => resolve(value as T), reject, progress,
-        timer: setTimeout(() => this.fail(new Error('WORKER_TIME_BUDGET_EXCEEDED')), 120_000) };
-      this.worker!.onmessage = ({ data }: MessageEvent<WorkerReply>) => {
-        if (!this.pending || data.id !== this.pending.id) return;
-        if (data.stage) { this.pending.progress(data.stage, data.stage_id); return; }
-        const task = this.pending; this.pending = null; clearTimeout(task.timer);
-        this.worker?.terminate(); this.worker = null;
+        timer: setTimeout(() => { if (current()) this.fail(new Error('WORKER_TIME_BUDGET_EXCEEDED')); }, 120_000) };
+      worker.onmessage = ({ data }: MessageEvent<WorkerReply>) => {
+        if (!current()) return;
+        if (!data || typeof data.id !== 'number' || typeof data.ok !== 'boolean') { this.fail(new Error('WORKER_INVALID_REPLY')); return; }
+        if (data.id !== id) return;
+        if ('stage' in data) {
+          if (typeof data.stage !== 'string' || !data.stage || !data.ok) { this.fail(new Error('WORKER_INVALID_REPLY')); return; }
+          try { this.pending!.progress(data.stage, data.stage_id); }
+          catch (error) { this.fail(error instanceof Error ? error : new Error(String(error))); }
+          return;
+        }
+        if (data.ok && !('result' in data)) { this.fail(new Error('WORKER_INVALID_REPLY')); return; }
+        const task = this.pending!; this.pending = null; clearTimeout(task.timer);
+        worker.terminate(); this.worker = null;
         if (data.ok) task.resolve(data.result);
         else task.reject(Object.assign(new Error(data.error?.message ?? 'WORKER_ERROR'), { code: data.error?.code }));
       };
-      this.worker!.onerror = event => this.fail(new Error(event.message || 'WORKER_LOADING_FAILED'));
-      this.worker!.postMessage({ id, operation, payload });
+      worker.onerror = event => { if (current()) this.fail(new Error(event.message || 'WORKER_LOADING_FAILED')); };
+      worker.onmessageerror = () => { if (current()) this.fail(new Error('WORKER_MESSAGE_DESERIALIZATION_FAILED')); };
+      try {
+        // Main owns browser File objects; these fresh byte buffers are consumed by
+        // import. Transfer once instead of cloning, without changing their bytes.
+        const buffers = operation === 'import' && Array.isArray(payload)
+          ? [...new Set(payload.flatMap(file => file?.bytes instanceof Uint8Array && file.bytes.buffer instanceof ArrayBuffer ? [file.bytes.buffer] : []))] : [];
+        worker.postMessage({ id, operation, payload }, buffers);
+      } catch (error) { if (current()) this.fail(error instanceof Error ? error : new Error(String(error))); }
     });
   }
   private fail(error: Error) {

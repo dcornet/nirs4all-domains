@@ -21,7 +21,7 @@ function Controller() {
   const scientific = useRef<unknown>(null);
   const selectedExample = useRef<string | null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); setState(s => ({ ...s, result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;setState(s => ({ ...s, result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -76,9 +76,9 @@ function Controller() {
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
       setState(s => ({ ...s, phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {
+      if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.
       const token = ++epoch.current; engine.current.cancel();
       setState(s => ({ ...s, intent, error: null }));
-      if (!scientific.current) return;
       try {
         if (selectedExample.current === 'tablet-saved') {
           setState(s=>({...s,phase:'loading',processingStage:'interpret',progress:'Loading the original saved reading; no fit'}));

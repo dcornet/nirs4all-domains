@@ -100,15 +100,19 @@ export async function adaptAssembled(full: Assembled, files: InputFile[], spec: 
 
 export async function importFiles(files: InputFile[]): Promise<LocalDataset> {
   checkFiles(files);
-  const [io, formats] = await Promise.all([import('virtual:nirs4all-io'), import('virtual:nirs4all-formats')]);
-  await Promise.all([io.init(), formats.init()]);
+  const io = await import('virtual:nirs4all-io');
+  await io.init();
   const records: { source: string; records: unknown[] }[] = [];
   const sidecars = Object.fromEntries(files.map(f => [f.name, f.bytes]));
   const config = files.find(f => f.name.endsWith('.nirs4all.json'));
   const raw = files.filter(f => f !== config);
+  // IO owns table parsing. Load the published Formats decoder only for routes
+  // that actually call it; no alternate parser, row change or fallback is added.
+  const formats = raw.some(file => !/\.(csv|tsv|txt)$/i.test(file.name)) ? await import('virtual:nirs4all-formats') : null;
+  if (formats) await formats.init();
   for (const file of raw) {
     if (/\.(csv|tsv|txt)$/i.test(file.name)) continue;
-    const decoded = formats.openWithSidecars(file.name, file.bytes, sidecars) as unknown[];
+    const decoded = formats!.openWithSidecars(file.name, file.bytes, sidecars) as unknown[];
     if (decoded?.length) records.push({ source: file.name, records: decoded });
   }
   const plan = config ? null : io.inferDataset(raw, records as never, {}) as { resolved_spec?: Record<string, unknown>; warnings?: string[] };

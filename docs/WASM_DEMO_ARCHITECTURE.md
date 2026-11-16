@@ -42,7 +42,12 @@ The Vite plugin in `demo/scripts/browser-wasm.ts` adapts the published
 loading. It reads package glue at build time, preserves its exports and binary,
 and replaces only Node filesystem bootstrapping with an asset URL and lazy
 fetch. Its marker check intentionally rejects an unknown generated wrapper
-shape. The demo locks `nirs4all-ui@0.2.1`, whose official `nirs4all` logo
+shape. F3 additionally pins the exact published glue/binary fingerprints and
+shares retryable/coalesced asynchronous loading. Table imports initialize IO
+without the unused Formats module; non-table paths retain Formats. Imported
+buffers transfer to their worker once, and worker errors are bound to their own
+request. Scientific values/identities and the 120-second deadline are unchanged.
+The demo locks `nirs4all-ui@0.2.5`, whose official `nirs4all` logo
 assets and qualification charts are imported from the package; it does not
 copy an ignored archive or checkout tree. The package currently has no
 Domains-specific logo asset.

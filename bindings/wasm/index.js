@@ -9,7 +9,10 @@ function matrix(rows) {
   if (!n || !p || n * p > 1_000_000 || rows.some(row => row.length !== p || row.some(v => !Number.isFinite(v)))) {
     throw Object.assign(new Error('PROVIDER_MATRIX_BUDGET_OR_SHAPE'), { kind: 'internal', reason: 'PROVIDER_MATRIX_BUDGET_OR_SHAPE' });
   }
-  return { data: Float64Array.from(rows.flat()), rows: n, cols: p };
+  // Marshal row order verbatim; avoid an additional n*p-element flat JS array.
+  const data = new Float64Array(n * p);
+  rows.forEach((row, i) => data.set(row, i * p));
+  return { data, rows: n, cols: p };
 }
 function nested(values, width) {
   return Array.from({ length: values.length / width }, (_, i) => Array.from(values.slice(i * width, (i + 1) * width)));
