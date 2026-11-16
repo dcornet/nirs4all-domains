@@ -94,7 +94,8 @@ export function metricName(key: string,locale:Locale): string {
   return names[key.split('.').at(-1)!]?.[locale==='fr'?1:0]??key;
 }
 export function axisValue(value:number,locale:Locale): string {
-  return new Intl.NumberFormat(locale,{maximumSignificantDigits:6}).format(value);
+  const scientific=value!==0&&(Math.abs(value)<1e-4||Math.abs(value)>=1e6);
+  return new Intl.NumberFormat(locale,{maximumSignificantDigits:6,notation:scientific?'scientific':'standard'}).format(value);
 }
 export function formatValue(value: unknown, locale: Locale): string {
   if (value === null || value === undefined) return copy[locale].noValue;

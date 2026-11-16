@@ -5,6 +5,11 @@ import { translator } from '../i18n';
 
 export const escape = (text: unknown) => String(text ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 export const md = (text: unknown) => String(text ?? '').replace(/[\r\n\t]+/g,' ').trim().replace(/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]/g,'\\$&');
+/** Decode only a carried JSON-object scope for readable display; retain the source string in the model. */
+export function recordedScope(scope:string):unknown{
+  try{const value:unknown=JSON.parse(scope);if(value!==null&&typeof value==='object'&&!Array.isArray(value))return value;}catch{/* Ordinary source prose stays literal. */}
+  return scope;
+}
 function documentaryValue(value:unknown,locale:Locale,html:boolean):string{
   if(Array.isArray(value))return value.length?(html?`<ul class="report-cell-list">${value.map(v=>`<li>${documentaryValue(v,locale,true)}</li>`).join('')}</ul>`:value.map(v=>documentaryValue(v,locale,false)).join(' ; ')):'[]';
   if(value!==null&&typeof value==='object'){
@@ -24,13 +29,13 @@ export function readingHtml(reading: Reading, locale: Locale): string {
   return `<dl class="report-reading">${[[c.definition,reading.definition],[c.read,reading.read],[c.observed,reading.observed],[c.meaning,reading.relevance],[c.limits,reading.limitations.join(' ')]].map(([key,value])=>`<div><dt>${escape(key)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>`;
 }
 export function figureSvg(figure: DisplayFigure, locale: Locale): string {
-  const c=reportCopy(locale), x0=80,y0=260,width=610,height=220;
+  const c=reportCopy(locale), x0=120,y0=260,width=570,height=220;
   const text=(x:number,y:number,value:unknown,attrs='')=>`<text x="${x}" y="${y}" ${attrs}>${escape(value)}</text>`;
   const line=(x1:number,y1:number,x2:number,y2:number,cls='')=>`<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
   let drawing='';
   if (figure.kind==='scree') {
     const values=figure.eigenvalues??[],max=Math.max(...values,0)||1,band=width/Math.max(values.length,1);
-    for(let tick=0;tick<=4;tick++) {const y=y0-height*tick/4;drawing+=line(x0,y,x0+width,y,'grid')+text(x0-8,y+4,formatValue(max*tick/4,locale),'text-anchor="end"');}
+    for(let tick=0;tick<=4;tick++) {const y=y0-height*tick/4;drawing+=line(x0,y,x0+width,y,'grid')+text(x0-8,y+4,axisValue(max*tick/4,locale),'text-anchor="end"');}
     values.forEach((v,i)=>{const h=height*(v/max),x=x0+band*i+band*.2;drawing+=`<rect x="${x}" y="${y0-h}" width="${band*.6}" height="${h}" fill="#0f766e"><title>PC${i+1}: ${escape(v)}</title></rect>`+text(x+band*.3,y0+20,i+1,'text-anchor="middle"');});
   } else {
     const points=figure.points??[],xs=points.map(p=>p.x),ys=points.map(p=>p.y);
@@ -54,5 +59,5 @@ export function figureHtml(figure: DisplayFigure, locale: Locale): string {
 }
 export function blocksHtml(p: ReportPresentation, locale: Locale,options:{anchors?:boolean;originals?:boolean;uncapped?:boolean}={}): string {
   const c=reportCopy(locale),t=translator(locale);
-  return p.blocks.map(b=>`<article ${options.anchors===false?'':`id="${anchor(b.id)}" `}class="report-evidence"><h3>${escape(b.title)}</h3><p class="report-status status status-${b.status}">${escape(t(b.status))} · <code>${escape(b.id)}</code></p><dl class="report-meta">${[[c.population,b.scope],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer??c.noValue],[c.unit,c.unknownUnit],[c.reason,b.reason??'—']].map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>${readingHtml(b,locale)}${b.tables.filter(t=>t.rows.length).map(t=>tableHtml(options.uncapped?{...t,rows:t.id===`${b.id}-values`?recordedRows(b.original):t.rows}:t,locale,{structured:options.uncapped})).join('')}${options.originals===false?'':`<details><summary>${escape(c.original)}</summary><pre>${escape(JSON.stringify(b.original,null,2))}</pre></details>`}</article>`).join('');
+  return p.blocks.map(b=>`<article ${options.anchors===false?'':`id="${anchor(b.id)}" `}class="report-evidence"><h3>${escape(b.title)}</h3><p class="report-status status status-${b.status}">${escape(t(b.status))} · <code>${escape(b.id)}</code></p><dl class="report-meta">${[[c.population,b.scope],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer??c.noValue],[c.unit,c.unknownUnit],[c.reason,b.reason??'—']].map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${options.uncapped&&k===c.population?documentaryValue(recordedScope(String(v)),locale,true):escape(v)}</dd></div>`).join('')}</dl>${readingHtml(b,locale)}${b.tables.filter(t=>t.rows.length).map(t=>tableHtml(options.uncapped?{...t,rows:t.id===`${b.id}-values`?recordedRows(b.original):t.rows}:t,locale,{structured:options.uncapped})).join('')}${options.originals===false?'':`<details><summary>${escape(c.original)}</summary><pre>${escape(JSON.stringify(b.original,null,2))}</pre></details>`}</article>`).join('');
 }

@@ -2,6 +2,7 @@ import {describe,expect,it,vi} from 'vitest';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {Parser,HtmlRenderer} from 'commonmark';
 import {savedView,reportModel} from './model';
+import {axisValue} from './presentation';
 import {serializeReport} from './export';
 import {createSelection,sectionAvailability,defaultSections,optionalSections,mandatorySections,selectionOwner} from './selection';
 import {ExportOptions} from './ExportOptions';
@@ -57,8 +58,11 @@ describe('F3.5 scientific core and additive export selection',()=>{
     expect(r.export_selection!.sections.find(s=>s.id==='experimental_factors')!.available).toBe(true);
     const reading=html.slice(0,html.indexOf('<section id="technical-evidence">'));
     expect(reading.includes('{&quot;conditional&quot;:'),'Readable conditional scenarios must not be raw JSON blobs').toBe(false);
+    expect(reading.includes('{&quot;content_version&quot;:'),'Original identity has a readable core table, not duplicated scope JSON').toBe(false);
+    expect(reading).toContain('ucphchemometrics.com/tablet');expect(reading).toContain('content_version');
   });
   it('does not offer readiness or geometry from unavailable or absent source slots',()=>{
+    expect(axisValue(1e-200,'en').length).toBeLessThan(20);expect(axisValue(1e200,'fr').length).toBeLessThan(20);
     const view=live();view.pca=null;
     expect(sectionAvailability(view).find(s=>s.id==='pca_scores')!.available).toBe(false);
     expect(sectionAvailability(view).find(s=>s.id==='readiness')!.available).toBe(false);

@@ -67,6 +67,28 @@ Final review also samples actual figure/readiness/last-long-row pages, including
 Letter. All 102 current frontend tests pass locally after these changes. The
 final delivered SHA still requires its own complete Windows/Ubuntu qualification.
 
+Candidate `824b37c01f004fd0a4d7507be6027cf137114c2e` also passed both platforms in
+[browser run 43965205356](https://github.com/dcornet/nirs4all-domains/actions/runs/43965205356),
+[scientific gates 43965205296](https://github.com/dcornet/nirs4all-domains/actions/runs/43965205296)
+and [report contracts 43965205381](https://github.com/dcornet/nirs4all-domains/actions/runs/43965205381).
+Its 16 PDFs passed automated inspection; the long readings reached 180/191 pages
+and the explicitly selected machine appendices 479/507 pages (A4/Letter).
+Manual review of the figure, saved readiness and last long-table pages found a
+PCA axis-label/tick overlap and remaining serialized scope strings. The final
+presentation correction widens the axis gutter, bounds tick notation (the exact
+values remain in evidence), and renders every carried JSON-object scope as
+readable fields. Ordinary source prose is retained literally; full source identity
+is in the mandatory context. Source objects and numerical fixtures stay unchanged.
+The 102 frontend tests pass locally, including the scope regression.
+
+The isolated mobile component capture originally contained an overlaid sticky
+navigation bar. The capture helper now hides navigation only while taking that
+component image. An additional unmodified viewport image and the post-capture
+width assertion record the actual UI; the receipt states this capture scope.
+Hosted print checks also test axis-label/tick intersections. These last changes
+require another exact-head run before the PR is ready; earlier green runs are
+evidence for their own commits only.
+
 PDF inspection uses test-only **PyMuPDF 1.28.2**, canonical hash-locked wheels,
 no dependencies, in hosted CI. It is AGPL-3.0 / commercially licensed and is not
 bundled with the application. The larger 2.x layout/model dependency cohort is

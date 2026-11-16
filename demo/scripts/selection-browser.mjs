@@ -23,6 +23,10 @@ async function exportedCase(page,browser,output,exported,name,expected,check){
     const original=JSON.parse(await offline.locator('.report-machine pre').textContent());assert.deepEqual(original.scientific_report,expected);
     const ids=await offline.locator('[id]').evaluateAll(nodes=>nodes.map(n=>n.id));assert.equal(new Set(ids).size,ids.length,'Duplicate evidence/section anchors');
     await offline.emulateMedia({media:'print'});
+    const axisOverlaps=await offline.locator('.report-figure svg').evaluateAll(svgs=>svgs.flatMap(svg=>{
+      const label=svg.querySelector('text[transform^="rotate"]');if(!label)return [];
+      const a=label.getBoundingClientRect();return [...svg.querySelectorAll('text[text-anchor="end"]')].filter(t=>{const b=t.getBoundingClientRect();return Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top);}).map(t=>t.textContent);
+    }));assert.deepEqual(axisOverlaps,[],'Printed axis labels must not overlap tick text');
     for(const section of report.export_selection.sections){
       if(section.id==='machine_evidence')continue;
       assert.equal(await offline.locator(`#supplement-${section.id}`).count(),report.export_selection.selected_sections.includes(section.id)?1:0);
@@ -96,8 +100,10 @@ export async function qualifyLongSelection(browser,url,original,output,exported,
     assert.equal(report.provenance.browser_numerical_execution,false);assert(report.provenance.source_qualification.includes('not authenticated'));
     assert.equal(await page.evaluate(()=>window.__longWorkers),0);
     await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'FR',exact:true}).click();
-    await page.locator('.export-options').scrollIntoViewIfNeeded();await screenshot(page,'f3-5-options-mobile',false,'.export-options');
-    const layout=await page.evaluate(()=>({viewport:innerWidth,document_width:document.documentElement.scrollWidth}));
+    await page.locator('.export-options').scrollIntoViewIfNeeded();await screenshot(page,'f3-5-options-mobile-panel',false,'.export-options');
+    await page.locator('.export-options').evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY-210,behavior:'instant'}));
+    await screenshot(page,'f3-5-options-mobile-viewport');
+    const layout=await page.evaluate(()=>({viewport:innerWidth,document_width:document.documentElement.scrollWidth,isolated_capture:'Sticky navigation hidden only during isolated component capture; viewport and layout assertions use unmodified UI.'}));
     await writeFile(resolve(output,'f3_5','mobile-layout.json'),JSON.stringify(layout,null,2));
     assert(layout.document_width<=layout.viewport+1);
     check('F3.5 long synthetic documentary copy: original public numerics unchanged, unauthenticated saved scope, mobile FR and no browser fit');

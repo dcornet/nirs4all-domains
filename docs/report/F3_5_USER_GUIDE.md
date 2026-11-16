@@ -10,6 +10,9 @@ No importance score decides what is mandatory.
 Nested source fields are presented as readable lists/definition fields in custom
 tables, with their original identifiers and values. JSON syntax belongs to the
 separate complete technical model; choosing fewer supplements does not delete it.
+Full carried source identity is part of the mandatory context. Serialized object
+scopes are displayed as readable fields without changing the original scope
+strings in the machine model; ordinary source prose stays literal.
 
 Check additional figures, tables, methods/parameters, neighbors, clustering,
 factors, sensitivity, full readiness, provenance or glossary. Disabled options

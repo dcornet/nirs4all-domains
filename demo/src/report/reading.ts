@@ -2,7 +2,7 @@
 import type { DemoReport } from './model';
 import type { ReportPresentation } from './presentation';
 import { reportCopy,formatValue,anchor,recordedRows,type DisplayTable } from './presentation';
-import { escape,md,tableHtml,tableMarkdown,figureHtml,blocksHtml,readingHtml } from './render';
+import { escape,md,tableHtml,tableMarkdown,figureHtml,blocksHtml,readingHtml,recordedScope } from './render';
 import {selectionCopy} from './selection-copy';
 import type {ExportSelection} from './selection';
 import { translator } from '../i18n';
@@ -25,11 +25,12 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
   const pairTable=(id:string,title:string,rows:unknown[][])=>table({id,title,columns:[c.parameter,c.value],rows,note:c.tableNote});
   const reference=(id:string)=>html?`<p>${escape(c.reference)}: <a href="#${anchor(id)}">${escape(id)}</a></p>`:paragraph(`${c.reference}: ${id}`);
   const sourceRows=(value:unknown)=>recordedRows(value);
+  const identity=report.provenance.identity as Record<string,unknown>|undefined;
   const context={...report.dataset,source_mode:report.source_mode,intended_use:report.intended_use,user_declarations:report.user_declarations,
     report_protocol:report.protocol_version,source_report_protocol:(report.scientific_report as {protocol_version?:string}|null)?.protocol_version??null,
     carried_case_count:Array.isArray((report.scientific_report as {cases?:unknown[]}|null)?.cases)?(report.scientific_report as {cases:unknown[]}).cases.length:1,
     independent_original_study_count:report.provenance.independent_original_study_count??null,
-    source_reports:report.provenance.source_reports??null,original_source_ref:report.provenance.original_source_ref??null,
+    source_reports:report.provenance.source_reports??null,original_source_ref:report.provenance.original_source_ref??null,source_identity:identity??null,
     verification_execution:report.provenance.verification_execution??null,browser_numerical_execution:report.provenance.browser_numerical_execution??null};
   let output=section('data',c.data,paragraph(report.summary)+pairTable('required-context',c.data,sourceRows(context)));
   const findings=p.findings.map(f=>{
@@ -44,7 +45,7 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
   output+=section('proof',t('evidence'),p.blocks.map(b=>{
     const coreTables=b.tables.filter(tab=>['original-readiness','readiness-checks'].includes(tab.id));
     const rows=sourceRows(b.original).filter(row=>!coreTables.length||!['records','selected_readiness_checks'].includes(String(row[0])));
-    const body=pairTable(`${b.id}-core`,b.title,[[c.status,b.status],[c.reason,b.reason],[c.population,b.scope],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer],[c.definition,b.definition],[c.read,b.read],[c.observed,b.observed],[c.meaning,b.relevance],[c.limits,b.limitations],...rows])+coreTables.map(table).join('');
+    const body=pairTable(`${b.id}-core`,b.title,[[c.status,b.status],[c.reason,b.reason],[c.population,recordedScope(b.scope)],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer],[c.definition,b.definition],[c.read,b.read],[c.observed,b.observed],[c.meaning,b.relevance],[c.limits,b.limitations],...rows])+coreTables.map(table).join('');
     return html?`<article id="${anchor(b.id)}" class="report-evidence"><h3>${escape(b.title)}</h3>${body}</article>`:`### ${md(b.title)} · ${md(b.id)}\n\n${body}`;
   }).join(''));
   const details=(ids:readonly string[],tableFilter?:(id:string)=>boolean)=>{
@@ -63,7 +64,7 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
       // Complete recorded fields, without the legacy display overview's 160-field cap.
       body+=details(p.blocks.map(b=>b.id),id=>id.endsWith('-values'));
     }else if(id==='methods_parameters'){
-      body=p.blocks.map(b=>paragraph(b.title)+(html?readingHtml(b,locale):[b.definition,b.read,b.observed,...b.limitations].map(paragraph).join(''))+pairTable(b.id,b.title,[[c.provider,b.provider],[c.reference,b.pointer],[c.population,b.scope],[c.representation,b.representation],...sourceRows(b.original).filter(row=>/param|requested|resolved|resolution|backend|scope|exclusion|min_samples|min_cluster_size|^k$|policy/i.test(String(row[0])))])+reference(b.id)).join('');
+      body=p.blocks.map(b=>paragraph(b.title)+(html?readingHtml(b,locale):[b.definition,b.read,b.observed,...b.limitations].map(paragraph).join(''))+pairTable(b.id,b.title,[[c.provider,b.provider],[c.reference,b.pointer],[c.population,recordedScope(b.scope)],[c.representation,b.representation],...sourceRows(b.original).filter(row=>/param|requested|resolved|resolution|backend|scope|exclusion|min_samples|min_cluster_size|^k$|policy/i.test(String(row[0])))])+reference(b.id)).join('');
     }else if(id==='neighborhood')body=details(['raw_neighbors','projected_neighbors']);
     else if(id==='clustering'){
       body=details(['density'])+details(['decision_summary'],id=>id==='sensitivity-mechanisms');
