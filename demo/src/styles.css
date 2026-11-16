@@ -23,3 +23,6 @@ h1,h2,h3{font-weight:650}
 @media(max-width:850px){.how-grid{grid-template-columns:1fr 1fr}.journey-nav a{font-size:.78rem;padding-inline:4px;gap:6px}.help-card dl>div{grid-template-columns:150px minmax(0,1fr)}}
 @media(max-width:560px){html{scroll-padding-top:220px}.journey-nav{top:65px}.journey-nav>.container{grid-template-columns:1fr 1fr;gap:0 10px}.journey-nav a{min-height:52px;font-size:.75rem}.journey-step,.workspace-section,.report-synthesis,.report-evidence{scroll-margin-top:195px}.direct-navigation{font-size:.75rem}.help-card dl>div{grid-template-columns:1fr;gap:4px}.help-card dd{font-size:.8rem}.how-grid{grid-template-columns:1fr 1fr;gap:15px}.processing-stages{display:grid;grid-template-columns:1fr 1fr;font-size:.7rem}.reading-choice label{display:flex;margin-right:0}.chart-panel{overflow-x:auto}.report-synthesis{padding:18px}}
 @media print{.journey-nav,.direct-navigation,.context-help,.reading-choice,.sharing-help{display:none!important}.journey-label{font-weight:700;color:#0f766e}.journey-step{padding-top:14px}.science-disclosure{display:block}.report-synthesis>a{display:none}}
+
+.run-banner{position:sticky;top:76px;z-index:20;background:var(--card);border-bottom:1px solid var(--border);box-shadow:0 8px 18px #00000012}
+@media(max-width:560px){.run-banner{top:65px}}

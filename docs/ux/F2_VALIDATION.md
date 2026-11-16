@@ -46,6 +46,13 @@ capture-only helper had a shell-encoding-corrupted theme locator; it was stopped
 and the mobile capture rerun with the actual button selector. The product's full
 mobile path already passed. Failed/partial receipts are not successful runs.
 
+Hosted screenshot review exposed an additional real defect: the processing banner
+could remain above the viewport after a long-page example selection. It now sticks
+below the header while running, without moving intent/display state. A browser
+assertion verifies the actual banner and cancel control fit in the viewport during
+the delayed real-WASM request. Exact-head hosted qualification is rerun for this
+correction; an earlier green run alone does not qualify the final source.
+
 ## Mandatory scenario coverage
 
 | Scenario | Actual check / scientific boundary |

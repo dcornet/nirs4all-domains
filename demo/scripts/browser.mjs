@@ -230,6 +230,7 @@ try {
   await page.getByRole('button', { name: /Two spectral populations/ }).click();
   await page.waitForFunction(before => window.__domainsWorkerAudit.constructed > before, auditBefore.constructed);
   await visible(page.getByRole('button', { name: 'Cancel analysis' }));
+  assert(await page.locator('.run-banner').evaluate(node=>{const r=node.getBoundingClientRect();const header=document.querySelector('.nav').getBoundingClientRect();return r.top>=header.bottom-1&&r.bottom<=innerHeight;}),'Actual processing stages and cancellation must remain in the viewport after scrolling');
   await screenshot(page,'f2-processing');
   await page.getByRole('button', { name: 'Cancel analysis' }).click();
   await page.waitForTimeout(1100);
