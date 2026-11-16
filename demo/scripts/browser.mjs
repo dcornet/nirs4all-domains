@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium, firefox } from 'playwright-core';
 import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffline } from './report-browser.mjs';
 import { uxLanding,uxLive,uxSummaryOffline,uxExtraInputs,auditAccessibility,uxBlockedWasm,uxSavedSummary } from './ux-browser.mjs';
+import {qualifyLiveSelection,qualifySavedSelection,qualifySelectionReset,qualifyLongSelection} from './selection-browser.mjs';
 import {qualifyTechnicalLoading} from './technical-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -110,6 +111,7 @@ try {
   check('Real synthetic example computes Methods PCA in WASM', { first_eigenvalue: initial.scientific_report.metrics.pca.value.eigenvalues[0] });
   await reportArtifacts(page,initial,exported,output,'live-synthetic',check);
   const shortHtml=await uxLive(page,initial,output,exported,screenshot,check);
+  await qualifyLiveSelection(page,initial,browser,output,exported,screenshot,check);
   await page.locator('#spectra').scrollIntoViewIfNeeded(); await screenshot(page, 'spectra');
   await page.locator('#geometry').scrollIntoViewIfNeeded(); await screenshot(page, 'pca');
   await page.locator('#geometry .report-figure').nth(1).scrollIntoViewIfNeeded();await screenshot(page,'scree');
@@ -212,6 +214,7 @@ try {
   await auditAccessibility(page,output,'saved-tablet',check);
   const savedHtml=await reportArtifacts(page,saved,exported,output,'tablet-saved',check);
   await uxSavedSummary(page,saved,output,exported,screenshot,check);
+  await qualifySavedSelection(page,saved,browser,output,exported,screenshot,check);
   assert.equal(saved.presentation.figures.length,0);assert.equal(await page.locator('#spectra select').count(),0);
   await page.locator('#evidence-decision_summary').scrollIntoViewIfNeeded();await screenshot(page,'saved-decision-tables');
   const variantResponse = page.waitForResponse(response => /tablet\.new_specimens\.saved\.json$/.test(response.url()) && response.status() === 200);
@@ -269,6 +272,7 @@ try {
   check('Malicious import filename remains escaped in report export');
   await home(page); await example(page, 'Two spectral populations');
   assert.equal((await json(page)).source_mode, 'synthetic_computed_live'); check('Example reload after cancellations and refusals');
+  await qualifySelectionReset(page,exported,check);
   await context.close();
   await verifySavedOffline(browser,savedHtml,saved,screenshot,check);
 
@@ -290,6 +294,7 @@ try {
   await mobile.close();
   await uxBlockedWasm(browser,url,check);
   await qualifyTechnicalLoading(browser,url,output,check);
+  await qualifyLongSelection(browser,url,saved.scientific_report,output,exported,screenshot,check,wire);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
     const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);

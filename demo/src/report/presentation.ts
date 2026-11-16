@@ -125,24 +125,28 @@ export interface ReportPresentation {
   findings: (UiResult['findings'][number] & { resolvedEvidenceIds: string[]; unresolvedEvidenceIds: string[] })[];
   glossary: { term: string; definition: string }[];
 }
-function scalarRows(value: unknown, prefix = '', rows: unknown[][] = []): unknown[][] {
+function scalarRows(value: unknown, prefix = '', rows: unknown[][] = [],limit=160): unknown[][] {
   if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
     for (const [key, item] of Object.entries(value)) {
       if (['scores','labels','membership','persistence','warnings','request','scientific_basis','source_report','parent_annotation'].includes(key)||(key==='reason'&&item===null)) continue;
-      scalarRows(item, prefix ? `${prefix}.${key}` : key, rows);
+      scalarRows(item, prefix ? `${prefix}.${key}` : key, rows,limit);
     }
-  } else if (rows.length < 160) rows.push([prefix || 'value', value]);
+  } else if (rows.length < limit) rows.push([prefix || 'value', value]);
   return rows;
 }
+/** Uncapped documentary projection for explicit F3.5 reading; transport arrays remain in technical evidence. */
+export const recordedRows=(value:unknown)=>scalarRows(value,'',[],Infinity).map(row=>row.map(cell=>cell!==null&&typeof cell==='object'?JSON.stringify(cell):cell));
 function metricTitle(id: string, c: Copy): string {
   return ({ pca: c.scores, density: c.density, raw_neighbors: `${c.neighbors} · raw`, projected_neighbors: `${c.neighbors} · PCA`,
     experimental_factor_structure: c.factor, preprocessing_dependent_organization: c.sensitivity, decision_summary: c.decision, readiness: c.readiness })[id] ?? id;
 }
-export function presentation(view: UiResult, locale: Locale, intent: PredictionIntent): ReportPresentation {
+export function presentation(view: UiResult, locale: Locale, intent: PredictionIntent,options:{uncapped?:boolean}={}): ReportPresentation {
   const c = copy[locale], t = translator(locale);
+  const rows=(value:unknown)=>scalarRows(value,'',[],options.uncapped?Infinity:160);
+  const overview=options.uncapped?(locale==='fr'?'Champs enregistrés sans plafond de lignes ; tableaux de transport conservés dans les preuves originales.':'Recorded fields without a row cap; transport arrays remain in original evidence.'):c.overview;
   const blocks = view.evidence.map((e): EvidenceBlock => {
     const v = e.value as Record<string, any> | null, neighbor = e.id.endsWith('_neighbors'), density = e.id === 'density';
-    const tables: DisplayTable[] = [{ id: `${e.id}-values`, title: metricTitle(e.id,c), columns: [c.parameter,c.value], rows: scalarRows(e.value), note: c.overview }];
+    const tables: DisplayTable[] = [{ id: `${e.id}-values`, title: metricTitle(e.id,c), columns: [c.parameter,c.value], rows: rows(e.value), note: overview }];
     if (density && e.status === 'computed' && Array.isArray(v?.labels)) {
       const counts = new Map<number,number>(); for (const label of v.labels) counts.set(label,(counts.get(label)??0)+1);
       tables.unshift({ id: 'cluster-sizes', title: c.density, columns: [c.cluster,c.count], rows: [...counts].sort((a,b)=>a[0]-b[0]).map(([label,n])=>[label<0?`${c.noise} (${label})`:label,n]), note: c.densityRead });
@@ -151,8 +155,8 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     if (e.id === 'decision_summary' && v) {
       if (v.factor_questions?.length) tables.unshift({ id:'factor-correspondence',title:c.factor,columns:['factor','n_levels','n_missing','eta_squared (PC order)','partition_ari','membership_evidence'],rows:v.factor_questions.map((f:any)=>[f.factor,f.values?.n_levels??null,f.values?.n_missing??null,f.values?.eta_squared??null,f.values?.partition_ari??null,f.membership_evidence??null]),note:c.savedRead });
       if (v.mechanisms?.length) tables.unshift({ id:'sensitivity-mechanisms',title:c.sensitivity,columns:['kind','finding','cluster_counts','parameter_ari_min','noise_fractions'],rows:v.mechanisms.map((m:any)=>[m.kind,m.finding,m.values?.cluster_counts??null,m.values?.parameter_ari_min??null,m.values?.noise_fractions??null]),note:c.savedLimit });
-      for(const [i,m] of (v.mechanisms??[]).entries()) tables.push({id:`mechanism-${i}`,title:`${c.sensitivity} · ${m.kind}`,columns:[c.parameter,c.value],rows:scalarRows(m.values),note:String(m.description??c.savedRead)});
-      if(v.paired_representation_counts?.length)tables.push({id:'paired-representations',title:c.sensitivity,columns:[c.parameter,c.value],rows:scalarRows({paired_representation_counts:v.paired_representation_counts}),note:c.savedRead});
+      for(const [i,m] of (v.mechanisms??[]).entries()) tables.push({id:`mechanism-${i}`,title:`${c.sensitivity} · ${m.kind}`,columns:[c.parameter,c.value],rows:rows(m.values),note:String(m.description??c.savedRead)});
+      if(v.paired_representation_counts?.length)tables.push({id:'paired-representations',title:c.sensitivity,columns:[c.parameter,c.value],rows:rows({paired_representation_counts:v.paired_representation_counts}),note:c.savedRead});
       if (v.selected_readiness_checks?.length) tables.unshift({ id:'readiness-checks',title:c.readiness,columns:['record_id','inputs','protocol','authorization','execution','applicability'],rows:v.selected_readiness_checks.map((r:any)=>[r.record_id,r.inputs,r.protocol,r.authorization,r.execution,r.applicability]),note:c.noExecution });
     }
     if(e.id==='readiness'&&v?.records?.length)tables.unshift({id:'original-readiness',title:c.readiness,columns:['record_id','observation.status','inputs','protocol','authorization','execution'],rows:v.records.map((r:any)=>[r.record_id,r.observation_evidence?.measurement?.status??null,r.inputs?.value??null,r.protocol?.value??null,r.authorization?.value??null,r.execution?.value??null]),note:c.noExecution});

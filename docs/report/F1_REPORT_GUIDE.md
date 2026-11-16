@@ -1,5 +1,10 @@
 # Reading the Domains report
 
+[F3.5 report customization](F3_5_USER_GUIDE.md) adds optional supplements around
+the mandatory scientific core. Explicit custom readings follow the selected
+sections in print; full original evidence always remains in HTML/Markdown/JSON.
+The behavior below remains the historical no-selection F1 reading.
+
 Open an example or import an admissible X source, choose the intended prediction
 objective, and download **Offline HTML**, **Markdown**, or **Structured JSON**.
 The report is descriptive: changing the objective does not refit measurements.
