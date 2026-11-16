@@ -86,6 +86,8 @@ export async function qualifyLongSelection(browser,url,original,output,exported,
     fixture.limitations.push('Synthetic documentary source text. '.repeat(3200)+'LONG_SOURCE_END');
     const measurement=fixture.cases[0].companions.d1.value.warnings.find(w=>w.warning_id==='experimental_factor_structure').observation.value;
     measurement.documentary_fixture=Object.fromEntries(Array.from({length:650},(_,i)=>[`documentary_field_${i}`,`Synthetic text field ${i}; no new measurement`]));
+    const numbers=(value,path='',out=[])=>{if(typeof value==='number')out.push([path,value]);else if(value&&typeof value==='object')for(const [key,child] of Object.entries(value))numbers(child,path+'/'+key,out);return out;};
+    assert.deepEqual(numbers(fixture),numbers(original),'Documentary stress must preserve all original numerical leaves');
     await page.locator('input[type=file]').setInputFiles({name:'synthetic-long-report.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(fixture))});
     await page.locator('.workspace-summary').waitFor();await clear(page);await option(page,'detailed_tables').check();
     await exportedCase(page,browser,output,exported,'long-documentary-reading',fixture,check);

@@ -35,8 +35,11 @@ for case in manifest['cases']:
             dimensions.append([width,height])
         captures=[]
         # Inspect actual PDF pixels, not screenshots pretending to be PDF pages.
-        if case['format']=='A4':
+        if case['format']=='A4' or case['name'] in ['live-figures','long-documentary-reading']:
             index=max(range(len(texts)),key=lambda i:len(texts[i])) if case['name']!='live-core' else 0
+            if case['name']=='live-figures':index=next(i for i,t in enumerate(texts) if 'PCA coordinates figure' in re.sub(r'\s+',' ',t))
+            if case['name']=='saved-some':index=next(i for i,t in enumerate(texts) if 'Complete verification readiness' in re.sub(r'\s+',' ',t))
+            if case['name']=='long-documentary-reading':index=next(i for i,t in enumerate(texts) if 'documentary_field_649' in re.sub(r'\s+','',t))
             capture=f"{path.stem}-page-{index+1}.png";document[index].get_pixmap(dpi=96).save(folder/capture);captures.append(capture)
         reviews.append({'file':case['file'],'pages':document.page_count,'bytes':path.stat().st_size,'format':case['format'],
                         'machine_appendix_printed':case['machine'],'source_end_markers_preserved':case['required_text'],

@@ -135,7 +135,7 @@ function scalarRows(value: unknown, prefix = '', rows: unknown[][] = [],limit=16
   return rows;
 }
 /** Uncapped documentary projection for explicit F3.5 reading; transport arrays remain in technical evidence. */
-export const recordedRows=(value:unknown)=>scalarRows(value,'',[],Infinity).map(row=>row.map(cell=>cell!==null&&typeof cell==='object'?JSON.stringify(cell):cell));
+export const recordedRows=(value:unknown)=>scalarRows(value,'',[],Infinity);
 function metricTitle(id: string, c: Copy): string {
   return ({ pca: c.scores, density: c.density, raw_neighbors: `${c.neighbors} · raw`, projected_neighbors: `${c.neighbors} · PCA`,
     experimental_factor_structure: c.factor, preprocessing_dependent_organization: c.sensitivity, decision_summary: c.decision, readiness: c.readiness })[id] ?? id;

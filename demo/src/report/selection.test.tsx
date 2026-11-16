@@ -55,6 +55,8 @@ describe('F3.5 scientific core and additive export selection',()=>{
     expect(r.export_selection!.selected_sections).not.toContain('pca_scores');expect(html).toContain('Requested supplement unavailable');expect(html).not.toContain('<figure');
     expect(html).toContain('supplement-readiness');expect(html).toContain('not_executed');expect(r.scientific_report).toBe(source);
     expect(r.export_selection!.sections.find(s=>s.id==='experimental_factors')!.available).toBe(true);
+    const reading=html.slice(0,html.indexOf('<section id="technical-evidence">'));
+    expect(reading.includes('{&quot;conditional&quot;:'),'Readable conditional scenarios must not be raw JSON blobs').toBe(false);
   });
   it('does not offer readiness or geometry from unavailable or absent source slots',()=>{
     const view=live();view.pca=null;
@@ -71,6 +73,8 @@ describe('F3.5 scientific core and additive export selection',()=>{
   });
   it('refuses altered mandatory/available lists, unknown IDs and unknown versions',()=>{
     const view=savedView(source),r=custom(view,[]);
+    const reordered=Object.fromEntries(Object.entries(r.export_selection!).reverse()) as typeof r.export_selection;
+    expect(()=>reportModel(view,source,'unknown','en',undefined,'complete',reordered)).not.toThrow();
     expect(()=>createSelection(view,['invented' as never])).toThrow('UNKNOWN_SECTION');
     r.export_selection!.mandatory_sections=[];expect(()=>serializeReport(r,'json')).toThrow('SCOPE_OR_AVAILABILITY');
     r.export_selection=createSelection(view,[]);r.export_selection.protocol_version='unrecognized' as never;expect(()=>serializeReport(r,'html')).toThrow('VERSION_UNSUPPORTED');
@@ -90,6 +94,7 @@ describe('F3.5 scientific core and additive export selection',()=>{
   });
   it('keeps hostile Markdown inert and the full JSON fence exact for custom exports',()=>{
     const view=live();view.findings[0].observation='~'.repeat(64)+'\n# injected\n![remote](https://external.invalid/a) <script>alert(1)</script>';
+    Object.assign(view.evidence[0].value as object,{nested_documentary_text:{'<img src=x onerror=alert(1)>':[view.findings[0].observation]}});
     const r=custom(view,optionalSections),markdown=serializeReport(r,'markdown'),html=new HtmlRenderer({safe:false}).render(new Parser().parse(markdown));
     expect(originalFence(markdown)).toEqual([r]);expect(html).not.toMatch(/<(?:img|script|iframe|a)(?:\s|>)/i);
     expect(serializeReport(r,'html')).not.toContain('<script');

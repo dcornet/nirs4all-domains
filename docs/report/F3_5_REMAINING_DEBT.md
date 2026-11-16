@@ -21,5 +21,7 @@
   remain. Preflight and all owner versions/contracts stay unchanged.
 - User saved JSON is schema validated, not authenticated or numerically requalified.
   Selection grants no permission to share source metadata or identifiers.
+  The accepted standalone saved-schema input is unchanged; browser-demo JSON
+  exports are not silently admitted as a new input format.
 - Persistent preferences, interactive report JavaScript and another global report
   framework are outside this local, current-report feature.

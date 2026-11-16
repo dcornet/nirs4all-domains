@@ -5,11 +5,19 @@ import { translator } from '../i18n';
 
 export const escape = (text: unknown) => String(text ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 export const md = (text: unknown) => String(text ?? '').replace(/[\r\n\t]+/g,' ').trim().replace(/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]/g,'\\$&');
-export function tableHtml(table: DisplayTable, locale: Locale): string {
-  return `<div class="report-table-wrap"><table data-columns="${table.columns.length}"><caption>${escape(table.title)}</caption><thead><tr>${table.columns.map(c=>`<th scope="col">${escape(c)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row=>`<tr>${row.map((cell,i)=>i===0?`<th scope="row">${escape(typeof cell==='string'?metricName(cell,locale):formatValue(cell,locale))}${typeof cell==='string'&&metricName(cell,locale)!==cell?`<small class="metric-id">${escape(cell)}</small>`:''}</th>`:`<td>${escape(formatValue(cell,locale))}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="report-note">${escape(table.note)}</p>`;
+function documentaryValue(value:unknown,locale:Locale,html:boolean):string{
+  if(Array.isArray(value))return value.length?(html?`<ul class="report-cell-list">${value.map(v=>`<li>${documentaryValue(v,locale,true)}</li>`).join('')}</ul>`:value.map(v=>documentaryValue(v,locale,false)).join(' ; ')):'[]';
+  if(value!==null&&typeof value==='object'){
+    const entries=Object.entries(value);
+    return entries.length?(html?`<dl class="report-cell-object">${entries.map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${documentaryValue(v,locale,true)}</dd></div>`).join('')}</dl>`:entries.map(([k,v])=>k+': '+documentaryValue(v,locale,false)).join(' ; ')):'{}';
+  }
+  return html?escape(formatValue(value,locale)):formatValue(value,locale);
 }
-export function tableMarkdown(table: DisplayTable, locale: Locale): string {
-  return `#### ${md(table.title)}\n\n| ${table.columns.map(md).join(' | ')} |\n| ${table.columns.map(()=> '---').join(' | ')} |\n${table.rows.map(row=>`| ${row.map(v=>md(formatValue(v,locale))).join(' | ')} |`).join('\n')}\n\n${md(table.note)}\n`;
+export function tableHtml(table: DisplayTable, locale: Locale,options:{structured?:boolean}={}): string {
+  return `<div class="report-table-wrap"><table data-columns="${table.columns.length}"><caption>${escape(table.title)}</caption><thead><tr>${table.columns.map(c=>`<th scope="col">${escape(c)}</th>`).join('')}</tr></thead><tbody>${table.rows.map(row=>`<tr>${row.map((cell,i)=>i===0?`<th scope="row">${escape(typeof cell==='string'?metricName(cell,locale):formatValue(cell,locale))}${typeof cell==='string'&&metricName(cell,locale)!==cell?`<small class="metric-id">${escape(cell)}</small>`:''}</th>`:`<td>${options.structured?documentaryValue(cell,locale,true):escape(formatValue(cell,locale))}</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="report-note">${escape(table.note)}</p>`;
+}
+export function tableMarkdown(table: DisplayTable, locale: Locale,options:{structured?:boolean}={}): string {
+  return `#### ${md(table.title)}\n\n| ${table.columns.map(md).join(' | ')} |\n| ${table.columns.map(()=> '---').join(' | ')} |\n${table.rows.map(row=>`| ${row.map(v=>md(options.structured?documentaryValue(v,locale,false):formatValue(v,locale))).join(' | ')} |`).join('\n')}\n\n${md(table.note)}\n`;
 }
 export function readingHtml(reading: Reading, locale: Locale): string {
   const c=reportCopy(locale);
@@ -46,5 +54,5 @@ export function figureHtml(figure: DisplayFigure, locale: Locale): string {
 }
 export function blocksHtml(p: ReportPresentation, locale: Locale,options:{anchors?:boolean;originals?:boolean;uncapped?:boolean}={}): string {
   const c=reportCopy(locale),t=translator(locale);
-  return p.blocks.map(b=>`<article ${options.anchors===false?'':`id="${anchor(b.id)}" `}class="report-evidence"><h3>${escape(b.title)}</h3><p class="report-status status status-${b.status}">${escape(t(b.status))} · <code>${escape(b.id)}</code></p><dl class="report-meta">${[[c.population,b.scope],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer??c.noValue],[c.unit,c.unknownUnit],[c.reason,b.reason??'—']].map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>${readingHtml(b,locale)}${b.tables.filter(t=>t.rows.length).map(t=>tableHtml(options.uncapped?{...t,rows:(t.id===`${b.id}-values`?recordedRows(b.original):t.rows).map(row=>row.map(cell=>cell!==null&&typeof cell==='object'?JSON.stringify(cell):cell))}:t,locale)).join('')}${options.originals===false?'':`<details><summary>${escape(c.original)}</summary><pre>${escape(JSON.stringify(b.original,null,2))}</pre></details>`}</article>`).join('');
+  return p.blocks.map(b=>`<article ${options.anchors===false?'':`id="${anchor(b.id)}" `}class="report-evidence"><h3>${escape(b.title)}</h3><p class="report-status status status-${b.status}">${escape(t(b.status))} · <code>${escape(b.id)}</code></p><dl class="report-meta">${[[c.population,b.scope],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer??c.noValue],[c.unit,c.unknownUnit],[c.reason,b.reason??'—']].map(([k,v])=>`<div><dt>${escape(k)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>${readingHtml(b,locale)}${b.tables.filter(t=>t.rows.length).map(t=>tableHtml(options.uncapped?{...t,rows:t.id===`${b.id}-values`?recordedRows(b.original):t.rows}:t,locale,{structured:options.uncapped})).join('')}${options.originals===false?'':`<details><summary>${escape(c.original)}</summary><pre>${escape(JSON.stringify(b.original,null,2))}</pre></details>`}</article>`).join('');
 }

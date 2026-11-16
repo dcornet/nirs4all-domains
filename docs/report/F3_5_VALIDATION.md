@@ -45,6 +45,28 @@ Inherited `overflow-wrap:anywhere` on the workspace content reduced it to 390,
 with no text clipping or hidden overflow; unrelated title/grid changes were not
 needed. The candidate must still pass this unchanged assertion in hosted CI.
 
+Implementation head `330fd9a627f46137797f4998b38567e8097a803b` passed both
+Windows/Ubuntu jobs in [browser run 43962110777](https://github.com/dcornet/nirs4all-domains/actions/runs/43962110777),
+[scientific gates 43962110850](https://github.com/dcornet/nirs4all-domains/actions/runs/43962110850)
+and [report contracts 43962110650](https://github.com/dcornet/nirs4all-domains/actions/runs/43962110650).
+That browser run records 57 checks per platform, Chromium 159.0.8154.6 / bounded
+Firefox 159.0, and zero ordinary console/page/upload/off-origin violations.
+
+The Ubuntu PDF reader processed all 16 PDFs: core live 25/27 pages, selected
+figures 28/30, full live 137/145, core saved 38/39, selected saved 52/55, full
+saved 258/273, long reading 153/161, long machine 452/477 (A4/Letter). All source
+end markers, paper dimensions, blank-page and text-bound checks passed. These are
+actual implementation-head measurements, not page budgets or final-head counts.
+Proof ZIP SHA-256 was verified before inspecting its pages/captures in memory.
+
+Manual raster review then identified dense structured JSON cells in the readable
+tables. A regression reproduced this presentation defect. Custom tables now use
+the existing F1 renderer with recursive lists/definition fields, retaining every
+value; complete JSON stays in the technical space. Legacy rendering is unchanged.
+Final review also samples actual figure/readiness/last-long-row pages, including
+Letter. All 102 current frontend tests pass locally after these changes. The
+final delivered SHA still requires its own complete Windows/Ubuntu qualification.
+
 PDF inspection uses test-only **PyMuPDF 1.28.2**, canonical hash-locked wheels,
 no dependencies, in hosted CI. It is AGPL-3.0 / commercially licensed and is not
 bundled with the application. The larger 2.x layout/model dependency cohort is

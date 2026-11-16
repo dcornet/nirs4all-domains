@@ -21,8 +21,7 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
   const prose=(value:unknown)=>typeof value==='string'?value:JSON.stringify(value??null);
   const paragraph=(value:unknown)=>html?`<p>${escape(prose(value))}</p>`:md(prose(value))+'\n\n';
   const section=(id:string,title:string,body:string)=>html?`<section id="${id}"><h2>${escape(title)}</h2>${body}</section>`:`## ${md(title)}\n\n${body}`;
-  const exact=(table:DisplayTable):DisplayTable=>({...table,rows:table.rows.map(row=>row.map(v=>v!==null&&typeof v==='object'?JSON.stringify(v):v))});
-  const table=(value:DisplayTable)=>html?tableHtml(exact(value),locale):tableMarkdown(exact(value),locale);
+  const table=(value:DisplayTable)=>html?tableHtml(value,locale,{structured:true}):tableMarkdown(value,locale,{structured:true});
   const pairTable=(id:string,title:string,rows:unknown[][])=>table({id,title,columns:[c.parameter,c.value],rows,note:c.tableNote});
   const reference=(id:string)=>html?`<p>${escape(c.reference)}: <a href="#${anchor(id)}">${escape(id)}</a></p>`:paragraph(`${c.reference}: ${id}`);
   const sourceRows=(value:unknown)=>recordedRows(value);

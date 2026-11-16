@@ -7,6 +7,10 @@ unavailable results, missing information, prerequisites, actual execution status
 limitations and exact evidence references. Recorded values stay with their block.
 No importance score decides what is mandatory.
 
+Nested source fields are presented as readable lists/definition fields in custom
+tables, with their original identifiers and values. JSON syntax belongs to the
+separate complete technical model; choosing fewer supplements does not delete it.
+
 Check additional figures, tables, methods/parameters, neighbors, clustering,
 factors, sensitivity, full readiness, provenance or glossary. Disabled options
 give the source reason; absent geometry is never reconstructed. The included-
