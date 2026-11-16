@@ -76,3 +76,34 @@ of the F2 benchmark frontend: the archive omitted `schemas/`, causing TS2307 for
 F2 schemas. This fixes the measurement harness without changing the baseline
 source, scientific fixtures or acceptance checks. Actual installed candidate
 notices were reviewed from that run and imported; all final gates must run again.
+
+Implementation head `3ebb0a6b498c32721c209e1166414bf3780504ce` then passed:
+
+| Workflow / actual run | Ubuntu | Windows |
+|---|---|---|
+| [scientific-gates 43925581930](https://github.com/dcornet/nirs4all-domains/actions/runs/43925581930) | success | success |
+| [warning-report-contracts 43925581798](https://github.com/dcornet/nirs4all-domains/actions/runs/43925581798) | success | success |
+| [browser qualification 43925581695](https://github.com/dcornet/nirs4all-domains/actions/runs/43925581695) | success | success |
+
+Each platform retains 522 Python, 43 Rust, 108 read-only, 85 frontend, one
+build-tool, seven actual-WASM and 46 browser checks in their respective suites.
+Chromium 159.0.8154.6 and the bounded Firefox 159.0 example execute actual WASM.
+Five axe states have zero reported violations, with two incomplete rules per
+state retained for manual review; this is not complete accessibility certification.
+WASM failure injections expose the expected exact refusal; ordinary operation
+has no console/page/off-origin/upload violations. Both platforms pass the
+unchanged schema, public-example and generated-notice no-diff gates.
+
+The two proof ZIPs, two static preview ZIPs and Ubuntu Pages-format artifact were
+downloaded in memory and SHA-256 checked against GitHub's artifact digests. Every
+preview file's bytes/hash match its distribution manifest; the Pages tar contains
+the same complete regular files and no links. Four native and four WASM frozen
+report objects compare exactly on both platforms. Original companions also match
+between the complete and partial live/saved exports; offline HTML retains CSP and
+contains no script. Both same-host benchmark comparisons pass exact science/hash
+equality before reporting timings. See [measured results](F3_PERFORMANCE.md).
+
+The final documentation commit must pass its own exact-head workflows. The
+[F3 PR](https://github.com/dcornet/nirs4all-domains/pull/10) records that delivered
+SHA, final runs, reviewed preview, resource closure and readiness; the run links
+above remain the actual source of the documented measurements.

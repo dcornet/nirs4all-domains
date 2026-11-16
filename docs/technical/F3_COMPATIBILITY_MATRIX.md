@@ -14,7 +14,7 @@
 | Source / scientific population | No row deletion/fusion/imputation/new split or fitted test | Retained test/predict rejection, original axes/IDs/groups, fixed scientific budgets |
 
 No public scientific schema, tolerance, provider contract, algorithm, protocol
-version or package version is changed. F3's new benchmark/loading receipts are
+version or Domains package version is changed. F3's new benchmark/loading receipts are
 engineering artifacts, outside scientific reports. Fingerprints are not relaxed
 to accommodate a dependency. A changed scientific value or hash fails comparison.
 
