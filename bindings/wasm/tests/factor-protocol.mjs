@@ -120,7 +120,9 @@ async function wasm(output) {
   const exactInput=()=>structuredClone(cases.find(c=>c.id==='independent-exact').request);
   const grants=input=>{input.access.m_fields=[...input.factors,...input.dependencies].map(c=>c.name);};
   const reordered=baseInput();
-  reordered.factors[0].row_keys.reverse();reordered.factors[0].values.reverse();
+  // The builder deliberately shares immutable population keys; reorder M alone.
+  reordered.factors[0].row_keys=[...reordered.factors[0].row_keys].reverse();
+  reordered.factors[0].values=[...reordered.factors[0].values].reverse();
   const reorderedResult=record('reordered-M',reordered);
   close(component(reorderedResult).descriptive.value.estimate,27/29,'reordered eta2');
   assert.equal(reorderedResult.receipt.scores_sha256,strong.receipt.scores_sha256);

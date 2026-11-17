@@ -150,7 +150,7 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
   assert.match(categoricalMarkup, /Observed level counts/);
   await page.locator('.factor-association-controls').scrollIntoViewIfNeeded();
   await screenshot(page, `${browserName}-f4.1-factor-controls-en`, false, '.factor-association-controls');
-  await screenshot(page, `${browserName}-f4.1-factor-results-en`, false, '.factor-association-results');
+  await screenshot(page, `${browserName}-f4.1-factor-results-en`, false, '.factor-association-results >> nth=-1');
   captures.screenshots.push(`${browserName}-f4.1-factor-controls-en`, `${browserName}-f4.1-factor-results-en`);
 
   const baseScientific = JSON.stringify({
@@ -198,7 +198,7 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
   assert.match(await page.locator('.factor-association-results').last().innerText(), /Association avec chaque composante/);
   await page.locator('.factor-association-controls').scrollIntoViewIfNeeded();
   await screenshot(page, `${browserName}-f4.1-factor-controls-fr`, false, '.factor-association-controls');
-  await screenshot(page, `${browserName}-f4.1-factor-results-fr`, false, '.factor-association-results');
+  await screenshot(page, `${browserName}-f4.1-factor-results-fr`, false, '.factor-association-results >> nth=-1');
   captures.screenshots.push(`${browserName}-f4.1-factor-controls-fr`, `${browserName}-f4.1-factor-results-fr`);
   await auditAccessibility(page, output, `${browserName}-f4.1-factor-fr`, check);
   await page.getByRole('button', { name: /Tout sélectionner/ }).click();

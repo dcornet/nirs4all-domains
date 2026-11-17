@@ -1,6 +1,6 @@
 //! Replay WASM-produced public synthetic requests with the original recorded PCA scores.
 //! No fit or numerical algorithm is implemented by this consumer.
-use nirs4all_domains::{browser_factor, hash, methods::Methods};
+use nirs4all_domains::{browser_factor, factor_methods::FactorMethods, hash};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use std::{collections::BTreeMap, env, fs, path::Path};
@@ -20,7 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let replay: Replay = serde_json::from_slice(&bytes)?;
     let library =
         env::var_os("N4DOMAINS_METHODS_LIBRARY").ok_or("N4DOMAINS_METHODS_LIBRARY_REQUIRED")?;
-    let provider = Methods::load(Path::new(&library))?;
+    let provider = FactorMethods::load(Path::new(&library))?;
     let mut reports = BTreeMap::new();
     for case in replay.cases {
         if reports.contains_key(&case.id) {
