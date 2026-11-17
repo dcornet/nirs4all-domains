@@ -108,6 +108,14 @@ describe('F4 scoped report projection', () => {
     expect(global.provenance.scoped_structure_scope).toBe('global_transductive');
     expect(presentation(global, 'en', 'unknown').brief[0]).toContain('Explicit global descriptive/transductive');
     expect(presentation(global, 'en', 'unknown').figures[0]!.population).toContain('Explicit global descriptive/transductive');
+    for (const locale of ['en', 'fr'] as const) {
+      const trainFigure=presentation(train,locale,'unknown').figures[0]!;
+      const globalFigure=presentation(global,locale,'unknown').figures[0]!;
+      expect(trainFigure.limitations[0]).toContain(locale==='en'?'does not establish test support':'ne prouve ni le support de test');
+      expect(globalFigure.limitations[0]).toContain(locale==='en'?'does not establish a train-only reference':'ne valide ni une référence limitée à train');
+      expect(trainFigure.points).toEqual(train.pca!.points);
+      expect(globalFigure.points).toEqual(global.pca!.points);
+    }
   });
 
   it('does not describe an unmatched structure as complete-source descriptive analysis', () => {

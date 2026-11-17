@@ -33,6 +33,8 @@ const copy = {
     live: 'Complete imported X, descriptive/transductive analysis. No target or prediction score was evaluated.',
     scopedTrain: 'Train-only structure evidence. Other loaded partitions were not used for this fit.',
     scopedGlobal: 'Explicit global descriptive/transductive structure over the selected train and test populations.',
+    scopedTrainLimit: 'A descriptive train-only fit does not establish test support, physical independence, predictive performance or transfer to a new context.',
+    scopedGlobalLimit: 'A global train+test fit does not establish a train-only reference, prospective test performance, physical independence or transfer to a new context.',
     scopedUnknown: 'The numerical structure scope could not be matched to an operation receipt.',
     factor: 'Documented factor correspondence', sensitivity: 'Recorded sensitivity mechanisms', readiness: 'Verification readiness', decision: 'Original decision reading',
     savedRead: 'Read the recorded metric and its exact scope. Factor-PC correspondence, partition ARI, neighborhood change and density-parameter sensitivity are distinct.',
@@ -77,6 +79,8 @@ const copy = {
     live: 'Tout X importé, analyse descriptive/transductive. Aucune cible ni performance prédictive évaluée.',
     scopedTrain: 'Structure calculée uniquement sur train. Les autres partitions chargées ne participent pas à cet ajustement.',
     scopedGlobal: 'Structure descriptive/transductive globale sur les populations train et test explicitement sélectionnées.',
+    scopedTrainLimit: 'Un ajustement descriptif sur train ne prouve ni le support de test, ni l’indépendance physique, ni la performance prédictive, ni le transfert vers un nouveau contexte.',
+    scopedGlobalLimit: 'Un ajustement global train + test ne valide ni une référence limitée à train, ni une performance prospective sur test, ni l’indépendance physique, ni le transfert vers un nouveau contexte.',
     scopedUnknown: 'Le périmètre de la structure ne correspond à aucune preuve d’opération.',
     factor: 'Correspondances de facteurs documentées', sensitivity: 'Mécanismes de sensibilité enregistrés', readiness: 'Prérequis des vérifications', decision: 'Lecture décisionnelle originale',
     savedRead: 'Lisez la mesure enregistrée et son périmètre exact. Correspondance facteur-PC, ARI de partition, voisinages et sensibilité aux paramètres de densité sont distincts.',
@@ -190,7 +194,7 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     const groupColors=groups.length<=6?Object.fromEntries(groups.map((g,i)=>[g,palette[i]])):undefined;
     figures.push({id:'pca-scores',title:one?c.one:c.scores,kind:one?'scores1d':'scores',evidenceId:'pca',xLabel:pca.xLabel+percent(0),yLabel:one?c.oneLimit:pca.yLabel+percent(1),groupColors,
       unit:c.unknownUnit,population:`${formatValue(view.dataset.observations,locale)} · ${scopedPopulation??view.dataset.population??c.noValue}`,representation:view.dataset.representation??'raw',
-      points:pca.points,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[...(structureScope==='train_only'?[c.scopedTrain]:structureScope==='global_transductive'?[c.scopedGlobal]:structureScope==='unknown'?[c.scopedUnknown]:[c.scoreLimit]),...(one?[c.oneLimit]:[])]});
+      points:pca.points,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[...(structureScope==='train_only'?[c.scopedTrainLimit]:structureScope==='global_transductive'?[c.scopedGlobalLimit]:structureScope==='unknown'?[c.scopedUnknown]:[c.scoreLimit]),...(one?[c.oneLimit]:[])]});
     figures.push({id:'pca-scree',title:c.scree,kind:'scree',evidenceId:'pca',xLabel:c.component,yLabel:c.eigenvalue,unit:c.unknownUnit,population:figures[0].population,representation:figures[0].representation,
       eigenvalues:pca.eigenvalues,definition:c.screeDefinition,read:c.screeRead,observed:`${c.resolved}: ${pca.eigenvalues.length}; ${c.total}: ${formatValue(pca.totalVariance,locale)}`,relevance:c.next,limitations:[c.screeLimit]});
   }
