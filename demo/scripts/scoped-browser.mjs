@@ -197,8 +197,12 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   assert.equal(colorOps.length,workersBeforeColor);
   check('F4 intent rereads existing evidence only; provider receipts, scoped hashes and numerical outputs stay unchanged');
 
+  const workersBeforeExport=await page.evaluate(()=>window.__f4WorkerOperations.length);
+  await page.getByRole('button',{name:'Select all available',exact:true}).click();
   const html=await downloadText(page,'html',exported),markdown=await downloadText(page,'markdown',exported),final=await reportJson(page,json);
   assert.equal(final.export_selection.protocol_version,'domains.report_export_selection.v1');
+  assert.equal(final.numerical_evidence_recomputed_for_export,false);
+  assert.equal(await page.evaluate(()=>window.__f4WorkerOperations.length),workersBeforeExport);
   assert(final.export_selection.selected_sections.includes('machine_evidence'),'F3.5 machine evidence selection remains available for scoped reports');
   for(const [name,text] of [['html',html],['markdown',markdown],['json',JSON.stringify(final)]]){
     assert(targetSentinels.every(value=>!text.includes(value)),`${name} export exposed source or IO-decoded Y sentinel`);
