@@ -285,10 +285,12 @@ try {
   assert.equal(missingImport.scientific_report.scoped_operations.length,0,'Missing X cells remain an inventory state until an operation is selected');
   assert.equal(missingImport.scientific_report.inventory.loaded.x.rows,3);
   assert.equal(missingImport.pca,null);
+  const beforeMissingOperation=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
   await page.getByRole('button',{name:'Train structure',exact:true}).click();
-  await page.getByText('MISSING_X_NO_IMPLICIT_IMPUTATION',{exact:true}).waitFor();
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>before,beforeMissingOperation);
   const missingResult=await json(page),missingOperation=missingResult.scientific_report.scoped_operations.at(-1);
-  assert.equal(missingOperation.status,'error');assert.equal(missingOperation.reason,'MISSING_X_NO_IMPLICIT_IMPUTATION');
+  assert.equal(missingOperation.status,'error');assert.equal(missingOperation.reason,'INCOMPLETE_X_UNAVAILABLE_WITHOUT_IMPUTATION');
+  assert(await page.getByText(missingOperation.reason,{exact:false}).count(),'The original Rust refusal must remain visible');
   assert.equal(missingOperation.value,null);assert.equal(missingResult.pca,null);
   assert.equal(missingResult.scientific_report.inventory.loaded.x.rows,3,'Other loaded inventory remains available after the operation refusal');
   check('F4 missing X cells are retained at import and refused per operation without imputation or PCA');
