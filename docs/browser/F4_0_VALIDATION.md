@@ -105,6 +105,13 @@ from the new scoped report container. Imported-data checks now select the actual
 operation's structure; saved and synthetic legacy reports retain their original
 assertions. Numerical expectations and tolerances remain unchanged.
 
+The next browser run 44057216643 passed those imported-structure assertions and
+retained test/prediction operation refusals. Its F4 fixture then timed out looking
+for column controls while the shared builder was still on its Source step. The
+test now visits Columns and selects each X/Y source before verifying its roles;
+it does not assume every file's controls are displayed simultaneously. The public
+smoke script also supports reviewed import without claiming an F4 deployment.
+
 ## Review corrections
 
 The principal reviewed all scientific guards and projections. Corrections made

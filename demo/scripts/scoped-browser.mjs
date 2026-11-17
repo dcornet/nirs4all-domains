@@ -48,9 +48,17 @@ async function loadReviewed(page,files){
   const reviewText=await page.locator('.dataset-import').innerText();
   assert.match(reviewText,/Declared partitions/);
   for(const partition of ['train','test','predict'])assert(reviewText.includes(`X_${partition}.csv: ${partition}`),`Partition role missing from review: ${partition}`);
-  for(const [name,role] of [['1000','x'],['1100','x'],['yield','y'],['id','id']])
-    assert.equal(await page.getByLabel(`${name} role`).first().inputValue(),role,`Reviewed role missing: ${name} / ${role}`);
-  await page.locator('.dataset-import details summary').click();
+  // The shared builder starts at Source; column controls belong to step three
+  // and the currently selected source, not every file at once.
+  await page.getByRole('button',{name:'3. Columns',exact:true}).click();
+  for(const partition of ['train','test','predict']){
+    for(const [source,roles] of [[`X_${partition}`,[['1000','x'],['1100','x'],['id','id']]],[`Y_${partition}`,[['yield','y'],['id','id']]]]){
+      await page.locator('.dsb-source-card__switch').selectOption(source);
+      for(const [name,role] of roles)
+        assert.equal(await page.getByLabel(`${name} role`,{exact:true}).inputValue(),role,`Reviewed role missing: ${source} / ${name} / ${role}`);
+    }
+  }
+  await page.locator('summary').filter({hasText:/^Metadata origin and roles$/}).click();
   for(const [name,role] of [['specimen','specimen'],['group','group'],['reference','reference'],['batch','factor']]){
     const selectors=page.getByLabel(`${name} metadata role`);
     assert.equal(await selectors.count(),3,`Expected one reviewed ${name} declaration per partition`);
