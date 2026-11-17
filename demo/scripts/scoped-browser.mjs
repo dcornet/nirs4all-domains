@@ -193,7 +193,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   assert.equal(JSON.stringify(afterIntent.scientific_report.scoped_operations.map(item=>item.receipt.request_sha256)),hashesBefore);
   const intentOps=await page.evaluate(()=>window.__f4WorkerOperations.slice());
   assert(intentOps.slice(workersBeforeColor).every(op=>op==='interpret'),'Intent update may interpret existing evidence but must not refit or rerun scoped operations');
-  const colorOps=await page.evaluate(()=>window.__f4WorkerOperations.slice(0,workersBeforeColor));
+  const colorOps=await page.evaluate(before=>window.__f4WorkerOperations.slice(0,before),workersBeforeColor);
   assert.equal(colorOps.length,workersBeforeColor);
   check('F4 intent rereads existing evidence only; provider receipts, scoped hashes and numerical outputs stay unchanged');
 
