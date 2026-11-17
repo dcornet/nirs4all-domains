@@ -13,6 +13,13 @@ report annex selection. See the [scientific contract](docs/browser/F4_1_SCIENTIF
 [binding usage](bindings/wasm/README.md) and
 [execution record](docs/browser/F4_1_VALIDATION.md) for qualification.
 
+Advanced inference uses a separate local JSON design record attached after PCA
+(64 KiB maximum), with the exact dataset/PCA fingerprints and prospective family.
+It is not part of the hashed IO import specification. Loading it performs no
+calculation and establishes no independence; an explicit subsequent run asks
+Rust to check the external assumptions and dependencies. Ordinary use remains
+descriptive, including when stronger inference is unavailable.
+
 [F3.5 report customization](docs/report/F3_5_USER_GUIDE.md) adds selectable
 documentary supplements around a mandatory scientific core, integral machine
 evidence and uncapped printing. Qualification and publication are tracked in its PR.

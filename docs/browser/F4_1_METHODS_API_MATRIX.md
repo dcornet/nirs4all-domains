@@ -55,13 +55,26 @@ the scientific exchangeability unit separately.
 
 ## Executable qualification status
 
-The pinned native prototypes and C++ owner references were read at the tag;
-the installed npm package contains the pinned JS/WASM bindings. No native or
-WASM call for these APIs has been executed as part of this inventory. Domains
-integration, adversarial correspondence/leakage fixtures, status/reason/value
-mapping, numerical tolerance choices, full native/WASM gates, and the chosen
-inference/multiplicity protocol remain pending. Therefore source and owner-test
-availability must not be reported as execution or scientific qualification.
+The inventory itself was read-only. The subsequent Domains integration executes
+the following public owners through actual native/WASM paths; the content-bound
+receipts, exact commits and platform results are in
+[F4_1_VALIDATION.md](F4_1_VALIDATION.md). Native transport is isolated in
+`crates/nirs4all-domains/src/factor_methods.rs`; the historical `methods.rs`
+transport is unchanged. Availability alone is still not qualification.
+
+| Domains operation | Public Methods JS API | Public native symbol | Executed scope |
+| --- | --- | --- | --- |
+| Categorical descriptor | `preflightFactorAssociation` | `n4m_preflight_factor_association` | continuous PC target, B=0, seed=0 |
+| Continuous descriptor | `statsCorrelationTest` | `n4m_stats_correlation_test` | explicit Pearson/Spearman, B=0, seed=0 |
+| Exact categorical | `statsFactorAssociationExact` | `n4m_stats_factor_association_exact` | conditional eligible synthetic units/family |
+| Exact continuous | `statsCorrelationExact` | `n4m_stats_correlation_exact` | conditional eligible synthetic units/family |
+| Complete-family adjustment | `preflightHolmAdjust` | `n4m_preflight_holm_adjust` | prospectively declared factor × resolved-PC family |
+| Continuous M range | `preflightSummary` | `n4m_preflight_summary_compute` | same admitted nonmissing M population |
+
+`statsBhAdjust` remains inventoried only: it is not executed or qualified by
+F4.1. No Cramér-V target analysis or Monte Carlo/constrained permutations are
+silently substituted. Successful synthetic qualification does not validate a
+real dataset's exchangeability, physical identity, causal mechanism or calibration.
 
 For display-only target ranges, the existing `preflightSummary` public API is
 also available: `n4m_preflight_summary_compute(ctx, values, valid_mask, n,

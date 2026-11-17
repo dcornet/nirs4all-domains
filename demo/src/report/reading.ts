@@ -43,9 +43,11 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
   // Every block has a canonical anchor, exact status/reason/scope and recorded values,
   // even if its detailed annex is unchecked. No magnitude or risk rule selects it.
   output+=section('proof',t('evidence'),p.blocks.map(b=>{
-    const coreTables=b.tables.filter(tab=>['original-readiness','readiness-checks'].includes(tab.id));
+    const factor=b.id.startsWith('factor-association-');
+    const coreTables=b.tables.filter(tab=>['original-readiness','readiness-checks'].includes(tab.id)||factor&&['-factor-association-components','-factor-association-summary','-factor-association-inference'].some(suffix=>tab.id.endsWith(suffix)));
     const rows=sourceRows(b.original).filter(row=>!coreTables.length||!['records','selected_readiness_checks'].includes(String(row[0])));
-    const body=pairTable(`${b.id}-core`,b.title,[[c.status,b.status],[c.reason,b.reason],[c.population,recordedScope(b.scope)],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer],[c.definition,b.definition],[c.read,b.read],[c.observed,b.observed],[c.meaning,b.relevance],[c.limits,b.limitations],...rows])+coreTables.map(table).join('');
+    const recorded=pairTable(`${b.id}-core`,b.title,[[c.status,b.status],[c.reason,b.reason],[c.population,recordedScope(b.scope)],[c.representation,b.representation],[c.provider,b.provider],[c.reference,b.pointer],[c.definition,b.definition],[c.read,b.read],[c.observed,b.observed],[c.meaning,b.relevance],[c.limits,b.limitations],...rows]);
+    const body=factor?coreTables.map(table).join('')+recorded:recorded+coreTables.map(table).join('');
     return html?`<article id="${anchor(b.id)}" class="report-evidence"><h3>${escape(b.title)}</h3>${body}</article>`:`### ${md(b.title)} · ${md(b.id)}\n\n${body}`;
   }).join(''));
   const details=(ids:readonly string[],tableFilter?:(id:string)=>boolean)=>{

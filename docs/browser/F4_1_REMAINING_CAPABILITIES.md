@@ -36,3 +36,9 @@ legal rights. Uncolored PCA coordinates and aggregate evidence remain available.
 
 No new real-data experiments, acquisitions or scientific reservations are part
 of this delivery. Research replication is a separate authorized activity.
+
+The isolated generic JSON import route remains for the previously supported
+saved-report format. Browser-exported F4.1 JSON is archival/API evidence, not an
+automatic route for fitting or recycling unknown PCA scores. Use retained live
+PCA evidence or the explicit public request contract. Post-PCA external design
+records have their own local control and never enter that report-import route.

@@ -3,6 +3,9 @@ import type { FactorResult } from '@nirs4all/domains';
 import type { UiResult } from '../ui-types';
 import { appendFactorAssociations, factorAssociationTables } from './factor-association';
 import {presentation} from './presentation';
+import {reportModel} from './model';
+import {serializeReport} from './export';
+import {createSelection} from './selection';
 
 function view(): UiResult {
   return { mode:'live', protocol:'fixture', dataset:{name:'d',id:'d',source:'s',contentHash:'h',observations:3,variables:2,axisUnit:'nm',axis:[1,2],spectra:[],metadata:[],identity:'declared',provenance:'fixture',license:'fixture'},
@@ -39,6 +42,12 @@ describe('factor association report preparation',()=>{
     expect(source).toEqual(before);
     expect(next.evidence[0]).toEqual(source.evidence[0]);
     expect(presentation(next,'en','unknown').blocks[0].id).toBe('factor-association-1');
+    const scientific={protocol_version:next.protocol,factor_associations:[result]};
+    const core=reportModel(next,scientific,'unknown','en',undefined,'complete',createSelection(next,[],'clear'));
+    const html=serializeReport(core,'html'),markdown=serializeReport(core,'markdown');
+    expect(html).toContain('<caption>Descriptive associations by component</caption>');
+    expect(markdown).toContain('Descriptive associations by component');
+    expect(core.scientific_report).toBe(scientific);
     expect(next.findings[0]?.observation).toContain('3 pairs used');
     const attached=next.evidence.at(-1)!;
     expect(attached.id).toBe('factor-association-1');

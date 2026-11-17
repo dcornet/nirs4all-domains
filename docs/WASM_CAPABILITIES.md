@@ -13,10 +13,13 @@ Pearson/Spearman, exact tests, Holm and continuous range summary. Descriptive B=
 is the default, with unavailable p-values. Exact inference is conditional on a
 supplied external exchangeability record and complete prospective family;
 repeated units and unsupported designs do not gain inference. Four direct
-published-Methods WASM adapter checks have executed locally. New compiled
-Domains native/WASM/browser gates are pending in the
-[F4.1 execution record](browser/F4_1_VALIDATION.md); listing an API is not execution
-proof. No global spectral association, causal or calibration score is implemented.
+published-Methods WASM adapter checks executed locally. Actual compiled Domains
+native/WASM qualification and Chromium/Firefox executed on Windows and Ubuntu;
+the [F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the source
+commits, current-head gates, artifacts, numerical checks and limits. Listing an
+API is not execution proof. No global spectral association, causal or calibration
+score is implemented. Optional external design records attach separately after
+PCA; shape validation does not establish their scientific truth.
 See [remaining capabilities](browser/F4_1_REMAINING_CAPABILITIES.md).
 
 ## Earlier protocol surfaces
