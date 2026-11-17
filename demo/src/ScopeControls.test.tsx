@@ -1,7 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import type { UiResult } from './ui-types';
-import { ScopeControls } from './ScopeControls';
+import { ScopeControls, ScopeInventory } from './ScopeControls';
 
 function result(inventory?: unknown): UiResult {
   return {
@@ -41,6 +41,18 @@ describe('operation scoped controls', () => {
     expect(html).toContain('value="batch"');
     expect(html).not.toContain('value="derived"');
     expect(html).toMatch(/button[^>]*disabled=""[^>]*>Global descriptive analysis/);
+  });
+
+  it('places inventory separately and supports operations-only mode without losing explicit consent controls', () => {
+    const scope = renderToStaticMarkup(<ScopeInventory result={result(loaded)} locale="en" />);
+    expect(scope).toContain('Loaded inventory');
+    expect(scope).toContain('train: 3 rows');
+    const operations = renderToStaticMarkup(<ScopeControls result={result(loaded)} locale="en" busy={false} hideInventory onOperation={vi.fn()} />);
+    expect(operations).not.toContain('Loaded inventory');
+    expect(operations).not.toContain('X: 5 rows');
+    expect(operations).toContain('Train structure');
+    expect(operations).toContain('I explicitly authorize a descriptive fit on train + test; prediction rows remain excluded.');
+    expect(operations).toMatch(/button[^>]*disabled=""[^>]*>Global descriptive analysis/);
   });
 
   it('localizes inventory and controls in French and disables operations while busy', () => {

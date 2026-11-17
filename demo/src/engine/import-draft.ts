@@ -19,11 +19,20 @@ export interface ReviewedImport { draft: DatasetDraft; config: DatasetExportConf
 export interface MetadataDeclaration { role: MetadataRole; derived_from_target: boolean | 'unknown'; unit?: string }
 export interface ReviewedDatasetConfig extends DatasetExportConfig { metadata_declarations?: Record<string, MetadataDeclaration> }
 
-let runtime: Promise<{ io: IoRuntime; formats: FormatsRuntime }> | undefined;
-export function loadImportRuntime() {
-  return runtime ??= Promise.all([import('virtual:nirs4all-io'), import('virtual:nirs4all-formats')]).then(async ([io, formats]) => {
-    await Promise.all([io.init(), formats.init()]); return { io, formats };
-  }).catch(error => { runtime = undefined; throw error; });
+let ioRuntime: Promise<IoRuntime> | undefined;
+let formatsRuntime: Promise<FormatsRuntime> | undefined;
+export async function loadImportRuntime(needsFormats = false): Promise<{ io: IoRuntime; formats: FormatsRuntime }> {
+  const io = await (ioRuntime ??= import('virtual:nirs4all-io').then(async io => {
+    await io.init(); return io;
+  }).catch(error => { ioRuntime = undefined; throw error; }));
+  // Tables are parsed by IO. Assembly consumes already decoded records and must
+  // not initialize Formats in its separate worker merely to reassemble them.
+  const formats = needsFormats ? await (formatsRuntime ??= import('virtual:nirs4all-formats').then(async formats => {
+    await formats.init(); return formats;
+  }).catch(error => { formatsRuntime = undefined; throw error; })) : {
+    openWithSidecars() { throw new Error('FORMATS_NOT_INITIALIZED_FOR_THIS_TABLE_ONLY_IMPORT'); },
+  };
+  return { io, formats };
 }
 
 function diagnosticSpec(input: DatasetSpec): DatasetSpec {
@@ -127,7 +136,9 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
 }
 
 export async function prepareImport(files: InputFile[]): Promise<DatasetDraft> {
-  checkFiles(files); const { io, formats } = await loadImportRuntime(); return prepareDataset(files, io, formats);
+  checkFiles(files);
+  const needsFormats = files.some(file => !file.name.endsWith('.nirs4all.json') && !/\.(csv|tsv|txt)$/i.test(file.name));
+  const { io, formats } = await loadImportRuntime(needsFormats); return prepareDataset(files, io, formats);
 }
 
 function sourcePartition(source: DatasetSource, original: SourceSpec): string | undefined {
@@ -150,6 +161,7 @@ export function builderSpec(draft: DatasetDraft, config: DatasetExportConfig, so
   const nativeRoles: Record<DatasetRole, string> = { x: 'features', y: 'targets', metadata: 'metadata', id: 'metadata',
     partition: 'metadata', replicate: 'metadata', group: 'metadata', ignored: 'ignore' };
   const identity: Record<string, unknown> = { ...(spec.sample_index as object ?? {}) };
+  const spectralJoinKeys = new Set<string>();
   spec.sources = sources.map(source => {
     const original = draft.spec.sources.find(candidate => candidate.id === source.id);
     if (!original) throw new Error('UNKNOWN_IMPORT_SOURCE');
@@ -169,12 +181,15 @@ export function builderSpec(draft: DatasetDraft, config: DatasetExportConfig, so
         has_header: source.parsing.headerMode !== 'none', decimal_separator: source.parsing.decimal ?? '.' } };
     const partition = sourcePartition(source, original);
     if (partition) next.partition = partition; else delete next.partition;
-    const id = source.columns.find(column => column.assignedRole === 'id');
+    const id = source.columns.find(column => column.assignedRole === 'id' && column.name === original.key)
+      ?? source.columns.find(column => column.assignedRole === 'id');
     if (id) {
       next.key = id.name;
       if (source.columns.some(column => column.assignedRole === 'x')) {
+        spectralJoinKeys.add(id.name);
+        if (spectralJoinKeys.size > 1) throw new Error('INCOMPATIBLE_DECLARED_SPECTRAL_JOIN_KEYS');
         identity.by = 'id'; identity.key = id.name;
-        if (!identity.observation_id || original.key !== id.name) identity.observation_id = id.name;
+        identity.observation_id ??= id.name;
       }
     }
     else delete next.key;
@@ -200,7 +215,9 @@ export function builderSpec(draft: DatasetDraft, config: DatasetExportConfig, so
     const anchor = anchors.find(candidate => candidate.id === oldAnchor) ?? anchors.find(candidate => sources.find(item => item.id === candidate.id)?.name === declared?.left) ?? (anchors.length === 1 ? anchors[0] : undefined);
     if (!anchor || typeof source.key !== 'string' || typeof anchor.key !== 'string') throw new Error('DECLARED_KEY_JOIN_REQUIRED_NO_POSITIONAL_ALIGNMENT');
     if (declared && !['strict', 'allow_missing', 'left'].includes(declared.strategy)) throw new Error('ROW_DELETING_JOIN_NOT_ADMITTED');
-    source.join = { left: source.id, right: anchor.id, left_on: source.key, right_on: anchor.key,
+    // In published IO's materializer, left_on addresses the assembled X frame
+    // and right_on addresses this attached table, including differently named keys.
+    source.join = { left: anchor.id, right: anchor.id, left_on: anchor.key, right_on: source.key,
       cardinality: '1:1', coverage: declared?.strategy === 'allow_missing' || declared?.strategy === 'left' ? 'warn' : 'complete' };
   }
   if (Object.keys(identity).length) spec.sample_index = identity; else delete spec.sample_index;
@@ -307,6 +324,8 @@ export async function adaptImported(full: ImportedAssembled, files: InputFile[],
   const bindings = await Promise.all(files.map(async file => ({ name: file.name, sha256: await sha256(file.bytes) })));
   // Review changes alter execution meaning, even when source bytes stay identical.
   const contentHash = await sha256(new TextEncoder().encode(JSON.stringify(canonical({ files: bindings, reviewed_spec: spec }))));
+  const fileContentHash = await sha256(new TextEncoder().encode(JSON.stringify(bindings)));
+  const reviewedSpecHash = await sha256(new TextEncoder().encode(JSON.stringify(canonical(spec))));
   const sourceIds = [...new Set(blocks.flatMap(([, block]) => block.source_ids))];
   const metadata = [...columns].map(([name, values]): ImportedMetadata => ({ name, values, ...declaredMetadata(name, sources, spec, identity),
     type: values.every(value => value === null) ? 'unknown' : values.every(value => value === null || typeof value === 'number') ? 'numeric'
@@ -316,7 +335,8 @@ export async function adaptImported(full: ImportedAssembled, files: InputFile[],
     axis_unit: numeric ? first.header_units[0] || 'unknown' : 'index', spectra: [] }, rawX, missingX, targets: [...targets.values()], rowManifest,
     metadata, partitions, headers, importSpec: spec, identityOrigin: identity.observation_id ? 'IO-declared observation identities; physical/reference independence unknown' : 'Technical source/partition/row coordinates; source observation identity unavailable',
     license: 'User-supplied data; no redistribution permission inferred', mode: 'user_computed_live',
-    importProvenance: { protocol: 'domains.import_xy_m.v1', files: bindings, original_source_ids: sourceIds, roles_reviewed: rolesReviewed, identity_independence: 'unknown' },
+    importProvenance: { protocol: 'domains.import_xy_m.v1', files: bindings, file_content_sha256: fileContentHash, reviewed_spec_sha256: reviewedSpecHash,
+      original_source_ids: sourceIds, roles_reviewed: rolesReviewed, identity_independence: 'unknown' },
     warnings: [...warnings, ...(full.warnings ?? []), 'Import preserves X/Y/M locally. Each scientific operation must request its own authorized population and fields; no Y values are admitted.',
       ...(!numeric ? ['Original headers retained; the display axis is a logical band index.'] : []),
       ...(missingX.some(row => row.some(Boolean)) ? ['Missing X cells retained without imputation or row deletion; operations needing complete X may be unavailable.'] : [])] };

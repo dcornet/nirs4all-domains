@@ -88,18 +88,20 @@ export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,c
   ]);
   await confirmImport(page,'Train structure');
   await page.locator('.workspace-summary').waitFor();const withMetadata=await json(page);
-  assert.deepEqual(withMetadata.dataset.metadata,['acquisition','batch','site']);assert.equal(withMetadata.dataset.observations,3);
+  assert.deepEqual(withMetadata.dataset.metadata,['join_id','acquisition','batch','site']);assert.equal(withMetadata.dataset.observations,3);
   assert.equal(withMetadata.provenance.physical_independence,'unknown');
   await screenshot(page,'f2-metadata-import');check('F2 actual IO metadata import preserves declared rows/columns and unknown physical units');
   // Reuse the already frozen declared-group-exclusion geometry, not tuned data.
   await home(page);await importCsv(page,'1100,1090\n'+Array.from({length:8},(_,i)=>`${i},${(i%3)*0.25}`).join('\n')+'\n');await page.locator('.workspace-summary').waitFor();
-  const noise=await json(page);assert.equal(noise.scientific_report.metrics.density.status,'computed');assert.equal(noise.scientific_report.metrics.density.value.n_clusters,0);
-  assert(noise.scientific_report.metrics.density.value.labels.every(label=>label===-1));
+  const noise=await json(page),noiseStructure=noise.scientific_report.unpartitioned_structure??noise.scientific_report;
+  assert.equal(noiseStructure.metrics.density.status,'computed');assert.equal(noiseStructure.metrics.density.value.n_clusters,0);
+  assert(noiseStructure.metrics.density.value.labels.every(label=>label===-1));
   await page.evaluate(()=>{const target=document.getElementById('evidence-density');for(let p=target?.parentElement;p;p=p.parentElement)if(p instanceof HTMLDetailsElement)p.open=true;});
   assert.equal(await page.locator('#evidence-density .report-status').count(),1);
   check('F2 frozen synthetic geometry returns computed all-noise density, not unavailability');
   await home(page);await importCsv(page,'1000,1100\n1,2\n1,2\n1,2\n');await page.locator('.workspace-summary').waitFor();
-  const constant=await json(page);assert.equal(constant.scientific_report.metrics.pca.status,'unavailable');assert.equal(constant.pca,null);
+  const constant=await json(page),constantStructure=constant.scientific_report.unpartitioned_structure??constant.scientific_report;
+  assert.equal(constantStructure.metrics.pca.status,'unavailable');assert.equal(constant.pca,null);
   await page.locator('.journey-nav a').nth(1).click();assert.equal(await page.locator('#geometry .unavailable').count(),1);
   await screenshot(page,'f2-pca-unavailable');check('F2 real constant-X PCA refusal has no invented coordinates');
   // Intentional F4 protocol change: retain the old blanket full-source guard

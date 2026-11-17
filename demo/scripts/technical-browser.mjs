@@ -26,7 +26,8 @@ export async function qualifyTechnicalLoading(browser,url,output,check){
     const upload=async(contents='1000\n1\n2\n3\n')=>page.locator('input[type=file]').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from(contents)});
     const reviewAndFit=async()=>{await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();const before=await page.evaluate(()=>window.__transport.workers.filter(w=>w.completed).length);await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();await page.getByRole('button',{name:'Train structure'}).click();await page.waitForFunction(n=>window.__transport.workers.filter(w=>w.completed).length>=n+2,before);};
     const json=async()=>{const pending=page.waitForEvent('download');await page.getByRole('button',{name:/Structured JSON/}).click();const download=await pending;const text=await page.evaluate(()=>window.__transport.blob.text());await download.cancel();return JSON.parse(text);};
-    const successful=async()=>{await page.locator('.workspace-summary').waitFor();const report=await json();assert.equal(report.scientific_report.metrics.pca.value.eigenvalues[0],1);assert.equal(report.dataset.observations,3);return report;};
+    const structureOf=report=>report.scientific_report.unpartitioned_structure??report.scientific_report.scoped_operations?.at(-1)?.value?.structure??report.scientific_report;
+    const successful=async()=>{await page.locator('.workspace-summary').waitFor();const report=await json(),structure=structureOf(report);assert.equal(structure.metrics.pca.value.eigenvalues[0],1);assert.equal(report.dataset.observations,3);assert.equal(report.scientific_report.inventory.loaded.x.rows,3);return {report,structure};};
     await upload();await reviewAndFit();const first=await successful();
     assert(evidence.assets.some(a=>/io.*\.wasm|\.wasm.*io/i.test(a.file)&&a.status===200),'Reviewed table import must initialize published IO WASM');
     const imports=await page.evaluate(()=>window.__transport.workers.filter(w=>w.operation==='prepare_import'));
@@ -44,14 +45,16 @@ export async function qualifyTechnicalLoading(browser,url,output,check){
       await upload();await page.getByRole('alert').waitFor();assert.equal(await page.locator('.workspace-summary').count(),0);
       const raw=await page.getByRole('alert').locator('pre').textContent();assert(raw.includes(fault.reason),`Missing exact ${fault.reason}: ${raw}`);evidence.faults.push({name:fault.name,reason:raw,no_result:true});
       await page.unroute(wasm);phase='recovery';await home();await upload();await reviewAndFit();const recovered=await successful();
-      assert.equal(recovered.scientific_report.evidence_sha256,first.scientific_report.evidence_sha256);assert.deepEqual(recovered.scientific_report.metrics,first.scientific_report.metrics);
+      assert.equal(recovered.structure.evidence_sha256,first.structure.evidence_sha256);assert.deepEqual(recovered.structure.metrics,first.structure.metrics);
+      assert.equal(recovered.report.scientific_report.inventory.content_sha256,first.report.scientific_report.inventory.content_sha256);
       check(`F3 actual WASM ${fault.name} refusal and fresh-worker recovery retain exact scientific evidence`);
     }
     await home();phase='replacement';await page.route(wasm,async route=>{await new Promise(done=>setTimeout(done,400));await route.continue().catch(()=>{});});
     await upload();await page.getByRole('button',{name:'Cancel analysis'}).waitFor();
     await page.locator('input[type=file]').evaluate(input=>{const files=new DataTransfer();files.items.add(new File(['1000\n0\n2\n4\n'],'X.csv',{type:'text/csv'}));input.files=files.files;input.dispatchEvent(new Event('change',{bubbles:true}));});
-    await reviewAndFit();await page.locator('.workspace-summary').waitFor();const latest=await json();assert.equal(latest.scientific_report.metrics.pca.value.eigenvalues[0],4);
-    assert.notEqual(latest.scientific_report.evidence_sha256,first.scientific_report.evidence_sha256);await page.unroute(wasm);
+    await reviewAndFit();await page.locator('.workspace-summary').waitFor();const latest=await json(),latestStructure=structureOf(latest);assert.equal(latestStructure.metrics.pca.value.eigenvalues[0],4);
+    assert.notEqual(latestStructure.evidence_sha256,first.structure.evidence_sha256);
+    assert.notEqual(latest.scientific_report.inventory.content_sha256,first.report.scientific_report.inventory.content_sha256);await page.unroute(wasm);
     check('F3 replacing an in-flight import terminates obsolete work and displays only the latest population');
 
     await home();phase='format-refusal';await page.locator('input[type=file]').setInputFiles({name:'invalid.spc',mimeType:'application/octet-stream',buffer:Buffer.from([0,1,2,3])});

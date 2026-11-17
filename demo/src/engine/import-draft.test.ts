@@ -104,9 +104,12 @@ describe('F4 import transport through published IO 0.2.14 and public shared buil
     const second = await assembleDatasetDraft(draft, changed, draft.sources, io);
     expect(second.input.content_sha256).not.toBe(first.input.content_sha256);
     expect(second.importProvenance?.files).toEqual(first.importProvenance?.files);
+    expect(second.importProvenance?.file_content_sha256).toBe(first.importProvenance?.file_content_sha256);
+    expect(second.importProvenance?.reviewed_spec_sha256).not.toBe(first.importProvenance?.reviewed_spec_sha256);
     const reordered = { ...changed, metadata_declarations: { batch: { derived_from_target:true, role:'factor' as const } } };
     const third = await assembleDatasetDraft(draft, reordered, draft.sources, io);
     expect(third.input.content_sha256).toBe(second.input.content_sha256);
+    expect(third.importProvenance?.reviewed_spec_sha256).toBe(second.importProvenance?.reviewed_spec_sha256);
   });
   it('refuses unassigned tables instead of silently omitting prediction rows', () => {
     expect(() => prepareDataset([file('train_x.csv', x), file('predict_x.csv', x)], io, formats)).toThrow('IO_UNASSIGNED_INPUT');
@@ -119,5 +122,29 @@ describe('F4 import transport through published IO 0.2.14 and public shared buil
     const sources=structuredClone(draft.sources);
     sources.find(source=>source.id==='Y')!.columns.find(column=>column.name==='yield')!.assignedRole='metadata';
     expect(()=>builderSpec(draft,buildExportConfig('Fixture',sources),sources)).toThrow('DECLARED_TARGET_CANNOT_BECOME_PRIMARY_METADATA');
+  });
+  it('keeps declared acquisition identity distinct from X/Y/M join keys',async()=>{
+    const config={schema_version:1,sample_index:{by:'id',key:'join_id',observation_id:'acquisition'},sources:[
+      {id:'X',role:'features',input:'X.csv',partition:'train',key:'join_id',columns:{features:['2000','1000'],metadata:['acquisition']},params:{delimiter:',',has_header:true}},
+      {id:'Y',role:'targets',input:'Y.csv',partition:'train',key:'target_key',join:{right:'X'},params:{delimiter:',',has_header:true}},
+      {id:'M',role:'metadata',input:'M.csv',partition:'train',key:'metadata_key',join:{right:'X'},params:{delimiter:',',has_header:true}}]};
+    const draft=prepareDataset([file('X.csv','join_id,acquisition,2000,1000\na,obs-a,1,2\nb,obs-b,3,4\nc,obs-c,5,6'),
+      file('Y.csv','target_key,sugar\nc,30\na,10\nb,20'),file('M.csv','metadata_key,batch\nb,B\nc,C\na,A'),
+      file('identity.nirs4all.json',JSON.stringify(config))],io,formats);
+    const spec=builderSpec(draft,buildExportConfig('Identities',draft.sources),draft.sources);
+    expect(spec.sample_index).toMatchObject({key:'join_id',observation_id:'acquisition'});
+    expect(spec.sources.map(source=>source.key)).toEqual(['join_id','target_key','metadata_key']);
+    const dataset=await assembleDatasetDraft(draft,buildExportConfig('Identities',draft.sources),draft.sources,io);
+    expect(dataset.rowManifest?.map(row=>row.observation_id)).toEqual(['obs-a','obs-b','obs-c']);
+    expect(dataset.targets?.[0].values).toEqual([10,20,30]);
+    expect(dataset.metadata.find(column=>column.name==='batch')?.values).toEqual(['A','B','C']);
+  });
+  it('refuses incompatible declared spectral anchor keys instead of renaming identities',()=>{
+    const config={schema_version:1,sources:[
+      {id:'train_x',role:'features',input:'train_x.csv',partition:'train',key:'train_key',params:{delimiter:',',has_header:true}},
+      {id:'test_x',role:'features',input:'test_x.csv',partition:'test',key:'test_key',params:{delimiter:',',has_header:true}}]};
+    const draft=prepareDataset([file('train_x.csv','train_key,2000,1000\na,1,2\nb,3,4\nc,5,6'),
+      file('test_x.csv','test_key,2000,1000\na,1,2\nb,3,4\nc,5,6'),file('keys.nirs4all.json',JSON.stringify(config))],io,formats);
+    expect(()=>builderSpec(draft,buildExportConfig('Keys',draft.sources),draft.sources)).toThrow('INCOMPATIBLE_DECLARED_SPECTRAL_JOIN_KEYS');
   });
 });

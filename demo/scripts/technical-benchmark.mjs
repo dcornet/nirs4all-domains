@@ -13,6 +13,17 @@ const output=resolve(process.env.DOMAINS_BENCH_OUTPUT??resolve(demo,'test-result
 const repetitions=Number(process.env.DOMAINS_BENCH_REPETITIONS??3);
 assert(Number.isInteger(repetitions)&&repetitions>=1&&repetitions<=3);
 const base='/nirs4all-domains/',samples=[],assets=[];
+const rankOneFixture={name:'X.csv',contents:'1000\n1\n2\n3\n'};
+const scientificOf=report=>{
+  const wrapper=report.scientific_report;
+  if(wrapper?.protocol_version==='domains.browser_scoped_report.v1'){
+    const scoped=wrapper.scoped_operations?.filter(operation=>operation.operation==='train_structure'&&operation.value?.structure).at(-1)?.value.structure;
+    const scientific=scoped??wrapper.unpartitioned_structure;
+    assert(scientific,'No executed structure in scoped report');
+    return scientific;
+  }
+  return wrapper;
+};
 async function inventory(path){for(const f of await readdir(path,{withFileTypes:true})){const p=resolve(path,f.name);if(f.isDirectory())await inventory(p);else{const b=await readFile(p);assets.push({file:relative(dist,p).split(sep).join('/'),bytes:b.length,sha256:createHash('sha256').update(b).digest('hex')});}}}
 await inventory(dist);
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.wasm':'application/wasm','.svg':'image/svg+xml','.json':'application/json'};
@@ -20,7 +31,7 @@ const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http:
 await new Promise(done=>server.listen(0,'127.0.0.1',done));
 const url=`http://127.0.0.1:${server.address().port}${base}`;
 let browser;
-const result={protocol:'domains.technical_benchmark.v1',label:process.env.DOMAINS_BENCH_LABEL??'unspecified',browser:null,node:process.version,repetitions,fixture:'Existing rank-one CSV 3x1 and two-populations synthetic example 48x24; no real-source fit',assets,samples,success:false,measurement_limits:['Local HTTP timings are not Internet latency.','Worker request spans include loading, initialization, transport and owner execution; owner-internal phases are not separately observable.','CDP script/layout deltas include browser automation and are not pure React render time.','JS heap is the main-thread sample, not a process-tree peak; the external supervisor measures that peak.','Each repetition uses a fresh browser process/context; OS caches may persist.','Small fixtures do not establish a whole-bank memory or speed guarantee.']};
+const result={protocol:'domains.technical_benchmark.v2',label:process.env.DOMAINS_BENCH_LABEL??'unspecified',browser:null,node:process.version,repetitions,fixture:'Unchanged X.csv rank-one CSV 3x1 and two-populations synthetic example 48x24; no real-source fit',assets,samples,success:false,measurement_limits:['Local HTTP timings are not Internet latency.','F4 import timing includes role review, explicit assembly and a separate structure action; it is workflow latency, not a matched import-throughput comparison with F2.','The unchanged synthetic example retains its matched before/after execution and exact report/hash comparison.','Worker request spans include loading, initialization, transport and owner execution; owner-internal phases are not separately observable.','CDP script/layout deltas include browser automation and are not pure React render time.','JS heap is the main-thread sample, not a process-tree peak; the external supervisor measures that peak.','Each repetition uses a fresh browser process/context; OS caches may persist.','Small fixtures do not establish a whole-bank memory or speed guarantee.']};
 const metricMap=async c=>Object.fromEntries((await c.send('Performance.getMetrics')).metrics.map(m=>[m.name,m.value]));
 try{
   for(let repetition=0;repetition<repetitions;repetition++){
@@ -28,16 +39,59 @@ try{
     result.browser??=browser.version();
     const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true,locale:'en-US',colorScheme:'light'});
     try{
-      await context.addInitScript(()=>{
+      await context.addInitScript(fixture=>{
         const WorkerBase=window.Worker;
-        window.__technical={workers:[],lastBlob:null};
+        window.__technical={workers:[],lastBlob:null,captureRankOne:false,rankOne:{}};
+        const requireFixture=files=>{
+          if(!Array.isArray(files)||files.length!==1||files[0].name!==fixture.name||new TextDecoder().decode(files[0].bytes)!==fixture.contents)
+            throw new Error('BENCHMARK_CAPTURE_REQUIRES_EXACT_PUBLIC_RANK_ONE_FIXTURE');
+        };
+        const requireMatrix=matrix=>{
+          if(JSON.stringify(matrix)!=='[[1],[2],[3]]')throw new Error('BENCHMARK_CAPTURE_REQUIRES_UNCHANGED_RANK_ONE_VALUES');
+        };
+        const binding=input=>({schema_version:input.schema_version,dataset_id:input.dataset_id,source_id:input.source_id,
+          content_sha256:input.content_sha256,observation_ids:input.observation_ids,axis:input.axis,axis_unit:input.axis_unit,
+          group_ids:input.group_ids??null});
         window.Worker=class extends WorkerBase{
-          constructor(...args){super(...args);this.audit={created:performance.now(),messages:[]};window.__technical.workers.push(this.audit);this.addEventListener('message',({data})=>{this.audit.messages.push({at:performance.now(),id:data.id,stage:data.stage??null,stage_id:data.stage_id??null,final:!data.stage,ok:data.ok});});}
-          postMessage(message,transfers){const start=performance.now();const files=['import','prepare_import'].includes(message.operation)?message.payload:[];const bytes=Array.isArray(files)?files.reduce((sum,f)=>sum+(f.bytes?.byteLength??0),0):0;const transferred_bytes=(Array.isArray(transfers)?transfers:[]).reduce((sum,b)=>sum+(b.byteLength??0),0);super.postMessage(message,transfers??[]);this.audit.operation=message.operation;this.audit.post_message_ms=performance.now()-start;this.audit.input_bytes=bytes;this.audit.transferred_bytes=transferred_bytes;this.audit.sender_detached=Array.isArray(files)&&files.length>0&&files.every(f=>f.bytes.byteLength===0);}
+          constructor(...args){super(...args);this.audit={created:performance.now(),messages:[]};window.__technical.workers.push(this.audit);this.addEventListener('message',({data})=>{
+            this.audit.messages.push({at:performance.now(),id:data.id,stage:data.stage??null,stage_id:data.stage_id??null,final:!data.stage,ok:data.ok});
+            if(!this.capture||!data.ok||data.stage)return;
+            if(['import','assemble_import'].includes(this.audit.operation)){
+              const imported=data.result;requireMatrix(imported.rawX??imported.input.spectra);
+              if((imported.targets??[]).length)throw new Error('UNEXPECTED_BENCHMARK_TARGET');
+              // This capture is armed only for the exact public X.csv fixture.
+              // No generic imported values or private user configuration is saved.
+              window.__technical.rankOne.imported={input:binding(imported.input),provenance:imported.importProvenance??null,
+                reviewed_spec:imported.importProvenance?imported.importSpec:null};
+            }
+            if(this.audit.operation==='analyze')window.__technical.rankOne.actual_result=data.result;
+            if(this.audit.operation==='scoped')window.__technical.rankOne.actual_result=data.result.value?.structure??null;
+          });}
+          postMessage(message,transfers){
+            const start=performance.now();this.capture=window.__technical.captureRankOne;
+            const files=['import','prepare_import'].includes(message.operation)?message.payload:[];
+            if(this.capture&&files.length)requireFixture(files);
+            if(this.capture&&message.operation==='assemble_import')requireFixture(message.payload.draft.files);
+            if(this.capture&&message.operation==='analyze'){
+              requireMatrix(message.payload.spectra);
+              window.__technical.rankOne.analysis_request={...binding(message.payload),operation:'analyze',partitions:null};
+            }
+            if(this.capture&&message.operation==='scoped'){
+              const r=message.payload;requireMatrix(r.x?.matrix);
+              if(r.operation!=='train_structure'||r.fit!=='train'||r.query_keys.length||r.metadata.length||r.exclusion_field!==null||r.access.y_fields.length)
+                throw new Error('UNEXPECTED_RANK_ONE_SCIENTIFIC_SCOPE');
+              window.__technical.rankOne.analysis_request={...binding({schema_version:1,...r.dataset,observation_ids:r.x.row_keys,
+                axis:r.x.axis,axis_unit:r.x.axis_unit}),operation:r.operation,partitions:r.manifest};
+            }
+            const bytes=Array.isArray(files)?files.reduce((sum,f)=>sum+(f.bytes?.byteLength??0),0):0;
+            const transferred_bytes=(Array.isArray(transfers)?transfers:[]).reduce((sum,b)=>sum+(b.byteLength??0),0);
+            super.postMessage(message,transfers??[]);this.audit.operation=message.operation;this.audit.post_message_ms=performance.now()-start;
+            this.audit.input_bytes=bytes;this.audit.transferred_bytes=transferred_bytes;this.audit.sender_detached=Array.isArray(files)&&files.length>0&&files.every(f=>f.bytes.byteLength===0);
+          }
           terminate(){this.audit.terminated=performance.now();return super.terminate();}
         };
         const create=URL.createObjectURL.bind(URL);URL.createObjectURL=blob=>{window.__technical.lastBlob=blob;return create(blob);};
-      });
+      },rankOneFixture);
       const page=await context.newPage();page.setDefaultTimeout(120000);
       const network=[],networkPending=[];
       context.on('requestfinished',request=>{if(/\.wasm(?:\?|$)/.test(request.url()))networkPending.push((async()=>{const response=await request.response();const t=request.timing();network.push({asset:new URL(request.url()).pathname.split('/').pop(),duration_ms:t.responseEnd,body_bytes:Number(response?.headers()['content-length']??0),timing:t});})());});
@@ -46,13 +100,17 @@ try{
       const cdp=await context.newCDPSession(page);await cdp.send('Performance.enable');
       const started=performance.now();await page.goto(url);await page.getByRole('heading',{name:'Analyze my data'}).waitFor();
       const landing_ms=performance.now()-started;
-      const importedAt=performance.now();await page.locator('input[type=file]').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000\n1\n2\n3\n')});
-      await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
-      await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-      await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
-      await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
-      await page.getByRole('button',{name:'Train structure'}).click();
-      await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final)));
+      await page.evaluate(()=>{window.__technical.captureRankOne=true;});
+      const importedAt=performance.now();await page.locator('input[type=file]').setInputFiles({name:rankOneFixture.name,mimeType:'text/csv',buffer:Buffer.from(rankOneFixture.contents)});
+      const review=page.getByRole('heading',{name:'Review X / Y / M roles'});
+      const route=await Promise.race([review.waitFor().then(()=> 'reviewed'),page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final))).then(()=> 'automatic')]);
+      if(route==='reviewed'){
+        await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+        await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+        await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+        await page.getByRole('button',{name:'Train structure'}).click();
+      }
+      await page.waitForFunction(()=>window.__technical.workers.some(w=>['analyze','scoped'].includes(w.operation)&&w.messages.some(m=>m.final)));
       await page.locator('.workspace-summary').waitFor();await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
       const import_to_visible_ms=performance.now()-importedAt;
       const exportReading=async format=>{
@@ -61,9 +119,22 @@ try{
         const text=await page.evaluate(()=>window.__technical.lastBlob.text());await download.cancel();
         return {ms:performance.now()-start,bytes:Buffer.byteLength(text),text};
       };
-      const json=await exportReading('json'),report=JSON.parse(json.text);assert.equal(report.scientific_report.metrics.pca.value.eigenvalues[0],1);assert.equal(report.dataset.observations,3);assert.equal(report.raw_x_included,false);
+      const json=await exportReading('json'),report=JSON.parse(json.text),scientific=scientificOf(report);
+      assert.equal(scientific.metrics.pca.value.eigenvalues[0],1);assert.equal(report.dataset.observations,3);assert.equal(report.raw_x_included,false);
+      const captured=await page.evaluate(()=>window.__technical.rankOne);
+      assert.deepEqual(captured.actual_result,scientific,'Export must preserve the actual worker scientific result');
+      assert(captured.imported&&captured.analysis_request,'Actual import and scientific request bindings required');
+      const {operation,partitions,...requestBinding}=captured.analysis_request;
+      assert.deepEqual(requestBinding,captured.imported.input,'Scientific execution must retain the actual imported source binding');
+      assert.equal(scientific.scope.content_sha256,requestBinding.content_sha256);
+      const rank_one={wrapper_protocol:report.scientific_report.protocol_version,protocol_version:scientific.protocol_version,
+        input_sha256:scientific.input_sha256,evidence_sha256:scientific.evidence_sha256,scope:scientific.scope,metrics:scientific.metrics,
+        source_binding:{kind:captured.imported.provenance?'file_bindings_reviewed_spec.v1':'file_bindings.v1',fixture:rankOneFixture,
+          input:requestBinding,import_provenance:captured.imported.provenance,reviewed_spec:captured.imported.reviewed_spec},
+        operation,population_manifest:partitions};
       await Promise.all(networkPending);const importNetwork=network.map(entry=>({...entry}));
       const workers=await page.evaluate(()=>window.__technical.workers);
+      await page.evaluate(()=>{window.__technical.captureRankOne=false;});
       await page.getByRole('button',{name:/Domains · Home/}).click();await page.getByRole('button',{name:/Two spectral populations/}).click();await page.locator('.workspace-summary').waitFor();
       const live=JSON.parse((await exportReading('json')).text);const before=await metricMap(cdp);const renderAt=performance.now();
       for(let i=0;i<8;i++)await page.getByLabel('Target population',{exact:true}).fill(`Declared population ${i}`);
@@ -72,7 +143,9 @@ try{
       const html=await exportReading('html'),markdown=await exportReading('markdown');
       const offline=await context.newPage();const offlineStart=performance.now();await offline.setContent(html.text);await offline.locator('.report-cover').waitFor();await offline.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));const offline_render_ms=performance.now()-offlineStart;
       assert.equal(await offline.locator('script').count(),0);await offline.close();assert.deepEqual(errors,[]);
-      samples.push({repetition,landing_ms,import_to_visible_ms,network:importNetwork,workers,rank_one:{input_sha256:report.scientific_report.input_sha256,evidence_sha256:report.scientific_report.evidence_sha256,metrics:report.scientific_report.metrics},live:{evidence_sha256:live.scientific_report.evidence_sha256,metrics:live.scientific_report.metrics},declaration_edit_ms,main_thread_script_delta_ms:(after.ScriptDuration-before.ScriptDuration)*1000,layout_delta_ms:(after.LayoutDuration-before.LayoutDuration)*1000,main_thread_heap_sample_bytes:after.JSHeapUsedSize,json_export:{ms:json.ms,bytes:json.bytes},html_export:{ms:html.ms,bytes:html.bytes},markdown_export:{ms:markdown.ms,bytes:markdown.bytes},offline_render_ms});
+      samples.push({repetition,landing_ms,import_to_visible_ms,import_route:route,network:importNetwork,workers,rank_one,
+        live:{input_sha256:live.scientific_report.input_sha256,evidence_sha256:live.scientific_report.evidence_sha256,metrics:live.scientific_report.metrics,
+          scientific_report:live.scientific_report},declaration_edit_ms,main_thread_script_delta_ms:(after.ScriptDuration-before.ScriptDuration)*1000,layout_delta_ms:(after.LayoutDuration-before.LayoutDuration)*1000,main_thread_heap_sample_bytes:after.JSHeapUsedSize,json_export:{ms:json.ms,bytes:json.bytes},html_export:{ms:html.ms,bytes:html.bytes},markdown_export:{ms:markdown.ms,bytes:markdown.bytes},offline_render_ms});
     }finally{await context.close();await browser.close();browser=null;}
   }
   result.success=true;

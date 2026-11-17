@@ -71,6 +71,33 @@ was placed before the existing binding module instead of rustfmt's ordered
 position. No numerical/browser pass is inferred. The declaration order is corrected;
 all original gates must run again on the following candidate.
 
+Candidate `9523e7a60682610e088de10fe4e8cc1c9bae700d` passed scientific run
+44043879915 and report contracts 44043879987 on both systems. Browser run
+44043879923 compiled actual WASM and executed the scoped guard/native comparison,
+then failed the real metadata-import assertion: the newly declared `join_id`
+was retained, while the old expected list omitted it. The assertion now retains
+that identity rather than filtering it out. Missing-X and technical-loading
+checks now distinguish retained import from refused operations and read the
+actual F4 structure wrapper. No old numerical fixture or tolerance changes.
+
+Further integration review preserves explicit observation IDs separately from
+X/Y/M join keys, verifies differently named keys through actual IO, and refuses
+configured Y-to-M reclassification. Raw import-spec extensions remain local;
+exported provenance uses file/configuration fingerprints. PCA coloring without
+coordinates stays unavailable; inventory appears in the data step and actions
+in the spectra step. Local no-emit and all **138 frontend tests**, plus **eight
+benchmark-comparison adversaries**, pass after these corrections.
+
+The engineering comparison now uses a genuine archived F2 Rust/WASM build.
+It preserves the original rank-one filename/bytes and verifies both the old file
+binding and new file-plus-reviewed-spec binding independently. It requires equal
+metrics, identical synthetic reports/hashes and exact repeatability, while
+explicitly recording changed import/input/evidence hashes for the reviewed
+import. It never labels those hashes equal. CSV decoding stays lazy: the new
+workflow has separate IO prepare/assembly stages, not unnecessary Formats loads.
+Their timing is not presented as matched parser throughput. Final exact-head
+execution remains required; the PR records its actual results.
+
 ## Review corrections
 
 The principal reviewed all scientific guards and projections. Corrections made
@@ -94,6 +121,9 @@ implementation checkpoint 20,823,380,612 bytes, leaving 3,087,421 bytes. No ceil
 increase or scientific reservation. Campaign remains 2,015,788,498 / 2,023,410,176
 bytes. Preserve 2 GiB volume reserves and historical journal/hash manifests.
 Final measurements, exact-head CI and reviewed artifacts belong in the PR.
+The later internal-stage reconciliation in the access policy records an observed
+4,359,317-byte increase and rebinds total staging to 5,000,000 bytes, still within
+the original available owner envelope. Neither owner ceiling is changed.
 
 Luna agents prepared the loader inventory/docs, report adapter, controls and
 browser tests. Sol agents prepared official import integration and Rust/native-

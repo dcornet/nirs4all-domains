@@ -10,7 +10,7 @@ import { Findings } from './ux/Findings';
 import {ExportOptions} from './report/ExportOptions';
 import {createSelection,selectionOwner,type OptionalSection} from './report/selection';
 import {selectionCopy} from './report/selection-copy';
-import {ScopeControls} from './ScopeControls';
+import {ScopeControls,ScopeInventory} from './ScopeControls';
 
 const colors = ['#0d9488', '#7c3aed', '#d97706', '#0284c7', '#db2777', '#65a30d'];
 const sections = ['data', 'spectra', 'geometry', 'warnings', 'intent', 'evidence', 'export'] as const;
@@ -53,6 +53,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
         <div className="data-grid"><div className="panel"><dl className="facts"><div><dt>{t('source')}</dt><dd>{dataset.source}</dd></div><div><dt>{t('axis')}</dt><dd>{dataset.axis.length ? `${dataset.axis[0]} → ${dataset.axis[dataset.axis.length - 1]} ${dataset.axisUnit}` : '—'}</dd></div><div><dt>{t('identity')}</dt><dd>{dataset.identity}</dd></div><div><dt>{t('license')}</dt><dd>{dataset.license}</dd></div></dl></div>
         <div className="panel metadata-panel"><h3>{t('metadata')}</h3>{dataset.metadata.length ? <div className="chips">{dataset.metadata.map(column => <span key={column}>{column}</span>)}</div> : <p>{t('unknownMetadata')}</p>}<details><summary>{t('provenance')}</summary><p>{dataset.provenance}</p><dl><dt>Dataset ID</dt><dd><code>{dataset.id}</code></dd><dt>SHA-256</dt><dd><code className="hash">{dataset.contentHash}</code></dd></dl></details></div></div>
       </Section>
+      <ScopeInventory result={result} locale={locale}/>
       <aside className="notice"><h3>{u.missing}</h3><p>{u.documentationLimit}</p><p>{t('intentLimit')}</p><h3>{u.populations}</h3>{Array.isArray(result.provenance.imported_partitions)?<ul>{(result.provenance.imported_partitions as {name:string;observation_ids:string[]}[]).map(p=><li key={p.name}>{p.name}: {p.observation_ids.length} · {t('samples')}</li>)}</ul>:<p>{u.noPopulations}</p>}</aside><ContextHelp ids={['metadata','physical','batch']} locale={locale}/></section>
       <section id="journey-2" className="journey-step" tabIndex={-1} aria-label={u.steps[1]}><span className="journey-label">02 · {u.steps[1]}</span>
       <Section id="spectra" number="02" title={t('spectra')} intro={t('spectralIntro')}>
@@ -63,7 +64,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
           <p className="chart-caption">{t('displayOnly')}</p>{selectedSeries && <p className="selection" role="status">{t('selected')}: <strong>{selectedSeries.id}</strong>{selectedSeries.group ? ` · ${selectedSeries.group}` : ''}</p>}
         </div> : <div className="unavailable panel"><Badge status="unavailable" t={t}/><p>{result.provenance.scoped_inventory?(locale==='fr'?'Données importées conservées ; choisir une opération admissible. Aucune coordonnée n’est reconstruite.':'Imported data retained; choose an admitted operation. No coordinates are reconstructed.'):c.saved}</p></div>}
       </Section>
-      {callbacks.onScopedOperation&&<ScopeControls result={result} locale={locale} busy={busy} onOperation={callbacks.onScopedOperation} onColor={callbacks.onColorFactor}/>}
+      {callbacks.onScopedOperation&&<ScopeControls result={result} locale={locale} busy={busy} hideInventory onOperation={callbacks.onScopedOperation} onColor={callbacks.onColorFactor}/>}
       <ContextHelp ids={['pca','component','variance']} locale={locale}/><Section id="geometry" number="03" title={t('geometry')} intro={t('geometryIntro')}>
         {result.pca ? <><div className="chart-toolbar"><label className="check"><input type="checkbox" checked={colorByGroup} onChange={event => setColorByGroup(event.target.checked)}/>{t('group')}</label></div><div className="geometry-grid">{report.figures.map(figure=><figure className="panel chart-panel report-figure" key={figure.id}><h3>{figure.title}</h3>{figure.kind==='scores'?<ScoreMap title={figure.title} points={figure.points!} xLabel={figure.xLabel} yLabel={figure.yLabel} colorBy={colorByGroup?'group':'none'} groupColors={figure.groupColors} locale={locale}/>:figure.kind==='scree'?<EigenvalueScree title={figure.title} eigenvalues={figure.eigenvalues!} totalVariance={null} locale={locale}/>:<div dangerouslySetInnerHTML={{__html:figureSvg(figure,locale)}}/>}<figcaption>{figure.population} · {figure.representation} · {figure.unit}</figcaption><p className="chart-caption">{figure.observed}</p><details><summary>{c.read}</summary><div dangerouslySetInnerHTML={{__html:readingHtml(figure,locale)}}/></details><a href={`#${anchor(figure.evidenceId)}`}>{c.reference}: {figure.evidenceId}</a></figure>)}</div></> : <div className="unavailable panel"><Badge status="unavailable" t={t}/><h3>{t('noGeometry')}</h3><p>{result.geometryReason}</p><p>{c.noCoordinates}</p></div>}
       </Section>

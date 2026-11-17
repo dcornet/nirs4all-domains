@@ -81,6 +81,8 @@ describe('F4 scoped report projection', () => {
   });
 
   it('blocks explicitly target-derived color and refuses incomplete key mapping', () => {
+    const noCoordinates=scopedView(undefined,dataset(),[],'batch');
+    expect(noCoordinates.pca).toBeNull();expect(noCoordinates.provenance.display_color_status).toBe('PCA_COORDINATES_NOT_CARRIED');
     const derived = scopedView(baseView(), dataset(), [], 'target-key');
     expect(derived.pca!.points.every(point => point.group === undefined)).toBe(true);
     expect(derived.provenance.display_color_status).toBe('TARGET_DERIVED_METADATA_NOT_ELIGIBLE_FOR_COLORING');
@@ -117,8 +119,23 @@ describe('F4 scoped report projection', () => {
     expect(presentation(baseView(), 'en', 'unknown').brief[0]).toContain('Complete imported X');
   });
 
+  it('reads exact-pair counts literally and keeps owner policy refusals distinct from model leakage',()=>{
+    const audit=operation('integrity_audit');audit.diagnostic='exact_spectra';
+    audit.receipt.reference_keys=['a','b'];audit.receipt.query_keys=['c'];
+    audit.value={metrics:[{metric_id:'integrity.cross_partition_exact_duplicate_pairs',status:'computed',value:0}]};
+    const reading=scopedView(undefined,dataset(),[audit]).findings[0];
+    expect(reading.observation).toContain('reports 0 pairs');expect(reading.observation).toContain('2 reference and 1 query');
+    expect(reading.hypothesis).toContain('does not identify a causal mechanism');
+    const refused={...audit,status:'error' as const,reason:'PREFLIGHT_INPUT_VALIDATION_FAILED',value:null};
+    const failed=scopedView(undefined,dataset(),[refused]).findings[0];
+    expect(failed.status).toBe('error');expect(failed.limitation).toContain('does not establish leakage in a predictive model');
+    expect(failed.limitation).toContain('repeated-acquisition objective');
+  });
   it('keeps unknown derivation explicit and excludes X/Y and unselected metadata from all report exports', () => {
-    const data = dataset(), view = scopedView(baseView(), data, [operation()], 'possibly-derived');
+    const data = dataset(),base=baseView();
+    base.provenance.import_spec={unconsumed_extension:{raw_targets:[Y_SENTINEL],raw_spectra:[[X_SENTINEL]]}};
+    const view = scopedView(base, data, [operation()], 'possibly-derived');
+    expect(view.provenance).not.toHaveProperty('import_spec');
     expect(view.provenance.display_color_status).toBe('MAPPED_BY_TECHNICAL_ROW_KEY_TARGET_DERIVATION_UNKNOWN');
     const report = reportModel(view, { protocol_version: 'domains.browser_scoped_report.v1' }, 'unknown', 'en');
     for (const format of ['json', 'markdown', 'html'] as const) {

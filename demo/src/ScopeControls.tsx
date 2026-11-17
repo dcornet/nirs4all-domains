@@ -13,6 +13,7 @@ export interface ScopeControlsProps {
   result: UiResult;
   locale: Locale;
   busy: boolean;
+  hideInventory?: boolean;
   onOperation: (operation: ScopedOperation, options?: OperationOptions) => void;
   onColor?: (field: string) => void;
 }
@@ -68,33 +69,47 @@ const copy = {
   },
 } as const;
 
-export function ScopeControls({ result, locale, busy, onOperation, onColor }: ScopeControlsProps) {
+function InventoryMarkup({inventory,locale}:{inventory:Inventory;locale:Locale}) {
+  const t=copy[locale];
+  const cells=locale==='fr'?'cellules':'cells';
+  return <section aria-labelledby="scope-inventory-title">
+    <h3 id="scope-inventory-title">{t.inventory}</h3>
+    <ul>
+      <li>{t.x}: {inventory.loaded.x.rows} {t.rows}, {inventory.loaded.x.variables} {t.variables}</li>
+      <li>{t.y}: {inventory.loaded.y.length} ({inventory.loaded.y.reduce((n, field) => n + field.rows, 0)} {cells})</li>
+      <li>{t.m}: {inventory.loaded.metadata.length} ({inventory.loaded.metadata.reduce((n, field) => n + field.rows, 0)} {cells})</li>
+    </ul>
+    <ul aria-label={t.partition}>
+      {inventory.loaded.partitions.map(partition => <li key={partition.name}>{partition.name}: {partition.rows} {t.rows} · {t.role}: {partition.name}</li>)}
+    </ul>
+    {inventory.loaded.y.map(field => <p key={`y-${field.name}`}>{field.name}: {field.type}, {field.rows} {t.rows}, {field.missing} {t.missing}</p>)}
+    {inventory.loaded.metadata.map(field => <p key={`m-${field.name}`}>{field.name}: {field.role}, {field.kind}, {field.origin}, {field.evidence}; {field.rows} {t.rows}, {field.missing} {t.missing}</p>)}
+  </section>;
+}
+
+export function ScopeInventory({result,locale}:{result:UiResult;locale:Locale}) {
+  const inventory=inventoryOf(result);
+  if(!inventory)return null;
+  return <section className="scope-inventory" aria-labelledby="scope-inventory-region-title">
+    <h3 id="scope-inventory-region-title">{copy[locale].inventory}</h3>
+    <InventoryMarkup inventory={inventory} locale={locale}/>
+  </section>;
+}
+
+export function ScopeControls({ result, locale, busy, onOperation, onColor, hideInventory=false }: ScopeControlsProps) {
   const inventory = inventoryOf(result);
   const [context, setContext] = useState<SelectionContext>('unspecified');
   const [allowGlobal, setAllowGlobal] = useState(false);
   const [colorField, setColorField] = useState('');
   if (!inventory) return null;
   const t = copy[locale];
-  const cells=locale==='fr'?'cellules':'cells';
   const operationOptions: OperationOptions = { selection_context: context };
   const factors = inventory.loaded.metadata.filter(field => field.derived_from_target !== true);
   const action = (operation: ScopedOperation, extra: OperationOptions = {}) => onOperation(operation, { ...operationOptions, ...extra });
 
   return <section className="scope-controls" aria-labelledby="scope-controls-title">
     <h2 id="scope-controls-title">{t.title}</h2>
-    <section aria-labelledby="scope-inventory-title">
-      <h3 id="scope-inventory-title">{t.inventory}</h3>
-      <ul>
-        <li>{t.x}: {inventory.loaded.x.rows} {t.rows}, {inventory.loaded.x.variables} {t.variables}</li>
-        <li>{t.y}: {inventory.loaded.y.length} ({inventory.loaded.y.reduce((n, field) => n + field.rows, 0)} {cells})</li>
-        <li>{t.m}: {inventory.loaded.metadata.length} ({inventory.loaded.metadata.reduce((n, field) => n + field.rows, 0)} {cells})</li>
-      </ul>
-      <ul aria-label={t.partition}>
-        {inventory.loaded.partitions.map(partition => <li key={partition.name}>{partition.name}: {partition.rows} {t.rows} · {t.role}: {partition.name}</li>)}
-      </ul>
-      {inventory.loaded.y.map(field => <p key={`y-${field.name}`}>{field.name}: {field.type}, {field.rows} {t.rows}, {field.missing} {t.missing}</p>)}
-      {inventory.loaded.metadata.map(field => <p key={`m-${field.name}`}>{field.name}: {field.role}, {field.kind}, {field.origin}, {field.evidence}; {field.rows} {t.rows}, {field.missing} {t.missing}</p>)}
-    </section>
+    {!hideInventory&&<InventoryMarkup inventory={inventory} locale={locale}/>}
 
     <label>{t.context}
       <select value={context} disabled={busy} onChange={event => setContext(event.target.value as SelectionContext)}>
@@ -120,7 +135,7 @@ export function ScopeControls({ result, locale, busy, onOperation, onColor }: Sc
     </fieldset>
     <section aria-label={t.color}>
       <label>{t.color}
-        <select value={colorField} disabled={busy || !onColor} onChange={event => { const field = event.target.value; setColorField(field); if (field) onColor?.(field); }}>
+        <select value={colorField} disabled={busy || !onColor || !result.pca} onChange={event => { const field = event.target.value; setColorField(field); onColor?.(field); }}>
           <option value="">{t.noColor}</option>
           {factors.map(field => <option key={field.name} value={field.name}>{field.name}{field.origin === 'unknown' || field.derived_from_target === 'unknown' ? ' · unknown origin' : ''}</option>)}
         </select>

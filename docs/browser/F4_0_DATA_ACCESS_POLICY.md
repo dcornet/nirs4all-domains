@@ -81,3 +81,30 @@ package install/native rebuild or large PDF/archive copy. Native/WASM builds and
 clean candidate/browser/PDF tests run in existing hosted Windows/Ubuntu workflows;
 inspect artifacts in memory and retain only small receipts. Stop for a measured
 bound, without raising a ceiling or deleting historical evidence.
+
+### Measured checkpoint and internal stage revision
+
+The later measurement reached 20,825,722,390 bytes: 4,359,317 additional bytes,
+above the initial conservative 3 MiB + 512 KiB working stage, but still 745,643
+bytes below the unchanged owner ceiling. Work paused for this reconciliation.
+The root CodeGraph database was among the recently modified derived files;
+it is left intact, as are every historical record and reservation.
+
+Rebound the remaining work to **5,000,000 additional bytes total**, including at
+most 4,800,000 engineering bytes and 200,000 essential receipt bytes. This stays
+inside the 5,104,960 bytes available at the original baseline, leaving 104,960
+bytes under the owner ceiling even at full stage usage. This revises our internal
+staging estimate, not the owner policy, local/campaign ceiling or reservation.
+Inspect images/archives in memory; no local PDF/ZIP/image copies. Recheck before
+commits and closure; an owner-ceiling excess remains a stop, never an implicit grant.
+
+A following checkpoint measured 20,826,599,132 bytes, 131,099 above the owner
+ceiling. Further work stopped. A single inactive Rust incremental compiler
+`dep-graph.bin` (28,016,168 bytes) was then removed after verifying its absolute
+path under this workspace's `target/debug/incremental`, its cache type, and the
+absence of cargo/rustc processes. Executables, source, scientific evidence,
+Research files, reservations and journals were not removed. The ignored receipt
+records its path, size, hash and prior timestamp. This is disclosed as an observed
+storage overrun and cache recovery, not a claim that the limit was never exceeded.
+The recovery measured 20,798,790,430 bytes, leaving 27,677,603 under the same
+ceiling, with the exact historical journal hash and reservations unchanged.

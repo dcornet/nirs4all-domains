@@ -27,6 +27,7 @@ export interface LocalDataset {
   rawX?: (number | null)[][]; missingX?: boolean[][]; targets?: ImportedTarget[];
   rowManifest?: ImportedRow[];
   importProvenance?: { protocol: 'domains.import_xy_m.v1'; files: { name: string; sha256: string }[];
+    file_content_sha256?: string; reviewed_spec_sha256?: string;
     original_source_ids: string[]; roles_reviewed: boolean; identity_independence: 'unknown' };
 }
 export interface InputFile { name: string; bytes: Uint8Array }

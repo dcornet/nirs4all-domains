@@ -160,7 +160,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   captures.operations.push({operation:support.operation,status:support.status,receipt:support.receipt});
   check('F4 raw support keeps train reference and test query distinct and records test-X access');
 
-  await page.getByLabel('I explicitly authorize a global descriptive analysis that includes every loaded partition.').check();
+  await page.getByLabel('I explicitly authorize a descriptive fit on train + test; prediction rows remain excluded.').check();
   await performOperation(page,'Global descriptive analysis');await page.locator('.workspace-summary').waitFor();
   current=await reportJson(page,json);let global=operation(current,'global_descriptive_transductive');
   assert.equal(global.receipt.explicit_transductive,true);assert.equal(global.receipt.fit,'transductive');

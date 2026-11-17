@@ -103,7 +103,8 @@ jobs:
         run: python scripts/review_export_selection_pdfs.py
       - name: Verify bounded distributable without private artifacts
         run: python scripts/check_demo_distribution.py
-      - name: Build the exact F2 comparison frontend without rebuilding unchanged Rust
+      - name: Build the exact F2 comparison frontend and its original Rust WASM
+        timeout-minutes: 15
         run: python scripts/build_browser_baseline.py
       - name: Same-host before and after browser measurements
         shell: pwsh
