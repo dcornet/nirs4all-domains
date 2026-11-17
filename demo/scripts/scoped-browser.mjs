@@ -180,7 +180,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   check('F4 explicit consent creates a distinct transductive train+test receipt and excludes prediction rows');
 
   const workersBeforeColor=await page.evaluate(()=>window.__f4WorkerOperations.length);
-  await page.getByLabel('Color PCA display by M field').selectOption({label:'batch'});
+  await page.getByRole('combobox',{name:/^Color PCA display by M field/}).selectOption({label:'batch'});
   assert.equal(await page.evaluate(()=>window.__f4WorkerOperations.length),workersBeforeColor,'Display color must not start a worker');
   const beforeIntent=await reportJson(page,json),numericBefore=JSON.stringify(beforeIntent.scientific_report.scoped_operations),
     hashesBefore=JSON.stringify(beforeIntent.scientific_report.scoped_operations.map(item=>item.receipt.request_sha256));
