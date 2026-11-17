@@ -78,8 +78,8 @@ export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,c
   // Explicit declared IDs justify keyed alignment; local row order is not a join contract.
   await home(page);
   const spec={schema_version:1,name:'Synthetic metadata import',sources:[
-    {id:'X',role:'features',input:'X.csv',partition:'train',key:'join_id',columns:{features:['1000','1100'],id:['join_id']},params:{delimiter:',',has_header:true}},
-    {id:'M',role:'metadata',input:'M.csv',partition:'train',key:'join_id',join:{right:'X'},columns:{metadata:['acquisition','batch','site'],id:['join_id']},params:{delimiter:',',has_header:true}},
+    {id:'X',role:'features',input:'X.csv',partition:'train',key:'join_id',columns:{features:['1000','1100'],metadata:['join_id']},params:{delimiter:',',has_header:true}},
+    {id:'M',role:'metadata',input:'M.csv',partition:'train',key:'join_id',join:{left:'M',right:'X',left_on:'join_id',right_on:'join_id',cardinality:'1:1',coverage:'complete'},columns:{metadata:['join_id','acquisition','batch','site']},params:{delimiter:',',has_header:true}},
   ]};
   await page.locator('input[type=file]').setInputFiles([
     {name:'example.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))},
@@ -93,14 +93,14 @@ export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,c
   await screenshot(page,'f2-metadata-import');check('F2 actual IO metadata import preserves declared rows/columns and unknown physical units');
   // Reuse the already frozen declared-group-exclusion geometry, not tuned data.
   await home(page);await importCsv(page,'1100,1090\n'+Array.from({length:8},(_,i)=>`${i},${(i%3)*0.25}`).join('\n')+'\n');await page.locator('.workspace-summary').waitFor();
-  const noise=await json(page),noiseStructure=noise.scientific_report.unpartitioned_structure??noise.scientific_report;
+  const noise=await json(page),noiseStructure=noise.scientific_report.scoped_operations?.findLast(op=>op.value?.structure)?.value.structure??noise.scientific_report.unpartitioned_structure??noise.scientific_report;
   assert.equal(noiseStructure.metrics.density.status,'computed');assert.equal(noiseStructure.metrics.density.value.n_clusters,0);
   assert(noiseStructure.metrics.density.value.labels.every(label=>label===-1));
   await page.evaluate(()=>{const target=document.getElementById('evidence-density');for(let p=target?.parentElement;p;p=p.parentElement)if(p instanceof HTMLDetailsElement)p.open=true;});
   assert.equal(await page.locator('#evidence-density .report-status').count(),1);
   check('F2 frozen synthetic geometry returns computed all-noise density, not unavailability');
   await home(page);await importCsv(page,'1000,1100\n1,2\n1,2\n1,2\n');await page.locator('.workspace-summary').waitFor();
-  const constant=await json(page),constantStructure=constant.scientific_report.unpartitioned_structure??constant.scientific_report;
+  const constant=await json(page),constantStructure=constant.scientific_report.scoped_operations?.findLast(op=>op.value?.structure)?.value.structure??constant.scientific_report.unpartitioned_structure??constant.scientific_report;
   assert.equal(constantStructure.metrics.pca.status,'unavailable');assert.equal(constant.pca,null);
   await page.locator('.journey-nav a').nth(1).click();assert.equal(await page.locator('#geometry .unavailable').count(),1);
   await screenshot(page,'f2-pca-unavailable');check('F2 real constant-X PCA refusal has no invented coordinates');

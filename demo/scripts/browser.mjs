@@ -198,7 +198,7 @@ try {
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
   const imported = await json(page);
-  const importedStructure=imported.scientific_report.unpartitioned_structure??imported.scientific_report;
+  const importedStructure=imported.scientific_report.scoped_operations?.findLast(op=>op.value?.structure)?.value.structure??imported.scientific_report.unpartitioned_structure??imported.scientific_report;
   assert.equal(imported.source_mode, 'user_computed_live');
   assert.equal(imported.dataset.observations, 3); assert.equal(imported.dataset.variables, 1);
   assert.equal(imported.presentation.figures[0].kind,'scores1d','One resolved PC must not create a measured PC2');

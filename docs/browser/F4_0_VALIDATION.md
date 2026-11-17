@@ -98,6 +98,13 @@ workflow has separate IO prepare/assembly stages, not unnecessary Formats loads.
 Their timing is not presented as matched parser throughput. Final exact-head
 execution remains required; the PR records its actual results.
 
+Candidate `ee50e2449e2408ddeec7819d257fb9a794bc2722` passed scientific run
+44054789034 and report contracts 44054789051 on both systems. Browser run
+44054789049 reached real IO imports, then an old assertion read `metrics` directly
+from the new scoped report container. Imported-data checks now select the actual
+operation's structure; saved and synthetic legacy reports retain their original
+assertions. Numerical expectations and tolerances remain unchanged.
+
 ## Review corrections
 
 The principal reviewed all scientific guards and projections. Corrections made

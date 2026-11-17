@@ -44,7 +44,7 @@ function Controller() {
   };
   const publishScoped=(data:LocalDataset)=>{
     const result=scopedView(baseView.current,data,operations.current,color.current||undefined);
-    scientific.current={protocol_version:'domains.browser_scoped_report.v1',inventory:scopedInventory(data),
+    scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
       scoped_operations:operations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
   };
