@@ -1,4 +1,4 @@
-import { useEffect,useState, type ReactNode } from 'react';
+import { useEffect,useMemo,useState, type ReactNode } from 'react';
 import { EigenvalueScree, ScoreMap, SpectraExplorer } from 'nirs4all-ui/qualification';
 import type { EvidenceStatus, Locale, PredictionIntent, UiCallbacks, UiDeclarations, UiResult,ReadingMode } from './ui-types';
 import type { T } from './i18n';
@@ -17,9 +17,12 @@ function Section({ id, number, title, intro, children }: { id: string; number: s
 }
 export function Workspace({ result, intent, declarations, callbacks, locale, t,busy=false }: { result: UiResult; intent: PredictionIntent; declarations?: UiDeclarations; callbacks: UiCallbacks; locale: Locale; t: T;busy?:boolean }) {
   const { dataset } = result;
-  const report = presentation(result, locale, intent), c = reportCopy(locale),u=uxCopy(locale);
+  const report = useMemo(()=>presentation(result, locale, intent),[result,locale,intent]), c = reportCopy(locale),u=uxCopy(locale);
   const [reading,setReading]=useState<ReadingMode>('complete');
-  const structureIds=new Set(['pca','density','raw_neighbors','projected_neighbors','metadata_factor_association','resampling_stability','parameter_sensitivity','predictive_performance']);
+  const {structureHtml,otherHtml}=useMemo(()=>{
+    const ids=new Set(['pca','density','raw_neighbors','projected_neighbors','metadata_factor_association','resampling_stability','parameter_sensitivity','predictive_performance']);
+    return {structureHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>ids.has(b.id))},locale),otherHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>!ids.has(b.id))},locale)};
+  },[report,locale]);
   const [selected, setSelected] = useState<string | null>(null);
   const [colorByGroup, setColorByGroup] = useState(false);
   const [start, setStart] = useState(0);
@@ -56,7 +59,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
         {result.pca ? <><div className="chart-toolbar"><label className="check"><input type="checkbox" checked={colorByGroup} onChange={event => setColorByGroup(event.target.checked)}/>{t('group')}</label></div><div className="geometry-grid">{report.figures.map(figure=><figure className="panel chart-panel report-figure" key={figure.id}><h3>{figure.title}</h3>{figure.kind==='scores'?<ScoreMap title={figure.title} points={figure.points!} xLabel={figure.xLabel} yLabel={figure.yLabel} colorBy={colorByGroup?'group':'none'} groupColors={figure.groupColors} locale={locale}/>:figure.kind==='scree'?<EigenvalueScree title={figure.title} eigenvalues={figure.eigenvalues!} totalVariance={null} locale={locale}/>:<div dangerouslySetInnerHTML={{__html:figureSvg(figure,locale)}}/>}<figcaption>{figure.population} · {figure.representation} · {figure.unit}</figcaption><p className="chart-caption">{figure.observed}</p><details><summary>{c.read}</summary><div dangerouslySetInnerHTML={{__html:readingHtml(figure,locale)}}/></details><a href={`#${anchor(figure.evidenceId)}`}>{c.reference}: {figure.evidenceId}</a></figure>)}</div></> : <div className="unavailable panel"><Badge status="unavailable" t={t}/><h3>{t('noGeometry')}</h3><p>{result.geometryReason}</p><p>{c.noCoordinates}</p></div>}
       </Section>
       <ContextHelp ids={['neighbor','distance','cluster','noise','preprocessing']} locale={locale}/>
-      <Section id="structure-evidence" number="03" title={u.details}><details className="science-disclosure"><summary>{u.details}</summary><div className="report-evidence-sections" dangerouslySetInnerHTML={{__html:blocksHtml({...report,blocks:report.blocks.filter(b=>structureIds.has(b.id))},locale)}}/></details></Section></section>
+      <Section id="structure-evidence" number="03" title={u.details}><details className="science-disclosure"><summary>{u.details}</summary><div className="report-evidence-sections" dangerouslySetInnerHTML={{__html:structureHtml}}/></details></Section></section>
       <section id="journey-3" className="journey-step" tabIndex={-1} aria-label={u.steps[2]}><span className="journey-label">03 · {u.steps[2]}</span>
       <Section id="warnings" number="04" title={t('warnings')} intro={t('warningIntro')}>
         <p className="source-language">{t('sourceLanguage')}</p>
@@ -70,7 +73,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
       <section id="journey-4" className="journey-step" tabIndex={-1} aria-label={u.steps[3]}><span className="journey-label">04 · {u.steps[3]}</span>
       <section className="panel report-synthesis" id="report-summary" tabIndex={-1}><h2>{u.begin}</h2><span className={`mode-label ${result.mode}`}>{t(result.mode)}</span><h3>{dataset.name}</h3>{report.brief.map((line,i)=><p key={i}>{line}</p>)}<p>{u.summaryIntro}</p><a href="#data">{u.back}</a><a href="#warnings">{t('warnings')}</a></section>
       <Section id="evidence" number="06" title={t('evidence')} intro={t('evidenceIntro')}>
-        <div className="report-evidence-sections" dangerouslySetInnerHTML={{__html:blocksHtml({...report,blocks:report.blocks.filter(b=>!structureIds.has(b.id))},locale)}}/>
+        <div className="report-evidence-sections" dangerouslySetInnerHTML={{__html:otherHtml}}/>
         <details className="panel provenance-details"><summary>{t('provenance')}</summary><pre>{JSON.stringify(result.provenance, null, 2)}</pre></details>
         {result.limitations.length > 0 && <div className="panel limitations"><h3>{t('limitation')}</h3><ul>{result.limitations.map((limitation, i) => <li key={i}>{limitation}</li>)}</ul></div>}
       </Section>

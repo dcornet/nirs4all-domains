@@ -11,12 +11,6 @@ const maxOutputBytes = 2 * 1024 * 1024;
 const generated = [];
 let outputBytes = 0;
 
-for (const name of ['families', 'packages']) {
-  const target = resolve(publicRoot, name);
-  if (!target.startsWith(`${resolve(publicRoot)}${sep}`)) throw new Error('Refusing to clean a path outside demo/public/licenses');
-  await rm(target, { recursive: true, force: true });
-}
-
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const normalized = path => path.split(sep).join('/');
 
@@ -73,6 +67,20 @@ const packages = [
 const uniquePackages = [...new Map(packages.map(pkg => [`${pkg.name}@${pkg.version ?? 'local'}`, pkg])).values()]
   .sort((a, b) => a.name.localeCompare(b.name) || String(a.version).localeCompare(String(b.version)) || a.lockfile.localeCompare(b.lockfile));
 
+// An incomplete/stale install must not erase the existing distributable notices.
+const metadataByPath = new Map();
+for (const locked of uniquePackages) {
+  if (!locked.installPath || locked.name === '@nirs4all/domains') continue;
+  const metadata = await readJson(join(locked.installPath, 'package.json'));
+  if (locked.version !== metadata.version) throw new Error(`Lockfile version mismatch for ${locked.name}: ${locked.version} != ${metadata.version}`);
+  metadataByPath.set(locked.installPath, metadata);
+}
+for (const name of ['families', 'packages']) {
+  const target = resolve(publicRoot, name);
+  if (!target.startsWith(`${resolve(publicRoot)}${sep}`)) throw new Error('Refusing to clean a path outside demo/public/licenses');
+  await rm(target, { recursive: true, force: true });
+}
+
 // Core license choices for this application and its dual-licensed NIRS packages.
 for (const file of ['CeCILL-2.1.txt', 'AGPL-3.0-or-later.txt']) {
   await copyAllowed(join(root, 'LICENSES', file), join(publicRoot, 'families', file), `repository LICENSES/${file}`);
@@ -82,8 +90,7 @@ const installedMetadata = [];
 for (const locked of uniquePackages) {
   const packageRoot = locked.installPath;
   if (!packageRoot || locked.name === '@nirs4all/domains') continue;
-  const metadata = await readJson(join(packageRoot, 'package.json'));
-  if (locked.version !== metadata.version) throw new Error(`Lockfile version mismatch for ${locked.name}: ${locked.version} != ${metadata.version}`);
+  const metadata = metadataByPath.get(packageRoot);
   await copyNoticeTree(packageRoot, join(publicRoot, 'packages', locked.name, metadata.version), locked.resolved ?? `installed package ${locked.name}`);
   installedMetadata.push({ name: locked.name, version: metadata.version, license: metadata.license ?? 'UNDECLARED', resolved: locked.resolved, integrity: locked.integrity });
 }

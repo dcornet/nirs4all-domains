@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium, firefox } from 'playwright-core';
 import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffline } from './report-browser.mjs';
 import { uxLanding,uxLive,uxSummaryOffline,uxExtraInputs,auditAccessibility,uxBlockedWasm,uxSavedSummary } from './ux-browser.mjs';
+import {qualifyTechnicalLoading} from './technical-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -288,6 +289,7 @@ try {
   check('Chromium mobile example, language and no horizontal document overflow');
   await mobile.close();
   await uxBlockedWasm(browser,url,check);
+  await qualifyTechnicalLoading(browser,url,output,check);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
     const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);

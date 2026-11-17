@@ -1,0 +1,7 @@
+{
+  "name": "domains-readonly-browser-tools",
+  "private": true,
+  "devDependencies": {
+    "playwright-core": "1.65.1"
+  }
+}

@@ -2,7 +2,7 @@ name: Domains demo Pages
 on:
   push:
     branches: [main]
-    paths: [demo/**, bindings/wasm/**, crates/nirs4all-domains/**, Cargo.lock, .github/workflows/pages.yml]
+    paths: [demo/**, bindings/wasm/**, crates/nirs4all-domains/**, Cargo.toml, Cargo.lock, ci/**, scripts/install_wasm_pack.py, .github/workflows/pages.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,24 +11,31 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@39008827e6b4319a349e9a42dfc90579dd25f1ca # stable
         with:
+          toolchain: 1.100.0
           targets: wasm32-unknown-unknown
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24
+          node-version: 24.22.1
+          cache: npm
+          cache-dependency-path: |
+            demo/package-lock.json
+            bindings/wasm/package-lock.json
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.11.18'
       - name: Install pinned wasm-pack
-        run: |
-          curl -fsSL https://github.com/rustwasm/wasm-pack/releases/download/v0.13.1/wasm-pack-v0.13.1-x86_64-unknown-linux-musl.tar.gz | tar xz -C "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/wasm-pack-v0.13.1-x86_64-unknown-linux-musl" >> "$GITHUB_PATH"
+        run: python scripts/install_wasm_pack.py
       - run: npm run build:native --prefix bindings/wasm
       - run: npm ci --ignore-scripts --no-audit --no-fund --prefix demo
       - name: Install binding's direct provider dependency
         run: npm ci --ignore-scripts --no-audit --no-fund --prefix bindings/wasm
       - run: npm test --prefix demo
+      - run: npm run test:build-tools --prefix demo
       - run: npm run build --prefix demo
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: demo/dist
   deploy:
@@ -41,5 +48,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
         id: deployment

@@ -1,5 +1,10 @@
 # nirs4all-domains
 
+The [F3 technical consolidation](docs/technical/F3_RELEASE_REPORT.md) documents
+selective dependency updates, the unchanged Preflight/Methods contract, actual
+WASM/worker checks and bounded before/after measurements. Its PR preview and
+qualification are separate from publication of main on GitHub Pages.
+
 The [browser demonstration](demo/README.md) adds an optional Rust/WASM consumer:
 local X import through published IO/Formats, actual Methods-backed descriptive
 PCA/neighborhood/density evidence, conditional intended-use reading and offline
