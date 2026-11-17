@@ -127,6 +127,15 @@ selection, missingness, conflicts, repetitions, hierarchy or unsupported groups
 make only inference unavailable; descriptive results remain usable. No bootstrap,
 aggregation or custom constrained/random permutation is substituted.
 
+The synthetic complete-family adversary uses four raw rows
+`[[-1.5,1],[-0.5,-1],[0.5,-1],[1.5,1]]`. Its centered columns are orthogonal
+with distinct variances, fixing PC order up to sign. Before execution, expected
+categorical `0011` exact p-values are `(1/3,1)`; continuous `(-1.5,-0.5,0.5,1.5)`
+exact p-values are `(1/12,1)`. The full two-factor × two-resolved-PC Holm family
+must give `(1,1,1/3,1)` in factor-major order. The null PC2 stays in the family;
+it is never discarded in favor of PC1. These are analytical references for
+synthetic numerical/orchestration qualification, not a real-study design claim.
+
 Exact inference is bounded to at most eight observations, 40,320 arrangements
 per test, four explicitly selected factors and all source-resolved PCs (at most
 the existing source component budget). Use Methods `statsFactorAssociationExact`

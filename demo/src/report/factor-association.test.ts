@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { FactorResult } from '@nirs4all/domains';
 import type { UiResult } from '../ui-types';
 import { appendFactorAssociations, factorAssociationTables } from './factor-association';
+import {presentation} from './presentation';
 
 function view(): UiResult {
   return { mode:'live', protocol:'fixture', dataset:{name:'d',id:'d',source:'s',contentHash:'h',observations:3,variables:2,axisUnit:'nm',axis:[1,2],spectra:[],metadata:[],identity:'declared',provenance:'fixture',license:'fixture'},
@@ -37,6 +38,7 @@ describe('factor association report preparation',()=>{
     const next=appendFactorAssociations(source,[result]);
     expect(source).toEqual(before);
     expect(next.evidence[0]).toEqual(source.evidence[0]);
+    expect(presentation(next,'en','unknown').blocks[0].id).toBe('factor-association-1');
     expect(next.findings[0]?.observation).toContain('3 pairs used');
     const attached=next.evidence.at(-1)!;
     expect(attached.id).toBe('factor-association-1');

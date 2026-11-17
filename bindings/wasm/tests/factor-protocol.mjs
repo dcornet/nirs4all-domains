@@ -28,10 +28,10 @@ async function wasm(output) {
   const cases=[];
   function request(id,x,values,kind='categorical',method='pearson',exact=false,options={}) {
     const keys=x.map((_,i)=>`${id}-${i}`);
-    const dataset={dataset_id:id,source_id:'synthetic-x',content_version:'f41-public-synthetic-v1',content_sha256:sha(JSON.stringify(x))};
     const population=options.population??'train',global=population==='global_transductive';
     const manifest=[...keys.map((key,i)=>({key,partition:population==='unpartitioned'?'unpartitioned':global&&i>=4?'test':'train'})),...(options.extraManifest??[])];
-    const matrix=x.map(v=>options.twoFeatures?[v,2*v]:[v]),axis=options.twoFeatures?[1000,1100]:[1000];
+    const matrix=options.matrix??x.map(v=>options.twoFeatures?[v,2*v]:[v]),axis=matrix[0].map((_,i)=>1000+100*i);
+    const dataset={dataset_id:id,source_id:'synthetic-x',content_version:'f41-public-synthetic-v1',content_sha256:sha(JSON.stringify(matrix))};
     let source,report,fitReceipt;
     if(population==='unpartitioned') {
       report=compact(runtime.analyze({schema_version:1,dataset_id:dataset.dataset_id,source_id:dataset.source_id,content_sha256:dataset.content_sha256,observation_ids:keys,axis,axis_unit:'nm',spectra:matrix}));
@@ -157,6 +157,16 @@ async function wasm(output) {
     close(v.owner_exact.p_value,p,'family raw p');close(v.holm_adjusted_p,adjusted,'family Holm p');assert.equal(v.family_size,2);
   }
   const unpartitioned=run('unpartitioned-default',[1,2,3,7,8,9],[0,0,0,1,1,1],'categorical','pearson',false,{population:'unpartitioned'});
+  const multiPc=request('two-factor-two-PC-family',[-1.5,-0.5,0.5,1.5],[0,0,1,1],'categorical','pearson',true,
+    {matrix:[[-1.5,1],[-0.5,-1],[0.5,-1],[1.5,1]]});
+  multiPc.factors.push({...structuredClone(multiPc.factors[0]),name:'linear',kind:'continuous',unit:'synthetic-unit',values:[-1.5,-0.5,0.5,1.5]});
+  multiPc.inference.plan.factor_ids=['factor','linear'];grants(multiPc);
+  const multiPcResult=record('two-factor-two-PC-family',multiPc);
+  for(const [fi,pc,p,adjusted] of [[0,0,1/3,1],[0,1,1,1],[1,0,1/12,1/3],[1,1,1,1]]){
+    const item=multiPcResult.value.factors[fi].components[pc].inference;
+    assert.equal(item.status,'computed');assert.equal(item.value.family_size,4);
+    close(item.value.owner_exact.p_value,p,'complete two-PC family raw p');close(item.value.holm_adjusted_p,adjusted,'complete two-PC family Holm p');
+  }
   close(component(unpartitioned).descriptive.value.estimate,27/29,'unpartitioned eta2');
   assert.equal(unpartitioned.receipt.source_pca_fit_receipt_sha256,null);
   const globalResult=run('global-consented',[1,2,3,7,8,9],[0,0,0,1,1,1],'categorical','pearson',false,{population:'global_transductive'});

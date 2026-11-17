@@ -54,7 +54,11 @@ function Controller() {
     const unpartitioned=data.rowManifest?.every(r=>r.partition==='unpartitioned')===true;
     const source=(population:FactorPopulation)=>factorSource(population,operations.current,unpartitioned?baseReport.current:null);
     result.factorControls={datasetKey:data.input.content_sha256,factors:factorChoices(data),
-      populations:(unpartitioned?['unpartitioned']:['train','global_transductive']).map(p=>({id:p as FactorPopulation,label:p,ready:!!source(p as FactorPopulation),reason:source(p as FactorPopulation)?undefined:'PCA_EXECUTION_PROVENANCE_REQUIRED'})),
+      populations:(unpartitioned?['unpartitioned']:['train','global_transductive']).map(p=>{
+        const candidate=source(p as FactorPopulation),pca=candidate?.report.metrics.pca;
+        const ready=pca?.status==='computed'&&pca.value!==null;
+        return {id:p as FactorPopulation,label:p,ready,reason:ready?undefined:pca?.reason??'PCA_EXECUTION_PROVENANCE_REQUIRED'};
+      }),
       inferenceRecordAvailable:externalPlan.current!==null,
       exportColorAuthorized:!!colorGrant.current};
     result.factorAssociations=associations.current;

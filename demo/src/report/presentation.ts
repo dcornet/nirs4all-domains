@@ -183,6 +183,9 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
       observed:e.value===null?c.unavailable:density&&v?.n_clusters===0?c.allNoise:density&&v?.n_clusters===1?c.trivial:`${t(e.status)} · ${metricTitle(e.id,c)}`,
       relevance:c.next,limitations:[neighbor?c.neighborLimit:density?c.densityLimit:e.id==='pca'?c.scoreLimit:c.savedLimit] };
   });
+  // Put the new scientific association tables before their background transport
+  // details. Original evidence order and every optional annex remain intact.
+  blocks.sort((a,b)=>Number(b.id.startsWith('factor-association-'))-Number(a.id.startsWith('factor-association-')));
   const figures: DisplayFigure[] = [], pca = view.pca;
   const structureScope = view.provenance.scoped_structure_scope;
   const scopedPopulation = structureScope === 'train_only' ? c.scopedTrain
