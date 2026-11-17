@@ -1,62 +1,63 @@
 # Browser capability boundary
 
-This matrix describes the demo's product surface, not a scientific
-qualification grant. “Runnable in browser” means the live WASM path can call a
-real Methods provider under fixed scope and budget. It does not mean the
-method is validated for every dataset or interpretation. The labels below are
-documentation categories; runtime evidence keeps its own status, reason and
-value fields.
+This matrix describes the current demo product surface, not a scientific
+qualification grant. A provider API, implemented path, and qualified scientific
+interpretation are separate evidence. Runtime results retain their own status,
+reason and value fields. F4.0 source implementation is not a completed browser,
+native/WASM, or CI verification. The schema and detailed import boundary are described
+in the [F4.0 import architecture](browser/F4_0_IMPORT_ARCHITECTURE.md),
+[native/WASM compatibility](browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and
+[remaining capability notes](browser/F4_0_REMAINING_CAPABILITIES.md).
 
-| Capability | Demo status | Evidence boundary |
+| Capability | Current status | Evidence boundary |
 |---|---|---|
-| Raw-X PCA scores and eigenvalues | `runnable_in_browser` | Methods PCA on the complete imported population, up to 20 resolved components; descriptive and transductive. |
-| Raw-X full spectral moments | `runnable_in_browser` | Returned by the live PCA provider; no truncated-PCA substitute is inferred. |
-| Raw-space nearest-neighbor support | `runnable_in_browser` | Exact full-reference query, up to 8 neighbors; excludes self or matching declared group. |
-| PCA-space nearest-neighbor support | `runnable_in_browser` | Exact full-reference query over resolved PCA scores; same declared-group caveat. |
-| Single HDBSCAN density fit | `runnable_in_browser` | One frozen EOM setting (min cluster size 8, min samples 4); labels and strengths are descriptive. |
-| D1-D6.1 saved companion reading | `saved_evidence_only` | Read the packaged public tablet report and exact saved companions; no new fit or recomputation. |
-| Metadata-factor associations | `requires_metadata` | Live protocol does not pass metadata to the provider. Missing factor evidence stays unavailable. |
-| Physical specimen / reference support | `requires_metadata` | Requires verified physical and reference identities; observation IDs and groups do not establish them. |
-| Reference-population comparisons | `requires_reference_population` | Requires an explicitly admitted compatible reference population and identity closure. |
-| Resampling robustness | `not_qualified` | Requires a scoped protocol, admissible units and new execution; one fit cannot stand in for resampling. |
-| SNV paired-representation analysis | `not_qualified` | The owner has an SNV API, but no paired browser protocol is qualified here. This is a protocol gap, not an invented missing Methods capability. |
-| Predictive performance, transfer, or causal attribution | `not_qualified` | No target, training/evaluation split, predictive fit, transfer test or causal design is accepted. |
+| Reviewed local X/Y/M import | `implemented_pending_verification` | IO/Formats assemble user-reviewed Dataset Builder roles, explicit keys and declared partitions. Nullable X/Y/M, axes, and source identities are retained locally. Import does not fit or create a scientific request. |
+| Train structure | `implemented_pending_verification` | The explicit Train structure action fits only the declared train population. Unpartitioned data use the separate legacy full-source descriptive route. |
+| Raw-space nearest-neighbor test query | `implemented_pending_verification` | Declared train rows are the reference and test rows are the query; matching declared exclusions apply when supplied. This is raw-space support, not a transfer or deployment claim. |
+| Metadata factor audit | `implemented_pending_verification` | Reports counts, missingness, cardinality, and levels. Cross-partition audit also reports literal shared nonmissing values. No statistical association is calculated. |
+| Metadata coloring of PCA points | `presentation_only_pending_verification` | A selected eligible M field maps to existing PCA points by technical row key. It does not calculate association or alter PCA coordinates/evidence. |
+| Explicit global descriptive structure | `implemented_pending_verification` | Requires explicit transductive consent and fits train plus test. Predict rows are excluded. No Y enters the scientific request. |
+| Exact spectra / declared identity audits | `implemented_pending_verification` | Separate integrity operations use the selected X or declared identity fields; a negative audit does not certify independence. |
+| Methods factor-association APIs | `owner_api_declared_unqualified` | Methods declares factor-target and numeric-vector association functions, but no scoped metadata association protocol or exchangeability qualification is established here. |
+| Train-fitted PCA test projection | `not_qualified` | Methods has a generic `FlexiblePCA.fit`/`transform` API; the browser train-fit state handoff and separate test projection protocol are not qualified. |
+| D1-D6.1 saved companion reading | `saved_evidence_only` | Reads the packaged public tablet report and exact saved companions; performs no new fit or recomputation. |
+| Physical specimen / reference independence | `not_established` | Observation IDs, technical keys, groups, and a negative duplicate check do not prove physical or reference independence. |
+| Predictive performance, transfer, causal attribution | `not_implemented` | No target is passed into a scientific request and no predictive fit, transfer test, or causal design is added. |
+| Resampling robustness / SNV paired analysis | `not_qualified` | These require separate scoped protocols, admissible units and qualification; no local substitute algorithm is used. |
 
-The current native runtime publishes `pca`, `summary`, `nearest_neighbors`
-and `hdbscan` provider capabilities. The browser binding calls these public
-Methods APIs through the Preflight contract. Capability presence is distinct
-from qualification, so unsupported provider calls, budget refusal, numerical
-errors, zero variance and malformed responses remain unavailable/error states
-with null values and explicit reasons.
+The legacy browser runtime's existing Methods provider capabilities include
+PCA, summary, nearest neighbors, and HDBSCAN. The scoped F4.0 bridge uses the
+same declared provider boundary. Capability presence is distinct from
+qualification. Unsupported provider calls, budget refusal, numerical errors,
+zero variance, and malformed responses retain explicit unavailable/error
+states and null values.
 
-An actual absent provider operation is `requires_unsupported_provider`; this
-category is never inferred merely because the present demo has not qualified a
-protocol. Complete future-population support requires a reference and new evidence.
-
-The live protocol does not perform full D1 parity, D2 validation intent
+The live protocol does not perform full D1 parity, D2 validation-intent
 annotation, D3 predictive comparison, D4 standalone companion validation, D5
 utility analysis, D6 verification readiness, or D6.1 decision summary. Those
 remain saved-evidence consumers where an exact compatible public companion is
 provided; the tablet example packages its D1-D6.1 public reading and shows
-unknown physical independence. It is not regenerated from live X. Existing
+unknown physical independence. It is not regenerated from live data. Existing
 standalone examples under [`examples/standalone`](examples/standalone/README.md)
 retain separate source reports and companions rather than joining by a shared
 dataset name.
 
-## Fixed live scope and refusal limits
+## Current scoped import and operations
 
-The [retained-partition safety amendment](WASM_PARTITION_GUARD.md) refuses
-IO-declared test/prediction populations before this full-source route. No retained
-population is fitted, dropped or relabeled; train-fitted browser support remains
-unqualified. Complete unpartitioned sources retain descriptive/transductive scope.
+Import requires Dataset Builder review of source/column roles, identity keys,
+joins and partitions. It preserves the reviewed dataset, including Y in local
+import memory, but does not fit automatically. Y is excluded from exported
+reports and worker scientific requests. Each selected audit or analysis
+constructs its own row and field grant; no operation inherits an implicit
+global train/test fit.
 
-The accepted request is one complete dense X source with unique observation
-IDs, unchanged strictly monotonic axis and declared source content hash. It
-has no Y, target, split, imputation, aggregation, source fusion, axis transform
-or claimed physical independence. Complete unpartitioned source fits are
-descriptive/transductive; declared evaluation partitions are refused as described
-above. Optional group IDs only
-exclude rows from neighbor references; their scientific meaning is unverified.
+Partitioned data remain available after import. Train structure uses train rows
+only. Test support uses train rows as the raw-space reference and test rows as
+the query. Metadata audits use documentary counts and literal overlap. Explicit
+global descriptive analysis uses train plus test only after consent and excludes
+predict rows. An unpartitioned dataset continues through the legacy full-source
+descriptive path. Missing cells remain marked; operations requiring complete X
+can be unavailable rather than silently imputing or dropping rows.
 
 Limits: 32 MiB serialized request, 2,000 observations, 1,000,000 spectral
 cells, and 25,000,000 products per bounded kernel. Work above a limit is
@@ -64,3 +65,11 @@ unavailable rather than subsampled. Density uses one fixed setting; there is
 no parameter search or resampling fallback. Membership strength is not a
 probability, a cluster is not a biological batch, and no cluster is not proof
 of low risk. Readiness is declaration-only and never indicates execution.
+
+### Legacy history: browser_x.v1 partition refusal
+
+The original browser_x.v1 route accepted one complete dense X source and
+refused IO-declared test/prediction populations before its full-source fit. That
+partition safety amendment remains applicable to the legacy API and is
+documented in [WASM_PARTITION_GUARD.md](WASM_PARTITION_GUARD.md). It is not the
+current F4 reviewed-import behavior.

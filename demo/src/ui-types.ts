@@ -1,5 +1,8 @@
 /** Presentation contracts. Values and scientific statuses are supplied by the runtime adapter. */
 import type {ExportSelection} from './report/selection';
+import type {DatasetDraft,ReviewedImport} from './engine/import-draft';
+import type {ScopedOperation} from '@nirs4all/domains';
+import type {ScopeOptions} from './engine/scoped';
 export type Locale = 'en' | 'fr';
 export type ReadingMode = 'summary' | 'complete';
 export type ProcessingStage = 'prepare' | 'import' | 'validate' | 'compute' | 'interpret' | 'report';
@@ -32,6 +35,7 @@ export interface UiResult {
 }
 export interface UiExample { id: string; name: string; description: string; mode: 'live' | 'saved'; dimensions: string; license: string; }
 export interface UiState {
+  importDraft?:DatasetDraft;
   phase: 'idle' | 'loading' | 'running' | 'cancelled' | 'error';
   progress: string; error: { code: string; message: string } | null;
   result: UiResult | null; examples: UiExample[]; intent: PredictionIntent;
@@ -41,6 +45,9 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onConfirmImport?(config:ReviewedImport['config'],sources:ReviewedImport['sources']):void;
+  onScopedOperation?(operation:ScopedOperation,options?:ScopeOptions):void;
+  onColorFactor?(field:string):void;
   onImport(files: File[]): void; onExample(id: string): void; onCancel(): void;
   onReset(): void; onIntent(intent: PredictionIntent): void;
   onExport(format: 'html' | 'markdown' | 'json', locale: Locale, reading?: ReadingMode, selection?:ExportSelection): void;

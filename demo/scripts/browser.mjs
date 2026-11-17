@@ -9,6 +9,7 @@ import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffl
 import { uxLanding,uxLive,uxSummaryOffline,uxExtraInputs,auditAccessibility,uxBlockedWasm,uxSavedSummary } from './ux-browser.mjs';
 import {qualifyLiveSelection,qualifySavedSelection,qualifySelectionReset,qualifyLongSelection} from './selection-browser.mjs';
 import {qualifyTechnicalLoading} from './technical-browser.mjs';
+import {qualifyScopedBrowser} from './scoped-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -56,7 +57,15 @@ async function json(page) { return JSON.parse(await exported(page, 'json')); }
 async function home(page) { await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click(); await visible(page.locator('input[type=file]')); }
 async function example(page, name) { await page.getByRole('button', { name: new RegExp(name) }).click(); await visible(page.locator('.workspace-summary')); }
 async function importCsv(page, contents, name = 'X.csv') {
+  const completedBefore=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
   await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/csv', buffer: Buffer.from(contents) });
+  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
+  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+  await page.getByRole('button',{name:'Train structure',exact:true}).click();
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>=before+3,completedBefore);
+  await visible(page.locator('.workspace-summary'));
 }
 function wire(context, label) {
   receipt.network_violations ??= [];
@@ -79,9 +88,10 @@ try {
   wire(context, 'chromium-desktop');
   await context.addInitScript(() => {
     const OriginalWorker = window.Worker;
-    window.__domainsWorkerAudit = { constructed: 0, terminated: 0 };
+    window.__domainsWorkerAudit = { constructed: 0, terminated: 0, operations: [], completed: [] };
     window.Worker = class extends OriginalWorker {
-      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; }
+      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; this.addEventListener('message',({data})=>{if(!data.stage)window.__domainsWorkerAudit.completed.push({operation:this.auditOperation,ok:data.ok});}); }
+      postMessage(message,transfers) { this.auditOperation=message.operation;window.__domainsWorkerAudit.operations.push(message.operation);return super.postMessage(message,transfers); }
       terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
     };
   });
@@ -172,9 +182,10 @@ try {
   wire(context, 'chromium-desktop-import');
   await context.addInitScript(() => {
     const OriginalWorker = window.Worker;
-    window.__domainsWorkerAudit = { constructed: 0, terminated: 0 };
+    window.__domainsWorkerAudit = { constructed: 0, terminated: 0, operations: [], completed: [] };
     window.Worker = class extends OriginalWorker {
-      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; }
+      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; this.addEventListener('message',({data})=>{if(!data.stage)window.__domainsWorkerAudit.completed.push({operation:this.auditOperation,ok:data.ok});}); }
+      postMessage(message,transfers) { this.auditOperation=message.operation;window.__domainsWorkerAudit.operations.push(message.operation);return super.postMessage(message,transfers); }
       terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
     };
   });
@@ -182,14 +193,16 @@ try {
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await page.getByRole('button', { name: 'Switch theme' }).click();
   await uxExtraInputs(page,home,importCsv,json,output,screenshot,check);
+  await qualifyScopedBrowser({page,browser,url,output,screenshot,check,wire,exported,json});
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
   const imported = await json(page);
+  const importedStructure=imported.scientific_report.scoped_operations?.findLast(op=>op.value?.structure)?.value.structure??imported.scientific_report.unpartitioned_structure??imported.scientific_report;
   assert.equal(imported.source_mode, 'user_computed_live');
   assert.equal(imported.dataset.observations, 3); assert.equal(imported.dataset.variables, 1);
   assert.equal(imported.presentation.figures[0].kind,'scores1d','One resolved PC must not create a measured PC2');
-  assert(Math.abs(imported.scientific_report.metrics.pca.value.eigenvalues[0] - 1) < 1e-10, '3×1 sample covariance must be one');
+  assert(Math.abs(importedStructure.metrics.pca.value.eigenvalues[0] - 1) < 1e-10, '3×1 sample covariance must be one');
   assert.equal(imported.provenance.physical_independence, 'unknown');
   assert(receipt.assets.some(asset => /io.*\.wasm|\.wasm.*io/i.test(asset.url)), 'IO WASM was not loaded');
   assert(await page.getByText('Not provided in this import.', { exact: false }).count());
@@ -246,7 +259,6 @@ try {
 
   for (const [name, buffer, expected] of [
     ['malformed.json', Buffer.from('{broken'), /JSON|Unexpected|property|position/i],
-    ['X.csv', Buffer.from('1000,1100\n1,\n2,3\n4,5\n'), /NONFINITE|missing|finite|NaN/i],
     ['too-large.csv', null, /BUDGET_EXCEEDED/i],
   ]) {
     await home(page);
@@ -263,6 +275,25 @@ try {
     assert.equal(await page.locator('.workspace-summary').count(), 0);
     check(`Explicit refusal: ${name}`);
   }
+  await home(page);
+  await page.locator('input[type=file]').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000,1100\n1,\n2,3\n4,5\n')});
+  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
+  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+  const missingImport=await json(page);
+  assert.equal(missingImport.scientific_report.scoped_operations.length,0,'Missing X cells remain an inventory state until an operation is selected');
+  assert.equal(missingImport.scientific_report.inventory.loaded.x.rows,3);
+  assert.equal(missingImport.pca,null);
+  const beforeMissingOperation=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
+  await page.getByRole('button',{name:'Train structure',exact:true}).click();
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>before,beforeMissingOperation);
+  const missingResult=await json(page),missingOperation=missingResult.scientific_report.scoped_operations.at(-1);
+  assert.equal(missingOperation.status,'error');assert.equal(missingOperation.reason,'INCOMPLETE_X_UNAVAILABLE_WITHOUT_IMPUTATION');
+  assert(await page.getByText(missingOperation.reason,{exact:false}).count(),'The original Rust refusal must remain visible');
+  assert.equal(missingOperation.value,null);assert.equal(missingResult.pca,null);
+  assert.equal(missingResult.scientific_report.inventory.loaded.x.rows,3,'Other loaded inventory remains available after the operation refusal');
+  check('F4 missing X cells are retained at import and refused per operation without imputation or PCA');
   await home(page);
   const malicious = '<img src=x onerror=alert(1)>.csv';
   await importCsv(page, '1000\n1\n2\n3\n', malicious); await visible(page.locator('.workspace-summary'));

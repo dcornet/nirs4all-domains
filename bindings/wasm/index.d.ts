@@ -83,6 +83,8 @@ export interface BrowserReport {
 }
 export interface Capability { capability_id: string; available: boolean; qualified: boolean; reason: string | null }
 export interface DomainsRuntime {
+  analyzeScoped(input: import('./scoped.js').ScopedRequest): import('./scoped.js').ScopedResult;
+  analyzeScopedJson(text:string):string;
   analyze(input: BrowserRequest): BrowserReport;
   analyzeJson(text: string): string;
   validate(input: BrowserRequest): {valid:true};
@@ -93,3 +95,4 @@ export interface DomainsRuntime {
 export function createDomainsRuntime(options?: {wasmModule?:BufferSource | WebAssembly.Module}): Promise<DomainsRuntime>;
 /** Requires the Domains WASM initialized by createDomainsRuntime; invokes no provider or fit. */
 export function interpret(report: BrowserReport,intent: PredictionIntent): BrowserReading;
+export type {ScopedRequest,ScopedResult,ScopedOperation,ScopedMetadata,PartitionRole} from './scoped.js';

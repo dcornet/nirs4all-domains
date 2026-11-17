@@ -7,6 +7,7 @@ pub mod browser;
 #[cfg(all(feature = "browser-wasm", target_arch = "wasm32"))]
 #[path = "../../../bindings/wasm/rust.rs"]
 mod browser_binding;
+pub mod browser_scoped;
 pub mod contract;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod hierarchy_profile;

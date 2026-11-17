@@ -7,23 +7,32 @@ runtime.
 ```text
 Browser File / Folder Picker
   -> module worker: published Formats-WASM decode
-  -> published IO-WASM role inference, validation and assembly
-  -> Domains browser request (complete X, original axis, identities, groups)
+  -> published IO-WASM inference and preview
+  -> shared DatasetBuilder review: roles, explicit keys, joins, partitions
+  -> published IO-WASM validation and reviewed assembly (X/Y/M, missingness)
+  -> operation-specific Domains scoped request (selected X/M, no Y values)
   -> existing Domains Rust crate compiled to WASM
   -> public Preflight provider contract
   -> Methods WASM kernels: PCA, summary, exact neighbors, HDBSCAN
   -> report projection -> presentational nirs4all-ui components
 ```
 
-`demo/src/engine/dataset-io.ts` sends input through IO and Formats; it preserves
-partitions, headers, metadata and missingness, and refuses implicit
-aggregation, fusion or imputation. It passes only a single dense X source to
-the Domains request. User files and analysis stay in the browser; the report
-does not contain raw spectra. The runtime accepts declared observation IDs and
-optional groups but does not infer physical or reference identity.
+`demo/src/engine/import-draft.ts` uses IO and Formats to prepare a review draft,
+translate selected roles and keys into an IO spec, and assemble the confirmed
+dataset. It preserves declared partitions, axes, identities, nullable X/Y/M and
+missingness; import performs no fit. Aggregation, implicit source fusion, row
+deletion and imputation are not introduced. Y remains in the main import state
+for inventory and masks, but is omitted from report exports and scientific
+worker requests. `demo/src/engine/scoped.ts` constructs an independent grant for
+each selected operation. Train structure uses train rows; raw support uses train
+as reference and test as query; global descriptive analysis requires explicit
+transductive consent, includes train plus test, and excludes predict rows.
+Unpartitioned data retain their legacy full-source descriptive route. User
+files and analysis stay in the browser. The runtime carries declared identities
+without inferring physical or reference independence.
 
 `demo/src/engine/worker.ts` imports the browser binding and executes import,
-analysis and declaration-only interpretation off the UI thread.
+scoped analysis and declaration-only interpretation off the UI thread.
 `BrowserEngine` in `client.ts` enforces a 120-second wall-clock limit, uses
 request IDs and terminates the worker on cancellation. Rust applies separate
 JSON, row, cell and per-kernel work caps. Termination interrupts synchronous
@@ -66,7 +75,7 @@ JSON are report-only export formats with raw X excluded by default. The
 controller in `main.tsx` wires the export callbacks to one semantic report
 model and local Blob downloads. Offline HTML includes CSP and escaped values.
 
-## Evidence and publication status
+## Historical F3.5 integration evidence
 
 `demo/src/main.tsx` supplies state, input/runtime orchestration and callbacks to
 the presentational `App`. Existing scientific and read-only reporting gates
@@ -82,3 +91,14 @@ external/upload request or console/page error. Its scope is distinct from CI's
 Firefox WASM smoke. The Vite base is `/nirs4all-domains/`; deployment preserves
 that prefix. See the [qualification review](qualification/README.md) for limits;
 passing these checks does not establish scientific generalization or user utility.
+
+## F4.0 verification status
+
+F4.0 adds the reviewed import and scoped request paths described above. The
+historical F3.5 workflow receipts do not qualify these changes. Native/WASM
+builds, browser execution and the current CI gates remain pending their own
+actual runs; this document makes no F4.0 pass claim. See the
+[F4.0 access policy](browser/F4_0_DATA_ACCESS_POLICY.md), [import
+architecture](browser/F4_0_IMPORT_ARCHITECTURE.md), [native/WASM
+compatibility](browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and [remaining
+capabilities](browser/F4_0_REMAINING_CAPABILITIES.md).

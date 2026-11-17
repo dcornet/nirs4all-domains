@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_scoped_analysis.v1.input",
+  "title": "Domains scoped browser analysis request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "protocol_version", "operation", "diagnostic", "dataset",
+    "manifest", "reference_keys", "query_keys", "access", "fit", "representation",
+    "selection_context", "explicit_transductive", "parameters", "exclusion_field", "x", "metadata"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "protocol_version": { "const": "domains.browser_scoped_analysis.v1" },
+    "operation": { "$ref": "#/$defs/operation" },
+    "diagnostic": { "oneOf": [{ "type": "null" }, { "enum": ["exact_spectra", "declared_identities"] }] },
+    "dataset": { "$ref": "#/$defs/dataset" },
+    "manifest": {
+      "type": "array", "minItems": 1, "maxItems": 2000,
+      "items": { "$ref": "#/$defs/manifestRow" }
+    },
+    "reference_keys": { "type": "array", "items": { "type": "string" } },
+    "query_keys": { "type": "array", "items": { "type": "string" } },
+    "access": { "$ref": "#/$defs/access" },
+    "fit": { "enum": ["none", "train", "transductive"] },
+    "representation": { "const": "raw" },
+    "selection_context": {
+      "enum": ["pre_selection_integrity_audit", "post_evaluation_explanation", "unspecified"]
+    },
+    "explicit_transductive": { "type": "boolean" },
+    "parameters": { "$ref": "#/$defs/parameters" },
+    "exclusion_field": { "type": ["string", "null"] },
+    "x": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/spectra" }] },
+    "metadata": { "type": "array", "items": { "$ref": "#/$defs/metadata" } }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+    "operation": {
+      "enum": [
+        "integrity_audit", "train_structure", "metadata_factor_audit",
+        "cross_partition_metadata_audit", "train_reference_test_query",
+        "global_descriptive_transductive"
+      ]
+    },
+    "partition": { "enum": ["train", "test", "predict", "unpartitioned"] },
+    "dataset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset_id", "source_id", "content_version", "content_sha256"],
+      "properties": {
+        "dataset_id": { "type": "string", "minLength": 1 },
+        "source_id": { "type": "string", "minLength": 1 },
+        "content_version": { "type": "string", "minLength": 1 },
+        "content_sha256": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "manifestRow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["key", "partition"],
+      "properties": { "key": { "type": "string" }, "partition": { "$ref": "#/$defs/partition" } }
+    },
+    "access": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "m_fields", "y_fields"],
+      "properties": {
+        "x": { "type": "boolean" },
+        "m_fields": { "type": "array", "items": { "type": "string" } },
+        "y_fields": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["preset"], "properties": { "preset": { "const": "f4_fixed_raw_v1" } }
+    },
+    "spectra": {
+      "type": "object", "additionalProperties": false,
+      "required": ["row_keys", "matrix", "axis", "axis_unit"],
+      "properties": {
+        "row_keys": { "type": "array", "items": { "type": "string" } },
+        "matrix": {
+          "type": "array",
+          "items": { "type": "array", "items": { "type": ["number", "null"] } }
+        },
+        "axis": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "axis_unit": { "type": "string", "minLength": 1 }
+      }
+    },
+    "metadata": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "name", "role", "kind", "origin", "derived_from_target", "evidence", "row_keys", "values"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["categorical", "continuous", "unknown"] },
+        "origin": { "type": "string", "minLength": 1 },
+        "derived_from_target": { "type": ["boolean", "null"] },
+        "evidence": { "enum": ["declared", "verified", "unknown"] },
+        "row_keys": { "type": "array", "items": { "type": "string" } },
+        "values": {
+          "type": "array",
+          "items": { "type": ["string", "number", "boolean", "null"] }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "continuous" } }, "required": ["kind"] },
+          "then": { "properties": { "values": { "items": { "type": ["number", "null"] } } } }
+        }
+      ]
+    }
+  },
+  "$comment": "Schema validates wire types and fixed enums. Rust validates ordered population/query grants, key uniqueness and closure, operation-to-fit/access compatibility, field identity/exclusion policy, axis monotonicity, finite numbers, and resource budgets."
+}

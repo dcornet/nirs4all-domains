@@ -13,10 +13,12 @@ explicitly partial versus complete F1 report readings. See its
 [qualification record](../docs/ux/F2_VALIDATION.md).
 
 This Vite/React application is an exploratory, local browser client for
-`nirs4all-domains`. It keeps the imported X population and original axis in
-scope, and shows provider evidence with its limitations. It does not accept a
-target, fit a predictive model, score a validation split, or establish physical
-independence. No upload endpoint or server-side analysis is part of the design.
+`nirs4all-domains`. Its reviewed import may retain X/Y/M, original axes,
+missingness and declared partitions in the main import state. Each later
+scientific request selects only its permitted X/M values; no Y value is passed
+to a request or report export. The app does not fit a predictive model, score a
+validation split, or establish physical independence. No upload endpoint or
+server-side analysis is part of the design.
 
 ## Build the existing Rust crate for WebAssembly
 
@@ -61,21 +63,45 @@ qualification runs and downloadable static preview artifacts; public deployment
 must be verified separately through the Pages workflow and hosted URL.
 
 `src/main.tsx` supplies state, IO/worker orchestration, pure intention changes
-and report exports to the presentation components. The commands above are the
-clean build sequence; actual qualification is recorded by the PR workflow runs.
+and report exports to the presentation components. The commands above describe
+the clean build sequence. F4.0 native/WASM, browser and CI qualification require
+their own actual runs; historical F3.5 workflow evidence does not qualify the
+current scoped import changes.
 
 ## Browser workflow and limits
 
 The landing view accepts files by drag/drop or file picker and offers three
 generated synthetic X fixtures plus a public saved tablet example. User files
 are processed in the browser. The import path is capped at 32 files, 8 MiB
-combined input, 2,000 observations and 1,000,000 spectral cells. IO/Formats
-infer and assemble the source; multi-source fusion, aggregation, imputation,
-nonfinite X, and silent row deletion are refused. Original partitions are
-preserved by IO. Declared test/prediction populations are refused before this
-full-source route; a train-fitted browser protocol is not yet qualified. A live
-fit of an unpartitioned source is descriptive/transductive. A group column only excludes declared matching groups from
-neighbor references; it does not prove that groups are independent units.
+combined input, 2,000 observations and 1,000,000 spectral cells. Review source
+and column roles, declared identity keys, keyed joins and partitions in the
+shared `DatasetBuilder`, then confirm the IO assembly. Import retains the
+dataset and missingness without fitting. Implicit source fusion, aggregation,
+imputation and silent row deletion are refused. Y remains in main import memory
+for inventory/masking, but is not sent to a scientific request or report export.
+
+Choose an operation separately: Train structure fits train rows only; raw
+support uses train as reference and test as query; metadata audits provide
+documentary counts, missingness, cardinalities, levels and literal overlap;
+global descriptive structure requires explicit transductive consent and uses
+train plus test while excluding predict rows. An unpartitioned source continues
+through the legacy full-source descriptive route. Metadata coloring is a
+presentation-only mapping to existing PCA points. Statistical associations
+and train-fitted PCA query projection remain unqualified. Groups can exclude
+declared matching rows from neighbors, but do not prove that groups are
+independent units.
+
+See [F4.0 partition behavior](../docs/WASM_PARTITION_GUARD.md), [import
+architecture](../docs/browser/F4_0_IMPORT_ARCHITECTURE.md), [native/WASM
+compatibility](../docs/browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and
+[remaining capabilities](../docs/browser/F4_0_REMAINING_CAPABILITIES.md).
+
+### Legacy history: browser_x.v1 partition refusal
+
+The legacy browser_x.v1 API still refuses declared test/prediction populations
+before its full-source fit. The current F4.0 reviewed-import flow retains those
+partitions and applies operation-specific row grants instead; see the legacy
+amendment in [WASM_PARTITION_GUARD.md](../docs/WASM_PARTITION_GUARD.md).
 
 Selecting one `.json` file opens the saved standalone Domains report path and
 validates its existing schema; arbitrary JSON matrices are not a qualified X

@@ -9,17 +9,33 @@ selective dependency updates, the unchanged Preflight/Methods contract, actual
 WASM/worker checks and bounded before/after measurements. Its PR preview and
 qualification are separate from publication of main on GitHub Pages.
 
-The [browser demonstration](demo/README.md) adds an optional Rust/WASM consumer:
-local X import through published IO/Formats, actual Methods-backed descriptive
-PCA/neighborhood/density evidence, conditional intended-use reading and offline
+The [browser demonstration](demo/README.md) adds an optional Rust/WASM consumer
+with reviewed local X/Y/M import through IO/Formats and the shared Dataset
+Builder. Import preserves declared partitions and missingness without fitting;
+each selected operation receives its own X/M access scope, and no Y value enters
+a scientific request or report export. Current paths include train-only
+structure, raw train-reference/test-query neighbors, documentary metadata
+audits, and explicit transductive train-plus-test structure that excludes
+predict rows. Unpartitioned data retain the legacy full-source descriptive path.
+Train-fitted PCA query projection and statistical metadata association remain
+unqualified. The demo also provides conditional intended-use reading and offline
 HTML/Markdown/JSON exports. Qualified saved D1–D6.1 examples retain their original
 annotations and are explicitly separate from browser calculations. See the
-[capability matrix](docs/WASM_CAPABILITIES.md) for unavailable operations and the
-[user guide](docs/WASM_DEMO_GUIDE.md). The [public demonstration](https://dcornet.github.io/nirs4all-domains/)
+[capability matrix](docs/WASM_CAPABILITIES.md), [user guide](docs/WASM_DEMO_GUIDE.md),
+and F4.0 [access policy](docs/browser/F4_0_DATA_ACCESS_POLICY.md),
+[import architecture](docs/browser/F4_0_IMPORT_ARCHITECTURE.md),
+[native/WASM compatibility](docs/browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and
+[remaining capabilities](docs/browser/F4_0_REMAINING_CAPABILITIES.md).
+
+### Historical F3.5 browser publication
+
+The [public demonstration](https://dcornet.github.io/nirs4all-domains/)
 was verified after integration on `d1b14cceba483b5b5a0a4d9d0a42a1dd36270c92`,
-with successful Pages/Windows/Ubuntu workflows and a real 25-check public smoke.
+with successful Pages/Windows/Ubuntu workflows and a 25-check public smoke.
+Those F3.5 receipts do not qualify current F4.0 changes.
 The [qualification review](docs/qualification/README.md) separates implementation,
 tested numerical behavior, scientific scope and unvalidated practical utility.
+F4.0 qualification is reported separately after its actual gates run.
 
 **nirs4all-domains characterizes structural organization, population support and
 evaluation-related limitations in NIRS datasets, helping researchers choose

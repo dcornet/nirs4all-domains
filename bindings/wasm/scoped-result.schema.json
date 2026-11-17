@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_scoped_result.v1",
+  "title": "Domains scoped browser analysis result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version", "operation", "diagnostic", "status", "reason", "value",
+    "receipt", "supported_claims", "limitations", "action"
+  ],
+  "properties": {
+    "protocol_version": { "const": "domains.browser_scoped_result.v1" },
+    "operation": { "$ref": "#/$defs/operation" },
+    "diagnostic": { "oneOf": [{ "type": "null" }, { "enum": ["exact_spectra", "declared_identities"] }] },
+    "status": { "enum": ["computed", "unavailable", "unsupported", "error"] },
+    "reason": { "type": ["string", "null"] },
+    "value": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/resultValue" }] },
+    "receipt": { "$ref": "#/$defs/receipt" },
+    "supported_claims": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "action": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "computed" } }, "required": ["status"] },
+      "then": { "properties": { "reason": { "type": "null" }, "value": { "$ref": "#/$defs/resultValue" } } },
+      "else": {
+        "properties": {
+          "reason": { "type": "string", "minLength": 1 },
+          "value": { "type": "null" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "inputHash": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+    "dataset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset_id", "source_id", "content_version", "content_sha256"],
+      "properties": {
+        "dataset_id": { "type": "string", "minLength": 1 },
+        "source_id": { "type": "string", "minLength": 1 },
+        "content_version": { "type": "string", "minLength": 1 },
+        "content_sha256": { "$ref": "#/$defs/inputHash" }
+      }
+    },
+    "operation": {
+      "enum": [
+        "integrity_audit", "train_structure", "metadata_factor_audit",
+        "cross_partition_metadata_audit", "train_reference_test_query",
+        "global_descriptive_transductive"
+      ]
+    },
+    "diagnostic": { "oneOf": [{ "type": "null" }, { "enum": ["exact_spectra", "declared_identities"] }] },
+    "resultValue": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "structure": { "type": "object" },
+        "raw_neighbors": { "type": "object" }, "pca_support": { "type": "object" },
+        "quasi_duplicates": { "type": "object" }, "metrics": { "type": "array" },
+        "validation": { "type": "object" }, "declared_identities": { "type": "object" },
+        "assembly": { "type": "string" }, "columns": { "type": "array" }
+      },
+      "anyOf": [
+        { "required": ["structure"] }, { "required": ["raw_neighbors"] },
+        { "required": ["metrics"] }, { "required": ["validation"] },
+        { "required": ["declared_identities"] }, { "required": ["columns"] }
+      ]
+    },
+    "partitionRole": { "enum": ["train", "test", "predict", "unpartitioned"] },
+    "fit": { "enum": ["none", "train", "transductive"] },
+    "matrixReceipt": {
+      "type": "object", "additionalProperties": false, "required": ["shape", "sha256"],
+      "properties": {
+        "shape": { "type": "array", "minItems": 1, "maxItems": 2, "items": { "type": "integer", "minimum": 0 } },
+        "sha256": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "population": {
+      "type": "object", "additionalProperties": false, "required": ["role", "row_keys"],
+      "properties": { "role": { "enum": ["train", "test", "unpartitioned"] }, "row_keys": { "type": "array", "items": { "type": "string" } } }
+    },
+    "fieldRead": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "role", "kind", "origin", "evidence", "derived_from_target", "row_keys", "shape", "sha256"],
+      "properties": {
+        "name": { "type": "string" }, "role": { "type": "string" },
+        "kind": { "enum": ["categorical", "continuous", "unknown"] },
+        "origin": { "type": "string" }, "evidence": { "enum": ["declared", "verified", "unknown"] },
+        "derived_from_target": { "type": ["boolean", "null"] },
+        "row_keys": { "type": "array", "items": { "type": "string" } },
+        "shape": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "integer", "minimum": 0 } },
+        "sha256": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "providerCall": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["provider", "operation", "request_sha256", "matrices", "status", "reason"],
+          "properties": {
+            "provider": { "type": "string" }, "operation": { "type": "string" },
+            "request_sha256": { "$ref": "#/$defs/hash" },
+            "matrices": {
+              "type": "object", "additionalProperties": false,
+              "properties": {
+                "matrix": { "$ref": "#/$defs/matrixReceipt" },
+                "query": { "$ref": "#/$defs/matrixReceipt" },
+                "reference": { "$ref": "#/$defs/matrixReceipt" },
+                "values": { "type": "object", "additionalProperties": false, "required": ["shape", "sha256"], "properties": { "shape": { "type": "array", "items": { "type": "integer", "minimum": 0 } }, "sha256": { "$ref": "#/$defs/hash" } } },
+                "source_id": { "type": "string" }, "sample_ids": { "type": "array", "items": { "type": "string" } },
+                "query_group_ids_sha256": { "$ref": "#/$defs/hash" }, "reference_group_ids_sha256": { "$ref": "#/$defs/hash" }
+              }
+            },
+            "status": { "enum": ["computed", "unsupported", "error"] },
+            "reason": { "type": ["string", "null"] }
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["provider", "operation", "request_sha256", "status", "reason", "numerical_provider", "numerical_fit_possible", "matrices", "sample_ids"],
+          "properties": {
+            "provider": { "type": "string" }, "operation": { "type": "string" },
+            "request_sha256": { "$ref": "#/$defs/hash" },
+            "status": { "enum": ["computed", "error"] }, "reason": { "type": ["string", "null"] },
+            "numerical_provider": { "type": "string" }, "numerical_fit_possible": { "const": false },
+            "matrices": { "type": "object", "additionalProperties": false, "required": ["matrix"], "properties": { "matrix": { "$ref": "#/$defs/matrixReceipt" } } },
+            "sample_ids": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      ]
+    },
+    "receipt": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "protocol_version", "operation", "diagnostic", "dataset", "request_sha256", "manifest_sha256",
+        "reference_keys", "query_keys", "fit_keys", "reference_population", "query_population", "fit",
+        "representation", "parameters", "selection_context", "explicit_transductive", "exclusion_field",
+        "fields_read", "provider_calls", "test_x_accessed", "y_accessed", "physical_independence",
+        "physical_id_encoding", "receipt_sha256"
+      ],
+      "properties": {
+        "protocol_version": { "const": "domains.browser_scoped_analysis.v1" },
+        "operation": { "$ref": "#/$defs/operation" }, "diagnostic": { "$ref": "#/$defs/diagnostic" },
+        "dataset": { "$ref": "#/$defs/dataset" },
+        "request_sha256": { "$ref": "#/$defs/hash" }, "manifest_sha256": { "$ref": "#/$defs/hash" },
+        "reference_keys": { "type": "array", "items": { "type": "string" } },
+        "query_keys": { "type": "array", "items": { "type": "string" } },
+        "fit_keys": { "type": "array", "items": { "type": "string" } },
+        "reference_population": { "$ref": "#/$defs/population" },
+        "query_population": { "$ref": "#/$defs/population" }, "fit": { "$ref": "#/$defs/fit" },
+        "representation": { "const": "raw" },
+        "parameters": { "type": "object", "additionalProperties": false, "required": ["preset"], "properties": { "preset": { "const": "f4_fixed_raw_v1" } } },
+        "selection_context": { "enum": ["pre_selection_integrity_audit", "post_evaluation_explanation", "unspecified"] },
+        "explicit_transductive": { "type": "boolean" }, "exclusion_field": { "type": ["string", "null"] },
+        "fields_read": {
+          "type": "object", "additionalProperties": false, "required": ["x", "m", "y"],
+          "properties": {
+            "x": { "oneOf": [{ "type": "null" }, { "type": "object", "additionalProperties": false, "required": ["row_keys", "matrix", "axis_sha256", "axis_unit"], "properties": { "row_keys": { "type": "array", "items": { "type": "string" } }, "matrix": { "$ref": "#/$defs/matrixReceipt" }, "axis_sha256": { "$ref": "#/$defs/hash" }, "axis_unit": { "type": "string" } } }] },
+            "m": { "type": "array", "items": { "$ref": "#/$defs/fieldRead" } }, "y": { "type": "array", "maxItems": 0 }
+          }
+        },
+        "provider_calls": { "type": "array", "items": { "$ref": "#/$defs/providerCall" } },
+        "test_x_accessed": { "type": "boolean" }, "y_accessed": { "const": false },
+        "physical_independence": { "type": "string" }, "physical_id_encoding": { "type": "string" },
+        "noncomputed_evidence": { "type": ["object", "null"] }, "receipt_sha256": { "$ref": "#/$defs/hash" }
+      }
+    }
+  }
+}
