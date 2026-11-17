@@ -9,7 +9,7 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
-import type { UiCallbacks, UiState, PredictionIntent } from './ui-types';
+import type { UiCallbacks, UiState, PredictionIntent,ProcessingStage } from './ui-types';
 
 function Controller() {
   const [state, setState] = useState<UiState>({ phase: 'idle', progress: '', error: null, result: null,
@@ -21,8 +21,8 @@ function Controller() {
   const scientific = useRef<unknown>(null);
   const selectedExample = useRef<string | null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); setState(s => ({ ...s, result: null, error: null, phase: 'loading', progress: 'Preparing local data' })); return token; };
-  const progress = (token: number) => (stage: string) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage })); };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); setState(s => ({ ...s, result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
     const e = error as { code?: string; message?: string };
@@ -35,7 +35,7 @@ function Controller() {
     const report = await engine.current.request<BrowserReport>('analyze', { ...data.input, prediction_intent: state.intent }, progress(token));
     if (token !== epoch.current) return;
     scientific.current = report;
-    setState(s => ({ ...s, phase: 'idle', result: liveView(report, data), progress: '' }));
+    setState(s => ({ ...s, phase: 'idle', result: liveView(report, data), processingStage:'report',progress: '' }));
   };
   const callbacks: UiCallbacks = {
     async onImport(files) {
@@ -81,25 +81,27 @@ function Controller() {
       if (!scientific.current) return;
       try {
         if (selectedExample.current === 'tablet-saved') {
+          setState(s=>({...s,phase:'loading',processingStage:'interpret',progress:'Loading the original saved reading; no fit'}));
           const source = await loadPublicSaved(intent);
           if (token !== epoch.current) return;
-          scientific.current = source; setState(s => ({ ...s, result: savedView(source) })); return;
+          scientific.current = source; setState(s => ({ ...s, phase:'idle',result: savedView(source),processingStage:'report',progress:'' })); return;
         }
         if (!dataset.current) {
           setState(s => ({ ...s, error: { code: 'SAVED_DECLARATION_ONLY', message: 'The new intention is recorded as a user declaration. Imported original companions remain unchanged; regenerate them through the qualified Domains API to obtain another saved reading.' } })); return;
         }
         const report = scientific.current as BrowserReport;
-        const reading = await engine.current.request<BrowserReading>('interpret', { report, intent });
+        setState(s=>({...s,phase:'running',processingStage:'interpret',progress:'Reading the declared objective; no fit'}));
+        const reading = await engine.current.request<BrowserReading>('interpret', { report, intent },progress(token));
         if (token !== epoch.current) return;
         const updated = { ...report, interpretation: reading };
         scientific.current = updated;
-        setState(s => ({ ...s, result: liveView(updated, dataset.current!) }));
+        setState(s => ({ ...s, phase:'idle',result: liveView(updated, dataset.current!),processingStage:'report',progress:'' }));
       } catch (error) { failed(token, error); }
     },
     onDeclaration(key, value) { setState(s => ({ ...s, declarations: { ...s.declarations!, [key]: value } })); },
-    onExport(format, locale) {
+    onExport(format, locale, reading='complete') {
       if (!state.result || !scientific.current) return;
-      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations), format);
+      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading), format);
     },
   };
   return <App state={state} callbacks={callbacks} />;

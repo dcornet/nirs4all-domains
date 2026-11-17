@@ -1,5 +1,11 @@
 # Domains browser demonstration
 
+The [F2 user journey](../docs/ux/F2_USER_JOURNEY.md) explains four freely
+navigable steps, metadata/import assistance, contextual FR/EN help and the
+explicitly partial versus complete F1 report readings. See its
+[accessibility scope](../docs/ux/F2_ACCESSIBILITY.md) and
+[qualification record](../docs/ux/F2_VALIDATION.md).
+
 This Vite/React application is an exploratory, local browser client for
 `nirs4all-domains`. It keeps the imported X population and original axis in
 scope, and shows provider evidence with its limitations. It does not accept a

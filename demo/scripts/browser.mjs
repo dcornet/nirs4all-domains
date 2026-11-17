@@ -6,6 +6,7 @@ import { resolve, dirname, extname, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox } from 'playwright-core';
 import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffline } from './report-browser.mjs';
+import { uxLanding,uxLive,uxSummaryOffline,uxExtraInputs,auditAccessibility,uxBlockedWasm,uxSavedSummary } from './ux-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -97,6 +98,7 @@ try {
   assert.equal(iconResponse.status(), 200);
   assert.match(iconResponse.headers()['content-type'], /image\/svg\+xml/);
   check('Official icon loads from the deployment subpath without a root favicon request');
+  await uxLanding(page,output,screenshot,check);
 
   await example(page, 'Two spectral populations');
   const initial = await json(page);
@@ -106,10 +108,12 @@ try {
   assert(receipt.assets.some(asset => /\.wasm/.test(asset.url) && asset.status === 200), 'No actual WASM response');
   check('Real synthetic example computes Methods PCA in WASM', { first_eigenvalue: initial.scientific_report.metrics.pca.value.eigenvalues[0] });
   await reportArtifacts(page,initial,exported,output,'live-synthetic',check);
+  const shortHtml=await uxLive(page,initial,output,exported,screenshot,check);
   await page.locator('#spectra').scrollIntoViewIfNeeded(); await screenshot(page, 'spectra');
   await page.locator('#geometry').scrollIntoViewIfNeeded(); await screenshot(page, 'pca');
   await page.locator('#geometry .report-figure').nth(1).scrollIntoViewIfNeeded();await screenshot(page,'scree');
-  await page.locator('#evidence').scrollIntoViewIfNeeded();await screenshot(page,'evidence-tables');
+  await page.evaluate(()=>{const target=document.getElementById('evidence-density');for(let p=target?.parentElement;p;p=p.parentElement)if(p instanceof HTMLDetailsElement)p.open=true;});
+  await page.locator('#evidence-density').scrollIntoViewIfNeeded();await screenshot(page,'evidence-tables');
   await page.getByLabel('Select an observation').selectOption({ index: 1 });
   await visible(page.locator('.selection')); check('Spectrum selection');
   await page.getByLabel('First displayed variable index').fill('2');
@@ -123,6 +127,7 @@ try {
   await page.getByLabel('Prediction unit', { exact: true }).fill('physical specimen');
   await page.getByLabel('New acquisition or study context', { exact: true }).fill('a separate study');
   const interpretationWorkers = await page.evaluate(() => window.__domainsWorkerAudit.terminated);
+  await page.getByLabel('First displayed variable index').fill('2');
   await page.getByRole('radio', { name: 'A new study or acquisition context' }).check();
   await page.waitForFunction(before => window.__domainsWorkerAudit.terminated > before, interpretationWorkers);
   await page.waitForFunction(() => document.querySelector('.workspace-summary') && !document.querySelector('[role=alert]'));
@@ -132,6 +137,7 @@ try {
   assert.deepEqual(changed.scientific_report.metrics, initial.scientific_report.metrics);
   assert.equal(changed.user_declarations.prediction_unit, 'physical specimen');
   assert.equal(changed.provenance.verification_execution, 'not_executed');
+  assert.equal(await page.locator('#axis-from').inputValue(),'2','Intent must preserve display state');
   check('Intent changes contextual reading without numerical refit; declarations remain unverified');
   await page.locator('#intent').scrollIntoViewIfNeeded(); await screenshot(page, 'decision');
 
@@ -149,6 +155,7 @@ try {
   check('Theme, French UI and consistent HTML / Markdown / JSON exports');
   const preferences = await context.storageState();
   await context.close(); // Qualify the complete offline report serially, without retaining a WASM renderer.
+  await uxSummaryOffline(browser,shortHtml,initial,output,screenshot,check);
   const reportContext = await browser.newContext({ offline: true, viewport: { width: 1200, height: 900 } });
   const reportPage = await reportContext.newPage();
   await reportPage.setContent(html); assert.equal(await reportPage.locator('script').count(), 0);
@@ -171,6 +178,7 @@ try {
   page = await context.newPage(); page.setDefaultTimeout(120_000); await page.goto(url);
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await page.getByRole('button', { name: 'Switch theme' }).click();
+  await uxExtraInputs(page,home,importCsv,json,output,screenshot,check);
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
@@ -189,7 +197,8 @@ try {
   assert.equal(small.scientific_report.metrics.density.status, 'unavailable');
   assert(small.scientific_report.metrics.density.reason);
   await reportArtifacts(page,small,exported,output,'live-unavailable',check);
-  await page.locator('#evidence').scrollIntoViewIfNeeded(); await screenshot(page, 'unavailable');
+  await page.evaluate(()=>{const target=document.getElementById('evidence-density');for(let p=target?.parentElement;p;p=p.parentElement)if(p instanceof HTMLDetailsElement)p.open=true;});
+  await page.locator('#evidence-density').scrollIntoViewIfNeeded(); await screenshot(page, 'unavailable');
   check('Small population preserves density unavailability and reason');
 
   await home(page);
@@ -199,8 +208,9 @@ try {
   assert.equal(saved.provenance.browser_numerical_execution, false);
   assert.equal(await page.evaluate(() => window.__domainsWorkerAudit.constructed), beforeSavedWorkers);
   assert.equal(saved.dataset.variables, null);
+  await auditAccessibility(page,output,'saved-tablet',check);
   const savedHtml=await reportArtifacts(page,saved,exported,output,'tablet-saved',check);
-  await verifySavedOffline(browser,savedHtml,saved,screenshot,check);
+  await uxSavedSummary(page,saved,output,exported,screenshot,check);
   assert.equal(saved.presentation.figures.length,0);assert.equal(await page.locator('#spectra select').count(),0);
   await page.locator('#evidence-decision_summary').scrollIntoViewIfNeeded();await screenshot(page,'saved-decision-tables');
   const variantResponse = page.waitForResponse(response => /tablet\.new_specimens\.saved\.json$/.test(response.url()) && response.status() === 200);
@@ -220,6 +230,8 @@ try {
   await page.getByRole('button', { name: /Two spectral populations/ }).click();
   await page.waitForFunction(before => window.__domainsWorkerAudit.constructed > before, auditBefore.constructed);
   await visible(page.getByRole('button', { name: 'Cancel analysis' }));
+  assert(await page.locator('.run-banner').evaluate(node=>{const r=node.getBoundingClientRect();const header=document.querySelector('.nav').getBoundingClientRect();return r.top>=header.bottom-1&&r.bottom<=innerHeight;}),'Actual processing stages and cancellation must remain in the viewport after scrolling');
+  await screenshot(page,'f2-processing');
   await page.getByRole('button', { name: 'Cancel analysis' }).click();
   await page.waitForTimeout(1100);
   assert.equal(await page.locator('.workspace-summary').count(), 0);
@@ -257,6 +269,7 @@ try {
   await home(page); await example(page, 'Two spectral populations');
   assert.equal((await json(page)).source_mode, 'synthetic_computed_live'); check('Example reload after cancellations and refusals');
   await context.close();
+  await verifySavedOffline(browser,savedHtml,saved,screenshot,check);
 
   const mobile = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, deviceScaleFactor: 1, hasTouch: true, locale: 'en-US' });
   wire(mobile, 'chromium-mobile');
@@ -264,11 +277,17 @@ try {
   await mobilePage.goto(url); await screenshot(mobilePage, 'landing-mobile', true);
   await example(mobilePage, 'A justified unavailable result');
   assert(await mobilePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Mobile document overflows');
-  await mobilePage.locator('#evidence').scrollIntoViewIfNeeded();await screenshot(mobilePage,'evidence-mobile');
+  await mobilePage.locator('#geometry').scrollIntoViewIfNeeded();await screenshot(mobilePage,'f2-mobile-pca');
+  await mobilePage.locator('.journey-nav a').nth(2).click();await screenshot(mobilePage,'evidence-mobile');
   await mobilePage.getByRole('button', { name: 'FR', exact: true }).click();
   assert.equal(await mobilePage.locator('html').getAttribute('lang'), 'fr');
+  await mobilePage.getByRole('button', { name: /thème|theme/i }).click();
+  await mobilePage.locator('.journey-nav a').nth(3).click();await screenshot(mobilePage,'f2-mobile-fr-dark');
+  assert(await mobilePage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await auditAccessibility(mobilePage,output,'mobile-fr-dark',check);
   check('Chromium mobile example, language and no horizontal document overflow');
   await mobile.close();
+  await uxBlockedWasm(browser,url,check);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
     const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);

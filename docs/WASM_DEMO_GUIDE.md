@@ -39,6 +39,11 @@ deployment outcome before claiming public availability.
 
 ## Use
 
+The [F2 journey](ux/F2_USER_JOURNEY.md) documents the four open steps, exact
+evidence navigation, local import help and partial/complete export selection.
+Its [qualification](ux/F2_VALIDATION.md) distinguishes actual executed checks
+from human utility and full accessibility claims.
+
 Choose the deterministic synthetic fixtures to inspect provider behavior,
 select the packaged public saved tablet example to read its already saved
 evidence, or import a supported dataset locally. The page provides data and

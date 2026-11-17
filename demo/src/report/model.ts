@@ -1,5 +1,5 @@
 import type { BrowserReport, LocalDataset } from '../engine/types';
-import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations } from '../ui-types';
+import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations,ReadingMode } from '../ui-types';
 import { presentation, type ReportPresentation } from './presentation';
 
 const status = (value: string): EvidenceStatus => (['observed', 'available', 'computed', 'unavailable', 'unsupported', 'error', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
@@ -105,14 +105,15 @@ export interface DemoReport {
   provenance: Record<string, unknown>; scientific_report: unknown;
   raw_x_included: false; numerical_evidence_recomputed_for_export: false;
   presentation?: ReportPresentation;
+  reading_mode?: ReadingMode;
 }
-export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations): DemoReport {
+export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete'): DemoReport {
   const { spectra: _privateDisplayOnly, ...dataset } = view.dataset;
   return { protocol_version: 'domains.browser_demo_report.v1', generated_at_utc: new Date().toISOString(), language,
     source_mode: String(view.provenance.source_mode), intended_use: intent,
     user_declarations: { population: declarations?.population || null, prediction_unit: declarations?.prediction_unit || null, new_context: declarations?.new_context || null },
     dataset, summary: view.summary, findings: view.findings, evidence: view.evidence,
     pca: view.pca, limitations: view.limitations, provenance: view.provenance, scientific_report: scientific,
-    raw_x_included: false, numerical_evidence_recomputed_for_export: false,
+    raw_x_included: false, numerical_evidence_recomputed_for_export: false,reading_mode:reading,
     presentation: presentation(view, language, intent) };
 }

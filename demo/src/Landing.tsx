@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react';
-import type { UiState, UiCallbacks } from './ui-types';
+import type { UiState, UiCallbacks,Locale } from './ui-types';
 import type { T } from './i18n';
+import { uxCopy } from './ux/copy';
+import { ContextHelp } from './ux/Help';
 
-export function Landing({ state, callbacks, t, busy }: { state: UiState; callbacks: UiCallbacks; t: T; busy: boolean }) {
+export function Landing({ state, callbacks, t, busy,locale='en' }: { state: UiState; callbacks: UiCallbacks; t: T; busy: boolean;locale?:Locale }) {
+  const c=uxCopy(locale);
   const picker = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   return <>
@@ -15,16 +18,17 @@ export function Landing({ state, callbacks, t, busy }: { state: UiState; callbac
           <span className="upload-icon" aria-hidden="true">↑</span><h2>{t('analyze')}</h2>
           <button className="button primary" disabled={busy} onClick={() => picker.current?.click()}>{t('drop')}</button>
           <input className="visually-hidden" ref={picker} type="file" multiple accept=".csv,.tsv,.txt,.json,.spc,.jdx,.dx" tabIndex={-1} aria-label={t('analyze')} onChange={event => { if (event.target.files?.length) callbacks.onImport(Array.from(event.target.files)); event.target.value = ''; }}/>
-          <p className="import-hint">{state.importHint}</p><p className="privacy">◈ {t('local')}</p>
+          <p className="import-hint">{c.importHint}</p><p className="privacy">◈ {t('local')}</p>
         </div><small className="illustration-label">{t('illustration')}</small>
       </div>
     </section>
+    <section className="container import-guide" id="import-guide" tabIndex={-1} aria-labelledby="import-guide-title"><details><summary id="import-guide-title">{c.importHelp}</summary><h2>{c.formats}</h2><p>{c.csv}</p><p>{c.metadata}</p><p>{c.saved}</p><p>{c.retained}</p><p>{c.limits}</p><p>{c.noRepair}</p><ContextHelp ids={['metadata','physical','calibration','validation']} locale={locale}/></details></section>
     <section className="container examples"><div className="section-heading"><div><span className="eyebrow">{t('examples')}</span><h2>{t('examples')}</h2><p>{t('examplesSub')}</p></div></div>
       <div className="example-grid">{state.examples.map((example, i) => <button className="example-card" key={example.id} disabled={busy} onClick={() => callbacks.onExample(example.id)}>
         <span className="example-number">0{i + 1}</span><span className="example-body"><span className={`mode-label ${example.mode}`}>{t(example.mode)}</span><strong>{example.name}</strong><span>{example.description}</span><small>{example.dimensions} · {example.license}</small></span><span className="example-arrow" aria-hidden="true">↗</span>
       </button>)}</div>
     </section>
-    <section className="how"><div className="container how-grid">{(['1', '2', '3'] as const).map(number => <div className="how-step" key={number}><span>0{number}</span><h3>{t(`step${number}`)}</h3><p>{t(`step${number}d`)}</p></div>)}</div></section>
+    <section className="how"><div className="container how-grid">{c.steps.map((title,index)=><div className="how-step" key={index}><span>0{index+1}</span><h3>{title}</h3></div>)}</div></section>
     <div className="container boundary"><span aria-hidden="true">↳</span><p>{t('boundary')}</p></div>
   </>;
 }
