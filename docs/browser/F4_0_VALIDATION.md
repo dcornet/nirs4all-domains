@@ -64,6 +64,13 @@ offline HTML/Markdown/JSON and F3.5 supplement selection. X/Y raw matrices must 
 absent from exported reports and no data upload/off-origin request is allowed.
 Screenshots/PDFs remain hosted; representative images require actual visual review.
 
+Initial candidate `7d31ada6776656cc6caba430855c72f314d9d12b` passed report-contract
+run 44043260625 on both systems. Browser run 44043260661 and scientific run
+44043260666 stopped at `cargo fmt --all --check`: the new module declaration
+was placed before the existing binding module instead of rustfmt's ordered
+position. No numerical/browser pass is inferred. The declaration order is corrected;
+all original gates must run again on the following candidate.
+
 ## Review corrections
 
 The principal reviewed all scientific guards and projections. Corrections made

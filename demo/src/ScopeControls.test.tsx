@@ -34,7 +34,7 @@ describe('operation scoped controls', () => {
 
   it('shows count-only inventory, scoped actions, consent gate, and display-only factor choices', () => {
     const html = renderToStaticMarkup(<ScopeControls result={result(loaded)} locale="en" busy={false} onOperation={vi.fn()} onColor={vi.fn()} />);
-    for (const text of ['X: 5 rows, 2 variables', 'Y target fields: 1 (3 rows)', 'M metadata fields: 3 (15 rows)', 'train: 3 rows', 'test: 2 rows',
+    for (const text of ['X: 5 rows, 2 variables', 'Y target fields: 1 (3 cells)', 'M metadata fields: 3 (15 cells)', 'train: 3 rows', 'test: 2 rows',
       'Train structure', 'Exact spectra train/test audit', 'Identity audit (no X)', 'Train M factors', 'Cross-partition M audit', 'Raw support: train reference → test query',
       'Unspecified', 'Test X can be audited', 'Inspecting test X can influence decisions even when no Y values are used.', 'Unknown origin limits interpretation.']) expect(html).toContain(text);
     expect(html).toContain('value="unknown-field"');

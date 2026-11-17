@@ -75,6 +75,7 @@ export function ScopeControls({ result, locale, busy, onOperation, onColor }: Sc
   const [colorField, setColorField] = useState('');
   if (!inventory) return null;
   const t = copy[locale];
+  const cells=locale==='fr'?'cellules':'cells';
   const operationOptions: OperationOptions = { selection_context: context };
   const factors = inventory.loaded.metadata.filter(field => field.derived_from_target !== true);
   const action = (operation: ScopedOperation, extra: OperationOptions = {}) => onOperation(operation, { ...operationOptions, ...extra });
@@ -85,8 +86,8 @@ export function ScopeControls({ result, locale, busy, onOperation, onColor }: Sc
       <h3 id="scope-inventory-title">{t.inventory}</h3>
       <ul>
         <li>{t.x}: {inventory.loaded.x.rows} {t.rows}, {inventory.loaded.x.variables} {t.variables}</li>
-        <li>{t.y}: {inventory.loaded.y.length} ({inventory.loaded.y.reduce((n, field) => n + field.rows, 0)} {t.rows})</li>
-        <li>{t.m}: {inventory.loaded.metadata.length} ({inventory.loaded.metadata.reduce((n, field) => n + field.rows, 0)} {t.rows})</li>
+        <li>{t.y}: {inventory.loaded.y.length} ({inventory.loaded.y.reduce((n, field) => n + field.rows, 0)} {cells})</li>
+        <li>{t.m}: {inventory.loaded.metadata.length} ({inventory.loaded.metadata.reduce((n, field) => n + field.rows, 0)} {cells})</li>
       </ul>
       <ul aria-label={t.partition}>
         {inventory.loaded.partitions.map(partition => <li key={partition.name}>{partition.name}: {partition.rows} {t.rows} · {t.role}: {partition.name}</li>)}
