@@ -1,5 +1,5 @@
 /** Project only the declared PCA population and explicitly admitted M; never inspect X or Y values. */
-import type {BrowserReport,FactorColumn,FactorRequest,FactorPopulation,ScopedResult} from '@nirs4all/domains';
+import type {BrowserReport,FactorColumn,FactorRequest,FactorPopulation,ScopedResult,FactorInferencePlan} from '@nirs4all/domains';
 import type {LocalDataset,ImportedMetadata} from './types';
 import type {FactorAssociationRun} from '../FactorAssociationControls';
 const factorRoles=new Set(['factor','group','instrument','campaign']);
@@ -15,7 +15,15 @@ export function factorSource(population:FactorPopulation,operations:readonly Sco
   const found=[...operations].reverse().find(r=>r.operation===operation&&r.status==='computed'&&r.value?.structure);
   return found?.value?.structure?{report:found.value.structure,receipt:found.receipt}:undefined;
 }
-export function factorRequest(data:LocalDataset,source:FactorSource,run:FactorAssociationRun):FactorRequest{
+export async function parseFactorInferencePlan(text:string):Promise<FactorInferencePlan>{
+  if(new TextEncoder().encode(text).length>65_536)throw new Error('FACTOR_DESIGN_RECORD_64_KIB_BUDGET_EXCEEDED');
+  const value:unknown=JSON.parse(text);
+  const [{default:Ajv2020},{default:schema}]=await Promise.all([import('ajv/dist/2020'),import('../../../bindings/wasm/factor-input.schema.json')]);
+  const validate=new Ajv2020({strict:true,allErrors:false}).compile({$schema:schema.$schema,$defs:schema.$defs,$ref:'#/$defs/plan'});
+  if(!validate(value))throw new Error('INVALID_FACTOR_DESIGN_RECORD: '+JSON.stringify(validate.errors));
+  return value as FactorInferencePlan;
+}
+export function factorRequest(data:LocalDataset,source:FactorSource,run:FactorAssociationRun,plan:FactorInferencePlan|null=null):FactorRequest{
   const manifest=data.rowManifest;if(!manifest)throw new Error('FACTOR_IMPORT_MANIFEST_REQUIRED');
   if(run.population==='global_transductive'&&!run.explicitTransductive)throw new Error('EXPLICIT_TRANSDUCTIVE_ASSOCIATION_CONSENT_REQUIRED');
   if(run.population==='unpartitioned'&&manifest.some(r=>r.partition!=='unpartitioned'))throw new Error('UNPARTITIONED_SCOPE_CANNOT_HIDE_ASSIGNED_PARTITIONS');
@@ -37,7 +45,6 @@ export function factorRequest(data:LocalDataset,source:FactorSource,run:FactorAs
   // Only original X-only evidence fields enter the association request. UI declarations/transport extensions do not.
   const {schema_version,protocol_version,status,scope,metrics,input_sha256,evidence_sha256,test_target_accessed,raw_spectra_included}=source.report;
   const version=(data.importSpec as {content_version?:unknown}|null)?.content_version;
-  const plan=(data.importSpec as {association_inference_plan?:FactorRequest['inference']['plan']}|null)?.association_inference_plan;
   return {schema_version:1,protocol_version:'domains.browser_factor_association.v1',
     dataset:{dataset_id:data.input.dataset_id,source_id:data.input.source_id,content_sha256:data.input.content_sha256,content_version:typeof version==='string'?version:'not_declared'},
     manifest:manifest.map(({key,partition})=>({key,partition})),population:run.population,

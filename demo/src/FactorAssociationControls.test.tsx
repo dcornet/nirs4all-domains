@@ -55,6 +55,20 @@ describe('factor association controls', () => {
     expect(html).toContain('PCA is unavailable for this population: PCA not executed');
   });
 
+  it('offers external plan file attachment only when a loader is supplied and warns it does not qualify or execute', () => {
+    const ordinary = markup();
+    expect(ordinary).not.toContain('type="file"');
+    const withLoader = markup({ onLoadInferencePlan: vi.fn() });
+    expect(withLoader).toContain('type="file"');
+    expect(withLoader).toContain('accept=".json,application/json"');
+    expect(withLoader).toContain('Attach an external design record (JSON)');
+    expect(withLoader).toContain('selecting the file grants no independence or execution');
+    expect(withLoader).toContain('Rust checks coherence only when you explicitly run the analysis.');
+    const french = markup({ locale: 'fr', onLoadInferencePlan: vi.fn() });
+    expect(french).toContain('Joindre un dossier de plan externe (JSON)');
+    expect(french).toContain('ne lance pas une execution');
+  });
+
   it('localizes controls in French and explains export color authorization separately', () => {
     const html = markup({ locale: 'fr' });
     expect(html).toContain('Quels facteurs sont associés à la structure spectrale ?');

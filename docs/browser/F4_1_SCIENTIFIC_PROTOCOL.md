@@ -112,6 +112,13 @@ population, missingness rule, known dependencies, selection timing and family.
 Domains validates mechanical coherence and records the external assumptions;
 it does not independently authenticate study documentation or prove independence.
 The conditional qualification must remain visible beside every p-value.
+The browser attaches a separate local design-record JSON after PCA (64 KiB
+maximum); it is never part of the IO content fingerprint. Putting a record's
+dataset/PCA hashes inside its own hashed import spec would create a circular
+binding. Attachment validates shape, grants no independence and launches no
+operation. Only an explicit subsequent request can ask Rust to check scope,
+dependencies and the prospective family. Dataset reset revokes the attachment;
+invalid replacement revokes the previous record and restores descriptive mode.
 
 Require complete values/units, no repeated physical/reference/repetition units
 or unsupported blocking constraints, explicit non-Y provenance, a complete

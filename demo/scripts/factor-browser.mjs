@@ -265,6 +265,34 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
     } finally { await printPage.close(); }
   } else captures.exports.print = 'not_applicable: PDF qualification runs on Chromium';
 
+  // A design record attaches after PCA: putting these hashes in the IO spec would
+  // hash the record into its own dataset identity. Attachment does not compute.
+  const priorDose=association(report,'dose');
+  const recordInput=page.locator('.factor-association-controls input[type=file]');
+  const identityRoles=new Set(['observation_id','specimen','physical_sample_id','reference','repetition','group']);
+  const design={protocol_version:'domains.factor_exchangeability.v1',population:'train',dataset_content_sha256:report.dataset.contentHash,
+    pca_evidence_sha256:priorDose.receipt.source_pca_evidence_sha256,
+    external_evidence:{uri:'urn:domains:contradictory-synthetic-design',content_sha256:'d'.repeat(64),qualification:'externally_qualified',basis:'Deliberately contradictory synthetic declaration: known repeated groups/reference must keep inference unavailable.'},
+    unit_field:'specimen',unit_kind:'specimen',dependency_fields:priorDose.receipt.fields_read.m.filter(f=>identityRoles.has(f.role)).map(f=>f.name),
+    no_other_dependencies:true,selection:'prospective',factor_ids:['dose'],components:'all_resolved',missingness:'complete_units',null_model:'unrestricted_exchangeability_given_fitted_x'};
+  const attachmentCount=await page.evaluate(()=>window.__f41FactorWorkers.operations.length);
+  await recordInput.setInputFiles({name:'synthetic-design.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(design))});
+  const exactRadio=page.getByRole('radio',{name:'Request exact inference if qualified',exact:true});
+  await exactRadio.waitFor();assert.equal(await page.evaluate(()=>window.__f41FactorWorkers.operations.length),attachmentCount);
+  await exactRadio.check();await waitWorker(page,'Run factor association');
+  const conditional=association(await json(page),'dose');
+  assert.equal(conditional.value.inference.level,'unqualified');assert.equal(conditional.receipt.pca_refits,0);
+  assert.equal(conditional.receipt.scores_sha256,priorDose.receipt.scores_sha256);
+  assert.ok(conditional.value.factors[0].components.every(c=>c.inference.value===null));
+  assert.ok(!conditional.receipt.provider_calls.some(c=>c.operation.endsWith('_exact')||c.operation==='holm_adjust'));
+  const afterExplicit=await page.evaluate(()=>window.__f41FactorWorkers.operations.length);
+  await recordInput.setInputFiles({name:'invalid-design.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({...design,Y:[123]}))});
+  await page.getByRole('alert').filter({hasText:'INVALID_FACTOR_DESIGN_RECORD'}).waitFor();
+  assert.equal(await exactRadio.count(),0);
+  assert.equal(await page.getByRole('radio',{name:'Descriptive only (default)',exact:true}).isChecked(),true);
+  assert.equal(await page.evaluate(()=>window.__f41FactorWorkers.operations.length),afterExplicit);
+  captures.design_record={attached_after_pca:true,no_automatic_operation:true,explicit_inference:'unqualified',reason:conditional.value.inference.reason,pca_refits:0,invalid_replacement_refused:true};
+  check('F4.1 external record attachment never grants independence or executes automatically; dependencies and invalid replacement preserve the guards');
   const factorOperationsBeforeReset = await page.evaluate(() => window.__f41FactorWorkers.operations.filter(operation => operation === 'factor_association').length);
   const priorContentHash = report.dataset.contentHash;
   await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click();

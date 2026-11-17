@@ -4,7 +4,7 @@ import { App } from './App';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading,ScopedOperation,ScopedResult,FactorResult,FactorPopulation } from '@nirs4all/domains';
+import type { BrowserReading,ScopedOperation,ScopedResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
 import {scopedInventory,scopedView} from './report/scoped';
@@ -12,7 +12,7 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
-import {factorRequest,factorSource,factorChoices} from './engine/factor';
+import {factorRequest,factorSource,factorChoices,parseFactorInferencePlan} from './engine/factor';
 import type {FactorAssociationRun} from './FactorAssociationControls';
 import {appendFactorAssociations} from './report/factor-association';
 import {colorFactorPoints} from './report/factor-colors';
@@ -31,8 +31,9 @@ function Controller() {
   const operations=useRef<ScopedResult[]>([]),baseView=useRef<UiResult|undefined>(undefined);
   const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
+  const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -54,7 +55,7 @@ function Controller() {
     const source=(population:FactorPopulation)=>factorSource(population,operations.current,unpartitioned?baseReport.current:null);
     result.factorControls={datasetKey:data.input.content_sha256,factors:factorChoices(data),
       populations:(unpartitioned?['unpartitioned']:['train','global_transductive']).map(p=>({id:p as FactorPopulation,label:p,ready:!!source(p as FactorPopulation),reason:source(p as FactorPopulation)?undefined:'PCA_EXECUTION_PROVENANCE_REQUIRED'})),
-      inferenceRecordAvailable:!!(data.importSpec as {association_inference_plan?:unknown}|null)?.association_inference_plan,
+      inferenceRecordAvailable:externalPlan.current!==null,
       exportColorAuthorized:!!colorGrant.current};
     result.factorAssociations=associations.current;
     const selected=associationColor.current;
@@ -117,12 +118,22 @@ function Controller() {
     try{
       const source=factorSource(run.population,operations.current,data.rowManifest.every(r=>r.partition==='unpartitioned')?baseReport.current:null);
       if(!source)throw new Error('PCA_EXECUTION_PROVENANCE_REQUIRED');
-      const result=await engine.current.request<FactorResult>('factor_association',factorRequest(data,source,run),progress(token));
+      const result=await engine.current.request<FactorResult>('factor_association',factorRequest(data,source,run,externalPlan.current),progress(token));
       if(token!==epoch.current)return;
       associations.current=[...associations.current,result];publishScoped(data);
     }catch(error){failed(token,error);}
   };
   const callbacks: UiCallbacks = {
+    async onFactorInferencePlan(file){
+      const data=dataset.current;if(!data?.rowManifest)return;
+      const token=epoch.current;externalPlan.current=null;publishScoped(data);
+      try{
+        if(file.size>65_536)throw new Error('FACTOR_DESIGN_RECORD_64_KIB_BUDGET_EXCEEDED');
+        const plan=await parseFactorInferencePlan(await file.text());
+        if(token!==epoch.current||dataset.current!==data)return;
+        externalPlan.current=plan;publishScoped(data);
+      }catch(error){failed(token,error);}
+    },
     async onImport(files) {
       const token = start(); selectedExample.current = null;
       try {
@@ -153,7 +164,7 @@ function Controller() {
       try{
         const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
         if(token!==epoch.current)return;
-        dataset.current=data;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;
+        dataset.current=data;operations.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
         publishScoped(data);
       }catch(error){failed(token,error);}
     },
@@ -196,7 +207,7 @@ function Controller() {
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
       operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
-      associations.current=[];associationColor.current=null;colorGrant.current=null;
+      associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {
       if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.

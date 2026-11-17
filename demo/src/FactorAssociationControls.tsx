@@ -25,6 +25,7 @@ export interface FactorAssociationControlsProps {
   busy: boolean;
   inferenceRecordAvailable: boolean;
   onRun: (request: FactorAssociationRun) => void;
+  onLoadInferencePlan?: (file: File) => void;
   onColor: (factorId: string) => void;
   exportColorAuthorized: boolean;
   onAuthorizeColorExport: (factorId: string, authorized: boolean) => void;
@@ -42,6 +43,8 @@ const words = {
     analysis: 'Analysis', descriptive: 'Descriptive only (default)', exact: 'Request exact inference if qualified',
     inferenceHint: 'Inference is conditional on an external design record and has not been independently verified.',
     inferenceMissing: 'No external qualification record is available; inference cannot be requested.',
+    attachInference: 'Attach an external design record (JSON)',
+    attachInferenceHint: 'Attach an externally qualified design record after PCA; selecting the file grants no independence or execution. Rust checks coherence only when you explicitly run the analysis.',
     transductive: 'I explicitly authorize a separate descriptive analysis on train + test.',
     run: 'Run factor association', color: 'Color PCA by this factor (display only)',
     export: 'Authorize this factor’s observation-level colors in this report export.',
@@ -51,6 +54,8 @@ const words = {
     colorHint: 'Coloring changes the display only. It does not run an analysis.',
   },
   fr: {
+    attachInference: 'Joindre un dossier de plan externe (JSON)',
+    attachInferenceHint: 'Joindre un dossier de plan qualifie de facon externe apres l’ACP. Le choix du fichier ne donne pas une independance et ne lance pas une execution. Rust verifie la coherence uniquement quand vous lancez explicitement l’analyse.',
     title: 'Quels facteurs sont associés à la structure spectrale ?',
     factor: 'Facteur', placeholder: 'Sélectionner un facteur', kind: 'Type', unit: 'Unité', origin: 'Origine',
     categorical: 'Catégoriel', continuous: 'Continu', unknown: 'Inconnu', noUnit: 'Aucune unité déclarée',
@@ -72,7 +77,7 @@ const words = {
 const supported = (factor: FactorAssociationFactor) => factor.kind !== 'unknown' && factor.derivedFromTarget !== true;
 
 export function FactorAssociationControls({
-  datasetKey, factors, populations, busy, inferenceRecordAvailable, onRun, onColor,
+  datasetKey, factors, populations, busy, inferenceRecordAvailable, onRun, onLoadInferencePlan, onColor,
   exportColorAuthorized, onAuthorizeColorExport, locale, unavailablePcaReason,
 }: FactorAssociationControlsProps) {
   const t = words[locale];
@@ -97,6 +102,10 @@ export function FactorAssociationControls({
     setInference('descriptive');
     setGlobalConsent(false);
   }, [datasetKey, populations, onAuthorizeColorExport]);
+
+  useEffect(() => {
+    if (!inferenceRecordAvailable) setInference('descriptive');
+  }, [inferenceRecordAvailable]);
 
   const selectedFactor = eligibleFactors.find(f => f.id === factorId);
   const selectedPopulation = populations.find(p => p.id === population);
@@ -144,6 +153,17 @@ export function FactorAssociationControls({
         ? <label><input type="radio" name={`factor-inference-${datasetKey}`} value="exact_if_qualified" checked={inference === 'exact_if_qualified'} disabled={busy} onChange={() => setInference('exact_if_qualified')} /> {t.exact}</label>
         : <p>{t.inferenceMissing}</p>}
       <p>{t.inferenceHint}</p>
+      {onLoadInferencePlan && <details className="factor-inference-plan">
+        <summary>{t.attachInference}</summary>
+        <label>{t.attachInference}
+          <input type="file" accept=".json,application/json" disabled={busy} onChange={event => {
+            const file = event.currentTarget.files?.[0];
+            if (file) onLoadInferencePlan(file);
+            event.currentTarget.value = '';
+          }} />
+        </label>
+        <p>{t.attachInferenceHint}</p>
+      </details>}
     </fieldset>
     {population === 'global_transductive' && <label><input type="checkbox" checked={globalConsent} disabled={busy} onChange={event => setGlobalConsent(event.target.checked)} /> {t.transductive}</label>}
     <button type="button" className="button secondary" disabled={!ready} onClick={() => selectedFactor && selectedPopulation && onRun({

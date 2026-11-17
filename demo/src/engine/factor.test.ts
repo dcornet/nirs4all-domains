@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {factorRequest,factorSource,type FactorSource} from './factor';
+import {factorRequest,factorSource,parseFactorInferencePlan,type FactorSource} from './factor';
 import type {LocalDataset,BrowserReport} from './types';
 import type {FactorAssociationRun} from '../FactorAssociationControls';
 const run:FactorAssociationRun={factorId:'temperature',population:'train',correlationMethod:'spearman',inference:'descriptive',explicitTransductive:false};
@@ -13,6 +13,17 @@ function data():LocalDataset{
     partitions:[],headers:[],warnings:[],identityOrigin:'declared',importSpec:{content_version:'fixture'},license:'synthetic',mode:'user_computed_live'};
 }
 describe('F4.1 least-access factor projection',()=>{
+  it('attaches a closed external design record after PCA without changing dataset or source evidence',async()=>{
+    const d=data(),before=structuredClone(d),pca=structuredClone(source);
+    const plan=await parseFactorInferencePlan(JSON.stringify({protocol_version:'domains.factor_exchangeability.v1',population:'train',dataset_content_sha256:d.input.content_sha256,
+      pca_evidence_sha256:'b'.repeat(64),external_evidence:{uri:'urn:synthetic-design',content_sha256:'c'.repeat(64),qualification:'externally_qualified',basis:'Synthetic test record; assumptions remain conditional.'},
+      unit_field:'specimen',unit_kind:'specimen',dependency_fields:['specimen'],no_other_dependencies:true,selection:'prospective',factor_ids:['temperature'],components:'all_resolved',missingness:'complete_units',null_model:'unrestricted_exchangeability_given_fitted_x'}));
+    Object.defineProperty(d.importSpec,'association_inference_plan',{get(){throw new Error('SELF_HASHED_IMPORT_PLAN_MUST_NOT_BE_READ');}});
+    const r=factorRequest(d,source,{...run,inference:'exact_if_qualified'},plan);
+    expect(r.inference.plan).toBe(plan);expect(r.dataset.content_sha256).toBe(before.input.content_sha256);expect(source).toEqual(pca);
+    await expect(parseFactorInferencePlan(JSON.stringify({...plan,Y:[99]}))).rejects.toThrow('INVALID_FACTOR_DESIGN_RECORD');
+    await expect(parseFactorInferencePlan(' '.repeat(65_537))).rejects.toThrow('64_KIB');
+  });
   it('never reads X or Y, or nontrain M, and preserves missing versus zero and source evidence',()=>{
     const d=data();for(const key of ['rawX','targets'])Object.defineProperty(d,key,{get(){throw new Error(`${key}_READ`);}});
     Object.defineProperty(d.input,'spectra',{get(){throw new Error('X_READ');}});
