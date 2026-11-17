@@ -1,6 +1,7 @@
 import type { BrowserReport, LocalDataset } from '../engine/types';
 import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations,ReadingMode } from '../ui-types';
 import { presentation, type ReportPresentation } from './presentation';
+import {validateSelection,type ExportSelection} from './selection';
 
 const status = (value: string): EvidenceStatus => (['observed', 'available', 'computed', 'unavailable', 'unsupported', 'error', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
 export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
@@ -89,7 +90,7 @@ export function savedView(source: unknown): UiResult {
         reason: row.decision_summary ? null : 'DECISION_SUMMARY_NOT_CARRIED', value: row.decision_summary ?? null,
         scope: prose(identity), provider: 'Original Domains Python consumer; saved only', representation: identity.representation, pointer: '/cases/0/decision_summary' }],
     pca: null, geometryReason: 'RAW_SPECTRA_AND_PCA_COORDINATES_NOT_REDISTRIBUTED_WITH_THIS_AGGREGATE_REPORT',
-    limitations: report.limitations ?? [], provenance: { source_mode: 'saved_qualified_report',
+    limitations: [...(report.limitations ?? [])], provenance: { source_mode: 'saved_qualified_report',
       identity, source_reports: row.source_reports, decision_summary: reading, coverage: report.coverage,
       independent_original_study_count: null, browser_numerical_execution: false,
       original_annotations_unchanged: true, original_source_ref: row.source_ref },
@@ -106,8 +107,10 @@ export interface DemoReport {
   raw_x_included: false; numerical_evidence_recomputed_for_export: false;
   presentation?: ReportPresentation;
   reading_mode?: ReadingMode;
+  export_selection?: ExportSelection;
 }
-export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete'): DemoReport {
+export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete',selection?:ExportSelection): DemoReport {
+  if(selection)validateSelection(view,selection);
   const { spectra: _privateDisplayOnly, ...dataset } = view.dataset;
   return { protocol_version: 'domains.browser_demo_report.v1', generated_at_utc: new Date().toISOString(), language,
     source_mode: String(view.provenance.source_mode), intended_use: intent,
@@ -115,5 +118,5 @@ export function reportModel(view: UiResult, scientific: unknown, intent: Predict
     dataset, summary: view.summary, findings: view.findings, evidence: view.evidence,
     pca: view.pca, limitations: view.limitations, provenance: view.provenance, scientific_report: scientific,
     raw_x_included: false, numerical_evidence_recomputed_for_export: false,reading_mode:reading,
-    presentation: presentation(view, language, intent) };
+    presentation: presentation(view, language, intent,{uncapped:!!selection}),...(selection?{export_selection:selection}:{}) };
 }

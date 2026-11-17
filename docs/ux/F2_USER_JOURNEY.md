@@ -1,5 +1,10 @@
 # Four open steps through the existing Domains evidence
 
+Step 4 now includes [F3.5 report customization](../report/F3_5_USER_GUIDE.md).
+Current-report checkboxes preserve the mandatory scientific core, survive language
+changes and reset with a new dataset. Custom choices control print; resetting
+them re-enables the historical F2 summary/complete reading described below.
+
 F2 is stacked on F1 `c8e7f183886381aa9986055ebb0b190e643d4cf8` while PR #8
 remains open. It changes presentation, not scientific scope. Start from the
 landing import button or a labeled synthetic/live or public saved example.

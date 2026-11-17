@@ -99,9 +99,9 @@ function Controller() {
       } catch (error) { failed(token, error); }
     },
     onDeclaration(key, value) { setState(s => ({ ...s, declarations: { ...s.declarations!, [key]: value } })); },
-    onExport(format, locale, reading='complete') {
+    onExport(format, locale, reading='complete',selection) {
       if (!state.result || !scientific.current) return;
-      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading), format);
+      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection), format);
     },
   };
   return <App state={state} callbacks={callbacks} />;

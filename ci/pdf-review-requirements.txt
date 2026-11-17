@@ -1,0 +1,5 @@
+# Test-only PDF text/raster inspection; no application or numerical dependency.
+# PyPI canonical cp310-abi3 wheels for the Windows/Ubuntu x86_64 CI cohort.
+PyMuPDF==1.28.2 \
+    --hash=sha256:397d6715c1f0df7548a92d0afd8ce370fc48fa47aeefac16be2bc04a16a8227f \
+    --hash=sha256:ebd244918798502d7b4504c90410d1711a4d7675a32584ca30f1bab419ecbffe

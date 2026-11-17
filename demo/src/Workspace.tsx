@@ -7,6 +7,9 @@ import { blocksHtml, readingHtml, figureSvg } from './report/render';
 import { uxCopy,intentDescriptions } from './ux/copy';
 import { ContextHelp,helpIds } from './ux/Help';
 import { Findings } from './ux/Findings';
+import {ExportOptions} from './report/ExportOptions';
+import {createSelection,selectionOwner,type OptionalSection} from './report/selection';
+import {selectionCopy} from './report/selection-copy';
 
 const colors = ['#0d9488', '#7c3aed', '#d97706', '#0284c7', '#db2777', '#65a30d'];
 const sections = ['data', 'spectra', 'geometry', 'warnings', 'intent', 'evidence', 'export'] as const;
@@ -19,6 +22,10 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
   const { dataset } = result;
   const report = useMemo(()=>presentation(result, locale, intent),[result,locale,intent]), c = reportCopy(locale),u=uxCopy(locale);
   const [reading,setReading]=useState<ReadingMode>('complete');
+  const [choices,setChoices]=useState<{owner:string;ids:OptionalSection[];action:'toggle'|'select_all'|'clear'}|null>(null);
+  const owner=selectionOwner(result),requested=choices?.owner===owner?choices.ids:undefined;
+  const selection=requested?createSelection(result,requested,choices!.action):undefined;
+  const selectionLabels=selectionCopy(locale);
   const {structureHtml,otherHtml}=useMemo(()=>{
     const ids=new Set(['pca','density','raw_neighbors','projected_neighbors','metadata_factor_association','resampling_stability','parameter_sensitivity','predictive_performance']);
     return {structureHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>ids.has(b.id))},locale),otherHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>!ids.has(b.id))},locale)};
@@ -77,7 +84,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
         <details className="panel provenance-details"><summary>{t('provenance')}</summary><pre>{JSON.stringify(result.provenance, null, 2)}</pre></details>
         {result.limitations.length > 0 && <div className="panel limitations"><h3>{t('limitation')}</h3><ul>{result.limitations.map((limitation, i) => <li key={i}>{limitation}</li>)}</ul></div>}
       </Section>
-      <Section id="export" number="07" title={t('export')} intro={t('exportIntro')}><fieldset className="reading-choice"><legend>{u.reading}</legend>{(['summary','complete'] as const).map(mode=><label key={mode}><input type="radio" name="reading" value={mode} checked={reading===mode} onChange={()=>setReading(mode)}/>{u[mode]}</label>)}</fieldset><p className="notice">{reading==='summary'?u.partial:u.printHelp}</p><details className="sharing-help"><summary>{u.share}</summary><p>{u.privacy}</p></details><div className="export-panel panel"><div className="export-actions"><button className="button primary" disabled={busy} onClick={() => callbacks.onExport('html', locale,reading)}>↓ {t('html')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('markdown', locale,reading)}>↓ {t('markdown')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('json', locale,reading)}>↓ {t('json')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('html',locale,reading)}>{u.print}</button></div><span className={`mode-label ${result.mode}`}>{t(result.mode)}</span></div></Section>
+      <Section id="export" number="07" title={t('export')} intro={t('exportIntro')}><ExportOptions view={result} locale={locale} requested={requested} busy={busy} onChange={(ids,action)=>{setChoices({owner,ids,action});setReading('complete');}} onReset={()=>{setChoices(null);setReading('complete');}}/><fieldset className="reading-choice" disabled={!!selection}><legend>{u.reading}</legend>{(['summary','complete'] as const).map(mode=><label key={mode}><input type="radio" name="reading" value={mode} checked={reading===mode} onChange={()=>setReading(mode)}/>{u[mode]}</label>)}</fieldset><p className="notice">{selection?selectionLabels.custom:reading==='summary'?u.partial:u.printHelp}</p><details className="sharing-help"><summary>{u.share}</summary><p>{u.privacy}</p></details><div className="export-panel panel"><div className="export-actions"><button className="button primary" disabled={busy} onClick={() => callbacks.onExport('html', locale,reading,selection)}>↓ {t('html')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('markdown', locale,reading,selection)}>↓ {t('markdown')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('json', locale,reading,selection)}>↓ {t('json')}</button><button className="button secondary" disabled={busy} onClick={() => callbacks.onExport('html',locale,reading,selection)}>{u.print}</button></div><span className={`mode-label ${result.mode}`}>{t(result.mode)}</span></div></Section>
       </section><aside className="glossary panel"><h3>{t('glossary')}</h3><dl>{report.glossary.map(entry=><div key={entry.term}><dt>{entry.term}</dt><dd>{entry.definition}</dd></div>)}</dl><ContextHelp ids={helpIds} locale={locale}/></aside>
     </div>
   </>;

@@ -1,5 +1,9 @@
 # nirs4all-domains
 
+[F3.5 report customization](docs/report/F3_5_USER_GUIDE.md) adds selectable
+documentary supplements around a mandatory scientific core, integral machine
+evidence and uncapped printing. Qualification and publication are tracked in its PR.
+
 The [F3 technical consolidation](docs/technical/F3_RELEASE_REPORT.md) documents
 selective dependency updates, the unchanged Preflight/Methods contract, actual
 WASM/worker checks and bounded before/after measurements. Its PR preview and
