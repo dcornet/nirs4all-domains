@@ -164,12 +164,15 @@ function Controller() {
       const data=dataset.current;if(!data?.rowManifest)return;
       const recorded=[...associations.current].reverse().find(r=>r.value.factors.some(f=>f.factor_id===field));
       if(!recorded){setState(s=>({...s,error:{code:'FACTOR_ASSOCIATION_REQUIRED',message:'Run the factor association first to obtain owner level counts or range. Coloring never fits a PCA.'}}));return;}
+      const factor=recorded.value.factors.find(f=>f.factor_id===field)!;
+      if(factor.kind==='continuous'&&factor.range.status!=='computed'){setState(s=>({...s,error:{code:'FACTOR_COLOR_RANGE_UNAVAILABLE',message:`Continuous factor coloring is unavailable: ${factor.range.reason}. Association evidence remains unchanged.`}}));return;}
       const source=factorSource(recorded.value.population,operations.current,data.rowManifest.every(r=>r.partition==='unpartitioned')?baseReport.current:null);
       if(!source||source.report.evidence_sha256!==recorded.receipt.source_pca_evidence_sha256)return;
       const subset=recorded.value.population==='unpartitioned'?data:structureDataset(data,[...operations.current].reverse().find(r=>r.receipt.receipt_sha256===source.receipt?.receipt_sha256)!);
       if(!subset)return;
       baseReport.current=source.report;baseData.current=subset;baseView.current=liveView(source.report,subset);
-      color.current=field;associationColor.current=recorded;colorGrant.current=null;publishScoped(data);
+      color.current=field;associationColor.current=recorded;colorGrant.current=null;
+      try{publishScoped(data);}catch(error){color.current='';associationColor.current=null;publishScoped(data);failed(epoch.current,error);}
     },
     onAuthorizeFactorColorExport(field,authorized){
       const data=dataset.current;if(!data)return;

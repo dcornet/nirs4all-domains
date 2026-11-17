@@ -36,6 +36,12 @@ Only explicitly selected factors run. Known Y-derived M and original Y fields
 are refused before a provider call. Unknown derivation/provenance can support
 descriptive analysis with an explicit limitation, never qualified inference.
 Identifiers/dependency declarations remain distinct from experimental factors.
+The reserved origin declarations `Y`, `Y_train`, `Y_test`, `target` and `targets`
+(case insensitive) explicitly identify target provenance and are refused even
+if a contradictory derivation flag says false. Arbitrary source names do not
+prove non-target provenance. Numeric categorical/dependency labels outside the
+JavaScript safe-integer range are refused: declare such identities as strings,
+without row deletion or silent conversion, to avoid native/browser label merging.
 
 ## Owner kernels and descriptive quantities
 

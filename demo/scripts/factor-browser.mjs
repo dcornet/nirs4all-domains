@@ -124,6 +124,7 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
   assert.equal(categorical.value.factors[0].n_used, 8);
   assert.equal(categorical.value.factors[0].n_missing, 0);
   assert(categorical.value.factors[0].level_counts?.length >= 2);
+  assert(!JSON.stringify(categorical.value.factors[0].level_counts).includes('batch-test'), 'Test M levels must not enter the train factor result');
   assert(categorical.receipt.provider_calls.length > 0);
   for (const call of categorical.receipt.provider_calls) {
     for (const [name, item] of Object.entries(call.inputs ?? {})) {
@@ -263,6 +264,30 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
       captures.exports.print = ['factor-association-a4.pdf', 'factor-association-letter.pdf'];
     } finally { await printPage.close(); }
   } else captures.exports.print = 'not_applicable: PDF qualification runs on Chromium';
+
+  const factorOperationsBeforeReset = await page.evaluate(() => window.__f41FactorWorkers.operations.filter(operation => operation === 'factor_association').length);
+  const priorContentHash = report.dataset.contentHash;
+  await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click();
+  await page.locator('input[type=file]').waitFor();
+  const secondFixture = factorFixture();
+  const secondConfigFile = secondFixture.files.find(file => file.name === 'f4-scoped.nirs4all.json');
+  assert(secondConfigFile, 'Second dataset must retain the reviewed fixture manifest');
+  const secondConfig = JSON.parse(secondConfigFile.buffer.toString('utf8'));
+  secondConfig.name = 'Synthetic F4.1 second content identity';
+  secondConfigFile.buffer = Buffer.from(JSON.stringify(secondConfig));
+  await loadReviewed(page, secondFixture.files);
+  const secondDataset = await json(page);
+  assert.notEqual(secondDataset.dataset.contentHash, priorContentHash, 'Changed import content must produce a new dataset identity');
+  assert.equal(secondDataset.pca, null);
+  assert.deepEqual(secondDataset.scientific_report.factor_associations ?? [], []);
+  assert.equal(secondDataset.provenance.factor_color_export, undefined, 'A prior source permission grant must not cross dataset identity');
+  assert.equal(secondDataset.provenance.display_color_field, undefined, 'A prior display field must not cross dataset identity');
+  assert.equal(await page.getByRole('combobox', { name: 'Factor', exact: true }).inputValue(), '', 'New dataset starts with the factor placeholder');
+  assert.equal(await page.getByRole('button', { name: 'Run factor association', exact: true }).isDisabled(), true, 'Factor association remains gated until its PCA scope is ready');
+  assert.equal(await page.evaluate(() => window.__f41FactorWorkers.operations.filter(operation => operation === 'factor_association').length), factorOperationsBeforeReset,
+    'Reset and reviewed reimport must not run a factor association');
+  captures.second_dataset_reset = { content_hash_changed: true, pca: null, factor_associations: 0, factor_placeholder: true, prior_export_grant_carried: false };
+  check('F4.1 reset and second content identity clear prior association and color authorization without another association run');
 
   captures.success = true;
   await writeFile(resolve(outputDir, 'factor-browser.json'), JSON.stringify(captures, null, 2) + '\n');

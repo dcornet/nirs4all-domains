@@ -24,6 +24,14 @@ test('input schema accepts nullable declarations/zero and rejects extra values, 
   for(const mutate of [r=>{r.Y_test=[1];},r=>{delete r.factors[0].unit;},r=>{r.factors[0].values[0]='zero';},r=>{r.factors[0].row_keys[1]='a';},r=>{r.access.x=true;},r=>{r.pca.report.metrics.pca={spectra:[[1]]};},r=>{r.pca.report.extra=true;}]) {
     const r=structuredClone(request);mutate(r);assert.equal(validateInput(r),false);
   }
+  const labels=structuredClone(request);labels.factors[0].kind='categorical';
+  labels.factors[0].values=[0,9007199254740991,'9007199254740992'];
+  assert.ok(validateInput(labels),JSON.stringify(validateInput.errors));
+  for(const n of [9007199254740992,-9007199254740992]) {
+    labels.factors[0].values[0]=n;assert.equal(validateInput(labels),false);
+  }
+  const continuous=structuredClone(request);continuous.factors[0].values[0]=9007199254740992;
+  assert.ok(validateInput(continuous),JSON.stringify(validateInput.errors));
 });
 
 test('component slots preserve status/reason/value invariants and categorical effect bounds',()=>{

@@ -157,6 +157,11 @@ fn scalar_key(v: &Value) -> String {
         v.to_string()
     }
 }
+fn declared_y_origin(origin: &str) -> bool {
+    ["y", "y_train", "y_test", "targets", "target"]
+        .iter()
+        .any(|name| origin.trim().eq_ignore_ascii_case(name))
+}
 fn factor_role(role: &str) -> bool {
     matches!(role, "factor" | "group" | "instrument" | "campaign")
 }
@@ -292,6 +297,7 @@ pub fn validate(r: &FactorRequest) -> Result<(), String> {
     for (index, c) in columns.iter().enumerate() {
         if !nonempty(&c.name)
             || !nonempty(&c.origin)
+            || declared_y_origin(&c.origin)
             || c.derived_from_target == Some(true)
             || !dependency_role(&c.role)
             || (index < r.factors.len()
@@ -301,6 +307,9 @@ pub fn validate(r: &FactorRequest) -> Result<(), String> {
             || c.row_keys.iter().collect::<BTreeSet<_>>() != expected
             || c.row_keys.iter().collect::<BTreeSet<_>>().len() != c.row_keys.len()
             || c.values.iter().any(|v| !scalar(v))
+            // Browser/native categorical identities must share exact scalar semantics.
+            // Use string labels for larger integer identities; never merge them via f64.
+            || (c.kind != MetadataKind::Continuous && c.values.iter().any(|v|v.as_f64().is_some_and(|n|n.abs()>9_007_199_254_740_991.)))
             || (c.kind == MetadataKind::Continuous
                 && c.values.iter().any(|v| !v.is_null() && !v.is_number()))
         {
@@ -372,11 +381,22 @@ pub fn validate(r: &FactorRequest) -> Result<(), String> {
     let k = count(&p["value"]["n_components_resolved"]).ok_or("INVALID_PCA_COMPONENT_COUNTS")?;
     let requested =
         count(&p["value"]["n_components_requested"]).ok_or("INVALID_PCA_COMPONENT_COUNTS")?;
+    let bands = count(&scope["n_bands"]).ok_or("INVALID_PCA_SOURCE_BAND_COUNT")?;
     let matrix = scores(r)?;
     if k == 0
         || k > 20
         || requested < k
         || requested > 20
+        || bands == 0
+        || requested != 20.min(bands).min(keys.len() - 1)
+        || p["value"]["full_moments"].as_array().is_none_or(|v| {
+            v.len() != 2
+                || v.iter()
+                    .any(|x| x.as_f64().is_none_or(|f| !f.is_finite() || f <= 0.))
+        })
+        || p["value"]["resolution"]
+            .as_f64()
+            .is_none_or(|f| !f.is_finite() || f < 0.)
         || matrix.len() != keys.len()
         || matrix
             .iter()
@@ -683,8 +703,9 @@ pub fn analyze(r: &FactorRequest, provider: &impl FactorProvider) -> Result<Valu
     let keys = population_keys(r);
     let matrix = scores(r)?;
     let k = matrix[0].len();
-    let n_requested = count(&r.pca.report["metrics"]["pca"]["value"]["n_components_requested"])
-        .expect("validated count");
+    let component_flags = r.pca.report["metrics"]["pca"]["value"]["unresolved"]
+        .as_array()
+        .expect("validated component flags");
     let mut factors = Vec::new();
     let mut infer_error = inference_gate(r, &keys).err();
     for f in &r.factors {
@@ -748,7 +769,7 @@ pub fn analyze(r: &FactorRequest, provider: &impl FactorProvider) -> Result<Valu
                 .get_or_insert("SATURATED_FACTOR_HAS_NO_INFORMATIVE_INFERENTIAL_CONTRAST".into());
         }
         let mut components = Vec::new();
-        for pc in 0..n_requested {
+        for (pc, _) in component_flags.iter().enumerate() {
             let mut desc = if pc >= k {
                 unavailable("PCA_COMPONENT_NOT_RESOLVED")
             } else if used.len() < 2 {
@@ -831,7 +852,7 @@ pub fn analyze(r: &FactorRequest, provider: &impl FactorProvider) -> Result<Valu
                 .map(|(i, v)| (v, i as i64))
                 .collect();
             let codes: Vec<_> = values.iter().map(|v| mapping[&scalar_key(v)]).collect();
-            for pc in 0..k {
+            for (pc, _) in matrix[0].iter().enumerate() {
                 let vector: Vec<_> = matrix.iter().map(|row| row[pc]).collect();
                 let cat = f.kind == MetadataKind::Categorical;
                 let payload = if cat {

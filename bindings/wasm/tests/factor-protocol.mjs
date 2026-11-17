@@ -26,28 +26,35 @@ async function wasm(output) {
   const runtime = await createDomainsRuntime({wasmModule:await readFile(new URL('../native/nirs4all_domains_bg.wasm',import.meta.url))});
   assert.equal(runtime.provider.version,'1.3.13+abi.2.20.0');
   const cases=[];
-  function request(id,x,values,kind='categorical',method='pearson',exact=false) {
+  function request(id,x,values,kind='categorical',method='pearson',exact=false,options={}) {
     const keys=x.map((_,i)=>`${id}-${i}`);
     const dataset={dataset_id:id,source_id:'synthetic-x',content_version:'f41-public-synthetic-v1',content_sha256:sha(JSON.stringify(x))};
-    const manifest=keys.map(key=>({key,partition:'train'}));
-    const source=runtime.analyzeScoped({schema_version:1,protocol_version:'domains.browser_scoped_analysis.v1',operation:'train_structure',diagnostic:null,
-      dataset,manifest,reference_keys:keys,query_keys:[],access:{x:true,m_fields:[],y_fields:[]},fit:'train',representation:'raw',selection_context:'unspecified',
-      explicit_transductive:false,parameters:{preset:'f4_fixed_raw_v1'},exclusion_field:null,x:{row_keys:keys,matrix:x.map(v=>[v]),axis:[1000],axis_unit:'nm'},metadata:[]});
-    assert.equal(source.status,'computed',id);
-    const report=compact(source.value.structure);
+    const population=options.population??'train',global=population==='global_transductive';
+    const manifest=[...keys.map((key,i)=>({key,partition:population==='unpartitioned'?'unpartitioned':global&&i>=4?'test':'train'})),...(options.extraManifest??[])];
+    const matrix=x.map(v=>options.twoFeatures?[v,2*v]:[v]),axis=options.twoFeatures?[1000,1100]:[1000];
+    let source,report,fitReceipt;
+    if(population==='unpartitioned') {
+      report=compact(runtime.analyze({schema_version:1,dataset_id:dataset.dataset_id,source_id:dataset.source_id,content_sha256:dataset.content_sha256,observation_ids:keys,axis,axis_unit:'nm',spectra:matrix}));
+      fitReceipt=null;
+    } else {
+      source=runtime.analyzeScoped({schema_version:1,protocol_version:'domains.browser_scoped_analysis.v1',operation:global?'global_descriptive_transductive':'train_structure',diagnostic:null,
+        dataset,manifest,reference_keys:global?keys.slice(0,4):keys,query_keys:global?keys.slice(4):[],access:{x:true,m_fields:[],y_fields:[]},fit:global?'transductive':'train',representation:'raw',selection_context:'unspecified',
+        explicit_transductive:global,parameters:{preset:'f4_fixed_raw_v1'},exclusion_field:null,x:{row_keys:keys,matrix,axis,axis_unit:'nm'},metadata:[]});
+      assert.equal(source.status,'computed',id);
+      report=compact(source.value.structure);fitReceipt=source.receipt;
+    }
     if(report.metrics.pca.status!=='computed')return {source,unavailable:true};
     const column=(name,role,vals,type)=>({name,role,kind:type,unit:type==='continuous'?'synthetic-unit':null,origin:'public-synthetic-by-construction',derived_from_target:false,evidence:'verified',row_keys:keys,values:vals});
     const factors=[column('factor','factor',values,kind)];
     const dependencies=exact?[column('unit','specimen',keys.map(k=>`unit-${k}`),'categorical')]:[];
-    const plan=exact?{protocol_version:'domains.factor_exchangeability.v1',population:'train',dataset_content_sha256:dataset.content_sha256,pca_evidence_sha256:report.evidence_sha256,
+    const plan=exact?{protocol_version:'domains.factor_exchangeability.v1',population,dataset_content_sha256:dataset.content_sha256,pca_evidence_sha256:report.evidence_sha256,
       external_evidence:{uri:'urn:domains:public-synthetic-design',content_sha256:sha('independent-by-construction synthetic units'),qualification:'externally_qualified',basis:'Synthetic fixture units are independent by construction; this grants no real-data qualification.'},
       unit_field:'unit',unit_kind:'specimen',dependency_fields:['unit'],no_other_dependencies:true,selection:'prospective',factor_ids:['factor'],components:'all_resolved',missingness:'complete_units',null_model:'unrestricted_exchangeability_given_fitted_x'}:null;
-    return {schema_version:1,protocol_version:'domains.browser_factor_association.v1',dataset,manifest,population:'train',pca:{report,row_keys:keys,fit_receipt:source.receipt},factors,dependencies,
-      access:{x:false,m_fields:[...factors,...dependencies].map(c=>c.name),y_fields:[]},representation:'raw',explicit_transductive:false,components:'all_resolved',correlation_method:method,
+    return {schema_version:1,protocol_version:'domains.browser_factor_association.v1',dataset,manifest,population,pca:{report,row_keys:keys,fit_receipt:fitReceipt},factors,dependencies,
+      access:{x:false,m_fields:[...factors,...dependencies].map(c=>c.name),y_fields:[]},representation:'raw',explicit_transductive:global,components:'all_resolved',correlation_method:method,
       inference:{mode:exact?'exact_if_qualified':'descriptive',plan},parameters:{preset:'f41_factor_pc_v1'}};
   }
-  function run(id,x,m,kind='categorical',method='pearson',exact=false) {
-    const input=request(id,x,m,kind,method,exact);
+  function record(id,input) {
     assert.ok(!input.unavailable,id);
     assert.ok(validateInput(input),`${id} input schema: ${JSON.stringify(validateInput.errors)}`);
     const result=runtime.analyzeFactor(input);
@@ -56,12 +63,15 @@ async function wasm(output) {
     assert.equal(result.receipt.pca_refits,0);
     assert.equal(result.receipt.fields_read.x,false);
     assert.deepEqual(result.receipt.fields_read.y,[]);
-    assert.equal(result.receipt.test_m_accessed,false);
+    assert.equal(result.receipt.test_m_accessed,input.population==='global_transductive');
     assert.equal(result.receipt.y_accessed,false);
     for(const call of result.receipt.provider_calls)assert.ok(!['pca','hdbscan','nearest_neighbors'].includes(call.operation));
     assert.equal(JSON.stringify(result).includes('"codes":'),false);
     cases.push({id,request:input,result});
     return result;
+  }
+  function run(id,x,m,kind='categorical',method='pearson',exact=false,options={}) {
+    return record(id,request(id,x,m,kind,method,exact,options));
   }
   const strong=run('categorical-strong',[1,2,3,7,8,9],[0,0,0,1,1,1]);
   close(component(strong).descriptive.value.estimate,27/29,'strong eta2');
@@ -94,12 +104,71 @@ async function wasm(output) {
     close(i.value.owner_exact.p_value,p,'exact p');close(i.value.holm_adjusted_p,p,'Holm single family');
     assert.equal(r.value.inference.level,'conditionally_admissible');
   }
+  const baseInput=()=>structuredClone(cases.find(c=>c.id==='categorical-strong').request);
+  const exactInput=()=>structuredClone(cases.find(c=>c.id==='independent-exact').request);
+  const grants=input=>{input.access.m_fields=[...input.factors,...input.dependencies].map(c=>c.name);};
+  const reordered=baseInput();
+  reordered.factors[0].row_keys.reverse();reordered.factors[0].values.reverse();
+  const reorderedResult=record('reordered-M',reordered);
+  close(component(reorderedResult).descriptive.value.estimate,27/29,'reordered eta2');
+  assert.equal(reorderedResult.receipt.scores_sha256,strong.receipt.scores_sha256);
+  for(const kind of ['repeated-specimen','shared-reference','unknown-units']) {
+    const input=exactInput();
+    if(kind==='repeated-specimen')input.dependencies[0].values=['u0','u0','u1','u1'];
+    if(kind==='shared-reference') {
+      input.dependencies.push({...structuredClone(input.dependencies[0]),name:'reference',role:'reference',values:['r0','r0','r1','r1']});
+      input.inference.plan.dependency_fields.push('reference');grants(input);
+    }
+    if(kind==='unknown-units')input.dependencies[0].evidence='unknown';
+    const r=record(kind,input);
+    assert.equal(component(r).descriptive.status,'computed');
+    assert.equal(r.value.inference.level,'unqualified');assert.equal(component(r).inference.value,null);
+    assert.equal(r.receipt.provider_calls.some(c=>c.operation.endsWith('_exact')||c.operation==='holm_adjust'),false);
+  }
+  for(const crossed of [false,true]) {
+    const input=baseInput();input.factors[0].name='instrument';input.factors[0].role='instrument';
+    input.factors.push({...structuredClone(input.factors[0]),name:crossed?'operator':'lot',role:'factor',values:crossed?['o0','o1','o2','o0','o1','o2']:['l0','l0','l0','l1','l1','l1']});
+    grants(input);const r=record(crossed?'crossed-factors':'confounded-instrument-lot',input);
+    const table=r.value.dependency_audit.pairwise_context_tables[0];
+    assert.equal(table.literal_total_confounding,!crossed);
+    assert.equal(table.observed_combinations.length,crossed?6:2);
+    assert.equal(table.absent_combination_count,crossed?0:2);
+  }
+  const family=exactInput();
+  family.factors.push({...structuredClone(family.factors[0]),name:'linear',kind:'continuous',unit:'synthetic-unit',values:[1,2,3,4]});
+  family.inference.plan.factor_ids=['factor','linear'];grants(family);
+  const familyResult=record('two-factor-prespecified-family',family);
+  for(const [i,p,adjusted] of [[0,1/3,1/3],[1,1/12,1/6]]) {
+    const v=familyResult.value.factors[i].components[0].inference.value;
+    close(v.owner_exact.p_value,p,'family raw p');close(v.holm_adjusted_p,adjusted,'family Holm p');assert.equal(v.family_size,2);
+  }
+  const unpartitioned=run('unpartitioned-default',[1,2,3,7,8,9],[0,0,0,1,1,1],'categorical','pearson',false,{population:'unpartitioned'});
+  close(component(unpartitioned).descriptive.value.estimate,27/29,'unpartitioned eta2');
+  assert.equal(unpartitioned.receipt.source_pca_fit_receipt_sha256,null);
+  const globalResult=run('global-consented',[1,2,3,7,8,9],[0,0,0,1,1,1],'categorical','pearson',false,{population:'global_transductive'});
+  assert.equal(globalResult.receipt.source_pca_uses_test_x,true);assert.equal(globalResult.receipt.test_scores_accessed,true);
+  const mixed=run('train-only-excludes-test',[1,2,3,4],['A','A','B','B'],'categorical','pearson',false,
+    {extraManifest:[{key:'test-only-sentinel',partition:'test'},{key:'predict-only-sentinel',partition:'predict'}]});
+  assert.equal(mixed.value.factors[0].n_fit_observations,4);assert.equal(mixed.value.factors[0].n_levels,2);
+  assert.equal(mixed.receipt.test_m_accessed,false);assert.equal(mixed.receipt.test_scores_accessed,false);
+  assert.deepEqual(mixed.receipt.fit_keys,cases.find(c=>c.id==='train-only-excludes-test').request.manifest.filter(r=>r.partition==='train').map(r=>r.key));
+  assert.ok(mixed.receipt.provider_calls.every(c=>c.inputs.scores?.count===4));
+  assert.equal(mixed.receipt.fit_keys.includes('test-only-sentinel'),false);
+  const rankOne=run('rank-one-two-feature',[1,2,3,7,8,9],[0,0,0,1,1,1],'categorical','pearson',false,{twoFeatures:true});
+  const rankSource=cases.find(c=>c.id==='rank-one-two-feature').request.pca.report.metrics.pca.value;
+  assert.equal(rankSource.n_components_requested,2);assert.equal(rankSource.n_components_resolved,1);
+  assert.equal(rankOne.value.factors[0].components[1].descriptive.reason,'PCA_COMPONENT_NOT_RESOLVED');
   // A real WASM boundary spy proves malformed source/access requests never reach any provider.
   const adversaries=[];
-  for(const mutate of [r=>{r.access.y_fields=['target'];},r=>{r.factors[0].derived_from_target=true;},r=>{r.pca.report.evidence_sha256='0'.repeat(64);},r=>{r.pca.fit_receipt.fit_keys.reverse();},r=>{r.factors[0].row_keys[0]='test-row';}]) {
+  for(const mutate of [r=>{r.access.y_fields=['target'];},r=>{r.factors[0].derived_from_target=true;},r=>{r.factors[0].origin='Y';},r=>{r.factors[0].values[0]=9007199254740992;},r=>{r.pca.report.evidence_sha256='0'.repeat(64);},r=>{r.pca.fit_receipt.fit_keys.reverse();},r=>{r.factors[0].row_keys[0]='test-row';}]) {
     const r=structuredClone(cases[0].request);mutate(r);let calls=0;
     assert.throws(()=>rust.analyze_factor_json(JSON.stringify(r),()=>{calls++;return '{}';},runtime.provider.version));
     assert.equal(calls,0);adversaries.push({provider_calls:calls,status:'refused_before_provider'});
+  }
+  for(const mutate of [r=>{r.explicit_transductive=false;},r=>{r.population='train';r.explicit_transductive=false;}]) {
+    const r=structuredClone(cases.find(c=>c.id==='global-consented').request);mutate(r);let calls=0;
+    assert.throws(()=>rust.analyze_factor_json(JSON.stringify(r),()=>{calls++;return '{}';},runtime.provider.version));
+    assert.equal(calls,0);adversaries.push({provider_calls:calls,status:'global_scope_refused_before_provider'});
   }
   await mkdir(dirname(output),{recursive:true});
   await writeFile(output,JSON.stringify({protocol_version:'domains.factor_same_scores_wasm.v1',fixture_sha256:sha(fixtureBytes),provider:runtime.provider,

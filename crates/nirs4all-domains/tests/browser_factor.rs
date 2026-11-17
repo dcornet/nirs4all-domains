@@ -137,7 +137,9 @@ fn reordered_keys_bind_the_original_pc_scores_and_missingness_does_not_refit() {
 }
 #[test]
 fn all_scope_and_target_adversaries_refuse_before_provider_access() {
-    let cases: [fn(&mut Value); 10] = [
+    let cases: [fn(&mut Value); 12] = [
+        |w| w["factors"][0]["origin"] = json!("Y"),
+        |w| w["factors"][0]["values"][0] = json!(9_007_199_254_740_993_u64),
         |w| w["access"]["x"] = json!(true),
         |w| w["access"]["y_fields"] = json!(["target"]),
         |w| w["factors"][0]["derived_from_target"] = json!(true),

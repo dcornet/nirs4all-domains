@@ -212,7 +212,20 @@
       "allOf": [
         {
           "if": {"properties": {"kind": {"const": "continuous"}},"required": ["kind"]},
-          "then": {"properties": {"values": {"type": "array","minItems": 3,"items": {"type": ["number","null"]},"maxItems": 2000}}}
+          "then": {"properties": {"values": {"type": "array","minItems": 3,"items": {"type": ["number","null"]},"maxItems": 2000}}},
+          "else": {
+            "properties": {
+              "values": {
+                "type": "array","minItems": 3,"maxItems": 2000,
+                "items": {
+                  "anyOf": [
+                    {"type": "null"},{"type": "string"},{"type": "boolean"},
+                    {"type": "number","minimum": -9007199254740991,"maximum": 9007199254740991}
+                  ]
+                }
+              }
+            }
+          }
         }
       ]
     },
