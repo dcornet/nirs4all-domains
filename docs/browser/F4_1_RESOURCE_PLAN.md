@@ -1,5 +1,14 @@
 # F4.1 bounded engineering/qualification plan
 
+## Current prospective storage policy
+
+This historical F4.1 plan's former 8 MiB and 12 MiB engineering stages are
+superseded by the owner's prospective 2026-11-17 policy in
+[Storage policy: prospective 50 GB ceiling](../technical/STORAGE_POLICY_50GB.md).
+CI exercises synthetic temporary fixtures only and reads no private
+configuration or protected journal. Local activation is separately measured;
+the controller does not enforce an OS-level hard quota.
+
 Base main: `c7e2230066a114114a83bfb9a73eb7974d0dd2dc`. Current mission authorizes
 the feature branch/PR and synthetic qualification, not a ceiling increase,
 upstream change, real-data experiment, release, tag, merge or deployment.

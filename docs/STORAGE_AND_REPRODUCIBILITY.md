@@ -1,5 +1,15 @@
 # Storage and reproducibility — alpha.8
 
+## Current prospective storage policy
+
+The owner's prospective 50 GB storage policy, staged engineering allowance,
+reserve requirements and activation boundaries are summarized in
+[Storage policy: prospective 50 GB ceiling](technical/STORAGE_POLICY_50GB.md).
+The synthetic controller contract in CI exercises only temporary fixtures; it
+does not inspect private configuration or the protected journal. Any local
+activation is measured separately. The controller does not enforce an OS-level
+hard quota.
+
 Alpha.15's owner-approved combined local ceiling is **16,021,161,665 bytes**.
 The campaign ceiling remains **805,306,368 bytes**, with at most **64 MiB** of
 new alpha.15 reservations from the existing balance. Four work packages retain

@@ -7,7 +7,11 @@ workflows completed successfully on that exact commit: scientific-gates
 
 ## Local supplementary checks
 
-Existing installations only; no local native/WASM build or dependency install.
+The feature-checkpoint checks used existing installations only, without local
+native/WASM builds or dependency installation. The subsequent owner-authorized
+[storage qualification](../technical/STORAGE_POLICY_50GB.md) separately records
+a local Rust rebuild check and locked Cargo dependency downloads; it changes no
+F4.1 scientific source or expected result.
 The published Methods WASM reports `1.3.13+abi.2.20.0`. Four focused callback
 tests execute descriptive factor/correlation, exact tests, Holm, summary,
 undefined values, domain errors and adapter guards. Frontend tests and TypeScript
@@ -135,7 +139,7 @@ the scientific source and evidence anchors remained exact, with no HTTP request
 or browser error. Public Pages remains the separately maintained main deployment;
 this feature PR is not merged or deployed by the qualification task.
 
-## Resource scope
+## Resource scope at the feature checkpoint
 
 See [F4_1_RESOURCE_PLAN.md](F4_1_RESOURCE_PLAN.md). Owner ceilings stay unchanged.
 New real-data calculations, scientific reservations, upstream edits, releases,
@@ -147,8 +151,11 @@ existing margin; essential local JSON receipts remain bounded to 256 KiB.
 Campaign reservations remain 2,015,788,498 / 2,023,410,176. Protected historical
 checks passed for 1,031 files plus five additional references; journal SHA-256
 remained `237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`.
-The delivery PR records the final post-commit measurement and free-volume
-reserves; no ceiling increase or deletion is used to finish qualification.
+Those measurements precede the owner's subsequent 2026-11-17 storage decision.
+The [prospective policy](../technical/STORAGE_POLICY_50GB.md) supersedes the
+engineering stages and aggregate ceiling, records the separate targeted cache
+cleanup and leaves scientific counters/contracts intact. The delivery PR binds
+the resource commit's own final Windows/Ubuntu checks and fresh measurement.
 
 ## Scientific limits
 

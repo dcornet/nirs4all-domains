@@ -1,5 +1,14 @@
 # Validation evidence — 2026-10-16
 
+## Current prospective storage policy
+
+The prospective 2026-11-17 storage policy and activation scope are documented
+in [Storage policy: prospective 50 GB ceiling](technical/STORAGE_POLICY_50GB.md).
+The warning-contracts workflow runs synthetic controller tests against temporary
+fixtures only; it does not inspect private configuration or the protected
+journal. Local activation is measured separately, and no OS-level hard quota is
+claimed.
+
 ## Upstream alignment v1 — Rust 0.1.0-alpha.17 / bridge 0.1.0a22 — 2026-11-03
 
 Local Linux execution (Rust 1.96, Python 3.11) with Preflight 0.1.6, Methods
