@@ -71,7 +71,7 @@ class EngineeringStorageTests(unittest.TestCase):
         self.assertEqual(old.read_bytes(), original)
         current = self.controller.current()
         self.assertEqual(current['previous_local_cap_bytes'], self.arguments['effective_bytes'])
-        self.assertEqual(current['previous_decision'], old.relative_to(self.store.root).as_posix())
+        self.assertEqual(current['previous_decision'], old.relative_to(self.store.root.resolve()).as_posix())
         with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_DECISION_IMMUTABLE$'):
             self.controller._write(current['previous_decision'], current)
         self.assertEqual(old.read_bytes(), original)
