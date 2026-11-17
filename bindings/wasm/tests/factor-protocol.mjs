@@ -66,7 +66,19 @@ async function wasm(output) {
     assert.equal(result.receipt.test_m_accessed,input.population==='global_transductive');
     assert.equal(result.receipt.y_accessed,false);
     for(const call of result.receipt.provider_calls)assert.ok(!['pca','hdbscan','nearest_neighbors'].includes(call.operation));
-    assert.equal(JSON.stringify(result).includes('"codes":'),false);
+    // The receipt names codes/values, but carries only count/hash descriptors.
+    // Assert the admissible shape rather than forbidding those documentary names.
+    for(const call of result.receipt.provider_calls)for(const input of Object.values(call.inputs)){
+      assert.deepEqual(Object.keys(input).sort(),['count','sha256']);
+      assert.ok(Number.isInteger(input.count));assert.match(input.sha256,/^[0-9a-f]{64}$/);
+    }
+    const noRawVectors=value=>{
+      if(value&&typeof value==='object')for(const [key,item] of Object.entries(value)){
+        if(key==='codes'||key==='values')assert.equal(Array.isArray(item),false,`Raw ${key} vector in result`);
+        noRawVectors(item);
+      }
+    };
+    noRawVectors(result);
     cases.push({id,request:input,result});
     return result;
   }

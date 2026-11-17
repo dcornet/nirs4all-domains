@@ -100,7 +100,7 @@ fn wire() -> Value {
     });
     json!({"schema_version":1,"protocol_version":factor::PROTOCOL,
         "dataset":{"dataset_id":"synthetic-factor-guards","source_id":"X","content_sha256":"a".repeat(64),"content_version":"synthetic-v1"},
-        "manifest":["a","b","c","d","e","f"].map(|key|json!({"key":key,"partition":"unpartitioned"})),"population":"unpartitioned",
+        "manifest":(["a","b","c","d","e","f"].map(|key|json!({"key":key,"partition":"unpartitioned"}))),"population":"unpartitioned",
         "pca":{"report":report,"row_keys":keys,"fit_receipt":null},
         "factors":[{"name":"batch","role":"factor","kind":"categorical","unit":null,"origin":"synthetic-by-construction","derived_from_target":false,"evidence":"verified","row_keys":keys,"values":["A","A","A","B","B","B"]}],
         "dependencies":[],"access":{"x":false,"y_fields":[],"m_fields":["batch"]},"representation":"raw","explicit_transductive":false,"components":"all_resolved","correlation_method":"pearson","inference":{"mode":"descriptive","plan":null},"parameters":{"preset":"f41_factor_pc_v1"}})
