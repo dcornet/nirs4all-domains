@@ -4,6 +4,8 @@ import { buildExportConfig } from 'nirs4all-ui/datasetBuilder';
 import { adaptImported, assembleDatasetDraft, builderSpec, prepareDataset, type FormatsRuntime, type ImportedAssembled, type ReviewedDatasetConfig } from './import-draft';
 import { importFiles } from './dataset-io';
 import type { InputFile } from './types';
+import { fixture as scopedImportFixture } from '../../scripts/scoped-browser.mjs';
+import { scopedInventory } from '../report/scoped';
 
 const formats: FormatsRuntime = { openWithSidecars() { throw new Error('CSV tests must use native IO parsing'); } };
 const file = (name: string, contents: string): InputFile => ({ name, bytes: new TextEncoder().encode(contents) });
@@ -14,6 +16,35 @@ async function imported(files: InputFile[]) {
 }
 
 describe('F4 import transport through published IO 0.2.14 and public shared builder', () => {
+  it('assembles the exact browser fixture with keyed X/Y/M in all three partitions', async () => {
+    const files = scopedImportFixture().files.map(item => ({ name: item.name, bytes: new Uint8Array(item.buffer) }));
+    const draft = prepareDataset(files, io, formats);
+    const config: ReviewedDatasetConfig = { ...buildExportConfig('Browser fixture', draft.sources),
+      metadata_declarations: draft.spec.metadata_declarations as ReviewedDatasetConfig['metadata_declarations'] };
+    const dataset = await assembleDatasetDraft(draft, config, draft.sources, io);
+    const inventory = scopedInventory(dataset);
+    expect(Object.fromEntries(inventory.loaded.partitions.map(partition => [partition.name, partition.rows]))).toEqual({ train: 8, test: 2, predict: 1 });
+    expect(dataset.rowManifest?.filter(row => row.partition === 'train').map(row => row.observation_id)).toEqual(Array.from({ length: 8 }, (_, i) => `tr-${i}`));
+    expect(inventory.loaded.x.rows).toBe(11);
+    expect(inventory.loaded.y).toEqual([{ name: 'yield', unit: null, type: 'numeric', rows: 11, missing: 0 }]);
+    for (const role of ['specimen', 'group', 'reference']) expect(inventory.loaded.metadata.some(column => column.role === role)).toBe(true);
+    expect(dataset.metadata.find(column => column.name === 'batch')?.values.filter(value => value === 'batch-test')).toHaveLength(2);
+    expect(dataset.targets?.[0].values).toContain(987654336);
+    expect(dataset.rawX?.some(row => row[0] === 87654320)).toBe(true);
+    expect(JSON.stringify(inventory)).not.toContain('987654321.125');
+    expect(dataset.input.spectra).toEqual([]);
+  });
+  it('keeps conflicting partition metadata declarations unknown and never loses declared Y derivation', async () => {
+    const files = scopedImportFixture().files.map(item => ({ name: item.name, bytes: new Uint8Array(item.buffer) }));
+    const draft = prepareDataset(files, io, formats);
+    const declarations = structuredClone(draft.spec.metadata_declarations) as NonNullable<ReviewedDatasetConfig['metadata_declarations']>;
+    declarations.M_test__specimen = { role: 'campaign', derived_from_target: true };
+    const config: ReviewedDatasetConfig = { ...buildExportConfig('Conflict fixture', draft.sources), metadata_declarations: declarations };
+    const dataset = await assembleDatasetDraft(draft, config, draft.sources, io);
+    expect(dataset.metadata.find(column => column.name === 'specimen')).toMatchObject({ role: 'unknown', derived_from_target: true, evidence: 'unknown' });
+    expect(dataset.rowManifest).toHaveLength(11);
+    expect(dataset.metadata.find(column => column.name === 'group')).toMatchObject({ role: 'group', derived_from_target: false, evidence: 'declared' });
+  });
   it.each([
     ['X', []], ['X/Y', [file('train_y.csv', 'id,sugar,class\nc,30,C\na,10,A\nb,20,B')]],
     ['X/M', [file('train_m.csv', 'id,instrument,batch\nc,I3,c\na,I1,a\nb,I2,b')]],

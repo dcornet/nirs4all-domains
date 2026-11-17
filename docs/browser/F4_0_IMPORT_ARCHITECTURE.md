@@ -65,6 +65,16 @@ cells; it does not authorize imputation or silently dropping rows. Whether a
 requested operation can handle those missing values is a separate
 validation/execution decision.
 
+The pinned IO 0.2.14 owner materializes X/Y as `Vec<f32>` and then widens them
+for Float64Array WASM transport. Its LoadingParams has no f64 assembly option.
+Widening does not restore lost precision: the synthetic Y `987654321.125` becomes
+`987654336`. Domains retains those decoded values and the original byte hashes,
+without reparsing numbers in JS or claiming decimal precision was preserved.
+The leakage checks include both source and decoded sentinels. See IO's pinned
+[Matrix](https://github.com/GBeurier/nirs4all-io/blob/v0.2.14/crates/nirs4all-io-core/src/materialize/frame.rs#L278),
+[Y assembly](https://github.com/GBeurier/nirs4all-io/blob/v0.2.14/crates/nirs4all-io-core/src/materialize/assemble.rs#L1840)
+and [WASM transport](https://github.com/GBeurier/nirs4all-io/blob/v0.2.14/bindings/wasm/src/lib.rs#L342).
+
 ## Shared Dataset Builder seam
 
 The Domains F4.0 import view composes the shared `DatasetBuilder` with parsed

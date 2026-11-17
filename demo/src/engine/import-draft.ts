@@ -251,9 +251,18 @@ function declaredMetadata(name: string, sources: DatasetSource[], spec: DatasetS
     : declaration?.column.assignedRole === 'partition' ? 'partition' : declaration ? 'factor' : 'unknown';
   // Optional content declarations can document target derivation and units. Absence stays unknown.
   const declarations = spec.metadata_declarations as Record<string, Partial<MetadataDeclaration>> | undefined;
-  const extra = declarations?.[name] ?? (declaration ? declarations?.[`${declaration.source.id}__${plain}`] : undefined);
-  return { role: extra?.role ?? role, unit: extra?.unit ?? null, origin: owner?.id ?? declaration?.source.id ?? 'IO assembled metadata',
-    derived_from_target: extra?.derived_from_target ?? 'unknown', evidence: declaration || extra ? 'declared' : 'unknown' };
+  // IO can merge an identically named M field across partition-specific tables.
+  // Reuse their source-bound declarations only when every candidate agrees;
+  // never choose one partition's identity declaration arbitrarily.
+  const extras = candidates.map(candidate => declarations?.[`${candidate.source.id}__${plain}`]);
+  const agreed = extras.length > 0 && extras.every(extra => JSON.stringify(canonical(extra ?? null)) === JSON.stringify(canonical(extras[0] ?? null)));
+  const extra = declarations?.[name] ?? (agreed ? extras[0] : undefined);
+  const derived = extra?.derived_from_target === true || extras.some(value => value?.derived_from_target === true)
+    ? true : extra?.derived_from_target ?? 'unknown';
+  const origins = [...new Set(candidates.map(candidate => candidate.source.id))];
+  return { role: extra?.role ?? role, unit: extra?.unit ?? null,
+    origin: owner?.id ?? declaration?.source.id ?? (origins.length ? JSON.stringify(origins) : 'IO assembled metadata'),
+    derived_from_target: derived, evidence: declaration || extra ? 'declared' : 'unknown' };
 }
 
 /** Import retains nullable X/Y/M; it produces no numerical request and performs no fit. */
@@ -338,6 +347,7 @@ export async function adaptImported(full: ImportedAssembled, files: InputFile[],
     importProvenance: { protocol: 'domains.import_xy_m.v1', files: bindings, file_content_sha256: fileContentHash, reviewed_spec_sha256: reviewedSpecHash,
       original_source_ids: sourceIds, roles_reviewed: rolesReviewed, identity_independence: 'unknown' },
     warnings: [...warnings, ...(full.warnings ?? []), 'Import preserves X/Y/M locally. Each scientific operation must request its own authorized population and fields; no Y values are admitted.',
+      'Pinned IO 0.2.14 materializes X/Y at float32 precision before Float64 transport. Source hashes bind original bytes; exact preservation of their numeric decimal precision is not claimed.',
       ...(!numeric ? ['Original headers retained; the display axis is a logical band index.'] : []),
       ...(missingX.some(row => row.some(Boolean)) ? ['Missing X cells retained without imputation or row deletion; operations needing complete X may be unavailable.'] : [])] };
 }

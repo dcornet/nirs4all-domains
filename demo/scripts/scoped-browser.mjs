@@ -5,7 +5,9 @@ import {resolve} from 'node:path';
 
 const ySentinel='987654321.125';
 const xSentinel='87654321.875';
-function fixture(){
+const targetSentinels=[ySentinel,String(Math.fround(Number(ySentinel)))];
+const spectralSentinels=[xSentinel,String(Math.fround(Number(xSentinel)))];
+export function fixture(){
   const train=Array.from({length:8},(_,i)=>({id:`tr-${i}`,x:i===2?[3,4]:[i+1,(i+1)*1.5],y:10+i,specimen:`spec-tr-${i}`,group:i<4?'group-a':'group-b',reference:i<4?'ref-a':'ref-b',batch:i<4?'batch-a':'batch-b'}));
   const test=[{id:'te-0',x:[3,4],y:Number(ySentinel),specimen:'spec-test-duplicate',group:'group-a',reference:'ref-a',batch:'batch-test'},
     {id:'te-1',x:[Number(xSentinel),Number(xSentinel)+1],y:Number(ySentinel)+1,specimen:'spec-test-1',group:'group-c',reference:'ref-c',batch:'batch-test'}];
@@ -93,7 +95,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   const loaded=await reportJson(page,json);
   assert.equal(loaded.scientific_report.scoped_operations.length,0,'Reviewed assembly must not trigger a numerical operation');
   assert.equal(loaded.pca,null,'Loaded all-X inventory must not create an all-population PCA');
-  assert.deepEqual(loaded.scientific_report.inventory.loaded.partitions.map(p=>[p.name,p.rows]),[['train',8],['test',2],['predict',1]]);
+  assert.deepEqual(Object.fromEntries(loaded.scientific_report.inventory.loaded.partitions.map(p=>[p.name,p.rows])),{train:8,test:2,predict:1});
   assert.equal(loaded.scientific_report.inventory.loaded.x.rows,11);
   assert.equal(loaded.scientific_report.inventory.loaded.y[0].rows,11);
   assert.equal(loaded.scientific_report.inventory.loaded.y[0].missing,0);
@@ -104,7 +106,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   assert(loaded.scientific_report.inventory.loaded.metadata.some(m=>m.role==='reference'));
   assert(loaded.scientific_report.inventory.loaded.metadata.some(m=>m.name==='batch'));
   assert.equal(await page.getByLabel('Timing context').inputValue(),'unspecified');
-  assert.equal(JSON.stringify(loaded).includes(ySentinel),false);
+  assert(targetSentinels.every(value=>!JSON.stringify(loaded).includes(value)));
   await page.locator('.scope-controls').scrollIntoViewIfNeeded();
   await screenshot(page,'f4-scope-controls-desktop',false,'.scope-controls');
 
@@ -199,7 +201,8 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   assert.equal(final.export_selection.protocol_version,'domains.report_export_selection.v1');
   assert(final.export_selection.selected_sections.includes('machine_evidence'),'F3.5 machine evidence selection remains available for scoped reports');
   for(const [name,text] of [['html',html],['markdown',markdown],['json',JSON.stringify(final)]]){
-    assert(!text.includes(ySentinel),`${name} export exposed Y sentinel`);assert(!text.includes(xSentinel),`${name} export exposed X sentinel`);
+    assert(targetSentinels.every(value=>!text.includes(value)),`${name} export exposed source or IO-decoded Y sentinel`);
+    assert(spectralSentinels.every(value=>!text.includes(value)),`${name} export exposed source or IO-decoded X sentinel`);
     assert(!text.includes('"matrix":['),`${name} export exposed a raw data matrix`);
     captures.exports[name]={bytes:Buffer.byteLength(text),contains_target_sentinel:false,contains_x_sentinel:false};
   }

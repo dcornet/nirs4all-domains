@@ -46,6 +46,11 @@ Final coverage review adds direct native/WASM checks for zero exact pairs, near
 but nonidentical spectra and declared technical repetitions crossing partitions.
 An attempted train-fitted PCA representation is rejected before any callback;
 the available raw support result separately retains its explicit projection reason.
+The exact browser fixture also runs through actual IO in unit qualification.
+Partition inventory is compared by name, preserving IO's observation order.
+Identically named M fields merged across partition tables retain source-bound
+declarations only when every candidate agrees. Conflicts stay unknown; any
+declared Y derivation remains true and cannot be lost during that merge.
 
 Rust spies check actual PCA/HDBSCAN inputs, query/reference matrices and provider
 requests. Refusals include forbidden Y, malformed grants, test-fit rows, missing
