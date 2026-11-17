@@ -1,0 +1,630 @@
+{
+  "schema_version": 1,
+  "protocol_version": "domains.browser_scoped_parity_fixtures.v1",
+  "data_origin": "public synthetic engineering fixtures only; no real scientific fits",
+  "expected_scientific_behavior": "Complete declared train8/test2/predict1 manifest. Train fits exactly8 rows; explicit global fits exactly10 rows; support queries2 rows against all8 training references without fit; exact audit calls public Preflight with unavailable numerical provider and finds one cross-partition spectral pair. Prediction X is never projected. Status/settings/populations exact; HDBSCAN may validly select no clusters. Unknown physical identity is not independence.",
+  "tolerance": {
+    "source": "scripts/check_browser_parity.py",
+    "absolute": 1e-08,
+    "relative": 1e-08,
+    "analytical_absolute": 1e-10,
+    "pca_scores": "Gram geometry only; signs and tied-subspace rotations ignored",
+    "partitions": "exact pairwise membership and noise; label numbers may permute"
+  },
+  "source_content_utf8": "technical_key,partition,x1100,x1000\ntrain-0,train,0,0\ntest-0,test,0,0\ntrain-1,train,1,0.2\npredict-0,predict,999999,-999999\ntrain-2,train,2.3,0.8\ntrain-3,train,3.9,1.7\ntrain-4,train,6.2,3.0\ntrain-5,train,8.8,4.8\ntrain-6,train,12.1,7.3\ntrain-7,train,16.0,10.5\ntest-1,test,20.7,14.6\n",
+  "source_content_sha256": "176685b111ef5195b1c0fa097be889aa49c6e8e6626b35868f9c4418ae956d4e",
+  "fixtures": [
+    {
+      "id": "train",
+      "input": {
+        "schema_version": 1,
+        "protocol_version": "domains.browser_scoped_analysis.v1",
+        "operation": "train_structure",
+        "diagnostic": null,
+        "dataset": {
+          "dataset_id": "public-synthetic-scoped-engineering",
+          "source_id": "synthetic-scoped-source",
+          "content_version": "f4-fixture-v1",
+          "content_sha256": "176685b111ef5195b1c0fa097be889aa49c6e8e6626b35868f9c4418ae956d4e"
+        },
+        "manifest": [
+          {
+            "key": "train-0",
+            "partition": "train"
+          },
+          {
+            "key": "test-0",
+            "partition": "test"
+          },
+          {
+            "key": "train-1",
+            "partition": "train"
+          },
+          {
+            "key": "predict-0",
+            "partition": "predict"
+          },
+          {
+            "key": "train-2",
+            "partition": "train"
+          },
+          {
+            "key": "train-3",
+            "partition": "train"
+          },
+          {
+            "key": "train-4",
+            "partition": "train"
+          },
+          {
+            "key": "train-5",
+            "partition": "train"
+          },
+          {
+            "key": "train-6",
+            "partition": "train"
+          },
+          {
+            "key": "train-7",
+            "partition": "train"
+          },
+          {
+            "key": "test-1",
+            "partition": "test"
+          }
+        ],
+        "reference_keys": [
+          "train-0",
+          "train-1",
+          "train-2",
+          "train-3",
+          "train-4",
+          "train-5",
+          "train-6",
+          "train-7"
+        ],
+        "query_keys": [],
+        "access": {
+          "x": true,
+          "m_fields": [],
+          "y_fields": []
+        },
+        "fit": "train",
+        "representation": "raw",
+        "selection_context": "pre_selection_integrity_audit",
+        "explicit_transductive": false,
+        "parameters": {
+          "preset": "f4_fixed_raw_v1"
+        },
+        "exclusion_field": null,
+        "x": {
+          "row_keys": [
+            "train-0",
+            "train-1",
+            "train-2",
+            "train-3",
+            "train-4",
+            "train-5",
+            "train-6",
+            "train-7"
+          ],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ],
+            [
+              2.3,
+              0.8
+            ],
+            [
+              3.9,
+              1.7
+            ],
+            [
+              6.2,
+              3.0
+            ],
+            [
+              8.8,
+              4.8
+            ],
+            [
+              12.1,
+              7.3
+            ],
+            [
+              16.0,
+              10.5
+            ]
+          ],
+          "axis": [
+            1100,
+            1000
+          ],
+          "axis_unit": "nm"
+        },
+        "metadata": []
+      },
+      "expected": {
+        "reference_rows": 8,
+        "query_rows": 0,
+        "fit_rows": 8,
+        "test_x_accessed": false
+      }
+    },
+    {
+      "id": "global",
+      "input": {
+        "schema_version": 1,
+        "protocol_version": "domains.browser_scoped_analysis.v1",
+        "operation": "global_descriptive_transductive",
+        "diagnostic": null,
+        "dataset": {
+          "dataset_id": "public-synthetic-scoped-engineering",
+          "source_id": "synthetic-scoped-source",
+          "content_version": "f4-fixture-v1",
+          "content_sha256": "176685b111ef5195b1c0fa097be889aa49c6e8e6626b35868f9c4418ae956d4e"
+        },
+        "manifest": [
+          {
+            "key": "train-0",
+            "partition": "train"
+          },
+          {
+            "key": "test-0",
+            "partition": "test"
+          },
+          {
+            "key": "train-1",
+            "partition": "train"
+          },
+          {
+            "key": "predict-0",
+            "partition": "predict"
+          },
+          {
+            "key": "train-2",
+            "partition": "train"
+          },
+          {
+            "key": "train-3",
+            "partition": "train"
+          },
+          {
+            "key": "train-4",
+            "partition": "train"
+          },
+          {
+            "key": "train-5",
+            "partition": "train"
+          },
+          {
+            "key": "train-6",
+            "partition": "train"
+          },
+          {
+            "key": "train-7",
+            "partition": "train"
+          },
+          {
+            "key": "test-1",
+            "partition": "test"
+          }
+        ],
+        "reference_keys": [
+          "train-0",
+          "train-1",
+          "train-2",
+          "train-3",
+          "train-4",
+          "train-5",
+          "train-6",
+          "train-7"
+        ],
+        "query_keys": [
+          "test-0",
+          "test-1"
+        ],
+        "access": {
+          "x": true,
+          "m_fields": [],
+          "y_fields": []
+        },
+        "fit": "transductive",
+        "representation": "raw",
+        "selection_context": "pre_selection_integrity_audit",
+        "explicit_transductive": true,
+        "parameters": {
+          "preset": "f4_fixed_raw_v1"
+        },
+        "exclusion_field": null,
+        "x": {
+          "row_keys": [
+            "train-0",
+            "train-1",
+            "train-2",
+            "train-3",
+            "train-4",
+            "train-5",
+            "train-6",
+            "train-7",
+            "test-0",
+            "test-1"
+          ],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ],
+            [
+              2.3,
+              0.8
+            ],
+            [
+              3.9,
+              1.7
+            ],
+            [
+              6.2,
+              3.0
+            ],
+            [
+              8.8,
+              4.8
+            ],
+            [
+              12.1,
+              7.3
+            ],
+            [
+              16.0,
+              10.5
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              20.7,
+              14.6
+            ]
+          ],
+          "axis": [
+            1100,
+            1000
+          ],
+          "axis_unit": "nm"
+        },
+        "metadata": []
+      },
+      "expected": {
+        "reference_rows": 8,
+        "query_rows": 2,
+        "fit_rows": 10,
+        "test_x_accessed": true
+      }
+    },
+    {
+      "id": "support",
+      "input": {
+        "schema_version": 1,
+        "protocol_version": "domains.browser_scoped_analysis.v1",
+        "operation": "train_reference_test_query",
+        "diagnostic": null,
+        "dataset": {
+          "dataset_id": "public-synthetic-scoped-engineering",
+          "source_id": "synthetic-scoped-source",
+          "content_version": "f4-fixture-v1",
+          "content_sha256": "176685b111ef5195b1c0fa097be889aa49c6e8e6626b35868f9c4418ae956d4e"
+        },
+        "manifest": [
+          {
+            "key": "train-0",
+            "partition": "train"
+          },
+          {
+            "key": "test-0",
+            "partition": "test"
+          },
+          {
+            "key": "train-1",
+            "partition": "train"
+          },
+          {
+            "key": "predict-0",
+            "partition": "predict"
+          },
+          {
+            "key": "train-2",
+            "partition": "train"
+          },
+          {
+            "key": "train-3",
+            "partition": "train"
+          },
+          {
+            "key": "train-4",
+            "partition": "train"
+          },
+          {
+            "key": "train-5",
+            "partition": "train"
+          },
+          {
+            "key": "train-6",
+            "partition": "train"
+          },
+          {
+            "key": "train-7",
+            "partition": "train"
+          },
+          {
+            "key": "test-1",
+            "partition": "test"
+          }
+        ],
+        "reference_keys": [
+          "train-0",
+          "train-1",
+          "train-2",
+          "train-3",
+          "train-4",
+          "train-5",
+          "train-6",
+          "train-7"
+        ],
+        "query_keys": [
+          "test-0",
+          "test-1"
+        ],
+        "access": {
+          "x": true,
+          "m_fields": [],
+          "y_fields": []
+        },
+        "fit": "none",
+        "representation": "raw",
+        "selection_context": "pre_selection_integrity_audit",
+        "explicit_transductive": false,
+        "parameters": {
+          "preset": "f4_fixed_raw_v1"
+        },
+        "exclusion_field": null,
+        "x": {
+          "row_keys": [
+            "train-0",
+            "train-1",
+            "train-2",
+            "train-3",
+            "train-4",
+            "train-5",
+            "train-6",
+            "train-7",
+            "test-0",
+            "test-1"
+          ],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ],
+            [
+              2.3,
+              0.8
+            ],
+            [
+              3.9,
+              1.7
+            ],
+            [
+              6.2,
+              3.0
+            ],
+            [
+              8.8,
+              4.8
+            ],
+            [
+              12.1,
+              7.3
+            ],
+            [
+              16.0,
+              10.5
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              20.7,
+              14.6
+            ]
+          ],
+          "axis": [
+            1100,
+            1000
+          ],
+          "axis_unit": "nm"
+        },
+        "metadata": []
+      },
+      "expected": {
+        "reference_rows": 8,
+        "query_rows": 2,
+        "fit_rows": 0,
+        "test_x_accessed": true
+      }
+    },
+    {
+      "id": "exact",
+      "input": {
+        "schema_version": 1,
+        "protocol_version": "domains.browser_scoped_analysis.v1",
+        "operation": "integrity_audit",
+        "diagnostic": "exact_spectra",
+        "dataset": {
+          "dataset_id": "public-synthetic-scoped-engineering",
+          "source_id": "synthetic-scoped-source",
+          "content_version": "f4-fixture-v1",
+          "content_sha256": "176685b111ef5195b1c0fa097be889aa49c6e8e6626b35868f9c4418ae956d4e"
+        },
+        "manifest": [
+          {
+            "key": "train-0",
+            "partition": "train"
+          },
+          {
+            "key": "test-0",
+            "partition": "test"
+          },
+          {
+            "key": "train-1",
+            "partition": "train"
+          },
+          {
+            "key": "predict-0",
+            "partition": "predict"
+          },
+          {
+            "key": "train-2",
+            "partition": "train"
+          },
+          {
+            "key": "train-3",
+            "partition": "train"
+          },
+          {
+            "key": "train-4",
+            "partition": "train"
+          },
+          {
+            "key": "train-5",
+            "partition": "train"
+          },
+          {
+            "key": "train-6",
+            "partition": "train"
+          },
+          {
+            "key": "train-7",
+            "partition": "train"
+          },
+          {
+            "key": "test-1",
+            "partition": "test"
+          }
+        ],
+        "reference_keys": [
+          "train-0",
+          "train-1",
+          "train-2",
+          "train-3",
+          "train-4",
+          "train-5",
+          "train-6",
+          "train-7"
+        ],
+        "query_keys": [
+          "test-0",
+          "test-1"
+        ],
+        "access": {
+          "x": true,
+          "m_fields": [],
+          "y_fields": []
+        },
+        "fit": "none",
+        "representation": "raw",
+        "selection_context": "pre_selection_integrity_audit",
+        "explicit_transductive": false,
+        "parameters": {
+          "preset": "f4_fixed_raw_v1"
+        },
+        "exclusion_field": null,
+        "x": {
+          "row_keys": [
+            "train-0",
+            "train-1",
+            "train-2",
+            "train-3",
+            "train-4",
+            "train-5",
+            "train-6",
+            "train-7",
+            "test-0",
+            "test-1"
+          ],
+          "matrix": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0.2
+            ],
+            [
+              2.3,
+              0.8
+            ],
+            [
+              3.9,
+              1.7
+            ],
+            [
+              6.2,
+              3.0
+            ],
+            [
+              8.8,
+              4.8
+            ],
+            [
+              12.1,
+              7.3
+            ],
+            [
+              16.0,
+              10.5
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              20.7,
+              14.6
+            ]
+          ],
+          "axis": [
+            1100,
+            1000
+          ],
+          "axis_unit": "nm"
+        },
+        "metadata": []
+      },
+      "expected": {
+        "reference_rows": 8,
+        "query_rows": 2,
+        "fit_rows": 0,
+        "test_x_accessed": true,
+        "cross_partition_exact_duplicate_pairs": 1
+      }
+    }
+  ]
+}

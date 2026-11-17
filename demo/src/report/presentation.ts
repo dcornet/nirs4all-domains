@@ -31,6 +31,9 @@ const copy = {
     unavailable: 'No values are drawn for this unavailable evidence. Read the exact source reason; other available observations remain usable.',
     saved: 'Saved source-scoped evidence; no browser refit. Spectra and PCA coordinates are not reconstructed.',
     live: 'Complete imported X, descriptive/transductive analysis. No target or prediction score was evaluated.',
+    scopedTrain: 'Train-only structure evidence. Other loaded partitions were not used for this fit.',
+    scopedGlobal: 'Explicit global descriptive/transductive structure over the selected train and test populations.',
+    scopedUnknown: 'The numerical structure scope could not be matched to an operation receipt.',
     factor: 'Documented factor correspondence', sensitivity: 'Recorded sensitivity mechanisms', readiness: 'Verification readiness', decision: 'Original decision reading',
     savedRead: 'Read the recorded metric and its exact scope. Factor-PC correspondence, partition ARI, neighborhood change and density-parameter sensitivity are distinct.',
     savedLimit: 'Categorical factors and X-derived clusters do not certify physical units or causality. Original proposal, prerequisites and actual execution remain separate.',
@@ -72,6 +75,9 @@ const copy = {
     unavailable: 'Aucune valeur artificielle n’est dessinée. Consultez la raison source exacte ; les autres observations disponibles restent utilisables.',
     saved: 'Preuves enregistrées dans leur périmètre source ; aucun réajustement dans le navigateur. Les spectres et coordonnées PCA ne sont pas reconstruits.',
     live: 'Tout X importé, analyse descriptive/transductive. Aucune cible ni performance prédictive évaluée.',
+    scopedTrain: 'Structure calculée uniquement sur train. Les autres partitions chargées ne participent pas à cet ajustement.',
+    scopedGlobal: 'Structure descriptive/transductive globale sur les populations train et test explicitement sélectionnées.',
+    scopedUnknown: 'Le périmètre de la structure ne correspond à aucune preuve d’opération.',
     factor: 'Correspondances de facteurs documentées', sensitivity: 'Mécanismes de sensibilité enregistrés', readiness: 'Prérequis des vérifications', decision: 'Lecture décisionnelle originale',
     savedRead: 'Lisez la mesure enregistrée et son périmètre exact. Correspondance facteur-PC, ARI de partition, voisinages et sensibilité aux paramètres de densité sont distincts.',
     savedLimit: 'Les facteurs catégoriels et clusters de X ne certifient ni unités physiques ni causalité. Proposition originale, prérequis et exécution effective restent séparés.',
@@ -170,6 +176,11 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
       relevance:c.next,limitations:[neighbor?c.neighborLimit:density?c.densityLimit:e.id==='pca'?c.scoreLimit:c.savedLimit] };
   });
   const figures: DisplayFigure[] = [], pca = view.pca;
+  const structureScope = view.provenance.scoped_structure_scope;
+  const scopedPopulation = structureScope === 'train_only' ? c.scopedTrain
+    : structureScope === 'global_transductive' ? c.scopedGlobal
+    : structureScope === 'unpartitioned_descriptive' ? c.live
+    : structureScope === 'unknown' ? c.scopedUnknown : null;
   const metric = view.evidence.find(e=>e.id==='pca');
   if (pca?.points.length && metric?.status !== 'unavailable') {
     const one = (pca.resolvedComponents??pca.eigenvalues.length)===1;
@@ -178,8 +189,8 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     const palette=['#0f766e','#7c3aed','#b45309','#0369a1','#be185d','#4d7c0f'];
     const groupColors=groups.length<=6?Object.fromEntries(groups.map((g,i)=>[g,palette[i]])):undefined;
     figures.push({id:'pca-scores',title:one?c.one:c.scores,kind:one?'scores1d':'scores',evidenceId:'pca',xLabel:pca.xLabel+percent(0),yLabel:one?c.oneLimit:pca.yLabel+percent(1),groupColors,
-      unit:c.unknownUnit,population:`${formatValue(view.dataset.observations,locale)} · ${view.dataset.population??c.noValue}`,representation:view.dataset.representation??'raw',
-      points:pca.points,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[c.scoreLimit,...(one?[c.oneLimit]:[])]});
+      unit:c.unknownUnit,population:`${formatValue(view.dataset.observations,locale)} · ${scopedPopulation??view.dataset.population??c.noValue}`,representation:view.dataset.representation??'raw',
+      points:pca.points,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[...(structureScope==='train_only'?[c.scopedTrain]:structureScope==='global_transductive'?[c.scopedGlobal]:structureScope==='unknown'?[c.scopedUnknown]:[c.scoreLimit]),...(one?[c.oneLimit]:[])]});
     figures.push({id:'pca-scree',title:c.scree,kind:'scree',evidenceId:'pca',xLabel:c.component,yLabel:c.eigenvalue,unit:c.unknownUnit,population:figures[0].population,representation:figures[0].representation,
       eigenvalues:pca.eigenvalues,definition:c.screeDefinition,read:c.screeRead,observed:`${c.resolved}: ${pca.eigenvalues.length}; ${c.total}: ${formatValue(pca.totalVariance,locale)}`,relevance:c.next,limitations:[c.screeLimit]});
   }
@@ -187,7 +198,7 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
   const density=view.evidence.find(e=>e.id==='density'),d=density?.value as {n_clusters?:number;noise_count?:number}|null;
   const facts=`${formatValue(view.dataset.observations,locale)} ${c.observations}; ${formatValue(view.dataset.variables,locale)} ${c.variables}. ${pca?`${c.resolved}: ${pca.eigenvalues.length}.`:c.noCoordinates} ${density?`${c.density}: ${t(density.status)}${d?`; ${c.cluster}: ${formatValue(d.n_clusters,locale)}; ${c.noise}: ${formatValue(d.noise_count,locale)}`:''}.`:''}`;
   return { protocol_version:'domains.report_presentation.v1',language:locale,mode:view.mode,
-    brief:[view.mode==='saved'?c.saved:c.live,facts,intent==='unknown'?c.unknownIntent:t(intent),c.next+' '+c.noExecution],
+    brief:[view.mode==='saved'?c.saved:scopedPopulation??c.live,facts,intent==='unknown'?c.unknownIntent:t(intent),c.next+' '+c.noExecution],
     spectra:[c.spectraRead,c.signal,c.raw],figures,blocks,
     findings:view.findings.map(f=>({...f,resolvedEvidenceIds:f.evidenceIds.filter(id=>existing.has(id)),unresolvedEvidenceIds:f.evidenceIds.filter(id=>!existing.has(id))})),
     glossary:[{term:'PCA',definition:t('pcaDefinition')},{term:'HDBSCAN',definition:c.densityDefinition+' '+c.densityLimit},{term:locale==='fr'?'Voisinage':'Neighborhood',definition:c.neighborDefinition+' '+c.neighborLimit},{term:locale==='fr'?'Support spectral':'Spectral support',definition:t('supportDefinition')},{term:'ARI / eta²',definition:c.savedRead+' '+c.savedLimit},{term:'D6',definition:c.noExecution}] };

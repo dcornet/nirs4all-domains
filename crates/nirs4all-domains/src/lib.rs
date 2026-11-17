@@ -4,6 +4,7 @@ pub mod association;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod bootstrap;
 pub mod browser;
+pub mod browser_scoped;
 #[cfg(all(feature = "browser-wasm", target_arch = "wasm32"))]
 #[path = "../../../bindings/wasm/rust.rs"]
 mod browser_binding;

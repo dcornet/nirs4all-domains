@@ -49,6 +49,14 @@ export async function uxLive(page,report,output,exported,screenshot,check){
   check('F2 keyboard journey, context help, partial/complete F1 exports and return to the unchanged dataset');
   return html;
 }
+export async function confirmReviewedImport(page,operation){
+  const before=await page.evaluate(()=>window.__domainsWorkerAudit?.completed.length??0);
+  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
+  if(operation){await page.getByRole('button',{name:operation,exact:true}).click();await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+2,before);await page.locator('.workspace-summary').waitFor();}
+  else await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+1,before);
+}
 export async function uxSummaryOffline(browser,html,report,output,screenshot,check){
   const context=await browser.newContext({offline:true,viewport:{width:1200,height:900}});
   try{
@@ -66,15 +74,19 @@ export async function uxSummaryOffline(browser,html,report,output,screenshot,che
     assert.equal(external,0);check('F2 partial offline HTML is labeled, retains full originals, opens exact evidence without scripts and prints the selected scope');
   }finally{await context.close();}
 }
-export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,check){
-  // Original row order is explicitly authored in this artificial transport fixture.
+export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,check,confirmImport=confirmReviewedImport){
+  // Explicit declared IDs justify keyed alignment; local row order is not a join contract.
   await home(page);
-  const spec={schema_version:1,name:'Synthetic metadata import',sources:[{id:'X',role:'features',input:'X.csv',partition:'train',params:{delimiter:',',has_header:true}},{id:'M',role:'metadata',input:'M.csv',partition:'train',params:{delimiter:',',has_header:true}}]};
+  const spec={schema_version:1,name:'Synthetic metadata import',sources:[
+    {id:'X',role:'features',input:'X.csv',partition:'train',key:'join_id',columns:{features:['1000','1100'],id:['join_id']},params:{delimiter:',',has_header:true}},
+    {id:'M',role:'metadata',input:'M.csv',partition:'train',key:'join_id',join:{right:'X'},columns:{metadata:['acquisition','batch','site'],id:['join_id']},params:{delimiter:',',has_header:true}},
+  ]};
   await page.locator('input[type=file]').setInputFiles([
     {name:'example.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))},
-    {name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000,1100\n1,2\n2,3\n3,4\n')},
-    {name:'M.csv',mimeType:'text/csv',buffer:Buffer.from('acquisition,batch,site\na,g1,s1\nb,g1,s1\nc,g1,s2\n')},
+    {name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('join_id,1000,1100\nx-a,1,2\nx-b,2,3\nx-c,3,4\n')},
+    {name:'M.csv',mimeType:'text/csv',buffer:Buffer.from('join_id,acquisition,batch,site\nx-c,c,g1,s2\nx-a,a,g1,s1\nx-b,b,g1,s1\n')},
   ]);
+  await confirmImport(page,'Train structure');
   await page.locator('.workspace-summary').waitFor();const withMetadata=await json(page);
   assert.deepEqual(withMetadata.dataset.metadata,['acquisition','batch','site']);assert.equal(withMetadata.dataset.observations,3);
   assert.equal(withMetadata.provenance.physical_independence,'unknown');
@@ -90,16 +102,25 @@ export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,c
   const constant=await json(page);assert.equal(constant.scientific_report.metrics.pca.status,'unavailable');assert.equal(constant.pca,null);
   await page.locator('.journey-nav a').nth(1).click();assert.equal(await page.locator('#geometry .unavailable').count(),1);
   await screenshot(page,'f2-pca-unavailable');check('F2 real constant-X PCA refusal has no invented coordinates');
+  // Intentional F4 protocol change: retain the old blanket full-source guard
+  // in contracts.test.ts; the browser now imports inventory and tests a
+  // selected train-structure operation without inventing a train population.
   for(const partition of ['test','predict']){
     await home(page);const retained={schema_version:1,name:'Synthetic retained-partition refusal',sources:[{id:'X',role:'features',input:'X.csv',partition}]};
     await page.locator('input[type=file]').setInputFiles([{name:'retained.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(retained))},{name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000\n1\n2\n3\n')}]);
-    await page.getByRole('alert').waitFor();assert.equal(await page.locator('.workspace-summary').count(),0);
-    await page.getByRole('alert').locator('summary').click();assert((await page.getByRole('alert').innerText()).includes('PARTITIONED_IMPORT_REQUIRES_TRAIN_FITTED_BROWSER_PROTOCOL'));
-    assert.equal(await page.locator(':focus').evaluate(n=>n.closest('[role=alert]')!==null),true);
-    check(`F2 retained ${partition} population refused before complete-X fitting, with original reason and action`);
+    await confirmImport(page);
+    const imported=await json(page);assert.equal(imported.scientific_report.scoped_operations.length,0);
+    assert.equal(imported.scientific_report.inventory.loaded.partitions[0].name,partition);
+    assert.equal(imported.pca,null,'Importing retained X must not fit or display PCA');
+    const before=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
+    await page.getByRole('button',{name:'Train structure',exact:true}).click();await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+1,before);await page.locator('.workspace-summary').waitFor();
+    const refused=await json(page),operation=refused.scientific_report.scoped_operations.at(-1);
+    assert.notEqual(operation.status,'computed');assert.equal(operation.value,null);
+    assert.equal(refused.pca,null,'A test-only/predict-only population cannot produce train structure coordinates');
+    check(`F4 train-structure request on ${partition}-only data is refused with no PCA result`,{status:operation.status,reason:operation.reason});
   }
-  await screenshot(page,'f2-retained-refusal');
-  await auditAccessibility(page,output,'retained-refusal',check);
+  await screenshot(page,'f4-retained-refusal');
+  await auditAccessibility(page,output,'f4-retained-refusal',check);
   await home(page);
 }
 

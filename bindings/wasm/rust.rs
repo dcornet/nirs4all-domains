@@ -91,6 +91,13 @@ pub fn analyze_json(input: &str, callback: &Function) -> Result<String, JsValue>
     serde_json::to_string(&report).map_err(js_error)
 }
 #[wasm_bindgen]
+pub fn analyze_scoped_json(input: &str, callback: &Function) -> Result<String, JsValue> {
+    let request = crate::browser_scoped::parse(input).map_err(js_error)?;
+    let report =
+        crate::browser_scoped::analyze(&request, &CallbackProvider(callback)).map_err(js_error)?;
+    serde_json::to_string(&report).map_err(js_error)
+}
+#[wasm_bindgen]
 pub fn validate_json(input: &str) -> Result<String, JsValue> {
     browser::parse(input).map_err(js_error)?;
     Ok("{\"valid\":true}".into())

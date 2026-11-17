@@ -9,6 +9,7 @@ import { reportArtifacts,verifyEvidenceLinks,verifyOfflineReport,verifySavedOffl
 import { uxLanding,uxLive,uxSummaryOffline,uxExtraInputs,auditAccessibility,uxBlockedWasm,uxSavedSummary } from './ux-browser.mjs';
 import {qualifyLiveSelection,qualifySavedSelection,qualifySelectionReset,qualifyLongSelection} from './selection-browser.mjs';
 import {qualifyTechnicalLoading} from './technical-browser.mjs';
+import {qualifyScopedBrowser} from './scoped-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -56,7 +57,15 @@ async function json(page) { return JSON.parse(await exported(page, 'json')); }
 async function home(page) { await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click(); await visible(page.locator('input[type=file]')); }
 async function example(page, name) { await page.getByRole('button', { name: new RegExp(name) }).click(); await visible(page.locator('.workspace-summary')); }
 async function importCsv(page, contents, name = 'X.csv') {
+  const completedBefore=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
   await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/csv', buffer: Buffer.from(contents) });
+  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
+  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+  await page.getByRole('button',{name:'Train structure',exact:true}).click();
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>=before+3,completedBefore);
+  await visible(page.locator('.workspace-summary'));
 }
 function wire(context, label) {
   receipt.network_violations ??= [];
@@ -79,9 +88,10 @@ try {
   wire(context, 'chromium-desktop');
   await context.addInitScript(() => {
     const OriginalWorker = window.Worker;
-    window.__domainsWorkerAudit = { constructed: 0, terminated: 0 };
+    window.__domainsWorkerAudit = { constructed: 0, terminated: 0, operations: [], completed: [] };
     window.Worker = class extends OriginalWorker {
-      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; }
+      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; this.addEventListener('message',({data})=>{if(!data.stage)window.__domainsWorkerAudit.completed.push({operation:this.auditOperation,ok:data.ok});}); }
+      postMessage(message,transfers) { this.auditOperation=message.operation;window.__domainsWorkerAudit.operations.push(message.operation);return super.postMessage(message,transfers); }
       terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
     };
   });
@@ -172,9 +182,10 @@ try {
   wire(context, 'chromium-desktop-import');
   await context.addInitScript(() => {
     const OriginalWorker = window.Worker;
-    window.__domainsWorkerAudit = { constructed: 0, terminated: 0 };
+    window.__domainsWorkerAudit = { constructed: 0, terminated: 0, operations: [], completed: [] };
     window.Worker = class extends OriginalWorker {
-      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; }
+      constructor(...args) { super(...args); window.__domainsWorkerAudit.constructed++; this.addEventListener('message',({data})=>{if(!data.stage)window.__domainsWorkerAudit.completed.push({operation:this.auditOperation,ok:data.ok});}); }
+      postMessage(message,transfers) { this.auditOperation=message.operation;window.__domainsWorkerAudit.operations.push(message.operation);return super.postMessage(message,transfers); }
       terminate() { window.__domainsWorkerAudit.terminated++; return super.terminate(); }
     };
   });
@@ -182,6 +193,7 @@ try {
   await page.getByRole('button', { name: 'EN', exact: true }).click();
   await page.getByRole('button', { name: 'Switch theme' }).click();
   await uxExtraInputs(page,home,importCsv,json,output,screenshot,check);
+  await qualifyScopedBrowser({page,browser,url,output,screenshot,check,wire,exported,json});
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));

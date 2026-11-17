@@ -3,6 +3,7 @@ import logo from 'nirs4all-ui/assets/brands/nirs4all/horizontal.svg';
 import darkLogo from 'nirs4all-ui/assets/brands/nirs4all/horizontal-dark.svg';
 import { Landing } from './Landing';
 import { Workspace } from './Workspace';
+import {DatasetImport} from './DatasetImport';
 import { translator } from './i18n';
 import type { AppProps, Locale } from './ui-types';
 import { Processing,ErrorFeedback } from './ux/Feedback';
@@ -47,7 +48,7 @@ export function App({ state, callbacks }: AppProps) {
       {busy && <Processing state={state} onCancel={callbacks.onCancel} locale={locale}/>}
       {state.error && <ErrorFeedback error={state.error} locale={locale} hasResult={!!state.result}/>}
       {state.phase === 'cancelled' && <p className="container notice" role="status">{t('cancelled')}</p>}
-      {state.result ? <Workspace key={state.result.dataset.contentHash} result={state.result} intent={state.intent} declarations={state.declarations} callbacks={callbacks} locale={locale} t={t} busy={busy}/> : <Landing state={state} callbacks={callbacks} t={t} busy={busy} locale={locale}/>}
+      {state.importDraft&&callbacks.onConfirmImport?<DatasetImport key={state.importDraft.files.map(f=>f.name).join('|')} draft={state.importDraft} locale={locale} busy={busy} error={state.error?.message} onConfirm={callbacks.onConfirmImport} onCancel={callbacks.onReset}/>:state.result ? <Workspace key={state.result.dataset.contentHash} result={state.result} intent={state.intent} declarations={state.declarations} callbacks={callbacks} locale={locale} t={t} busy={busy}/> : <Landing state={state} callbacks={callbacks} t={t} busy={busy} locale={locale}/>}
     </main>
     <footer className="footer container"><span>nirs4all <strong>Domains</strong></span><p>{t('footer')}</p><a href="https://github.com/dcornet/nirs4all-domains/blob/main/LICENSING.md">CeCILL 2.1 / AGPL 3.0</a></footer>
   </div>;

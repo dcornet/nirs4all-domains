@@ -1,9 +1,11 @@
 # Browser demo guide
 
-The demo under [`../demo`](../demo/README.md) is a local, exploratory X-only
-client. It demonstrates how a browser can reuse the existing Domains crate,
-Preflight provider contract, Methods numerical kernels and published IO /
-Formats readers. The client sends no data to a server and has no upload API.
+The demo under [`../demo`](../demo/README.md) is a local, exploratory browser
+client. It demonstrates reviewed X/Y/M import through published IO/Formats and
+scoped access to existing Domains, Preflight, and Methods APIs. Imported Y
+remains in main import memory for inventory/masking but does not enter scientific
+worker requests or report exports. The client sends no data to a server and has
+no upload API.
 
 ## Clean build
 
@@ -46,20 +48,33 @@ from human utility and full accessibility claims.
 
 Choose the deterministic synthetic fixtures to inspect provider behavior,
 select the packaged public saved tablet example to read its already saved
-evidence, or import a supported dataset locally. The page provides data and
-provenance, spectra, geometry, findings, intended-use context, evidence and
-export sections. English/French and light/dark preferences are application
-settings. The shared `nirs4all-ui` package supplies qualification charts and
-the official nirs4all logo assets; there is no Domains-specific mark in that
-package release.
+evidence, or import a supported dataset locally. For import, review source and
+column roles, declared identity keys, keyed joins, and partitions in
+`DatasetBuilder`, then confirm the reviewed assembly. Import retains the dataset
+and missingness but performs no automatic fit. Choose an operation separately:
+Train structure uses train rows; the raw support query uses train as reference
+and test as query; metadata audits are documentary; global descriptive structure
+requires explicit transductive consent and includes train plus test, excluding
+predict rows. An unpartitioned source continues through the legacy full-source
+descriptive route. The page provides data and provenance, spectra, geometry,
+findings, intended-use context, evidence and export sections. English/French and
+light/dark preferences are application settings. The shared `nirs4all-ui`
+package supplies qualification charts and the official nirs4all logo assets;
+there is no Domains-specific mark in that package release.
 
-Live input accepts at most 32 files / 8 MiB, and a fully assembled source is
-limited to 2,000 observations and 1,000,000 cells. IO and Formats read and join
-the input; the demo refuses ambiguous multisource fusion, aggregation,
-imputation and invalid cells. No target is sent to the scientific engine.
-Complete imported X is analyzed descriptively, with no split and no held-out
-projection. See the [architecture](WASM_DEMO_ARCHITECTURE.md) and
-[capability matrix](WASM_CAPABILITIES.md) for exact boundaries.
+Live input accepts at most 32 files / 8 MiB; a fully assembled source is
+limited to 2,000 observations and 1,000,000 cells. IO and Formats own parsing,
+keyed joins and assembly. The demo refuses implicit multisource fusion,
+aggregation and row deletion; nullable X/Y/M values and declared partitions
+remain visible after import. Operations needing complete X may be unavailable
+rather than imputing or dropping rows. No Y value is sent to a scientific
+request. Metadata audits report counts, cardinality, levels, missingness and
+literal overlap; statistical associations are unqualified. Metadata coloring
+is presentation-only and does not calculate association or alter PCA evidence.
+See the [architecture](WASM_DEMO_ARCHITECTURE.md), [capability
+matrix](WASM_CAPABILITIES.md), [F4.0 partition behavior](WASM_PARTITION_GUARD.md),
+and [F4.0 architecture notes](browser/F4_0_IMPORT_ARCHITECTURE.md) for exact
+boundaries.
 
 A single `.json` file is read as a saved standalone Domains report and must
 pass its existing report schema. It is not a generic JSON matrix import. An

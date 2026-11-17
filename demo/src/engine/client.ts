@@ -37,7 +37,7 @@ export class BrowserEngine {
       try {
         // Main owns browser File objects; these fresh byte buffers are consumed by
         // import. Transfer once instead of cloning, without changing their bytes.
-        const buffers = operation === 'import' && Array.isArray(payload)
+        const buffers = (operation === 'import'||operation==='prepare_import') && Array.isArray(payload)
           ? [...new Set(payload.flatMap(file => file?.bytes instanceof Uint8Array && file.bytes.buffer instanceof ArrayBuffer ? [file.bytes.buffer] : []))] : [];
         worker.postMessage({ id, operation, payload }, buffers);
       } catch (error) { if (current()) this.fail(error instanceof Error ? error : new Error(String(error))); }

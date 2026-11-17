@@ -81,6 +81,14 @@ jobs:
           python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/native-parity.json'); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_parity','--','bindings/wasm/tests/parity-fixtures.json']))"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_browser_parity.py --native demo/test-results/native-parity.json --wasm demo/test-results/wasm-parity.json
+      - name: Replay scoped synthetic wire requests through the native public provider and compare actual WASM
+        shell: pwsh
+        run: |
+          python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/scoped-native-parity.json'); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_scoped_parity','--','bindings/wasm/tests/scoped-fixtures.json']))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:N4DOMAINS_SCOPED_NATIVE_PARITY_IN = 'demo/test-results/scoped-native-parity.json'
+          node --test bindings/wasm/tests/scoped-actual-runtime.test.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build --prefix demo
       - name: Install supported hosted browser engines
         working-directory: demo

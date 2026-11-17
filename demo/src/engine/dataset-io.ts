@@ -26,7 +26,7 @@ export function checkFiles(files: InputFile[]) {
     throw new Error('FORMAT_NOT_QUALIFIED_FOR_THIS_BOUNDED_BROWSER_IMPORT');
 }
 
-/** Preserve each original partition. No split generation, source fusion or silent row deletion. */
+/** Legacy browser_x.v1 full-source route only. F4 imports use adaptImported. */
 export async function adaptAssembled(full: Assembled, files: InputFile[], spec: unknown, warnings: string[]): Promise<LocalDataset> {
   if (full.assembled_schema_version !== 2) throw new Error('IO_ASSEMBLED_SCHEMA_V2_REQUIRED');
   const blocks = Object.entries(full.blocks).filter(([, b]) => b.n_samples > 0);
@@ -98,7 +98,7 @@ export async function adaptAssembled(full: Assembled, files: InputFile[], spec: 
     license: 'User-supplied data; no redistribution permission inferred', mode: 'user_computed_live' };
 }
 
-export async function importFiles(files: InputFile[]): Promise<LocalDataset> {
+export async function importFilesLegacy(files: InputFile[]): Promise<LocalDataset> {
   checkFiles(files);
   const io = await import('virtual:nirs4all-io');
   await io.init();
@@ -127,3 +127,12 @@ export async function importFiles(files: InputFile[]): Promise<LocalDataset> {
   const full = io.assembleDataset(raw.filter(f => !decoded.has(f.name)), records as never, JSON.stringify(spec)) as Assembled;
   return adaptAssembled(full, files, spec, plan?.warnings ?? []);
 }
+
+/** Explicit review is required before importing inferred X/Y/M roles. */
+export async function importFiles(files: InputFile[], reviewed?: Omit<import('./import-draft').ReviewedImport, 'draft'>): Promise<LocalDataset> {
+  if (!reviewed) throw new Error('IMPORT_ROLE_REVIEW_REQUIRED');
+  const { prepareImport, assembleImport } = await import('./import-draft');
+  return assembleImport(await prepareImport(files), reviewed.config, reviewed.sources);
+}
+export { prepareImport, assembleImport, adaptImported } from './import-draft';
+export type { DatasetDraft, ReviewedImport } from './import-draft';

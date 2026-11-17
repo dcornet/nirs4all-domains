@@ -33,7 +33,7 @@ try{
         window.__technical={workers:[],lastBlob:null};
         window.Worker=class extends WorkerBase{
           constructor(...args){super(...args);this.audit={created:performance.now(),messages:[]};window.__technical.workers.push(this.audit);this.addEventListener('message',({data})=>{this.audit.messages.push({at:performance.now(),id:data.id,stage:data.stage??null,stage_id:data.stage_id??null,final:!data.stage,ok:data.ok});});}
-          postMessage(message,transfers){const start=performance.now();const files=message.operation==='import'?message.payload:[];const bytes=Array.isArray(files)?files.reduce((sum,f)=>sum+(f.bytes?.byteLength??0),0):0;const transferred_bytes=(Array.isArray(transfers)?transfers:[]).reduce((sum,b)=>sum+(b.byteLength??0),0);super.postMessage(message,transfers??[]);this.audit.operation=message.operation;this.audit.post_message_ms=performance.now()-start;this.audit.input_bytes=bytes;this.audit.transferred_bytes=transferred_bytes;this.audit.sender_detached=Array.isArray(files)&&files.length>0&&files.every(f=>f.bytes.byteLength===0);}
+          postMessage(message,transfers){const start=performance.now();const files=['import','prepare_import'].includes(message.operation)?message.payload:[];const bytes=Array.isArray(files)?files.reduce((sum,f)=>sum+(f.bytes?.byteLength??0),0):0;const transferred_bytes=(Array.isArray(transfers)?transfers:[]).reduce((sum,b)=>sum+(b.byteLength??0),0);super.postMessage(message,transfers??[]);this.audit.operation=message.operation;this.audit.post_message_ms=performance.now()-start;this.audit.input_bytes=bytes;this.audit.transferred_bytes=transferred_bytes;this.audit.sender_detached=Array.isArray(files)&&files.length>0&&files.every(f=>f.bytes.byteLength===0);}
           terminate(){this.audit.terminated=performance.now();return super.terminate();}
         };
         const create=URL.createObjectURL.bind(URL);URL.createObjectURL=blob=>{window.__technical.lastBlob=blob;return create(blob);};
@@ -47,6 +47,12 @@ try{
       const started=performance.now();await page.goto(url);await page.getByRole('heading',{name:'Analyze my data'}).waitFor();
       const landing_ms=performance.now()-started;
       const importedAt=performance.now();await page.locator('input[type=file]').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000\n1\n2\n3\n')});
+      await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
+      await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
+      await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+      await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+      await page.getByRole('button',{name:'Train structure'}).click();
+      await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final)));
       await page.locator('.workspace-summary').waitFor();await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
       const import_to_visible_ms=performance.now()-importedAt;
       const exportReading=async format=>{

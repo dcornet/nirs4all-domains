@@ -4,24 +4,29 @@ import { App } from './App';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading } from '@nirs4all/domains';
+import type { BrowserReading,ScopedOperation,ScopedResult } from '@nirs4all/domains';
+import type {DatasetDraft} from './engine/import-draft';
+import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
+import {scopedInventory,scopedView} from './report/scoped';
 import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
-import type { UiCallbacks, UiState, PredictionIntent,ProcessingStage } from './ui-types';
+import type { UiCallbacks, UiState, UiResult,PredictionIntent,ProcessingStage } from './ui-types';
 
 function Controller() {
   const [state, setState] = useState<UiState>({ phase: 'idle', progress: '', error: null, result: null,
-    examples, intent: 'unknown', importHint: 'X-only CSV/TSV, or supported spectral files; optional explicit IO configuration. Nothing is uploaded.',
+    examples, intent: 'unknown', importHint: 'Local X/Y/M files and declared partitions, reviewed through IO and the shared Dataset Builder. Nothing is uploaded.',
     declarations: { population: '', prediction_unit: '', new_context: '' } });
   const engine = useRef(new BrowserEngine());
   const epoch = useRef(0);
   const dataset = useRef<LocalDataset | null>(null);
   const scientific = useRef<unknown>(null);
   const selectedExample = useRef<string | null>(null);
+  const operations=useRef<ScopedResult[]>([]),baseView=useRef<UiResult|undefined>(undefined);
+  const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;setState(s => ({ ...s, result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -36,6 +41,49 @@ function Controller() {
     if (token !== epoch.current) return;
     scientific.current = report;
     setState(s => ({ ...s, phase: 'idle', result: liveView(report, data), processingStage:'report',progress: '' }));
+  };
+  const publishScoped=(data:LocalDataset)=>{
+    const result=scopedView(baseView.current,data,operations.current,color.current||undefined);
+    scientific.current={protocol_version:'domains.browser_scoped_report.v1',inventory:scopedInventory(data),
+      scoped_operations:operations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
+    setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
+  };
+  const scoped=async(operation:ScopedOperation,options:ScopeOptions={})=>{
+    const data=dataset.current;if(!data?.rowManifest)return;
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:'Executing only the selected scientific operation'}));
+    try{
+      // The unchanged legacy descriptive protocol remains valid for explicitly unpartitioned X.
+      if(operation==='train_structure'&&data.rowManifest.every(row=>row.partition==='unpartitioned')){
+        if(!data.rawX||data.rawX.some(row=>row.some(value=>value===null)))throw new Error('MISSING_X_NO_IMPLICIT_IMPUTATION');
+        const projected={...data,input:{...data.input,spectra:data.rawX as number[][]}};
+        const report=await engine.current.request<BrowserReport>('analyze',{...projected.input,prediction_intent:state.intent},progress(token));
+        if(token!==epoch.current)return;
+        baseReport.current=report;baseData.current=projected;baseView.current=liveView(report,projected);
+      }else{
+        const request=scopedRequest(data,operation,options);
+        const result=await engine.current.request<ScopedResult>('scoped',request,progress(token));
+        if(token!==epoch.current)return;
+        operations.current=[...operations.current,result];
+        const subset=structureDataset(data,result);
+        if(subset&&result.value?.structure){
+          baseReport.current=result.value.structure;baseData.current=subset;baseView.current=liveView(result.value.structure,subset);
+          baseView.current.dataset.population=operation==='train_structure'?'Declared train only; other partitions not used for this fit':'Explicitly selected train + test; transductive fit';
+          baseView.current.summary=baseView.current.dataset.population;
+        }
+      }
+      publishScoped(data);
+    }catch(error){
+      if(token!==epoch.current)return;
+      const reason=error instanceof Error?error.message:String(error);
+      operations.current=[...operations.current,{protocol_version:'domains.browser_scoped_result.v1',operation,
+        diagnostic:options.diagnostic??null,status:'error',reason,value:null,
+        receipt:{dataset_id:data.input.dataset_id,content_sha256:data.input.content_sha256,
+          execution_receipt:'not_returned; no successful execution is inferred',provider_calls:null},
+        supported_claims:[],limitations:['No successful provider receipt was returned. Earlier operation results retain their original scopes.'],
+        action:'Read the operation refusal and its prerequisite; imported X/Y/M remain available.'}];
+      publishScoped(data);
+    }
   };
   const callbacks: UiCallbacks = {
     async onImport(files) {
@@ -56,10 +104,24 @@ function Controller() {
         }
         const payload = await Promise.all(files.map(async file => ({ name: file.webkitRelativePath || file.name, bytes: new Uint8Array(await file.arrayBuffer()) })));
         if (token !== epoch.current) return;
-        const data = await engine.current.request<LocalDataset>('import', payload, progress(token));
-        await analyze(data, token);
+        const draft=await engine.current.request<DatasetDraft>('prepare_import',payload,progress(token));
+        if(token!==epoch.current)return;
+        setState(s=>({...s,phase:'idle',importDraft:draft,progress:''}));
       } catch (error) { failed(token, error); }
     },
+    async onConfirmImport(config,sources){
+      const draft=state.importDraft;if(!draft)return;
+      const token=++epoch.current;engine.current.cancel();
+      setState(s=>({...s,phase:'loading',error:null,processingStage:'import',progress:'Assembling reviewed roles with IO'}));
+      try{
+        const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
+        if(token!==epoch.current)return;
+        dataset.current=data;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;
+        publishScoped(data);
+      }catch(error){failed(token,error);}
+    },
+    onScopedOperation:scoped,
+    onColorFactor(field){const data=dataset.current;if(!data?.rowManifest)return;color.current=field;publishScoped(data);},
     async onExample(id) {
       const token = start(); selectedExample.current = id;
       try {
@@ -71,10 +133,13 @@ function Controller() {
         } else await analyze(await synthetic(id), token);
       } catch (error) { failed(token, error); }
     },
-    onCancel() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null;
-      setState(s => ({ ...s, phase: 'cancelled', result: null, progress: '' })); },
+    onCancel() { ++epoch.current; engine.current.cancel();
+      if(dataset.current?.rowManifest){publishScoped(dataset.current);setState(s=>({...s,phase:'cancelled'}));return;}
+      scientific.current = null; dataset.current = null;
+      setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
-      setState(s => ({ ...s, phase: 'idle', result: null, error: null, progress: '' })); },
+      operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
+      setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {
       if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.
       const token = ++epoch.current; engine.current.cancel();
@@ -88,6 +153,14 @@ function Controller() {
         }
         if (!dataset.current) {
           setState(s => ({ ...s, error: { code: 'SAVED_DECLARATION_ONLY', message: 'The new intention is recorded as a user declaration. Imported original companions remain unchanged; regenerate them through the qualified Domains API to obtain another saved reading.' } })); return;
+        }
+        if(dataset.current.rowManifest){
+          if(baseReport.current&&baseData.current){
+            const reading=await engine.current.request<BrowserReading>('interpret',{report:baseReport.current,intent},progress(token));
+            if(token!==epoch.current)return;
+            baseView.current=liveView({...baseReport.current,interpretation:reading},baseData.current);
+          }
+          publishScoped(dataset.current);return;
         }
         const report = scientific.current as BrowserReport;
         setState(s=>({...s,phase:'running',processingStage:'interpret',progress:'Reading the declared objective; no fit'}));

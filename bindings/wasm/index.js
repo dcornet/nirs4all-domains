@@ -59,6 +59,8 @@ export async function createDomainsRuntime(options = {}) {
     catch(error) { return JSON.stringify({provider_error:providerError(error)}); }
   };
   return {
+    analyzeScoped: input => JSON.parse(rust.analyze_scoped_json(JSON.stringify(input),callback)),
+    analyzeScopedJson: text => rust.analyze_scoped_json(text,callback),
     analyze: input => JSON.parse(rust.analyze_json(JSON.stringify(input),callback)),
     analyzeJson: text => rust.analyze_json(text,callback),
     validate: input => JSON.parse(rust.validate_json(JSON.stringify(input))),
