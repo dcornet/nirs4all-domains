@@ -53,7 +53,7 @@ async function loadReviewed(page,files){
   await page.getByRole('button',{name:'3. Columns',exact:true}).click();
   for(const partition of ['train','test','predict']){
     for(const [source,roles] of [[`X_${partition}`,[['1000','x'],['1100','x'],['id','id']]],[`Y_${partition}`,[['yield','y'],['id','id']]]]){
-      await page.locator('.dsb-source-card__switch').selectOption(source);
+      await page.locator('.dsb__source-tab').filter({hasText:`${source}.csv`}).click();
       for(const [name,role] of roles)
         assert.equal(await page.getByLabel(`${name} role`,{exact:true}).inputValue(),role,`Reviewed role missing: ${source} / ${name} / ${role}`);
     }

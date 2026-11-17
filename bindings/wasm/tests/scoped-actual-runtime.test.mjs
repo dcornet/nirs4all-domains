@@ -95,6 +95,7 @@ test('actual scoped WASM rejects forbidden values and role/grant/consent mistake
   const rowOrder=clone('support');rowOrder.x.row_keys.reverse();adversaries.push(rowOrder);
   const missing=clone('support');missing.x.matrix[8][0]=null;adversaries.push(missing);
   const extraParameter=clone('train');extraParameter.parameters.n_components=1;adversaries.push(extraParameter);
+  const unsupportedProjection=clone('support');unsupportedProjection.representation='train_fitted_pca';adversaries.push(unsupportedProjection);
   for(const request of adversaries) {
     let calls=0;
     assert.throws(()=>rust.analyze_scoped_json(JSON.stringify(request),()=>{
@@ -102,6 +103,37 @@ test('actual scoped WASM rejects forbidden values and role/grant/consent mistake
     }));
     assert.equal(calls,0,`${request.operation}: invalid input reached provider`);
   }
+});
+
+test('actual Preflight exact audit reports zero for distinct and near nonidentical spectra without a numerical callback',()=>{
+  for(const query of [[100,200],[Number.EPSILON,0]]){
+    const input=clone('exact');input.x.matrix[8]=query;
+    input.dataset.content_version='synthetic-zero-pair-variant-v1';
+    input.dataset.content_sha256=createHash('sha256').update(JSON.stringify(input.x)).digest('hex');
+    let calls=0;
+    const report=JSON.parse(rust.analyze_scoped_json(JSON.stringify(input),()=>{calls++;throw new Error('EXACT_AUDIT_MUST_NOT_FIT');}));
+    assert.equal(report.status,'computed');assert.equal(calls,0);
+    const metric=report.value.metrics.find(m=>m.metric_id==='integrity.cross_partition_exact_duplicate_pairs');
+    assert.equal(metric.status,'computed');assert.equal(metric.value,0);
+    assert.deepEqual(report.receipt.fit_keys,[]);assert.equal(report.receipt.y_accessed,false);
+  }
+});
+
+test('actual scoped WASM reports declared technical repetitions across partitions without X or provider access',()=>{
+  const input=clone('exact');input.diagnostic='declared_identities';input.access.x=false;input.x=null;
+  const row_keys=[...input.reference_keys,...input.query_keys];
+  input.access.m_fields=['technical_repeat'];
+  input.metadata=[{name:'technical_repeat',role:'repetition',kind:'categorical',origin:'synthetic declaration',
+    derived_from_target:false,evidence:'declared',row_keys,values:row_keys.map((_,i)=>i===8?'repeat-0':`repeat-${i}`)}];
+  input.dataset.content_version='synthetic-technical-repetition-v1';
+  input.dataset.content_sha256=createHash('sha256').update(JSON.stringify(input.metadata)).digest('hex');
+  let calls=0;
+  const report=JSON.parse(rust.analyze_scoped_json(JSON.stringify(input),()=>{calls++;throw new Error('DOCUMENTARY_AUDIT_MUST_NOT_FIT');}));
+  assert.equal(report.status,'computed');assert.equal(calls,0);
+  assert.equal(report.value.columns[0].role,'repetition');
+  assert.equal(report.value.columns[0].literal_shared_nonmissing_value_count,1);
+  assert.equal(report.receipt.fields_read.x,null);assert.deepEqual(report.receipt.fields_read.y,[]);
+  assert.deepEqual(report.receipt.provider_calls,[]);assert.equal(report.receipt.physical_independence,'unverified');
 });
 
 test('compiled Rust callback spy and receipt agree on the exact projected train rows',()=>{

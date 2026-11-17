@@ -42,6 +42,10 @@ train/test/predict, reviewed-spec content binding, target-derived metadata and
 known configured Y-to-M reclassification. Getter traps demonstrate that a train
 request never reads target values or nontraining X/M cells before worker posting.
 Unknown target derivation stays null, rather than becoming a claim of absence.
+Final coverage review adds direct native/WASM checks for zero exact pairs, near
+but nonidentical spectra and declared technical repetitions crossing partitions.
+An attempted train-fitted PCA representation is rejected before any callback;
+the available raw support result separately retains its explicit projection reason.
 
 Rust spies check actual PCA/HDBSCAN inputs, query/reference matrices and provider
 requests. Refusals include forbidden Y, malformed grants, test-fit rows, missing

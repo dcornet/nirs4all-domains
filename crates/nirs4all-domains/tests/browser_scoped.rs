@@ -610,6 +610,52 @@ fn exact_audit_calls_public_preflight_only_and_preserves_its_missing_and_zero_co
 }
 
 #[test]
+fn exact_audit_keeps_distinct_and_near_nonidentical_spectra_distinct() {
+    for query in [100., f64::EPSILON] {
+        let mut v = wire("integrity_audit");
+        v["x"]["matrix"][3] = json!([query]);
+        let spy = Spy::default();
+        let result = scoped::analyze(&request(&v), &spy).unwrap();
+        spy.assert_unused();
+        let cross = result["value"]["metrics"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|m| m["metric_id"] == "integrity.cross_partition_exact_duplicate_pairs")
+            .unwrap();
+        assert_eq!(cross["status"], "computed");
+        assert_eq!(cross["value"], 0);
+        assert_eq!(result["receipt"]["fit_keys"], json!([]));
+    }
+}
+
+#[test]
+fn declared_technical_repetition_crosses_partitions_without_becoming_physical_identity() {
+    let mut v = wire("integrity_audit");
+    v["diagnostic"] = json!("declared_identities");
+    v["access"]["x"] = json!(false);
+    v["x"] = Value::Null;
+    add_metadata(
+        &mut v,
+        "technical_repeat",
+        "repetition",
+        json!(["repeat-a", "repeat-b", "repeat-c", "repeat-a", "repeat-d"]),
+    );
+    let spy = Spy::default();
+    let result = scoped::analyze(&request(&v), &spy).unwrap();
+    spy.assert_unused();
+    assert_eq!(result["status"], "computed");
+    assert_eq!(result["value"]["columns"][0]["role"], "repetition");
+    assert_eq!(
+        result["value"]["columns"][0]["literal_shared_nonmissing_value_count"],
+        1
+    );
+    assert_eq!(result["receipt"]["physical_independence"], "unverified");
+    assert!(result["receipt"]["fields_read"]["x"].is_null());
+    assert_eq!(result["receipt"]["provider_calls"], json!([]));
+}
+
+#[test]
 fn physical_identity_cross_partition_owner_validation_is_preserved_without_fallback_rerun() {
     let mut v = wire("integrity_audit");
     v["x"]["matrix"][3] = json!([0.]);
