@@ -29,3 +29,11 @@ h1,h2,h3{font-weight:650}
 
 .export-options{border:1px solid var(--line,#9aa);border-radius:12px;padding:20px;margin:24px 0;min-width:0}.export-options legend{font-weight:700;padding:0 8px}.export-option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}.export-option-grid label{display:flex;align-items:flex-start;gap:10px}.export-option-grid input{margin-top:5px;flex-shrink:0}.export-option-grid input:disabled{cursor:not-allowed}.export-option-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.section-unavailable{font-size:.85rem;overflow-wrap:anywhere;margin:5px 0 0 26px}.export-selection-preview{margin-top:20px}
 .workspace-content{overflow-wrap:anywhere}
+
+/* F4.1: descriptive factor controls and legends share the existing report surfaces. */
+.factor-association-controls,.factor-association-results{padding:1.25rem;border:1px solid var(--border,#c5d6d2);border-radius:.75rem;margin:1rem 0;background:var(--panel,transparent)}
+.factor-association-controls label{display:block;margin:.7rem 0}.factor-association-controls select{max-width:100%;min-height:2.75rem}.factor-association-controls button{margin:.5rem .5rem .5rem 0}
+.factor-association-metadata,.factor-association-facts{display:flex;gap:1.2rem;flex-wrap:wrap}.factor-association-results .table-scroll{overflow-x:auto;max-width:100%}
+.factor-association-results th,.factor-association-results td{padding:.5rem;vertical-align:top;text-align:left;border-bottom:1px solid var(--border,#c5d6d2)}
+.factor-color-swatch{display:inline-block;width:1rem;height:1rem;border:1px solid currentColor;border-radius:.15rem;vertical-align:middle}.factor-color-levels{display:flex;gap:1rem;flex-wrap:wrap;list-style:none;padding:0}.factor-color-gradient{height:1rem;max-width:20rem;margin:.5rem 0}.factor-color-endpoints{display:flex;justify-content:space-between;max-width:20rem}
+@media print{.factor-association-controls{display:none}.factor-association-results{break-inside:auto}.factor-association-results table{width:100%;font-size:8pt}}

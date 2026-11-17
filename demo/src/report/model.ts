@@ -2,6 +2,7 @@ import type { BrowserReport, LocalDataset } from '../engine/types';
 import type { PredictionIntent, UiResult, UiFinding, EvidenceStatus, UiDeclarations,ReadingMode } from '../ui-types';
 import { presentation, type ReportPresentation } from './presentation';
 import {validateSelection,type ExportSelection} from './selection';
+import {colorExportView} from './factor-privacy';
 
 const status = (value: string): EvidenceStatus => (['observed', 'available', 'computed', 'unavailable', 'unsupported', 'error', 'conditional', 'contradicted', 'not_qualified', 'not_tested', 'supported'].includes(value) ? value : 'unavailable') as EvidenceStatus;
 export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
@@ -44,6 +45,7 @@ export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
     geometryReason: report.metrics.pca.reason,
     limitations: [...report.limitations, ...data.warnings],
     provenance: { source_mode: data.mode, engine_version: report.engine_version,
+      ...(data.input.group_ids&&data.metadata.some(f=>f.role==='group')?{declared_m_group_field:data.metadata.find(f=>f.role==='group')!.name}:{}),
       input_sha256: report.input_sha256, evidence_sha256: report.evidence_sha256,
       imported_partitions: data.partitions, original_headers: data.headers, import_spec: data.importSpec,
       metadata_scope: 'Carried by this import; absence here does not establish absence in the original database.',
@@ -109,7 +111,8 @@ export interface DemoReport {
   reading_mode?: ReadingMode;
   export_selection?: ExportSelection;
 }
-export function reportModel(view: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete',selection?:ExportSelection): DemoReport {
+export function reportModel(original: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete',selection?:ExportSelection,colorGrant?:import('./factor-privacy').FactorColorExportGrant|null): DemoReport {
+  const view=colorExportView(original,colorGrant);
   if(selection)validateSelection(view,selection);
   const { spectra: _privateDisplayOnly, ...dataset } = view.dataset;
   return { protocol_version: 'domains.browser_demo_report.v1', generated_at_utc: new Date().toISOString(), language,

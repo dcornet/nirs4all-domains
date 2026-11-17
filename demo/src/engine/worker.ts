@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 import { importFiles } from './dataset-io';
 import {prepareImport,assembleImport,type ReviewedImport} from './import-draft';
-import type {ScopedRequest} from '@nirs4all/domains';
+import type {ScopedRequest,FactorRequest} from '@nirs4all/domains';
 import type { BrowserInput, BrowserReport, InputFile, WorkerReply, WorkerRequest } from './types';
 import type { PredictionIntent } from '../ui-types';
 
@@ -25,6 +25,10 @@ self.onmessage = async ({ data }: MessageEvent<WorkerRequest>) => {
     reply({ ok: true, stage: 'Loading Domains Rust / Methods WASM', stage_id: 'prepare' });
     const { createDomainsRuntime } = await import('@nirs4all/domains');
     const runtime = await createDomainsRuntime();
+    if(operation==='factor_association'){
+      reply({ok:true,stage:'Validating recorded PCA provenance and factor grants; no PCA fit',stage_id:'compute'});
+      reply({ok:true,result:runtime.analyzeFactor(payload as FactorRequest)});return;
+    }
     if(operation==='scoped'){
       reply({ok:true,stage:'Validating operation grants in Rust and executing permitted providers',stage_id:'compute'});
       reply({ok:true,result:runtime.analyzeScoped(payload as ScopedRequest)});return;

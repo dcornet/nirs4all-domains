@@ -21,7 +21,7 @@ export function sectionAvailability(view: UiResult): SectionAvailability[] {
   const references: Record<OptionalSection,string[]> = {
     pca_scores:['pca'],pca_scree:['pca'],detailed_tables:view.evidence.map(e=>e.id),methods_parameters:view.evidence.map(e=>e.id),
     neighborhood:['raw_neighbors','projected_neighbors'],clustering:['density',...(decision?.mechanisms?.some(m=>m.kind==='density_parameter')?['decision_summary']:[])],
-    experimental_factors:['experimental_factor_structure',...(decision?.factor_questions?.length?['decision_summary']:[])],
+    experimental_factors:['experimental_factor_structure',...view.evidence.filter(e=>e.id.startsWith('factor-association-')).map(e=>e.id),...(decision?.factor_questions?.length?['decision_summary']:[])],
     representation_sensitivity:['preprocessing_dependent_organization','parameter_sensitivity'],readiness:['readiness'],extended_provenance:[],glossary:[],machine_evidence:[],
   };
   return optionalSections.map(id=>{

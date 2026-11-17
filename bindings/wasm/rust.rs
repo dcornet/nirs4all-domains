@@ -81,8 +81,38 @@ impl MethodsProvider for CallbackProvider<'_> {
         self.invoke("hdbscan", r)
     }
 }
+struct FactorCallbackProvider<'a> {
+    callback: CallbackProvider<'a>,
+    version: &'a str,
+}
+impl crate::browser_factor::FactorProvider for FactorCallbackProvider<'_> {
+    fn version(&self) -> String {
+        self.version.to_owned()
+    }
+    fn execute(
+        &self,
+        operation: &str,
+        request: &serde_json::Value,
+    ) -> Result<serde_json::Value, ProviderError> {
+        self.callback.invoke(operation, request)
+    }
+}
 fn js_error(error: impl ToString) -> JsValue {
     JsValue::from_str(&error.to_string())
+}
+#[wasm_bindgen]
+pub fn analyze_factor_json(
+    input: &str,
+    callback: &Function,
+    provider_version: &str,
+) -> Result<String, JsValue> {
+    let request = crate::browser_factor::parse(input).map_err(js_error)?;
+    let provider = FactorCallbackProvider {
+        callback: CallbackProvider(callback),
+        version: provider_version,
+    };
+    let report = crate::browser_factor::analyze(&request, &provider).map_err(js_error)?;
+    serde_json::to_string(&report).map_err(js_error)
 }
 #[wasm_bindgen]
 pub fn analyze_json(input: &str, callback: &Function) -> Result<String, JsValue> {

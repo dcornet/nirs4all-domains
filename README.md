@@ -1,5 +1,18 @@
 # nirs4all-domains
 
+F4.1 adds explicit factor–PCA associations to the local browser workflow.
+Import and review keyed X/Y/M, run an admitted train-only (or declared
+unpartitioned) structure operation, then select a factor under “Which factors
+are associated with spectral structure?”. The operation reuses that PCA;
+categorical factors report component-wise eta², continuous factors use explicit
+Pearson or Spearman. Y is absent and test M is excluded from the main analysis.
+Counts, missingness, dependencies and inference limitations accompany each
+result. Color changes are display only; exporting observation-level factor
+colors requires a separate source-permission declaration, independently of
+report annex selection. See the [scientific contract](docs/browser/F4_1_SCIENTIFIC_PROTOCOL.md),
+[binding usage](bindings/wasm/README.md) and
+[execution record](docs/browser/F4_1_VALIDATION.md) for qualification.
+
 [F3.5 report customization](docs/report/F3_5_USER_GUIDE.md) adds selectable
 documentary supplements around a mandatory scientific core, integral machine
 evidence and uncapped printing. Qualification and publication are tracked in its PR.

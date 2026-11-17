@@ -1,0 +1,465 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_factor_association.v1.input",
+  "$comment": "Shape validation only; Rust verifies original evidence hashes, keys, access and inferential coherence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "dataset",
+    "manifest",
+    "population",
+    "pca",
+    "factors",
+    "dependencies",
+    "access",
+    "representation",
+    "explicit_transductive",
+    "components",
+    "correlation_method",
+    "inference",
+    "parameters"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "protocol_version": {"const": "domains.browser_factor_association.v1"},
+    "dataset": {"$ref": "#/$defs/dataset"},
+    "manifest": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key","partition"],
+        "properties": {"key": {"type": "string","minLength": 1},"partition": {"enum": ["train","test","predict","unpartitioned"]}}
+      },
+      "maxItems": 2000
+    },
+    "population": {"$ref": "#/$defs/population"},
+    "pca": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report","row_keys","fit_receipt"],
+      "properties": {
+        "report": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "protocol_version",
+            "status",
+            "scope",
+            "metrics",
+            "input_sha256",
+            "evidence_sha256",
+            "test_target_accessed",
+            "raw_spectra_included"
+          ],
+          "properties": {
+            "schema_version": {"const": 1},
+            "protocol_version": {"const": "domains.browser_x.v1"},
+            "status": {"const": "computed"},
+            "scope": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "dataset_id",
+                "source_id",
+                "content_sha256",
+                "n_observations",
+                "n_bands",
+                "axis_unit",
+                "axis_sha256",
+                "observation_ids_sha256",
+                "population",
+                "split",
+                "target",
+                "identity_evidence",
+                "groups",
+                "metadata_coverage",
+                "n_declared_groups",
+                "policy"
+              ],
+              "properties": {
+                "dataset_id": {"type": "string","minLength": 1},
+                "source_id": {"type": "string","minLength": 1},
+                "content_sha256": {"$ref": "#/$defs/hash"},
+                "n_observations": {"type": "integer","minimum": 3,"maximum": 2000},
+                "n_bands": {"type": "integer","minimum": 1,"maximum": 1000000},
+                "axis_unit": {"type": "string","minLength": 1},
+                "axis_sha256": {"$ref": "#/$defs/hash"},
+                "observation_ids_sha256": {"$ref": "#/$defs/hash"},
+                "population": {"const": "complete imported source; descriptive full-X fit"},
+                "split": {"const": "none; no predictive evaluation"},
+                "target": {"const": "absent"},
+                "identity_evidence": {"const": "observation_identity_only"},
+                "groups": {"type": "string","minLength": 1},
+                "metadata_coverage": {"type": "string","minLength": 1},
+                "n_declared_groups": {"type": ["integer","null"],"minimum": 0,"maximum": 2000},
+                "policy": {"type": "string","minLength": 1}
+              }
+            },
+            "metrics": {
+              "type": "object",
+              "required": [
+                "pca",
+                "density",
+                "raw_neighbors",
+                "projected_neighbors",
+                "metadata_factor_association",
+                "resampling_stability",
+                "parameter_sensitivity",
+                "predictive_performance"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "pca": {"$ref": "#/$defs/transport"},
+                "density": {"$ref": "#/$defs/transport"},
+                "raw_neighbors": {"$ref": "#/$defs/transport"},
+                "projected_neighbors": {"$ref": "#/$defs/transport"},
+                "metadata_factor_association": {"$ref": "#/$defs/transport"},
+                "resampling_stability": {"$ref": "#/$defs/transport"},
+                "parameter_sensitivity": {"$ref": "#/$defs/transport"},
+                "predictive_performance": {"$ref": "#/$defs/transport"}
+              }
+            },
+            "input_sha256": {"$ref": "#/$defs/hash"},
+            "evidence_sha256": {"$ref": "#/$defs/hash"},
+            "test_target_accessed": {"const": false},
+            "raw_spectra_included": {"const": false}
+          }
+        },
+        "row_keys": {"type": "array","minItems": 3,"items": {"type": "string","minLength": 1},"maxItems": 2000,"uniqueItems": true},
+        "fit_receipt": {"anyOf": [{"type": "null"},{"$ref": "#/$defs/scoped_receipt"}]}
+      }
+    },
+    "factors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"allOf": [{"$ref": "#/$defs/column"},{"properties": {"kind": {"enum": ["categorical","continuous"]}},"type": "object"}]},
+      "maxItems": 4
+    },
+    "dependencies": {"type": "array","minItems": 0,"items": {"$ref": "#/$defs/column"},"maxItems": 24},
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x","m_fields","y_fields"],
+      "properties": {
+        "x": {"const": false},
+        "m_fields": {"type": "array","minItems": 1,"items": {"type": "string","minLength": 1},"maxItems": 28,"uniqueItems": true},
+        "y_fields": {"type": "array","minItems": 0,"items": {},"maxItems": 0}
+      }
+    },
+    "representation": {"const": "raw"},
+    "explicit_transductive": {"type": "boolean"},
+    "components": {"const": "all_resolved"},
+    "correlation_method": {"enum": ["pearson","spearman"]},
+    "inference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode","plan"],
+      "properties": {"mode": {"enum": ["descriptive","exact_if_qualified"]},"plan": {"anyOf": [{"type": "null"},{"$ref": "#/$defs/plan"}]}}
+    },
+    "parameters": {"$ref": "#/$defs/parameters"}
+  },
+  "$defs": {
+    "hash": {"type": "string","pattern": "^[0-9a-fA-F]{64}$"},
+    "population": {"enum": ["train","unpartitioned","global_transductive"]},
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset_id","source_id","content_version","content_sha256"],
+      "properties": {
+        "dataset_id": {"type": "string","minLength": 1},
+        "source_id": {"type": "string","minLength": 1},
+        "content_version": {"type": "string","minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "external": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uri","content_sha256","qualification","basis"],
+      "properties": {
+        "uri": {"type": "string","minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "qualification": {"type": "string","minLength": 1},
+        "basis": {"type": "string","minLength": 1}
+      }
+    },
+    "parameters": {"type": "object","additionalProperties": false,"required": ["preset"],"properties": {"preset": {"const": "f41_factor_pc_v1"}}},
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name","role","kind","unit","origin","derived_from_target","evidence","row_keys","values"],
+      "properties": {
+        "name": {"type": "string","minLength": 1},
+        "role": {"type": "string","minLength": 1},
+        "kind": {"enum": ["categorical","continuous","unknown"]},
+        "unit": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+        "origin": {"type": "string","minLength": 1},
+        "derived_from_target": {"type": ["boolean","null"]},
+        "evidence": {"enum": ["declared","verified","unknown"]},
+        "row_keys": {"type": "array","minItems": 3,"items": {"type": "string","minLength": 1},"maxItems": 2000,"uniqueItems": true},
+        "values": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"anyOf": [{"type": "null"},{"anyOf": [{"type": "string"},{"type": "number"},{"type": "boolean"}]}]},
+          "maxItems": 2000
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "continuous"}},"required": ["kind"]},
+          "then": {"properties": {"values": {"type": "array","minItems": 3,"items": {"type": ["number","null"]},"maxItems": 2000}}}
+        }
+      ]
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "population",
+        "dataset_content_sha256",
+        "pca_evidence_sha256",
+        "external_evidence",
+        "unit_field",
+        "unit_kind",
+        "dependency_fields",
+        "no_other_dependencies",
+        "selection",
+        "factor_ids",
+        "components",
+        "missingness",
+        "null_model"
+      ],
+      "properties": {
+        "protocol_version": {"const": "domains.factor_exchangeability.v1"},
+        "population": {"$ref": "#/$defs/population"},
+        "dataset_content_sha256": {"$ref": "#/$defs/hash"},
+        "pca_evidence_sha256": {"$ref": "#/$defs/hash"},
+        "external_evidence": {"$ref": "#/$defs/external"},
+        "unit_field": {"type": "string","minLength": 1},
+        "unit_kind": {"enum": ["specimen","independent_acquisition"]},
+        "dependency_fields": {"type": "array","minItems": 0,"items": {"type": "string","minLength": 1},"maxItems": 28,"uniqueItems": true},
+        "no_other_dependencies": {"type": "boolean"},
+        "selection": {"const": "prospective"},
+        "factor_ids": {"type": "array","minItems": 1,"items": {"type": "string","minLength": 1},"maxItems": 4,"uniqueItems": true},
+        "components": {"const": "all_resolved"},
+        "missingness": {"const": "complete_units"},
+        "null_model": {"const": "unrestricted_exchangeability_given_fitted_x"}
+      }
+    },
+    "scoped_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "operation",
+        "diagnostic",
+        "dataset",
+        "request_sha256",
+        "manifest_sha256",
+        "reference_keys",
+        "query_keys",
+        "fit_keys",
+        "reference_population",
+        "query_population",
+        "fit",
+        "representation",
+        "parameters",
+        "selection_context",
+        "explicit_transductive",
+        "exclusion_field",
+        "fields_read",
+        "provider_calls",
+        "test_x_accessed",
+        "y_accessed",
+        "physical_independence",
+        "physical_id_encoding",
+        "receipt_sha256",
+        "requested_fit_keys",
+        "fit_attempted",
+        "fit_executed"
+      ],
+      "properties": {
+        "protocol_version": {"const": "domains.browser_scoped_analysis.v1"},
+        "operation": {"enum": ["train_structure","global_descriptive_transductive"]},
+        "diagnostic": {"$ref": "#/$defs/scoped_diagnostic"},
+        "dataset": {"$ref": "#/$defs/scoped_dataset"},
+        "request_sha256": {"$ref": "#/$defs/scoped_hash"},
+        "manifest_sha256": {"$ref": "#/$defs/scoped_hash"},
+        "reference_keys": {"type": "array","items": {"type": "string"}},
+        "query_keys": {"type": "array","items": {"type": "string"}},
+        "fit_keys": {"type": "array","items": {"type": "string"}},
+        "reference_population": {"$ref": "#/$defs/scoped_population"},
+        "query_population": {"$ref": "#/$defs/scoped_population"},
+        "fit": {"enum": ["train","transductive"]},
+        "representation": {"const": "raw"},
+        "parameters": {"type": "object","additionalProperties": false,"required": ["preset"],"properties": {"preset": {"const": "f4_fixed_raw_v1"}}},
+        "selection_context": {"enum": ["pre_selection_integrity_audit","post_evaluation_explanation","unspecified"]},
+        "explicit_transductive": {"type": "boolean"},
+        "exclusion_field": {"type": ["string","null"]},
+        "fields_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x","m","y"],
+          "properties": {
+            "x": {
+              "oneOf": [
+                {"type": "null"},
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["row_keys","matrix","axis_sha256","axis_unit"],
+                  "properties": {
+                    "row_keys": {"type": "array","items": {"type": "string"}},
+                    "matrix": {"$ref": "#/$defs/scoped_matrixReceipt"},
+                    "axis_sha256": {"$ref": "#/$defs/scoped_hash"},
+                    "axis_unit": {"type": "string"}
+                  }
+                }
+              ]
+            },
+            "m": {"type": "array","items": {"$ref": "#/$defs/scoped_fieldRead"}},
+            "y": {"type": "array","maxItems": 0}
+          }
+        },
+        "provider_calls": {"type": "array","items": {"$ref": "#/$defs/scoped_providerCall"}},
+        "test_x_accessed": {"type": "boolean"},
+        "y_accessed": {"const": false},
+        "physical_independence": {"type": "string"},
+        "physical_id_encoding": {"type": "string"},
+        "receipt_sha256": {"$ref": "#/$defs/scoped_hash"},
+        "requested_fit_keys": {"type": "array","minItems": 3,"items": {"type": "string","minLength": 1},"maxItems": 2000,"uniqueItems": true},
+        "fit_attempted": {"const": true},
+        "fit_executed": {"const": true}
+      }
+    },
+    "scoped_population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role","row_keys"],
+      "properties": {"role": {"enum": ["train","test","unpartitioned"]},"row_keys": {"type": "array","items": {"type": "string"}}}
+    },
+    "scoped_dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset_id","source_id","content_version","content_sha256"],
+      "properties": {
+        "dataset_id": {"type": "string","minLength": 1},
+        "source_id": {"type": "string","minLength": 1},
+        "content_version": {"type": "string","minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/scoped_inputHash"}
+      }
+    },
+    "scoped_matrixReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shape","sha256"],
+      "properties": {
+        "shape": {"type": "array","minItems": 1,"maxItems": 2,"items": {"type": "integer","minimum": 0}},
+        "sha256": {"$ref": "#/$defs/scoped_hash"}
+      }
+    },
+    "scoped_operation": {
+      "enum": [
+        "integrity_audit",
+        "train_structure",
+        "metadata_factor_audit",
+        "cross_partition_metadata_audit",
+        "train_reference_test_query",
+        "global_descriptive_transductive"
+      ]
+    },
+    "scoped_diagnostic": {"oneOf": [{"type": "null"},{"enum": ["exact_spectra","declared_identities"]}]},
+    "scoped_fieldRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name","role","kind","origin","evidence","derived_from_target","row_keys","shape","sha256"],
+      "properties": {
+        "name": {"type": "string"},
+        "role": {"type": "string"},
+        "kind": {"enum": ["categorical","continuous","unknown"]},
+        "origin": {"type": "string"},
+        "evidence": {"enum": ["declared","verified","unknown"]},
+        "derived_from_target": {"type": ["boolean","null"]},
+        "row_keys": {"type": "array","items": {"type": "string"}},
+        "shape": {"type": "array","minItems": 1,"maxItems": 1,"items": {"type": "integer","minimum": 0}},
+        "sha256": {"$ref": "#/$defs/scoped_hash"}
+      }
+    },
+    "scoped_inputHash": {"type": "string","pattern": "^[0-9a-fA-F]{64}$"},
+    "scoped_fit": {"enum": ["none","train","transductive"]},
+    "scoped_hash": {"type": "string","pattern": "^[0-9a-f]{64}$"},
+    "scoped_providerCall": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider","operation","request_sha256","matrices","status","reason"],
+          "properties": {
+            "provider": {"type": "string"},
+            "operation": {"type": "string"},
+            "request_sha256": {"$ref": "#/$defs/scoped_hash"},
+            "matrices": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "matrix": {"$ref": "#/$defs/scoped_matrixReceipt"},
+                "query": {"$ref": "#/$defs/scoped_matrixReceipt"},
+                "reference": {"$ref": "#/$defs/scoped_matrixReceipt"},
+                "values": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["shape","sha256"],
+                  "properties": {"shape": {"type": "array","items": {"type": "integer","minimum": 0}},"sha256": {"$ref": "#/$defs/scoped_hash"}}
+                },
+                "source_id": {"type": "string"},
+                "sample_ids": {"type": "array","items": {"type": "string"}},
+                "query_group_ids_sha256": {"$ref": "#/$defs/scoped_hash"},
+                "reference_group_ids_sha256": {"$ref": "#/$defs/scoped_hash"}
+              }
+            },
+            "status": {"enum": ["computed","unsupported","error"]},
+            "reason": {"type": ["string","null"]}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider","operation","request_sha256","status","reason","numerical_provider","numerical_fit_possible","matrices","sample_ids"],
+          "properties": {
+            "provider": {"type": "string"},
+            "operation": {"type": "string"},
+            "request_sha256": {"$ref": "#/$defs/scoped_hash"},
+            "status": {"enum": ["computed","error"]},
+            "reason": {"type": ["string","null"]},
+            "numerical_provider": {"type": "string"},
+            "numerical_fit_possible": {"const": false},
+            "matrices": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["matrix"],
+              "properties": {"matrix": {"$ref": "#/$defs/scoped_matrixReceipt"}}
+            },
+            "sample_ids": {"type": "array","items": {"type": "string"}}
+          }
+        }
+      ]
+    },
+    "transport": {
+      "anyOf": [
+        {"anyOf": [{"type": "null"},{"type": "boolean"},{"type": "number"},{"type": "string"}]},
+        {"type": "array","minItems": 0,"items": {"$ref": "#/$defs/transport"}},
+        {
+          "type": "object",
+          "propertyNames": {"not": {"enum": ["spectra","X","Y","y","Y_train","Y_test","y_train","y_test","targets"]}},
+          "additionalProperties": {"$ref": "#/$defs/transport"}
+        }
+      ]
+    }
+  }
+}

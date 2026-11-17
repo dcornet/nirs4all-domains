@@ -89,6 +89,15 @@ jobs:
           $env:N4DOMAINS_SCOPED_NATIVE_PARITY_IN = 'demo/test-results/scoped-native-parity.json'
           node --test bindings/wasm/tests/scoped-actual-runtime.test.mjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Execute F4.1 synthetic factor protocol with actual WASM and published Methods
+        run: node bindings/wasm/tests/factor-protocol.mjs wasm demo/test-results/factor-wasm.json
+      - name: Replay identical recorded factor score requests natively and compare scientific outputs
+        shell: pwsh
+        run: |
+          python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/factor-native.json'); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_factor_qualification','--','demo/test-results/factor-wasm.json']))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node bindings/wasm/tests/factor-protocol.mjs compare demo/test-results/factor-wasm.json demo/test-results/factor-native.json demo/test-results/factor-parity-receipt.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run build --prefix demo
       - name: Install supported hosted browser engines
         working-directory: demo
