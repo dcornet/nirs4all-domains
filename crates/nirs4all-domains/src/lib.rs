@@ -9,6 +9,7 @@ pub mod browser;
 mod browser_binding;
 pub mod browser_factor;
 pub mod browser_scoped;
+pub mod browser_support;
 pub mod contract;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod factor_methods;
@@ -20,6 +21,8 @@ pub mod methods;
 mod protocol;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod structure;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
+pub mod support_methods;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod units;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]

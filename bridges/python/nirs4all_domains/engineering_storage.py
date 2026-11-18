@@ -60,11 +60,23 @@ class EngineeringStorage:
         pointer = self._read(NAMESPACE + '/current.json')
         if not isinstance(pointer, dict) or set(pointer) != {'protocol', 'decision'} or pointer['protocol'] != PROTOCOL:
             fail('OWNER_POLICY_POINTER_INVALID')
-        relative = pointer['decision']
-        if not isinstance(relative, str) or not re.fullmatch(NAMESPACE + r'/decisions/[0-9a-f]{32}\.json', relative):
+        relative, seen, child, policy = pointer['decision'], set(), None, None
+        while relative is not None:
+            if not isinstance(relative, str) or not re.fullmatch(NAMESPACE + r'/decisions/[0-9a-f]{32}\.json', relative) or relative in seen:
+                fail('OWNER_POLICY_POINTER_INVALID')
+            seen.add(relative)
+            parent = self._read(relative)
+            self._validate_policy(parent)
+            if child is not None and 'previous_policy_sha256' in child:
+                preserved = ('baseline_combined_bytes', 'baseline_measurement', 'science_journal_sha256',
+                             'effective_bytes', 'authorized_max_bytes', 'reserve_free_bytes', 'recipe_sha256')
+                if child['previous_policy_sha256'] != fingerprint(parent) or any(child[k] != parent[k] for k in preserved):
+                    fail('OWNER_POLICY_AMENDMENT_CHAIN_INVALID')
+            if policy is None:
+                policy = parent
+            child, relative = parent, parent.get('previous_decision')
+        if policy is None:
             fail('OWNER_POLICY_POINTER_INVALID')
-        policy = self._read(relative)
-        self._validate_policy(policy)
         return policy
 
     @staticmethod
@@ -79,6 +91,10 @@ class EngineeringStorage:
             if p['engineering_bytes'] > p['effective_bytes'] - p['baseline_combined_bytes'] or p['reserve_free_bytes'] < MIN_RESERVE:
                 fail('OWNER_POLICY_LIMIT_EXCEEDED')
             if not all(sha(p[k]) for k in ('recipe_sha256', 'owner_request_sha256', 'science_journal_sha256')):
+                fail('OWNER_POLICY_INVALID')
+            if not isinstance(p['baseline_measurement'], str) or not re.fullmatch(NAMESPACE + r'/measurements/[0-9a-f]{32}\.json', p['baseline_measurement']):
+                fail('OWNER_POLICY_INVALID')
+            if 'previous_policy_sha256' in p and (not sha(p['previous_policy_sha256']) or p.get('previous_decision') is None):
                 fail('OWNER_POLICY_INVALID')
             if not isinstance(p['decision_date'], str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', p['decision_date']):
                 fail('OWNER_POLICY_INVALID')
@@ -140,20 +156,17 @@ class EngineeringStorage:
     def activate(self, *, effective_bytes, engineering_bytes, authorized_max_bytes,
                  reserve_free_bytes, owner_request_sha256, decision_date, recipe_sha256):
         with serial_lease(self.root / 'controller.lock'):
-            previous = None
-            previous_cap = None
-            if safe_path(self.store.root, NAMESPACE + '/current.json').exists():
-                previous_cap = self.current()['effective_bytes']  # A broken policy cannot silently be replaced.
-                previous = self._read(NAMESPACE + '/current.json')['decision']
+            if safe_path(self.store.root, NAMESPACE + '/current.json').exists() or any((self.root / 'decisions').glob('*.json')):
+                fail('OWNER_POLICY_ALREADY_ACTIVE_USE_AMEND')
             measurement = self.measure(recipe_sha256)
             m = measurement['value']
             p = dict(protocol=PROTOCOL, effective_bytes=effective_bytes, engineering_bytes=engineering_bytes,
                      authorized_max_bytes=authorized_max_bytes, reserve_free_bytes=reserve_free_bytes,
                      baseline_combined_bytes=m['combined_bytes'],
-                     previous_local_cap_bytes=m['workspace_ceiling_bytes'] if previous_cap is None else previous_cap,
+                     previous_local_cap_bytes=m['workspace_ceiling_bytes'],
                      owner_request_sha256=owner_request_sha256, decision_date=decision_date,
                      recipe_sha256=recipe_sha256, science_journal_sha256=m['journal_sha256'],
-                     baseline_measurement=measurement['receipt'], previous_decision=previous)
+                     baseline_measurement=measurement['receipt'], previous_decision=None)
             self._validate_policy(p)
             if min(m['free_volume_bytes'].values()) < reserve_free_bytes:
                 fail('INSUFFICIENT_PHYSICAL_RESERVE')
@@ -161,6 +174,31 @@ class EngineeringStorage:
             self._write(decision, p)
             self._write(NAMESPACE + '/current.json', {'protocol': PROTOCOL, 'decision': decision})
             return self._snapshot(p, measurement, 0)
+
+    def amend(self, *, effective_bytes, engineering_bytes, authorized_max_bytes,
+              reserve_free_bytes, owner_request_sha256, decision_date, recipe_sha256):
+        """Change the total engineering allowance without resetting its baseline."""
+        with serial_lease(self.root / 'controller.lock'):
+            previous = self.current()
+            unchanged = dict(effective_bytes=effective_bytes, authorized_max_bytes=authorized_max_bytes,
+                             reserve_free_bytes=reserve_free_bytes, recipe_sha256=recipe_sha256)
+            if any(value != previous[name] for name, value in unchanged.items()):
+                fail('OWNER_POLICY_AMENDMENT_SCOPE_INVALID')
+            p = {**previous, 'engineering_bytes': engineering_bytes,
+                 'owner_request_sha256': owner_request_sha256, 'decision_date': decision_date,
+                 'previous_local_cap_bytes': previous['effective_bytes'],
+                 'previous_decision': self._read(NAMESPACE + '/current.json')['decision'],
+                 'previous_policy_sha256': fingerprint(previous)}
+            self._validate_policy(p)
+            measurement = self.measure(previous['recipe_sha256'])
+            p['amendment_measurement'] = measurement['receipt']
+            result = self._snapshot(p, measurement, 0)
+            if result['status'] != 'ready':
+                fail('OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE')
+            decision = NAMESPACE + '/decisions/' + uuid.uuid4().hex + '.json'
+            self._write(decision, p)
+            self._write(NAMESPACE + '/current.json', {'protocol': PROTOCOL, 'decision': decision})
+            return result
 
     def snapshot(self, requested_bytes=0):
         with serial_lease(self.root / 'controller.lock'):

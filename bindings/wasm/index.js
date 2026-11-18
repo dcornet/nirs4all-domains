@@ -3,6 +3,7 @@
 import init, * as rust from './native/nirs4all_domains.js';
 import * as methods from '@nirs4all/methods';
 import { createFactorCallback } from './factor-provider.js';
+import { createSupportCallback } from './support-provider.js';
 
 const nullable = value => Number.isFinite(value) ? value : null;
 function matrix(rows) {
@@ -32,6 +33,7 @@ export async function createDomainsRuntime(options = {}) {
   if (abi[0] !== 2 || abi[1] < 20) throw new Error('METHODS_ABI_2_20_REQUIRED');
   const backend_version = methods.version();
   const factorCallback = createFactorCallback(backend_version);
+  const supportCallback = createSupportCallback(backend_version);
   const capabilities = ['pca','summary','nearest_neighbors','hdbscan'].map(id => ({ capability_id:`methods.${id}`,available:true,qualified:false,reason:`${backend_version}; bounded browser protocol` }));
   function dispatch(operation, payload) {
     const r = JSON.parse(payload);
@@ -61,6 +63,8 @@ export async function createDomainsRuntime(options = {}) {
     catch(error) { return JSON.stringify({provider_error:providerError(error)}); }
   };
   return {
+    analyzeSupport: input => JSON.parse(rust.analyze_support_json(JSON.stringify(input),supportCallback,backend_version)),
+    analyzeSupportJson: text => rust.analyze_support_json(text,supportCallback,backend_version),
     analyzeFactor: input => JSON.parse(rust.analyze_factor_json(JSON.stringify(input),factorCallback,backend_version)),
     analyzeFactorJson: text => rust.analyze_factor_json(text,factorCallback,backend_version),
     analyzeScoped: input => JSON.parse(rust.analyze_scoped_json(JSON.stringify(input),callback)),

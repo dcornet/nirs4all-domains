@@ -1,5 +1,20 @@
 # nirs4all-domains
 
+F4.2 adds an explicit **train-fitted PCA / test projection** operation and a
+separate indexed-fold T²/Q monitor. Import and review train/test partitions,
+then use “How do test observations sit relative to train?”. FlexiblePCA is fitted
+on train only; its live state is checked before and after both transforms.
+No Y or predict spectrum is accessed. Raw F4.0 neighbors and F4.1 factor–PCA
+associations retain their original evidence and fitted bases.
+
+Monitoring values and empirical thresholds come from Methods 1.3.13 / ABI 2.20.
+Unknown/dependent experimental units do not gain independently calibrated limits.
+Neither a distance nor a crossing is a prediction-failure or leakage probability.
+FlexiblePCA eigenvalues/rank resolution remain explicitly unavailable, rather
+than borrowed from another PCA. See the [protocol](docs/browser/F4_2_SCIENTIFIC_PROTOCOL.md),
+[user guide](docs/browser/F4_2_USER_GUIDE.md), [fit/transform contract](docs/browser/F4_2_FIT_TRANSFORM_CONTRACT.md)
+and [qualification record](docs/browser/F4_2_VALIDATION.md).
+
 F4.1 adds explicit factor–PCA associations to the local browser workflow.
 Import and review keyed X/Y/M, run an admitted train-only (or declared
 unpartitioned) structure operation, then select a factor under “Which factors
@@ -37,8 +52,9 @@ a scientific request or report export. Current paths include train-only
 structure, raw train-reference/test-query neighbors, documentary metadata
 audits, and explicit transductive train-plus-test structure that excludes
 predict rows. Unpartitioned data retain the legacy full-source descriptive path.
-Train-fitted PCA query projection and statistical metadata association remain
-unqualified. The demo also provides conditional intended-use reading and offline
+The F4.1 association and F4.2 train-fitted support operations have separate
+qualification records; they do not broaden this original F4.0 protocol. The demo
+also provides conditional intended-use reading and offline
 HTML/Markdown/JSON exports. Qualified saved D1–D6.1 examples retain their original
 annotations and are explicitly separate from browser calculations. See the
 [capability matrix](docs/WASM_CAPABILITIES.md), [user guide](docs/WASM_DEMO_GUIDE.md),

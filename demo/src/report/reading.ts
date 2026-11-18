@@ -58,8 +58,8 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
   for(const id of selection.selected_sections){
     let body='';
     if(id==='pca_scores'||id==='pca_scree'){
-      const f=p.figures.find(f=>id==='pca_scree'?f.kind==='scree':f.kind!=='scree');
-      if(f)body=html?figureHtml(f,locale):[f.title,f.definition,f.read,f.observed,f.population,f.representation,f.unit,f.xLabel,f.yLabel,...f.limitations].map(paragraph).join('')+pairTable(f.id,f.title,sourceRows({points:f.points,eigenvalues:f.eigenvalues}))+reference(f.evidenceId);
+      const figures=p.figures.filter(f=>id==='pca_scree'?f.kind==='scree':f.kind!=='scree');
+      body=figures.map(f=>html?figureHtml(f,locale):[f.title,f.definition,f.read,f.observed,f.population,f.representation,f.unit,f.xLabel,f.yLabel,...f.limitations].map(paragraph).join('')+pairTable(f.id,f.title,sourceRows({points:f.points,eigenvalues:f.eigenvalues}))+reference(f.evidenceId)).join('');
     }else if(id==='detailed_tables'){
       body=p.blocks.map(b=>b.tables.filter(tab=>!tab.id.endsWith('-values')).map(table).join('')+reference(b.id)).join('');
       if(report.pca?.points.length)body+=table({id:'pca-coordinate-table',title:c.scores,columns:['observation_id','PC1','PC2 (display rail if unavailable)','group'],rows:report.pca.points.map(point=>[point.id,point.x,point.y,point.group??null]),note:report.pca.resolvedComponents===1?c.oneLimit:c.scoreLimit});

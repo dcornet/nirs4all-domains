@@ -1,4 +1,6 @@
 import type {ScopedMetadata} from './scoped.js';
+import type {SupportRequest,SupportResult} from './support.js';
+export type {SupportRequest,SupportResult,SupportParameters,SupportLimitPlan,SupportProjection,SupportMonitor} from './support.js';
 export type PredictionIntent = 'study' | 'known_acquisitions' | 'new_specimens' | 'new_groups' | 'new_context' | 'unknown';
 export interface BrowserRequest {
   schema_version: 1;
@@ -84,6 +86,8 @@ export interface BrowserReport {
 }
 export interface Capability { capability_id: string; available: boolean; qualified: boolean; reason: string | null }
 export interface DomainsRuntime {
+  analyzeSupport(input:SupportRequest):SupportResult;
+  analyzeSupportJson(text:string):string;
   analyzeFactor(input: FactorRequest): FactorResult;
   analyzeFactorJson(text:string):string;
   analyzeScoped(input: import('./scoped.js').ScopedRequest): import('./scoped.js').ScopedResult;

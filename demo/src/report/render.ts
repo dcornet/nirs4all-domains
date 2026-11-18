@@ -47,9 +47,14 @@ export function figureSvg(figure: DisplayFigure, locale: Locale): string {
       drawing+=line(x,y0,x,y0-height,'grid')+text(x,y0+20,axisValue(xmin*(1-f)+xmax*f,locale),'text-anchor="middle"');
       if(figure.kind==='scores'){const y=y0-height*f;drawing+=line(x0,y,x0+width,y,'grid')+text(x0-8,y+4,axisValue(ymin*(1-f)+ymax*f,locale),'text-anchor="end"');}
     }
-    drawing+=points.map(p=>`<circle cx="${x0+width*position(p.x,xmin,xmax)}" cy="${figure.kind==='scores1d'?y0-height/2:y0-height*position(p.y,ymin,ymax)}" r="3.5" fill="${escape(p.group===undefined?'#0f766e':figure.groupColors?.[p.group]??'#0f766e')}" fill-opacity=".65"><title>${escape(p.id)}: ${escape(p.x)}${figure.kind==='scores'?`, ${escape(p.y)}`:''} ${escape(p.group??'')}</title></circle>`).join('');
+    drawing+=points.map(p=>{
+      const cx=x0+width*position(p.x,xmin,xmax),cy=figure.kind==='scores1d'?y0-height/2:y0-height*position(p.y,ymin,ymax);
+      const attrs=`fill="${escape(p.group===undefined?'#0f766e':figure.groupColors?.[p.group]??'#0f766e')}" fill-opacity=".65"`;
+      const title=`<title>${escape(p.id)}: ${escape(p.x)}${figure.kind==='scores'?`, ${escape(p.y)}`:''} ${escape(p.group??'')}</title>`;
+      return figure.populationMarkers&&p.group==='test'?`<rect x="${cx-3.5}" y="${cy-3.5}" width="7" height="7" ${attrs}>${title}</rect>`:`<circle cx="${cx}" cy="${cy}" r="3.5" ${attrs}>${title}</circle>`;
+    }).join('');
   }
-  const label=figure.kind==='scores1d'?c.oneLimit:figure.yLabel;
+  const label=figure.kind==='scores1d'?(figure.populationMarkers?(locale==='fr'?'Rail d’affichage ; aucune seconde composante mesurée.':'Display rail; no second measured component.'):c.oneLimit):figure.yLabel;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 350" role="img" aria-labelledby="${figure.id}-title ${figure.id}-desc"><title id="${figure.id}-title">${escape(figure.title)}</title><desc id="${figure.id}-desc">${escape(figure.definition+' '+figure.observed+' '+figure.limitations.join(' '))}</desc><style>text{font:11px system-ui;fill:#31474b}line{stroke:#55686d;stroke-width:1}.grid{stroke:#dce5e2;stroke-width:.6}</style>${drawing}${line(x0,y0,x0+width,y0)}${figure.kind==='scores1d'?'':line(x0,y0,x0,y0-height)}${text(x0+width/2,310,figure.xLabel,'text-anchor="middle"')}${figure.kind==='scores1d'?text(x0+width/2,335,label,'text-anchor="middle" font-size="10"'):text(18,150,label,'text-anchor="middle" transform="rotate(-90 18 150)"')}</svg>`;
 }
 export function figureHtml(figure: DisplayFigure, locale: Locale): string {

@@ -1,5 +1,35 @@
 # Prospective Domains storage decision — 2026-11-17
 
+## Current cumulative amendment — 2026-11-18
+
+F4.2 explicitly authorizes **4,000,000,000 bytes total cumulative engineering**.
+The existing controller's new `amend` operation was actually applied, retaining
+the initial **18,663,326,977-byte baseline**, all charged growth, the original
+measurement and scientific-journal provenance. `activate` now refuses an already
+existing policy; it cannot silently restart the counter. The authenticated
+decision links its predecessor and fingerprint, and the full retained chain is
+verified. No second registry, key or scientific reservation was created.
+
+The effective 25,000,000,000-byte and maximum 50,000,000,000-byte caps, per-volume
+2 GiB reserve and scientific ceiling/cumulative reservations remain unchanged.
+The amendment measured **20,103,985,118 bytes**, of which **1,440,658,141 bytes**
+remain charged to engineering, leaving **2,559,341,859 bytes**. Its authenticated
+policy fingerprint is
+`85afbe078e461fd70ad8e578645701d0ebc7818fe77f680be83da0e0dd0653a4`.
+Fourteen synthetic controller tests passed before application. Amendments check
+fresh aggregate growth and physical margins before publishing the pointer;
+failed amendments preserve the active decision. The recipe and science journal
+hashes below remain unchanged. See the [F4.2 staged plan](../browser/F4_2_RESOURCE_PLAN.md)
+and its final execution record for later usage. Earlier figures below retain
+their 2026-11-17 attribution; 2 GiB is the former allowance, not the current cap.
+
+Example: use `amend` with the same locator/workspace/recipe arguments as the CLI
+below and explicit `--engineering-bytes 4000000000`, unchanged effective/max/
+reserve values, owner request digest and decision date. No baseline parameter
+is accepted. A fresh `snapshot` reports the preserved baseline and charged use.
+
+## Initial decision — 2026-11-17
+
 The owner authorizes **50,000,000,000 bytes** of cumulative local storage in the
 existing accounting scope. After inventory and targeted cleanup, the applied
 operational cap is **25,000,000,000 bytes**, with **2,147,483,648 bytes** of

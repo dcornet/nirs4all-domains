@@ -1,0 +1,15 @@
+import {useState} from 'react';
+import type {SupportRun} from './engine/support';
+import type {Locale} from './ui-types';
+import {initialSupportParameters,type SupportParameters} from './engine/support';
+import {supportTitle,supportLimit,supportTables,supportFigures} from './report/support';
+import {figureHtml,tableHtml} from './report/render';
+export function SupportPanel({results,locale,busy,onRun}:{results:SupportRun[];locale:Locale;busy:boolean;onRun:(parameters:SupportParameters)=>void}){
+ const [parameters,setParameters]=useState({...initialSupportParameters});const fr=locale==='fr';
+ return <section className="workspace-section" id="train-fitted-support"><h2>{supportTitle(locale)}</h2><p>{fr?'Fit sur train uniquement ; projection de test sans réajustement. Aucun Y consulté. Les voisinages bruts restent une opération F4.0 séparée.':'Fit on train only; project test without refitting. No Y accessed. Raw neighborhoods remain a separate F4.0 operation.'}</p><p>{supportLimit(locale)}</p>
+ <form onSubmit={e=>{e.preventDefault();onRun({...parameters});}}><fieldset disabled={busy}><legend>{fr?'Paramètres fixés avant calcul':'Parameters fixed before execution'}</legend>
+ {(['n_components','max_components','n_folds','alpha'] as const).map(key=><label key={key}>{({n_components:fr?'Composantes de projection':'Projection components',max_components:fr?'Composantes maximales du monitoring':'Monitoring maximum components',n_folds:fr?'Nombre de folds':'Fold count',alpha:'Alpha'})[key]}<input required type="number" min={key==='alpha'?0:key==='n_folds'?2:1} max={key==='alpha'?1:undefined} step={key==='alpha'?'any':1} value={parameters[key]} onChange={e=>setParameters(p=>({...p,[key]:Number(e.target.value)}))}/></label>)}
+ <label><input type="checkbox" checked={parameters.monitoring} onChange={e=>setParameters(p=>({...p,monitoring:e.target.checked}))}/>{fr?'Monitoring T²/Q descriptif':'Descriptive T²/Q monitoring'}</label><p>{fr?'Valeurs initiales explicites : 2 composantes, 5 folds, alpha 0,05 ; aucune optimisation sur test. Toute exécution ajoute un résultat. Aucun dossier externe de qualification des limites n’est fourni par cette interface.':'Explicit starting values: 2 components, 5 folds, alpha 0.05; no test optimization. Each execution appends a result. This interface supplies no external limit qualification record.'}</p><button className="button primary" type="submit">{fr?'Calculer la référence train et projeter test':'Compute train reference and project test'}</button></fieldset></form>
+ {results.map((r,i)=><article className="panel" key={i}><h3>{fr?'Résultat':'Result'} {i+1}: {r.status}</h3>{r.reason&&<p role="status">{r.reason}</p>}<div dangerouslySetInnerHTML={{__html:supportFigures(r,`train-fitted-support-${i+1}`,locale).map(f=>figureHtml(f,locale)).join('')+supportTables(r,locale).map(t=>tableHtml(t,locale,{structured:true})).join('')}}/><details><summary>{fr?'Provenance et limites complètes':'Complete provenance and limitations'}</summary><pre>{JSON.stringify(r,null,2)}</pre></details></article>)}
+ </section>;
+}

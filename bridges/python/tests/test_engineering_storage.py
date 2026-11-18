@@ -43,6 +43,9 @@ class EngineeringStorageTests(unittest.TestCase):
     def activate(self, **overrides):
         return self.controller.activate(**(self.arguments | overrides))
 
+    def amend(self, **overrides):
+        return self.controller.amend(**(self.arguments | overrides))
+
     def test_growth_and_science_preservation(self):
         baseline = self.source.read_bytes()
         result = self.activate()
@@ -66,7 +69,7 @@ class EngineeringStorageTests(unittest.TestCase):
         decisions = self.controller.root / 'decisions'
         old = next(decisions.glob('*.json'))
         original = old.read_bytes()
-        self.activate(engineering_bytes=3000)
+        self.amend(engineering_bytes=3000)
         self.assertEqual(len(list(decisions.glob('*.json'))), 2)
         self.assertEqual(old.read_bytes(), original)
         current = self.controller.current()
@@ -112,8 +115,102 @@ class EngineeringStorageTests(unittest.TestCase):
         self.assertIn('INSUFFICIENT_PHYSICAL_RESERVE', self.controller.snapshot(5)['reasons'])
         self.raw['free_volume_bytes']['private-volume-a'] = MIN_RESERVE - 1
         self.write_raw()
-        with self.assertRaisesRegex(ValueError, 'PHYSICAL_RESERVE'):
+        with self.assertRaisesRegex(ValueError, 'AMENDMENT_NOT_ADMISSIBLE'):
+            self.amend()
+
+    def test_amendment_preserves_initial_baseline_and_charged_growth(self):
+        # A total allowance grows from 2 GiB to 4 GB; prior growth stays charged.
+        initial = 18_663_326_977
+        self.raw['combined_bytes'] = initial
+        self.write_raw()
+        self.arguments.update(effective_bytes=25_000_000_000, engineering_bytes=2_147_483_648)
+        self.activate()
+        baseline_policy = self.controller.current()
+        self.raw['combined_bytes'] = initial + 1_500_000_000
+        self.raw.update(reserved_campaign_bytes=800, remaining_reservations_bytes=3200, journal_sha256='c' * 64)
+        self.write_raw()
+        unchanged_source = self.source.read_bytes()
+        result = self.amend(engineering_bytes=4_000_000_000, owner_request_sha256='d' * 64, decision_date='2026-11-18')
+        self.assertEqual(result['engineering_baseline_bytes'], initial)
+        self.assertEqual(result['engineering_used_bytes'], 1_500_000_000)
+        self.assertEqual(result['engineering_remaining_bytes'], 2_500_000_000)
+        self.assertEqual(result['scientific_reserved_bytes'], 800)
+        self.assertEqual(result['scientific_remaining_bytes'], 3200)
+        self.assertEqual(result['journal_sha256'], 'c' * 64)
+        self.assertEqual(result['new_scientific_reservations'], 0)
+        self.assertEqual(self.source.read_bytes(), unchanged_source)
+        amended = self.controller.current()
+        for key in ('baseline_combined_bytes', 'baseline_measurement', 'science_journal_sha256'):
+            self.assertEqual(amended[key], baseline_policy[key])
+        self.assertEqual(amended['previous_policy_sha256'], fingerprint(baseline_policy))
+        # Additional amendments still refer to the original baseline.
+        self.amend(engineering_bytes=4_000_000_000)
+        self.assertEqual(self.controller.snapshot()['engineering_used_bytes'], 1_500_000_000)
+        with self.assertRaises(TypeError):
+            self.amend(engineering_bytes=4_000_000_000, baseline_combined_bytes=0)
+
+    def test_activate_cannot_reset_existing_or_orphaned_history(self):
+        self.activate()
+        pointer = self.controller.root / 'current.json'
+        before = pointer.read_bytes()
+        self.raw['combined_bytes'] = 2000
+        self.write_raw()
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_ALREADY_ACTIVE_USE_AMEND$'):
             self.activate()
+        self.assertEqual(pointer.read_bytes(), before)
+        pointer.unlink()  # Synthetic interrupted/current-pointer loss cannot rebaseline.
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_ALREADY_ACTIVE_USE_AMEND$'):
+            self.activate()
+
+    def test_amendment_scope_actual_caps_and_reserves_fail_without_publication(self):
+        self.activate()
+        pointer = self.controller.root / 'current.json'
+        before = pointer.read_bytes()
+        for field, invalid in [('effective_bytes', 10001), ('authorized_max_bytes', MAX_ALLOWED + 1),
+                               ('reserve_free_bytes', MIN_RESERVE - 1), ('recipe_sha256', 'c' * 64)]:
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_SCOPE_INVALID$'):
+                self.amend(**{field: invalid})
+        self.raw['combined_bytes'] = 4000
+        self.write_raw()
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE$'):
+            self.amend(engineering_bytes=2500)
+        self.raw['combined_bytes'] = 10001
+        self.write_raw()
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE$'):
+            self.amend(engineering_bytes=9000)
+        self.raw['combined_bytes'] = 2000
+        self.raw['free_volume_bytes']['private-volume-a'] = MIN_RESERVE - 1
+        self.write_raw()
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE$'):
+            self.amend(engineering_bytes=3000)
+        self.assertEqual(pointer.read_bytes(), before)
+        self.assertEqual(len(list((self.controller.root / 'decisions').glob('*.json'))), 1)
+
+    def test_amendment_authenticates_prior_history(self):
+        self.activate()
+        self.amend(engineering_bytes=3000)
+        previous = self.controller.current()['previous_decision']
+        old = self.store.root / previous
+        body = json.loads(old.read_text())
+        body['value']['baseline_combined_bytes'] = 0
+        old.write_text(json.dumps(body))
+        with self.assertRaisesRegex(ValueError, 'OWNER_POLICY'):
+            self.amend(engineering_bytes=4000)
+
+    def test_authenticated_amendment_cannot_change_baseline_or_prior_digest(self):
+        self.activate()
+        self.amend(engineering_bytes=3000)
+        pointer = self.controller._read('domains-owner-storage/current.json')
+        path = self.store.root / pointer['decision']
+        original = path.read_bytes()
+        for field, invalid in [('baseline_combined_bytes', 0), ('previous_policy_sha256', 'c' * 64)]:
+            envelope = json.loads(original)
+            envelope['value'][field] = invalid
+            envelope['authentication'] = self.store.authenticate(envelope['value'])
+            path.write_text(json.dumps(envelope))
+            with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_CHAIN_INVALID$'):
+                self.controller.current()
+        path.write_bytes(original)
 
     def test_stale_invalid_and_recipe_pin(self):
         self.activate()
