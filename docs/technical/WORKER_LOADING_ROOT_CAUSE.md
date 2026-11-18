@@ -78,25 +78,42 @@ is changed.
 
 ## Validation state
 
-The hotfix now has frontend test and production-preview browser evidence, but
-CI, publication, and the original incident diagnosis remain open:
+The hotfix now has frontend test and expanded production-preview Chromium
+evidence, but CI, publication, and the original incident diagnosis remain open:
 
-- The frontend suite passed 189 tests across 26 files after the strict-type
-  fix.
-- A production-preview Chrome receipt records 13 synthetic cases: three
-  computed flows (X-only, X/Y train-only, and a fresh worker after explicit
-  reload) and ten refused fault injections. Failure cases produced no report.
-- The receipt verifies worker-entry 404 and HTML handling, dynamic operation
-  import 404/HTML failures, IO WASM 404/wrong MIME/corrupt bytes/missing
-  exports, a Domains WASM 404, and an incompatible Methods ABI. It records
-  actual status/MIME evidence but contains no asset digest or integrity result.
+- The frontend suite passed 196 tests across 27 files and TypeScript typecheck
+  passed for the hotfix worktree.
+- The expanded Chromium `157.0.8103.79` preview receipt records 18 synthetic
+  cases: three computed flows (X-only, X/Y train-only, fresh worker after
+  explicit reload) and 15 refused fault injections, all without reports. It
+  also records 13 production-asset SHA-256 digests. Its build-info reports
+  `ada9ca3e44abf58011db5be04aadd580ada69e7f` with `dirty: true`; it does not
+  attest the clean PR #15 head.
+- Injected failures cover worker-entry 404/HTML/top-level throw, an unhandled
+  rejection after READY, dynamic operation-import 404/HTML, IO WASM 404,
+  wrong MIME, corrupt bytes, missing exports and digest mismatch, Formats 404,
+  Domains 404, and a Methods initialization failure. The Methods fixture does
+  not establish rejection of a valid ABI 2.x module with a version mismatch.
+- A separate public-main asset receipt checked 14 Pages assets: all returned
+  HTTP 200 and all SHA-256 values matched the exact public-main artifact
+  (`ada9ca3e44abf58011db5be04aadd580ada69e7f`, workflow `44288135629`,
+  artifact `14419499742`, ZIP SHA-256
+  `0d0c6ef5a5cb2b8abbe266d748087d9d2a92e31ef2b66f72b5749406a02082c3`). This
+  verifies public-main publication consistency only, not hotfix deployment.
+- Additional owner-reported Chromium checks covered normal/scoped/factor/support
+  and report-export paths, FR/EN, accessibility/mobile, and the older F3
+  fault-recovery path. A helper MIME assertion was corrected without a runtime
+  code change before the expanded 18-case helper passed.
 - The public-main X-only and X/Y baseline flows and the controlled pre-fix 404
   reproduction are captured in local ignored audit receipts.
 - The Domains WASM binary was reused from public CI artifact `14421536534`
   (workflow run `44288135712`); its ZIP digest was verified. No native kernel
   was rebuilt for this hotfix.
-- Hotfix CI, Pages publication, Firefox preview, broader recovery/cache tests,
-  and a reproduction of the original user's incident remain pending.
+- [PR #15](https://github.com/dcornet/nirs4all-domains/pull/15) is draft at
+  `9b73c942` with CI running; no CI success is claimed. Hotfix Pages
+  publication, Firefox preview, broader recovery/cache tests, exact clean-PR
+  asset identity, and a reproduction of the original user's incident remain
+  pending.
 
 See [the bootstrap contract](WORKER_WASM_BOOTSTRAP_CONTRACT.md) and
 [validation plan](WORKER_LOADING_VALIDATION.md) for the required remaining
