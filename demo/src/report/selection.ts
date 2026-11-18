@@ -1,4 +1,5 @@
 /** Presentation choices only. Availability follows transported contracts, never metric thresholds. */
+import {sensitivityFigures} from './preprocessing';
 import type { UiResult } from '../ui-types';
 
 export const mandatorySections = Object.freeze(['identity_context','observations_checks','limitations_missing_information','evidence_core'] as const);
@@ -18,17 +19,18 @@ export interface ExportSelection {
 export function sectionAvailability(view: UiResult): SectionAvailability[] {
   const carried = (ids: string[]) => view.evidence.filter(e => ids.includes(e.id) && e.value !== null && e.value !== undefined);
   const decision = view.provenance.decision_summary as { factor_questions?: unknown[]; mechanisms?: {kind?: string}[] } | undefined;
+  const sensitivityPlotKinds=view.evidence.filter(e=>e.id.startsWith('preprocessing-sensitivity-')).flatMap(e=>sensitivityFigures(e.value,e.id,'en')).map(f=>f.kind);
   const references: Record<OptionalSection,string[]> = {
-    pca_scores:['pca',...view.evidence.filter(e=>e.id.startsWith('train-fitted-support-')).map(e=>e.id)],pca_scree:['pca'],detailed_tables:view.evidence.map(e=>e.id),methods_parameters:view.evidence.map(e=>e.id),
+    pca_scores:['pca',...view.evidence.filter(e=>e.id.startsWith('train-fitted-support-')||e.id.startsWith('preprocessing-sensitivity-')).map(e=>e.id)],pca_scree:['pca',...view.evidence.filter(e=>e.id.startsWith('preprocessing-sensitivity-')).map(e=>e.id)],detailed_tables:view.evidence.map(e=>e.id),methods_parameters:view.evidence.map(e=>e.id),
     neighborhood:['raw_neighbors','projected_neighbors'],clustering:['density',...(decision?.mechanisms?.some(m=>m.kind==='density_parameter')?['decision_summary']:[])],
     experimental_factors:['experimental_factor_structure',...view.evidence.filter(e=>e.id.startsWith('factor-association-')).map(e=>e.id),...(decision?.factor_questions?.length?['decision_summary']:[])],
-    representation_sensitivity:['preprocessing_dependent_organization','parameter_sensitivity'],readiness:['readiness'],extended_provenance:[],glossary:[],machine_evidence:[],
+    representation_sensitivity:['preprocessing_dependent_organization','parameter_sensitivity',...view.evidence.filter(e=>e.id.startsWith('preprocessing-sensitivity-')).map(e=>e.id)],readiness:['readiness'],extended_provenance:[],glossary:[],machine_evidence:[],
   };
   return optionalSections.map(id=>{
     const evidence = carried(references[id]);
     let available = evidence.length>0;
-    if(id==='pca_scores') available=(!!view.pca?.points.length||view.evidence.some(e=>e.id.startsWith('train-fitted-support-')&&(e.value as {projection?:{status?:string}})?.projection?.status==='computed'))&&evidence.length>0;
-    if(id==='pca_scree') available=!!view.pca?.points.length&&!!view.pca.eigenvalues.length&&evidence.length>0;
+    if(id==='pca_scores') available=sensitivityPlotKinds.some(kind=>kind!=='scree')||(!!view.pca?.points.length||view.evidence.some(e=>e.id.startsWith('train-fitted-support-')&&(e.value as {projection?:{status?:string}})?.projection?.status==='computed'))&&evidence.length>0;
+    if(id==='pca_scree') available=sensitivityPlotKinds.includes('scree')||!!view.pca?.points.length&&!!view.pca.eigenvalues.length&&evidence.length>0;
     if(id==='methods_parameters') available=view.evidence.length>0;
     if(id==='readiness') available=evidence.some(e=>Array.isArray((e.value as {records?:unknown[]}).records));
     if(id==='extended_provenance') available=Object.keys(view.provenance).length>0;

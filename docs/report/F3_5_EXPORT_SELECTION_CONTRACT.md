@@ -67,6 +67,14 @@ definitions, limits and canonical evidence anchors remain unconditionally readab
 Custom scalar tables have no 160-field cap. Original transport/request/parent
 objects remain in full machine evidence, not reclassified as new observations.
 
+For F4.3, `representation_sensitivity` links to the exact carried
+`domains.browser_preprocessing_sensitivity_result.v1` objects and derived-source
+figures/tables. It is optional presentation content; omitting its figure/table
+does not remove the scientific evidence object or alter its statuses, reasons,
+parameters, hashes, lineage or limitations in complete HTML/JSON machine
+evidence. It adds no cross-representation PCA metric or preprocessing ranking.
+See the [F4.3 representation contract](../browser/F4_3_REPRESENTATION_CONTRACT.md).
+
 Absent selection retains historical F1/F2 output. Custom choice sets the UI to
 complete and disables legacy reading switches until reset; the selected reading
 controls print. Reset removes custom metadata and restores complete defaults.

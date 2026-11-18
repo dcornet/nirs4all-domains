@@ -77,6 +77,34 @@ and [F4.0 architecture notes](browser/F4_0_IMPORT_ARCHITECTURE.md) for exact
 boundaries. The [F4.2 validation record](browser/F4_2_VALIDATION.md) separates
 local execution evidence from pending final-head and hosted checks.
 
+### F4.3 representation sensitivity
+
+The F4.3 worktree adds **Preprocessing sensitivity** as a separate X-only
+operation. Review the prospective plan before running it: raw is required
+first, and the default fixed panel includes SNV, MSC, SG smoothing/derivatives,
+linear detrend, Gaussian smoothing, StandardScale, Normalize, and two explicit
+SNV→SG chains. Each entry's parameters remain visible/editable in the bounded
+JSON plan. The attributed AOM bank contributes descriptors only; Methods
+1.3.13 / ABI 2.20 executes the numerical transforms, with no AOM equivalence
+claim.
+
+For partitioned data, run the first stage on the declared training reference
+population only. An optional test-X audit is a second explicit action after a
+matching reference result and plan are frozen; it reuses the reference-fitted
+transform states and never fits on test. Test inspection can influence later
+choices, so it is descriptive rather than an untouched final evaluation. The
+request has no Y field. A fully unpartitioned source follows a separately
+labeled descriptive path; mixed assigned/unpartitioned populations are not
+accepted.
+
+The display shows each representation and its own diagnostics. It does not
+rank or recommend transforms, compare absolute distances across scales, or
+claim that stable results establish chemical relevance, independence,
+prediction quality, or cause. Read the [representation contract](browser/F4_3_REPRESENTATION_CONTRACT.md),
+[comparability rules](browser/F4_3_COMPARABILITY_RULES.md),
+[train/test policy](browser/F4_3_TRAIN_TEST_POLICY.md), and separate
+[qualification record](browser/F4_3_VALIDATION.md) before interpreting results.
+
 A single `.json` file is read as a saved standalone Domains report and must
 pass its existing report schema. It is not a generic JSON matrix import. An
 explicit IO configuration must use the exact lowercase suffix `.nirs4all.json`

@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 import { importFiles } from './dataset-io';
 import {prepareImport,assembleImport,type ReviewedImport} from './import-draft';
-import type {ScopedRequest,FactorRequest,SupportRequest} from '@nirs4all/domains';
+import type {ScopedRequest,FactorRequest,SupportRequest,SensitivityRequest} from '@nirs4all/domains';
 import type { BrowserInput, BrowserReport, InputFile, WorkerReply, WorkerRequest } from './types';
 import type { PredictionIntent } from '../ui-types';
 
@@ -25,6 +25,10 @@ self.onmessage = async ({ data }: MessageEvent<WorkerRequest>) => {
     reply({ ok: true, stage: 'Loading Domains Rust / Methods WASM', stage_id: 'prepare' });
     const { createDomainsRuntime } = await import('@nirs4all/domains');
     const runtime = await createDomainsRuntime();
+    if(operation==='preprocessing_sensitivity'){
+      reply({ok:true,stage:'Validating the frozen representation panel and executing reference-scoped Methods operations',stage_id:'compute'});
+      reply({ok:true,result:runtime.analyzeSensitivity(payload as SensitivityRequest)});return;
+    }
     if(operation==='train_fitted_support'){
       reply({ok:true,stage:'Fitting train reference and projecting test in Methods; no target access',stage_id:'compute'});
       reply({ok:true,result:runtime.analyzeSupport(payload as SupportRequest)});return;

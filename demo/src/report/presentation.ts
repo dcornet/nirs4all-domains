@@ -1,6 +1,7 @@
 /** Descriptive display projection only. No provider, fitting or scientific threshold. */
 import type { EvidenceStatus, Locale, PredictionIntent, UiEvidence, UiResult } from '../ui-types';
 import { translator } from '../i18n';
+import {sensitivityTables,sensitivityFigures,sensitivityTitle,sensitivityLimit} from './preprocessing';
 import {supportTables,supportFigures,supportTitle,supportLimit} from './support';
 import {factorAssociationTables} from './factor-association';
 import type {FactorColorLegendDescriptor} from './factor-colors';
@@ -161,9 +162,11 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
   const rows=(value:unknown)=>scalarRows(value,'',[],options.uncapped?Infinity:160);
   const overview=options.uncapped?(locale==='fr'?'Champs enregistrés sans plafond de lignes ; tableaux de transport conservés dans les preuves originales.':'Recorded fields without a row cap; transport arrays remain in original evidence.'):c.overview;
   const blocks = view.evidence.map((e): EvidenceBlock => {
+    const sensitivity=e.id.startsWith('preprocessing-sensitivity-');
     const support=e.id.startsWith('train-fitted-support-');
     const v = e.value as Record<string, any> | null, neighbor = e.id.endsWith('_neighbors'), density = e.id === 'density';
     const tables: DisplayTable[] = [{ id: `${e.id}-values`, title: metricTitle(e.id,c), columns: [c.parameter,c.value], rows: rows(e.value), note: overview }];
+    if(sensitivity)tables.unshift(...sensitivityTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
     if(e.id.startsWith('train-fitted-support-'))tables.unshift(...supportTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
     if(e.id.startsWith('factor-association-'))tables.unshift(...factorAssociationTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
     if (density && e.status === 'computed' && Array.isArray(v?.labels)) {
@@ -180,12 +183,12 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     }
     if(e.id==='readiness'&&v?.records?.length)tables.unshift({id:'original-readiness',title:c.readiness,columns:['record_id','observation.status','inputs','protocol','authorization','execution'],rows:v.records.map((r:any)=>[r.record_id,r.observation_evidence?.measurement?.status??null,r.inputs?.value??null,r.protocol?.value??null,r.authorization?.value??null,r.execution?.value??null]),note:c.noExecution});
     if(e.id==='d2'&&v?.interpretations?.length)tables.unshift({id:'conditional-intents',title:c.decision,columns:['intended_use','conditions','supported_claims','stronger_claims_not_established'],rows:v.interpretations.map((r:any)=>[r.intended_use,r.conditions,r.supported_claims,r.stronger_claims_not_established]),note:c.savedLimit});
-    return { id:e.id,title:e.id.startsWith('train-fitted-support-')?supportTitle(locale):metricTitle(e.id,c),status:e.status,reason:e.reason,scope:e.scope,representation:e.representation??view.dataset.representation??c.noValue,
+    return { id:e.id,title:sensitivity?sensitivityTitle(locale):e.id.startsWith('train-fitted-support-')?supportTitle(locale):metricTitle(e.id,c),status:e.status,reason:e.reason,scope:e.scope,representation:e.representation??view.dataset.representation??c.noValue,
       provider:e.provider,pointer:e.pointer??null,tables,original:e.value,
-      definition:support?'Train-only FlexiblePCA fit and test transform; separate Methods statsPcaMonitor reference protocol.':neighbor?c.neighborDefinition:density?c.densityDefinition:e.id==='pca'?c.scoreDefinition:c.tableNote,
-      read:support?(locale==='fr'?'Lire s\u00e9par\u00e9ment projection, monitoring et qualification des limites.':'Read projection, monitoring and limit qualification separately.'):neighbor?c.neighborRead:density?c.densityRead:e.id==='pca'?c.scoreRead:c.savedRead,
+      definition:sensitivity?sensitivityLimit(locale):support?'Train-only FlexiblePCA fit and test transform; separate Methods statsPcaMonitor reference protocol.':neighbor?c.neighborDefinition:density?c.densityDefinition:e.id==='pca'?c.scoreDefinition:c.tableNote,
+      read:sensitivity?(locale==='fr'?'Lire chaque source d\u00e9riv\u00e9e et ses comparaisons s\u00e9par\u00e9ment.':'Read each derived source and its comparisons separately.'):support?(locale==='fr'?'Lire s\u00e9par\u00e9ment projection, monitoring et qualification des limites.':'Read projection, monitoring and limit qualification separately.'):neighbor?c.neighborRead:density?c.densityRead:e.id==='pca'?c.scoreRead:c.savedRead,
       observed:e.value===null?c.unavailable:density&&v?.n_clusters===0?c.allNoise:density&&v?.n_clusters===1?c.trivial:`${t(e.status)} · ${metricTitle(e.id,c)}`,
-      relevance:c.next,limitations:[support?supportLimit(locale):neighbor?c.neighborLimit:density?c.densityLimit:e.id==='pca'?c.scoreLimit:c.savedLimit] };
+      relevance:c.next,limitations:[sensitivity?sensitivityLimit(locale):support?supportLimit(locale):neighbor?c.neighborLimit:density?c.densityLimit:e.id==='pca'?c.scoreLimit:c.savedLimit] };
   });
   // Put the new scientific association tables before their background transport
   // details. Original evidence order and every optional annex remain intact.
@@ -209,6 +212,7 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     figures.push({id:'pca-scree',title:c.scree,kind:'scree',evidenceId:'pca',xLabel:c.component,yLabel:c.eigenvalue,unit:c.unknownUnit,population:figures[0].population,representation:figures[0].representation,
       eigenvalues:pca.eigenvalues,definition:c.screeDefinition,read:c.screeRead,observed:`${c.resolved}: ${pca.eigenvalues.length}; ${c.total}: ${formatValue(pca.totalVariance,locale)}`,relevance:c.next,limitations:[c.screeLimit]});
   }
+  figures.push(...view.evidence.filter(e=>e.id.startsWith('preprocessing-sensitivity-')).flatMap(e=>sensitivityFigures(e.value,e.id,locale)));
   const existing = new Set(view.evidence.map(e=>e.id));
   const density=view.evidence.find(e=>e.id==='density'),d=density?.value as {n_clusters?:number;noise_count?:number}|null;
   const facts=`${formatValue(view.dataset.observations,locale)} ${c.observations}; ${formatValue(view.dataset.variables,locale)} ${c.variables}. ${pca?`${c.resolved}: ${pca.eigenvalues.length}.`:c.noCoordinates} ${density?`${c.density}: ${t(density.status)}${d?`; ${c.cluster}: ${formatValue(d.n_clusters,locale)}; ${c.noise}: ${formatValue(d.noise_count,locale)}`:''}.`:''}`;

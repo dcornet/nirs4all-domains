@@ -104,6 +104,9 @@ const methodsCommit = 'fa8ff57603ec23bce95f73d52170285e8f3e2861';
 const localDomains = await readJson(join(bindingDir, 'package.json'));
 const localDomainsPackage = { name: localDomains.name, version: localDomains.version, license: localDomains.license,
   resolved: 'file:../bindings/wasm', integrity: null, source: 'local workspace binding; generated WASM is built from the locked Rust workspace' };
+const aomCatalog = await readJson(join(bindingDir, 'aom-bank.json'));
+await copyAllowed(join(bindingDir, 'AOM_BANK_NOTICE.md'), join(publicRoot, 'aom-descriptors', 'NOTICE.md'), 'Domains adaptation of pinned AOM bank metadata');
+await copyAllowed(join(bindingDir, 'aom-bank.json'), join(publicRoot, 'aom-descriptors', 'catalog.json'), 'Versioned declarative AOM/Methods descriptor catalog; no numerical runtime');
 const methodsSourceRoot = join(publicRoot, 'methods', methodsCommit);
 const methodsSourceFiles = [
   'NOTICE.md', 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_LICENSES.md',
@@ -129,6 +132,7 @@ const manifest = {
     ({ name, version, license, resolved, integrity, lockfile, localPath })), localDomainsPackage]
     .sort((a, b) => a.name.localeCompare(b.name) || String(a.version).localeCompare(String(b.version))),
   installed_notice_packages: installedMetadata,
+  aom_descriptor_source: { ...aomCatalog.aom_source, runtime_imported:false, numerical_equivalence_asserted:false },
   methods_notice_source: {
     name: '@nirs4all/methods', version: methodsVersion, license_declared_by_npm: methodsLock.license,
     registry_tarball: methodsLock.resolved, integrity: methodsLock.integrity, git_head: methodsCommit,

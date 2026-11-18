@@ -1,5 +1,7 @@
 import type {ScopedMetadata} from './scoped.js';
 import type {SupportRequest,SupportResult} from './support.js';
+import type {SensitivityRequest,SensitivityResult} from './preprocessing.js';
+export type {SensitivityRequest,SensitivityResult,SensitivityPlan,SensitivityRepresentation,RepresentationSpec,PreprocessingStep} from './preprocessing.js';
 export type {SupportRequest,SupportResult,SupportParameters,SupportLimitPlan,SupportProjection,SupportMonitor} from './support.js';
 export type PredictionIntent = 'study' | 'known_acquisitions' | 'new_specimens' | 'new_groups' | 'new_context' | 'unknown';
 export interface BrowserRequest {
@@ -86,6 +88,8 @@ export interface BrowserReport {
 }
 export interface Capability { capability_id: string; available: boolean; qualified: boolean; reason: string | null }
 export interface DomainsRuntime {
+  analyzeSensitivity(input:SensitivityRequest):SensitivityResult;
+  analyzeSensitivityJson(text:string):string;
   analyzeSupport(input:SupportRequest):SupportResult;
   analyzeSupportJson(text:string):string;
   analyzeFactor(input: FactorRequest): FactorResult;

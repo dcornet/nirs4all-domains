@@ -4,7 +4,7 @@ import { App } from './App';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
+import type { SensitivityResult,BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
 import {scopedInventory,scopedView} from './report/scoped';
@@ -13,6 +13,8 @@ import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
 import {supportRequest,recordSupportReply,type SupportParameters,type SupportRun} from './engine/support';
+import {preprocessingRequest,sensitivityFactors,sensitivitySignature,type SensitivityHistory,type SensitivityRun} from './engine/preprocessing';
+import {appendSensitivity} from './report/preprocessing';
 import {appendSupport} from './report/support';
 import {factorRequest,factorSource,factorChoices,parseFactorInferencePlan} from './engine/factor';
 import type {FactorAssociationRun} from './FactorAssociationControls';
@@ -34,9 +36,10 @@ function Controller() {
   const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
   const supportResults=useRef<SupportRun[]>([]);
+  const sensitivityResults=useRef<SensitivityHistory[]>([]),sensitivityFrozen=useRef<{result:SensitivityResult;signature:string}|null>(null);
   const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -65,7 +68,8 @@ function Controller() {
       inferenceRecordAvailable:externalPlan.current!==null,
       exportColorAuthorized:!!colorGrant.current};
     result.factorAssociations=associations.current;
-    result=appendSupport(result,supportResults.current);
+    result=appendSensitivity(appendSupport(result,supportResults.current),sensitivityResults.current);
+    result.sensitivityControls={factors:sensitivityFactors(data),hasTest:data.rowManifest?.some(r=>r.partition==='test')===true,frozen:sensitivityFrozen.current};
     const selected=associationColor.current;
     if(selected&&result.pca&&selected.receipt.source_pca_evidence_sha256===result.provenance.evidence_sha256){
       const f=selected.value.factors.find(f=>f.factor_id===color.current),m=data.metadata.find(f=>f.name===color.current);
@@ -78,7 +82,7 @@ function Controller() {
       }
     }
     scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
-      scoped_operations:operations.current,train_fitted_support:supportResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
+      scoped_operations:operations.current,train_fitted_support:supportResults.current,preprocessing_sensitivity:sensitivityResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
   };
   const scoped=async(operation:ScopedOperation,options:ScopeOptions={})=>{
@@ -151,7 +155,27 @@ function Controller() {
       }];publishScoped(data);
     }
   };
+  const sensitivity=async(run:SensitivityRun)=>{
+    const data=dataset.current;if(!data?.rowManifest)return;
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:run.stage==='reference_only'?'Executing the declared panel on reference only':'Validating frozen reference before explicit test audit'}));
+    try{
+      const signature=sensitivitySignature(run.plan,run.factorIds,run.reuseExactPrefixes);
+      if(run.stage==='test_audit'&&(!sensitivityFrozen.current||sensitivityFrozen.current.signature!==signature||run.frozenReference?.evidence_sha256!==sensitivityFrozen.current.result.evidence_sha256))throw new Error('SENSITIVITY_FROZEN_CONTROLS_MISMATCH');
+      const request=preprocessingRequest(data,run);
+      const result=await engine.current.request<SensitivityResult>('preprocessing_sensitivity',request,progress(token));
+      if(token!==epoch.current||dataset.current!==data)return;
+      sensitivityResults.current=[...sensitivityResults.current,result];
+      if(run.stage==='reference_only')sensitivityFrozen.current={result,signature};
+      publishScoped(data);
+    }catch(error){
+      if(token!==epoch.current||dataset.current!==data)return;
+      const reason=error instanceof Error?error.message:String(error);
+      sensitivityResults.current=[...sensitivityResults.current,{protocol_version:'domains.browser_preprocessing_sensitivity_local_refusal.v1',status:'unavailable',reason,stage:run.stage,plan:structuredClone(run.plan),evidence_sha256:null,local_refusal:true,receipt:{execution_receipt:'not_returned; no successful execution inferred'},limitations:['Local documentary refusal. Earlier F4.0/F4.1/F4.2 and sensitivity results remain unchanged.']}];publishScoped(data);
+    }
+  };
   const callbacks: UiCallbacks = {
+    onSensitivity:sensitivity,
     onSupport:support,
     async onFactorInferencePlan(file){
       const data=dataset.current;if(!data?.rowManifest)return;
@@ -193,7 +217,7 @@ function Controller() {
       try{
         const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
         if(token!==epoch.current)return;
-        dataset.current=data;operations.current=[];supportResults.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
+        dataset.current=data;operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
         publishScoped(data);
       }catch(error){failed(token,error);}
     },
@@ -235,7 +259,7 @@ function Controller() {
       scientific.current = null; dataset.current = null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
-      operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
+      operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
       associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {

@@ -65,6 +65,7 @@ jobs:
           git diff --exit-code -- demo/public/examples
       - run: cargo fmt --all --check
       - run: cargo test --locked -p nirs4all-domains --no-default-features --test browser
+      - run: cargo test --locked -p nirs4all-domains --no-default-features --test browser_preprocessing
       - run: cargo clippy --locked -p nirs4all-domains --target wasm32-unknown-unknown --no-default-features --features browser-wasm -- -D warnings
       - name: Install official wasm-pack binary
         run: python scripts/install_wasm_pack.py
@@ -107,6 +108,19 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/check_support_parity.py --native demo/test-results/support-native.json --wasm demo/test-results/support-wasm.json --out demo/test-results/support-parity-receipt.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Execute F4.3 complete synthetic preprocessing panels through actual WASM
+        run: node bindings/wasm/tests/preprocessing-protocol.mjs wasm demo/test-results/preprocessing-wasm.json
+      - name: Replay exact F4.3 inputs natively and verify invariant numerical parity
+        shell: pwsh
+        run: |
+          python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/preprocessing-native.json'); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_preprocessing_qualification','--','demo/test-results/preprocessing-wasm.json']))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_preprocessing_parity.py --native demo/test-results/preprocessing-native.json --wasm demo/test-results/preprocessing-wasm.json --out demo/test-results/preprocessing-parity.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s scripts/tests -p test_preprocessing_parity.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Measure fixed-panel prefix reuse without changing scientific evidence
+        run: node --max-old-space-size=256 bindings/wasm/tests/preprocessing-protocol.mjs benchmark demo/test-results/preprocessing-benchmark.json
       - run: npm run build --prefix demo
       - name: Install supported hosted browser engines
         working-directory: demo
@@ -123,6 +137,8 @@ jobs:
         run: python scripts/review_factor_pdfs.py
       - name: Inspect actual F4.2 support A4/Letter tables and emit representative rasters
         run: python scripts/review_support_pdfs.py
+      - name: Inspect complete F4.3 representation tables and A4/Letter PDFs
+        run: python scripts/review_preprocessing_pdfs.py
       - name: Verify bounded distributable without private artifacts
         run: python scripts/check_demo_distribution.py
       - name: Build the exact F2 comparison frontend and its original Rust WASM

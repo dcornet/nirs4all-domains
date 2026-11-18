@@ -8,6 +8,7 @@ pub mod browser;
 #[path = "../../../bindings/wasm/rust.rs"]
 mod browser_binding;
 pub mod browser_factor;
+pub mod browser_preprocessing;
 pub mod browser_scoped;
 pub mod browser_support;
 pub mod contract;
@@ -17,6 +18,10 @@ pub mod factor_methods;
 pub mod hierarchy_profile;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 pub mod methods;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
+pub mod preprocessing_execution;
+#[cfg(all(feature = "native", not(target_arch = "wasm32")))]
+pub mod preprocessing_methods;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]
 mod protocol;
 #[cfg(all(feature = "native", not(target_arch = "wasm32")))]

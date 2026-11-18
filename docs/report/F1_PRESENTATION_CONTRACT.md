@@ -29,6 +29,17 @@ Complete duplicate machine payloads remain in the offline file and JSON; they
 are omitted from paper while readable tables, parameters and lineage remain.
 Numeric formatting distinguishes null/zero and retains round-trip original values.
 
+F4.3 adds the optional `representation_sensitivity` reading from explicit
+`domains.browser_preprocessing_sensitivity_result.v1` evidence. Its tables and
+figures project only values carried by each derived source; PCA coordinates and
+absolute distances are not compared across representations. The complete
+result object, statuses, reasons, per-step parameters/state fingerprints,
+source/axis lineage, and limitations remain in machine evidence. The
+presentation layer does not transform spectra, calculate a comparison score,
+rank representations, or admit a new scientific result. The mandatory report
+core and other evidence are unchanged. See the
+[F4.3 report contract](../browser/F4_3_REPRESENTATION_CONTRACT.md).
+
 Resources: no new scientific reservation or ceiling increase. Reuse installed
 dependencies and compiled WASM; no local Rust/kernel build. Bound additional local
 engineering files to 16 MiB, essential local receipts/screenshots to 4 MiB;

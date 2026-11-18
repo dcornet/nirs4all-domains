@@ -74,7 +74,7 @@ export function selectedReading(report:DemoReport,p:ReportPresentation,selection
       if(v?.labels)body+=table({id:'cluster-labels',title:c.density,columns:['observation_index','label','membership'],rows:v.labels.map((label,i)=>[i,label,v.membership?.[i]??null]),note:c.densityLimit});
       if(v?.persistence)body+=pairTable('cluster-persistence','persistence',v.persistence.map((value,i)=>[i,value]));
     }else if(id==='experimental_factors')body=details(['experimental_factor_structure'])+details(['decision_summary'],id=>id==='factor-correspondence');
-    else if(id==='representation_sensitivity')body=details(['preprocessing_dependent_organization','parameter_sensitivity'])+details(['decision_summary'],id=>id==='sensitivity-mechanisms'||id.startsWith('mechanism-')||id==='paired-representations');
+    else if(id==='representation_sensitivity')body=details(p.blocks.filter(b=>b.id.startsWith('preprocessing-sensitivity-')).map(b=>b.id))+details(['preprocessing_dependent_organization','parameter_sensitivity'])+details(['decision_summary'],id=>id==='sensitivity-mechanisms'||id.startsWith('mechanism-')||id==='paired-representations');
     else if(id==='readiness'){
       body=details(['readiness'],id=>!id.endsWith('-values'));
       const records=(p.blocks.find(b=>b.id==='readiness')?.original as {records?:unknown[]}|null)?.records??[];

@@ -15,6 +15,16 @@ than borrowed from another PCA. See the [protocol](docs/browser/F4_2_SCIENTIFIC_
 [user guide](docs/browser/F4_2_USER_GUIDE.md), [fit/transform contract](docs/browser/F4_2_FIT_TRANSFORM_CONTRACT.md)
 and [qualification record](docs/browser/F4_2_VALIDATION.md).
 
+F4.3 adds an explicit X-only preprocessing-sensitivity panel with a frozen
+train-reference stage and optional later test-X audit; it never selects on Y.
+See the [user guide](docs/WASM_DEMO_GUIDE.md#f43-representation-sensitivity),
+[scientific protocol](docs/browser/F4_3_SCIENTIFIC_PROTOCOL.md),
+[representation contract](docs/browser/F4_3_REPRESENTATION_CONTRACT.md),
+[comparability rules](docs/browser/F4_3_COMPARABILITY_RULES.md),
+[train/test policy](docs/browser/F4_3_TRAIN_TEST_POLICY.md),
+[AOM reuse decision](docs/browser/F4_3_AOM_REUSE_DECISION.md), and
+[remaining capability boundaries](docs/browser/F4_3_REMAINING_CAPABILITIES.md).
+
 F4.1 adds explicit factor–PCA associations to the local browser workflow.
 Import and review keyed X/Y/M, run an admitted train-only (or declared
 unpartitioned) structure operation, then select a factor under “Which factors

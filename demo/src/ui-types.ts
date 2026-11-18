@@ -30,6 +30,8 @@ export interface UiDataset {
   representation?: string; population?: string;
 }
 export interface UiResult {
+  sensitivityResults?:import('./engine/preprocessing').SensitivityHistory[];
+  sensitivityControls?:import('./SensitivityPanel').SensitivityControls;
   supportResults?:import('./engine/support').SupportRun[];
   factorControls?:Omit<FactorAssociationControlsProps,'busy'|'locale'|'onRun'|'onColor'|'onAuthorizeColorExport'|'onLoadInferencePlan'>;
   factorAssociations?:FactorResult[];
@@ -53,6 +55,7 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onSensitivity?(run:import('./engine/preprocessing').SensitivityRun):void;
   onSupport?(parameters:import('./engine/support').SupportParameters):void;
   onFactorInferencePlan?(file:File):void;
   onFactorAssociation?(request:FactorAssociationRun):void;

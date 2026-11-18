@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_preprocessing_sensitivity.v1.input",
+  "$comment": "Strict DTO and finite JSON shape. Rust additionally validates identity closure, all effective parameters, budgets and frozen evidence; an unknown operator remains an entry-local refusal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "dataset",
+    "manifest",
+    "population",
+    "reference_keys",
+    "query_keys",
+    "x",
+    "factors",
+    "dependencies",
+    "exclusion_field",
+    "access",
+    "plan",
+    "stage",
+    "frozen_reference",
+    "reuse_exact_prefixes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "protocol_version": {
+      "const": "domains.browser_preprocessing_sensitivity.v1"
+    },
+    "dataset": {
+      "$ref": "domains.browser_scoped_analysis.v1.input#/$defs/dataset"
+    },
+    "manifest": {
+      "type": "array",
+      "items": {
+        "$ref": "domains.browser_scoped_analysis.v1.input#/$defs/manifestRow"
+      },
+      "minItems": 1,
+      "maxItems": 2000
+    },
+    "population": {
+      "enum": [
+        "train",
+        "unpartitioned"
+      ]
+    },
+    "reference_keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "maxItems": 2000
+    },
+    "query_keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "maxItems": 2000
+    },
+    "x": {
+      "$ref": "domains.browser_scoped_analysis.v1.input#/$defs/spectra"
+    },
+    "factors": {
+      "type": "array",
+      "items": {
+        "$ref": "domains.browser_factor_association.v1.input#/$defs/column"
+      },
+      "maxItems": 2
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "domains.browser_factor_association.v1.input#/$defs/column"
+      },
+      "maxItems": 24
+    },
+    "exclusion_field": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "access": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "m_fields",
+        "y_fields"
+      ],
+      "properties": {
+        "x": {
+          "const": true
+        },
+        "m_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "maxItems": 26
+        },
+        "y_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 0
+        }
+      }
+    },
+    "plan": {
+      "$ref": "#/$defs/plan"
+    },
+    "stage": {
+      "enum": [
+        "reference_only",
+        "test_audit"
+      ]
+    },
+    "frozen_reference": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "domains.browser_preprocessing_sensitivity_result.v1"
+        }
+      ]
+    },
+    "reuse_exact_prefixes": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "parameters": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operator",
+        "parameters"
+      ],
+      "properties": {
+        "operator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameters": {
+          "$ref": "#/$defs/parameters"
+        }
+      }
+    },
+    "representation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "family",
+        "steps"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/step"
+          },
+          "maxItems": 3
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bank_id",
+        "kind",
+        "parent_plan_sha256",
+        "representations",
+        "structure",
+        "compare_neighbors",
+        "compare_clusters",
+        "correlation_method",
+        "support"
+      ],
+      "properties": {
+        "bank_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "prospective",
+            "exploratory_revision"
+          ]
+        },
+        "parent_plan_sha256": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{64}$"
+            }
+          ]
+        },
+        "representations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/representation"
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "structure": {
+          "type": "boolean"
+        },
+        "compare_neighbors": {
+          "type": "boolean"
+        },
+        "compare_clusters": {
+          "type": "boolean"
+        },
+        "correlation_method": {
+          "enum": [
+            "pearson",
+            "spearman"
+          ]
+        },
+        "support": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "n_components",
+            "monitoring",
+            "max_components",
+            "n_folds",
+            "alpha"
+          ],
+          "properties": {
+            "n_components": {
+              "type": "integer"
+            },
+            "monitoring": {
+              "type": "boolean"
+            },
+            "max_components": {
+              "type": "integer"
+            },
+            "n_folds": {
+              "type": "integer"
+            },
+            "alpha": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}
