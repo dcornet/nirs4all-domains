@@ -13,7 +13,7 @@ explicitly partial versus complete F1 report readings. See its
 [qualification record](../docs/ux/F2_VALIDATION.md).
 
 This Vite/React application is an exploratory, local browser client for
-`nirs4all-domains`. Its reviewed import may retain X/Y/M, original axes,
+`nirs4all-domains`. Its one-shot import may retain X/Y/M, original axes,
 missingness and declared partitions in the main import state. Each later
 scientific request selects only its permitted X/M values; no Y value is passed
 to a request or report export. The app does not fit a predictive model, score a
@@ -73,10 +73,12 @@ current scoped import changes.
 The landing view accepts files by drag/drop or file picker and offers three
 generated synthetic X fixtures plus a public saved tablet example. User files
 are processed in the browser. The import path is capped at 32 files, 8 MiB
-combined input, 2,000 observations and 1,000,000 spectral cells. Review source
-and column roles, declared identity keys, keyed joins and partitions in the
-shared `DatasetBuilder`, then confirm the IO assembly. Import retains the
-dataset and missingness without fitting. Implicit source fusion, aggregation,
+combined input, 2,000 observations and 1,000,000 spectral cells. Dropping or
+selecting a file/folder starts inference and normal IO assembly automatically;
+the initial IO preview is not a required review. The shared `DatasetBuilder`
+is optional: opt in to edit after IO identifies sources but before final loading,
+or open Data settings after loading. Import retains the dataset and missingness
+without fitting. Implicit source fusion, aggregation,
 imputation and silent row deletion are refused. Y remains in main import memory
 for inventory/masking, but is not sent to a scientific request or report export.
 
@@ -85,7 +87,10 @@ support uses train as reference and test as query; metadata audits provide
 documentary counts, missingness, cardinalities, levels and literal overlap;
 global descriptive structure requires explicit transductive consent and uses
 train plus test while excluding predict rows. An unpartitioned source continues
-through the legacy full-source descriptive route. Metadata coloring is a
+through the legacy full-source descriptive route. If an auxiliary Y/M attachment
+is unresolved, validated X can still load while the source stays separately
+identified and dependent operations are restricted; a blocking ambiguity asks
+for the specific missing choice. Metadata coloring is a
 presentation-only mapping to existing PCA points. Statistical associations
 and train-fitted PCA query projection remain unqualified. Groups can exclude
 declared matching rows from neighbors, but do not prove that groups are
@@ -93,7 +98,8 @@ independent units.
 
 See [F4.0 partition behavior](../docs/WASM_PARTITION_GUARD.md), [import
 architecture](../docs/browser/F4_0_IMPORT_ARCHITECTURE.md), [native/WASM
-compatibility](../docs/browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and
+compatibility](../docs/browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), the
+[one-shot import guide](../docs/browser/ONE_SHOT_IMPORT_USER_GUIDE.md), and
 [remaining capabilities](../docs/browser/F4_0_REMAINING_CAPABILITIES.md).
 
 ### Legacy history: browser_x.v1 partition refusal

@@ -48,15 +48,20 @@ from human utility and full accessibility claims.
 
 Choose the deterministic synthetic fixtures to inspect provider behavior,
 select the packaged public saved tablet example to read its already saved
-evidence, or import a supported dataset locally. For import, review source and
-column roles, declared identity keys, keyed joins, and partitions in
-`DatasetBuilder`, then confirm the reviewed assembly. Import retains the dataset
-and missingness but performs no automatic fit. Choose an operation separately:
+evidence, or import a supported dataset locally. Dropping/selecting one file or
+folder starts inference and normal IO assembly automatically; the initial IO
+preview is not a required review. The shared `DatasetBuilder` is optional: opt
+in to edit after IO identifies sources but before final loading, or open Data
+settings after loading. Import retains the dataset and missingness but performs
+no fit. Choose an operation separately:
 Train structure uses train rows; the raw support query uses train as reference
 and test as query; metadata audits are documentary; global descriptive structure
 requires explicit transductive consent and includes train plus test, excluding
 predict rows. An unpartitioned source continues through the legacy full-source
-descriptive route. The page provides data and provenance, spectra, geometry,
+descriptive route. If an auxiliary Y/M attachment is unresolved, validated X
+can still load while the source stays separately identified and dependent
+operations are restricted; a blocking ambiguity asks for the specific missing
+choice. The page provides data and provenance, spectra, geometry,
 findings, intended-use context, evidence and export sections. English/French and
 light/dark preferences are application settings. The shared `nirs4all-ui`
 package supplies qualification charts and the official nirs4all logo assets;

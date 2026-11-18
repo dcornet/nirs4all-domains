@@ -3,7 +3,7 @@ import logo from 'nirs4all-ui/assets/brands/nirs4all/horizontal.svg';
 import darkLogo from 'nirs4all-ui/assets/brands/nirs4all/horizontal-dark.svg';
 import { Landing } from './Landing';
 import { Workspace } from './Workspace';
-import {DatasetImport} from './DatasetImport';
+import {ImportResolution} from './ImportResolution';
 import { translator } from './i18n';
 import type { AppProps, Locale } from './ui-types';
 import {TechnicalDiagnostic} from './ux/TechnicalDiagnostic';
@@ -35,6 +35,7 @@ export function App({ state, callbacks }: AppProps) {
     try { localStorage.setItem('domains-language', locale); localStorage.setItem('domains-theme', theme); } catch { /* Preferences are optional. */ }
   }, [locale, theme]);
   const busy = state.phase === 'loading' || state.phase === 'running';
+  const pendingImport = state.pendingImport ?? (state.importDraft ? state.importSession : undefined);
   return <div className="app">
     <a className="skip" href="#main">{t('skip')}</a>
     <header className="nav"><div className="container nav-inner">
@@ -50,7 +51,8 @@ export function App({ state, callbacks }: AppProps) {
       {state.error?.diagnostic?<div className="container"><h2>{t('error')}</h2><TechnicalDiagnostic diagnostic={state.error.diagnostic} locale={locale} error onRetryImport={state.canRetryImport?callbacks.onRetryImport:undefined}/></div>:state.error&&<ErrorFeedback error={state.error} locale={locale} hasResult={!!state.result}/>}
       {busy&&state.workerDiagnostic&&<div className="container"><TechnicalDiagnostic diagnostic={state.workerDiagnostic} locale={locale}/></div>}
       {state.phase === 'cancelled' && <p className="container notice" role="status">{t('cancelled')}</p>}
-      {state.importDraft&&callbacks.onConfirmImport?<DatasetImport key={state.importDraft.files.map(f=>f.name).join('|')} draft={state.importDraft} locale={locale} busy={busy} error={state.error?.message} onConfirm={callbacks.onConfirmImport} onCancel={callbacks.onReset}/>:state.result ? <Workspace key={state.result.dataset.contentHash} result={state.result} intent={state.intent} declarations={state.declarations} callbacks={callbacks} locale={locale} t={t} busy={busy}/> : <Landing state={state} callbacks={callbacks} t={t} busy={busy} locale={locale}/>}
+      {pendingImport && callbacks.onConfirmImport && <ImportResolution key={pendingImport.draft.files.map(f => f.name).join('|')} session={pendingImport} locale={locale} busy={busy} onConfirm={(config,sources) => callbacks.onConfirmImport?.(config,sources,pendingImport)} onDismiss={callbacks.onDismissImport ?? callbacks.onCancel}/>}
+      {state.result ? <Workspace key={state.result.dataset.contentHash} result={state.result} intent={state.intent} declarations={state.declarations} callbacks={callbacks} locale={locale} t={t} busy={busy} importSummary={state.importSummary} importSession={state.pendingImport ? state.importSession : state.importDraft ? undefined : state.importSession}/> : !pendingImport && <Landing state={state} callbacks={callbacks} t={t} busy={busy} locale={locale}/>}
     </main>
     <footer className="footer container"><span>nirs4all <strong>Domains</strong></span><p>{t('footer')}</p><a href="https://github.com/dcornet/nirs4all-domains/blob/main/LICENSING.md">CeCILL 2.1 / AGPL 3.0</a></footer>
   </div>;

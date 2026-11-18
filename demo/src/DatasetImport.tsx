@@ -6,34 +6,46 @@ import type { MetadataRole } from './engine/types';
 import type { Locale } from './ui-types';
 
 export interface DatasetImportProps {
-  draft: DatasetDraft; locale?: Locale; busy?: boolean; error?: string | null;
+  draft: DatasetDraft; initialSources?: DatasetSource[]; initialConfig?: DatasetExportConfig; locale?: Locale; busy?: boolean; error?: string | null;
   onConfirm: (config: DatasetExportConfig, sources: DatasetSource[]) => void;
   onCancel: () => void;
 }
-/** Shared published builder reviews roles; the host confirms this import explicitly. */
-export function DatasetImport({ draft, locale = 'en', busy = false, error, onConfirm, onCancel }: DatasetImportProps) {
-  const [sources, setSources] = useState(draft.sources);
-  const [name, setName] = useState(draft.spec.name || 'Imported dataset');
-  const [accepted, setAccepted] = useState(false);
-  const [declarations, setDeclarations] = useState<Record<string, MetadataDeclaration>>((draft.spec.metadata_declarations as Record<string,MetadataDeclaration>|undefined)??{});
-  const update = (next: DatasetSource[]) => { setAccepted(false); setSources(next); };
+/** Preserve declared options that the shared descriptor exporter does not edit. */
+export function editedImportConfig(name: string, sources: DatasetSource[], initial?: DatasetExportConfig, baseline: DatasetSource[] = sources): DatasetExportConfig {
+  const next = buildExportConfig(name, sources);
+  return { ...initial, ...next,
+    joins: next.joins.map(join => ({ ...join, strategy: initial?.joins.find(previous => previous.left === join.left && previous.right === join.right)?.strategy ?? join.strategy })),
+    targets: next.targets.map(target => {
+      const column = sources.find(source => source.name === target.source)?.columns.find(item => item.name === target.column);
+      const previousColumn = baseline.find(source => source.name === target.source)?.columns.find(item => item.name === target.column);
+      const previous = initial?.targets.find(item => item.source === target.source && item.column === target.column);
+      return previous && column?.semanticType === previousColumn?.semanticType ? { ...target, task: previous.task } : target;
+    }),
+  };
+}
+/** Optional shared editor; the host revalidates every submitted assembly change. */
+export function DatasetImport({ draft, initialSources, initialConfig, locale = 'en', busy = false, error, onConfirm, onCancel }: DatasetImportProps) {
+  const [sources, setSources] = useState(initialSources ?? draft.sources);
+  const [name, setName] = useState(initialConfig?.name ?? draft.spec.name ?? 'Imported dataset');
+  const [declarations, setDeclarations] = useState<Record<string, MetadataDeclaration>>(((initialConfig as ReviewedDatasetConfig | undefined)?.metadata_declarations ?? draft.spec.metadata_declarations as Record<string,MetadataDeclaration>|undefined)??{});
+  const update = (next: DatasetSource[]) => { setSources(next); };
   const text = locale === 'fr' ? {
-    title: 'Vérifier les rôles X / Y / M', intro: 'Les rôles proposés par IO doivent être vérifiés. Les valeurs restent dans ce navigateur. Cet import ne lance aucune analyse.',
+    title: 'Paramètres avancés', intro: 'Modifiez les paramètres si nécessaire. IO validera à nouveau les données avant de remplacer le dataset actif.',
     partitions: 'Partitions déclarées', absent: 'Sans partition déclarée : source descriptive complète. Aucune partition train/test ne sera créée.',
     targets: 'Y est conservé localement et exclu de toutes les requêtes scientifiques F4.0. Les identités partagées sont conservées et ne prouvent pas l’indépendance.',
-    confirm: 'Je confirme les rôles, les identifiants de jointure et les partitions affichés.', submit: 'Importer les données vérifiées', cancel: 'Annuler',
+    submit: 'Appliquer les modifications', cancel: 'Annuler',
     advisory: 'Le panneau partagé peut proposer des options d’apprentissage. Domains conserve X seul et les partitions déclarées ; aucune cible Y n’est obligatoire.',
   } : {
-    title: 'Review X / Y / M roles', intro: 'Review the roles proposed by IO. Values stay in this browser. Import does not start an analysis.',
+    title: 'Advanced settings', intro: 'Change settings when needed. IO will validate the data again before replacing the active dataset.',
     partitions: 'Declared partitions', absent: 'No declared partition: complete descriptive source. No train/test partition will be generated.',
     targets: 'Y is retained locally and excluded from all F4.0 scientific requests. Shared source identities are preserved and do not prove independence.',
-    confirm: 'I confirm the displayed roles, join identifiers and partitions.', submit: 'Import reviewed data', cancel: 'Cancel',
+    submit: 'Apply changes', cancel: 'Cancel',
     advisory: 'The shared panel may display training options. Domains supports X alone and preserves declared partitions; no Y target is required.',
   };
   const explicit = Boolean(draft.spec.partitions) || draft.spec.sources.some(source => source.partition) || sources.some(source => source.columns.some(column => column.assignedRole === 'partition'));
   const metadataRoles: MetadataRole[] = ['unknown', 'factor', 'observation_id', 'specimen', 'group', 'reference', 'repetition', 'instrument', 'campaign'];
   const confirm = () => {
-    const config: ReviewedDatasetConfig = { ...buildExportConfig(name, sources), metadata_declarations: declarations };
+    const config: ReviewedDatasetConfig = { ...editedImportConfig(name, sources, initialConfig, initialSources ?? draft.sources), metadata_declarations: declarations };
     onConfirm(config, sources);
   };
   return <section aria-label={text.title} className="dataset-import">
@@ -56,7 +68,7 @@ export function DatasetImport({ draft, locale = 'en', busy = false, error, onCon
       {sources.flatMap(source => source.columns.filter(column => ['metadata', 'id', 'group', 'replicate'].includes(column.assignedRole)).map(column => {
         const key = `${source.id}__${column.name}`;
         const declaration: MetadataDeclaration = declarations[key] ?? { role: column.assignedRole === 'id' ? 'observation_id' : column.assignedRole === 'group' ? 'group' : column.assignedRole === 'replicate' ? 'repetition' : 'factor', derived_from_target: 'unknown' };
-        const change = (next: MetadataDeclaration) => { setAccepted(false); setDeclarations(previous => ({ ...previous, [key]: next })); };
+        const change = (next: MetadataDeclaration) => { setDeclarations(previous => ({ ...previous, [key]: next })); };
         return <div key={key}><span>{source.name} / {column.name} </span>
           <label>{locale === 'fr' ? 'Rôle ' : 'Role '}<select aria-label={`${column.name} metadata role`} value={declaration.role}
             onChange={event => change({ ...declaration, role: event.target.value as MetadataRole })}>
@@ -69,8 +81,7 @@ export function DatasetImport({ draft, locale = 'en', busy = false, error, onCon
       }))}
     </details>
     {error && <p role="alert">{error}</p>}
-    <label><input type="checkbox" checked={accepted} disabled={busy} onChange={event => setAccepted(event.target.checked)} />{text.confirm}</label>
-    <div><button type="button" disabled={busy || !accepted} onClick={confirm}>{text.submit}</button>
+    <div><button type="button" disabled={busy} onClick={confirm}>{text.submit}</button>
       <button type="button" onClick={onCancel}>{text.cancel}</button></div>
   </section>;
 }
