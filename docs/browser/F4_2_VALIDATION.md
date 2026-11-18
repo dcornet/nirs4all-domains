@@ -66,6 +66,8 @@ The native replay in `.github/workflows/demo-ci.yml` produces the matching input
 
 The exact delivered SHA, hosted run URLs and authenticated artifact review are maintained in [PR #14](https://github.com/dcornet/nirs4all-domains/pull/14). The checklist below records the pre-publication boundary; a later successful run must be evidenced there, rather than inferred from this checklist or workflow configuration. Public Pages serves main and does not deploy this unmerged PR.
 
+The first hosted Ubuntu browser run reached the Firefox F4.2 calculation successfully, then exceeded the existing 10,000,000-byte screenshot budget by capturing complete growing result panels. The capture helper now records the parameter form and the actual projection figure; complete numeric tables and histories remain in the tested exports. The original screenshot limit, all browser assertions and scientific tolerances are retained. The revised focused Chromium run passed all eight checks. The failed hosted artifacts remain available in run `44275017115`.
+
 - [x] Final local staged-source build, distribution and clippy passed: `npm run build --prefix demo`; `python scripts/check_demo_distribution.py` (16,074,962 bytes, 79 files, four WASM assets); `cargo clippy --locked --offline --profile qualification --workspace --all-targets -- -D warnings`; final `cargo fmt --all -- --check`. Exact-SHA hosted gates remain pending below.
 - [ ] Rerun final-head fmt, workspace tests, ignored native gates, bridge and report gates after the last native fix.
 - [ ] Complete hosted Windows and Ubuntu CI, including actual native/WASM parity and Chromium/Firefox browser jobs.

@@ -152,8 +152,10 @@ export async function qualifySupportBrowser({page,context,url,output,check,expor
   check('F4.2 executes actual Methods train-only projection and separate monitor; preserves F4.0/F4.1 evidence',
     {fit_rows:result.receipt.fit_keys.length,test_rows:result.receipt.query_keys.length,projection_components:result.projection.value.components,
       monitor_status:result.monitoring.status,fit_state_sha256:result.projection.value.fit_state_sha256});
-  await screenshot(page,`${browserName}-f4.2-support-controls-en`,false,'#train-fitted-support');
-  await screenshot(page,`${browserName}-f4.2-support-results-en`,false,'#train-fitted-support .panel');
+  // Keep evidence focused: the complete tables/receipts are preserved in exports.
+  // Capturing the whole growing history duplicates those long tables as PNGs.
+  await screenshot(page,`${browserName}-f4.2-support-controls-en`,false,'#train-fitted-support form');
+  await screenshot(page,`${browserName}-f4.2-support-results-en`,false,'#train-fitted-support [id="train-fitted-support-1-projection"]');
   captures.screenshots.push(`${browserName}-f4.2-support-controls-en`,`${browserName}-f4.2-support-results-en`);
   await auditAccessibility(page,output,`${browserName}-f4.2-support-en`,check);
 
@@ -194,7 +196,7 @@ export async function qualifySupportBrowser({page,context,url,output,check,expor
   assert.equal(await page.locator('html').getAttribute('lang'),'fr');
   await page.locator('#train-fitted-support').scrollIntoViewIfNeeded();
   assert.match(await page.locator('#train-fitted-support').innerText(),/Comment les observations/);
-  await screenshot(page,`${browserName}-f4.2-support-results-fr`,false,'#train-fitted-support');
+  await screenshot(page,`${browserName}-f4.2-support-results-fr`,false,'#train-fitted-support [id="train-fitted-support-1-projection"]');
   captures.screenshots.push(`${browserName}-f4.2-support-results-fr`);
   await auditAccessibility(page,output,`${browserName}-f4.2-support-fr`,check);
   await page.getByRole('button',{name:'EN',exact:true}).click();
