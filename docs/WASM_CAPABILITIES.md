@@ -1,5 +1,29 @@
 # Browser capability boundary
 
+## F4.1 factor association (separate protocol)
+
+`domains.browser_factor_association.v1` consumes original, scope-validated raw-PCA
+scores and explicitly selected keyed M. It never fits PCA or accepts X/Y values.
+Train is the main population; unpartitioned and separately consented transductive
+analyses retain their own source evidence. Existing `browser_x.v1` metadata slots
+and historical qualification remain unchanged.
+
+Methods 1.3.13 / ABI 2.20 provides categorical factor association, explicit
+Pearson/Spearman, exact tests, Holm and continuous range summary. Descriptive B=0
+is the default, with unavailable p-values. Exact inference is conditional on a
+supplied external exchangeability record and complete prospective family;
+repeated units and unsupported designs do not gain inference. Four direct
+published-Methods WASM adapter checks executed locally. Actual compiled Domains
+native/WASM qualification and Chromium/Firefox executed on Windows and Ubuntu;
+the [F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the source
+commits, current-head gates, artifacts, numerical checks and limits. Listing an
+API is not execution proof. No global spectral association, causal or calibration
+score is implemented. Optional external design records attach separately after
+PCA; shape validation does not establish their scientific truth.
+See [remaining capabilities](browser/F4_1_REMAINING_CAPABILITIES.md).
+
+## Earlier protocol surfaces
+
 This matrix describes the current demo product surface, not a scientific
 qualification grant. A provider API, implemented path, and qualified scientific
 interpretation are separate evidence. Runtime results retain their own status,

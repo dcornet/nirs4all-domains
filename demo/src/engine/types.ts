@@ -31,6 +31,6 @@ export interface LocalDataset {
     original_source_ids: string[]; roles_reviewed: boolean; identity_independence: 'unknown' };
 }
 export interface InputFile { name: string; bytes: Uint8Array }
-export type Operation = 'import' | 'prepare_import' | 'assemble_import' | 'analyze' | 'scoped' | 'interpret';
+export type Operation = 'import' | 'prepare_import' | 'assemble_import' | 'analyze' | 'scoped' | 'factor_association' | 'interpret';
 export interface WorkerRequest { id: number; operation: Operation; payload: unknown }
 export interface WorkerReply { id: number; ok: boolean; result?: unknown; stage?: string; stage_id?: ProcessingStage; error?: { code: string; message: string } }

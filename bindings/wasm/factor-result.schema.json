@@ -1,0 +1,658 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_factor_association_result.v1",
+  "$comment": "Shape and status/value invariants only; Rust retains scientific and provenance guards.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version","status","reason","value","receipt","supported_claims","limitations","action"],
+  "properties": {
+    "protocol_version": {"const": "domains.browser_factor_association_result.v1"},
+    "status": {"const": "computed"},
+    "reason": {"const": null},
+    "value": {"$ref": "#/$defs/resultValue"},
+    "receipt": {"$ref": "#/$defs/receipt"},
+    "supported_claims": {"type": "array","minItems": 1,"items": {"type": "string","minLength": 1}},
+    "limitations": {"type": "array","minItems": 1,"items": {"type": "string","minLength": 1}},
+    "action": {"type": "string","minLength": 1}
+  },
+  "$defs": {
+    "hash": {"type": "string","pattern": "^[0-9a-fA-F]{64}$"},
+    "population": {"enum": ["train","unpartitioned","global_transductive"]},
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset_id","source_id","content_version","content_sha256"],
+      "properties": {
+        "dataset_id": {"type": "string","minLength": 1},
+        "source_id": {"type": "string","minLength": 1},
+        "content_version": {"type": "string","minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "external": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uri","content_sha256","qualification","basis"],
+      "properties": {
+        "uri": {"type": "string","minLength": 1},
+        "content_sha256": {"$ref": "#/$defs/hash"},
+        "qualification": {"type": "string","minLength": 1},
+        "basis": {"type": "string","minLength": 1}
+      }
+    },
+    "parameters": {"type": "object","additionalProperties": false,"required": ["preset"],"properties": {"preset": {"const": "f41_factor_pc_v1"}}},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count","min","max","mean","sample_sd","q25","median","q75","backend_version"],
+      "properties": {
+        "count": {"type": "integer","minimum": 0,"maximum": 2000},
+        "min": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "max": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "mean": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "sample_sd": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "q25": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "median": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "q75": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "backend_version": {"type": "string","minLength": 1}
+      }
+    },
+    "factorOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eta_squared",
+        "f_statistic",
+        "df1",
+        "df2",
+        "n_levels",
+        "n_score_values",
+        "log10_distinct_arrangements",
+        "p_value",
+        "n_at_least_observed",
+        "n_permutations_executed",
+        "backend_version"
+      ],
+      "properties": {
+        "eta_squared": {"anyOf": [{"type": "null"},{"type": "number","minimum": 0,"maximum": 1}]},
+        "f_statistic": {"anyOf": [{"type": "null"},{"type": "number","minimum": 0}]},
+        "df1": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 0,"maximum": 2000}]},
+        "df2": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 0,"maximum": 2000}]},
+        "n_levels": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_score_values": {"type": "integer","minimum": 0,"maximum": 2000},
+        "log10_distinct_arrangements": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "p_value": {"const": null},
+        "n_at_least_observed": {"const": 0},
+        "n_permutations_executed": {"const": 0},
+        "backend_version": {"type": "string","minLength": 1}
+      }
+    },
+    "correlationOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coefficient",
+        "n_distinct_factor",
+        "n_distinct_score",
+        "log10_distinct_arrangements",
+        "p_value",
+        "n_at_least_observed",
+        "n_permutations_executed",
+        "backend_version"
+      ],
+      "properties": {
+        "coefficient": {"anyOf": [{"type": "null"},{"type": "number","minimum": -1,"maximum": 1}]},
+        "n_distinct_factor": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_distinct_score": {"type": "integer","minimum": 0,"maximum": 2000},
+        "log10_distinct_arrangements": {"anyOf": [{"type": "null"},{"type": "number"}]},
+        "p_value": {"const": null},
+        "n_at_least_observed": {"const": 0},
+        "n_permutations_executed": {"const": 0},
+        "backend_version": {"type": "string","minLength": 1}
+      }
+    },
+    "exact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["n_arrangements","p_value","minimum_p_value","maximum_statistic","backend_version"],
+      "properties": {
+        "n_arrangements": {"type": "integer","minimum": 1,"maximum": 40320},
+        "p_value": {"anyOf": [{"type": "null"},{"type": "number","exclusiveMinimum": 0,"maximum": 1}]},
+        "minimum_p_value": {"anyOf": [{"type": "null"},{"type": "number","exclusiveMinimum": 0,"maximum": 1}]},
+        "maximum_statistic": {"anyOf": [{"type": "null"},{"type": "number","minimum": 0,"maximum": 1}]},
+        "backend_version": {"type": "string","minLength": 1}
+      }
+    },
+    "descriptive": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["measure","estimate","owner_output"],
+          "properties": {
+            "measure": {"const": "eta_squared"},
+            "estimate": {"type": "number","minimum": 0,"maximum": 1},
+            "owner_output": {"$ref": "#/$defs/factorOwner"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["measure","estimate","owner_output"],
+          "properties": {
+            "measure": {"enum": ["pearson_r","spearman_rho"]},
+            "estimate": {"type": "number","minimum": -1,"maximum": 1},
+            "owner_output": {"$ref": "#/$defs/correlationOwner"}
+          }
+        }
+      ]
+    },
+    "inferenceValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["qualification","test","owner_exact","holm_adjusted_p","family_size","external_evidence"],
+      "properties": {
+        "qualification": {"const": "conditional_on_supplied_external_exchangeability_record"},
+        "test": {"enum": ["exact_eta_squared","exact_absolute_correlation"]},
+        "owner_exact": {"$ref": "#/$defs/exact"},
+        "holm_adjusted_p": {"type": "number","exclusiveMinimum": 0,"maximum": 1},
+        "family_size": {"type": "integer","minimum": 1,"maximum": 80},
+        "external_evidence": {"$ref": "#/$defs/external"}
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component","n_used","descriptive","inference","exact_owner_evidence"],
+      "properties": {
+        "component": {"type": "integer","minimum": 1,"maximum": 20},
+        "n_used": {"type": "integer","minimum": 0,"maximum": 2000},
+        "descriptive": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {"status": {"const": "computed"},"reason": {"const": null},"value": {"$ref": "#/$defs/descriptive"}}
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"enum": ["unavailable","unsupported","error"]},
+                "reason": {"type": "string","minLength": 1},
+                "value": {"const": null}
+              }
+            }
+          ]
+        },
+        "inference": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {"status": {"const": "computed"},"reason": {"const": null},"value": {"$ref": "#/$defs/inferenceValue"}}
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"enum": ["unavailable","unsupported","error"]},
+                "reason": {"type": "string","minLength": 1},
+                "value": {"const": null}
+              }
+            }
+          ]
+        },
+        "exact_owner_evidence": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {"status": {"const": "computed"},"reason": {"const": null},"value": {"$ref": "#/$defs/exact"}}
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"enum": ["unavailable","unsupported","error"]},
+                "reason": {"type": "string","minLength": 1},
+                "value": {"const": null}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level_id","value","label","count"],
+      "properties": {
+        "level_id": {"type": "string","minLength": 1},
+        "value": {"anyOf": [{"type": "string"},{"type": "number"},{"type": "boolean"}]},
+        "label": {"type": "string"},
+        "count": {"type": "integer","minimum": 1,"maximum": 2000}
+      }
+    },
+    "factor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factor_id",
+        "kind",
+        "role",
+        "unit",
+        "origin",
+        "evidence",
+        "derived_from_target",
+        "n_fit_observations",
+        "n_used",
+        "n_missing",
+        "used_keys_sha256",
+        "values_sha256",
+        "n_levels",
+        "level_counts",
+        "range",
+        "owner_summary",
+        "warnings",
+        "components"
+      ],
+      "properties": {
+        "factor_id": {"type": "string","minLength": 1},
+        "kind": {"enum": ["categorical","continuous","unknown"]},
+        "role": {"type": "string","minLength": 1},
+        "unit": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+        "origin": {"type": "string","minLength": 1},
+        "evidence": {"enum": ["declared","verified","unknown"]},
+        "derived_from_target": {"type": ["boolean","null"]},
+        "n_fit_observations": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_used": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_missing": {"type": "integer","minimum": 0,"maximum": 2000},
+        "used_keys_sha256": {"$ref": "#/$defs/hash"},
+        "values_sha256": {"$ref": "#/$defs/hash"},
+        "n_levels": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 0,"maximum": 2000}]},
+        "level_counts": {"anyOf": [{"type": "null"},{"type": "array","minItems": 0,"items": {"$ref": "#/$defs/level"},"maxItems": 2000}]},
+        "range": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"const": "computed"},
+                "reason": {"const": null},
+                "value": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["min","max"],
+                  "properties": {"min": {"type": "number"},"max": {"type": "number"}}
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"enum": ["unavailable","unsupported","error"]},
+                "reason": {"type": "string","minLength": 1},
+                "value": {"const": null}
+              }
+            }
+          ]
+        },
+        "owner_summary": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {"status": {"const": "computed"},"reason": {"const": null},"value": {"$ref": "#/$defs/summary"}}
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status","reason","value"],
+              "properties": {
+                "status": {"enum": ["unavailable","unsupported","error"]},
+                "reason": {"type": "string","minLength": 1},
+                "value": {"const": null}
+              }
+            }
+          ]
+        },
+        "warnings": {"type": "array","minItems": 0,"items": {"type": "string","minLength": 1}},
+        "components": {"type": "array","minItems": 1,"items": {"$ref": "#/$defs/component"},"maxItems": 20}
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "kind",
+        "role",
+        "unit",
+        "origin",
+        "evidence",
+        "derived_from_target",
+        "n_rows",
+        "n_missing",
+        "n_distinct_nonmissing",
+        "n_repeated_rows_beyond_first",
+        "declared_unique_unit_count",
+        "independent_units_established",
+        "level_counts"
+      ],
+      "properties": {
+        "name": {"type": "string","minLength": 1},
+        "kind": {"enum": ["categorical","continuous","unknown"]},
+        "role": {"type": "string","minLength": 1},
+        "unit": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+        "origin": {"type": "string","minLength": 1},
+        "evidence": {"enum": ["declared","verified","unknown"]},
+        "derived_from_target": {"type": ["boolean","null"]},
+        "n_rows": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_missing": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_distinct_nonmissing": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_repeated_rows_beyond_first": {"type": "integer","minimum": 0,"maximum": 2000},
+        "declared_unique_unit_count": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 0,"maximum": 2000}]},
+        "independent_units_established": {"const": false},
+        "level_counts": {
+          "anyOf": [
+            {"type": "null"},
+            {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["level_id","value","count"],
+                "properties": {
+                  "level_id": {"type": "string","minLength": 1},
+                  "value": {"anyOf": [{"type": "string"},{"type": "number"},{"type": "boolean"}]},
+                  "count": {"type": "integer","minimum": 1,"maximum": 2000}
+                }
+              },
+              "maxItems": 2000
+            }
+          ]
+        }
+      }
+    },
+    "crossing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left",
+        "right",
+        "n_complete_pairs",
+        "n_missing_pairs",
+        "observed_combinations",
+        "margin_definition",
+        "absent_combination_count",
+        "absent_combinations",
+        "absence_enumeration_reason",
+        "left_nested_in_right",
+        "right_nested_in_left",
+        "literal_total_confounding",
+        "qualification"
+      ],
+      "properties": {
+        "left": {"type": "string","minLength": 1},
+        "right": {"type": "string","minLength": 1},
+        "n_complete_pairs": {"type": "integer","minimum": 0,"maximum": 2000},
+        "n_missing_pairs": {"type": "integer","minimum": 0,"maximum": 2000},
+        "observed_combinations": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["left_level","right_level","count"],
+            "properties": {
+              "left_level": {"type": "string","minLength": 1},
+              "right_level": {"type": "string","minLength": 1},
+              "count": {"type": "integer","minimum": 0,"maximum": 2000}
+            }
+          },
+          "maxItems": 2000
+        },
+        "margin_definition": {"type": "string","minLength": 1},
+        "absent_combination_count": {"type": "integer","minimum": 0,"maximum": 4000000},
+        "absent_combinations": {
+          "anyOf": [
+            {"type": "null"},
+            {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["left_level","right_level"],
+                "properties": {"left_level": {"type": "string","minLength": 1},"right_level": {"type": "string","minLength": 1}}
+              },
+              "maxItems": 4096
+            }
+          ]
+        },
+        "absence_enumeration_reason": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+        "left_nested_in_right": {"type": "boolean"},
+        "right_nested_in_left": {"type": "boolean"},
+        "literal_total_confounding": {"type": "boolean"},
+        "qualification": {"type": "string","minLength": 1}
+      }
+    },
+    "resultValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["population","representation","pca_id","scores_sha256","analysis_unit","inference","factors","dependency_audit"],
+      "properties": {
+        "population": {"$ref": "#/$defs/population"},
+        "representation": {"const": "recorded raw-PCA scores"},
+        "pca_id": {"$ref": "#/$defs/hash"},
+        "scores_sha256": {"$ref": "#/$defs/hash"},
+        "analysis_unit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["calculation_unit","n_observations","n_independent_units","physical_independence_verified_by_domains","qualification"],
+          "properties": {
+            "calculation_unit": {"const": "observations/acquisitions"},
+            "n_observations": {"type": "integer","minimum": 0,"maximum": 2000},
+            "n_independent_units": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 0,"maximum": 2000}]},
+            "physical_independence_verified_by_domains": {"const": false},
+            "qualification": {"type": "string","minLength": 1}
+          }
+        },
+        "inference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["level","reason","family","no_global_risk_or_causal_claim"],
+          "properties": {
+            "level": {"enum": ["conditionally_admissible","descriptive_only","unqualified"]},
+            "reason": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+            "family": {
+              "anyOf": [
+                {"type": "null"},
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["factor_ids","components","correction","external_evidence"],
+                  "properties": {
+                    "factor_ids": {"type": "array","minItems": 1,"items": {"type": "string","minLength": 1},"maxItems": 4,"uniqueItems": true},
+                    "components": {"const": "all_resolved"},
+                    "correction": {"const": "holm"},
+                    "external_evidence": {"$ref": "#/$defs/external"}
+                  }
+                }
+              ]
+            },
+            "no_global_risk_or_causal_claim": {"const": true}
+          }
+        },
+        "factors": {"type": "array","minItems": 1,"items": {"$ref": "#/$defs/factor"},"maxItems": 4},
+        "dependency_audit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fields","pairwise_context_tables","qualification"],
+          "properties": {
+            "fields": {"type": "array","minItems": 0,"items": {"$ref": "#/$defs/dependency"},"maxItems": 24},
+            "pairwise_context_tables": {"type": "array","minItems": 0,"items": {"$ref": "#/$defs/crossing"},"maxItems": 378},
+            "qualification": {"type": "string","minLength": 1}
+          }
+        }
+      }
+    },
+    "providerCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation","request_sha256","backend_version","parameters","inputs","status","reason","response_sha256"],
+      "properties": {
+        "operation": {"enum": ["factor_descriptive","correlation_descriptive","factor_exact","correlation_exact","summary","holm_adjust"]},
+        "request_sha256": {"$ref": "#/$defs/hash"},
+        "backend_version": {"type": "string","minLength": 1},
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["n_permutations","seed","method","max_arrangements"],
+          "properties": {
+            "n_permutations": {"enum": [0,null]},
+            "seed": {"enum": [0,null]},
+            "method": {"enum": ["pearson","spearman",null]},
+            "max_arrangements": {"anyOf": [{"type": "null"},{"type": "integer","minimum": 1,"maximum": 40320}]}
+          }
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [],
+          "properties": {
+            "scores": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["count","sha256"],
+              "properties": {"count": {"type": "integer","minimum": 0,"maximum": 2000},"sha256": {"$ref": "#/$defs/hash"}}
+            },
+            "values": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["count","sha256"],
+              "properties": {"count": {"type": "integer","minimum": 0,"maximum": 2000},"sha256": {"$ref": "#/$defs/hash"}}
+            },
+            "codes": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["count","sha256"],
+              "properties": {"count": {"type": "integer","minimum": 0,"maximum": 2000},"sha256": {"$ref": "#/$defs/hash"}}
+            },
+            "p_values": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["count","sha256"],
+              "properties": {"count": {"type": "integer","minimum": 0,"maximum": 2000},"sha256": {"$ref": "#/$defs/hash"}}
+            }
+          }
+        },
+        "status": {"enum": ["computed","unsupported","error"]},
+        "reason": {"anyOf": [{"type": "null"},{"type": "string","minLength": 1}]},
+        "response_sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "request_sha256",
+        "manifest_sha256",
+        "population",
+        "fit_keys",
+        "source_pca_input_sha256",
+        "source_pca_evidence_sha256",
+        "source_pca_fit_receipt_sha256",
+        "scores_sha256",
+        "scores_shape",
+        "pca_id",
+        "pca_refits",
+        "fields_read",
+        "source_pca_uses_test_x",
+        "test_scores_accessed",
+        "test_m_accessed",
+        "test_x_accessed",
+        "y_accessed",
+        "explicit_transductive",
+        "provider_version",
+        "provider_calls",
+        "parameters",
+        "components",
+        "correlation_method",
+        "receipt_sha256"
+      ],
+      "properties": {
+        "dataset": {"$ref": "#/$defs/dataset"},
+        "request_sha256": {"$ref": "#/$defs/hash"},
+        "manifest_sha256": {"$ref": "#/$defs/hash"},
+        "population": {"$ref": "#/$defs/population"},
+        "fit_keys": {"type": "array","minItems": 3,"items": {"type": "string","minLength": 1},"maxItems": 2000,"uniqueItems": true},
+        "source_pca_input_sha256": {"$ref": "#/$defs/hash"},
+        "source_pca_evidence_sha256": {"$ref": "#/$defs/hash"},
+        "source_pca_fit_receipt_sha256": {"anyOf": [{"type": "null"},{"$ref": "#/$defs/hash"}]},
+        "scores_sha256": {"$ref": "#/$defs/hash"},
+        "scores_shape": {
+          "type": "array",
+          "prefixItems": [{"type": "integer","minimum": 3,"maximum": 2000},{"type": "integer","minimum": 1,"maximum": 20}],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "pca_id": {"$ref": "#/$defs/hash"},
+        "pca_refits": {"const": 0},
+        "fields_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x","y","m"],
+          "properties": {
+            "x": {"const": false},
+            "y": {"type": "array","minItems": 0,"items": {},"maxItems": 0},
+            "m": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name","role","origin","n_rows","keys_sha256","values_sha256"],
+                "properties": {
+                  "name": {"type": "string","minLength": 1},
+                  "role": {"type": "string","minLength": 1},
+                  "origin": {"type": "string","minLength": 1},
+                  "n_rows": {"type": "integer","minimum": 0,"maximum": 2000},
+                  "keys_sha256": {"$ref": "#/$defs/hash"},
+                  "values_sha256": {"$ref": "#/$defs/hash"}
+                }
+              },
+              "maxItems": 28
+            }
+          }
+        },
+        "source_pca_uses_test_x": {"type": "boolean"},
+        "test_scores_accessed": {"type": "boolean"},
+        "test_m_accessed": {"type": "boolean"},
+        "test_x_accessed": {"const": false},
+        "y_accessed": {"const": false},
+        "explicit_transductive": {"type": "boolean"},
+        "provider_version": {"type": "string","minLength": 1},
+        "provider_calls": {"type": "array","minItems": 0,"items": {"$ref": "#/$defs/providerCall"},"maxItems": 165},
+        "parameters": {"$ref": "#/$defs/parameters"},
+        "components": {"const": "all_resolved"},
+        "correlation_method": {"enum": ["pearson","spearman"]},
+        "receipt_sha256": {"$ref": "#/$defs/hash"}
+      }
+    }
+  }
+}

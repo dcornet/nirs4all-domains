@@ -1,3 +1,4 @@
+import type {ScopedMetadata} from './scoped.js';
 export type PredictionIntent = 'study' | 'known_acquisitions' | 'new_specimens' | 'new_groups' | 'new_context' | 'unknown';
 export interface BrowserRequest {
   schema_version: 1;
@@ -83,6 +84,8 @@ export interface BrowserReport {
 }
 export interface Capability { capability_id: string; available: boolean; qualified: boolean; reason: string | null }
 export interface DomainsRuntime {
+  analyzeFactor(input: FactorRequest): FactorResult;
+  analyzeFactorJson(text:string):string;
   analyzeScoped(input: import('./scoped.js').ScopedRequest): import('./scoped.js').ScopedResult;
   analyzeScopedJson(text:string):string;
   analyze(input: BrowserRequest): BrowserReport;
@@ -96,3 +99,63 @@ export function createDomainsRuntime(options?: {wasmModule?:BufferSource | WebAs
 /** Requires the Domains WASM initialized by createDomainsRuntime; invokes no provider or fit. */
 export function interpret(report: BrowserReport,intent: PredictionIntent): BrowserReading;
 export type {ScopedRequest,ScopedResult,ScopedOperation,ScopedMetadata,PartitionRole} from './scoped.js';
+
+export type FactorJson = null | boolean | number | string | FactorJson[] | FactorJsonObject;
+export interface FactorJsonObject { [key:string]: FactorJson }
+export type FactorPopulation = 'train' | 'unpartitioned' | 'global_transductive';
+export interface FactorColumn extends ScopedMetadata {
+  unit:string|null;
+}
+export interface FactorExternalEvidence {
+  uri:string; content_sha256:string; qualification:string; basis:string;
+}
+export interface FactorInferencePlan {
+  protocol_version:'domains.factor_exchangeability.v1'; population:FactorPopulation;
+  dataset_content_sha256:string; pca_evidence_sha256:string;
+  external_evidence:FactorExternalEvidence;
+  unit_field:string; unit_kind:'specimen'|'independent_acquisition'; dependency_fields:string[];
+  no_other_dependencies:boolean; selection:'prospective'; factor_ids:string[];
+  components:'all_resolved'; missingness:'complete_units'; null_model:'unrestricted_exchangeability_given_fitted_x';
+}
+export interface FactorRequest {
+  schema_version:1; protocol_version:'domains.browser_factor_association.v1';
+  dataset:import('./scoped.js').ScopedRequest['dataset'];
+  manifest:import('./scoped.js').ScopedRequest['manifest'];
+  population:FactorPopulation;
+  pca:{report:BrowserReport|FactorJsonObject;row_keys:string[];fit_receipt:FactorJsonObject|null};
+  factors:FactorColumn[]; dependencies:FactorColumn[];
+  access:{x:false;m_fields:string[];y_fields:never[]};
+  representation:'raw'; explicit_transductive:boolean; components:'all_resolved';
+  correlation_method:'pearson'|'spearman';
+  inference:{mode:'descriptive'|'exact_if_qualified';plan:FactorInferencePlan|null};
+  parameters:{preset:'f41_factor_pc_v1'};
+}
+export interface FactorLevelCount {
+  level_id:string; value:string|number|boolean; label:string; count:number;
+}
+export interface FactorComponent {
+  component:number; n_used:number;
+  descriptive:Evidence<{measure:'eta_squared'|'pearson_r'|'spearman_rho';estimate:number;owner_output:FactorJsonObject}>;
+  inference:Evidence<{qualification:'conditional_on_supplied_external_exchangeability_record';test:'exact_eta_squared'|'exact_absolute_correlation';owner_exact:FactorJsonObject;holm_adjusted_p:number;family_size:number;external_evidence:FactorExternalEvidence|null}>;
+  exact_owner_evidence:Evidence<FactorJsonObject>;
+}
+export interface FactorResultColumn {
+  factor_id:string; kind:FactorColumn['kind']; role:string; unit:string|null;
+  origin:string; evidence:FactorColumn['evidence']; derived_from_target:boolean|null;
+  n_fit_observations:number; n_used:number; n_missing:number; used_keys_sha256:string;
+  values_sha256:string; n_levels:number|null; level_counts:FactorLevelCount[]|null;
+  range:Evidence<{min:number;max:number}>; owner_summary:Evidence<FactorJsonObject>;
+  warnings:string[]; components:FactorComponent[];
+}
+export interface FactorResult {
+  protocol_version:'domains.browser_factor_association_result.v1';
+  status:'computed'; reason:null;
+  value:{
+    population:FactorPopulation; representation:'recorded raw-PCA scores'; pca_id:string; scores_sha256:string;
+    analysis_unit:{calculation_unit:'observations/acquisitions';n_observations:number;n_independent_units:number|null;physical_independence_verified_by_domains:false;qualification:string};
+    inference:{level:'conditionally_admissible'|'descriptive_only'|'unqualified';reason:string|null;family:{factor_ids:string[];components:string;correction:'holm';external_evidence:FactorExternalEvidence}|null;no_global_risk_or_causal_claim:true};
+    factors:FactorResultColumn[];
+    dependency_audit:{fields:FactorJsonObject[];pairwise_context_tables:FactorJsonObject[];qualification:string};
+  };
+  receipt:FactorJsonObject; supported_claims:string[]; limitations:string[]; action:string;
+}

@@ -19,6 +19,24 @@ const report = runtime.analyze(input);        // BrowserRequest in index.d.ts
 const reading = runtime.interpret(report, 'new_context'); // no new provider calls
 ```
 
+F4.1 adds `runtime.analyzeFactor(request)` / `analyzeFactorJson(json)` with the
+versioned `domains.browser_factor_association.v1` contract in `index.d.ts`.
+Pass a compact original X-only PCA report and its matching successful scoped
+fit receipt, exact population keys and explicitly selected keyed M columns.
+Do not pass X or Y values. Rust validates the original evidence/fit fingerprints
+and scope before the Methods callback. Train is the main population; an
+unpartitioned source is descriptive, and global train+test needs separate
+explicit consent and an already transductive source PCA. No PCA is fit here.
+
+Each resolved PC is reported separately: categorical eta²/F or explicitly
+selected Pearson/Spearman. Missing M uses complete pairs without modifying the
+source PCA. Descriptive B=0 is the default; p-values remain unavailable without
+the separate externally qualified exchangeability/family record. The bounded
+exact path does not authenticate that record or establish physical independence.
+See [the scientific contract](../../docs/browser/F4_1_SCIENTIFIC_PROTOCOL.md)
+and [qualification](../../docs/browser/F4_1_VALIDATION.md). Existing `browser_x.v1`
+metadata metrics remain unchanged; the association is a separate result.
+
 `domains.browser_x.v1` accepts a single complete imported dense X source, its
 unchanged strictly monotonic axis (in either direction), unique observation IDs and a
 declared source-content SHA256. IO/Formats own parsing and assembly before this

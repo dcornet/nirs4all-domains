@@ -1,6 +1,8 @@
 /** Descriptive display projection only. No provider, fitting or scientific threshold. */
 import type { EvidenceStatus, Locale, PredictionIntent, UiEvidence, UiResult } from '../ui-types';
 import { translator } from '../i18n';
+import {factorAssociationTables} from './factor-association';
+import type {FactorColorLegendDescriptor} from './factor-colors';
 
 const copy = {
   en: {
@@ -125,6 +127,7 @@ export interface DisplayFigure extends Reading {
   xLabel: string; yLabel: string; unit: string; population: string; representation: string;
   points?: NonNullable<UiResult['pca']>['points']; eigenvalues?: number[];
   groupColors?: Record<string,string>;
+  factorLegend?:FactorColorLegendDescriptor;
 }
 export interface EvidenceBlock extends Reading {
   id: string; title: string; status: EvidenceStatus; reason: string | null; scope: string;
@@ -158,6 +161,7 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
   const blocks = view.evidence.map((e): EvidenceBlock => {
     const v = e.value as Record<string, any> | null, neighbor = e.id.endsWith('_neighbors'), density = e.id === 'density';
     const tables: DisplayTable[] = [{ id: `${e.id}-values`, title: metricTitle(e.id,c), columns: [c.parameter,c.value], rows: rows(e.value), note: overview }];
+    if(e.id.startsWith('factor-association-'))tables.unshift(...factorAssociationTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
     if (density && e.status === 'computed' && Array.isArray(v?.labels)) {
       const counts = new Map<number,number>(); for (const label of v.labels) counts.set(label,(counts.get(label)??0)+1);
       tables.unshift({ id: 'cluster-sizes', title: c.density, columns: [c.cluster,c.count], rows: [...counts].sort((a,b)=>a[0]-b[0]).map(([label,n])=>[label<0?`${c.noise} (${label})`:label,n]), note: c.densityRead });
@@ -179,6 +183,9 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
       observed:e.value===null?c.unavailable:density&&v?.n_clusters===0?c.allNoise:density&&v?.n_clusters===1?c.trivial:`${t(e.status)} · ${metricTitle(e.id,c)}`,
       relevance:c.next,limitations:[neighbor?c.neighborLimit:density?c.densityLimit:e.id==='pca'?c.scoreLimit:c.savedLimit] };
   });
+  // Put the new scientific association tables before their background transport
+  // details. Original evidence order and every optional annex remain intact.
+  blocks.sort((a,b)=>Number(b.id.startsWith('factor-association-'))-Number(a.id.startsWith('factor-association-')));
   const figures: DisplayFigure[] = [], pca = view.pca;
   const structureScope = view.provenance.scoped_structure_scope;
   const scopedPopulation = structureScope === 'train_only' ? c.scopedTrain
@@ -191,10 +198,10 @@ export function presentation(view: UiResult, locale: Locale, intent: PredictionI
     const percent = (i:number) => pca.totalVariance!==null && pca.totalVariance>0 && pca.eigenvalues[i]!==undefined ? ` (${axisValue(100*pca.eigenvalues[i]/pca.totalVariance,locale)} %)` : '';
     const groups=[...new Set(pca.points.flatMap(p=>p.group===undefined?[]:[p.group]))].sort();
     const palette=['#0f766e','#7c3aed','#b45309','#0369a1','#be185d','#4d7c0f'];
-    const groupColors=groups.length<=6?Object.fromEntries(groups.map((g,i)=>[g,palette[i]])):undefined;
+    const groupColors=view.factorGroupColors??(groups.length<=6?Object.fromEntries(groups.map((g,i)=>[g,palette[i]])):undefined);
     figures.push({id:'pca-scores',title:one?c.one:c.scores,kind:one?'scores1d':'scores',evidenceId:'pca',xLabel:pca.xLabel+percent(0),yLabel:one?c.oneLimit:pca.yLabel+percent(1),groupColors,
       unit:c.unknownUnit,population:`${formatValue(view.dataset.observations,locale)} · ${scopedPopulation??view.dataset.population??c.noValue}`,representation:view.dataset.representation??'raw',
-      points:pca.points,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[...(structureScope==='train_only'?[c.scopedTrainLimit]:structureScope==='global_transductive'?[c.scopedGlobalLimit]:structureScope==='unknown'?[c.scopedUnknown]:[c.scoreLimit]),...(one?[c.oneLimit]:[])]});
+      points:pca.points,factorLegend:view.factorLegend,definition:c.scoreDefinition,read:c.scoreRead,observed:`${pca.points.length} · ${c.observations}`,relevance:c.next,limitations:[...(structureScope==='train_only'?[c.scopedTrainLimit]:structureScope==='global_transductive'?[c.scopedGlobalLimit]:structureScope==='unknown'?[c.scopedUnknown]:[c.scoreLimit]),...(one?[c.oneLimit]:[])]});
     figures.push({id:'pca-scree',title:c.scree,kind:'scree',evidenceId:'pca',xLabel:c.component,yLabel:c.eigenvalue,unit:c.unknownUnit,population:figures[0].population,representation:figures[0].representation,
       eigenvalues:pca.eigenvalues,definition:c.screeDefinition,read:c.screeRead,observed:`${c.resolved}: ${pca.eigenvalues.length}; ${c.total}: ${formatValue(pca.totalVariance,locale)}`,relevance:c.next,limitations:[c.screeLimit]});
   }

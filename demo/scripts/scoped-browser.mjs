@@ -44,7 +44,7 @@ const downloadText=async(page,format,exported)=>exported(page,format);
 const reportJson=async(page,json)=>json(page);
 const operation=(report,name,diagnostic)=>report.scientific_report.scoped_operations.find(item=>item.operation===name && (!diagnostic||item.diagnostic===diagnostic) && item.status==='computed') ?? report.scientific_report.scoped_operations.at(-1);
 
-async function loadReviewed(page,files){
+export async function loadReviewed(page,files){
   await page.locator('input[type=file]').setInputFiles(files);
   await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
   const reviewText=await page.locator('.dataset-import').innerText();

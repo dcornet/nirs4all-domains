@@ -54,8 +54,15 @@ export function figureSvg(figure: DisplayFigure, locale: Locale): string {
 }
 export function figureHtml(figure: DisplayFigure, locale: Locale): string {
   const c=reportCopy(locale);
-  const legend=Object.entries(figure.groupColors??{}).map(([group,color])=>`<span style="color:${color}">● ${escape(group)}</span>`).join(' · ');
+  const f=figure.factorLegend;
+  const legend=f?factorLegendHtml(f,locale):Object.entries(figure.groupColors??{}).map(([group,color])=>`<span style="color:${color}">● ${escape(group)}</span>`).join(' · ');
   return `<figure id="${figure.id}" class="report-figure"><h3>${escape(figure.title)}</h3>${figureSvg(figure,locale)}<figcaption>${escape(figure.population)} · ${escape(figure.representation)} · ${escape(figure.unit)}<span class="report-legend">● ${escape(c.observations)} · ${escape(c.noExecution)} ${legend}</span></figcaption>${readingHtml(figure,locale)}<p>${escape(c.reference)}: <a href="#${anchor(figure.evidenceId)}">${escape(figure.evidenceId)}</a></p></figure>`;
+}
+function factorLegendHtml(f:NonNullable<DisplayFigure['factorLegend']>,locale:Locale):string{
+  const missing=locale==='fr'?'Manquant':'Missing';
+  const values=f.kind==='categorical'?f.levels.map(l=>`<span style="color:${escape(l.color)}">● ${escape(l.label)} (${escape(l.count)})</span>`).join(' · ')
+    :`<span style="display:inline-block;width:8em;height:.7em;background:linear-gradient(to right,#2563eb,#0f766e)"></span> ${escape(f.domain?.min)} → ${escape(f.domain?.max)} ${escape(f.unit??'')}`;
+  return `${escape(f.factor_id)} · ${values} · <span style="color:${escape(f.missing_color)}">● ${missing} (${escape(f.missing_count)})</span> · ${locale==='fr'?'Affichage uniquement ; pas un score de risque.':'Display only; not a risk score.'}`;
 }
 export function blocksHtml(p: ReportPresentation, locale: Locale,options:{anchors?:boolean;originals?:boolean;uncapped?:boolean}={}): string {
   const c=reportCopy(locale),t=translator(locale);

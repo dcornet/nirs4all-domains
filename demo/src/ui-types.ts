@@ -3,6 +3,9 @@ import type {ExportSelection} from './report/selection';
 import type {DatasetDraft,ReviewedImport} from './engine/import-draft';
 import type {ScopedOperation} from '@nirs4all/domains';
 import type {ScopeOptions} from './engine/scoped';
+import type {FactorAssociationControlsProps,FactorAssociationRun} from './FactorAssociationControls';
+import type {FactorResult} from '@nirs4all/domains';
+import type {FactorColorLegendDescriptor} from './report/factor-colors';
 export type Locale = 'en' | 'fr';
 export type ReadingMode = 'summary' | 'complete';
 export type ProcessingStage = 'prepare' | 'import' | 'validate' | 'compute' | 'interpret' | 'report';
@@ -27,6 +30,10 @@ export interface UiDataset {
   representation?: string; population?: string;
 }
 export interface UiResult {
+  factorControls?:Omit<FactorAssociationControlsProps,'busy'|'locale'|'onRun'|'onColor'|'onAuthorizeColorExport'|'onLoadInferencePlan'>;
+  factorAssociations?:FactorResult[];
+  factorLegend?:FactorColorLegendDescriptor;
+  factorGroupColors?:Record<string,string>;
   mode: 'live' | 'saved'; dataset: UiDataset; summary: string; protocol: string;
   findings: UiFinding[]; evidence: UiEvidence[];
   pca: { points: { id: string; x: number; y: number; group?: string }[];
@@ -45,6 +52,10 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onFactorInferencePlan?(file:File):void;
+  onFactorAssociation?(request:FactorAssociationRun):void;
+  onAssociationColor?(factorId:string):void;
+  onAuthorizeFactorColorExport?(factorId:string,authorized:boolean):void;
   onConfirmImport?(config:ReviewedImport['config'],sources:ReviewedImport['sources']):void;
   onScopedOperation?(operation:ScopedOperation,options?:ScopeOptions):void;
   onColorFactor?(field:string):void;

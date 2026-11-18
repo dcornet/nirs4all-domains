@@ -1,5 +1,25 @@
 # nirs4all-domains
 
+F4.1 adds explicit factor–PCA associations to the local browser workflow.
+Import and review keyed X/Y/M, run an admitted train-only (or declared
+unpartitioned) structure operation, then select a factor under “Which factors
+are associated with spectral structure?”. The operation reuses that PCA;
+categorical factors report component-wise eta², continuous factors use explicit
+Pearson or Spearman. Y is absent and test M is excluded from the main analysis.
+Counts, missingness, dependencies and inference limitations accompany each
+result. Color changes are display only; exporting observation-level factor
+colors requires a separate source-permission declaration, independently of
+report annex selection. See the [scientific contract](docs/browser/F4_1_SCIENTIFIC_PROTOCOL.md),
+[binding usage](bindings/wasm/README.md) and
+[execution record](docs/browser/F4_1_VALIDATION.md) for qualification.
+
+Advanced inference uses a separate local JSON design record attached after PCA
+(64 KiB maximum), with the exact dataset/PCA fingerprints and prospective family.
+It is not part of the hashed IO import specification. Loading it performs no
+calculation and establishes no independence; an explicit subsequent run asks
+Rust to check the external assumptions and dependencies. Ordinary use remains
+descriptive, including when stronger inference is unavailable.
+
 [F3.5 report customization](docs/report/F3_5_USER_GUIDE.md) adds selectable
 documentary supplements around a mandatory scientific core, integral machine
 evidence and uncapped printing. Qualification and publication are tracked in its PR.
@@ -245,6 +265,11 @@ this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIF
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
 describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
 records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
+
+The [prospective 2026-11-17 storage policy](docs/technical/STORAGE_POLICY_50GB.md)
+documents the owner's staged 50 GB ceiling and controller boundaries. Its CI
+contract tests use synthetic temporary fixtures; local activation is measured
+separately and does not claim an OS-level hard quota.
 
 Raw inputs, sensitive identifiers and explicit restrictions remain protected.
 Ordinary publishable aggregates follow source terms, not a catalog private-tier

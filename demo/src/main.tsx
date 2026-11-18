@@ -4,7 +4,7 @@ import { App } from './App';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading,ScopedOperation,ScopedResult } from '@nirs4all/domains';
+import type { BrowserReading,ScopedOperation,ScopedResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
 import {scopedInventory,scopedView} from './report/scoped';
@@ -12,6 +12,11 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
+import {factorRequest,factorSource,factorChoices,parseFactorInferencePlan} from './engine/factor';
+import type {FactorAssociationRun} from './FactorAssociationControls';
+import {appendFactorAssociations} from './report/factor-association';
+import {colorFactorPoints} from './report/factor-colors';
+import type {FactorColorExportGrant} from './report/factor-privacy';
 import type { UiCallbacks, UiState, UiResult,PredictionIntent,ProcessingStage } from './ui-types';
 
 function Controller() {
@@ -25,8 +30,10 @@ function Controller() {
   const selectedExample = useRef<string | null>(null);
   const operations=useRef<ScopedResult[]>([]),baseView=useRef<UiResult|undefined>(undefined);
   const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
+  const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
+  const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -43,13 +50,36 @@ function Controller() {
     setState(s => ({ ...s, phase: 'idle', result: liveView(report, data), processingStage:'report',progress: '' }));
   };
   const publishScoped=(data:LocalDataset)=>{
-    const result=scopedView(baseView.current,data,operations.current,color.current||undefined);
+    let result=appendFactorAssociations(scopedView(baseView.current,data,operations.current,associationColor.current?undefined:color.current||undefined),associations.current);
+    const unpartitioned=data.rowManifest?.every(r=>r.partition==='unpartitioned')===true;
+    const source=(population:FactorPopulation)=>factorSource(population,operations.current,unpartitioned?baseReport.current:null);
+    result.factorControls={datasetKey:data.input.content_sha256,factors:factorChoices(data),
+      populations:(unpartitioned?['unpartitioned']:['train','global_transductive']).map(p=>{
+        const candidate=source(p as FactorPopulation),pca=candidate?.report.metrics.pca;
+        const ready=pca?.status==='computed'&&pca.value!==null;
+        return {id:p as FactorPopulation,label:p,ready,reason:ready?undefined:pca?.reason??'PCA_EXECUTION_PROVENANCE_REQUIRED'};
+      }),
+      inferenceRecordAvailable:externalPlan.current!==null,
+      exportColorAuthorized:!!colorGrant.current};
+    result.factorAssociations=associations.current;
+    const selected=associationColor.current;
+    if(selected&&result.pca&&selected.receipt.source_pca_evidence_sha256===result.provenance.evidence_sha256){
+      const f=selected.value.factors.find(f=>f.factor_id===color.current),m=data.metadata.find(f=>f.name===color.current);
+      if(f&&m&&(f.kind==='categorical'||f.kind==='continuous')){
+        const keys=selected.receipt.fit_keys as string[],positions=new Map(data.rowManifest!.map((r,i)=>[r.key,i]));
+        const display=colorFactorPoints(result.pca.points,{id:f.factor_id,kind:f.kind,unit:f.unit,origin:f.origin,
+          row_keys:keys,values:keys.map(k=>m.values[positions.get(k)!]??null),levels:f.level_counts??undefined,range:f.range.value},'en');
+        result={...result,pca:{...result.pca,points:display.points},factorLegend:display.legend,factorGroupColors:display.groupColors,
+          provenance:{...result.provenance,display_color_field:f.factor_id,display_color_status:'DISPLAY_ONLY_NO_REFIT',factor_color_pca_id:selected.value.pca_id}};
+      }
+    }
     scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
-      scoped_operations:operations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
+      scoped_operations:operations.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
   };
   const scoped=async(operation:ScopedOperation,options:ScopeOptions={})=>{
     const data=dataset.current;if(!data?.rowManifest)return;
+    if(operation==='train_structure'||operation==='global_descriptive_transductive'){color.current='';associationColor.current=null;colorGrant.current=null;}
     const token=++epoch.current;engine.current.cancel();
     setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:'Executing only the selected scientific operation'}));
     try{
@@ -85,7 +115,29 @@ function Controller() {
       publishScoped(data);
     }
   };
+  const associate=async(run:FactorAssociationRun)=>{
+    const data=dataset.current;if(!data?.rowManifest)return;
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:'Validating recorded PCA and M population; no fit'}));
+    try{
+      const source=factorSource(run.population,operations.current,data.rowManifest.every(r=>r.partition==='unpartitioned')?baseReport.current:null);
+      if(!source)throw new Error('PCA_EXECUTION_PROVENANCE_REQUIRED');
+      const result=await engine.current.request<FactorResult>('factor_association',factorRequest(data,source,run,externalPlan.current),progress(token));
+      if(token!==epoch.current)return;
+      associations.current=[...associations.current,result];publishScoped(data);
+    }catch(error){failed(token,error);}
+  };
   const callbacks: UiCallbacks = {
+    async onFactorInferencePlan(file){
+      const data=dataset.current;if(!data?.rowManifest)return;
+      const token=epoch.current;externalPlan.current=null;publishScoped(data);
+      try{
+        if(file.size>65_536)throw new Error('FACTOR_DESIGN_RECORD_64_KIB_BUDGET_EXCEEDED');
+        const plan=await parseFactorInferencePlan(await file.text());
+        if(token!==epoch.current||dataset.current!==data)return;
+        externalPlan.current=plan;publishScoped(data);
+      }catch(error){failed(token,error);}
+    },
     async onImport(files) {
       const token = start(); selectedExample.current = null;
       try {
@@ -116,12 +168,32 @@ function Controller() {
       try{
         const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
         if(token!==epoch.current)return;
-        dataset.current=data;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;
+        dataset.current=data;operations.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
         publishScoped(data);
       }catch(error){failed(token,error);}
     },
     onScopedOperation:scoped,
-    onColorFactor(field){const data=dataset.current;if(!data?.rowManifest)return;color.current=field;publishScoped(data);},
+    onFactorAssociation:associate,
+    onColorFactor(field){const data=dataset.current;if(!data?.rowManifest)return;color.current=field;associationColor.current=null;colorGrant.current=null;publishScoped(data);},
+    onAssociationColor(field){
+      const data=dataset.current;if(!data?.rowManifest)return;
+      const recorded=[...associations.current].reverse().find(r=>r.value.factors.some(f=>f.factor_id===field));
+      if(!recorded){setState(s=>({...s,error:{code:'FACTOR_ASSOCIATION_REQUIRED',message:'Run the factor association first to obtain owner level counts or range. Coloring never fits a PCA.'}}));return;}
+      const factor=recorded.value.factors.find(f=>f.factor_id===field)!;
+      if(factor.kind==='continuous'&&factor.range.status!=='computed'){setState(s=>({...s,error:{code:'FACTOR_COLOR_RANGE_UNAVAILABLE',message:`Continuous factor coloring is unavailable: ${factor.range.reason}. Association evidence remains unchanged.`}}));return;}
+      const source=factorSource(recorded.value.population,operations.current,data.rowManifest.every(r=>r.partition==='unpartitioned')?baseReport.current:null);
+      if(!source||source.report.evidence_sha256!==recorded.receipt.source_pca_evidence_sha256)return;
+      const subset=recorded.value.population==='unpartitioned'?data:structureDataset(data,[...operations.current].reverse().find(r=>r.receipt.receipt_sha256===source.receipt?.receipt_sha256)!);
+      if(!subset)return;
+      baseReport.current=source.report;baseData.current=subset;baseView.current=liveView(source.report,subset);
+      color.current=field;associationColor.current=recorded;colorGrant.current=null;
+      try{publishScoped(data);}catch(error){color.current='';associationColor.current=null;publishScoped(data);failed(epoch.current,error);}
+    },
+    onAuthorizeFactorColorExport(field,authorized){
+      const data=dataset.current;if(!data)return;
+      colorGrant.current=authorized&&field===color.current&&baseReport.current?{protocol_version:'domains.factor_color_export.v1',dataset_content_sha256:data.input.content_sha256,pca_evidence_sha256:baseReport.current.evidence_sha256,factor_id:field,source_permission_confirmed:true}:null;
+      publishScoped(data);
+    },
     async onExample(id) {
       const token = start(); selectedExample.current = id;
       try {
@@ -139,6 +211,7 @@ function Controller() {
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
       operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
+      associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {
       if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.
@@ -174,7 +247,7 @@ function Controller() {
     onDeclaration(key, value) { setState(s => ({ ...s, declarations: { ...s.declarations!, [key]: value } })); },
     onExport(format, locale, reading='complete',selection) {
       if (!state.result || !scientific.current) return;
-      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection), format);
+      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection,colorGrant.current), format);
     },
   };
   return <App state={state} callbacks={callbacks} />;
