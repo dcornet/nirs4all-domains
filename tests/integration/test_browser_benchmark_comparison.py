@@ -10,7 +10,7 @@ comparison = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(comparison)
 
 
-def rank_receipt(scoped):
+def rank_receipt(scoped, *, automatic=False):
     files = [{"name": comparison.FIXTURE["name"], "sha256": hashlib.sha256(comparison.FIXTURE["contents"].encode()).hexdigest()}]
     reviewed = {"schema_version": 1, "name": "dataset", "sources": [{"id": "train_x", "input": "X.csv", "partition": "train", "role": "mixed", "columns": {"features": ["1000"]}}]}
     content = comparison.digest({"files": files, "reviewed_spec": reviewed}, canonical=True) if scoped else comparison.digest(files)
@@ -23,7 +23,8 @@ def rank_receipt(scoped):
     numerical_input = {"schema_version": 1, "dataset_id": "dataset", "source_id": "train_x", "content_sha256": content,
                        "observation_ids": ids, "axis": [1000.0], "axis_unit": "unknown", "spectra": [[1.0], [2.0], [3.0]],
                        "group_ids": None, "prediction_intent": "unknown"}
-    provenance = {"protocol": "domains.import_xy_m.v1", "roles_reviewed": True, "files": files,
+    provenance = {"protocol": "domains.import_xy_m.v1", "roles_reviewed": not automatic, "files": files,
+                  "original_source_ids": ["train_x"], "identity_independence": "unknown",
                   "file_content_sha256": comparison.digest(files), "reviewed_spec_sha256": comparison.digest(reviewed, canonical=True)} if scoped else None
     return {"wrapper_protocol": comparison.SCOPED_WRAPPER if scoped else comparison.SCIENTIFIC_PROTOCOL,
             "protocol_version": comparison.SCIENTIFIC_PROTOCOL, "metrics": metrics, "scope": scope,
@@ -36,11 +37,11 @@ def rank_receipt(scoped):
             "population_manifest": [{"key": key, "partition": "train"} for key in ids] if scoped else None}
 
 
-def receipt(*, scoped=False, before=False):
+def receipt(*, scoped=False, before=False, automatic=False):
     names = {"io": "nirs4all_io_wasm_bg-test.wasm", "formats": "nirs4all_formats_wasm_bg-test.wasm",
              "domains": "nirs4all_domains_bg-test.wasm", "methods": "nirs4all_methods-test.wasm"}
     modules = ["io", "io", "domains", "methods"] if scoped else ["io", *(["formats"] if before else []), "domains", "methods"]
-    rank = rank_receipt(scoped)
+    rank = rank_receipt(scoped, automatic=automatic)
     scientific = {"protocol_version": comparison.SCIENTIFIC_PROTOCOL, "input_sha256": "1" * 64,
                   "scope": {"source": "public synthetic"}, "metrics": {"count": 48}, "interpretation": {"declaration_only": True}}
     scientific["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": scientific["scope"], "metrics": scientific["metrics"]}), canonical=True)
@@ -49,7 +50,8 @@ def receipt(*, scoped=False, before=False):
     workers = [{"operation": operation, "input_bytes": len(comparison.FIXTURE["contents"].encode()) if i == 0 else 0,
                 "transferred_bytes": 0 if before or i else len(comparison.FIXTURE["contents"].encode()),
                 "sender_detached": not before and i == 0, "terminated": 1, "messages": [{"final": True, "ok": True}]} for i, operation in enumerate(operations)]
-    sample = {"rank_one": rank, "live": live, "network": [{"asset": names[module], "body_bytes": 123} for module in modules], "workers": workers}
+    sample = {"rank_one": rank, "import_route": "one_shot" if automatic else "reviewed" if scoped else "automatic",
+              "live": live, "network": [{"asset": names[module], "body_bytes": 123} for module in modules], "workers": workers}
     for key in ["landing_ms", "import_to_visible_ms", "declaration_edit_ms", "main_thread_script_delta_ms", "layout_delta_ms", "main_thread_heap_sample_bytes", "offline_render_ms"]:
         sample[key] = 1
     for key in ["json_export", "html_export", "markdown_export"]:
@@ -60,6 +62,45 @@ def receipt(*, scoped=False, before=False):
 
 
 class BenchmarkComparisonTests(unittest.TestCase):
+    def test_automatic_binding_keeps_unreviewed_roles_explicit_without_changing_numeric_gates(self):
+        result = comparison.compare(receipt(before=True), receipt(scoped=True, automatic=True))
+        self.assertTrue(result["scientific_values_equal"])
+        self.assertFalse(result["scientific_values_and_hashes_equal"])
+        self.assertFalse(result["declared_verified_binding_transition"]["after"]["roles_reviewed"])
+        self.assertEqual(result["declared_verified_binding_transition"]["after"]["import_route"], "one_shot")
+
+    def test_unreviewed_roles_without_the_recorded_automatic_route_are_refused(self):
+        after = receipt(scoped=True, automatic=True)
+        for sample in after["samples"]:
+            sample["import_route"] = "reviewed"
+        with self.assertRaisesRegex(AssertionError, "explicit one-shot import route"):
+            comparison.compare(receipt(before=True), after)
+
+    def test_automatic_import_cannot_fabricate_user_review(self):
+        after = receipt(scoped=True, automatic=True)
+        after["samples"][0]["rank_one"]["source_binding"]["import_provenance"]["roles_reviewed"] = True
+        with self.assertRaisesRegex(AssertionError, "must not claim a user role review"):
+            comparison.compare(receipt(before=True), after)
+
+    def test_automatic_source_and_independence_provenance_tampering_is_refused(self):
+        for field, value, reason in [("original_source_ids", ["other-source"], "source identities changed"),
+                                     ("identity_independence", "verified", "cannot qualify physical independence")]:
+            with self.subTest(field=field):
+                after = receipt(scoped=True, automatic=True)
+                after["samples"][0]["rank_one"]["source_binding"]["import_provenance"][field] = value
+                with self.assertRaisesRegex(AssertionError, reason):
+                    comparison.compare(receipt(before=True), after)
+
+    def test_automatic_file_bytes_and_scientific_scope_tampering_remain_refused(self):
+        after = receipt(scoped=True, automatic=True)
+        after["samples"][0]["rank_one"]["source_binding"]["fixture"]["contents"] += "4\n"
+        with self.assertRaisesRegex(AssertionError, "filename and bytes"):
+            comparison.compare(receipt(before=True), after)
+        after = receipt(scoped=True, automatic=True)
+        after["samples"][0]["rank_one"]["scope"]["source_id"] = "other-source"
+        with self.assertRaisesRegex(AssertionError, "Scientific scope disagrees"):
+            comparison.compare(receipt(before=True), after)
+
     def test_declared_binding_transition_preserves_values_without_claiming_hash_equality(self):
         result = comparison.compare(receipt(before=True), receipt(scoped=True))
         self.assertEqual(result["protocol"], "domains.technical_comparison.v2")
@@ -75,13 +116,15 @@ class BenchmarkComparisonTests(unittest.TestCase):
         self.assertEqual(result["csv_loaded_wasm_modules"], {"before": 4, "after": 3})
 
     def test_changed_metrics_are_refused_even_with_self_consistent_new_evidence_hash(self):
-        after = receipt(scoped=True)
-        for sample in after["samples"]:
-            rank = sample["rank_one"]
-            rank["metrics"]["documentary_count"] = 4
-            rank["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": rank["scope"], "metrics": rank["metrics"]}), canonical=True)
-        with self.assertRaisesRegex(AssertionError, "CSV scientific values changed"):
-            comparison.compare(receipt(before=True), after)
+        for automatic in (False, True):
+            with self.subTest(automatic=automatic):
+                after = receipt(scoped=True, automatic=automatic)
+                for sample in after["samples"]:
+                    rank = sample["rank_one"]
+                    rank["metrics"]["documentary_count"] = 4
+                    rank["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": rank["scope"], "metrics": rank["metrics"]}), canonical=True)
+                with self.assertRaisesRegex(AssertionError, "CSV scientific values changed"):
+                    comparison.compare(receipt(before=True), after)
 
     def test_unexpected_input_hash_is_refused(self):
         after = receipt(scoped=True)

@@ -111,15 +111,24 @@ try{
       const landing_ms=performance.now()-started;
       await page.evaluate(()=>{window.__technical.captureRankOne=true;});
       const importedAt=performance.now();await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles({name:rankOneFixture.name,mimeType:'text/csv',buffer:Buffer.from(rankOneFixture.contents)});
-      await page.locator('.workspace-summary').waitFor({state:'visible'});
-      await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
-      await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
-      assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,'One-shot import has no mandatory confirmation checkbox');
-      assert.equal(await page.getByRole('button',{name:'Import reviewed data'}).count(),0,'One-shot import has no second import action');
-      await page.getByRole('button',{name:'Train structure'}).click();
-      await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='scoped'&&w.messages.some(m=>m.final)));
-      assert.deepEqual(await page.evaluate(()=>window.__technical.workers.map(w=>w.operation)),['prepare_import','assemble_import','scoped'],
-        'A normal import and one analysis complete exactly three worker operations');
+      const route=result.label==='F2-f4289f5'?'automatic':'one_shot';
+      if(route==='automatic'){
+        // The exact archived F2 frontend imports and analyzes automatically.
+        // It predates F4 scope controls and the new loaded-dataset summary.
+        await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final)));
+        assert.deepEqual(await page.evaluate(()=>window.__technical.workers.map(w=>w.operation)),['import','analyze'],
+          'The frozen F2 source must retain its original import and analysis operations');
+      }else{
+        await page.locator('.workspace-summary').waitFor({state:'visible'});
+        await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
+        await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+        assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,'One-shot import has no mandatory confirmation checkbox');
+        assert.equal(await page.getByRole('button',{name:'Import reviewed data'}).count(),0,'One-shot import has no second import action');
+        await page.getByRole('button',{name:'Train structure'}).click();
+        await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='scoped'&&w.messages.some(m=>m.final)));
+        assert.deepEqual(await page.evaluate(()=>window.__technical.workers.map(w=>w.operation)),['prepare_import','assemble_import','scoped'],
+          'A normal import and one analysis complete exactly three worker operations');
+      }
       await page.locator('.workspace-summary').waitFor();await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
       const import_to_visible_ms=performance.now()-importedAt;
       const exportReading=async format=>{

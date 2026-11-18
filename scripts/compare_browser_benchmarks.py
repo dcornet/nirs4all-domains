@@ -39,7 +39,7 @@ def evidence_tree(value):
     raise AssertionError("Unsupported evidence JSON value")
 
 
-def verify_rank_one(rank):
+def verify_rank_one(rank, *, import_route=None):
     assert rank["protocol_version"] == SCIENTIFIC_PROTOCOL
     binding = rank["source_binding"]
     assert binding["fixture"] == FIXTURE, "Benchmark filename and bytes must remain unchanged"
@@ -51,6 +51,7 @@ def verify_rank_one(rank):
     expected_keys = [json.dumps([request["source_id"], "train", row], separators=(",", ":")) for row in range(3)]
     assert request["observation_ids"] == expected_keys, "Changed or hidden rank-one observations"
     if binding["kind"] == "file_bindings.v1":
+        assert import_route in (None, "automatic"), "Legacy binding has an incompatible import route"
         assert binding["import_provenance"] is None and binding["reviewed_spec"] is None
         assert request["content_sha256"] == old_content, "Legacy file binding mismatch"
         assert rank["wrapper_protocol"] == SCIENTIFIC_PROTOCOL and rank["operation"] == "analyze"
@@ -59,7 +60,19 @@ def verify_rank_one(rank):
     else:
         assert binding["kind"] == "file_bindings_reviewed_spec.v1"
         provenance, spec = binding["import_provenance"], binding["reviewed_spec"]
-        assert provenance["protocol"] == "domains.import_xy_m.v1" and provenance["roles_reviewed"] is True
+        assert provenance["protocol"] == "domains.import_xy_m.v1"
+        assert len(spec["sources"]) == 1 and spec["sources"][0]["input"] == FIXTURE["name"]
+        roles_reviewed = provenance["roles_reviewed"]
+        if import_route == "one_shot":
+            assert roles_reviewed is False, "Automatic one-shot import must not claim a user role review"
+            assert provenance["identity_independence"] == "unknown", "Technical import cannot qualify physical independence"
+            source = spec["sources"][0]
+            assert source["id"] == request["source_id"], "Automatic source identity disagrees with the scientific request"
+            assert provenance["original_source_ids"] == [source["id"]], "Automatic source identities changed"
+            assert source["columns"] == {"features": ["1000"]}, "Automatic benchmark must preserve the sole original X band"
+            assert not any(spec.get(key) for key in ("aggregate", "repetition", "partitions")), "Automatic benchmark cannot change population or create partitions"
+        else:
+            assert roles_reviewed is True, "Unreviewed roles require the explicit one-shot import route"
         assert provenance["files"] == files and provenance["file_content_sha256"] == old_content
         reviewed_sha = digest(spec, canonical=True)
         assert provenance["reviewed_spec_sha256"] == reviewed_sha, "Reviewed specification fingerprint mismatch"
@@ -67,7 +80,6 @@ def verify_rank_one(rank):
         assert rank["wrapper_protocol"] == SCOPED_WRAPPER
         assert rank["operation"] == "train_structure"
         assert rank["population_manifest"] == [{"key": key, "partition": "train"} for key in expected_keys], "Rank-one fit must use exactly the three declared training rows"
-        assert len(spec["sources"]) == 1 and spec["sources"][0]["input"] == FIXTURE["name"]
         assert spec["sources"][0]["partition"] == "train"
     scope = rank["scope"]
     for key in ["dataset_id", "source_id", "content_sha256", "axis_unit"]:
@@ -88,7 +100,9 @@ def verify_rank_one(rank):
     return {"kind": binding["kind"], "wrapper_protocol": rank["wrapper_protocol"],
             "scientific_protocol": rank["protocol_version"], "content_sha256": request["content_sha256"],
             "file_content_sha256": old_content, "reviewed_spec_sha256": reviewed_sha,
-            "input_sha256": rank["input_sha256"], "evidence_sha256": rank["evidence_sha256"]}
+            "input_sha256": rank["input_sha256"], "evidence_sha256": rank["evidence_sha256"],
+            "roles_reviewed": binding["import_provenance"]["roles_reviewed"] if binding["import_provenance"] else None,
+            "import_route": import_route}
 
 
 def wasm_kind(asset):
@@ -131,7 +145,8 @@ def compare(a, b):
     assert len(a["samples"]) == len(b["samples"]) == 3
     verified, loaded = [], []
     for left, right in zip(a["samples"], b["samples"]):
-        original, reviewed = verify_rank_one(left["rank_one"]), verify_rank_one(right["rank_one"])
+        original = verify_rank_one(left["rank_one"], import_route=left.get("import_route"))
+        reviewed = verify_rank_one(right["rank_one"], import_route=right.get("import_route"))
         assert original["kind"] == "file_bindings.v1"
         assert left["rank_one"]["metrics"] == right["rank_one"]["metrics"], "CSV scientific values changed"
         assert left["live"] == right["live"], "Matched synthetic report, scientific values or hashes changed"
