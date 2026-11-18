@@ -33,4 +33,5 @@ export interface LocalDataset {
 export interface InputFile { name: string; bytes: Uint8Array }
 export type Operation = 'import' | 'prepare_import' | 'assemble_import' | 'analyze' | 'scoped' | 'factor_association' | 'train_fitted_support' | 'preprocessing_sensitivity' | 'interpret';
 export interface WorkerRequest { id: number; operation: Operation; payload: unknown }
-export interface WorkerReply { id: number; ok: boolean; result?: unknown; stage?: string; stage_id?: ProcessingStage; error?: { code: string; message: string } }
+export interface WorkerReply { id: number; ok: boolean; result?: unknown; stage?: string; stage_id?: ProcessingStage;
+ lifecycle_event?:string;component?:string;error?: { code: string; message: string;details?:{code:string;phase?:string;component?:string;asset?:unknown;original_message_available?:boolean} } }

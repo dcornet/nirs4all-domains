@@ -28,10 +28,17 @@ function providerError(error) {
 
 /** One Domains WASM and one Methods WASM in a worker. Cancel by terminating the worker. */
 export async function createDomainsRuntime(options = {}) {
-  await init(options.wasmModule ? { module_or_path: options.wasmModule } : undefined);
-  await methods.loadModule();
+  const lifecycle=options.onLifecycle??(()=>{});
+  lifecycle('DOMAINS_RUNTIME_LOADING','domains');
+  try { await init(options.wasmModule ? { module_or_path: options.wasmModule } : undefined); }
+  catch(error) { throw Object.assign(error instanceof Error?error:new Error(String(error)),{code:error?.code??'DOMAINS_INITIALIZATION_FAILED',component:'domains',phase:'DOMAINS_RUNTIME_LOADING'}); }
+  lifecycle('DOMAINS_RUNTIME_READY','domains');
+  lifecycle('METHODS_RUNTIME_LOADING','methods');
+  try { await methods.loadModule(); }
+  catch(error) { throw Object.assign(error instanceof Error?error:new Error(String(error)),{code:error?.code??'METHODS_INITIALIZATION_FAILED',component:'methods',phase:'METHODS_RUNTIME_LOADING'}); }
   const abi = methods.abiVersion();
-  if (abi[0] !== 2 || abi[1] < 20) throw new Error('METHODS_ABI_2_20_REQUIRED');
+  if (abi[0] !== 2 || abi[1] < 20) throw Object.assign(new Error('METHODS_ABI_2_20_REQUIRED'),{code:'WASM_ABI_MISMATCH',component:'methods',phase:'METHODS_RUNTIME_LOADING'});
+  lifecycle('METHODS_RUNTIME_READY','methods');
   const backend_version = methods.version();
   const factorCallback = createFactorCallback(backend_version);
   const supportCallback = createSupportCallback(backend_version);

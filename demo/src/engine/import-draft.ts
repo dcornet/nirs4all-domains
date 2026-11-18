@@ -21,17 +21,23 @@ export interface ReviewedDatasetConfig extends DatasetExportConfig { metadata_de
 
 let ioRuntime: Promise<IoRuntime> | undefined;
 let formatsRuntime: Promise<FormatsRuntime> | undefined;
+let importObserver:(phase:string,component:string)=>void=()=>{};
+export function setImportRuntimeObserver(observer:typeof importObserver){importObserver=observer;}
 export async function loadImportRuntime(needsFormats = false): Promise<{ io: IoRuntime; formats: FormatsRuntime }> {
+  importObserver('IO_RUNTIME_LOADING','io');
   const io = await (ioRuntime ??= import('virtual:nirs4all-io').then(async io => {
     await io.init(); return io;
   }).catch(error => { ioRuntime = undefined; throw error; }));
+  importObserver('IO_RUNTIME_READY','io');
   // Tables are parsed by IO. Assembly consumes already decoded records and must
   // not initialize Formats in its separate worker merely to reassemble them.
+  if(needsFormats)importObserver('FORMATS_RUNTIME_LOADING','formats');
   const formats = needsFormats ? await (formatsRuntime ??= import('virtual:nirs4all-formats').then(async formats => {
     await formats.init(); return formats;
   }).catch(error => { formatsRuntime = undefined; throw error; })) : {
     openWithSidecars() { throw new Error('FORMATS_NOT_INITIALIZED_FOR_THIS_TABLE_ONLY_IMPORT'); },
   };
+  if(needsFormats)importObserver('FORMATS_RUNTIME_READY','formats');
   return { io, formats };
 }
 
@@ -138,7 +144,10 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
 export async function prepareImport(files: InputFile[]): Promise<DatasetDraft> {
   checkFiles(files);
   const needsFormats = files.some(file => !file.name.endsWith('.nirs4all.json') && !/\.(csv|tsv|txt)$/i.test(file.name));
-  const { io, formats } = await loadImportRuntime(needsFormats); return prepareDataset(files, io, formats);
+  const { io, formats } = await loadImportRuntime(needsFormats);
+  importObserver('IMPORT_RUNNING','io');
+  const draft=prepareDataset(files,io,formats);
+  importObserver('IMPORT_COMPLETE','io');return draft;
 }
 
 function sourcePartition(source: DatasetSource, original: SourceSpec): string | undefined {
@@ -360,7 +369,9 @@ export async function assembleDatasetDraft(draft: DatasetDraft, config: DatasetE
   return adaptImported(assembled, draft.files, spec, draft.warnings, sources, true);
 }
 export async function assembleImport(draft: DatasetDraft, config: DatasetExportConfig, sources: DatasetSource[]): Promise<LocalDataset> {
-  const { io } = await loadImportRuntime(); return assembleDatasetDraft(draft, config, sources, io);
+  const { io } = await loadImportRuntime();importObserver('IMPORT_RUNNING','io');
+  const dataset=await assembleDatasetDraft(draft,config,sources,io);
+  importObserver('IMPORT_COMPLETE','io');return dataset;
 }
 /** Explicit programmatic review seam; UI consumers must use the DatasetBuilder first. */
 export const reviewedConfig = (name: string, sources: DatasetSource[]) => buildExportConfig(name, sources);

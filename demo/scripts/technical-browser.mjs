@@ -43,7 +43,10 @@ export async function qualifyTechnicalLoading(browser,url,output,check){
     ]){
       await home();phase=fault.name;await page.route(wasm,route=>route.fulfill({status:fault.status,contentType:fault.type,body:fault.body}));
       await upload();await page.getByRole('alert').waitFor();assert.equal(await page.locator('.workspace-summary').count(),0);
-      const raw=await page.getByRole('alert').locator('pre').textContent();assert(raw.includes(fault.reason),`Missing exact ${fault.reason}: ${raw}`);evidence.faults.push({name:fault.name,reason:raw,no_result:true});
+      const diagnostic=JSON.parse(await page.getByRole('alert').locator('pre').last().textContent());
+      const expected={HTTP_404:'WASM_ASSET_UNAVAILABLE',HTML_RESPONSE:'WASM_ASSET_INVALID_RESPONSE',CORRUPT_BINARY:'WASM_COMPILE_FAILED',INCOMPATIBLE_EXPORTS:'WASM_EXPORT_MISSING'}[fault.name];
+      assert.equal(diagnostic.code,expected);assert.equal(diagnostic.component,'io');assert.equal(diagnostic.phase,'IO_RUNTIME_LOADING');
+      evidence.faults.push({name:fault.name,code:diagnostic.code,legacy_reason:fault.reason,no_result:true});
       await page.unroute(wasm);phase='recovery';await home();await upload();await reviewAndFit();const recovered=await successful();
       assert.equal(recovered.structure.evidence_sha256,first.structure.evidence_sha256);assert.deepEqual(recovered.structure.metrics,first.structure.metrics);
       assert.equal(recovered.report.scientific_report.inventory.content_sha256,first.report.scientific_report.inventory.content_sha256);
@@ -60,7 +63,7 @@ export async function qualifyTechnicalLoading(browser,url,output,check){
     await home();phase='format-refusal';await page.locator('input[type=file]').setInputFiles({name:'invalid.spc',mimeType:'application/octet-stream',buffer:Buffer.from([0,1,2,3])});
     await page.getByRole('alert').waitFor();assert.equal(await page.locator('.workspace-summary').count(),0);
     assert(evidence.assets.some(a=>a.phase==='format-refusal'&&/formats.*wasm/i.test(a.file)&&a.status===200),'Non-table route must initialize the actual published Formats module');
-    evidence.format_refusal=await page.getByRole('alert').locator('pre').textContent();
+    evidence.format_refusal=await page.getByRole('alert').locator('pre').last().textContent();
     phase='normal';await home();await upload();await reviewAndFit();await successful();check('F3 actual published Formats initializes for a non-table input, rejects corrupt source, and permits CSV recovery');
     assert.deepEqual(pageErrors,[]);assert(evidence.console.every(e=>e.phase!=='normal'&&e.phase!=='recovery'&&/Failed to load resource|ERR_ABORTED|ERR_FAILED|WebAssembly|WASM/i.test(e.message)),JSON.stringify(evidence.console));
     evidence.success=true;

@@ -72,6 +72,8 @@ and F4.0 [access policy](docs/browser/F4_0_DATA_ACCESS_POLICY.md),
 [import architecture](docs/browser/F4_0_IMPORT_ARCHITECTURE.md),
 [native/WASM compatibility](docs/browser/F4_0_NATIVE_WASM_COMPATIBILITY.md), and
 [remaining capabilities](docs/browser/F4_0_REMAINING_CAPABILITIES.md).
+Worker startup phases, asset-failure diagnostics, and the current browser
+validation evidence are documented in the [worker-loading record](docs/technical/WORKER_LOADING_VALIDATION.md).
 
 ### Historical F3.5 browser publication
 

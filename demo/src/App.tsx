@@ -6,6 +6,7 @@ import { Workspace } from './Workspace';
 import {DatasetImport} from './DatasetImport';
 import { translator } from './i18n';
 import type { AppProps, Locale } from './ui-types';
+import {TechnicalDiagnostic} from './ux/TechnicalDiagnostic';
 import { Processing,ErrorFeedback } from './ux/Feedback';
 import 'nirs4all-ui/assets/theme.css';
 import 'nirs4all-ui/assets/qualification.css';
@@ -46,7 +47,8 @@ export function App({ state, callbacks }: AppProps) {
     </div></header>
     <main id="main" tabIndex={-1}>
       {busy && <Processing state={state} onCancel={callbacks.onCancel} locale={locale}/>}
-      {state.error && <ErrorFeedback error={state.error} locale={locale} hasResult={!!state.result}/>}
+      {state.error?.diagnostic?<div className="container"><h2>{t('error')}</h2><TechnicalDiagnostic diagnostic={state.error.diagnostic} locale={locale} error onRetryImport={state.canRetryImport?callbacks.onRetryImport:undefined}/></div>:state.error&&<ErrorFeedback error={state.error} locale={locale} hasResult={!!state.result}/>}
+      {busy&&state.workerDiagnostic&&<div className="container"><TechnicalDiagnostic diagnostic={state.workerDiagnostic} locale={locale}/></div>}
       {state.phase === 'cancelled' && <p className="container notice" role="status">{t('cancelled')}</p>}
       {state.importDraft&&callbacks.onConfirmImport?<DatasetImport key={state.importDraft.files.map(f=>f.name).join('|')} draft={state.importDraft} locale={locale} busy={busy} error={state.error?.message} onConfirm={callbacks.onConfirmImport} onCancel={callbacks.onReset}/>:state.result ? <Workspace key={state.result.dataset.contentHash} result={state.result} intent={state.intent} declarations={state.declarations} callbacks={callbacks} locale={locale} t={t} busy={busy}/> : <Landing state={state} callbacks={callbacks} t={t} busy={busy} locale={locale}/>}
     </main>

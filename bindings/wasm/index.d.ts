@@ -103,7 +103,7 @@ export interface DomainsRuntime {
   capabilities(): Capability[];
   provider: { name:string;version:string;abi:number[] };
 }
-export function createDomainsRuntime(options?: {wasmModule?:BufferSource | WebAssembly.Module}): Promise<DomainsRuntime>;
+export function createDomainsRuntime(options?: {wasmModule?:BufferSource | WebAssembly.Module;onLifecycle?:(phase:string,component:string)=>void}): Promise<DomainsRuntime>;
 /** Requires the Domains WASM initialized by createDomainsRuntime; invokes no provider or fit. */
 export function interpret(report: BrowserReport,intent: PredictionIntent): BrowserReading;
 export type {ScopedRequest,ScopedResult,ScopedOperation,ScopedMetadata,PartitionRole} from './scoped.js';

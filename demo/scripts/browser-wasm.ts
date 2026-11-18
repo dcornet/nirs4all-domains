@@ -36,6 +36,9 @@ export function browserWasm(): Plugin {
       const binary = join(dirname(entry), pkg.endsWith('io-wasm') ? 'nirs4all_io_wasm_bg.wasm' : 'nirs4all_formats_wasm_bg.wasm');
       const metadata=JSON.parse(readFileSync(join(dirname(entry),'package.json'),'utf8'));
       const marker=verifyPublishedLoader(pkg,metadata.version,source,readFileSync(binary));
+      const expected=admitted.packages[pkg as keyof typeof admitted.packages];
+      const requiredExports=[...new Set([...source.slice(0,marker).matchAll(/\bwasm\.([A-Za-z0-9_]+)/g)].map(m=>m[1]).concat('__wbindgen_start'))].sort();
+      const assetOptions={component:pkg.endsWith('io-wasm')?'io':'formats',expectedSha256:expected.wasm_sha256,requiredExports};
       return `import wasmUrl from ${JSON.stringify(`${binary}?url`)};
 import { createWasmInitializer } from 'virtual:domains-wasm-asset-loader';
 const exports = {};
@@ -45,7 +48,7 @@ export const init = createWasmInitializer(wasmUrl, __wbg_get_imports, value => {
   const previous = wasm;
   wasm = value;
   try { wasm.__wbindgen_start(); } catch(error) { wasm = previous; throw error; }
-});
+}, ${JSON.stringify(assetOptions)});
 export { ${names.join(', ')} };`;
     },
   };

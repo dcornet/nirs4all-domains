@@ -1,56 +1,46 @@
 /// <reference lib="webworker" />
-import { importFiles } from './dataset-io';
-import {prepareImport,assembleImport,type ReviewedImport} from './import-draft';
-import type {ScopedRequest,FactorRequest,SupportRequest,SensitivityRequest} from '@nirs4all/domains';
-import type { BrowserInput, BrowserReport, InputFile, WorkerReply, WorkerRequest } from './types';
-import type { PredictionIntent } from '../ui-types';
+import type {WorkerRequest,WorkerReply} from './types';
 
-self.onmessage = async ({ data }: MessageEvent<WorkerRequest>) => {
-  const { id, operation, payload } = data;
-  const reply = (message: Omit<WorkerReply, 'id'>) => self.postMessage({ id, ...message });
-  try {
-    if(operation==='prepare_import'){
-      reply({ok:true,stage:'Reviewing IO roles and declared partitions',stage_id:'import'});
-      reply({ok:true,result:await prepareImport(payload as InputFile[])});return;
-    }
-    if(operation==='assemble_import'){
-      const r=payload as ReviewedImport;
-      reply({ok:true,stage:'Assembling reviewed X/Y/M with IO',stage_id:'import'});
-      reply({ok:true,result:await assembleImport(r.draft,r.config,r.sources)});return;
-    }
-    if (operation === 'import') {
-      reply({ ok: true, stage: 'Reading with IO / Formats WASM', stage_id: 'import' });
-      reply({ ok: true, result: await importFiles(payload as InputFile[]) }); return;
-    }
-    reply({ ok: true, stage: 'Loading Domains Rust / Methods WASM', stage_id: 'prepare' });
-    const { createDomainsRuntime } = await import('@nirs4all/domains');
-    const runtime = await createDomainsRuntime();
-    if(operation==='preprocessing_sensitivity'){
-      reply({ok:true,stage:'Validating the frozen representation panel and executing reference-scoped Methods operations',stage_id:'compute'});
-      reply({ok:true,result:runtime.analyzeSensitivity(payload as SensitivityRequest)});return;
-    }
-    if(operation==='train_fitted_support'){
-      reply({ok:true,stage:'Fitting train reference and projecting test in Methods; no target access',stage_id:'compute'});
-      reply({ok:true,result:runtime.analyzeSupport(payload as SupportRequest)});return;
-    }
-    if(operation==='factor_association'){
-      reply({ok:true,stage:'Validating recorded PCA provenance and factor grants; no PCA fit',stage_id:'compute'});
-      reply({ok:true,result:runtime.analyzeFactor(payload as FactorRequest)});return;
-    }
-    if(operation==='scoped'){
-      reply({ok:true,stage:'Validating operation grants in Rust and executing permitted providers',stage_id:'compute'});
-      reply({ok:true,result:runtime.analyzeScoped(payload as ScopedRequest)});return;
-    }
-    if (operation === 'interpret') {
-      reply({ ok: true, stage: 'Reading the declared prediction objective; no fit', stage_id: 'interpret' });
-      const request = payload as { report: BrowserReport; intent: PredictionIntent };
-      reply({ ok: true, result: runtime.interpret(request.report, request.intent) }); return;
-    }
-    reply({ ok: true, stage: 'Validating the full-X request', stage_id: 'validate' });
-    reply({ ok: true, stage: 'Computing complete-population X evidence', stage_id: 'compute' });
-    reply({ ok: true, result: runtime.analyze(payload as BrowserInput) });
-  } catch (error) {
-    const value = error as { code?: string; message?: string };
-    reply({ ok: false, error: { code: value.code ?? 'DOMAINS_WORKER_REFUSAL', message: value.message ?? String(error) } });
-  }
+declare const __DOMAINS_BUILD__:{version:string;commit:string|null;dirty:boolean|null}|undefined;
+const protocol='domains.worker_bootstrap.v1';
+const build=typeof __DOMAINS_BUILD__!=='undefined'?__DOMAINS_BUILD__:{version:'unknown',commit:null,dirty:null};
+let active:WorkerRequest|null=null,finished=false;
+let phase='BOOTSTRAP_STARTED',component='worker';
+function lifecycle(event:string,label:string){self.postMessage({id:0,ok:true,protocol_version:protocol,lifecycle_event:event,stage:label,stage_id:'prepare',component:'worker',build});}
+function reply(message:Omit<WorkerReply,'id'>){
+ if(finished||!active)return;
+ if(message.lifecycle_event){phase=message.lifecycle_event;component=message.component??component;}
+ if(!message.stage)finished=true;
+ self.postMessage({id:active.id,...message});
+}
+function unexpected(code:string,originalMessageAvailable:boolean){
+ if(finished)return;
+ const error={code,message:code,details:{code,phase,component,original_message_available:originalMessageAvailable}};
+ if(active)reply({ok:false,error});
+ else{finished=true;self.postMessage({id:0,ok:false,protocol_version:protocol,lifecycle_event:code,error});}
+}
+self.addEventListener('error',event=>{unexpected('WORKER_UNCAUGHT_EXCEPTION',Boolean(event.message));event.preventDefault();});
+self.addEventListener('unhandledrejection',event=>{unexpected('WORKER_UNHANDLED_REJECTION',event.reason!==undefined);event.preventDefault();});
+lifecycle('WORKER_BOOTSTRAP_STARTED','Worker bootstrap started');
+self.onmessage=async({data}:MessageEvent<WorkerRequest>)=>{
+ if(active||finished)return; // Single-use worker: no duplicate scientific execution.
+ if(!data||!Number.isSafeInteger(data.id)||data.id<1||!['import','prepare_import','assemble_import','analyze','scoped','factor_association','train_fitted_support','preprocessing_sensitivity','interpret'].includes(data.operation)){
+  active={id:Number.isSafeInteger(data?.id)?data.id:0,operation:'analyze',payload:null};
+  unexpected('WORKER_REQUEST_INVALID',false);return;
+ }
+ active=data;
+ phase='OPERATION_MODULE_LOADING';
+ reply({ok:true,stage:'Loading the selected operation module',stage_id:'prepare',lifecycle_event:phase,component:'worker'});
+ try{
+  const {runOperation}=await import('./worker-operations');
+  phase='OPERATION_MODULE_READY';
+  reply({ok:true,stage:'Operation module ready',stage_id:'prepare',lifecycle_event:phase,component:'worker'});
+  await runOperation(data,reply);
+ }catch(error){
+  const e=error as {code?:string;message?:string;phase?:string;component?:string;asset?:unknown};
+  const code=e.code??(phase==='OPERATION_MODULE_LOADING'?'WORKER_DEPENDENCY_IMPORT_FAILED':'WORKER_RUNTIME_EXCEPTION');
+  reply({ok:false,error:{code,message:e.message??code,details:{code,phase:e.phase??phase,component:e.component??component,asset:e.asset,original_message_available:typeof e.message==='string'&&e.message.length>0}}});
+ }
 };
+phase='BOOTSTRAP_READY';
+lifecycle('WORKER_BOOTSTRAP_READY','Worker bootstrap ready');

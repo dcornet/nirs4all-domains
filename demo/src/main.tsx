@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import {sanitizedWorkerDiagnostic,type WorkerDiagnostic} from './engine/runtime-diagnostic';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
@@ -37,14 +38,16 @@ function Controller() {
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
   const supportResults=useRef<SupportRun[]>([]);
   const sensitivityResults=useRef<SensitivityHistory[]>([]),sensitivityFrozen=useRef<{result:SensitivityResult;signature:string}|null>(null);
+  const importFiles=useRef<File[]|null>(null);
   const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
-  const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null,workerDiagnostic:undefined,canRetryImport:false,phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const progress = (token: number) => (stage: string,step?:ProcessingStage,diagnostic?:WorkerDiagnostic) => { if (token === epoch.current) setState(s => ({ ...s,progress:stage,processingStage:step??s.processingStage,...(diagnostic?{workerDiagnostic:sanitizedWorkerDiagnostic(diagnostic)}:{}) })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
-    const e = error as { code?: string; message?: string };
-    setState(s => ({ ...s, phase: 'error', error: { code: e.code ?? 'LOCAL_ANALYSIS_REFUSED', message: e.message ?? String(error) } }));
+    const e = error as {code?:string;message?:string;diagnostic?:WorkerDiagnostic};
+    const diagnostic=e.diagnostic?sanitizedWorkerDiagnostic(e.diagnostic):undefined;
+    setState(s=>({...s,phase:'error',canRetryImport:!!importFiles.current&&diagnostic?.operation==='prepare_import'&&diagnostic.recoverable&&diagnostic.remediation==='retry',error:{code:diagnostic?.code??e.code??'LOCAL_ANALYSIS_REFUSED',message:diagnostic?.rt_error.message??e.message??String(error),...(diagnostic?{diagnostic}:{})}}));
   };
   const analyze = async (data: LocalDataset, token: number) => {
     if (token !== epoch.current) return;
@@ -121,6 +124,7 @@ function Controller() {
         supported_claims:[],limitations:['No successful provider receipt was returned. Earlier operation results retain their original scopes.'],
         action:'Read the operation refusal and its prerequisite; imported X/Y/M remain available.'}];
       publishScoped(data);
+      if((error as {diagnostic?:unknown})?.diagnostic)failed(token,error);
     }
   };
   const associate=async(run:FactorAssociationRun)=>{
@@ -153,6 +157,7 @@ function Controller() {
         dependence:{},receipt:{dataset_id:data.input.dataset_id,content_sha256:data.input.content_sha256,execution_receipt:'not_returned; no successful execution inferred'},
         supported_claims:[],limitations:['Operation refused locally. Earlier results and imported data remain available.']
       }];publishScoped(data);
+      if((error as {diagnostic?:unknown})?.diagnostic)failed(token,error);
     }
   };
   const sensitivity=async(run:SensitivityRun)=>{
@@ -172,10 +177,12 @@ function Controller() {
       if(token!==epoch.current||dataset.current!==data)return;
       const reason=error instanceof Error?error.message:String(error);
       sensitivityResults.current=[...sensitivityResults.current,{protocol_version:'domains.browser_preprocessing_sensitivity_local_refusal.v1',status:'unavailable',reason,stage:run.stage,plan:structuredClone(run.plan),evidence_sha256:null,local_refusal:true,receipt:{execution_receipt:'not_returned; no successful execution inferred'},limitations:['Local documentary refusal. Earlier F4.0/F4.1/F4.2 and sensitivity results remain unchanged.']}];publishScoped(data);
+      if((error as {diagnostic?:unknown})?.diagnostic)failed(token,error);
     }
   };
   const callbacks: UiCallbacks = {
     onSensitivity:sensitivity,
+    onRetryImport(){const files=importFiles.current;if(files)void callbacks.onImport([...files]);},
     onSupport:support,
     async onFactorInferencePlan(file){
       const data=dataset.current;if(!data?.rowManifest)return;
@@ -188,6 +195,7 @@ function Controller() {
       }catch(error){failed(token,error);}
     },
     async onImport(files) {
+      importFiles.current=[...files];
       const token = start(); selectedExample.current = null;
       try {
         if (files.length > MAX_IMPORT_FILES || files.reduce((n, f) => n + f.size, 0) > MAX_IMPORT_BYTES) throw new Error('IMPORT_BYTE_OR_FILE_BUDGET_EXCEEDED: maximum 8 MiB and 32 files; no silent sampling.');
@@ -244,7 +252,7 @@ function Controller() {
       publishScoped(data);
     },
     async onExample(id) {
-      const token = start(); selectedExample.current = id;
+      importFiles.current=null;const token = start(); selectedExample.current = id;
       try {
         if (id === 'tablet-saved') {
           const source = await loadPublicSaved(state.intent);
@@ -258,10 +266,10 @@ function Controller() {
       if(dataset.current?.rowManifest){publishScoped(dataset.current);setState(s=>({...s,phase:'cancelled'}));return;}
       scientific.current = null; dataset.current = null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
-    onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
+    onReset() { importFiles.current=null;++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
       operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
       associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
-      setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
+      setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result:null,error:null,workerDiagnostic:undefined,canRetryImport:false,progress:'' })); },
     async onIntent(intent: PredictionIntent) {
       if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.
       const token = ++epoch.current; engine.current.cancel();
