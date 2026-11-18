@@ -745,13 +745,14 @@ fn step_axis(step: &PreprocessingStep, axis: &[f64]) -> Result<Vec<f64>, String>
 fn transformations(states: &[StageState]) -> Vec<Value> {
     states.iter().map(|s|json!({"operator":s.step.operator,"parameters":s.step.parameters,"fit_keys_role":"reference_only","state_sha256":hash(&s.bytes),"reference_input_sha256":s.input_hash,"reference_output_sha256":s.output_hash,"input_axis_sha256":fingerprint(&s.input_axis),"output_axis_sha256":fingerprint(&s.axis),"input_bands":s.input_axis.len(),"output_bands":s.axis.len(),"provider":VERSION,"state_unchanged_after_transform":true})).collect()
 }
+type TransformedRepresentation = (Vec<Vec<f64>>, Vec<f64>, Vec<StageState>);
 fn pipeline<P: support::SupportProvider>(
     r: &SensitivityRequest,
     spec: &RepresentationSpec,
     b: &Bridge<P>,
     cache: &mut BTreeMap<String, (Vec<Vec<f64>>, StageState)>,
     hits: &mut usize,
-) -> Result<(Vec<Vec<f64>>, Vec<f64>, Vec<StageState>), String> {
+) -> Result<TransformedRepresentation, String> {
     let (mut matrix, mut axis, mut states) = (raw_reference(r), r.x.axis.clone(), Vec::new());
     for step in &spec.steps {
         let next_axis = step_axis(step, &axis)?;

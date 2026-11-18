@@ -2,6 +2,10 @@
 
 ## F4.3 preprocessing sensitivity (additive, qualification separate)
 
+**Partial draft:** complete native/WASM factor-statistic portability and
+bounded exhaustive printing failed qualification. No readiness claim follows
+from the source/API surface below; see the executed F4.3 validation record.
+
 The F4.3 source/API adds a fixed, versioned representation panel executed
 through Methods 1.3.13 / ABI 2.20 and a two-stage reference-only / frozen
 test-X audit protocol. The AOM-derived bank reuses attributed descriptors and

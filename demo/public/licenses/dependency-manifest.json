@@ -208,6 +208,17 @@
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="
     }
   ],
+  "aom_descriptor_source": {
+    "repository": "https://github.com/GBeurier/nirs4all-aom",
+    "commit": "157954dc8c4fbf06e45ed7b421b8a02b007d8331",
+    "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+    "files": {
+      "aom_nirs/pls/banks.py": "91c4261413c8ec796608e7332f481a1d8bfd100c",
+      "aom_nirs/fast/bases.py": "5adf268b3e04d1200d9f3fae9ef5248554dbb5e4"
+    },
+    "runtime_imported": false,
+    "numerical_equivalence_asserted": false
+  },
   "methods_notice_source": {
     "name": "@nirs4all/methods",
     "version": "1.3.13",
@@ -274,6 +285,18 @@
     ]
   },
   "prepared_files": [
+    {
+      "path": "aom-descriptors/catalog.json",
+      "sha256": "8e68ea9871cca552fa7a373dbdf09ac4913a7c91c883066f0afebded980dc78d",
+      "bytes": 10986,
+      "origin": "Versioned declarative AOM/Methods descriptor catalog; no numerical runtime"
+    },
+    {
+      "path": "aom-descriptors/NOTICE.md",
+      "sha256": "8d37670b82f443feb31fff2d2477075cf58ffb0e10e217807074d51088336938",
+      "bytes": 860,
+      "origin": "Domains adaptation of pinned AOM bank metadata"
+    },
     {
       "path": "families/AGPL-3.0-or-later.txt",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
@@ -497,5 +520,5 @@
       "origin": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz/LICENSE"
     }
   ],
-  "generated_file_bytes": 330931
+  "generated_file_bytes": 342777
 }

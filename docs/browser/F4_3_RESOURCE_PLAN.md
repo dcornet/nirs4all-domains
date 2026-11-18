@@ -1,10 +1,38 @@
 # F4.3 staged engineering plan — 2026-11-18
 
-The proposed envelope is **8,000,000,000 bytes total cumulative engineering**,
+The applied envelope is **8,000,000,000 bytes total cumulative engineering**,
 with a **30,000,000,000-byte effective aggregate cap** inside the existing
 50,000,000,000-byte authorization. It increases the former 4 GB allowance by
 4 GB. It preserves the initial 18,663,326,977-byte baseline and all charged
 growth. This is capacity for bounded engineering, not a spending target.
+
+## Delivery measurement and independent loading hotfix
+
+The authenticated `near-delivery-01` observation measures **23,221,661,899 bytes**
+combined, **4,558,334,922 bytes** charged against the unchanged initial baseline,
+and **3,441,665,078 bytes** engineering allowance remaining. The 30 GB effective
+cap has 6,778,338,101 bytes headroom; engineering allowance remains the tighter
+limit. C:/D: free bytes were 143,150,829,568 / 332,821,766,144, each above the
+2,147,483,648-byte reserve. Subsequent receipts remain separately retained.
+
+The owner's added worker-loading priority uses a separate main-based worktree
+and PR #15 within this same accounting scope. Locked npm dependencies were
+installed there with the existing cache; one cache miss required the original
+hash-locked Methods package download. Its local Rust WASM came from the verified
+successful main CI artifact, without rebuilding or changing a numerical kernel.
+F4.3 uses its own compiled binding and retained original binding backup.
+
+All old accounting, failed attempts, raw synthetic qualification artifacts,
+native executables, logs and worktrees remain charged and preserved. There is
+**no baseline reset and zero new scientific reservations**: 2,015,788,498 bytes
+reserved against the unchanged 2,023,410,176-byte scientific ceiling. Journal
+SHA-256 remains `237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`.
+The applied owner-policy digest is
+`0f5a5f7ee886d13b9f278e4ceeb915a00f80eeda34474ad77f3ad8496e8c3b6a`.
+
+Historical verification independently checked 1,031 manifest entries and five
+additional preserved paths with zero size/hash failures. This does not turn the
+partial F4.3 scientific qualification into a passing result.
 
 ## Measured starting point
 

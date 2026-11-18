@@ -34,7 +34,8 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
   const selectionLabels=selectionCopy(locale);
   const {structureHtml,otherHtml}=useMemo(()=>{
     const ids=new Set(['pca','density','raw_neighbors','projected_neighbors','metadata_factor_association','resampling_stability','parameter_sensitivity','predictive_performance']);
-    return {structureHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>ids.has(b.id))},locale),otherHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>!ids.has(b.id))},locale)};
+    const structural=(id:string)=>ids.has(id)||id.startsWith('preprocessing-sensitivity-');
+    return {structureHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>structural(b.id))},locale),otherHtml:blocksHtml({...report,blocks:report.blocks.filter(b=>!structural(b.id))},locale)};
   },[report,locale]);
   const [selected, setSelected] = useState<string | null>(null);
   const [colorByGroup, setColorByGroup] = useState(false);

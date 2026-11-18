@@ -5,6 +5,14 @@ release qualification. A descriptor, binding, or code path is not execution
 evidence. Consult the separate [F4.3 validation record](F4_3_VALIDATION.md)
 for actual outcomes; this document does not certify them.
 
+Current disposition: **PARTIAL / draft**. Actual qualification found 144
+nondegenerate factor-statistic field discrepancies across 27 native/WASM cases
+at the frozen tolerance, and the complete six-family printed HTML exceeded
+10 GB renderer memory. Neither gate is waived. See the
+[numerical findings](F4_3_NUMERICAL_PORTABILITY_FINDINGS.md) and
+[executed validation](F4_3_VALIDATION.md); successful transforms, geometry or
+JSON exports do not establish complete qualification.
+
 | Capability | Current source/API boundary | Evidence still required or not provided |
 |---|---|---|
 | AOM-derived candidate bank | Versioned `aom_methods_balanced_v1` catalog adapts pinned AOM descriptors; AOM runtime and numerical code are not imported. Methods 1.3.13 / ABI 2.20 owns transformations. | No AOM/Methods numerical-equivalence claim. Any future claim needs defined reference semantics, owner-compatible adversaries, tolerances, and native/WASM comparisons. |

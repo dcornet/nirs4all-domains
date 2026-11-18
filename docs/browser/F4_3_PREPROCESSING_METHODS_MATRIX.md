@@ -88,4 +88,3 @@ Pinned upstream source at `fa8ff57603ec23bce95f73d52170285e8f3e2861`:
 - `cpp/include/n4m/metrics.h` — PCA and comparison-kernel descriptions and exact ARI/Jaccard signatures.
 - `bindings/js/test/run_estimator_roles.mjs` — StandardScale analytic and serialization test evidence.
 - `bindings/js/test/run_native_preprocessing_pipeline.mjs` — scope and evidence for the separate narrow N4MP pipeline API.
-

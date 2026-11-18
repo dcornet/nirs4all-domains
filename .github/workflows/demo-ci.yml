@@ -115,10 +115,13 @@ jobs:
         run: |
           python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/preprocessing-native.json'); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_preprocessing_qualification','--','demo/test-results/preprocessing-wasm.json']))"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/diagnose_preprocessing_portability.py --native demo/test-results/preprocessing-native.json --wasm demo/test-results/preprocessing-wasm.json --out demo/test-results/preprocessing-portable-outputs.json
+          $taskDiagnosticExit = $LASTEXITCODE
           python scripts/check_preprocessing_parity.py --native demo/test-results/preprocessing-native.json --wasm demo/test-results/preprocessing-wasm.json --out demo/test-results/preprocessing-parity.json
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $taskParityExit = $LASTEXITCODE
           python -m unittest discover -s scripts/tests -p test_preprocessing_parity.py
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if ($taskDiagnosticExit -ne 0 -or $taskParityExit -ne 0) { exit 1 }
       - name: Measure fixed-panel prefix reuse without changing scientific evidence
         run: node --max-old-space-size=256 bindings/wasm/tests/preprocessing-protocol.mjs benchmark demo/test-results/preprocessing-benchmark.json
       - run: npm run build --prefix demo
