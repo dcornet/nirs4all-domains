@@ -41,12 +41,19 @@ Both screenshots contain synthetic data only.
   reports. Both literal directory names and a directory containing `fold` pass.
 - English landing and French loaded-screen automated accessibility checks pass.
   No off-origin or non-GET data request occurs in this qualification.
+- Full local Chromium non-regression run passed, including 18 worker-loading
+  cases, scoped/factor/support guards, saved evidence and offline exports, with
+  no blocking console/page errors. Actual factor/support PDFs passed structural
+  inspection. The 16 selection-appendix PDFs are generated/inspected in hosted
+  CI; local print-media checks do not substitute for those PDF gates.
 
-Local proof is retained under ignored `demo/test-results/full-local-05/`;
+Local import proof is retained under ignored `demo/test-results/full-local-05/`;
 its `one-shot/receipt.json` records cases and gesture counters. Failed earlier
-attempts remain available. The full legacy browser suite and hosted CI results
-are recorded separately in the PR, on the exact published commit; a configured
-workflow or this local helper is not evidence of their success.
+attempts remain available. The successful local full suite is retained under
+`demo/test-results/full-local-06/`. Later hosted CI receipts and captures are
+namespaced by browser to preserve Chromium and Firefox evidence separately.
+Hosted CI results are recorded in the PR on the exact published commit; a
+configured workflow or the local helper is not evidence of their success.
 
 The existing `Domains browser qualification` matrix invokes the new helper in
 Chromium and Firefox on both Windows and Ubuntu, alongside all existing

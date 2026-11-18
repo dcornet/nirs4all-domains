@@ -42,7 +42,8 @@ const additionalBoundaryCases = [
 ];
 
 export async function qualifyOneShotBrowser({page,context,url,output,check,exported,json,screenshot}) {
- const out=resolve(output,'one-shot');await mkdir(out,{recursive:true});
+ const browserName=context.browser()?.browserType().name()??'unknown';
+ const out=resolve(output,browserName,'one-shot');await mkdir(out,{recursive:true});
  const receipt={protocol:'domains.one_shot_browser.v1',browser:context.browser()?.browserType().name(),version:context.browser()?.version(),cases:[],success:false,scope:'Synthetic dataset import through production IO/Formats workers; no automatic numerical diagnostic, durable dataset persistence or external data transmission.'};
  const network=[];const origin=new URL(url).origin;
  const auditRequest=request=>{if(/^https?:/.test(request.url())&&(new URL(request.url()).origin!==origin||!['GET','HEAD'].includes(request.method())))network.push({method:request.method(),same_origin:new URL(request.url()).origin===origin});};
@@ -78,11 +79,11 @@ export async function qualifyOneShotBrowser({page,context,url,output,check,expor
   return record;
  };
  try {
-  await home();await auditAccessibility(page,output,'one-shot-landing-en',check);await screenshot(page,'one-shot-landing-en',false);
+  await home();await auditAccessibility(page,output,`${browserName}-one-shot-landing-en`,check);await screenshot(page,`${browserName}-one-shot-landing-en`,false);
   const multiYMetadata={id:'keyed-multiple-y-and-m',expected:'loaded',files:[...oneShotFixtureCases.find(item=>item.id==='mixed-y-numeric-categorical').files,oneShotFixtureCases.find(item=>item.id==='x-m').files[1]]};
   for(const scenario of [...oneShotFixtureCases,...inferredSingleFiles,combined,multiYMetadata,multipleMetadata,...additionalBoundaryCases]) {
    const record=await submit(scenario);
-   if(scenario.id==='x-only'){assert.equal(record.facts.Observations,'3');assert.equal(record.facts['Spectral variables'],'2');await auditAccessibility(page,output,'one-shot-loaded-en',check);await screenshot(page,'one-shot-loaded-en',false);}
+   if(scenario.id==='x-only'){assert.equal(record.facts.Observations,'3');assert.equal(record.facts['Spectral variables'],'2');await auditAccessibility(page,output,`${browserName}-one-shot-loaded-en`,check);await screenshot(page,`${browserName}-one-shot-loaded-en`,false);}
    if(scenario.id==='keyed-train-test'){assert.equal(record.facts.Observations,'5');assert.equal(record.facts.train,'3');assert.equal(record.facts.test,'2');}
    if(scenario.id==='mixed-y-numeric-categorical'){assert.equal(record.facts['Y targets'],'2');await summary().locator('summary').click();const text=await summary().textContent();assert.match(text,/yield · numeric/);assert.match(text,/class · categorical/);}
    if(scenario.id==='all-missing-y'){assert.equal(record.facts.Observations,'2');assert.equal(record.facts['Y targets'],'1');await summary().locator('summary').click();assert.match(await summary().textContent(),/yield.*missing: 2 \/ 2/);}
@@ -116,7 +117,7 @@ export async function qualifyOneShotBrowser({page,context,url,output,check,expor
    file('random.nirs4all.json',JSON.stringify({schema_version:1,partitions:{by:'random',test_size:0.25},sources:[{id:'X',input:'train_x.csv',role:'features',key:'id',params:{delimiter:',',has_header:true}}]})),
   ]);
   const splitRefusal=page.locator('.technical-diagnostic[role="alert"],.alert').first();await splitRefusal.waitFor();assert.match(await splitRefusal.textContent(),/\bIMPLICIT_PARTITION_GENERATION_NOT_ADMITTED\b/);assert.equal(await summary().count(),0);assert.deepEqual(await ops(),['prepare_import']);receipt.cases.push({...await snapshot('native-random-partition-refused-before-assembly'),refusal_code:'IMPLICIT_PARTITION_GENERATION_NOT_ADMITTED'});
-  await submit(oneShotFixtureCases[0],{locale:'fr',assertions:false});await auditAccessibility(page,output,'one-shot-loaded-fr',check);await screenshot(page,'one-shot-loaded-fr',false);receipt.cases.push(await snapshot('french-one-shot'));
+  await submit(oneShotFixtureCases[0],{locale:'fr',assertions:false});await auditAccessibility(page,output,`${browserName}-one-shot-loaded-fr`,check);await screenshot(page,`${browserName}-one-shot-loaded-fr`,false);receipt.cases.push(await snapshot('french-one-shot'));
   // A real browser directory input retains relative paths, including all train/test files.
   const directoryCase=oneShotFixtureCases.find(item=>item.id==='keyed-train-test');
   const directoryNames={'train_x.csv':'Xcal.csv','train_y.csv':'Ycal.csv','test_x.csv':'Xtest.csv','test_y.csv':'Ytest.csv'};
