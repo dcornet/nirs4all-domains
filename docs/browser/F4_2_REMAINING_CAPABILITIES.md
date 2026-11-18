@@ -1,6 +1,6 @@
 # F4.2 remaining capabilities
 
-F4.2 adds a train-fitted descriptive projection and a separate indexed-fold PCA monitor. Local compiled native/WASM and focused Chromium checks are recorded in [F4_2_VALIDATION.md](F4_2_VALIDATION.md) and [F4_2_NATIVE_WASM_PARITY.md](F4_2_NATIVE_WASM_PARITY.md). Hosted CI, final-head reruns and PDF review are still pending; local evidence must not be presented as those closures.
+F4.2 adds a train-fitted descriptive projection and a separate indexed-fold PCA monitor. The local and hosted qualification records are in [F4_2_VALIDATION.md](F4_2_VALIDATION.md) and [F4_2_NATIVE_WASM_PARITY.md](F4_2_NATIVE_WASM_PARITY.md). Scientific, report-contract and browser workflows succeeded on executable SHA `4b9ee761e32e798fd8b4466b420a4ce479e561ab` on Windows/Ubuntu. The subsequent documentation synchronization must be checked separately; sampled PDF visual review and incomplete accessibility rules do not establish full certification.
 
 ## Supported boundary
 
@@ -22,7 +22,7 @@ F4.2 adds a train-fitted descriptive projection and a separate indexed-fold PCA 
 | Real-study utility or deployment claims | Not established by deterministic synthetic fixtures or browser demonstrations. |
 | Automatic repair of invalid monitor parameters | Not supported. Invalid fold/alpha values and owner refusals remain local to monitoring; no silent substitution or selection from test output. |
 | GUI external-limit qualification | Not exposed. The external plan remains an advanced API capability and validation of its shape does not verify its source or scientific truth. The normal GUI remains descriptive. |
-| Complete browser/platform/PDF qualification | Local Chromium focused checks passed. Firefox, hosted Windows/Ubuntu, exact delivery-head full gates and selected A4/Letter PDF structural/human review remain pending. |
+| Browser/platform/PDF qualification scope | Windows/Ubuntu scientific, report and Chromium/Firefox CI succeeded on executable SHA `4b9ee761…`; 97 browser checks per OS. A4/Letter all-page structural checks passed; visual inspection was sampled, automated accessibility checks had incomplete rules, and no WCAG, tagged-PDF, screen-reader or real-study utility certification is claimed. |
 | Upstream Methods/Preflight changes | None proposed as implemented work. Numerical kernels remain in the two existing crates; Python is transport/batch only. |
 
 No displayed distance, threshold count, exceedance fraction or monitor output is a leakage probability, non-calibrability score, predictive failure probability, or generalization certificate. See [F4.2 scientific protocol](F4_2_SCIENTIFIC_PROTOCOL.md) for estimands, budgets, access contract and tolerance policy.

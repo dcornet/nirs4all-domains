@@ -1,6 +1,6 @@
 # F4.2 validation record
 
-**Local evidence recorded 2026-11-18.** Protocol: `domains.browser_train_fitted_support.v1`, frozen before scientific tests in [F4_2_SCIENTIFIC_PROTOCOL.md](F4_2_SCIENTIFIC_PROTOCOL.md). Work is on `feat/domains-train-fitted-support-f4-2`, based on `b2d35182a174381a8b6ffac876316c83d78d21ba`. This record describes local checks reported for that worktree; it is not an exact-final-SHA or hosted-CI attestation. Final delivery must bind the exact commit, CI runs and artifacts.
+**Local evidence recorded 2026-11-18, followed by hosted qualification on the F4.2 executable delivery SHA.** Protocol: `domains.browser_train_fitted_support.v1`, frozen before scientific tests in [F4_2_SCIENTIFIC_PROTOCOL.md](F4_2_SCIENTIFIC_PROTOCOL.md). Branch `feat/domains-train-fitted-support-f4-2`, based on `b2d35182a174381a8b6ffac876316c83d78d21ba`. The local table below retains its original provenance; the separate hosted closure documents the successfully executed Windows/Ubuntu tests on `4b9ee761e32e798fd8b4466b420a4ce479e561ab`. A later documentation-only synchronization commit does not turn earlier checks into checks on its own SHA; use GitHub Actions for any subsequent exact-head qualification.
 
 ## What is implemented and checked locally
 
@@ -62,17 +62,24 @@ cd demo && npm run test:browser
 
 The native replay in `.github/workflows/demo-ci.yml` produces the matching input-bound native JSON before running the parity comparator. Do not rerun scientific fits on real data to generate qualification artifacts. The exact staged commands/artifacts from hosted workflows must be read back before release claims.
 
-## Hosted closure
+## Hosted closure — completed on F4.2 executable SHA
 
-The exact delivered SHA, hosted run URLs and authenticated artifact review are maintained in [PR #14](https://github.com/dcornet/nirs4all-domains/pull/14). The checklist below records the pre-publication boundary; a later successful run must be evidenced there, rather than inferred from this checklist or workflow configuration. Public Pages serves main and does not deploy this unmerged PR.
+The delivered executable HEAD `4b9ee761e32e798fd8b4466b420a4ce479e561ab` was qualified through three GitHub Actions workflows, each with successful Windows and Ubuntu jobs:
 
-The first hosted Ubuntu browser run reached the Firefox F4.2 calculation successfully, then exceeded the existing 10,000,000-byte screenshot budget by capturing complete growing result panels. The capture helper now records the parameter form and the actual projection figure; complete numeric tables and histories remain in the tested exports. The original screenshot limit, all browser assertions and scientific tolerances are retained. The revised focused Chromium run passed all eight checks. The failed hosted artifacts remain available in run `44275017115`.
+- [scientific-gates #44276323605](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323605): native workspace, ignored scientific tests, formatting, linting, bridge and schema checks;
+- [warning-report-contracts #44276323608](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323608): report and compatibility contracts;
+- [Domains browser qualification #44276323611](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323611): actual native/WASM, Chromium/Firefox, Windows/Ubuntu, exports, print and accessibility checks.
 
-- [x] Final local staged-source build, distribution and clippy passed: `npm run build --prefix demo`; `python scripts/check_demo_distribution.py` (16,074,962 bytes, 79 files, four WASM assets); `cargo clippy --locked --offline --profile qualification --workspace --all-targets -- -D warnings`; final `cargo fmt --all -- --check`. Exact-SHA hosted gates remain pending below.
-- [ ] Rerun final-head fmt, workspace tests, ignored native gates, bridge and report gates after the last native fix.
-- [ ] Complete hosted Windows and Ubuntu CI, including actual native/WASM parity and Chromium/Firefox browser jobs.
-- [x] Structurally inspect A4 and Letter PDFs; record counts and bytes above. Partial A4 visual review covered page 106 only. Full visual review and accessibility certification remain unclaimed.
-- [ ] Bind all checks and resource state to exact final SHA. Current local storage: 22,028,279,539 bytes total, 3,364,952,562 bytes charged against the 4,000,000,000-byte cumulative allowance, 635,047,438 bytes remaining. The original 18,663,326,977-byte baseline and previously charged usage were preserved. Scientific journal SHA `237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`; scientific reservation 2,015,788,498 bytes unchanged.
-- [ ] Record exact final commit, hosted run URLs, artifacts, review findings and any failures. CI configuration alone is not execution evidence.
+The PR receipt reports **27 computational cases**, **7 pre-provider refusals** and **13,994 native/WASM numeric comparisons** with unchanged absolute/relative tolerance `1e-10`, exact scopes and ordered identities. Browser qualification reports **97 checks per platform**, without observed off-origin traffic, blocking browser errors or data upload; four F4.2 automated axe contexts per platform have no detected violations. These are automated checks, **not** a WCAG or screen-reader certification.
+
+All 16 earlier report-selection PDF cases and two F4.1 PDF cases remain covered. F4.2 full-annex prints passed all-page structural/text-bounds checks: **Ubuntu 527 A4 / 562 Letter pages; Windows 514 A4 / 551 Letter pages**. Representative pages were visually sampled, not every page. No page cap or missing scientific annex was introduced.
+
+Verified [Ubuntu proof artifact](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323611/artifacts/14415840590), [Windows proof artifact](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323611/artifacts/14416870021), [Ubuntu preview](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323611/artifacts/14415785771) and [Windows preview](https://github.com/dcornet/nirs4all-domains/actions/runs/44276323611/artifacts/14415053915) are attached to [PR #14](https://github.com/dcornet/nirs4all-domains/pull/14). Its receipt records the tested virtual-merge tree as identical to the executable head tree.
+
+The initial hosted Ubuntu failure in run `44275017115` exceeded the existing screenshot-size limit after overly broad captures; targeted figure/form captures fixed the harness without relaxing that cap or scientific assertions. This failure remains attributed to the original run.
+
+The final F4.2 resource report records **22,037,721,556 measured aggregate bytes**, **3,374,394,579 / 4,000,000,000 cumulative engineering bytes**, **625,605,421 remaining engineering bytes**, unchanged `18,663,326,977`-byte baseline and unchanged `2,015,788,498 / 2,023,410,176` scientific reservations. Historical journal and 1,031 frozen files plus five references were verified in the PR evidence. These are reported local private-resource observations, not independently remeasured by GitHub.
+
+**Provenance boundary:** the figures above qualify executable commit `4b9ee761…`. A subsequent documentation-only commit documenting this closure requires its own workflow status check before one can claim exact-head CI success. Public Pages remains on the then-current `main` until merge and deployment.
 
 Scientific interpretation remains descriptive. FlexiblePCA's public fitted state exposes no eigenvalues or numerical rank resolution. Monitor limits remain unknown/not qualified without supported external evidence of independent units. Projection does not reuse F4.1 PCA, predict query data, establish physical/reference independence, support predictive utility, or establish real-study performance. The advanced external plan is API-only; the GUI remains descriptive.
