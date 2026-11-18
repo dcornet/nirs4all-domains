@@ -12,6 +12,7 @@ import {qualifyTechnicalLoading} from './technical-browser.mjs';
 import {qualifyScopedBrowser} from './scoped-browser.mjs';
 import {qualifyFactorBrowser} from './factor-browser.mjs';
 import {qualifySupportBrowser} from './support-browser.mjs';
+import {qualifyWorkerLoadingBrowser} from './worker-loading-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -329,6 +330,11 @@ try {
   await mobile.close();
   await uxBlockedWasm(browser,url,check);
   await qualifyTechnicalLoading(browser,url,output,check);
+  const loadingContext=await browser.newContext({acceptDownloads:true,locale:'en-US'});
+  try {
+    const loadingPage=await loadingContext.newPage();
+    await qualifyWorkerLoadingBrowser({page:loadingPage,context:loadingContext,url,output:resolve(output,'chromium'),check,exported,json,screenshot});
+  } finally { await loadingContext.close(); }
   await qualifyLongSelection(browser,url,saved.scientific_report,output,exported,screenshot,check,wire);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
@@ -340,6 +346,11 @@ try {
     await qualifyFactorBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await qualifySupportBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await secondContext.close();
+    const loadingContext=await second.newContext({acceptDownloads:true,locale:'en-US'});
+    try {
+      const loadingPage=await loadingContext.newPage();
+      await qualifyWorkerLoadingBrowser({page:loadingPage,context:loadingContext,url,output:resolve(output,'firefox'),check,exported,json,screenshot});
+    } finally { await loadingContext.close(); }
   } else receipt.second_engine = 'not_executed: DOMAINS_FIREFOX_EXE not supplied';
   assert.equal(receipt.page_errors.length, 0, 'Uncaught browser errors');
   assert.equal(receipt.console_errors.length, 0, 'Browser console errors');
