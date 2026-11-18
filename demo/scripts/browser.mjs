@@ -11,6 +11,7 @@ import {qualifyLiveSelection,qualifySavedSelection,qualifySelectionReset,qualify
 import {qualifyTechnicalLoading} from './technical-browser.mjs';
 import {qualifyScopedBrowser} from './scoped-browser.mjs';
 import {qualifyFactorBrowser} from './factor-browser.mjs';
+import {qualifySupportBrowser} from './support-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(demo, 'dist');
@@ -196,6 +197,7 @@ try {
   await uxExtraInputs(page,home,importCsv,json,output,screenshot,check);
   await qualifyScopedBrowser({page,browser,url,output,screenshot,check,wire,exported,json});
   await qualifyFactorBrowser({page,context,url,output,check,exported,json,screenshot});
+  await qualifySupportBrowser({page,context,url,output,check,exported,json,screenshot});
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
@@ -336,6 +338,7 @@ try {
     await secondPage.goto(url); await example(secondPage, 'A justified unavailable result');
     assert((await json(secondPage)).scientific_report.metrics.pca.value.eigenvalues[0] > 0); check('Firefox actual WASM example');
     await qualifyFactorBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
+    await qualifySupportBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await secondContext.close();
   } else receipt.second_engine = 'not_executed: DOMAINS_FIREFOX_EXE not supplied';
   assert.equal(receipt.page_errors.length, 0, 'Uncaught browser errors');

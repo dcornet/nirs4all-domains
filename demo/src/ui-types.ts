@@ -30,6 +30,7 @@ export interface UiDataset {
   representation?: string; population?: string;
 }
 export interface UiResult {
+  supportResults?:import('./engine/support').SupportRun[];
   factorControls?:Omit<FactorAssociationControlsProps,'busy'|'locale'|'onRun'|'onColor'|'onAuthorizeColorExport'|'onLoadInferencePlan'>;
   factorAssociations?:FactorResult[];
   factorLegend?:FactorColorLegendDescriptor;
@@ -52,6 +53,7 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onSupport?(parameters:import('./engine/support').SupportParameters):void;
   onFactorInferencePlan?(file:File):void;
   onFactorAssociation?(request:FactorAssociationRun):void;
   onAssociationColor?(factorId:string):void;

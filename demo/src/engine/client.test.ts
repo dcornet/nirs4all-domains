@@ -15,6 +15,15 @@ function fixture(){const workers:WorkerDouble[]=[];const engine=new BrowserEngin
 afterEach(()=>vi.useRealTimers());
 
 describe('Worker ownership and bounded transport',()=>{
+  it('cancels F4.2 execution on dataset replacement and ignores stale support replies',async()=>{
+    const {engine,workers}=fixture();const old=engine.request('train_fitted_support',{dataset:'old'});
+    const cancelled=expect(old).rejects.toMatchObject({code:'CANCELLED'});
+    engine.cancel();await cancelled;expect(workers[0].terminated).toBe(1);
+    const next=engine.request('train_fitted_support',{dataset:'new'});
+    workers[0].reply({ok:true,result:{dataset:'old'}});workers[1].reply({ok:true,result:{dataset:'new'}});
+    expect(await next).toEqual({dataset:'new'});
+  });
+
   it('keeps late errors and responses from a cancelled worker from failing its successor',async()=>{
     const {engine,workers}=fixture();const a=engine.request('analyze',{});const cancelled=expect(a).rejects.toMatchObject({code:'CANCELLED'});
     const b=engine.request('analyze',{});await cancelled;

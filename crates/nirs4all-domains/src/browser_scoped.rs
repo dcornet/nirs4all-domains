@@ -204,6 +204,17 @@ fn exclusion_role(role: &str) -> bool {
 
 /// Every value population and grant is closed before any provider invocation.
 pub fn validate(r: &ScopedRequest) -> Result<(), String> {
+    validate_scope(r, true)
+}
+/// Reuse the unchanged value/identity closure without admitting an unrelated NN kernel.
+/// The F4.2 consumer applies its own projection/monitor cost gates separately.
+pub(crate) fn validate_spectral_access(r: &ScopedRequest) -> Result<(), String> {
+    if r.operation != ScopedOperation::TrainReferenceTestQuery {
+        return Err("TRAIN_REFERENCE_TEST_QUERY_ACCESS_REQUIRED".into());
+    }
+    validate_scope(r, false)
+}
+fn validate_scope(r: &ScopedRequest, enforce_operation_budget: bool) -> Result<(), String> {
     if r.schema_version != 1
         || r.protocol_version != PROTOCOL
         || !nonempty(&r.dataset.dataset_id)
@@ -417,7 +428,7 @@ pub fn validate(r: &ScopedRequest) -> Result<(), String> {
                 .and_then(|v| n.checked_mul(p).and_then(|cells| v.checked_add(cells))),
             _ => Some(0),
         };
-        if products.is_none_or(|v| v > browser::MAX_PRODUCTS) {
+        if enforce_operation_budget && products.is_none_or(|v| v > browser::MAX_PRODUCTS) {
             return Err("OPERATION_WORK_BUDGET_EXCEEDED".into());
         }
     }

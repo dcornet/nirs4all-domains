@@ -1,5 +1,34 @@
 # Browser capability boundary
 
+## F4.2 train-fitted support (additive protocol)
+
+`domains.browser_train_fitted_support.v1` adds a public-Methods FlexiblePCA fit
+on declared train X with train and test transforms through the same fitted
+state, plus a separate `statsPcaMonitor` call. It does not send Y or predict
+rows, reuse F4.1 PCA, or replace F4.0 raw-neighbor analysis. Projection and
+monitor statuses remain independent; output preserves declared keys/axes and
+does not export raw X/Y or estimator bytes.
+
+Local evidence recorded 2026-11-18 includes 27 compiled native/WASM
+computational fixtures, 7 pre-provider refusal adversaries and 13,994 numeric
+comparisons under the existing absolute/relative `1e-10` tolerance; seven
+native transport spy checks, an ignored actual-native lifecycle regression,
+six direct Methods adapter checks, nine schema checks and focused Chromium
+checks. This evidence is detailed in the [F4.2 validation record](browser/F4_2_VALIDATION.md)
+and [native/WASM parity record](browser/F4_2_NATIVE_WASM_PARITY.md). It is
+local worktree evidence, not hosted CI qualification or an exact-final-SHA
+attestation. Final-head full gates, hosted Windows/Ubuntu and Firefox browser
+execution remain pending. A4/Letter PDFs were generated but PDF structural and
+visual review is pending; no PDF certification is claimed.
+
+FlexiblePCA does not publish fitted eigenvalues or rank resolution. Monitoring
+limits stay unknown/not qualified without supported independent-unit evidence;
+zero resolved components preserve finite owner Q and undefined T² reasons but
+do not qualify limits. Neither monitor exceedance fractions nor projection
+distances imply predictive failure probability, physical independence,
+transferability or real-study utility. The [remaining-capabilities record](browser/F4_2_REMAINING_CAPABILITIES.md)
+lists the full boundary.
+
 ## F4.1 factor association (separate protocol)
 
 `domains.browser_factor_association.v1` consumes original, scope-validated raw-PCA

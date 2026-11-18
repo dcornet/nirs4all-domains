@@ -4,7 +4,7 @@ import { App } from './App';
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading,ScopedOperation,ScopedResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
+import type { BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
 import {scopedInventory,scopedView} from './report/scoped';
@@ -12,6 +12,8 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
+import {supportRequest,recordSupportReply,type SupportParameters,type SupportRun} from './engine/support';
+import {appendSupport} from './report/support';
 import {factorRequest,factorSource,factorChoices,parseFactorInferencePlan} from './engine/factor';
 import type {FactorAssociationRun} from './FactorAssociationControls';
 import {appendFactorAssociations} from './report/factor-association';
@@ -31,9 +33,10 @@ function Controller() {
   const operations=useRef<ScopedResult[]>([]),baseView=useRef<UiResult|undefined>(undefined);
   const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
+  const supportResults=useRef<SupportRun[]>([]);
   const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null, phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage) => { if (token === epoch.current) setState(s => ({ ...s, progress: stage,processingStage:step??s.processingStage })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -62,6 +65,7 @@ function Controller() {
       inferenceRecordAvailable:externalPlan.current!==null,
       exportColorAuthorized:!!colorGrant.current};
     result.factorAssociations=associations.current;
+    result=appendSupport(result,supportResults.current);
     const selected=associationColor.current;
     if(selected&&result.pca&&selected.receipt.source_pca_evidence_sha256===result.provenance.evidence_sha256){
       const f=selected.value.factors.find(f=>f.factor_id===color.current),m=data.metadata.find(f=>f.name===color.current);
@@ -74,7 +78,7 @@ function Controller() {
       }
     }
     scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
-      scoped_operations:operations.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
+      scoped_operations:operations.current,train_fitted_support:supportResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
   };
   const scoped=async(operation:ScopedOperation,options:ScopeOptions={})=>{
@@ -127,7 +131,28 @@ function Controller() {
       associations.current=[...associations.current,result];publishScoped(data);
     }catch(error){failed(token,error);}
   };
+  const support=async(parameters:SupportParameters)=>{
+    const data=dataset.current;if(!data?.rowManifest)return;
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:'Validating train-only fit and test projection access'}));
+    try{
+      const result=await engine.current.request<SupportResult>('train_fitted_support',supportRequest(data,parameters),progress(token));
+      if(token!==epoch.current)return;
+      supportResults.current=recordSupportReply(epoch.current,token,supportResults.current,result);publishScoped(data);
+    }catch(error){
+      if(token!==epoch.current)return;
+      const reason=error instanceof Error?error.message:String(error);
+      supportResults.current=[...supportResults.current,{
+        protocol_version:'domains.browser_train_fitted_support_local_refusal.v1',status:'unavailable',reason,local_refusal:true,evidence_sha256:null,
+        projection:{status:'unavailable',reason,value:null},monitoring:{status:'unavailable',reason,value:null},
+        limit_qualification:{status:'unknown',reasons:['NO_SUCCESSFUL_PROVIDER_RECEIPT'],source:null,fold_scheme:'row_index_modulo_n_folds',independent_units_certified:false,interpretation:'No provider receipt returned; limits unavailable.'},
+        dependence:{},receipt:{dataset_id:data.input.dataset_id,content_sha256:data.input.content_sha256,execution_receipt:'not_returned; no successful execution inferred'},
+        supported_claims:[],limitations:['Operation refused locally. Earlier results and imported data remain available.']
+      }];publishScoped(data);
+    }
+  };
   const callbacks: UiCallbacks = {
+    onSupport:support,
     async onFactorInferencePlan(file){
       const data=dataset.current;if(!data?.rowManifest)return;
       const token=epoch.current;externalPlan.current=null;publishScoped(data);
@@ -168,7 +193,7 @@ function Controller() {
       try{
         const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
         if(token!==epoch.current)return;
-        dataset.current=data;operations.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
+        dataset.current=data;operations.current=[];supportResults.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
         publishScoped(data);
       }catch(error){failed(token,error);}
     },
@@ -210,7 +235,7 @@ function Controller() {
       scientific.current = null; dataset.current = null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { ++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
-      operations.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
+      operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
       associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result: null, error: null, progress: '' })); },
     async onIntent(intent: PredictionIntent) {

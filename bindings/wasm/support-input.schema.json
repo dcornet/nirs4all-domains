@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_train_fitted_support.v1.input",
+  "$comment": "Shape validation only. Rust validates partition closure, source content, fit access, dependencies, budgets and provider execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "protocol_version", "fit", "scope", "parameters", "dependencies", "dependency_fields", "external_limit_plan"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "protocol_version": {"const": "domains.browser_train_fitted_support.v1"},
+    "fit": {"const": "train"},
+    "scope": {
+      "allOf": [
+        {"$ref": "domains.browser_scoped_analysis.v1.input"},
+        {"properties": {
+          "operation": {"const": "train_reference_test_query"},
+          "fit": {"const": "none"},
+          "explicit_transductive": {"const": false},
+          "access": {"properties": {"x": {"const": true}, "m_fields": {"maxItems": 24}, "y_fields": {"maxItems": 0}}}
+        }}
+      ]
+    },
+    "parameters": {"$ref": "#/$defs/parameters"},
+    "dependencies": {
+      "type": "array", "maxItems": 24,
+      "items": {"$ref": "domains.browser_scoped_analysis.v1.input#/$defs/metadata"}
+    },
+    "dependency_fields": {"type": "array", "maxItems": 24, "items": {"type": "string", "minLength": 1}},
+    "external_limit_plan": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/externalLimitPlan"}]}
+  },
+  "$defs": {
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["n_components", "monitoring", "max_components", "n_folds", "alpha"],
+      "properties": {
+        "n_components": {"type": "integer"},
+        "monitoring": {"type": "boolean"},
+        "max_components": {"type": "integer"},
+        "n_folds": {"type": "integer"},
+        "alpha": {"type": "number"}
+      }
+    },
+    "externalLimitPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_version", "dataset_content_sha256", "reference_keys", "max_components", "n_folds", "alpha", "independent_unit_ids", "indivisible_dependency_fields", "source", "prospective", "row_index_modulo_folds_authorized"],
+      "properties": {
+        "protocol_version": {"type": "string", "minLength": 1},
+        "dataset_content_sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"},
+        "reference_keys": {"type": "array", "items": {"type": "string"}},
+        "max_components": {"type": "integer"},
+        "n_folds": {"type": "integer"},
+        "alpha": {"type": "number"},
+        "independent_unit_ids": {"type": "array", "items": {"type": "string"}},
+        "indivisible_dependency_fields": {"type": "array", "items": {"type": "string"}},
+        "source": {"type": "string", "minLength": 1},
+        "prospective": {"type": "boolean"},
+        "row_index_modulo_folds_authorized": {"type": "boolean"}
+      }
+    }
+  }
+}

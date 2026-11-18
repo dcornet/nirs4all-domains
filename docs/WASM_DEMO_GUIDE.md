@@ -74,7 +74,8 @@ is presentation-only and does not calculate association or alter PCA evidence.
 See the [architecture](WASM_DEMO_ARCHITECTURE.md), [capability
 matrix](WASM_CAPABILITIES.md), [F4.0 partition behavior](WASM_PARTITION_GUARD.md),
 and [F4.0 architecture notes](browser/F4_0_IMPORT_ARCHITECTURE.md) for exact
-boundaries.
+boundaries. The [F4.2 validation record](browser/F4_2_VALIDATION.md) separates
+local execution evidence from pending final-head and hosted checks.
 
 A single `.json` file is read as a saved standalone Domains report and must
 pass its existing report schema. It is not a generic JSON matrix import. An

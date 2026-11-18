@@ -1,0 +1,1173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_train_fitted_support_result.v1",
+  "$comment": "Strict public result shape; no raw spectra, targets, metadata values or serialized estimator state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "status",
+    "reason",
+    "projection",
+    "monitoring",
+    "limit_qualification",
+    "dependence",
+    "receipt",
+    "supported_claims",
+    "limitations",
+    "evidence_sha256"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "domains.browser_train_fitted_support_result.v1"
+    },
+    "status": {
+      "enum": [
+        "computed",
+        "partial",
+        "unavailable"
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "projection": {
+      "$ref": "#/$defs/projectionState"
+    },
+    "monitoring": {
+      "$ref": "#/$defs/monitoringState"
+    },
+    "limit_qualification": {
+      "$ref": "#/$defs/limitQualification"
+    },
+    "dependence": {
+      "$ref": "#/$defs/dependence"
+    },
+    "receipt": {
+      "$ref": "#/$defs/receipt"
+    },
+    "supported_claims": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_sha256": {
+      "$ref": "#/$defs/hash"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "computed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "type": "null"
+          },
+          "projection": {
+            "properties": {
+              "status": {
+                "const": "computed"
+              }
+            }
+          },
+          "monitoring": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "computed",
+                  "not_requested"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "partial"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "projection": {
+                "properties": {
+                  "status": {
+                    "const": "computed"
+                  }
+                }
+              },
+              "monitoring": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "unavailable",
+                      "unsupported",
+                      "error"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "projection": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "unavailable",
+                      "unsupported",
+                      "error"
+                    ]
+                  }
+                }
+              },
+              "monitoring": {
+                "properties": {
+                  "status": {
+                    "const": "computed"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "unavailable"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "projection": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "unavailable",
+                  "unsupported",
+                  "error"
+                ]
+              }
+            }
+          },
+          "monitoring": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "unavailable",
+                  "unsupported",
+                  "error",
+                  "not_requested"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{64}$"
+    },
+    "referenceVariance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "const": "unavailable"
+        },
+        "reason": {
+          "const": "FLEXIBLE_PCA_PUBLIC_STATE_HAS_NO_EIGENVALUES"
+        },
+        "value": {
+          "const": null
+        }
+      }
+    },
+    "numericalRank": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "const": "unavailable"
+        },
+        "reason": {
+          "const": "FLEXIBLE_PCA_PUBLIC_STATE_HAS_NO_RANK_RESOLUTION"
+        },
+        "value": {
+          "const": null
+        }
+      }
+    },
+    "numberOrNull": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "scoreMatrix": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2000,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 20,
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "min",
+        "max",
+        "mean",
+        "sample_sd",
+        "q25",
+        "median",
+        "q75",
+        "backend_version"
+      ],
+      "properties": {
+        "count": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "min": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "max": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "mean": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "sample_sd": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "q25": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "median": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "q75": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "backend_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "summaryState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "computed",
+            "unavailable",
+            "unsupported",
+            "error"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/summary"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "computed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "value": {
+                "$ref": "#/$defs/summary"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "componentSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "summary"
+      ],
+      "properties": {
+        "component": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 19
+        },
+        "summary": {
+          "$ref": "#/$defs/summaryState"
+        }
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "train_scores",
+        "test_scores",
+        "components",
+        "display_components",
+        "component_summaries",
+        "fit_state_sha256",
+        "fit_identity_sha256",
+        "fitted_state_unchanged",
+        "reference_variance",
+        "numerical_rank",
+        "basis"
+      ],
+      "properties": {
+        "train_scores": {
+          "$ref": "#/$defs/scoreMatrix"
+        },
+        "test_scores": {
+          "$ref": "#/$defs/scoreMatrix"
+        },
+        "components": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "display_components": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 19
+          }
+        },
+        "component_summaries": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/$defs/componentSummary"
+          }
+        },
+        "fit_state_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "fit_identity_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "fitted_state_unchanged": {
+          "type": "boolean"
+        },
+        "reference_variance": {
+          "$ref": "#/$defs/referenceVariance"
+        },
+        "numerical_rank": {
+          "$ref": "#/$defs/numericalRank"
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "projectionState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "computed",
+            "unavailable",
+            "unsupported",
+            "error"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/projection"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "computed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "value": {
+                "$ref": "#/$defs/projection"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "monitor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eigenvalues",
+        "effective_components",
+        "reference_t2",
+        "reference_q",
+        "monitored_t2",
+        "monitored_q",
+        "n_beyond_t2",
+        "n_beyond_q",
+        "n_beyond_either",
+        "n_near_t2",
+        "n_near_q",
+        "n_near_either",
+        "t2_limit",
+        "q_limit",
+        "tolerance",
+        "condition",
+        "q_tolerance_scale",
+        "eigenvalue_resolution",
+        "reference_total_variance",
+        "monitored_total_variance",
+        "centroid_distance",
+        "centroid_subspace_distance",
+        "centroid_residual_distance",
+        "centroid_t2",
+        "retained_fraction",
+        "undefined_field_reasons",
+        "reference_protocol",
+        "backend_version",
+        "undefined_array_entries"
+      ],
+      "properties": {
+        "eigenvalues": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/$defs/numberOrNull"
+          }
+        },
+        "effective_components": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "reference_t2": {
+          "$ref": "#/$defs/monitorArray"
+        },
+        "reference_q": {
+          "$ref": "#/$defs/monitorArray"
+        },
+        "monitored_t2": {
+          "$ref": "#/$defs/monitorArray"
+        },
+        "monitored_q": {
+          "$ref": "#/$defs/monitorArray"
+        },
+        "n_beyond_t2": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "n_beyond_q": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "n_beyond_either": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "n_near_t2": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "n_near_q": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "n_near_either": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "descriptive_fractions": {
+          "$ref": "#/$defs/descriptiveFractions"
+        },
+        "t2_limit": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "q_limit": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "tolerance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "condition": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "q_tolerance_scale": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "eigenvalue_resolution": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "reference_total_variance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "monitored_total_variance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "centroid_distance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "centroid_subspace_distance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "centroid_residual_distance": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "centroid_t2": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "retained_fraction": {
+          "$ref": "#/$defs/numberOrNull"
+        },
+        "undefined_field_reasons": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "eigenvalues",
+              "reference_t2",
+              "reference_q",
+              "monitored_t2",
+              "monitored_q",
+              "t2_limit",
+              "q_limit",
+              "tolerance",
+              "condition",
+              "q_tolerance_scale",
+              "eigenvalue_resolution",
+              "reference_total_variance",
+              "monitored_total_variance",
+              "centroid_distance",
+              "centroid_subspace_distance",
+              "centroid_residual_distance",
+              "centroid_t2",
+              "retained_fraction"
+            ]
+          },
+          "additionalProperties": {
+            "const": "METHODS_NUMERICALLY_UNDEFINED"
+          }
+        },
+        "reference_protocol": {
+          "const": "Methods statsPcaMonitor; out-of-fold row-index-modulo reference, separate full-reference PCA for query"
+        },
+        "backend_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "undefined_array_entries": {
+          "$ref": "#/$defs/undefinedArrayEntries"
+        }
+      }
+    },
+    "monitorArray": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2000,
+      "items": {
+        "$ref": "#/$defs/numberOrNull"
+      }
+    },
+    "descriptiveFractions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "t2",
+        "q",
+        "either"
+      ],
+      "properties": {
+        "t2": {
+          "$ref": "#/$defs/descriptiveFraction"
+        },
+        "q": {
+          "$ref": "#/$defs/descriptiveFraction"
+        },
+        "either": {
+          "$ref": "#/$defs/descriptiveFraction"
+        }
+      }
+    },
+    "descriptiveFraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numerator",
+        "denominator",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2000
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "unit": {
+          "const": "query acquisitions; descriptive threshold exceedance, not predictive failure or independent-unit probability"
+        }
+      }
+    },
+    "monitoringState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "value"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "computed",
+            "unavailable",
+            "unsupported",
+            "error",
+            "not_requested"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/monitor"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "computed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "type": "null"
+              },
+              "value": {
+                "$ref": "#/$defs/monitor"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "limitQualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reasons",
+        "source",
+        "fold_scheme",
+        "independent_units_certified",
+        "interpretation"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "not_qualified",
+            "conditional_external"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fold_scheme": {
+          "const": "row_index_modulo_n_folds"
+        },
+        "independent_units_certified": {
+          "const": false
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "dependencyField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "role",
+        "evidence",
+        "origin",
+        "missing",
+        "distinct_declared_values",
+        "train_repeated_identities",
+        "train_cross_fold_identities",
+        "train_test_shared_identities",
+        "treated_as_declared_indivisible"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "enum": [
+            "declared",
+            "verified",
+            "unknown"
+          ]
+        },
+        "origin": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missing": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "distinct_declared_values": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "train_repeated_identities": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "train_cross_fold_identities": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "train_test_shared_identities": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "treated_as_declared_indivisible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dependence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fields",
+        "physical_independence_inferred_from_unique_ids",
+        "context_categories_alone_require_no_group_split"
+      ],
+      "properties": {
+        "fields": {
+          "type": "array",
+          "maxItems": 24,
+          "items": {
+            "$ref": "#/$defs/dependencyField"
+          }
+        },
+        "physical_independence_inferred_from_unique_ids": {
+          "const": false
+        },
+        "context_categories_alone_require_no_group_split": {
+          "const": true
+        }
+      }
+    },
+    "providerCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "row_keys",
+        "request_sha256",
+        "provider_success"
+      ],
+      "properties": {
+        "operation": {
+          "enum": [
+            "pca_fit",
+            "pca_transform",
+            "summary",
+            "pca_destroy",
+            "pca_monitor"
+          ]
+        },
+        "row_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "request_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "provider_success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dataset",
+        "fit_keys",
+        "query_keys",
+        "fit_population",
+        "query_population",
+        "representation",
+        "axis_sha256",
+        "parameters",
+        "train_spectra_sha256",
+        "query_spectra_sha256",
+        "source_request_sha256",
+        "provider",
+        "provider_calls",
+        "x_test_accessed",
+        "y_train_accessed",
+        "y_test_accessed",
+        "x_predict_accessed",
+        "f41_pca_reused",
+        "monitoring_and_projection_same_fitted_object"
+      ],
+      "properties": {
+        "dataset": {
+          "$ref": "domains.browser_scoped_analysis.v1.input#/$defs/dataset"
+        },
+        "fit_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "query_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fit_population": {
+          "const": "train"
+        },
+        "query_population": {
+          "const": "test"
+        },
+        "representation": {
+          "const": "raw"
+        },
+        "axis_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "parameters": {
+          "$ref": "domains.browser_train_fitted_support.v1.input#/$defs/parameters"
+        },
+        "train_spectra_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "query_spectra_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "source_request_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_calls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/providerCall"
+          }
+        },
+        "x_test_accessed": {
+          "const": true
+        },
+        "y_train_accessed": {
+          "const": false
+        },
+        "y_test_accessed": {
+          "const": false
+        },
+        "x_predict_accessed": {
+          "const": false
+        },
+        "f41_pca_reused": {
+          "const": false
+        },
+        "monitoring_and_projection_same_fitted_object": {
+          "const": false
+        }
+      }
+    },
+    "undefinedArrayEntries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eigenvalues",
+        "reference_t2",
+        "reference_q",
+        "monitored_t2",
+        "monitored_q"
+      ],
+      "properties": {
+        "eigenvalues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/undefinedArrayEntry"
+          }
+        },
+        "reference_t2": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/undefinedArrayEntry"
+          }
+        },
+        "reference_q": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/undefinedArrayEntry"
+          }
+        },
+        "monitored_t2": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/undefinedArrayEntry"
+          }
+        },
+        "monitored_q": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/undefinedArrayEntry"
+          }
+        }
+      }
+    },
+    "undefinedArrayEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index",
+        "reason"
+      ],
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "reason": {
+          "const": "NOT_RETAINED_OR_NUMERICALLY_UNDEFINED_BY_METHODS"
+        }
+      }
+    }
+  }
+}

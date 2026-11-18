@@ -1,5 +1,38 @@
 # Domains browser binding
 
+## F4.2 train-fitted support
+
+`analyzeSupport` accepts the additive `SupportRequest` and returns separate
+projection and monitoring evidence. The public schemas are
+`support-input.schema.json` (register the existing scoped schema too),
+`support-result.schema.json`, and the distinct documentary-only
+`support-local-refusal.schema.json`. Runtime admission failures throw; the UI
+records them without inventing a successful provider receipt or evidence hash.
+
+After building the binding, this example runs from the repository root:
+
+```js
+import {readFile} from 'node:fs/promises';
+import {createDomainsRuntime} from './bindings/wasm/index.js';
+const wasmModule = await readFile('bindings/wasm/native/nirs4all_domains_bg.wasm');
+const fixtures = JSON.parse(await readFile('bindings/wasm/tests/support-fixtures.json'));
+const request = fixtures.find(f => f.id === 'baseline-two-feature').request;
+const runtime = await createDomainsRuntime({wasmModule});
+const result = runtime.analyzeSupport(request); // actual public synthetic data
+console.log(result.projection.status, result.monitoring.status, result.limit_qualification);
+```
+
+Only train enters `FlexiblePCA.fit`; train/test transforms use its unchanged live
+N4ME state. State bytes remain internal and are never exported. Monitoring uses
+the separate Methods indexed-fold protocol; it is not F4.1's original PCA or the
+same serialized model. An optional externally sourced `SupportLimitPlan` is
+available through the API; the browser defaults to descriptive/unknown-unit
+interpretation. No data or model is sent to a server. Predict queries, Y access,
+grouped replacement folds and inferred independence are not admitted.
+See [the scientific contract](../../docs/browser/F4_2_SCIENTIFIC_PROTOCOL.md).
+
+## Existing binding and numerical ownership
+
 This private, additive demo binding builds the existing Domains library as a
 WASM cdylib. It adds no third Rust crate and consumes the public Preflight 0.1.6
 provider contract with the published Methods 1.3.13 / ABI 2.20 WASM kernels.

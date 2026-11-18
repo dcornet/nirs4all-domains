@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "domains.browser_train_fitted_support_local_refusal.v1",
+  "$comment": "Strict documentary UI record for local validation refusal; not a runtime/provider result or execution receipt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "status", "reason", "local_refusal", "evidence_sha256", "projection", "monitoring", "limit_qualification", "dependence", "receipt", "supported_claims", "limitations"],
+  "properties": {
+    "protocol_version": {"const": "domains.browser_train_fitted_support_local_refusal.v1"},
+    "status": {"const": "unavailable"},
+    "reason": {"type": "string", "minLength": 1},
+    "local_refusal": {"const": true},
+    "evidence_sha256": {"type": "null"},
+    "projection": {"$ref": "#/$defs/refusedState"},
+    "monitoring": {"$ref": "#/$defs/refusedState"},
+    "limit_qualification": {"$ref": "#/$defs/limitQualification"},
+    "dependence": {"type": "object", "maxProperties": 0},
+    "receipt": {"$ref": "#/$defs/receipt"},
+    "supported_claims": {"const": []},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "refusedState": {
+      "type": "object", "additionalProperties": false, "required": ["status", "reason", "value"],
+      "properties": {"status": {"const": "unavailable"}, "reason": {"type": "string", "minLength": 1}, "value": {"type": "null"}}
+    },
+    "limitQualification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reasons", "source", "fold_scheme", "independent_units_certified", "interpretation"],
+      "properties": {
+        "status": {"const": "unknown"}, "reasons": {"const": ["NO_SUCCESSFUL_PROVIDER_RECEIPT"]},
+        "source": {"type": "null"}, "fold_scheme": {"const": "row_index_modulo_n_folds"},
+        "independent_units_certified": {"const": false}, "interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "receipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset_id", "content_sha256", "execution_receipt"],
+      "properties": {
+        "dataset_id": {"type": "string", "minLength": 1},
+        "content_sha256": {"type": "string", "minLength": 1},
+        "execution_receipt": {"const": "not_returned; no successful execution inferred"}
+      }
+    }
+  }
+}
