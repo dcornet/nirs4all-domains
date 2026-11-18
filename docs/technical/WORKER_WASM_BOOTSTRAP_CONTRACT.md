@@ -134,9 +134,12 @@ misrepresenting the `rt_error.v1` contract.
   loader does not expose whether an internal rejection happened at asset
   fetch, compilation, or instantiation; retain its original message when
   available and report `METHODS_RUNTIME_LOADING` without guessing a subphase.
-- The production-preview Chrome receipt verifies IO WASM 404, wrong MIME,
-  corrupt bytes, and missing exports, plus a Domains WASM 404 and an
-  incompatible Methods ABI. These are synthetic loader checks, not scientific
-  qualification. Formats failures, Methods fetch/compile subphases, asset
-  digests/integrity checks, Firefox, publication, and broader recovery remain
-  pending. The Methods public API does not expose internal loader subphases.
+- The expanded production-preview Chromium receipt verifies worker-entry
+  404/HTML/top-level throw, a rejection after READY, dynamic operation-import
+  404/HTML, IO WASM 404/wrong MIME/corrupt bytes/missing exports/digest
+  mismatch, Formats and Domains WASM 404, and a Methods initialization
+  failure. These synthetic loader checks do not qualify scientific results.
+  The Methods case does not prove rejection of a valid ABI 2.x module with a
+  version mismatch; the public loader also hides fetch/compile subphases.
+  Firefox, hotfix publication, a clean-PR asset identity check, broader
+  recovery, and additional Formats/Methods fault classes remain pending.

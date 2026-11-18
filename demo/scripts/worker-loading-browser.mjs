@@ -28,7 +28,7 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
  const infoResponse=await page.request.get(new URL('build-info.json',url).href);
  evidence.build_info={status:infoResponse.status(),content_type:infoResponse.headers()['content-type']?.split(';')[0]??null};
  assert.equal(infoResponse.status(),200,'The generated build identity asset must be served by the production preview');
- assert.match(evidence.build_info.content_type??'','application/json');
+ assert.equal(evidence.build_info.content_type,'application/json');
  const info=await infoResponse.json();evidence.build_info={...evidence.build_info,version:typeof info.version==='string'?info.version:null,commit:typeof info.commit==='string'?info.commit:null,dirty:typeof info.dirty==='boolean'?info.dirty:null};
  assert(evidence.build_info.version&&(/^[a-f0-9]{40}$/.test(evidence.build_info.commit??'')||evidence.build_info.commit===null));
  const assetsDir=resolve(dirname(fileURLToPath(import.meta.url)),'../dist/assets'),assets=await readdir(assetsDir);
@@ -37,7 +37,7 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
  }
  const appOrigin=new URL(url).origin;let activeAudit=null;
  const safeAssetPath=raw=>{try{const u=new URL(raw);return u.origin===appOrigin&&u.pathname.startsWith('/nirs4all-domains/assets/')?u.pathname:undefined;}catch{return undefined;}};
- const errorClass=text=>/\b404\b/i.test(text)?'http_404':/wasm|webassembly/i.test(text)?'wasm_error':/module|chunk|script/i.test(text)?'module_error':'browser_error';
+ const errorClass=text=>text.includes('controlled synthetic worker top-level throw')?'injected_top_level_throw':/\b404\b/i.test(text)?'http_404':/wasm|webassembly/i.test(text)?'wasm_error':/module|chunk|script/i.test(text)?'module_error':/Failed to load resource|ERR_FAILED|ERR_ABORTED/i.test(text)?'resource_load_error':'unexpected_error';
  const auditSnapshot=a=>({requests:a.requests.length,off_origin_requests:a.offOrigin,non_get_requests:a.nonGet,console_errors:a.consoleErrors,page_errors:a.pageErrors,asset_responses:a.assets});
  const startAudit=id=>{activeAudit={id,requests:[],offOrigin:0,nonGet:0,consoleErrors:[],pageErrors:[],assets:[],injectedPaths:[]};return activeAudit;};
  const finishAudit=(a,fault=false)=>{
@@ -47,6 +47,8 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
    const injectedPaths=[...new Set(a.injectedPaths)],injectedNames=injectedPaths.map(path=>path.split('/').at(-1));
    assert(injectedPaths.length,`${a.id} fault evidence must identify the same-origin injected asset`);
    for(const error of [...a.consoleErrors,...a.pageErrors]){
+    assert.notEqual(error.category,'unexpected_error',`${a.id} has an unrelated browser error`);
+    if(error.category==='injected_top_level_throw')assert.equal(a.id,'worker-script-top-level-throw');
     if(error.asset_path&&injectedPaths.includes(error.asset_path)){error.association='reported_asset_url';error.associated_asset_path=error.asset_path;continue;}
     if(!error.asset_path&&(a.workerErrorAssets??[]).some(name=>injectedNames.includes(name))){error.association='worker_error_filename';error.associated_asset_path=injectedPaths[injectedNames.indexOf(a.workerErrorAssets.find(name=>injectedNames.includes(name)))];continue;}
     assert.equal(injectedPaths.length,1,`${a.id} can attribute pathless browser errors only to one isolated injected asset`);
