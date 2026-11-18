@@ -9,17 +9,17 @@ The operation fits public Methods `FlexiblePCA` on the complete declared train X
 | Local check | Recorded result | Evidence boundary |
 |---|---|---|
 | Workspace compile | `cargo check --workspace --all-targets --locked` passed | Local run; exact candidate SHA binding remains for delivery. |
-| Clippy | `cargo clippy --workspace --all-targets --all-features --locked -- -D warnings` passed before the final unrelated native lifetime fix; rerun on final head pending | Do not report final-head clippy as complete. |
+| Clippy | `cargo clippy --locked --offline --profile qualification --workspace --all-targets -- -D warnings` passed after the final native lifetime fix | Local staged-source check; hosted exact-SHA checks remain separate. |
 | Native provider transport | Seven spy/provider tests passed, checking train fit, train/test transform and monitor populations and refusals | `crates/nirs4all-domains/tests/browser_support.rs`; includes no-call refusal checks. |
 | Native actual-Methods regression | Ignored native regression passed: an unrelated summary error and invalid-width transform do not destroy the live FlexiblePCA handle before explicit destroy | `crates/nirs4all-domains/tests/browser_support_native.rs`. The fix is lifecycle/RAII handling; no numerical kernel changed. Failed logs/source are retained. |
 | Compiled native/WASM parity | 27 computational cases plus 7 pre-provider adversaries; 13,994 numeric comparisons at absolute and relative `1e-10` | See [F4.2 native/WASM parity record](F4_2_NATIVE_WASM_PARITY.md). Exact ordered inputs/roles/call scopes are compared. Serialized fit-state/evidence hashes are not required to match cross-platform. |
 | Published Methods adapter | Six direct actual-Methods adapter tests passed | `bindings/wasm/tests/support-provider.test.mjs`; not a replacement for compiled parity. |
 | Schemas | Nine targeted JSON Schema tests passed | `bindings/wasm/tests/support-schema.test.mjs`; includes runtime and separate documentary local-refusal shapes. |
-| Demo tests | Full frontend suite passed: 23 files / 172 tests; typecheck passed | Local run. The exact-final-SHA dist build and clippy were still running when this record was updated. |
+| Demo tests | Full frontend suite passed: 23 files / 172 tests; typecheck passed | Local run; complete hosted reruns are required. |
 | Chromium browser | Eight focused F4.2 support checks passed on actual built UI, compiled WASM and Methods; two axe target contexts reported zero violations | Ignored local `support-browser-second` receipts. No Firefox, cross-platform or hosted CI claim. |
 | Browser preservation/export | F4.0 and F4.1 evidence remained exact; French/English, HTML/Markdown/JSON exports omitted Y and predict sentinels; zero external requests, non-GET traffic or browser errors observed | Focused local Chromium run. The separate Methods export permission was unchanged. |
 | PDF inspection | Structural review passed: A4, 514 pages / 1,885,274 bytes; Letter, 551 pages / 1,920,674 bytes | Root visually inspected A4 page 106: graph, labels and limits legible and within page. This is a partial visual sample, not full-document certification; no accessibility certification claimed. |
-| WASM distribution build | Remapped WASM build passed with no absolute owner paths | Final distribution build remained in progress when recorded. |
+| WASM distribution build | Remapped WASM and frontend distribution builds passed with no absolute owner paths | Distribution check: 16,074,962 bytes, 79 files, four WASM assets. Binding suite: 34 passed, one existing parity test intentionally skipped locally; compiled parity is checked separately. |
 
 ## Deterministic scientific fixture map
 
@@ -62,13 +62,15 @@ cd demo && npm run test:browser
 
 The native replay in `.github/workflows/demo-ci.yml` produces the matching input-bound native JSON before running the parity comparator. Do not rerun scientific fits on real data to generate qualification artifacts. The exact staged commands/artifacts from hosted workflows must be read back before release claims.
 
-## Pending closure
+## Hosted closure
+
+The exact delivered SHA, hosted run URLs and authenticated artifact review are maintained in [PR #14](https://github.com/dcornet/nirs4all-domains/pull/14). The checklist below records the pre-publication boundary; a later successful run must be evidenced there, rather than inferred from this checklist or workflow configuration. Public Pages serves main and does not deploy this unmerged PR.
 
 - [x] Final local staged-source build, distribution and clippy passed: `npm run build --prefix demo`; `python scripts/check_demo_distribution.py` (16,074,962 bytes, 79 files, four WASM assets); `cargo clippy --locked --offline --profile qualification --workspace --all-targets -- -D warnings`; final `cargo fmt --all -- --check`. Exact-SHA hosted gates remain pending below.
 - [ ] Rerun final-head fmt, workspace tests, ignored native gates, bridge and report gates after the last native fix.
 - [ ] Complete hosted Windows and Ubuntu CI, including actual native/WASM parity and Chromium/Firefox browser jobs.
 - [x] Structurally inspect A4 and Letter PDFs; record counts and bytes above. Partial A4 visual review covered page 106 only. Full visual review and accessibility certification remain unclaimed.
-- [ ] Bind all checks and resource state to exact final SHA. Current local storage: 22,028,279,539 bytes total, 3,364,952,562 bytes used from the 4,000,000,000-byte increase, 635,047,438 bytes remaining. Scientific journal SHA `237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`; scientific reservation 2,015,788,498 bytes unchanged.
+- [ ] Bind all checks and resource state to exact final SHA. Current local storage: 22,028,279,539 bytes total, 3,364,952,562 bytes charged against the 4,000,000,000-byte cumulative allowance, 635,047,438 bytes remaining. The original 18,663,326,977-byte baseline and previously charged usage were preserved. Scientific journal SHA `237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`; scientific reservation 2,015,788,498 bytes unchanged.
 - [ ] Record exact final commit, hosted run URLs, artifacts, review findings and any failures. CI configuration alone is not execution evidence.
 
 Scientific interpretation remains descriptive. FlexiblePCA's public fitted state exposes no eigenvalues or numerical rank resolution. Monitor limits remain unknown/not qualified without supported external evidence of independent units. Projection does not reuse F4.1 PCA, predict query data, establish physical/reference independence, support predictive utility, or establish real-study performance. The advanced external plan is API-only; the GUI remains descriptive.
