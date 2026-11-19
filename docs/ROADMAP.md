@@ -1,5 +1,34 @@
 # Domains product roadmap
 
+## Current delivery and next decisions — 2026-11-19
+
+This section supersedes older *status and next-priority* statements below; it
+does not supersede the frozen scientific protocols or historical evidence.
+
+- D1–D6.1 reporting and interpretation are integrated ([PR #5](https://github.com/dcornet/nirs4all-domains/pull/5)). D5 remains 18/20 in controlled scenarios; independent expert/user utility is not established.
+- F4.0–F4.2 provide scoped import, descriptive structure, factor association and train-fitted support. Worker loading and optional-settings one-shot import are integrated ([#15](https://github.com/dcornet/nirs4all-domains/pull/15), [#17](https://github.com/dcornet/nirs4all-domains/pull/17)). Import integrity does not establish physical or reference independence.
+- [#18](https://github.com/dcornet/nirs4all-domains/pull/18) aligns dependency declarations with the [ecosystem version contract](https://github.com/GBeurier/nirs4all-ecosystem/blob/main/docs/contracts/release/VERSION_CONSTRAINTS.md). The locked and scientifically qualified cohort remains unchanged. At main `f7b88270b3168335159aa85fedb7353bf6d25f74`, scientific gates, report contracts and Pages succeeded; Ubuntu browser qualification succeeded and Windows was still running when inspected. Pages deployment is not a live browser smoke test.
+- [F4.3 / #16](https://github.com/dcornet/nirs4all-domains/pull/16) remains a partial draft. Native/WASM factor-statistic parity and bounded complete PDF rendering are open blockers; the original tolerance, weak-axis cases, opaque-hash failures and scientific evidence must be retained.
+
+| Order | Work | Acceptance / boundary |
+|---|---|---|
+| 1 | Complete one-shot import qualification on main | Exact-head Windows/Ubuntu browser receipts, deployed smoke, explicit import refusal/identity states |
+| 2 | Integrate F4.3 with main and investigate portability | Same-input Methods isolation of preprocessing/PCA/statistics, frozen comparisons and original adversaries; no new solver, tolerance relaxation or silent weak-axis deletion |
+| 3 | Bound reporting and import resources | Complete mandatory scientific evidence with safe PDF admission; measure memory and storage, preserve failures and reserves; revisit import limits only with bounded stress fixtures |
+| 4 | Consolidate generic structure and validation interpretation | Keep continuous geometry, density partition/persistence, neighborhood sensitivity, metadata correspondence and source/split support distinct; unknown independence remains unknown; no automatic preprocessing ranking or leakage probability |
+| 5 | Independent review of conditional guidance | D5/D6.1 decision utility and adverse cases; requalify any changed rule prospectively |
+| Separate | New provider cohort | Explicit owner/version/ABI/binding/artifact qualification, not implied by manifest ranges |
+| Separate | Scientific Research program | Original-study-level replication and real-target baseline/stress comparisons, independently enrolled before outcomes; no productized generic predictive-risk score without qualified evidence |
+
+Datasets owns the current catalog/content/cache; IO/Formats own import;
+Preflight owns intrinsic qualification; Methods owns reusable numerical kernels;
+DAG/model APIs own fitting and validation execution. Domains owns generic scoped
+interpretation and reproducible evidence. AOM descriptors may inform a fixed
+representation panel, not import a parallel numerical runtime or target-selected
+ranking. X-only descriptions remain useful even when predictive relationships
+are unvalidated. No work on retained test Y, new scientific fit, upstream edit,
+budget increase, or new protocol is authorized by this documentation update.
+
 The additive [browser consumer](WASM_DEMO_GUIDE.md) is the current D4 integration
 delivery: real owner-backed X diagnostics, explicit saved-companion reading and
 local offline reports. Its [capability matrix](WASM_CAPABILITIES.md) separates
@@ -29,7 +58,7 @@ confirmation. Status comes from [campaign evidence](campaign/status.json).
 | D4 — Usable integration | Stable reports/APIs and Datasets, Preflight, Methods, DAG/model interoperability | Existing schema compatibility, reproducible artifacts and actual tests/CI | Validate a pointer-based research import against current schemas; do not rebuild a framework |
 | D5 — Evidence-supported guidance | Calibrated diagnostic interpretation and purpose-specific recommendations | Controlled tests, benefits/failures, stable providers and explicit scientific limits | Qualify one limited guidance rule for an explicit intended use; no universal risk score |
 
-Current baseline: 164 entries / 171 views, 137 complete raw/SNV profiles, 43
+Historical campaign baseline: 164 entries / 171 views, 137 complete raw/SNV profiles, 43
 source-permitted public profiles and 682 complete primary quantitative reference
 tasks. These counts describe coverage and compatible research evidence, not
 independent databases or validated product guidance. The first optional
@@ -73,10 +102,9 @@ ID matching from unequal/unknown populations, rejects target/unit mismatches,
 retains separate null/skill definitions, and explains relative deterioration
 against the reference baseline. The [tablet example](examples/comparison/README.md)
 retains historical bytes and unknown physical dependencies. No real fit or
-inferential test is added. D1 integration remains in owner-controlled
-[PR #1](https://github.com/dcornet/nirs4all-domains/pull/1); it is not merged to main.
+inferential test is added. D1 was originally tracked in [PR #1](https://github.com/dcornet/nirs4all-domains/pull/1); D1–D6.1 is now integrated (see current delivery section).
 
-Next product priority is **D4**: integrate the optional D1–D3 companions with
+At that historical stage, the next product priority was **D4**: integrate the optional D1–D3 companions with
 one concrete existing report consumer, preserving source/pointer validation and
 unknown evidence. Remaining D1 families and broader D3 metrics require separate
 qualification; no bank campaign or universal model/validation selector follows.
@@ -87,8 +115,7 @@ The next bounded D1 increment, [conditional structural warnings v1](STRUCTURAL_W
 adds five interpretation families over saved evidence. Source-scoped observations
 motivate deployment-dependent checks; no failure probability, preferred splitter
 or preprocessing winner is inferred. Five qualified public factor examples and
-synthetic/adversarial tests preserve contrary cases. D4 remains the next product
-priority: validate these companions with one concrete report consumer.
+synthetic/adversarial tests preserve contrary cases. At that historical stage, D4 was the next product priority: validate these companions with one concrete report consumer.
 
 [R1–R5](STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md) covers mechanisms,
 multi-scale correspondence, deployment-dependent degradation, remedies and
