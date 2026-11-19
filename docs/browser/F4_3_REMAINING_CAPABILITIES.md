@@ -1,7 +1,7 @@
 # F4.3 remaining capabilities
 
 The [approved 2026-11-19 continuation](F4_3_CONTINUATION_REPORT.md) integrates
-current main and isolates the weak-axis discrepancy on identical IEEE inputs:
+current main and isolates the local Windows weak-axis discrepancy on identical IEEE inputs:
 SNV outputs agree, and the public PCA path alone reproduces the factor changes;
 320 same-score statistical requests meet the original tolerance. The active
 parity/hash gates remain unchanged and failed. Print containment experiments

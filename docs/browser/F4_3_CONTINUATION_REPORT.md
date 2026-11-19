@@ -20,7 +20,7 @@ The separate documentation PR #19 corrects the completed Windows/Ubuntu browser
 CI on main and the obsolete README claim that Research is a future repository.
 It remains a separate unmerged documentation proposal.
 
-## Same-input numerical attribution
+## Same-input numerical attribution: local Windows execution
 
 The [79,399-byte frozen synthetic fixture](../../bindings/wasm/tests/preprocessing-isolation-fixture.json)
 retains the exact low-frequency and baseline reference-only requests from the
@@ -56,10 +56,25 @@ The original full strict comparison was rerun on the original bound artifacts an
 still exits 1. The existing five parity adversaries still pass.
 
 This isolates the public PCA path as sufficient to explain the demonstrated
-PC5 association discrepancy. It does not establish the internal solver cause,
+Windows PC5 association discrepancy. It does not establish the internal solver cause,
 eigenpair residual or a general numerical error bound: residual/conditioning
 evidence is unavailable from this pinned public API. Numerical correction belongs
 in Methods. No upstream repository was modified.
+
+At implementation commit `1cf58b7dbb508d34fc0b0764b8a6c06f4f56b55d`,
+[actual Windows/Ubuntu CI](https://github.com/dcornet/nirs4all-domains/actions/runs/44527798393)
+completed the new diagnostic before the unchanged failed parity gate:
+
+| CI platform | Same-score statistic pairs / failures | Resolved factor mismatches in the two fixed controls | Differing scalar fields in the original full 35-case diagnostic |
+|---|---|---:|---:|
+| Windows | 320 / 0 | 2 | 144 (27 cases) |
+| Ubuntu | 320 / 0 | 0 | 189 (28 cases) |
+
+The small controls therefore isolate the Windows case; they do not reproduce
+every Ubuntu discrepancy or qualify generic portability. Full-diagnostic field
+counts include repeated owner outputs and are not independent effects or studies.
+These are dated, exact-head observations; final delivery CI is recorded separately
+in the coordination handoff.
 
 ## Explicit hash disposition
 
