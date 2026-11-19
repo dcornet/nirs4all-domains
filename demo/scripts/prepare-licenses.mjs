@@ -14,8 +14,9 @@ let outputBytes = 0;
 const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const normalized = path => path.split(sep).join('/');
 
-async function copyAllowed(source, destination, origin) {
-  const bytes = await readFile(source);
+async function copyAllowed(source, destination, origin, normalizeLf = false) {
+  const original = await readFile(source);
+  const bytes = normalizeLf ? Buffer.from(original.toString('utf8').replace(/\r\n/g, '\n')) : original;
   if (bytes.byteLength > maxFileBytes) throw new Error(`License file exceeds size cap: ${source}`);
   outputBytes += bytes.byteLength;
   if (outputBytes > maxOutputBytes) throw new Error('Prepared license bundle exceeds 2 MiB cap');
@@ -110,7 +111,9 @@ await copyAllowed(join(demo, 'src/report/assets/OFL.txt'), join(publicRoot, 'not
 // The published fontkit fork declares MIT but ships no standalone license file.
 // Preserve its actual README/attribution rather than inventing a copyright owner.
 await copyAllowed(join(demo, 'node_modules/@pdf-lib/fontkit/README.md'), join(publicRoot, 'packages/@pdf-lib/fontkit/1.1.1/README.md'), 'Published @pdf-lib/fontkit 1.1.1 README and MIT declaration');
-await copyAllowed(join(bindingDir, 'aom-bank.json'), join(publicRoot, 'aom-descriptors', 'catalog.json'), 'Versioned declarative AOM/Methods descriptor catalog; no numerical runtime');
+// This repository-owned JSON is LF in Git; a historical Windows checkout may
+// still contain CRLF. Hash the distributed LF bytes, preserving upstream notices.
+await copyAllowed(join(bindingDir, 'aom-bank.json'), join(publicRoot, 'aom-descriptors', 'catalog.json'), 'Versioned declarative AOM/Methods descriptor catalog; no numerical runtime', true);
 const methodsSourceRoot = join(publicRoot, 'methods', methodsCommit);
 const methodsSourceFiles = [
   'NOTICE.md', 'THIRD_PARTY_NOTICES.md', 'THIRD_PARTY_LICENSES.md',

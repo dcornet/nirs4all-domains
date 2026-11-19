@@ -383,8 +383,8 @@
   "prepared_files": [
     {
       "path": "aom-descriptors/catalog.json",
-      "sha256": "8e68ea9871cca552fa7a373dbdf09ac4913a7c91c883066f0afebded980dc78d",
-      "bytes": 10986,
+      "sha256": "106b6a2296770b2e27e87ff556f298bfab01add0f06f9fcfa813782ad5a4a67d",
+      "bytes": 10515,
       "origin": "Versioned declarative AOM/Methods descriptor catalog; no numerical runtime"
     },
     {
@@ -658,5 +658,5 @@
       "origin": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz/LICENSE.txt"
     }
   ],
-  "generated_file_bytes": 368993
+  "generated_file_bytes": 368522
 }
