@@ -5,8 +5,12 @@ Preflight 0.1.6 (DAG-ML core 0.3.44), native Methods 1.3.13 / ABI 2.20,
 DAG-ML 0.3.44, Datasets 0.3.11 and the optional FastAOM entry point nirs4all
 1.4.14. Following the ecosystem cross-repository version contract, manifests
 declare minor ranges (Cargo `nirs4all-preflight = "0.1"`; Python
-`nirs4all-methods>=1.3,<2`, `dag-ml>=0.3,<0.4`, `nirs4all-datasets>=0.3,<0.4`;
-npm `^` minor ranges). Exact versions live in `Cargo.lock`, the npm lockfiles
+`nirs4all-methods>=1.3.13,<1.4`, `dag-ml>=0.3,<0.4`, `nirs4all-datasets>=0.3,<0.4`;
+npm `~1.3.13` for Methods, `^0.2.14` for IO/Formats and `^0.2.0` for UI).
+The Methods floor retains the required 1.3.13 provider; the IO/Formats floors
+retain the first versions admitted by the current browser-loader artifact locks.
+These ranges do not extend scientific or loader qualification. Exact versions
+live in `Cargo.lock`, the npm lockfiles
 and `ci/python-constraints.txt`. `providers.py` and the native transports still
 hold the qualified versions for new fits and refuse other providers. Older
 version statements below are historical. See
