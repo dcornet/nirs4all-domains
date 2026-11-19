@@ -350,6 +350,9 @@ try {
   await qualifyLongSelection(browser,url,saved.scientific_report,output,exported,screenshot,check,wire);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
+    // Chromium qualification is complete. Release its retained documents before
+    // the independent Firefox run instead of accumulating both engine trees.
+    await browser.close();
     const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);
     receipt.browsers.push({ name: 'firefox', version: second.version() });
     const secondContext = await second.newContext(); wire(secondContext, 'firefox'); const secondPage = await secondContext.newPage();

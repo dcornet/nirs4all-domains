@@ -14,6 +14,7 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
+import { downloadPortable } from './report/portable';
 import {supportRequest,recordSupportReply,type SupportParameters,type SupportRun} from './engine/support';
 import {preprocessingRequest,sensitivityFactors,sensitivitySignature,type SensitivityHistory,type SensitivityRun} from './engine/preprocessing';
 import {appendSensitivity} from './report/preprocessing';
@@ -325,9 +326,19 @@ function Controller() {
       } catch (error) { failed(token, error); }
     },
     onDeclaration(key, value) { setState(s => ({ ...s, declarations: { ...s.declarations!, [key]: value } })); },
-    onExport(format, locale, reading='complete',selection) {
+    async onExport(format, locale, reading='complete',selection) {
       if (!state.result || !scientific.current) return;
-      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection,colorGrant.current), format);
+      if(format==='html'||format==='markdown'||format==='json'){
+        downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection,colorGrant.current), format);
+        return;
+      }
+      const token=epoch.current;
+      setState(s=>({...s,phase:'running',processingStage:'report',progress:locale==='fr'?'Préparation du rapport et des fichiers associés':'Preparing report and companion files'}));
+      try{
+        const model=reportModel(state.result,scientific.current,state.intent,locale,state.declarations,reading,selection,colorGrant.current,true);
+        await downloadPortable(model,format,()=>token===epoch.current);
+        if(token===epoch.current)setState(s=>({...s,phase:'idle',progress:''}));
+      }catch(error){if(token===epoch.current)failed(token,error);}
     },
   };
   return <App state={state} callbacks={callbacks} />;

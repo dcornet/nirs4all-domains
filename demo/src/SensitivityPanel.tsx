@@ -2,9 +2,25 @@ import {useMemo,useState} from 'react';
 import type {SensitivityResult} from '@nirs4all/domains';
 import type {Locale} from './ui-types';
 import {initialSensitivityPlan,representationChoices,sensitivityBank,parseSensitivityPlan,sensitivitySignature,effectiveSensitivityPlan,type SensitivityRun,type SensitivityHistory} from './engine/preprocessing';
-import {sensitivityTitle,sensitivityLimit,sensitivityTables,sensitivityFigures} from './report/preprocessing';
+import {sensitivityTitle,sensitivityLimit,sensitivityAvailability,sensitivityTables,sensitivityFigures} from './report/preprocessing';
 import {figureHtml,tableHtml} from './report/render';
 export interface SensitivityControls {factors:{id:string;label:string}[];hasTest:boolean;frozen:{result:SensitivityResult;signature:string}|null}
+function ResultCard({r,index,locale}:{r:SensitivityHistory;index:number;locale:Locale}){
+ const fr=locale==='fr',[open,setOpen]=useState(false),[objectOpen,setObjectOpen]=useState(false),[tableIndex,setTable]=useState(0),[page,setPage]=useState(0);
+ const tables=useMemo(()=>open?sensitivityTables(r,locale).slice(1):[],[r,locale,open]);
+ const figureHtmlText=useMemo(()=>sensitivityFigures(r,`preprocessing-sensitivity-${index+1}`,locale).map(f=>figureHtml(f,locale)).join(''),[r,index,locale]);
+ const table=tables[tableIndex],pageSize=200;
+ return <article className="panel"><h3>{fr?'Analyse':'Analysis'} {index+1} / {r.stage} / {r.status}</h3>{r.reason&&<p role="status">{r.reason}</p>}
+  <div dangerouslySetInnerHTML={{__html:tableHtml(sensitivityAvailability(r,locale),locale,{structured:true})}}/><div className="geometry-grid" dangerouslySetInnerHTML={{__html:figureHtmlText}}/>
+  <details className="sensitivity-advanced" onToggle={e=>setOpen(e.currentTarget.open)}><summary>{fr?'Tableaux scientifiques complets : constats, comparaisons et provenance':'Complete scientific tables: findings, comparisons and provenance'}</summary>
+   {open&&table?<><label>{fr?'Tableau scientifique':'Scientific table'}<select value={tableIndex} onChange={e=>{setTable(Number(e.target.value));setPage(0);}}>{tables.map((t,i)=><option key={t.id} value={i}>{t.title}</option>)}</select></label>
+    <p>{fr?'Lignes':'Rows'} {table.rows.length?Math.min(page*pageSize+1,table.rows.length):0}–{Math.min((page+1)*pageSize,table.rows.length)} / {table.rows.length}. {fr?'Toutes les valeurs autorisées restent dans le CSV et le JSON.':'All permitted values remain in CSV and JSON.'}</p>
+    <button type="button" disabled={page===0} onClick={()=>setPage(p=>p-1)}>{fr?'Page précédente':'Previous page'}</button><button type="button" disabled={(page+1)*pageSize>=table.rows.length} onClick={()=>setPage(p=>p+1)}>{fr?'Page suivante':'Next page'}</button>
+    <div dangerouslySetInnerHTML={{__html:tableHtml({...table,rows:table.rows.slice(page*pageSize,(page+1)*pageSize)},locale,{structured:true})}}/>
+   </>:<p>{fr?'Les tableaux sont chargés à l’ouverture.':'Tables load when opened.'}</p>}
+  </details><details onToggle={e=>setObjectOpen(e.currentTarget.open)}><summary>{fr?'Objet scientifique complet':'Complete scientific object'}</summary>{objectOpen&&<pre>{JSON.stringify(r,null,2)}</pre>}</details>
+ </article>;
+}
 export function SensitivityPanel({results,controls,locale,busy,onRun}:{results:SensitivityHistory[];controls:SensitivityControls;locale:Locale;busy:boolean;onRun:(run:SensitivityRun)=>void}){
  const fr=locale==='fr', [text,setText]=useState(()=>JSON.stringify(initialSensitivityPlan(),null,2)),[factorIds,setFactors]=useState<string[]>([]),[reuse,setReuse]=useState(true);
  const parsed=useMemo(()=>{try{return {plan:parseSensitivityPlan(text),error:null};}catch(e){return {plan:null,error:e instanceof Error?e.message:String(e)};}},[text]);
@@ -26,6 +42,6 @@ export function SensitivityPanel({results,controls,locale,busy,onRun}:{results:S
  {plan?.kind==='exploratory_revision'&&<p role="status">{fr?'R\u00e9vision exploratoire ; plan parent':'Exploratory revision; parent plan'}: {plan.parent_plan_sha256}</p>}
  <div className="export-actions"><button className="button primary" disabled={!plan} onClick={()=>run('reference_only')}>{fr?'Calculer le panel sur la r\u00e9f\u00e9rence uniquement':'Compute panel on reference only'}</button><button className="button secondary" disabled={!canAudit} onClick={()=>run('test_audit')}>{fr?'Figer le plan et auditer test':'Freeze plan and audit test'}</button></div>
  {!canAudit&&controls.hasTest&&<p>{fr?'L\u2019audit exige un r\u00e9sultat de r\u00e9f\u00e9rence avec les m\u00eames param\u00e8tres et facteurs.':'Audit requires a reference result with identical parameters and factors.'}</p>}</fieldset>
- {results.map((r,i)=>{const [availability,...advanced]=sensitivityTables(r,locale);return <article key={i} className="panel"><h3>{fr?'Analyse':'Analysis'} {i+1} / {r.stage} / {r.status}</h3>{r.reason&&<p role="status">{r.reason}</p>}<div dangerouslySetInnerHTML={{__html:tableHtml(availability,locale,{structured:true})}}/><div className="geometry-grid" dangerouslySetInnerHTML={{__html:sensitivityFigures(r,`preprocessing-sensitivity-${i+1}`,locale).map(f=>figureHtml(f,locale)).join('')}}/><details className="sensitivity-advanced"><summary>{fr?'Tableaux scientifiques complets : constats, comparaisons et provenance':'Complete scientific tables: findings, comparisons and provenance'}</summary><div dangerouslySetInnerHTML={{__html:advanced.map(t=>tableHtml(t,locale,{structured:true})).join('')}}/></details><details><summary>{fr?'Objet scientifique complet':'Complete scientific object'}</summary><pre>{JSON.stringify(r,null,2)}</pre></details></article>;})}
+ {results.map((r,i)=><ResultCard key={i} r={r} index={i} locale={locale}/>)}
  </section>;
 }

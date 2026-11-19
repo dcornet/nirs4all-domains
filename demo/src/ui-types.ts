@@ -76,7 +76,7 @@ export interface UiCallbacks {
   onColorFactor?(field:string):void;
   onImport(files: File[]): void; onExample(id: string): void; onCancel(): void;
   onReset(): void; onIntent(intent: PredictionIntent): void;
-  onExport(format: 'html' | 'markdown' | 'json', locale: Locale, reading?: ReadingMode, selection?:ExportSelection): void;
+  onExport(format: 'html' | 'markdown' | 'json' | import('./report/portable').PortableFormat, locale: Locale, reading?: ReadingMode, selection?:ExportSelection): void;
   onDeclaration?(key: keyof UiDeclarations, value: string): void;
 }
 export interface AppProps { state: UiState; callbacks: UiCallbacks; }

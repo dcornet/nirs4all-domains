@@ -41,6 +41,33 @@
       "localPath": null
     },
     {
+      "name": "@pdf-lib/fontkit",
+      "version": "1.1.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/fontkit/-/fontkit-1.1.1.tgz",
+      "integrity": "sha512-KjMd7grNapIWS/Dm0gvfHEilSyAmeLvrEGVcqLGi0VYebuqqzTbgF29efCx7tvx+IEbG3zQciRSWl3GkUSvjZg==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz",
+      "integrity": "sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz",
+      "integrity": "sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
       "name": "ajv",
       "version": "8.20.0",
       "license": "MIT",
@@ -86,6 +113,24 @@
       "localPath": null
     },
     {
+      "name": "pako",
+      "version": "1.0.11",
+      "license": "(MIT AND Zlib)",
+      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz",
+      "integrity": "sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
       "name": "react",
       "version": "19.2.3",
       "license": "MIT",
@@ -120,6 +165,15 @@
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==",
       "lockfile": "demo/package-lock.json",
       "localPath": null
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "license": "0BSD",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+      "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
     }
   ],
   "installed_notice_packages": [
@@ -143,6 +197,27 @@
       "license": "CECILL-2.1",
       "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
       "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA=="
+    },
+    {
+      "name": "@pdf-lib/fontkit",
+      "version": "1.1.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/fontkit/-/fontkit-1.1.1.tgz",
+      "integrity": "sha512-KjMd7grNapIWS/Dm0gvfHEilSyAmeLvrEGVcqLGi0VYebuqqzTbgF29efCx7tvx+IEbG3zQciRSWl3GkUSvjZg=="
+    },
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz",
+      "integrity": "sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA=="
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz",
+      "integrity": "sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ=="
     },
     {
       "name": "ajv",
@@ -180,6 +255,20 @@
       "integrity": "sha512-FFzKJVgAnvE9kFBwFDj4yEI/DlRj5niBUK0xSR4Q0b3qfuYUIorFNXBOUEEvaQsCqnwSd7oa6M6ltn5bzivCmg=="
     },
     {
+      "name": "pako",
+      "version": "1.0.11",
+      "license": "(MIT AND Zlib)",
+      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw=="
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz",
+      "integrity": "sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw=="
+    },
+    {
       "name": "react",
       "version": "19.2.3",
       "license": "MIT",
@@ -206,6 +295,13 @@
       "license": "MIT",
       "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz",
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "license": "0BSD",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+      "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
     }
   ],
   "aom_descriptor_source": {
@@ -310,6 +406,12 @@
       "origin": "repository LICENSES/CeCILL-2.1.txt"
     },
     {
+      "path": "noto-sans/OFL.txt",
+      "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb",
+      "bytes": 4377,
+      "origin": "Noto Sans; notofonts/noto-fonts ffebf8c1ee449e544955a7e813c54f9b73848eac"
+    },
+    {
       "path": "packages/@nirs4all/formats-wasm/0.2.14/THIRD_PARTY_NOTICES.md",
       "sha256": "39e06e5ca05c5bc5bab725d15f2eb28bfde7c33d79906c9f38534b7bb731a34a",
       "bytes": 2630,
@@ -392,6 +494,24 @@
       "sha256": "c2f5c9061e7bc5a259a2d630330930ce9438f157e9646724824730ce516a5179",
       "bytes": 5732,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "path": "packages/@pdf-lib/fontkit/1.1.1/README.md",
+      "sha256": "7315fcc54511f5ffc906969c39333f93cd47f5217ab014fe45acff14bd5ec4c0",
+      "bytes": 16875,
+      "origin": "Published @pdf-lib/fontkit 1.1.1 README and MIT declaration"
+    },
+    {
+      "path": "packages/@pdf-lib/standard-fonts/1.0.0/LICENSE.md",
+      "sha256": "45cc2bb9957ed43f5c7f5eb1912f9f670730394d614079510477cae626194649",
+      "bytes": 1070,
+      "origin": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz/LICENSE.md"
+    },
+    {
+      "path": "packages/@pdf-lib/upng/1.0.1/LICENSE",
+      "sha256": "c1fb8861eca211bf5aea574358aba7039396c0c1824c2a1477cc126d398efd89",
+      "bytes": 1065,
+      "origin": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz/LICENSE"
     },
     {
       "path": "packages/ajv/8.20.0/LICENSE",
@@ -496,6 +616,18 @@
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.5.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
+      "path": "packages/pako/1.0.11/LICENSE",
+      "sha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "bytes": 1104,
+      "origin": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz/LICENSE"
+    },
+    {
+      "path": "packages/pdf-lib/1.17.1/LICENSE.md",
+      "sha256": "f2c9fc00fdb66eb99ac156ba52d734af66d8d309f65753ae809ad34ee2883bcb",
+      "bytes": 1070,
+      "origin": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz/LICENSE.md"
+    },
+    {
       "path": "packages/react-dom/19.2.3/LICENSE",
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
@@ -518,7 +650,13 @@
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
       "origin": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz/LICENSE"
+    },
+    {
+      "path": "packages/tslib/1.14.1/LICENSE.txt",
+      "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751",
+      "bytes": 655,
+      "origin": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz/LICENSE.txt"
     }
   ],
-  "generated_file_bytes": 342777
+  "generated_file_bytes": 368993
 }

@@ -1,5 +1,13 @@
 # F4.3 remaining capabilities
 
+The approved successor F43-FINALIZATION-2 adds the
+[portable reporting and verification v2 contract](F4_3_FINALIZATION_CONTRACT_V2.md).
+Its independent work preserves scientific v1 and the pinned cohort, replaces the
+exhaustive print objective with a compact PDF and complete CSV/JSON companions,
+and keeps numerical qualification mandatory in its own job. The external Methods
+PCA correction and corrected-provider admission remain subsequent work. Original
+continuation and exhaustive-print findings below retain their historical scope.
+
 The [approved 2026-11-19 continuation](F4_3_CONTINUATION_REPORT.md) integrates
 current main and isolates the local Windows weak-axis discrepancy on identical IEEE inputs:
 SNV outputs agree, and the public PCA path alone reproduces the factor changes;

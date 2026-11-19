@@ -1,5 +1,18 @@
 # Domains product roadmap
 
+## F4.3 independent finalization
+
+The owner-approved successor F43-FINALIZATION-2 delivers practical portable
+PDF/CSV/JSON reporting, a versioned distinction between backend integrity and
+numeric parity, and independent functional qualification. See the
+[contract](browser/F4_3_FINALIZATION_CONTRACT_V2.md) and
+[user guide](browser/F4_3_PORTABLE_REPORT_USER_GUIDE.md). Exact execution/CI
+receipts are published through the private shared workspace. The original
+scientific v1 panel, tolerances and Methods 1.3.13 / ABI 2.20 stay unchanged.
+Overall F4.3 remains unqualified pending the owner-delegated upstream PCA
+correction and separate matching-provider admission. No merge or deployment is
+implied. The separate historical roadmap reconciliation PR #19 remains separate.
+
 The additive [browser consumer](WASM_DEMO_GUIDE.md) is the current D4 integration
 delivery: real owner-backed X diagnostics, explicit saved-companion reading and
 local offline reports. Its [capability matrix](WASM_CAPABILITIES.md) separates

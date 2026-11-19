@@ -1,6 +1,6 @@
 /** Actual built-app F4.3 browser qualification. No numeric provider stubs or replacement values. */
 import assert from 'node:assert/strict';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fixture,loadReviewed} from './scoped-browser.mjs';
 import {auditAccessibility} from './ux-browser.mjs';
@@ -134,6 +134,14 @@ export async function qualifyPreprocessingBrowser({page,context,url,output,check
  assert.equal(stable({scoped:current.scientific_report.scoped_operations,factors:current.scientific_report.factor_associations,support:current.scientific_report.train_fitted_support}),stable(preserved),'F4.0/F4.1/F4.2 history must remain byte-identical');
  const advancedTables=panel.locator('details.sensitivity-advanced');assert.equal(await advancedTables.count(),2);for(const detail of await advancedTables.all())assert.equal(await detail.getAttribute('open'),null,'Complete live tables start collapsed; availability and figures remain visible');
  captures.live_layout=await page.evaluate(()=>({nodes:document.getElementsByTagName('*').length,scroll_height:document.documentElement.scrollHeight}));
+ const firstAdvanced=advancedTables.first();await firstAdvanced.locator('summary').click();
+ const tableSelector=firstAdvanced.getByRole('combobox',{name:'Scientific table',exact:true});await tableSelector.waitFor();
+ assert((await tableSelector.locator('option').count())>5);await tableSelector.selectOption({label:'raw / recorded structure'});
+ assert((await firstAdvanced.locator('tbody tr').count())<=200);const nextPage=firstAdvanced.getByRole('button',{name:'Next page',exact:true});
+ if(await nextPage.isEnabled()){const firstCells=await firstAdvanced.locator('tbody').innerText();await nextPage.click();assert.notEqual(await firstAdvanced.locator('tbody').innerText(),firstCells);}
+ await firstAdvanced.locator('summary').click();await tableSelector.waitFor({state:'detached'});
+ check('F4.3 scientific detail loads on demand, pages every carried table and releases closed table DOM');
+
  assert.equal(await page.locator('#structure-evidence details.science-disclosure #evidence-preprocessing-sensitivity-1').count(),1,'Original generic evidence block and anchor remain in the existing scientific disclosure');
  await screenshot(page,`${engine}-f4.3-controls-en`,false,'#preprocessing-sensitivity > fieldset');await screenshot(page,`${engine}-f4.3-projection-en`,false,'#preprocessing-sensitivity-1-raw-scores');captures.screenshots.push(`${engine}-f4.3-controls-en`,`${engine}-f4.3-projection-en`);await auditAccessibility(page,output,`${engine}-f4.3-preprocessing-en`,check);
  // One invalid SG parameter is a representation-local refusal, not a reason to hide valid siblings.
@@ -148,16 +156,24 @@ export async function qualifyPreprocessingBrowser({page,context,url,output,check
  const colorGrant=page.getByRole('checkbox',{name:/Authorize this factor.s observation-level colors in this report export/});if(await colorGrant.count())assert.equal(await colorGrant.isChecked(),false);
  for(const [extension,text] of [['html',html],['md',markdown],['json',JSON.stringify(report,null,2)+'\n']]){await writeFile(resolve(directory,`preprocessing-sensitivity.${extension}`),text);captures.exports[extension]={bytes:Buffer.byteLength(text),results:history(report).length,raw_sentinels:false,unauthorized_m_colors:false};}
  captures.exports.evidence_sha256=history(report).map(r=>r.evidence_sha256);check('F4.3 uncapped HTML/Markdown/JSON retain all six-family comparisons, unavailable entries, exact receipts and separate M-color permissions');
+ // Dedicated bounded PDF/CSV export; never print the historical full DOM.
+ const files=[['archive','Results archive','domains-results.zip'],['csv','Detailed CSV','results.csv'],['pdf_a4','PDF (A4)','report-a4.pdf'],['pdf_letter','PDF (Letter)','report-letter.pdf']];
+ captures.portable={protocol_version:'domains.portable_report.v2',files:[],legacy_html_bytes:Buffer.byteLength(html),new_provider_calls:0};
+ for(const [format,label,name] of files){
+  const waiting=page.waitForEvent('download',{timeout:120_000});
+  await page.getByRole('button',{name:label,exact:true}).click();
+  const download=await waiting;assert.equal(download.suggestedFilename(),name);await download.saveAs(resolve(directory,name));
+  const bytes=await readFile(resolve(directory,name));assert(bytes.length>0);assert(bytes.length<100_000_000,'Portable package admission');
+  captures.portable.files.push({format,file:name,bytes:bytes.length});
+  await page.getByRole('button',{name:label,exact:true}).waitFor({state:'visible'});
+  await page.waitForFunction(()=>!document.querySelector('#export button')?.disabled);
+ }
+ assert.equal(await page.evaluate(()=>window.__f43Audit.operations.length),workersBefore,'Exports must not invoke scientific providers');
+ captures.exports.print=['report-a4.pdf','report-letter.pdf'];
+ check('F4.3 dedicated A4/Letter PDFs, independent detailed CSV and portable results ZIP downloaded without provider execution');
  // Delay only request scheduling; actual kernels are never stubbed. Termination must preserve all prior histories.
  await page.evaluate(()=>{window.__f43Audit.delayNext=true;});const terminated=await page.evaluate(()=>window.__f43Audit.terminated);await page.getByRole('button',{name:'Compute panel on reference only',exact:true}).click();await page.waitForFunction(()=>window.__f43Audit.delayed);await page.getByRole('button',{name:'Cancel analysis',exact:true}).click();await page.waitForFunction(n=>window.__f43Audit.terminated>n,terminated);await page.waitForFunction(()=>window.__f43Audit.delayReleased);assert.deepEqual(history(await json(page)),history(report));check('F4.3 worker cancellation preserves earlier F4.3 and F4.0/F4.1/F4.2 results');
  await page.evaluate(()=>{window.__f43Audit.delayNext=true;window.__f43Audit.delayed=false;window.__f43Audit.delayReleased=false;});await page.getByRole('button',{name:'Compute panel on reference only',exact:true}).click();await page.waitForFunction(()=>window.__f43Audit.delayed);await page.getByRole('button',{name:/Home|Accueil/}).click();await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'});await page.waitForFunction(()=>window.__f43Audit.delayReleased);await loadReviewed(page,preprocessingFixture('F4.3 replacement identity').files);current=await json(page);assert.deepEqual(history(current),[]);assert.deepEqual(current.scientific_report.factor_associations,[]);assert.deepEqual(current.scientific_report.train_fitted_support,[]);assert.deepEqual(current.scientific_report.scoped_operations,[]);
  captures.reset={new_source_identity:true,histories_cleared:true,terminated_worker:true,stale_response_ignored:true};check('F4.3 reset while work is pending clears all dataset-bound histories and rejects the obsolete worker');
- // Engineering admission only: the observed 42 MB export exceeded 10 GB renderer RAM.
- // Preserve exact exports and fail qualification; never trim scientific content for printing.
- const printAdmissionBytes=8_000_000;
- if(engine==='chromium'&&Buffer.byteLength(html)>printAdmissionBytes){captures.exports.print={status:'unavailable',reason:'F43_PRINT_RESOURCE_QUALIFICATION_REQUIRED',html_bytes:Buffer.byteLength(html),admission_limit_bytes:printAdmissionBytes};await writeFile(resolve(directory,'preprocessing-browser.json'),JSON.stringify(captures,null,2)+'\n');assert.fail('F43_PRINT_RESOURCE_QUALIFICATION_REQUIRED: exact uncapped HTML exceeds the engineering admission bound; HTML/Markdown/JSON and lifecycle evidence are preserved.');}
- if(engine==='chromium'){
-  const printPage=await context.newPage();try{await printPage.setContent(html,{waitUntil:'load'});for(const [paper,format] of [['a4','A4'],['letter','Letter']])await printPage.pdf({path:resolve(directory,`preprocessing-sensitivity-${paper}.pdf`),format,printBackground:true});captures.exports.print=['preprocessing-sensitivity-a4.pdf','preprocessing-sensitivity-letter.pdf'];}finally{await printPage.close();}
- }else captures.exports.print='not_applicable: Chromium-only PDF generation/review';
  captures.success=true;await writeFile(resolve(directory,'preprocessing-browser.json'),JSON.stringify(captures,null,2)+'\n');
 }

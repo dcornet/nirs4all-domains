@@ -1,5 +1,18 @@
 # F4.3 qualification — partial draft
 
+## Successor verification and practical reporting
+
+OWNER-F43-FINALIZATION-20261119 authorizes the prospective
+[v2 contract](F4_3_FINALIZATION_CONTRACT_V2.md) and
+[portable PDF/CSV package](F4_3_PORTABLE_REPORT_USER_GUIDE.md). Verification v2
+separates backend-own integrity from numeric parity; the historical v1 comparator
+below is unchanged. The scientific v1 protocol, cohort and 1e-10 tolerances remain.
+Independent functional and numeric jobs execute separately; aggregate qualification
+still requires both. Actual final-head outcomes belong in the shared workspace
+handoff, rather than being inferred from this workflow configuration.
+
+The remaining sections preserve the original dated partial qualification.
+
 The frozen protocol is `domains.browser_preprocessing_sensitivity.v1`, using
 Methods 1.3.13 / ABI 2.20. This is **PARTIAL**, not a completed native/WASM
 qualification. No real-data analysis, Y access, upstream edit or scientific

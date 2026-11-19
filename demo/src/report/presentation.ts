@@ -157,18 +157,18 @@ function metricTitle(id: string, c: Copy): string {
   return ({ pca: c.scores, density: c.density, raw_neighbors: `${c.neighbors} · raw`, projected_neighbors: `${c.neighbors} · PCA`,
     experimental_factor_structure: c.factor, preprocessing_dependent_organization: c.sensitivity, decision_summary: c.decision, readiness: c.readiness })[id] ?? id;
 }
-export function presentation(view: UiResult, locale: Locale, intent: PredictionIntent,options:{uncapped?:boolean}={}): ReportPresentation {
+export function presentation(view: UiResult, locale: Locale, intent: PredictionIntent,options:{uncapped?:boolean;compact?:boolean}={}): ReportPresentation {
   const c = copy[locale], t = translator(locale);
-  const rows=(value:unknown)=>scalarRows(value,'',[],options.uncapped?Infinity:160);
+  const rows=(value:unknown)=>scalarRows(value,'',[],options.compact?12:options.uncapped?Infinity:160);
   const overview=options.uncapped?(locale==='fr'?'Champs enregistrés sans plafond de lignes ; tableaux de transport conservés dans les preuves originales.':'Recorded fields without a row cap; transport arrays remain in original evidence.'):c.overview;
   const blocks = view.evidence.map((e): EvidenceBlock => {
     const sensitivity=e.id.startsWith('preprocessing-sensitivity-');
     const support=e.id.startsWith('train-fitted-support-');
     const v = e.value as Record<string, any> | null, neighbor = e.id.endsWith('_neighbors'), density = e.id === 'density';
     const tables: DisplayTable[] = [{ id: `${e.id}-values`, title: metricTitle(e.id,c), columns: [c.parameter,c.value], rows: rows(e.value), note: overview }];
-    if(sensitivity)tables.unshift(...sensitivityTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
-    if(e.id.startsWith('train-fitted-support-'))tables.unshift(...supportTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
-    if(e.id.startsWith('factor-association-'))tables.unshift(...factorAssociationTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
+    if(sensitivity&&!options.compact)tables.unshift(...sensitivityTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
+    if(e.id.startsWith('train-fitted-support-')&&!options.compact)tables.unshift(...supportTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
+    if(e.id.startsWith('factor-association-')&&!options.compact)tables.unshift(...factorAssociationTables(e.value,locale).map(table=>({...table,id:`${e.id}-${table.id}`})));
     if (density && e.status === 'computed' && Array.isArray(v?.labels)) {
       const counts = new Map<number,number>(); for (const label of v.labels) counts.set(label,(counts.get(label)??0)+1);
       tables.unshift({ id: 'cluster-sizes', title: c.density, columns: [c.cluster,c.count], rows: [...counts].sort((a,b)=>a[0]-b[0]).map(([label,n])=>[label<0?`${c.noise} (${label})`:label,n]), note: c.densityRead });

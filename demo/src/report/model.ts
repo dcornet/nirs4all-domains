@@ -111,7 +111,7 @@ export interface DemoReport {
   reading_mode?: ReadingMode;
   export_selection?: ExportSelection;
 }
-export function reportModel(original: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete',selection?:ExportSelection,colorGrant?:import('./factor-privacy').FactorColorExportGrant|null): DemoReport {
+export function reportModel(original: UiResult, scientific: unknown, intent: PredictionIntent, language: 'en' | 'fr', declarations?: UiDeclarations,reading:ReadingMode='complete',selection?:ExportSelection,colorGrant?:import('./factor-privacy').FactorColorExportGrant|null,portable=false): DemoReport {
   const view=colorExportView(original,colorGrant);
   if(selection)validateSelection(view,selection);
   const { spectra: _privateDisplayOnly, ...dataset } = view.dataset;
@@ -121,5 +121,5 @@ export function reportModel(original: UiResult, scientific: unknown, intent: Pre
     dataset, summary: view.summary, findings: view.findings, evidence: view.evidence,
     pca: view.pca, limitations: view.limitations, provenance: view.provenance, scientific_report: scientific,
     raw_x_included: false, numerical_evidence_recomputed_for_export: false,reading_mode:reading,
-    presentation: presentation(view, language, intent,{uncapped:!!selection}),...(selection?{export_selection:selection}:{}) };
+    ...(!portable?{presentation:presentation(view, language, intent,{uncapped:!!selection})}:{}),...(selection?{export_selection:selection}:{}) };
 }

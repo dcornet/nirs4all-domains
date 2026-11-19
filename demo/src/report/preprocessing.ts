@@ -29,10 +29,13 @@ export function appendSensitivity(view:UiResult,results:readonly SensitivityHist
   limitations:[...view.limitations,...results.flatMap(r=>r.limitations),...(results.length?[sensitivityLimit('en')]:[])],
   provenance:{...view.provenance,preprocessing_sensitivity_evidence_ids:evidence.map(e=>e.id)}};
 }
+export function sensitivityAvailability(input:unknown,locale:Locale):DisplayTable{
+ const r=object(input),fr=locale==='fr';return {id:'sensitivity-panel',title:fr?'Panel et disponibilit\u00e9':'Panel and availability',columns:fr?['Repr\u00e9sentation','Famille','Statut','Raison']:['Representation','Family','Status','Reason'],rows:(r.representations??[]).map((entry:any)=>[entry.id,entry.family,entry.status,entry.reason]),note:sensitivityLimit(locale)};
+}
 export function sensitivityTables(input:unknown,locale:Locale):DisplayTable[]{
  const r=object(input),fr=locale==='fr',representations=Array.isArray(r.representations)?r.representations:[],note=sensitivityLimit(locale);
  const table=(id:string,title:string,value:unknown):DisplayTable=>({id,title,columns:fr?['Champ source','Valeur']:['Source field','Value'],rows:literalRows(value),note});
- const tables:DisplayTable[]=[{id:'sensitivity-panel',title:fr?'Panel et disponibilit\u00e9':'Panel and availability',columns:fr?['Repr\u00e9sentation','Famille','Statut','Raison']:['Representation','Family','Status','Reason'],rows:representations.map((entry:any)=>[entry.id,entry.family,entry.status,entry.reason]),note},
+ const tables:DisplayTable[]=[sensitivityAvailability(input,locale),
  table('sensitivity-findings',fr?'Constats et limites transport\u00e9s':'Transported findings and limitations',{findings:r.findings,limitations:r.limitations}),table('sensitivity-plan',fr?'Plan fix\u00e9 avant ex\u00e9cution':'Plan fixed before execution',r.plan),table('sensitivity-receipt',fr?'Provenance et acc\u00e8s':'Provenance and access',r.receipt)];
  for(const entry of representations){
   const e=object(entry),v=object(e.value),prefix=String(e.id);

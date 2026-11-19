@@ -17,6 +17,10 @@ and [qualification record](docs/browser/F4_2_VALIDATION.md).
 
 F4.3 adds an explicit X-only preprocessing-sensitivity panel with a frozen
 train-reference stage and optional later test-X audit; it never selects on Y.
+The [portable report guide](docs/browser/F4_3_PORTABLE_REPORT_USER_GUIDE.md)
+describes compact A4/Letter PDFs, complete typed CSV and an extracted results
+archive with JSON/manifest counterparts. Independent report functionality does
+not qualify the still-pending numerical provider correction.
 See the [user guide](docs/WASM_DEMO_GUIDE.md#f43-representation-sensitivity),
 [scientific protocol](docs/browser/F4_3_SCIENTIFIC_PROTOCOL.md),
 [representation contract](docs/browser/F4_3_REPRESENTATION_CONTRACT.md),

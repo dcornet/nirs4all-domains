@@ -33,7 +33,7 @@ async function copyNoticeTree(packageRoot, outputRoot, origin) {
         if (rel === 'LICENSES' || rel.startsWith(`LICENSES${sep}`)) await visit(source);
         continue;
       }
-      if (/^(LICENSE|LICENSING\.md|THIRD_PARTY_NOTICES\.md|COPY_PROVENANCE\.md|nirs4all-.*\.cdx\.json)$/i.test(item.name) ||
+      if (/^(LICENSE(?:\.(?:md|txt))?|LICENSING\.md|THIRD_PARTY_NOTICES\.md|COPY_PROVENANCE\.md|nirs4all-.*\.cdx\.json)$/i.test(item.name) ||
           rel.startsWith(`LICENSES${sep}`)) {
         await copyAllowed(source, join(outputRoot, rel), `${origin}/${normalized(rel)}`);
       }
@@ -106,6 +106,10 @@ const localDomainsPackage = { name: localDomains.name, version: localDomains.ver
   resolved: 'file:../bindings/wasm', integrity: null, source: 'local workspace binding; generated WASM is built from the locked Rust workspace' };
 const aomCatalog = await readJson(join(bindingDir, 'aom-bank.json'));
 await copyAllowed(join(bindingDir, 'AOM_BANK_NOTICE.md'), join(publicRoot, 'aom-descriptors', 'NOTICE.md'), 'Domains adaptation of pinned AOM bank metadata');
+await copyAllowed(join(demo, 'src/report/assets/OFL.txt'), join(publicRoot, 'noto-sans/OFL.txt'), 'Noto Sans; notofonts/noto-fonts ffebf8c1ee449e544955a7e813c54f9b73848eac');
+// The published fontkit fork declares MIT but ships no standalone license file.
+// Preserve its actual README/attribution rather than inventing a copyright owner.
+await copyAllowed(join(demo, 'node_modules/@pdf-lib/fontkit/README.md'), join(publicRoot, 'packages/@pdf-lib/fontkit/1.1.1/README.md'), 'Published @pdf-lib/fontkit 1.1.1 README and MIT declaration');
 await copyAllowed(join(bindingDir, 'aom-bank.json'), join(publicRoot, 'aom-descriptors', 'catalog.json'), 'Versioned declarative AOM/Methods descriptor catalog; no numerical runtime');
 const methodsSourceRoot = join(publicRoot, 'methods', methodsCommit);
 const methodsSourceFiles = [
