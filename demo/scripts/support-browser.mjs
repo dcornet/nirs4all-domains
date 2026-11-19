@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {fixture,loadReviewed} from './scoped-browser.mjs';
+import {fixture,loadOneShot} from './scoped-browser.mjs';
 import {auditAccessibility} from './ux-browser.mjs';
 
 const resultList=report=>report.scientific_report?.train_fitted_support??[];
@@ -78,9 +78,9 @@ export async function qualifySupportBrowser({page,context,url,output,check,expor
   const home=page.getByRole('button',{name:/Home|Accueil/});
   if(await home.count()){
     await home.click();
-    await page.locator('input[type=file]').waitFor({state:'visible'});
+    await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'});
   }
-  await loadReviewed(page,fixtureData.files);
+  await loadOneShot(page,fixtureData.files);
   await instrumentSupportWorkers(page);
   const initial=await json(page);
   assert.deepEqual(resultList(initial),[],'Reviewed import must not run support automatically');
@@ -269,11 +269,11 @@ export async function qualifySupportBrowser({page,context,url,output,check,expor
   const resetButton=page.getByRole('button',{name:/Home|Accueil/});
   await resetButton.click();
   await page.waitForFunction(n=>window.__f42SupportAudit.terminated>n,terminatedBeforeReset);
-  await page.locator('input[type=file]').waitFor({state:'visible'});
+  await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'});
   await page.waitForFunction(()=>window.__f42SupportAudit.delayReleased===true);
   const secondFixture=fixture(),configFile=secondFixture.files.find(file=>file.name==='f4-scoped.nirs4all.json');
   const config=JSON.parse(configFile.buffer.toString('utf8'));config.name='F4.2 support reset identity';configFile.buffer=Buffer.from(JSON.stringify(config));
-  await loadReviewed(page,secondFixture.files);
+  await loadOneShot(page,secondFixture.files);
   current=await json(page);
   assert.deepEqual(resultList(current),[],'New dataset identity must not inherit stale support results');
   assert.deepEqual(current.scientific_report.factor_associations??[],[],'New dataset identity must clear F4.1 results');

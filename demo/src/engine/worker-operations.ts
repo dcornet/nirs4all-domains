@@ -19,6 +19,13 @@ export async function runOperation(data:WorkerRequest,reply:(message:Omit<Worker
     if(operation==='assemble_import'){
       const r=payload as ReviewedImport;
       reply({ok:true,stage:'Assembling reviewed X/Y/M with IO',stage_id:'import'});
+      if(r.mode==='one_shot'){
+        const [{loadImportRuntime},{resolveDatasetDraft}]=await Promise.all([import('./import-draft'),import('./one-shot')]);
+        const {io}=await loadImportRuntime();
+        lifecycle('IMPORT_RUNNING','io');
+        const result=await resolveDatasetDraft(r.draft,r.config,r.sources,io,r.automatic?'automatic':'user_configured');
+        lifecycle('IMPORT_COMPLETE','io');reply({ok:true,result});return;
+      }
       reply({ok:true,result:await assembleImport(r.draft,r.config,r.sources)});return;
     }
     if (operation === 'import') {

@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { fixture, loadReviewed } from './scoped-browser.mjs';
+import { fixture, loadOneShot } from './scoped-browser.mjs';
 import { auditAccessibility } from './ux-browser.mjs';
 
 function factorFixture() {
@@ -91,7 +91,7 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
   const englishButton = page.getByRole('button', { name: 'EN', exact: true });
   if (await englishButton.getAttribute('aria-pressed') !== 'true') await englishButton.click();
   await instrumentFactorWorkers(page);
-  await loadReviewed(page, fixtureData.files);
+  await loadOneShot(page, fixtureData.files);
   const initial = await json(page);
   assert.equal(initial.scientific_report.factor_associations?.length ?? 0, 0, 'Import must not calculate factor associations');
 
@@ -296,14 +296,14 @@ export async function qualifyFactorBrowser({ page, context, url, output, check, 
   const factorOperationsBeforeReset = await page.evaluate(() => window.__f41FactorWorkers.operations.filter(operation => operation === 'factor_association').length);
   const priorContentHash = report.dataset.contentHash;
   await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click();
-  await page.locator('input[type=file]').waitFor();
+  await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'});
   const secondFixture = factorFixture();
   const secondConfigFile = secondFixture.files.find(file => file.name === 'f4-scoped.nirs4all.json');
   assert(secondConfigFile, 'Second dataset must retain the reviewed fixture manifest');
   const secondConfig = JSON.parse(secondConfigFile.buffer.toString('utf8'));
   secondConfig.name = 'Synthetic F4.1 second content identity';
   secondConfigFile.buffer = Buffer.from(JSON.stringify(secondConfig));
-  await loadReviewed(page, secondFixture.files);
+  await loadOneShot(page, secondFixture.files);
   const secondDataset = await json(page);
   assert.notEqual(secondDataset.dataset.contentHash, priorContentHash, 'Changed import content must produce a new dataset identity');
   assert.equal(secondDataset.pca, null);

@@ -31,7 +31,7 @@ const server=createServer(async(req,res)=>{try{const path=new URL(req.url,'http:
 await new Promise(done=>server.listen(0,'127.0.0.1',done));
 const url=`http://127.0.0.1:${server.address().port}${base}`;
 let browser;
-const result={protocol:'domains.technical_benchmark.v2',label:process.env.DOMAINS_BENCH_LABEL??'unspecified',browser:null,node:process.version,repetitions,fixture:'Unchanged X.csv rank-one CSV 3x1 and two-populations synthetic example 48x24; no real-source fit',assets,samples,success:false,measurement_limits:['Local HTTP timings are not Internet latency.','F4 import timing includes role review, explicit assembly and a separate structure action; it is workflow latency, not a matched import-throughput comparison with F2.','The unchanged synthetic example retains its matched before/after execution and exact report/hash comparison.','Worker request spans include loading, initialization, transport and owner execution; owner-internal phases are not separately observable.','CDP script/layout deltas include browser automation and are not pure React render time.','JS heap is the main-thread sample, not a process-tree peak; the external supervisor measures that peak.','Each repetition uses a fresh browser process/context; OS caches may persist.','Small fixtures do not establish a whole-bank memory or speed guarantee.']};
+const result={protocol:'domains.technical_benchmark.v2',label:process.env.DOMAINS_BENCH_LABEL??'unspecified',browser:null,node:process.version,repetitions,fixture:'Unchanged X.csv rank-one CSV 3x1 and two-populations synthetic example 48x24; no real-source fit',assets,samples,success:false,measurement_limits:['Local HTTP timings are not Internet latency.','F4 import timing includes automatic IO prepare/assembly and one explicit structure action; it is workflow latency, not a matched import-throughput comparison with F2.','The unchanged synthetic example retains its matched before/after execution and exact report/hash comparison.','Worker request spans include loading, initialization, transport and owner execution; owner-internal phases are not separately observable.','CDP script/layout deltas include browser automation and are not pure React render time.','JS heap is the main-thread sample, not a process-tree peak; the external supervisor measures that peak.','Each repetition uses a fresh browser process/context; OS caches may persist.','Small fixtures do not establish a whole-bank memory or speed guarantee.']};
 const metricMap=async c=>Object.fromEntries((await c.send('Performance.getMetrics')).metrics.map(m=>[m.name,m.value]));
 try{
   for(let repetition=0;repetition<repetitions;repetition++){
@@ -57,7 +57,13 @@ try{
             this.audit.messages.push({at:performance.now(),id:data.id,stage:data.stage??null,stage_id:data.stage_id??null,final:!data.stage,ok:data.ok});
             if(!this.capture||!data.ok||data.stage)return;
             if(['import','assemble_import'].includes(this.audit.operation)){
-              const imported=data.result;requireMatrix(imported.rawX??imported.input.spectra);
+              let imported=data.result;
+              if(this.audit.operation==='assemble_import'&&this.audit.importMode==='one_shot'){
+                if(!this.audit.knownRankOneFixture)throw new Error('BENCHMARK_ONE_SHOT_CAPTURE_REQUIRES_KNOWN_FIXTURE');
+                if(imported?.status!=='loaded'||!imported.dataset)throw new Error('BENCHMARK_ONE_SHOT_IMPORT_NOT_LOADED');
+                imported=imported.dataset;
+              }
+              requireMatrix(imported.rawX??imported.input.spectra);
               if((imported.targets??[]).length)throw new Error('UNEXPECTED_BENCHMARK_TARGET');
               // This capture is armed only for the exact public X.csv fixture.
               // No generic imported values or private user configuration is saved.
@@ -85,7 +91,10 @@ try{
             }
             const bytes=Array.isArray(files)?files.reduce((sum,f)=>sum+(f.bytes?.byteLength??0),0):0;
             const transferred_bytes=(Array.isArray(transfers)?transfers:[]).reduce((sum,b)=>sum+(b.byteLength??0),0);
-            super.postMessage(message,transfers??[]);this.audit.operation=message.operation;this.audit.post_message_ms=performance.now()-start;
+            this.audit.operation=message.operation;
+            this.audit.importMode=message.operation==='assemble_import'?message.payload?.mode??null:null;
+            if(this.capture&&message.operation==='assemble_import')this.audit.knownRankOneFixture=true;
+            super.postMessage(message,transfers??[]);this.audit.post_message_ms=performance.now()-start;
             this.audit.input_bytes=bytes;this.audit.transferred_bytes=transferred_bytes;this.audit.sender_detached=Array.isArray(files)&&files.length>0&&files.every(f=>f.bytes.byteLength===0);
           }
           terminate(){this.audit.terminated=performance.now();return super.terminate();}
@@ -98,19 +107,28 @@ try{
       const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
       context.on('request',r=>{if(/^https?:/.test(r.url()))assert(new URL(r.url()).origin===new URL(url).origin&&['GET','HEAD'].includes(r.method()),'Unexpected upload/off-origin request');});
       const cdp=await context.newCDPSession(page);await cdp.send('Performance.enable');
-      const started=performance.now();await page.goto(url);await page.getByRole('heading',{name:'Analyze my data'}).waitFor();
+      const started=performance.now();await page.goto(url);await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'});
       const landing_ms=performance.now()-started;
       await page.evaluate(()=>{window.__technical.captureRankOne=true;});
-      const importedAt=performance.now();await page.locator('input[type=file]').setInputFiles({name:rankOneFixture.name,mimeType:'text/csv',buffer:Buffer.from(rankOneFixture.contents)});
-      const review=page.getByRole('heading',{name:'Review X / Y / M roles'});
-      const route=await Promise.race([review.waitFor().then(()=> 'reviewed'),page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final))).then(()=> 'automatic')]);
-      if(route==='reviewed'){
-        await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-        await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
-        await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+      const importedAt=performance.now();await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles({name:rankOneFixture.name,mimeType:'text/csv',buffer:Buffer.from(rankOneFixture.contents)});
+      const route=result.label==='F2-f4289f5'?'automatic':'one_shot';
+      if(route==='automatic'){
+        // The exact archived F2 frontend imports and analyzes automatically.
+        // It predates F4 scope controls and the new loaded-dataset summary.
+        await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='analyze'&&w.messages.some(m=>m.final)));
+        assert.deepEqual(await page.evaluate(()=>window.__technical.workers.map(w=>w.operation)),['import','analyze'],
+          'The frozen F2 source must retain its original import and analysis operations');
+      }else{
+        await page.locator('.workspace-summary').waitFor({state:'visible'});
+        await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
+        await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+        assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,'One-shot import has no mandatory confirmation checkbox');
+        assert.equal(await page.getByRole('button',{name:'Import reviewed data'}).count(),0,'One-shot import has no second import action');
         await page.getByRole('button',{name:'Train structure'}).click();
+        await page.waitForFunction(()=>window.__technical.workers.some(w=>w.operation==='scoped'&&w.messages.some(m=>m.final)));
+        assert.deepEqual(await page.evaluate(()=>window.__technical.workers.map(w=>w.operation)),['prepare_import','assemble_import','scoped'],
+          'A normal import and one analysis complete exactly three worker operations');
       }
-      await page.waitForFunction(()=>window.__technical.workers.some(w=>['analyze','scoped'].includes(w.operation)&&w.messages.some(m=>m.final)));
       await page.locator('.workspace-summary').waitFor();await page.evaluate(()=>new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done))));
       const import_to_visible_ms=performance.now()-importedAt;
       const exportReading=async format=>{

@@ -45,9 +45,12 @@ WASM/worker checks and bounded before/after measurements. Its PR preview and
 qualification are separate from publication of main on GitHub Pages.
 
 The [browser demonstration](demo/README.md) adds an optional Rust/WASM consumer
-with reviewed local X/Y/M import through IO/Formats and the shared Dataset
-Builder. Import preserves declared partitions and missingness without fitting;
-each selected operation receives its own X/M access scope, and no Y value enters
+with one-shot local X/Y/M import through IO/Formats. A file or folder drop
+starts normal import without mandatory review or confirmation; the shared
+Dataset Builder remains an opt-in editor before final loading or under Data
+settings after loading. Import preserves declared partitions and missingness
+without fitting. Each selected operation receives its own X/M access scope,
+and no Y value enters
 a scientific request or report export. Current paths include train-only
 structure, raw train-reference/test-query neighbors, documentary metadata
 audits, and explicit transductive train-plus-test structure that excludes
@@ -55,8 +58,11 @@ predict rows. Unpartitioned data retain the legacy full-source descriptive path.
 The F4.1 association and F4.2 train-fitted support operations have separate
 qualification records; they do not broaden this original F4.0 protocol. The demo
 also provides conditional intended-use reading and offline
-HTML/Markdown/JSON exports. Qualified saved D1–D6.1 examples retain their original
-annotations and are explicitly separate from browser calculations. See the
+HTML/Markdown/JSON exports. The
+[one-shot import guide](docs/browser/ONE_SHOT_IMPORT_USER_GUIDE.md) explains
+the default workflow and optional settings. Qualified saved D1–D6.1 examples
+retain their original annotations and are explicitly separate from browser
+calculations. See the
 [capability matrix](docs/WASM_CAPABILITIES.md), [user guide](docs/WASM_DEMO_GUIDE.md),
 and F4.0 [access policy](docs/browser/F4_0_DATA_ACCESS_POLICY.md),
 [import architecture](docs/browser/F4_0_IMPORT_ARCHITECTURE.md),

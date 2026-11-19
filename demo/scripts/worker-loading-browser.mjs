@@ -73,16 +73,27 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
    terminate(){if(this.__workerLoadingRow)this.__workerLoadingRow.terminated=true;return super.terminate();}
   };
  });
- const home=async()=>{await page.goto(url,{waitUntil:'domcontentloaded'});await page.getByRole('heading',{name:'Analyze my data'}).waitFor({timeout:60000});};
+ const home=async()=>{await page.goto(url,{waitUntil:'domcontentloaded'});await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached',timeout:60000});};
  const prepareFiles=async(files)=>{
-  await page.locator('input[type=file]').setInputFiles(files);
-  const review=page.getByRole('heading',{name:'Review X / Y / M roles'}),alert=page.getByRole('alert');
-  await Promise.race([review.waitFor({timeout:60000}),alert.waitFor({timeout:60000})]);
-  if(await alert.count())return {error:await diagnostic(page)};
-  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  const before=await page.evaluate(()=>window.__workerLoadingAudit.reduce((n,w)=>n+w.completed,0));
+  const operationBefore=await page.evaluate(()=>window.__workerLoadingAudit.flatMap(w=>w.operations).length);
+  await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles(files);
+  const summary=page.locator('.workspace-summary'),alert=page.getByRole('alert');
+  const outcome=await Promise.race([
+   summary.waitFor({state:'visible',timeout:120000}).then(()=> 'loaded'),
+   alert.waitFor({state:'visible',timeout:120000}).then(()=> 'error'),
+  ]);
+  if(outcome==='error')return {error:await diagnostic(page)};
   await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor({timeout:120000});
-  await page.locator('.workspace-summary').waitFor({timeout:120000});return {error:null};
+  await page.locator('.dataset-loaded-summary').waitFor({state:'visible',timeout:120000});
+  assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,
+   'A normal import must not require a role confirmation checkbox');
+  assert.equal(await page.getByRole('button',{name:'Import reviewed data',exact:true}).count(),0,
+   'A normal import must not require a second import action');
+  await page.waitForFunction(n=>window.__workerLoadingAudit.reduce((sum,w)=>sum+w.completed,0)>=n+2,before,{timeout:120000});
+  assert.deepEqual(await page.evaluate(index=>window.__workerLoadingAudit.flatMap(w=>w.operations).slice(index),operationBefore),
+   ['prepare_import','assemble_import'],'One-shot import completes its two expected worker operations');
+  return {error:null,completedBefore:before,operationBefore};
  };
  const diagnostic=async()=>{
   const section=page.locator('.technical-diagnostic[role=alert]');
@@ -112,7 +123,12 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
  const loadHealthy=async(id,files)=>{
   const audit=startAudit(id);
   await home();const loaded=await prepareFiles(files);assert.equal(loaded.error,null,`${id} import must complete using published IO`);
-  const report=await fitAndReport();assert.equal(report.source_mode,'user_computed_live',`${id} actual source mode ${JSON.stringify(report)}`);assert.equal(report.operation_status,'computed',`${id} actual analysis status ${JSON.stringify(report)}`);assert.equal(report.y_accessed,false);assert.equal(report.pca_status,'computed');assert.equal(report.contains_raw_x,false);
+  const report=await fitAndReport();
+  const operations=await page.evaluate(index=>window.__workerLoadingAudit.flatMap(w=>w.operations).slice(index),loaded.operationBefore);
+  const completed=await page.evaluate(()=>window.__workerLoadingAudit.reduce((n,w)=>n+w.completed,0));
+  assert.deepEqual(operations,['prepare_import','assemble_import','scoped'],'A normal import and one analysis complete exactly three worker operations');
+  assert.equal(completed,loaded.completedBefore+3,'The two import replies and one analysis reply all complete');
+  assert.equal(report.source_mode,'user_computed_live',`${id} actual source mode ${JSON.stringify(report)}`);assert.equal(report.operation_status,'computed',`${id} actual analysis status ${JSON.stringify(report)}`);assert.equal(report.y_accessed,false);assert.equal(report.pca_status,'computed');assert.equal(report.contains_raw_x,false);
   evidence.cases.push({id,status:'computed',report,workers:await workerSnapshot(),network:auditSnapshot(audit)});finishAudit(audit);
   check(`Worker loading: ${id} import and actual train-only Methods analysis`);return report;
  };
@@ -169,7 +185,7 @@ export async function qualifyWorkerLoadingBrowser({page,context,url,output,check
   const x=await loadHealthy('x-only',xOnly);assert.equal(x.observations,3);assert.equal(x.variables,1);
   const xy=await loadHealthy('x-y-train-only',xAndY);assert.equal(xy.observations,8);assert.equal(xy.variables,2);assert.deepEqual(xy.y_inventory,[{name:'yield',rows:8,missing:0,type:'numeric'}]);
   await faultCase({id:'worker-script-404',matcher:f=>/^worker-[A-Za-z0-9_-]+\.js$/.test(f)&&!f.startsWith('worker-operations-'),response:{status:404,contentType:'application/javascript',body:'/* controlled worker entry 404 */'},expectedCode:'WORKER_ASSET_UNAVAILABLE'});
-  await page.getByRole('button',{name:/Reload application/}).click();await page.getByRole('heading',{name:'Analyze my data'}).waitFor({timeout:60000});
+  await page.getByRole('button',{name:/Reload application/}).click();await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached',timeout:60000});
   await loadHealthy('fresh-worker-after-explicit-reload',xAndY);
   await faultCase({id:'worker-script-html',matcher:f=>/^worker-[A-Za-z0-9_-]+\.js$/.test(f)&&!f.startsWith('worker-operations-'),response:{status:200,contentType:'text/html',body:'<!doctype html><title>not JavaScript</title>'},expectedCode:'JAVASCRIPT_ASSET_INVALID_RESPONSE'});
   await faultCase({id:'worker-script-top-level-throw',matcher:f=>/^worker-[A-Za-z0-9_-]+\.js$/.test(f)&&!f.startsWith('worker-operations-'),response:{status:200,contentType:'application/javascript',body:"throw new Error('controlled synthetic worker top-level throw');"},expectedCode:'WORKER_STARTUP_EXCEPTION',expectedPhase:'WORKER_CREATED',expectedComponent:'worker'});

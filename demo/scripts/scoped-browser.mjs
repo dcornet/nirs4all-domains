@@ -44,35 +44,33 @@ const downloadText=async(page,format,exported)=>exported(page,format);
 const reportJson=async(page,json)=>json(page);
 const operation=(report,name,diagnostic)=>report.scientific_report.scoped_operations.find(item=>item.operation===name && (!diagnostic||item.diagnostic===diagnostic) && item.status==='computed') ?? report.scientific_report.scoped_operations.at(-1);
 
-export async function loadReviewed(page,files){
-  await page.locator('input[type=file]').setInputFiles(files);
-  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
-  const reviewText=await page.locator('.dataset-import').innerText();
-  assert.match(reviewText,/Declared partitions/);
-  for(const partition of ['train','test','predict'])assert(reviewText.includes(`X_${partition}.csv: ${partition}`),`Partition role missing from review: ${partition}`);
-  // The shared builder starts at Source; column controls belong to step three
-  // and the currently selected source, not every file at once.
-  await page.getByRole('button',{name:'3. Columns',exact:true}).click();
-  for(const partition of ['train','test','predict']){
-    for(const [source,roles] of [[`X_${partition}`,[['1000','x'],['1100','x'],['id','id']]],[`Y_${partition}`,[['yield','y'],['id','id']]]]){
-      await page.locator('.dsb__source-tab').filter({hasText:`${source}.csv`}).click();
-      for(const [name,role] of roles)
-        assert.equal(await page.getByLabel(`${name} role`,{exact:true}).inputValue(),role,`Reviewed role missing: ${source} / ${name} / ${role}`);
-    }
-  }
-  await page.locator('summary').filter({hasText:/^Metadata origin and roles$/}).click();
-  for(const [name,role] of [['specimen','specimen'],['group','group'],['reference','reference'],['batch','factor']]){
-    const selectors=page.getByLabel(`${name} metadata role`);
-    assert.equal(await selectors.count(),3,`Expected one reviewed ${name} declaration per partition`);
-    for(let i=0;i<3;i++)await selectors.nth(i).selectOption(role);
-    const derived=page.getByLabel(`${name} derived from Y`);
-    for(let i=0;i<3;i++)await derived.nth(i).selectOption('false');
-  }
-  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+export async function loadOneShot(page,files){
+  // Every caller has its own operation audit (F4, F4.1 or F4.2). Observe this
+  // import independently without depending on another fixture's page globals.
+  await page.evaluate(()=>{
+    const Base=window.Worker,audit={operations:[],completed:[]};
+    window.__oneShotLoaderAudit=audit;
+    window.Worker=class extends Base{
+      constructor(...args){super(...args);this.addEventListener('message',({data})=>{if(!data.stage&&!data.lifecycle_event)audit.completed.push({ok:data.ok});});}
+      postMessage(message,transfers){audit.operations.push(message.operation);return super.postMessage(message,transfers);}
+    };
+  });
+  const before=await page.evaluate(()=>window.__oneShotLoaderAudit.completed.length);
+  const operationBefore=await page.evaluate(()=>window.__oneShotLoaderAudit.operations.length);
+  await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles(files);
   await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
-  await page.locator('.workspace-summary').waitFor();
+  await page.locator('.workspace-summary').waitFor({state:'visible'});
+  await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+  assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,
+    'Declared, unambiguous import must not require a confirmation checkbox');
+  assert.equal(await page.getByRole('button',{name:'Import reviewed data',exact:true}).count(),0,
+    'Declared, unambiguous import must load without a second import action');
+  await page.waitForFunction(count=>window.__oneShotLoaderAudit.completed.length>=count+2,before);
+  assert.deepEqual(await page.evaluate(index=>window.__oneShotLoaderAudit.operations.slice(index),operationBefore),
+    ['prepare_import','assemble_import'],'One-shot import must complete exactly its two import operations');
 }
+export const loadReviewed=loadOneShot;
+
 async function instrumentWorkers(page){
   await page.evaluate(()=>{
     const Base=window.Worker;window.__f4WorkerOperations=[];window.__f4WorkerCompleted=[];
@@ -91,9 +89,9 @@ async function performOperation(page,name){
 export async function qualifyScopedBrowser({page,browser,url,output,screenshot,check,wire,exported,json}){
   const fixtureData=fixture(),captures={protocol:'domains.f4_scoped_browser_qualification.v1',operations:[],exports:{},screenshots:[],success:false};
   await instrumentWorkers(page);
-  await loadReviewed(page,fixtureData.files);
+  await loadOneShot(page,fixtureData.files);
   const loaded=await reportJson(page,json);
-  assert.equal(loaded.scientific_report.scoped_operations.length,0,'Reviewed assembly must not trigger a numerical operation');
+  assert.equal(loaded.scientific_report.scoped_operations.length,0,'One-shot assembly must not trigger a numerical operation');
   assert.equal(loaded.pca,null,'Loaded all-X inventory must not create an all-population PCA');
   assert.deepEqual(Object.fromEntries(loaded.scientific_report.inventory.loaded.partitions.map(p=>[p.name,p.rows])),{train:8,test:2,predict:1});
   assert.equal(loaded.scientific_report.inventory.loaded.x.rows,11);
@@ -124,7 +122,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   assert(pcaCall,'Train structure receipt must preserve the actual public Methods PCA call');
   assert.equal(pcaCall.matrices.matrix.shape[0],8);
   captures.operations.push({operation:trainResult.operation,status:trainResult.status,receipt:trainResult.receipt});
-  check('F4 reviewed import stays inventory-only; train structure fits only eight train rows with actual provider receipt');
+  check('F4 one-shot import stays inventory-only; train structure fits only eight train rows with actual provider receipt');
 
   await performOperation(page,'Exact spectra train/test audit');await page.locator('.workspace-summary').waitFor();
   current=await reportJson(page,json);let exact=operation(current,'integrity_audit','exact_spectra');
@@ -222,7 +220,7 @@ export async function qualifyScopedBrowser({page,browser,url,output,screenshot,c
   try{
     const mobilePage=await mobile.newPage();mobilePage.setDefaultTimeout(120_000);await mobilePage.goto(url);
     await instrumentWorkers(mobilePage);
-    const mfixture=fixture();await loadReviewed(mobilePage,mfixture.files);
+    const mfixture=fixture();await loadOneShot(mobilePage,mfixture.files);
     await performOperation(mobilePage,'Train structure');await mobilePage.locator('.workspace-summary').waitFor();
     assert(await mobilePage.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'F4 mobile controls must not overflow horizontally');
     await mobilePage.locator('.scope-controls').scrollIntoViewIfNeeded();await screenshot(mobilePage,'f4-scope-controls-mobile',false,'.scope-controls');

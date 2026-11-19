@@ -12,6 +12,7 @@ import {qualifyTechnicalLoading} from './technical-browser.mjs';
 import {qualifyScopedBrowser} from './scoped-browser.mjs';
 import {qualifyFactorBrowser} from './factor-browser.mjs';
 import {qualifySupportBrowser} from './support-browser.mjs';
+import {qualifyOneShotBrowser} from './one-shot-browser.mjs';
 import {qualifyWorkerLoadingBrowser} from './worker-loading-browser.mjs';
 
 const demo = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -57,17 +58,21 @@ async function exported(page, format) {
   return readFile(path, 'utf8');
 }
 async function json(page) { return JSON.parse(await exported(page, 'json')); }
-async function home(page) { await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click(); await visible(page.locator('input[type=file]')); }
+async function home(page) { await page.getByRole('button', { name: /Domains · Home|Domains · Accueil/ }).click(); await page.locator('input[type=file]:not([webkitdirectory])').waitFor({state:'attached'}); }
 async function example(page, name) { await page.getByRole('button', { name: new RegExp(name) }).click(); await visible(page.locator('.workspace-summary')); }
 async function importCsv(page, contents, name = 'X.csv') {
   const completedBefore=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
-  await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/csv', buffer: Buffer.from(contents) });
-  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
-  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  const operationBefore=await page.evaluate(()=>window.__domainsWorkerAudit.operations.length);
+  await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles({ name, mimeType: 'text/csv', buffer: Buffer.from(contents) });
   await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+  await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+  assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,
+    'A normal import must not require a role confirmation checkbox');
+  const unpartitioned=await page.locator('.dataset-loaded-summary dt').filter({hasText:/^unpartitioned$/}).count();
   await page.getByRole('button',{name:'Train structure',exact:true}).click();
   await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>=before+3,completedBefore);
+  assert.deepEqual((await page.evaluate(before=>window.__domainsWorkerAudit.operations.slice(before),operationBefore)),
+    ['prepare_import','assemble_import',unpartitioned?'analyze':'scoped'],'A normal import and one analysis complete exactly three worker operations in its declared population');
   await visible(page.locator('.workspace-summary'));
 }
 function wire(context, label) {
@@ -99,7 +104,7 @@ try {
     };
   });
   let page = await context.newPage(); page.setDefaultTimeout(120_000);
-  await page.goto(url); await visible(page.getByRole('heading', { name: 'Analyze my data' }));
+  await page.goto(url); await page.locator('input[type=file]:not([webkitdirectory])').first().waitFor({state:'attached'});
   await screenshot(page, 'landing-desktop');
   await page.keyboard.press('Tab'); assert.equal(await page.locator(':focus').textContent(), 'Skip to content');
   await page.keyboard.press('Enter'); assert.equal(await page.locator(':focus').getAttribute('id'), 'main');
@@ -199,6 +204,7 @@ try {
   await qualifyScopedBrowser({page,browser,url,output,screenshot,check,wire,exported,json});
   await qualifyFactorBrowser({page,context,url,output,check,exported,json,screenshot});
   await qualifySupportBrowser({page,context,url,output,check,exported,json,screenshot});
+  await qualifyOneShotBrowser({page,context,url,output,check,exported,json,screenshot});
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
@@ -269,30 +275,34 @@ try {
     await home(page);
     if (buffer === null) {
       // A real oversize browser File, without an unnecessary base64/CDP copy in the test harness.
-      await page.locator('input[type=file]').evaluate(input => {
+      await page.locator('input[type=file]:not([webkitdirectory])').evaluate(input => {
         const transfer = new DataTransfer();
         transfer.items.add(new File([new Uint8Array(8 * 1024 * 1024 + 1)], 'too-large.csv', { type: 'text/csv' }));
         input.files = transfer.files; input.dispatchEvent(new Event('change', { bubbles: true }));
       });
-    } else await page.locator('input[type=file]').setInputFiles({ name, mimeType: 'text/plain', buffer });
+    } else await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles({ name, mimeType: 'text/plain', buffer });
     await visible(page.getByRole('alert'));
     assert(expected.test(await page.getByRole('alert').innerText()), `Unexpected refusal category: ${name}`);
     assert.equal(await page.locator('.workspace-summary').count(), 0);
     check(`Explicit refusal: ${name}`);
   }
   await home(page);
-  await page.locator('input[type=file]').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000,1100\n1,\n2,3\n4,5\n')});
-  await page.getByRole('heading',{name:'Review X / Y / M roles'}).waitFor();
-  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+  const missingImportBefore=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
+  const missingOperationBefore=await page.evaluate(()=>window.__domainsWorkerAudit.operations.length);
+  await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles({name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000,1100\n1,\n2,3\n4,5\n')});
   await page.getByRole('heading',{name:'Scoped analysis'}).waitFor();
+  await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+  assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,
+    'Missing-value inventory import must not require role confirmation');
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>=before+2,missingImportBefore);
   const missingImport=await json(page);
   assert.equal(missingImport.scientific_report.scoped_operations.length,0,'Missing X cells remain an inventory state until an operation is selected');
   assert.equal(missingImport.scientific_report.inventory.loaded.x.rows,3);
   assert.equal(missingImport.pca,null);
-  const beforeMissingOperation=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
   await page.getByRole('button',{name:'Train structure',exact:true}).click();
-  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>before,beforeMissingOperation);
+  await page.waitForFunction(before=>window.__domainsWorkerAudit.completed.length>=before+3,missingImportBefore);
+  assert.deepEqual((await page.evaluate(before=>window.__domainsWorkerAudit.operations.slice(before),missingOperationBefore)),
+    ['prepare_import','assemble_import','scoped'],'Import and refused operation still use two import workers and one analysis worker');
   const missingResult=await json(page),missingOperation=missingResult.scientific_report.scoped_operations.at(-1);
   assert.equal(missingOperation.status,'error');assert.equal(missingOperation.reason,'INCOMPLETE_X_UNAVAILABLE_WITHOUT_IMPUTATION');
   assert(await page.getByText(missingOperation.reason,{exact:false}).count(),'The original Rust refusal must remain visible');
@@ -345,6 +355,7 @@ try {
     assert((await json(secondPage)).scientific_report.metrics.pca.value.eigenvalues[0] > 0); check('Firefox actual WASM example');
     await qualifyFactorBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await qualifySupportBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
+    await qualifyOneShotBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await secondContext.close();
     const loadingContext=await second.newContext({acceptDownloads:true,locale:'en-US'});
     try {

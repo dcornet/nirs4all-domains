@@ -7,6 +7,7 @@ import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
 import type { BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
+import {defaultImportConfig,summarizeImport,type ImportOutcome,type ImportSession} from './engine/one-shot';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
 import {scopedInventory,scopedView} from './report/scoped';
 import { examples, synthetic } from './examples';
@@ -24,7 +25,7 @@ import type { UiCallbacks, UiState, UiResult,PredictionIntent,ProcessingStage } 
 
 function Controller() {
   const [state, setState] = useState<UiState>({ phase: 'idle', progress: '', error: null, result: null,
-    examples, intent: 'unknown', importHint: 'Local X/Y/M files and declared partitions, reviewed through IO and the shared Dataset Builder. Nothing is uploaded.',
+    examples, intent: 'unknown', importHint: 'Drop local X/Y/M files or a folder. IO validates the import; settings are optional. Nothing is uploaded.',
     declarations: { population: '', prediction_unit: '', new_context: '' } });
   const engine = useRef(new BrowserEngine());
   const epoch = useRef(0);
@@ -36,9 +37,11 @@ function Controller() {
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
   const supportResults=useRef<SupportRun[]>([]);
   const importFiles=useRef<File[]|null>(null);
+  const loadedImport=useRef<ImportSession|null>(null),pendingImport=useRef<ImportSession|null>(null);
   const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const start = () => { const token = ++epoch.current; engine.current.cancel(); scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;setState(s => ({ ...s, importDraft:undefined,result: null, error: null,workerDiagnostic:undefined,canRetryImport:false,phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
+  const clearEvidence=()=>{scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;};
+  const start = () => { const token = ++epoch.current; engine.current.cancel();clearEvidence();loadedImport.current=null;pendingImport.current=null;setState(s => ({ ...s, importDraft:undefined,importSession:undefined,pendingImport:undefined,importSummary:undefined,result: null, error: null,workerDiagnostic:undefined,canRetryImport:false,phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage,diagnostic?:WorkerDiagnostic) => { if (token === epoch.current) setState(s => ({ ...s,progress:stage,processingStage:step??s.processingStage,...(diagnostic?{workerDiagnostic:sanitizedWorkerDiagnostic(diagnostic)}:{}) })); };
   const failed = (token: number, error: unknown) => {
     if (token !== epoch.current) return;
@@ -83,6 +86,24 @@ function Controller() {
     scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
       scoped_operations:operations.current,train_fitted_support:supportResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
+  };
+  const acceptImport=(outcome:ImportOutcome,token:number)=>{
+    if(token!==epoch.current)return;
+    if(outcome.dataset){
+      clearEvidence();dataset.current=outcome.dataset;loadedImport.current=outcome.session;
+      publishScoped(outcome.dataset);
+      setState(s=>({...s,importSession:outcome.session,importSummary:summarizeImport(outcome.dataset!,outcome.session)}));
+    }
+    pendingImport.current=outcome.status==='needs_input'?outcome.session:null;
+    setState(s=>({...s,phase:'idle',error:null,canRetryImport:false,progress:'',
+      importDraft:outcome.status==='needs_input'?outcome.session.draft:undefined,
+      pendingImport:outcome.status==='needs_input'?outcome.session:undefined}));
+  };
+  const applySettings=async(session:ImportSession,config:ImportSession['config'],sources:ImportSession['sources'])=>{
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'loading',error:null,processingStage:'import',progress:'Validating changed data settings with IO'}));
+    try{acceptImport(await engine.current.request<ImportOutcome>('assemble_import',{draft:session.draft,config,sources,mode:'one_shot',automatic:false},progress(token)),token);}
+    catch(error){failed(token,error);}
   };
   const scoped=async(operation:ScopedOperation,options:ScopeOptions={})=>{
     const data=dataset.current;if(!data?.rowManifest)return;
@@ -157,6 +178,9 @@ function Controller() {
     }
   };
   const callbacks: UiCallbacks = {
+    onImportOptionsChange(editImportFirst){setState(s=>({...s,editImportFirst}));},
+    onDismissImport(){++epoch.current;engine.current.cancel();pendingImport.current=null;setState(s=>({...s,pendingImport:undefined,importDraft:undefined,error:null,phase:'idle',progress:''}));},
+    onApplyDataSettings(config,sources,session){if(session&&session===loadedImport.current)void applySettings(session,config,sources);},
     onRetryImport(){const files=importFiles.current;if(files)void callbacks.onImport([...files]);},
     onSupport:support,
     async onFactorInferencePlan(file){
@@ -171,7 +195,8 @@ function Controller() {
     },
     async onImport(files) {
       importFiles.current=[...files];
-      const token = start(); selectedExample.current = null;
+      const token=++epoch.current;engine.current.cancel();pendingImport.current=null;selectedExample.current=null;
+      setState(s=>({...s,phase:'loading',error:null,workerDiagnostic:undefined,canRetryImport:false,pendingImport:undefined,importDraft:undefined,processingStage:'prepare',progress:'Reading local files and inferring the dataset with IO'}));
       try {
         if (files.length > MAX_IMPORT_FILES || files.reduce((n, f) => n + f.size, 0) > MAX_IMPORT_BYTES) throw new Error('IMPORT_BYTE_OR_FILE_BUDGET_EXCEEDED: maximum 8 MiB and 32 files; no silent sampling.');
         if (files.length === 1 && /\.json$/i.test(files[0].name) && !files[0].name.endsWith('.nirs4all.json')) {
@@ -183,26 +208,23 @@ function Controller() {
           view.findings.forEach(finding => { finding.confidence = 'Declared by the supplied report; not independently authenticated'; });
           view.provenance.source_qualification = 'User-supplied saved evidence; schema validated, authorship and numerical qualification not authenticated.';
           view.limitations.push('Imported saved report: structural validation is not a new scientific analysis or source-authenticity check.');
-          scientific.current = source; dataset.current = null;
-          setState(s => ({ ...s, phase: 'idle', result: view })); return;
+          clearEvidence();loadedImport.current=null;scientific.current = source;
+          setState(s => ({ ...s, phase: 'idle', result: view,importSession:undefined,pendingImport:undefined,importSummary:undefined })); return;
         }
         const payload = await Promise.all(files.map(async file => ({ name: file.webkitRelativePath || file.name, bytes: new Uint8Array(await file.arrayBuffer()) })));
         if (token !== epoch.current) return;
         const draft=await engine.current.request<DatasetDraft>('prepare_import',payload,progress(token));
         if(token!==epoch.current)return;
-        setState(s=>({...s,phase:'idle',importDraft:draft,progress:''}));
+        if(state.editImportFirst){
+          const session:ImportSession={draft,config:defaultImportConfig(draft),sources:draft.sources,issues:[]};
+          pendingImport.current=session;setState(s=>({...s,phase:'idle',importDraft:draft,pendingImport:session,progress:''}));return;
+        }
+        const outcome=await engine.current.request<ImportOutcome>('assemble_import',{draft,config:defaultImportConfig(draft),sources:draft.sources,mode:'one_shot',automatic:true},progress(token));
+        acceptImport(outcome,token);
       } catch (error) { failed(token, error); }
     },
-    async onConfirmImport(config,sources){
-      const draft=state.importDraft;if(!draft)return;
-      const token=++epoch.current;engine.current.cancel();
-      setState(s=>({...s,phase:'loading',error:null,processingStage:'import',progress:'Assembling reviewed roles with IO'}));
-      try{
-        const data=await engine.current.request<LocalDataset>('assemble_import',{draft,config,sources},progress(token));
-        if(token!==epoch.current)return;
-        dataset.current=data;operations.current=[];supportResults.current=[];externalPlan.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;
-        publishScoped(data);
-      }catch(error){failed(token,error);}
+    async onConfirmImport(config,sources,session){
+      if(session&&session===pendingImport.current)await applySettings(session,config,sources);
     },
     onScopedOperation:scoped,
     onFactorAssociation:associate,
@@ -242,9 +264,10 @@ function Controller() {
       scientific.current = null; dataset.current = null;
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { importFiles.current=null;++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
+      loadedImport.current=null;pendingImport.current=null;
       operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
       associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
-      setState(s => ({ ...s, importDraft:undefined,phase: 'idle', result:null,error:null,workerDiagnostic:undefined,canRetryImport:false,progress:'' })); },
+      setState(s => ({ ...s, importDraft:undefined,importSession:undefined,pendingImport:undefined,importSummary:undefined,editImportFirst:false,phase: 'idle', result:null,error:null,workerDiagnostic:undefined,canRetryImport:false,progress:'' })); },
     async onIntent(intent: PredictionIntent) {
       if (!scientific.current) return; // A queued old control cannot cancel a new dataset import.
       const token = ++epoch.current; engine.current.cancel();
