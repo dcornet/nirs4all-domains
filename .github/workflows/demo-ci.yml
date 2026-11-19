@@ -110,6 +110,23 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Execute F4.3 complete synthetic preprocessing panels through actual WASM
         run: node bindings/wasm/tests/preprocessing-protocol.mjs wasm demo/test-results/preprocessing-wasm.json
+      - name: Attribute F4.3 differences on identical frozen IEEE inputs (diagnostic only)
+        shell: pwsh
+        run: |
+          python -m unittest discover -s scripts/tests -p test_same_input_preprocessing.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node bindings/wasm/tests/preprocessing-isolation.mjs prepare demo/test-results/preprocessing-isolation bindings/wasm/tests/preprocessing-isolation-fixture.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/preprocessing-isolation/prepare-native.json'); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_preprocessing_isolation','--','demo/test-results/preprocessing-isolation/prepare-requests.json']))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node bindings/wasm/tests/preprocessing-isolation.mjs extend demo/test-results/preprocessing-isolation demo/test-results/preprocessing-isolation/prepare-native.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "import pathlib,subprocess; p=pathlib.Path('demo/test-results/preprocessing-isolation/extend-native.json'); p.write_bytes(subprocess.check_output(['cargo','run','--quiet','--locked','-p','nirs4all-domains','--example','browser_preprocessing_isolation','--','demo/test-results/preprocessing-isolation/extend-requests.json']))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/diagnose_same_input_preprocessing.py demo/test-results/preprocessing-isolation --out demo/test-results/preprocessing-isolation/attribution.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          # This enumerates actual same-input differences. The original mandatory
+          # numerical/hash comparison below still determines portability failure.
       - name: Replay exact F4.3 inputs natively and verify invariant numerical parity
         shell: pwsh
         run: |
