@@ -49,13 +49,14 @@ export async function uxLive(page,report,output,exported,screenshot,check){
   check('F2 keyboard journey, context help, partial/complete F1 exports and return to the unchanged dataset');
   return html;
 }
-export async function confirmReviewedImport(page,operation){
-  const before=await page.evaluate(()=>window.__domainsWorkerAudit?.completed.length??0);
-  await page.getByLabel('I confirm the displayed roles, join identifiers and partitions.').check();
-  await page.getByRole('button',{name:'Import reviewed data',exact:true}).click();
+export async function waitForOneShotImport(page){
+  await page.locator('.workspace-summary').waitFor({state:'visible',timeout:120000});
   await page.getByRole('heading',{name:'Scoped analysis',exact:true}).waitFor();
-  if(operation){await page.getByRole('button',{name:operation,exact:true}).click();await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+2,before);await page.locator('.workspace-summary').waitFor();}
-  else await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+1,before);
+  await page.locator('.dataset-loaded-summary').waitFor({state:'visible'});
+  assert.equal(await page.getByRole('checkbox',{name:/I confirm the displayed roles, join identifiers and partitions/}).count(),0,
+    'A normal import must not require a role confirmation checkbox');
+  assert.equal(await page.getByRole('button',{name:'Import reviewed data',exact:true}).count(),0,
+    'A normal import must not wait for a second import action');
 }
 export async function uxSummaryOffline(browser,html,report,output,screenshot,check){
   const context=await browser.newContext({offline:true,viewport:{width:1200,height:900}});
@@ -74,19 +75,22 @@ export async function uxSummaryOffline(browser,html,report,output,screenshot,che
     assert.equal(external,0);check('F2 partial offline HTML is labeled, retains full originals, opens exact evidence without scripts and prints the selected scope');
   }finally{await context.close();}
 }
-export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,check,confirmImport=confirmReviewedImport){
+export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,check){
   // Explicit declared IDs justify keyed alignment; local row order is not a join contract.
   await home(page);
   const spec={schema_version:1,name:'Synthetic metadata import',sources:[
     {id:'X',role:'features',input:'X.csv',partition:'train',key:'join_id',columns:{features:['1000','1100'],metadata:['join_id']},params:{delimiter:',',has_header:true}},
     {id:'M',role:'metadata',input:'M.csv',partition:'train',key:'join_id',join:{left:'M',right:'X',left_on:'join_id',right_on:'join_id',cardinality:'1:1',coverage:'complete'},columns:{metadata:['join_id','acquisition','batch','site']},params:{delimiter:',',has_header:true}},
   ]};
-  await page.locator('input[type=file]').setInputFiles([
+  const metadataBefore=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
+  await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles([
     {name:'example.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))},
     {name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('join_id,1000,1100\nx-a,1,2\nx-b,2,3\nx-c,3,4\n')},
     {name:'M.csv',mimeType:'text/csv',buffer:Buffer.from('join_id,acquisition,batch,site\nx-c,c,g1,s2\nx-a,a,g1,s1\nx-b,b,g1,s1\n')},
   ]);
-  await confirmImport(page,'Train structure');
+  await waitForOneShotImport(page);
+  await page.getByRole('button',{name:'Train structure',exact:true}).click();
+  await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+3,metadataBefore);
   await page.locator('.workspace-summary').waitFor();const withMetadata=await json(page);
   assert.deepEqual(withMetadata.dataset.metadata,['join_id','acquisition','batch','site']);assert.equal(withMetadata.dataset.observations,3);
   assert.equal(withMetadata.provenance.physical_independence,'unknown');
@@ -109,12 +113,12 @@ export async function uxExtraInputs(page,home,importCsv,json,output,screenshot,c
   // selected train-structure operation without inventing a train population.
   for(const partition of ['test','predict']){
     await home(page);const retained={schema_version:1,name:'Synthetic retained-partition refusal',sources:[{id:'X',role:'features',input:'X.csv',partition}]};
-    await page.locator('input[type=file]').setInputFiles([{name:'retained.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(retained))},{name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000\n1\n2\n3\n')}]);
-    await confirmImport(page);
+    const before=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
+    await page.locator('input[type=file]:not([webkitdirectory])').setInputFiles([{name:'retained.nirs4all.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(retained))},{name:'X.csv',mimeType:'text/csv',buffer:Buffer.from('1000\n1\n2\n3\n')}]);
+    await waitForOneShotImport(page);
     const imported=await json(page);assert.equal(imported.scientific_report.scoped_operations.length,0);
     assert.equal(imported.scientific_report.inventory.loaded.partitions[0].name,partition);
     assert.equal(imported.pca,null,'Importing retained X must not fit or display PCA');
-    const before=await page.evaluate(()=>window.__domainsWorkerAudit.completed.length);
     await page.getByRole('button',{name:'Train structure',exact:true}).click();await page.waitForFunction(n=>window.__domainsWorkerAudit.completed.length>=n+1,before);await page.locator('.workspace-summary').waitFor();
     const refused=await json(page),operation=refused.scientific_report.scoped_operations.at(-1);
     assert.notEqual(operation.status,'computed');assert.equal(operation.value,null);

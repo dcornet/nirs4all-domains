@@ -1,4 +1,4 @@
-import { useEffect,useMemo,useState, type ReactNode } from 'react';
+import { useEffect,useMemo,useState,useRef, type ReactNode } from 'react';
 import { EigenvalueScree, ScoreMap, SpectraExplorer } from 'nirs4all-ui/qualification';
 import type { EvidenceStatus, Locale, PredictionIntent, UiCallbacks, UiDeclarations, UiResult,ReadingMode } from './ui-types';
 import type { T } from './i18n';
@@ -16,6 +16,10 @@ import {FactorAssociationResults} from './FactorAssociationResults';
 import {SensitivityPanel} from './SensitivityPanel';
 import {SupportPanel} from './SupportPanel';
 import {FactorColorLegend} from './FactorColorLegend';
+import {DatasetLoadedSummary} from './DatasetLoadedSummary';
+import {DatasetImport} from './DatasetImport';
+import type {ImportSummary, ImportSession} from './engine/one-shot';
+import {DatasetFileDropzone} from './Landing';
 
 const colors = ['#0d9488', '#7c3aed', '#d97706', '#0284c7', '#db2777', '#65a30d'];
 const sections = ['data', 'spectra', 'geometry', 'warnings', 'intent', 'evidence', 'export'] as const;
@@ -24,8 +28,9 @@ function Badge({ status, t }: { status: EvidenceStatus; t: T }) { return <span c
 function Section({ id, number, title, intro, children }: { id: string; number: string; title: string; intro?: string; children: ReactNode }) {
   return <section className="workspace-section" id={id} tabIndex={-1}><div className="section-heading"><span className="section-number">{number}</span><div><h2>{title}</h2>{intro && <p>{intro}</p>}</div></div>{children}</section>;
 }
-export function Workspace({ result, intent, declarations, callbacks, locale, t,busy=false }: { result: UiResult; intent: PredictionIntent; declarations?: UiDeclarations; callbacks: UiCallbacks; locale: Locale; t: T;busy?:boolean }) {
+export function Workspace({ result, intent, declarations, callbacks, locale, t,busy=false, importSummary, importSession }: { importSummary?: ImportSummary; importSession?: ImportSession; result: UiResult; intent: PredictionIntent; declarations?: UiDeclarations; callbacks: UiCallbacks; locale: Locale; t: T;busy?:boolean }) {
   const { dataset } = result;
+  const dataSettings = useRef<HTMLDetailsElement>(null);
   const report = useMemo(()=>presentation(result, locale, intent),[result,locale,intent]), c = reportCopy(locale),u=uxCopy(locale);
   const [reading,setReading]=useState<ReadingMode>('complete');
   const [choices,setChoices]=useState<{owner:string;ids:OptionalSection[];action:'toggle'|'select_all'|'clear'}|null>(null);
@@ -50,7 +55,11 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
   return <>
     <div className="workspace-header"><div className="container"><div className="workspace-title"><div><span className={`mode-label ${result.mode}`}>{t(result.mode)}</span><h1 id="workspace-title" tabIndex={-1}>{dataset.name}</h1></div><button className="button secondary" onClick={callbacks.onReset}>← {t('newData')}</button></div>
       <p className="workspace-summary">{report.brief[0]}</p><details className="source-summary"><summary>{c.original}</summary><p>{result.summary}</p></details><div className="workspace-facts"><span><strong>{dataset.observations === null ? t('notCarried') : dataset.observations.toLocaleString(locale)}</strong> {t('samples')}</span><span><strong>{dataset.variables === null ? t('notCarried') : dataset.variables.toLocaleString(locale)}</strong> {t('variables')}</span><span>{result.protocol}</span></div>
+      {importSummary && importSummary.content_sha256 === dataset.contentHash && <DatasetLoadedSummary summary={importSummary} locale={locale}/>}
     </div></div>
+    <details className="container replacement-import"><summary>{locale === 'fr' ? 'Charger un autre dataset' : 'Load another dataset'}</summary><DatasetFileDropzone callbacks={callbacks} t={t} busy={busy} locale={locale}/></details>
+    {importSession && (callbacks.onApplyDataSettings ?? callbacks.onConfirmImport) && <details ref={dataSettings} className="container data-settings"><summary>{locale === 'fr' ? 'Paramètres des données' : 'Data settings'}</summary><DatasetImport draft={importSession.draft} initialConfig={importSession.config} initialSources={importSession.sources} locale={locale} busy={busy} onConfirm={(config,sources) => (callbacks.onApplyDataSettings ?? callbacks.onConfirmImport)?.(config,sources,importSession)} onCancel={() => { if(dataSettings.current)dataSettings.current.open=false; }}/></details>}
+    {importSummary && callbacks.onScopedOperation && <div className="container"><ScopeControls result={result} locale={locale} busy={busy} hideInventory onOperation={callbacks.onScopedOperation} onColor={callbacks.onColorFactor}/></div>}
     <nav className="journey-nav" aria-label={u.route}><div className="container">{u.steps.map((title,index)=><a key={index} href={`#journey-${index+1}`}><span>0{index+1}</span>{title}</a>)}</div></nav>
     <details className="container direct-navigation"><summary>{u.direct}</summary><nav aria-label={u.direct}>{sections.map(section=><a key={section} href={`#${section}`}>{t(section)}</a>)}<a href="#report-summary">{u.returnSummary}</a></nav></details>
     <div className="container workspace-content">
@@ -70,7 +79,7 @@ export function Workspace({ result, intent, declarations, callbacks, locale, t,b
           <p className="chart-caption">{t('displayOnly')}</p>{selectedSeries && <p className="selection" role="status">{t('selected')}: <strong>{selectedSeries.id}</strong>{selectedSeries.group ? ` · ${selectedSeries.group}` : ''}</p>}
         </div> : <div className="unavailable panel"><Badge status="unavailable" t={t}/><p>{result.provenance.scoped_inventory?(locale==='fr'?'Données importées conservées ; choisir une opération admissible. Aucune coordonnée n’est reconstruite.':'Imported data retained; choose an admitted operation. No coordinates are reconstructed.'):c.saved}</p></div>}
       </Section>
-      {callbacks.onScopedOperation&&<ScopeControls result={result} locale={locale} busy={busy} hideInventory onOperation={callbacks.onScopedOperation} onColor={callbacks.onColorFactor}/>}
+      {!importSummary&&callbacks.onScopedOperation&&<ScopeControls result={result} locale={locale} busy={busy} hideInventory onOperation={callbacks.onScopedOperation} onColor={callbacks.onColorFactor}/>}
       {callbacks.onSensitivity&&result.sensitivityControls&&<SensitivityPanel results={result.sensitivityResults??[]} controls={result.sensitivityControls} locale={locale} busy={busy} onRun={callbacks.onSensitivity}/>}
       {callbacks.onSupport&&<SupportPanel results={result.supportResults??[]} locale={locale} busy={busy} onRun={callbacks.onSupport}/>}
       {result.factorControls&&callbacks.onFactorAssociation&&<FactorAssociationControls {...result.factorControls} locale={locale} busy={busy}

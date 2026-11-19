@@ -14,8 +14,9 @@ export interface FormatsRuntime { openWithSidecars: typeof import('@nirs4all/for
 export interface DatasetDraft {
   files: InputFile[]; records: RecordSet[]; spec: DatasetSpec; sources: DatasetSource[];
   warnings: string[]; taskType: string | null;
+  inference?:DatasetPlan;assemblyError?:string;unassignedInputs?:string[];
 }
-export interface ReviewedImport { draft: DatasetDraft; config: DatasetExportConfig; sources: DatasetSource[] }
+export interface ReviewedImport { draft: DatasetDraft; config: DatasetExportConfig; sources: DatasetSource[];mode?:'one_shot';automatic?:boolean }
 export interface MetadataDeclaration { role: MetadataRole; derived_from_target: boolean | 'unknown'; unit?: string }
 export interface ReviewedDatasetConfig extends DatasetExportConfig { metadata_declarations?: Record<string, MetadataDeclaration> }
 
@@ -43,10 +44,19 @@ export async function loadImportRuntime(needsFormats = false): Promise<{ io: IoR
 
 function diagnosticSpec(input: DatasetSpec): DatasetSpec {
   const spec = structuredClone(input);
+  const partition=spec.partitions as {by?:unknown;type?:unknown;method?:unknown;strategy?:unknown}|undefined;
+  if(partition&&[partition.by,partition.type,partition.method,partition.strategy].includes('random'))throw Object.assign(new Error('IMPLICIT_PARTITION_GENERATION_NOT_ADMITTED'),{code:'IMPLICIT_PARTITION_GENERATION_NOT_ADMITTED'});
   if (spec.aggregate || spec.repetition) throw new Error('AGGREGATION_NOT_ADMITTED_IN_OBSERVATION_DIAGNOSTIC');
-  spec.params = { ...spec.params, na: { policy: 'ignore' } };
-  spec.sources = spec.sources.map(source => ({ ...source, params: { ...source.params, na: { policy: 'ignore' } } }));
+  spec.params = { ...spec.params, na: retainedNa(spec.params?.na) };
+  spec.sources = spec.sources.map(source => ({ ...source, params: { ...source.params, na: retainedNa(source.params?.na) } }));
   return spec;
+}
+const retainedNa=(value:unknown)=>({...((value&&typeof value==='object'&&!Array.isArray(value))?value:{}),policy:'ignore'});
+/** Validation-fold declarations are retained in the session, not executed at import. */
+function importExecutionSpec(spec:DatasetSpec):DatasetSpec{
+ const active={...spec,sources:spec.sources.filter(source=>source.role!=='ignore')};
+ delete active.folds;
+ return active;
 }
 const roles: Record<string, DatasetRole> = { features: 'x', targets: 'y', metadata: 'metadata', id: 'id', ignore: 'ignored' };
 type ColumnPlan = { ref: string; column_roles: { col: string; role: string }[] };
@@ -56,7 +66,7 @@ const canonical = (value: unknown): unknown => Array.isArray(value) ? value.map(
   : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([key, item]) => [key, canonical(item)])) : value;
 
 /** A failed preliminary join remains reviewable; never invent a positional alignment. */
-export function prepareDataset(files: InputFile[], io: IoRuntime, formats: FormatsRuntime): DatasetDraft {
+export function prepareDataset(files: InputFile[], io: IoRuntime, formats: FormatsRuntime, options:{allowUnassigned?:boolean;specOverride?:DatasetSpec;refreshColumns?:boolean}={}): DatasetDraft {
   checkFiles(files);
   const configFile = files.find(file => file.name.endsWith('.nirs4all.json'));
   const dataFiles = files.filter(file => file !== configFile);
@@ -68,15 +78,16 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
     if (decoded?.length) records.push({ source: file.name, records: decoded });
   }
   const plan = io.inferDataset(dataFiles, records, {}) as DatasetPlan;
-  const spec = diagnosticSpec(configFile ? JSON.parse(new TextDecoder().decode(configFile.bytes)) as DatasetSpec : plan.resolved_spec);
+  const spec = diagnosticSpec(options.specOverride??(configFile ? JSON.parse(new TextDecoder().decode(configFile.bytes)) as DatasetSpec : plan.resolved_spec));
   if (!spec?.sources?.length) throw new Error('IO_DATASET_CONFIGURATION_REQUIRED');
   const declaredNames = spec.sources.flatMap(namesOf);
-  if (dataFiles.some(file => /\.(csv|tsv|txt)$/i.test(file.name) && !declaredNames.includes(file.name)) || records.some(record => !declaredNames.includes(record.source)))
+  const unassignedInputs=dataFiles.filter(file=>!declaredNames.includes(file.name)).map(file=>file.name);
+  if (!options.allowUnassigned&&(dataFiles.some(file => /\.(csv|tsv|txt)$/i.test(file.name) && !declaredNames.includes(file.name)) || records.some(record => !declaredNames.includes(record.source))))
     throw new Error('IO_UNASSIGNED_INPUT_REQUIRES_EXPLICIT_CONFIGURATION');
   const warnings = [...(plan.warnings ?? [])];
-  let preview: AssembledDataset | undefined;
-  try { preview = io.assembleDataset(rawFiles(dataFiles, records), records, JSON.stringify(spec)) as AssembledDataset; }
-  catch { warnings.push('Preliminary assembly is unresolved. Review column roles and declared join keys; IO will validate the final assembly.'); }
+  let preview: AssembledDataset | undefined,assemblyError:string|undefined;
+  try { preview = io.assembleDataset(rawFiles(dataFiles, records), records, JSON.stringify(importExecutionSpec(spec))) as AssembledDataset; }
+  catch(error) { assemblyError=error instanceof Error?error.message:String(error);warnings.push('Preliminary assembly is unresolved. IO will validate any corrected assembly.'); }
   const sources = spec.sources.map((source): DatasetSource => {
     const names = namesOf(source);
     const blocks = Object.entries(preview?.blocks ?? {}).filter(([partition]) => !source.partition || partition === source.partition).map(([, block]) => block);
@@ -84,6 +95,7 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
     const spectral = block?.source_ids.indexOf(source.id) ?? -1;
     const columns = new Map<string, DatasetRole>();
     let inferred = (plan.columns as ColumnPlan[]).find(column => names.includes(column.ref));
+    let inferredLocally=false;
     // File conventions can omit column decisions. Ask the public IO inferencer
     // for that table's columns, using neutral naming solely for this preview.
     if (!inferred && names.length === 1 && /\.(csv|tsv|txt)$/i.test(names[0])) {
@@ -92,12 +104,14 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
         try {
           const local = io.inferDataset([{ ...file, name: `preview.${file.name.split('.').pop()}` }], [], {}) as DatasetPlan;
           inferred = (local.columns as ColumnPlan[])[0];
+          inferredLocally=true;
         } catch { /* Final native validation explains unsupported input. */ }
       }
     }
     for (const column of inferred?.column_roles ?? []) {
       const role = roles[column.role] ?? 'metadata';
-      columns.set(column.col, role === 'id' ? role : source.role === 'targets' ? 'y' : source.role === 'metadata' ? 'metadata' : role);
+      columns.set(column.col, role === 'id' ? role : source.role === 'targets' ? 'y' : source.role === 'metadata' ? 'metadata'
+        : source.role==='features'&&inferredLocally&&role==='y'?'x':role);
     }
     const selectors = source.columns;
     if (Array.isArray(selectors)) for (const selector of selectors as { role: string; select: unknown }[]) {
@@ -114,6 +128,10 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
       if (!owner && inferred && !columns.has(column.name)) continue;
       const name = owner ? column.name.slice(owner.id.length + 2) : column.name;
       columns.set(name, columns.get(name) ?? 'metadata');
+    }
+    if(options.refreshColumns&&preview){
+      const actual=new Set([...(spectral>=0?block?.feature_headers[spectral]??[]:[]),...(block?.y_headers??[]),...(block?.metadata?.columns??[]).map(c=>c.name.startsWith(`${source.id}__`)?c.name.slice(source.id.length+2):c.name)]);
+      for(const name of columns.keys())if(!actual.has(name))columns.delete(name);
     }
     if (typeof source.key === 'string') columns.set(source.key, 'id');
     const params = source.params ?? {};
@@ -138,7 +156,7 @@ export function prepareDataset(files: InputFile[], io: IoRuntime, formats: Forma
           ...(categories ? { semanticType: 'classification' as const } : {}) };
       }) };
   });
-  return { files, records, spec, sources, warnings, taskType: plan.task_type?.value ?? null };
+  return { files, records, spec, sources, warnings, taskType: plan.task_type?.value ?? null,inference:plan,assemblyError,unassignedInputs };
 }
 
 export async function prepareImport(files: InputFile[]): Promise<DatasetDraft> {
@@ -146,7 +164,7 @@ export async function prepareImport(files: InputFile[]): Promise<DatasetDraft> {
   const needsFormats = files.some(file => !file.name.endsWith('.nirs4all.json') && !/\.(csv|tsv|txt)$/i.test(file.name));
   const { io, formats } = await loadImportRuntime(needsFormats);
   importObserver('IMPORT_RUNNING','io');
-  const draft=prepareDataset(files,io,formats);
+  const draft=prepareDataset(files,io,formats,{allowUnassigned:true});
   importObserver('IMPORT_COMPLETE','io');return draft;
 }
 
@@ -155,6 +173,7 @@ function sourcePartition(source: DatasetSource, original: SourceSpec): string | 
   const use = source.usage.useAs;
   if (use === 'x_test' || use === 'y_test') return 'test';
   if (use === 'x_train' || use === 'y_train') return 'train';
+  if (use === 'x_train_test') return undefined;
   return original.partition;
 }
 
@@ -186,10 +205,11 @@ export function builderSpec(draft: DatasetDraft, config: DatasetExportConfig, so
     for (const column of source.columns) (columns[nativeRoles[column.assignedRole]] ??= []).push(column.name);
     if (!source.columns.length) throw new Error('SOURCE_COLUMNS_REQUIRE_EXPLICIT_IO_CONFIGURATION');
     const next: SourceSpec = { ...original, role: 'mixed', columns,
-      params: { ...original.params, na: { policy: 'ignore' }, ...(source.parsing.separator ? { delimiter: source.parsing.separator } : {}),
+      params: { ...original.params, na: retainedNa(original.params?.na), ...(source.parsing.separator ? { delimiter: source.parsing.separator } : {}),
         has_header: source.parsing.headerMode !== 'none', decimal_separator: source.parsing.decimal ?? '.' } };
     const partition = sourcePartition(source, original);
     if (partition) next.partition = partition; else delete next.partition;
+    if(source.columns.every(column=>column.assignedRole==='ignored')){next.role='ignore';delete next.key;delete next.join;return next;}
     const id = source.columns.find(column => column.assignedRole === 'id' && column.name === original.key)
       ?? source.columns.find(column => column.assignedRole === 'id');
     if (id) {
@@ -213,6 +233,7 @@ export function builderSpec(draft: DatasetDraft, config: DatasetExportConfig, so
     return next;
   });
   for (const source of spec.sources) {
+    if(source.role==='ignore')continue;
     const reviewed = sources.find(candidate => candidate.id === source.id)!;
     const hasX = reviewed.columns.some(column => column.assignedRole === 'x');
     const anchors = spec.sources.filter(candidate => candidate.id !== source.id && candidate.partition === source.partition &&
@@ -361,12 +382,19 @@ export async function adaptImported(full: ImportedAssembled, files: InputFile[],
       ...(missingX.some(row => row.some(Boolean)) ? ['Missing X cells retained without imputation or row deletion; operations needing complete X may be unavailable.'] : [])] };
 }
 
-export async function assembleDatasetDraft(draft: DatasetDraft, config: DatasetExportConfig, sources: DatasetSource[], io: IoRuntime): Promise<LocalDataset> {
+export async function assembleDatasetDraft(draft: DatasetDraft, config: DatasetExportConfig, sources: DatasetSource[], io: IoRuntime, rolesReviewed=true): Promise<LocalDataset> {
   checkFiles(draft.files);
-  const spec = builderSpec(draft, config, sources); io.validate(JSON.stringify(spec));
+  const spec = builderSpec(draft, config, sources);
+  // IO 0.2.14 still performs row-alignment checks for role:ignore frames.
+  // Exclude explicitly inactive sources from its execution projection; keep all
+  // original files/declarations in the session and bind every original byte.
+  const activeSpec=importExecutionSpec(spec);
+  io.validate(JSON.stringify(activeSpec));
   const dataFiles = draft.files.filter(file => !file.name.endsWith('.nirs4all.json'));
-  const assembled = io.assembleDataset(rawFiles(dataFiles, draft.records), draft.records, JSON.stringify(spec)) as ImportedAssembled;
-  return adaptImported(assembled, draft.files, spec, draft.warnings, sources, true);
+  const assembled = io.assembleDataset(rawFiles(dataFiles, draft.records), draft.records, JSON.stringify(activeSpec)) as ImportedAssembled;
+  return adaptImported(assembled, draft.files, activeSpec, [...draft.warnings,
+    ...(spec.folds?['The original IO fold declaration is retained in session settings but is not materialized or used by technical import. No split is created or scientifically qualified.']:[]),
+    ...spec.sources.filter(source=>source.role==='ignore').map(source=>`Source ${source.id} is explicitly inactive in this assembly; original files remain retained in this session.`)], sources, rolesReviewed);
 }
 export async function assembleImport(draft: DatasetDraft, config: DatasetExportConfig, sources: DatasetSource[]): Promise<LocalDataset> {
   const { io } = await loadImportRuntime();importObserver('IMPORT_RUNNING','io');

@@ -46,6 +46,10 @@ export interface UiResult {
 export interface UiExample { id: string; name: string; description: string; mode: 'live' | 'saved'; dimensions: string; license: string; }
 export interface UiState {
   importDraft?:DatasetDraft;
+  importSession?:import('./engine/one-shot').ImportSession;
+  pendingImport?:import('./engine/one-shot').ImportSession;
+  importSummary?:import('./engine/one-shot').ImportSummary;
+  editImportFirst?:boolean;
   phase: 'idle' | 'loading' | 'running' | 'cancelled' | 'error';
   progress: string; error: { code: string; message: string;diagnostic?:import('./engine/runtime-diagnostic').WorkerDiagnostic } | null;
   workerDiagnostic?:import('./engine/runtime-diagnostic').WorkerDiagnostic;
@@ -58,13 +62,16 @@ export interface UiState {
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
   onSensitivity?(run:import('./engine/preprocessing').SensitivityRun):void;
+  onImportOptionsChange?(editBeforeAssembly:boolean):void;
+  onDismissImport?():void;
+  onApplyDataSettings?(config:ReviewedImport['config'],sources:ReviewedImport['sources'],session?:import('./engine/one-shot').ImportSession):void;
   onRetryImport?():void;
   onSupport?(parameters:import('./engine/support').SupportParameters):void;
   onFactorInferencePlan?(file:File):void;
   onFactorAssociation?(request:FactorAssociationRun):void;
   onAssociationColor?(factorId:string):void;
   onAuthorizeFactorColorExport?(factorId:string,authorized:boolean):void;
-  onConfirmImport?(config:ReviewedImport['config'],sources:ReviewedImport['sources']):void;
+  onConfirmImport?(config:ReviewedImport['config'],sources:ReviewedImport['sources'],session?:import('./engine/one-shot').ImportSession):void;
   onScopedOperation?(operation:ScopedOperation,options?:ScopeOptions):void;
   onColorFactor?(field:string):void;
   onImport(files: File[]): void; onExample(id: string): void; onCancel(): void;

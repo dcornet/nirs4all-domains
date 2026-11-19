@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@nirs4all/domains": "file:../bindings/wasm",
-    "@nirs4all/io-wasm": "0.2.14",
-    "@nirs4all/formats-wasm": "0.2.14",
-    "nirs4all-ui": "0.2.5",
+    "@nirs4all/io-wasm": "^0.2.14",
+    "@nirs4all/formats-wasm": "^0.2.14",
+    "nirs4all-ui": "^0.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "ajv": "8.20.0"

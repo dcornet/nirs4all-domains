@@ -1,11 +1,20 @@
 # Integration, dependencies and obstacles
 
-Since Rust `0.1.0-alpha.17` / bridge `0.1.0a22`, Preflight crates are pinned to
-`=0.1.6` (DAG-ML core `=0.3.44`), the native library must be Methods 1.3.13 /
-ABI 2.20, and the predictive extra pins DAG-ML 0.3.44 and Methods 1.3.13; the
-optional FastAOM entry point is nirs4all 1.4.14. `providers.py` holds the
-qualified versions for new fits. Older version statements below are historical.
-See [upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md).
+Since Rust `0.1.0-alpha.17` / bridge `0.1.0a22`, the qualified cohort is
+Preflight 0.1.6 (DAG-ML core 0.3.44), native Methods 1.3.13 / ABI 2.20,
+DAG-ML 0.3.44, Datasets 0.3.11 and the optional FastAOM entry point nirs4all
+1.4.14. Following the ecosystem cross-repository version contract, manifests
+declare minor ranges (Cargo `nirs4all-preflight = "0.1"`; Python
+`nirs4all-methods>=1.3.13,<1.4`, `dag-ml>=0.3,<0.4`, `nirs4all-datasets>=0.3,<0.4`;
+npm `~1.3.13` for Methods, `^0.2.14` for IO/Formats and `^0.2.0` for UI).
+The Methods floor retains the required 1.3.13 provider; the IO/Formats floors
+retain the first versions admitted by the current browser-loader artifact locks.
+These ranges do not extend scientific or loader qualification. Exact versions
+live in `Cargo.lock`, the npm lockfiles
+and `ci/python-constraints.txt`. `providers.py` and the native transports still
+hold the qualified versions for new fits and refuse other providers. Older
+version statements below are historical. See
+[upstream alignment v1](RELEASE_UPSTREAM_ALIGNMENT_V1.md).
 
 Alpha.6 adds `group-target` (Rust/native descriptive association) and `dependence`
 (bounded Python/DAG-ML workflow) without another crate. Install the `predictive`
