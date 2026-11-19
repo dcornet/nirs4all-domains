@@ -269,8 +269,10 @@ Domains evidence; speculative estimators and generators do not become product
 behavior by default. [Product–research ownership](docs/PRODUCT_RESEARCH_BOUNDARY.md)
 defines promotion criteria and upstream model ownership.
 
-The proposed future repository is `nirs4all-structural-research`; this assignment
-does not create it. [R1–R5 research program](docs/STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md)
+The separate [nirs4all-structural-research repository](https://github.com/dcornet/nirs4all-structural-research)
+now contains the owner's research work and source-specific qualification records.
+The original boundary documents retain their historical proposal context.
+[R1–R5 research program](docs/STRUCTURAL_GENERALIZATION_RESEARCH_PROGRAM.md)
 and the [read-only interface/transition plan](docs/RESEARCH_INTEROPERABILITY_AND_TRANSITION.md)
 are proposals, not authorization for fitting, GPU setup, archive migration or publication.
 
