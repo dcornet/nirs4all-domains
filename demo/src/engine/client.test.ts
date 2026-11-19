@@ -2,14 +2,18 @@ import {afterEach,describe,expect,it,vi} from 'vitest';
 import {BrowserEngine} from './client';
 
 class WorkerDouble {
-  onmessage:((event:{data:unknown})=>void)|null=null;
+  private messageHandler:((event:{data:unknown})=>void)|null=null;
+  autoReady=true;
+  set onmessage(handler:((event:{data:unknown})=>void)|null){this.messageHandler=handler;if(handler&&this.autoReady)this.ready();}
+  get onmessage(){return this.messageHandler;}
   onerror:((event:{message:string})=>void)|null=null;
   onmessageerror:(()=>void)|null=null;
-  terminated=0;message:{id:number;operation:string;payload:unknown}|null=null;
+  terminated=0;message:{id:number;operation:string;payload:unknown}|null=null;posts:{message:unknown;transfer:Transferable[]}[]=[];
   cloneFailure=false;
   terminate(){this.terminated++;}
-  postMessage(message:unknown,transfer:Transferable[]=[]){if(this.cloneFailure)throw new DOMException('Original clone failure','DataCloneError');this.message=structuredClone(message,{transfer}) as typeof this.message;}
-  reply(value:object){this.onmessage?.({data:{id:this.message!.id,...value}});}
+  postMessage(message:unknown,transfer:Transferable[]=[]){if(this.cloneFailure)throw new DOMException('Original clone failure','DataCloneError');this.posts.push({message,transfer});this.message=structuredClone(message,{transfer}) as typeof this.message;}
+  ready(){this.messageHandler?.({data:{id:0,ok:true,stage:'Worker bootstrap ready',stage_id:'prepare',protocol_version:'domains.worker_bootstrap.v1',lifecycle_event:'WORKER_BOOTSTRAP_READY',component:'worker'}});}
+  reply(value:object){this.messageHandler?.({data:{id:this.message!.id,...value}});}
 }
 function fixture(){const workers:WorkerDouble[]=[];const engine=new BrowserEngine(()=>{const w=new WorkerDouble();workers.push(w);return w as unknown as Worker;});return {engine,workers};}
 afterEach(()=>vi.useRealTimers());
@@ -33,20 +37,24 @@ describe('Worker ownership and bounded transport',()=>{
   it('settles a postMessage clone failure and immediately terminates/clears its timer',async()=>{
     vi.useFakeTimers();const worker=new WorkerDouble();worker.cloneFailure=true;
     const engine=new BrowserEngine(()=>worker as unknown as Worker);
-    await expect(engine.request('analyze',{})).rejects.toMatchObject({name:'DataCloneError',message:'Original clone failure'});
+    let failure:Error&{code?:string;diagnostic?:{original_message_available?:boolean}};
+    try{await engine.request('analyze',{});throw new Error('Expected clone failure');}
+    catch(error){failure=error as Error&{code?:string;diagnostic?:{original_message_available?:boolean}};}
+    expect(failure.code).toBe('DATA_CLONE_FAILED');expect(failure.message).not.toContain('Original clone failure');
+    expect(failure.diagnostic?.original_message_available).toBe(true);
     expect(worker.terminated).toBe(1);expect(vi.getTimerCount()).toBe(0);
   });
   it('refuses deserialization failure and malformed replies, then permits recovery',async()=>{
-    const {engine,workers}=fixture();let pending=engine.request('analyze',{});let rejected=expect(pending).rejects.toThrow('WORKER_MESSAGE_DESERIALIZATION_FAILED');workers[0].onmessageerror?.();await rejected;
-    pending=engine.request('analyze',{});rejected=expect(pending).rejects.toThrow('WORKER_INVALID_REPLY');workers[1].reply({ok:true});await rejected;
+    const {engine,workers}=fixture();let pending=engine.request('analyze',{});let rejected=expect(pending).rejects.toMatchObject({code:'WORKER_MESSAGE_DESERIALIZATION_FAILED'});workers[0].onmessageerror?.();await rejected;
+    pending=engine.request('analyze',{});rejected=expect(pending).rejects.toMatchObject({code:'WORKER_INVALID_REPLY'});workers[1].reply({ok:true});await rejected;
     const recovered=engine.request('interpret',{});workers[2].reply({ok:true,result:{unchanged:true}});expect(await recovered).toEqual({unchanged:true});
   });
   it('retains precise scientific refusal codes/messages and rejects invalid progress',async()=>{
     const {engine,workers}=fixture();let pending=engine.request('analyze',{});let rejected=expect(pending).rejects.toMatchObject({code:'BUDGET',message:'Exact provider scope'});workers[0].reply({ok:false,error:{code:'BUDGET',message:'Exact provider scope'}});await rejected;
-    pending=engine.request('analyze',{});rejected=expect(pending).rejects.toThrow('WORKER_INVALID_REPLY');workers[1].reply({ok:true,stage:42});await rejected;
+    pending=engine.request('analyze',{});rejected=expect(pending).rejects.toMatchObject({code:'WORKER_INVALID_REPLY'});workers[1].reply({ok:true,stage:42});await rejected;
   });
   it('preserves the 120-second deadline and really terminates timed-out work',async()=>{
-    vi.useFakeTimers();const {engine,workers}=fixture();const pending=engine.request('analyze',{}),rejected=expect(pending).rejects.toThrow('WORKER_TIME_BUDGET_EXCEEDED');
+    vi.useFakeTimers();const {engine,workers}=fixture();const pending=engine.request('analyze',{}),rejected=expect(pending).rejects.toMatchObject({code:'WORKER_TIME_BUDGET_EXCEEDED'});
     await vi.advanceTimersByTimeAsync(119999);expect(workers[0].terminated).toBe(0);await vi.advanceTimersByTimeAsync(1);await rejected;expect(workers[0].terminated).toBe(1);expect(vi.getTimerCount()).toBe(0);
   });
   it('transfers each import buffer once, preserving exact names/order/byte views and freeing sender ownership',async()=>{

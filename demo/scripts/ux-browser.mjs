@@ -138,7 +138,9 @@ export async function uxBlockedWasm(browser,url,check){
     await page.route('**/*.wasm',route=>{requests.push(route.request().url());return route.abort('failed');});
     await page.goto(url);await page.getByRole('button',{name:/Two spectral populations/}).click();await page.getByRole('alert').waitFor();
     assert.equal(await page.locator('.workspace-summary').count(),0);assert(requests.length>0);
-    assert((await page.getByRole('alert').innerText()).includes('WASM'));
+    const diagnostic=JSON.parse(await page.getByRole('alert').locator('pre').last().textContent());
+    assert.equal(diagnostic.code,'DOMAINS_INITIALIZATION_FAILED');
+    assert.equal(diagnostic.component,'domains');assert.equal(diagnostic.phase,'DOMAINS_RUNTIME_LOADING');
     assert(errors.every(error=>/Failed to load resource: net::ERR_FAILED|WebAssembly|fetch|WASM/i.test(error)),JSON.stringify(errors));
     check('F2 actual blocked-WASM refusal: no substitute result or off-origin requests',{expected_blocked_assets:requests.length,expected_console_errors:errors});
   }finally{await context.close();}

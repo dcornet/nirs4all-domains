@@ -45,7 +45,9 @@ export interface UiExample { id: string; name: string; description: string; mode
 export interface UiState {
   importDraft?:DatasetDraft;
   phase: 'idle' | 'loading' | 'running' | 'cancelled' | 'error';
-  progress: string; error: { code: string; message: string } | null;
+  progress: string; error: { code: string; message: string;diagnostic?:import('./engine/runtime-diagnostic').WorkerDiagnostic } | null;
+  workerDiagnostic?:import('./engine/runtime-diagnostic').WorkerDiagnostic;
+  canRetryImport?:boolean;
   result: UiResult | null; examples: UiExample[]; intent: PredictionIntent;
   importHint: string;
   declarations?: UiDeclarations;
@@ -53,6 +55,7 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onRetryImport?():void;
   onSupport?(parameters:import('./engine/support').SupportParameters):void;
   onFactorInferencePlan?(file:File):void;
   onFactorAssociation?(request:FactorAssociationRun):void;

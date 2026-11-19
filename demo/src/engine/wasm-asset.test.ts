@@ -28,6 +28,15 @@ describe('WASM asset transport with actual WebAssembly instantiation',()=>{
     vi.stubGlobal('fetch',vi.fn(async()=>new Response(emptyModule)));let fail=true;const accept=()=>{if(fail)throw new Error('required owner export missing');};const init=createWasmInitializer('/app/wrong.wasm',()=>({}),accept);
     await expect(init()).rejects.toThrow('WASM_INITIALIZATION_FAILED: required owner export missing');fail=false;await init();
   });
+  it('rejects a non-HTML wrong MIME type and reports a real compiled-byte digest mismatch before acceptance',async()=>{
+    const accept=vi.fn();vi.stubGlobal('fetch',vi.fn(async()=>new Response(emptyModule,{headers:{'content-type':'application/json'}})));
+    await expect(createWasmInitializer('/app/wrong-mime.wasm',()=>({}),accept,{component:'io'})()).rejects.toMatchObject({code:'WASM_CONTENT_TYPE_INVALID',component:'io',phase:'IO_RUNTIME_LOADING'});
+    vi.stubGlobal('fetch',vi.fn(async()=>new Response(emptyModule,{headers:{'content-type':'application/wasm'}})));
+    const expected='0'.repeat(64),init=createWasmInitializer('/app/digest.wasm',()=>({}),accept,{component:'io',expectedSha256:expected});
+    const failure=await init().then(()=>null,error=>error as Error&{code?:string;asset?:{sha256?:string;expected_sha256?:string}});
+    expect(failure?.code).toBe('ASSET_INTEGRITY_MISMATCH');expect(failure?.asset?.sha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(failure?.asset?.expected_sha256).toBe(expected);expect(failure?.asset?.sha256).not.toBe(expected);expect(accept).not.toHaveBeenCalled();
+  });
   it.each(['@nirs4all/io-wasm','@nirs4all/formats-wasm'])('admits only the exact published package and binary: %s',pkg=>{
     const require=createRequire(import.meta.url),entry=require.resolve(pkg),base=dirname(entry),metadata=JSON.parse(readFileSync(join(base,'package.json'),'utf8'));
     const source=readFileSync(entry,'utf8'),binary=readFileSync(entry.replace(/\.js$/,'_bg.wasm'));
