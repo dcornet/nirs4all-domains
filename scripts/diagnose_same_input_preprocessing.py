@@ -124,7 +124,7 @@ def main():
                         "eigenvalue": eigen, "unresolved": left["unresolved"][j] or right["unresolved"][j],
                         "comparison": numeric_comparison(x, y)})
     same_score = [r for r in reports if r["operation"] in ("factor_descriptive", "correlation_descriptive")]
-    summary = {"requests": len(reports), "same_input_hashes_verified": len(reports),
+    summary = {"requests": len(reports), "provider_calls_per_backend": len(reports), "same_input_hashes_verified": len(reports),
                "same_score_statistic_requests": len(same_score),
                "same_score_statistic_failures": sum(len(r["owner_outputs"]["failures"]) for r in same_score),
                "same_score_statistic_maximum_absolute_error": max(r["owner_outputs"]["maximum_absolute_error"] for r in same_score),
@@ -133,7 +133,7 @@ def main():
                "provider_version": parity.VERSION, "tolerance": {"absolute": parity.TOLERANCE, "relative": parity.TOLERANCE},
                "original_synthetic_source_sha256": context["source_sha256"], "inputs": inputs,
                "summary": summary, "comparisons": reports, "pca_induced_factor_changes": factor_changes,
-               "eigenpair_residuals": {"status": "unavailable", "reason": "NOT_EXPOSED_BY_THE_PINNED_PUBLIC_PREFLIGHT_PCA_API"},
+               "eigenpair_residuals": {"status": "unavailable", "value": None, "reason": "NOT_EXPOSED_BY_THE_PINNED_PUBLIC_PREFLIGHT_PCA_API"},
                "qualification": "NOT_QUALIFIED; original strict numerical and hash gates remain mandatory",
                "new_real_scientific_fits": 0, "new_scientific_reservations": 0}
     with args.out.open("x", encoding="utf-8") as output:

@@ -53,17 +53,19 @@ async function instrumentWorkers(page){
   const Original=window.Worker;
   window.__f43Audit={operations:[],requests:[],completed:[],terminated:0,delayNext:false,delayed:false,delayReleased:false};
   window.Worker=class extends Original{
-   constructor(...args){super(...args);this.operation='unknown';this.addEventListener('message',({data})=>{if(!data.stage)window.__f43Audit.completed.push({operation:this.operation,ok:data.ok});});}
+   constructor(...args){super(...args);this.operation='unknown';this.releaseDeferred=null;this.addEventListener('message',({data})=>{if(!data.stage)window.__f43Audit.completed.push({operation:this.operation,ok:data.ok});});}
    postMessage(message,transfer){
     this.operation=message.operation;window.__f43Audit.operations.push(message.operation);
     if(message.operation==='preprocessing_sensitivity'){
      const p=message.payload;
      window.__f43Audit.requests.push({stage:p.stage,reference_keys:p.reference_keys,query_keys:p.query_keys,x_keys:p.x.row_keys,x_shape:[p.x.matrix.length,p.x.axis.length],access:p.access,factors:p.factors.map(f=>({name:f.name,row_keys:f.row_keys})),dependencies:p.dependencies.map(f=>({name:f.name,row_keys:f.row_keys})),frozen_evidence_sha256:p.frozen_reference?.evidence_sha256??null});
-     if(window.__f43Audit.delayNext){window.__f43Audit.delayNext=false;window.__f43Audit.delayed=true;setTimeout(()=>{window.__f43Audit.delayReleased=true;try{super.postMessage(message,transfer);}catch{}},1000);return;}
+     // Keep this scheduling-only adversary pending until actual termination.
+     // A fixed one-second sleep races expensive, complete report DOM layout.
+     if(window.__f43Audit.delayNext){window.__f43Audit.delayNext=false;window.__f43Audit.delayed=true;this.releaseDeferred=()=>{window.__f43Audit.delayReleased=true;try{super.postMessage(message,transfer);}catch{}};return;}
     }
     return super.postMessage(message,transfer);
    }
-   terminate(){window.__f43Audit.terminated++;return super.terminate();}
+   terminate(){window.__f43Audit.terminated++;const result=super.terminate();this.releaseDeferred?.();this.releaseDeferred=null;return result;}
   };
  });
 }

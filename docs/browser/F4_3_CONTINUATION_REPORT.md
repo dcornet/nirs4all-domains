@@ -46,7 +46,9 @@ No local PCA, correlation, ANOVA or preprocessing implementation was introduced.
 | Pearson / eta-squared on identical frozen scores and metadata | 320 native/WASM requests; zero failures at absolute and relative 1e-10; maximum owner-output difference 4.440892098500626e-15 | The statistic APIs agree for these identical vectors |
 | Same official statistic API on the two PCA score vectors | PC5 Pearson difference 5.262218247703565e-6; eta-squared difference 3.082494986032802e-7; eigenvalue 1.3653581275388415e-10 | The PCA-path output difference alone reproduces the original association discrepancy |
 
-There were 332 same-input provider calls, all with verified IEEE input bindings.
+There were 332 paired native/WASM requests (332 owner calls per backend), all
+with verified IEEE input bindings. Repeated diagnostic attempts are retained
+separately; this is a per-run comparison count, not a total across the mission.
 All 20 requested axes and their original unresolved flags remain in the diagnostic;
 no weak resolved axis was removed. Sign context and indistinguishable eigenvalue
 blocks are recorded separately. The diagnostic is `DIAGNOSTIC_ONLY_NOT_A_PARITY_GATE`.
@@ -97,6 +99,18 @@ no exhaustive retry, new PDF or successful containment claim. The existing 8 MB
 HTML guard remains active. Complete A4/Letter output, incremental browser-memory
 profiles, pagination/readability/completeness and final browser qualification
 remain unverified. No presentation-contract or multi-volume change was made.
+
+An independent local Chromium pass exercised the actual integrated six-family
+reference panel, frozen test audit, invalid-SG refusal, targeted EN/FR automated
+accessibility, complete HTML/Markdown/JSON, cancellation and pending-work reset.
+It preserved earlier scientific histories and rejected obsolete work after source
+replacement. The helper was aligned with the one-shot file chooser and its
+scheduling-only cancellation adversary now waits for termination instead of racing
+a one-second timer against full-report layout. No numerical output was stubbed.
+The final helper deliberately exits 1 at `F43_PRINT_RESOURCE_QUALIFICATION_REQUIRED`;
+its receipt has `success:false`. This is partial Chromium execution, not a passing
+complete browser/PDF gate or Firefox qualification. Earlier failed selectors and
+cancellation-race runs remain preserved separately.
 
 ## Checks and bounded next decisions
 
