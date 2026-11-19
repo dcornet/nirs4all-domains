@@ -4,13 +4,13 @@ import test from 'node:test';
 import * as methods from '@nirs4all/methods';
 import { createSupportCallback } from '../support-provider.js';
 
-const backendVersion = '1.3.13+abi.2.20.0';
+const backendVersion = '1.5.0+abi.2.24.0';
 let callback;
 
 test('support callback uses the pinned Methods backend', async () => {
   await methods.loadModule();
   assert.equal(methods.version(), backendVersion);
-  assert.deepEqual(methods.abiVersion(), [2, 20, 0]);
+  assert.deepEqual(methods.abiVersion(), [2, 24, 0]);
   callback = createSupportCallback(backendVersion);
 });
 

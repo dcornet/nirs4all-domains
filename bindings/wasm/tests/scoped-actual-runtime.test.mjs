@@ -158,8 +158,8 @@ test('compiled Rust callback spy and receipt agree on the exact projected train 
 });
 
 test('actual published Methods execute complete train/global/support and public Preflight exact operations',async()=>{
-  assert.equal(runtime.provider.version,'1.3.13+abi.2.20.0');
-  assert.equal(runtime.provider.abi[0],2);assert.ok(runtime.provider.abi[1]>=20);
+  assert.equal(runtime.provider.version,'1.5.0+abi.2.24.0');
+  assert.equal(runtime.provider.abi[0],2);assert.ok(runtime.provider.abi[1]>=24);
   for(const fixture of fixtures.fixtures) {
     const before=JSON.stringify(fixture.input);
     const report=runtime.analyzeScoped(fixture.input);

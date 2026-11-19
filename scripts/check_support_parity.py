@@ -106,12 +106,12 @@ def main() -> int:
     native = read_json(args.native)
     if wasm.get("protocol_version") != "domains.browser_train_fitted_support_wasm.v1":
         raise ValueError("unexpected WASM protocol artifact")
-    if wasm.get("provider", {}).get("version") != "1.3.13+abi.2.20.0":
-        raise ValueError("WASM report does not pin Methods 1.3.13 / ABI 2.20")
+    if wasm.get("provider", {}).get("version") != "1.5.0+abi.2.24.0":
+        raise ValueError("WASM report does not pin Methods 1.5.0 / ABI 2.24")
     if native.get("protocol_version") != "domains.browser_train_fitted_support_native.v1":
         raise ValueError("unexpected native replay protocol")
-    if native.get("provider_version") != "1.3.13+abi.2.20.0":
-        raise ValueError("native report does not pin Methods 1.3.13 / ABI 2.20")
+    if native.get("provider_version") != "1.5.0+abi.2.24.0":
+        raise ValueError("native report does not pin Methods 1.5.0 / ABI 2.24")
     if native.get("pca_refits") != 0 or native.get("new_real_scientific_fits") != 0 or wasm.get("new_real_scientific_fits") != 0:
         raise ValueError("native replay must consume the recorded requests without additional PCA refits")
     if native.get("fixture_sha256") != wasm.get("fixture_sha256"):
@@ -178,7 +178,7 @@ def main() -> int:
         "rotation_invariant_fixtures": sorted(ROTATION_EQUIVALENT_FIXTURES),
         "well_conditioned_recorded_coordinates_compared": True,
         "cross_runtime_state_or_evidence_digests_compared": False,
-        "provider_version": "1.3.13+abi.2.20.0",
+        "provider_version": "1.5.0+abi.2.24.0",
         "new_real_scientific_fits": 0,
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)

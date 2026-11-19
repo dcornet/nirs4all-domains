@@ -12,7 +12,7 @@ struct Spy {
 }
 impl SupportProvider for Spy {
     fn version(&self) -> String {
-        "1.3.13+abi.2.20.0".into()
+        "1.5.0+abi.2.24.0".into()
     }
     fn execute(&self, op: &str, r: &Value) -> Result<Value, ProviderError> {
         self.calls.borrow_mut().push((op.into(), r.clone()));

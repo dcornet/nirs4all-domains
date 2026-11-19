@@ -9,8 +9,8 @@ import hashlib
 from importlib.metadata import version
 from pathlib import Path
 
-QUALIFIED_NATIVE = {"dag-ml": "0.3.44", "nirs4all-methods": "1.3.13"}
-QUALIFIED_NIRS4ALL = "1.4.14"
+QUALIFIED_NATIVE = {"dag-ml": "0.5.0", "nirs4all-methods": "1.5.0"}
+QUALIFIED_NIRS4ALL = "1.6.0"
 
 
 def native_qualified():

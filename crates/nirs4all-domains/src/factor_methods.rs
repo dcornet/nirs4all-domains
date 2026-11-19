@@ -41,8 +41,8 @@ impl FactorMethods {
             let compatible = library
                 .get::<unsafe extern "C" fn(u32, u32) -> i32>(b"n4m_check_abi_compatibility\0")
                 .map_err(|e| e.to_string())?;
-            if compatible(2, 20) != 0 {
-                return Err("METHODS_ABI_2_20_REQUIRED".into());
+            if compatible(2, 24) != 0 {
+                return Err("METHODS_ABI_2_24_REQUIRED".into());
             }
             let create = *library
                 .get::<unsafe extern "C" fn(*mut *mut c_void) -> i32>(b"n4m_context_create\0")
@@ -61,8 +61,8 @@ impl FactorMethods {
                 return Err("NULL_METHODS_VERSION".into());
             }
             let version = CStr::from_ptr(version_ptr).to_string_lossy().into_owned();
-            if version != "1.3.13+abi.2.20.0" {
-                return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+            if version != "1.5.0+abi.2.24.0" {
+                return Err("PINNED_METHODS_1_5_0_ABI_2_24_REQUIRED".into());
             }
             let mut context = std::ptr::null_mut();
             let code = create(&mut context);
@@ -171,10 +171,10 @@ impl crate::browser_factor::FactorProvider for FactorMethods {
         let compatible = unsafe {
             self._library
                 .get::<unsafe extern "C" fn(u32, u32) -> i32>(b"n4m_check_abi_compatibility\0")
-                .map_err(symbol_error)?(2, 20)
+                .map_err(symbol_error)?(2, 24)
         };
         if compatible != 0 {
-            return Err(ProviderError::unsupported("METHODS_ABI_2_20_REQUIRED"));
+            return Err(ProviderError::unsupported("METHODS_ABI_2_24_REQUIRED"));
         }
         let mut result = serde_json::Map::new();
         let mut save = |keys: &[&str], out: &[f64]| {

@@ -27,8 +27,8 @@ npm run preview
 The WASM build uses the existing crate and `browser-wasm` feature. Generated
 files in `bindings/wasm/native/` are build output and are not a source package;
 `Cargo.lock` is the locked Rust dependency source. The local npm binding is
-`@nirs4all/domains@0.1.0-alpha.17`, depending on Methods 1.3.13 through the
-Preflight 0.1.6 provider / ABI 2.20. The demo lock pins IO-WASM and
+`@nirs4all/domains@0.2.0`, depending on Methods 1.5.0 through the
+Preflight 0.3 provider / ABI 2.24. The demo lock pins IO-WASM and
 Formats-WASM 0.2.14 and nirs4all-ui 0.2.5. Build the local WASM package before
 `npm ci`; npm does not run the Rust/WASM build for it.
 

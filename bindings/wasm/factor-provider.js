@@ -25,7 +25,7 @@ function exact(o) {
 /** Methods must already be loaded. Every call is synchronous in the worker. */
 export function createFactorCallback(backend_version) {
   const abi = methods.abiVersion();
-  if (abi[0] !== 2 || abi[1] < 20) throw new Error('METHODS_ABI_2_20_REQUIRED');
+  if (abi[0] !== 2 || abi[1] < 24) throw new Error('METHODS_ABI_2_24_REQUIRED');
   if (backend_version !== methods.version()) throw new Error('METHODS_VERSION_MISMATCH');
   function dispatch(operation, r) {
     switch (operation) {

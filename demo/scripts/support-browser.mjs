@@ -61,7 +61,7 @@ function assertSafeResult(report,result,fixtureData){
   assert.equal(result.projection.value.numerical_rank.value,null);
   assert.equal(result.limit_qualification.independent_units_certified,false);
   assert.notEqual(result.limit_qualification.status,'conditional_external');
-  assert.equal(result.receipt.provider,'1.3.13+abi.2.20.0');
+  assert.equal(result.receipt.provider,'1.5.0+abi.2.24.0');
   assert(result.receipt.provider_calls.some(call=>call.operation==='pca_fit'));
   assert(result.receipt.provider_calls.some(call=>call.operation==='pca_transform'));
   assert(result.receipt.provider_calls.some(call=>call.operation==='pca_destroy'));

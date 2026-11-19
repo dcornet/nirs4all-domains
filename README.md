@@ -7,7 +7,7 @@ on train only; its live state is checked before and after both transforms.
 No Y or predict spectrum is accessed. Raw F4.0 neighbors and F4.1 factor–PCA
 associations retain their original evidence and fitted bases.
 
-Monitoring values and empirical thresholds come from Methods 1.3.13 / ABI 2.20.
+Monitoring values and empirical thresholds use the selected Methods 1.5.0 / ABI 2.24 cohort.
 Unknown/dependent experimental units do not gain independently calibrated limits.
 Neither a distance nor a crossing is a prediction-failure or leakage probability.
 FlexiblePCA eigenvalues/rank resolution remain explicitly unavailable, rather
@@ -288,7 +288,9 @@ No new estimator, recursive clustering engine or result schema is introduced by
 this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
 describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
-records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
+preserves the earlier Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 profile.
+The 0.2.0 source selects Preflight 0.3, Methods 1.5 and DAG-ML 0.5;
+qualification and publication are recorded separately from those historical results.
 
 The [prospective 2026-11-17 storage policy](docs/technical/STORAGE_POLICY_50GB.md)
 documents the owner's staged 50 GB ceiling and controller boundaries. Its CI

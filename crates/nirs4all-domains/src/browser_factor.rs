@@ -11,7 +11,7 @@ use std::collections::{BTreeMap, BTreeSet};
 pub const PROTOCOL: &str = "domains.browser_factor_association.v1";
 pub const RESULT_PROTOCOL: &str = "domains.browser_factor_association_result.v1";
 pub const EXACT_MAX: usize = 40_320;
-const METHODS_VERSION: &str = "1.3.13+abi.2.20.0";
+const METHODS_VERSION: &str = "1.5.0+abi.2.24.0";
 
 /// Transport seam only; no PCA/model method exists on this provider.
 pub trait FactorProvider {
@@ -411,9 +411,7 @@ pub fn validate(r: &FactorRequest) -> Result<(), String> {
                 || v.iter().take(k).any(|a| *a != false)
                 || v.iter().skip(k).any(|a| *a != true)
         })
-        || !p["value"]["backend_version"]
-            .as_str()
-            .is_some_and(|v| v == METHODS_VERSION)
+        || p["value"]["backend_version"].as_str() != Some(METHODS_VERSION)
     {
         return Err("PCA_SCORES_OR_COMPONENT_LINEAGE_INVALID".into());
     }
@@ -693,7 +691,7 @@ pub fn analyze(r: &FactorRequest, provider: &impl FactorProvider) -> Result<Valu
     validate(r)?;
     let version = provider.version();
     if version != METHODS_VERSION {
-        return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+        return Err("PINNED_METHODS_1_5_0_ABI_2_24_REQUIRED".into());
     }
     let recorder = Recorder {
         provider,

@@ -37,15 +37,15 @@ Train is the main population; unpartitioned and separately consented transductiv
 analyses retain their own source evidence. Existing `browser_x.v1` metadata slots
 and historical qualification remain unchanged.
 
-Methods 1.3.13 / ABI 2.20 provides categorical factor association, explicit
+The selected Methods 1.5.0 / ABI 2.24 provides categorical factor association, explicit
 Pearson/Spearman, exact tests, Holm and continuous range summary. Descriptive B=0
 is the default, with unavailable p-values. Exact inference is conditional on a
 supplied external exchangeability record and complete prospective family;
-repeated units and unsupported designs do not gain inference. Four direct
-published-Methods WASM adapter checks executed locally. Actual compiled Domains
-native/WASM qualification and Chromium/Firefox executed on Windows and Ubuntu;
-the [F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the source
-commits, current-head gates, artifacts, numerical checks and limits. Listing an
+repeated units and unsupported designs do not gain inference. The original
+[F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the earlier
+Methods 1.3.13 source, native/WASM gates and Windows/Ubuntu browser evidence;
+those historical checks do not qualify the new 1.5 cohort. Current release
+evidence records the new artifacts, executed checks and platform limits separately. Listing an
 API is not execution proof. No global spectral association, causal or calibration
 score is implemented. Optional external design records attach separately after
 PCA; shape validation does not establish their scientific truth.

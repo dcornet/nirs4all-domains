@@ -36,7 +36,7 @@ export async function createDomainsRuntime(options = {}) {
   try { await methods.loadModule(); }
   catch(error) { throw Object.assign(error instanceof Error?error:new Error(String(error)),{code:error?.code??'METHODS_INITIALIZATION_FAILED',component:'methods',phase:'METHODS_RUNTIME_LOADING'}); }
   const abi = methods.abiVersion();
-  if (abi[0] !== 2 || abi[1] < 20) throw Object.assign(new Error('METHODS_ABI_2_20_REQUIRED'),{code:'WASM_ABI_MISMATCH',component:'methods',phase:'METHODS_RUNTIME_LOADING'});
+  if (abi[0] !== 2 || abi[1] < 24) throw Object.assign(new Error('METHODS_ABI_2_24_REQUIRED'),{code:'WASM_ABI_MISMATCH',component:'methods',phase:'METHODS_RUNTIME_LOADING'});
   lifecycle('METHODS_RUNTIME_READY','methods');
   const backend_version = methods.version();
   const factorCallback = createFactorCallback(backend_version);
