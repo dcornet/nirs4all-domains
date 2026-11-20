@@ -18,7 +18,7 @@ function literalRows(value:unknown,path='',rows:unknown[][]=[]):unknown[][]{
 export function appendSensitivity(view:UiResult,results:readonly SensitivityHistory[]):UiResult{
  const evidence:UiEvidence[]=results.map((r,i)=>({id:`preprocessing-sensitivity-${i+1}`,method:r.protocol_version,status:r.status,reason:r.reason,value:r,
   scope:'Declared reference only; test audit only after an explicit frozen-plan action',representation:'Named derived sources; no common PCA basis is asserted',
-  provider:r.protocol_version==='domains.browser_preprocessing_sensitivity_local_refusal.v1'?'Local documentary refusal; no provider execution inferred':'Domains F4.3; Methods 1.3.13 / ABI 2.20',pointer:`/preprocessing_sensitivity/${i}`}));
+  provider:r.protocol_version==='domains.browser_preprocessing_sensitivity_local_refusal.v1'?'Local documentary refusal; no provider execution inferred':`Domains F4.3; Methods ${object(object(r).receipt).provider??'version not carried'}`,pointer:`/preprocessing_sensitivity/${i}`}));
  return {...view,sensitivityResults:[...results],evidence:[...view.evidence,...evidence],findings:[...view.findings,...results.map((r,i)=>({
   id:`sensitivity-finding-${i+1}`,title:'Preprocessing sensitivity: conditional comparison',status:r.status==='computed'?'observed' as const:'unavailable' as const,
   observation:r.protocol_version==='domains.browser_preprocessing_sensitivity_result.v1'?`Stage: ${r.stage}. Requested representations: ${r.representations.map(entry=>`${entry.id}: ${entry.status}${entry.reason?' ('+entry.reason+')':''}`).join('; ')}.`:`Local documentary refusal: ${r.reason}. No provider execution is inferred.`,

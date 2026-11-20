@@ -1,5 +1,11 @@
 # nirs4all-domains
 
+The 0.2.0 browser consumer uses the published Methods 1.5.1 / ABI 2.24 cohort
+under a [separate admission contract](docs/browser/F4_3_PROVIDER_ADMISSION_1_5_1.md).
+Its required native/WASM and browser/report CI gates establish the tested scope;
+historical 1.3.13 environments, saved evidence and predictive qualification remain
+separate. No merge or release follows from a provider update.
+
 F4.2 adds an explicit **train-fitted PCA / test projection** operation and a
 separate indexed-fold T²/Q monitor. Import and review train/test partitions,
 then use “How do test observations sit relative to train?”. FlexiblePCA is fitted
@@ -7,7 +13,8 @@ on train only; its live state is checked before and after both transforms.
 No Y or predict spectrum is accessed. Raw F4.0 neighbors and F4.1 factor–PCA
 associations retain their original evidence and fitted bases.
 
-Monitoring values and empirical thresholds come from Methods 1.3.13 / ABI 2.20.
+The original F4.2 qualification used Methods 1.3.13 / ABI 2.20; the current
+browser cohort is checked separately by the admission matrix above.
 Unknown/dependent experimental units do not gain independently calibrated limits.
 Neither a distance nor a crossing is a prediction-failure or leakage probability.
 FlexiblePCA eigenvalues/rank resolution remain explicitly unavailable, rather
@@ -20,7 +27,7 @@ train-reference stage and optional later test-X audit; it never selects on Y.
 The [portable report guide](docs/browser/F4_3_PORTABLE_REPORT_USER_GUIDE.md)
 describes compact A4/Letter PDFs, complete typed CSV and an extracted results
 archive with JSON/manifest counterparts. Independent report functionality does
-not qualify the still-pending numerical provider correction.
+not itself qualify a numerical provider; the complete required matrix remains authoritative.
 See the [user guide](docs/WASM_DEMO_GUIDE.md#f43-representation-sensitivity),
 [scientific protocol](docs/browser/F4_3_SCIENTIFIC_PROTOCOL.md),
 [representation contract](docs/browser/F4_3_REPRESENTATION_CONTRACT.md),

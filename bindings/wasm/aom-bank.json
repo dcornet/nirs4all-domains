@@ -11,7 +11,7 @@
       "aom_nirs/fast/bases.py": "5adf268b3e04d1200d9f3fae9ef5248554dbb5e4"
     }
   },
-  "execution_owner": "Methods 1.3.13 / ABI 2.20",
+  "execution_owner": "Methods public provider; exact version and ABI recorded in execution receipts",
   "aom_runtime_imported": false,
   "aom_numerical_equivalence_asserted": false,
   "algebraic_shortcuts_enabled": false,

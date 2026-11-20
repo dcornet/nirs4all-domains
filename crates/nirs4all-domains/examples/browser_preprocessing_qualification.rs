@@ -41,7 +41,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bytes = fs::read(input)?;
     let source: Artifact = serde_json::from_slice(&bytes)?;
     if source.protocol_version != "domains.browser_preprocessing_sensitivity_wasm.v1"
-        || source.provider["version"] != "1.3.13+abi.2.20.0"
+        || !source.provider["version"]
+            .as_str()
+            .is_some_and(nirs4all_domains::browser_cohort::admitted)
         || source.new_real_scientific_fits != 0
     {
         return Err("PINNED_PUBLIC_SYNTHETIC_WASM_ARTIFACT_REQUIRED".into());
@@ -86,6 +88,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let library =
         env::var_os("N4DOMAINS_METHODS_LIBRARY").ok_or("N4DOMAINS_METHODS_LIBRARY_REQUIRED")?;
     let provider = SensitivityMethods::load(Path::new(&library))?;
+    if source.provider["version"] != provider.version {
+        return Err("MATCHING_NATIVE_WASM_PROVIDER_COHORT_REQUIRED".into());
+    }
     let library_sha256 = hash(&fs::read(&library)?);
     let (mut ids, mut reference_results, mut cases, mut refusals) = (
         BTreeSet::new(),

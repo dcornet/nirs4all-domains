@@ -11,7 +11,6 @@ use std::collections::{BTreeMap, BTreeSet};
 pub const PROTOCOL: &str = "domains.browser_factor_association.v1";
 pub const RESULT_PROTOCOL: &str = "domains.browser_factor_association_result.v1";
 pub const EXACT_MAX: usize = 40_320;
-const METHODS_VERSION: &str = "1.3.13+abi.2.20.0";
 
 /// Transport seam only; no PCA/model method exists on this provider.
 pub trait FactorProvider {
@@ -413,7 +412,7 @@ pub fn validate(r: &FactorRequest) -> Result<(), String> {
         })
         || !p["value"]["backend_version"]
             .as_str()
-            .is_some_and(|v| v == METHODS_VERSION)
+            .is_some_and(crate::browser_cohort::admitted)
     {
         return Err("PCA_SCORES_OR_COMPONENT_LINEAGE_INVALID".into());
     }
@@ -692,8 +691,11 @@ fn inference_gate(r: &FactorRequest, keys: &[String]) -> Result<(), String> {
 pub fn analyze(r: &FactorRequest, provider: &impl FactorProvider) -> Result<Value, String> {
     validate(r)?;
     let version = provider.version();
-    if version != METHODS_VERSION {
+    if !crate::browser_cohort::admitted(&version) {
         return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+    }
+    if r.pca.report["metrics"]["pca"]["value"]["backend_version"] != version {
+        return Err("PCA_PROVIDER_COHORT_MISMATCH".into());
     }
     let recorder = Recorder {
         provider,

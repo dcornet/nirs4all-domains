@@ -99,8 +99,15 @@ impl PreprocessingMethods {
                 return Err("NULL_METHODS_VERSION".into());
             }
             let version = CStr::from_ptr(ptr).to_string_lossy().into_owned();
-            if version != "1.3.13+abi.2.20.0" {
+            if !crate::browser_cohort::admitted(&version) {
                 return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+            }
+            if compatible(
+                2,
+                crate::browser_cohort::required_abi_minor(&version).expect("admitted cohort"),
+            ) != 0
+            {
+                return Err("METHODS_COHORT_ABI_REQUIRED".into());
             }
             let create = *library
                 .get::<unsafe extern "C" fn(*mut *mut c_void) -> i32>(b"n4m_context_create\0")

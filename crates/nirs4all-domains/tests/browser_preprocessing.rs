@@ -9,6 +9,7 @@ use std::cell::RefCell;
 
 #[derive(Default)]
 struct Spy {
+    cohort: Option<&'static str>,
     calls: RefCell<Vec<(String, Value)>>,
     active: RefCell<Option<(String, Value, Vec<u8>)>>,
     fail_fit: bool,
@@ -17,7 +18,9 @@ struct Spy {
 }
 impl SupportProvider for Spy {
     fn version(&self) -> String {
-        "1.3.13+abi.2.20.0".into()
+        self.cohort
+            .unwrap_or(nirs4all_domains::browser_cohort::LEGACY)
+            .into()
     }
     fn execute(&self, op: &str, r: &Value) -> Result<Value, ProviderError> {
         self.calls.borrow_mut().push((op.into(), r.clone()));
@@ -93,6 +96,63 @@ fn test_audit(mut request: SensitivityRequest, frozen: Value) -> SensitivityRequ
     );
     request.frozen_reference = Some(frozen);
     request
+}
+#[test]
+fn candidate_provenance_is_actual_and_cross_cohort_freezes_refuse_before_calls() {
+    let r = fixture();
+    let historical = protocol::analyze(&r, &Spy::default()).unwrap();
+    let candidate = Spy {
+        cohort: Some(nirs4all_domains::browser_cohort::CANDIDATE),
+        ..Default::default()
+    };
+    assert_eq!(
+        protocol::analyze(&test_audit(r.clone(), historical), &candidate).unwrap_err(),
+        "FROZEN_REFERENCE_PROVIDER_COHORT_MISMATCH"
+    );
+    assert!(candidate.calls.borrow().is_empty());
+    let current = protocol::analyze(&r, &candidate).unwrap();
+    assert_eq!(
+        current["receipt"]["provider"],
+        nirs4all_domains::browser_cohort::CANDIDATE
+    );
+    for representation in current["representations"].as_array().unwrap() {
+        for state in representation["value"]["transformations"]
+            .as_array()
+            .unwrap()
+        {
+            assert_eq!(
+                state["provider"],
+                nirs4all_domains::browser_cohort::CANDIDATE
+            );
+        }
+    }
+    assert!(protocol::analyze(&test_audit(r, current), &candidate).is_ok());
+}
+#[test]
+fn frozen_sg_parameter_domain_refuses_locally_without_dropping_siblings() {
+    let mut r = fixture();
+    r.plan.representations.push(serde_json::from_value(json!({"id":"sg-even","family":"derivative","steps":[{"operator":"SavitzkyGolay","parameters":{"window_length":10,"polyorder":2,"deriv":1,"delta":1.0,"mode":"mirror","cval":0.0}}]})).unwrap());
+    for cohort in [
+        nirs4all_domains::browser_cohort::LEGACY,
+        nirs4all_domains::browser_cohort::CANDIDATE,
+    ] {
+        let spy = Spy {
+            cohort: Some(cohort),
+            ..Default::default()
+        };
+        let result = protocol::analyze(&r, &spy).unwrap();
+        assert_eq!(result["representations"][0]["status"], "computed");
+        assert_eq!(result["representations"][3]["status"], "unavailable");
+        assert_eq!(
+            result["representations"][3]["reason"],
+            "INVALID_FROZEN_SAVITZKY_GOLAY_PARAMETERS"
+        );
+        assert!(spy
+            .calls
+            .borrow()
+            .iter()
+            .all(|(op, payload)| op != "preprocess_fit" || payload["operator"] != "SavitzkyGolay"));
+    }
 }
 #[test]
 fn actual_reference_payloads_axis_lineage_and_prefix_reuse_are_exact() {

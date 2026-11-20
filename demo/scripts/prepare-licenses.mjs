@@ -34,7 +34,7 @@ async function copyNoticeTree(packageRoot, outputRoot, origin) {
         if (rel === 'LICENSES' || rel.startsWith(`LICENSES${sep}`)) await visit(source);
         continue;
       }
-      if (/^(LICENSE(?:\.(?:md|txt))?|LICENSING\.md|THIRD_PARTY_NOTICES\.md|COPY_PROVENANCE\.md|nirs4all-.*\.cdx\.json)$/i.test(item.name) ||
+      if (/^(LICENSE(?:[.-][a-z0-9.-]+)?|LICENSING\.md|THIRD_PARTY_NOTICES\.md|COPY_PROVENANCE\.md|nirs4all-.*\.cdx\.json)$/i.test(item.name) ||
           rel.startsWith(`LICENSES${sep}`)) {
         await copyAllowed(source, join(outputRoot, rel), `${origin}/${normalized(rel)}`);
       }
@@ -96,12 +96,12 @@ for (const locked of uniquePackages) {
   installedMetadata.push({ name: locked.name, version: metadata.version, license: metadata.license ?? 'UNDECLARED', resolved: locked.resolved, integrity: locked.integrity });
 }
 
-const methodsVersion = '1.3.13';
+const methodsVersion = '1.5.1';
 const methodsLock = uniquePackages.find(pkg => pkg.name === '@nirs4all/methods' && pkg.version === methodsVersion);
-if (!methodsLock || methodsLock.license !== 'CECILL-2.1') {
-  throw new Error(`Expected locked @nirs4all/methods@${methodsVersion} with the exact CECILL-2.1 npm license declaration`);
+if (!methodsLock || methodsLock.license !== 'CECILL-2.1 OR AGPL-3.0-or-later') {
+  throw new Error(`Expected locked @nirs4all/methods@${methodsVersion} with the exact dual-license npm declaration`);
 }
-const methodsCommit = 'fa8ff57603ec23bce95f73d52170285e8f3e2861';
+const methodsCommit = '25041f88bebb21a19748799c1681e138a3d55dfb';
 const localDomains = await readJson(join(bindingDir, 'package.json'));
 const localDomainsPackage = { name: localDomains.name, version: localDomains.version, license: localDomains.license,
   resolved: 'file:../bindings/wasm', integrity: null, source: 'local workspace binding; generated WASM is built from the locked Rust workspace' };
@@ -143,7 +143,7 @@ const manifest = {
   methods_notice_source: {
     name: '@nirs4all/methods', version: methodsVersion, license_declared_by_npm: methodsLock.license,
     registry_tarball: methodsLock.resolved, integrity: methodsLock.integrity, git_head: methodsCommit,
-    upstream_notice_license_statement_conflicts_with_npm_metadata: true, files: methodsSources,
+    upstream_notice_license_statement_conflicts_with_npm_metadata: false, files: methodsSources,
   },
   prepared_files: generated.sort((a, b) => a.path.localeCompare(b.path)),
   generated_file_bytes: outputBytes,
@@ -165,8 +165,8 @@ lines.push('', 'The build also includes local `@nirs4all/domains`, built from th
   `- Methods license and bundled-code notices from upstream Git commit \`${methodsCommit}\`, corresponding to the exact npm ${methodsVersion} ` +
     `gitHead: [source files](public/licenses/methods/${methodsCommit}/) and hashes in the manifest.`, '',
   '## Methods license scope and known gap', '',
-  '`@nirs4all/methods@1.3.13` declares `CECILL-2.1` in npm metadata and in its package lock. This demo does not describe that exact npm package as dual-licensed. The package tarball contains no LICENSE or notice files, so the corresponding CeCILL text and vendored-code notices are supplied from its exact registry `gitHead` commit.', '',
-  'That commit contains inconsistent general statements: `THIRD_PARTY_NOTICES.md` describes the repository as `CeCILL-2.1 OR AGPL-3.0-or-later`, while `NOTICE.md` says the compiled library is under CeCILL-2.1 and lists bundled BSD-3-Clause-derived components. The npm package metadata is the exact distribution declaration used here; the upstream wording conflict is preserved and flagged in the manifest for maintainer review. Do not infer an AGPL option for this pinned npm package from the repository-level notice.', '',
+  'The pinned `@nirs4all/methods@1.5.1` package declares `CECILL-2.1 OR AGPL-3.0-or-later` and ships AGPL and CeCILL texts. Package texts and vendored-code notices from its exact registry gitHead are included. Historical 1.3.13 evidence retains its original CeCILL-only npm declaration and recorded upstream notice conflict.', '',
+  'Review exact package and bundled-code notices before redistribution; provider admission does not change source dataset rights.', '',
   'The pinned IO-WASM package includes its CycloneDX SBOM and license families. The Formats-WASM package includes `THIRD_PARTY_NOTICES.md` but its published package is missing the `LICENSES/` family directory referenced by that notice; repository license texts are included here for the dual-licensed application packages, while the compiled Rust dependency closure remains a source-notice/manifest limitation. Review package notices and release SBOMs before redistribution.', '',
   'No source dataset is relicensed by these notices. Public example data and reports retain their recorded rights and source restrictions. Brand assets are not copied or modified by this preparation step.', '');
 await writeFile(join(demo, 'DEPENDENCIES.md'), lines.join('\n'));

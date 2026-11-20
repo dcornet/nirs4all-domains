@@ -7,6 +7,7 @@ pub mod browser;
 #[cfg(all(feature = "browser-wasm", target_arch = "wasm32"))]
 #[path = "../../../bindings/wasm/rust.rs"]
 mod browser_binding;
+pub mod browser_cohort;
 pub mod browser_factor;
 pub mod browser_preprocessing;
 pub mod browser_scoped;

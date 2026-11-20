@@ -4,7 +4,7 @@ const options={operation:'prepare_import',phase:'IO_RUNTIME_LOADING',lastConfirm
 describe('Worker diagnostic public contract and privacy',()=>{
  it('uses the actual pure UI runtime helpers with a strict rt_error envelope inside a separate Domains extension',()=>{
   const d=makeWorkerDiagnostic(options);expect(d.protocol_version).toBe('domains.worker_diagnostic.v1');expect(d.rt_error_contract).toBe('rt_error.v1');expect(Object.keys(d.rt_error).sort()).toEqual(['cause','message','mitigation','verb']);
-  expect(sharedDiagnosticText(d)).toContain('Run refused');expect(sharedDiagnosticText(d)).toContain(d.rt_error.message);expect(d.demo.version).toBe('0.1.0-alpha.17');expect(d.demo.commit===null||/^[a-f0-9]{40}$/.test(d.demo.commit)).toBe(true);
+  expect(sharedDiagnosticText(d)).toContain('Run refused');expect(sharedDiagnosticText(d)).toContain(d.rt_error.message);expect(d.demo.version).toBe('0.2.0');expect(d.demo.commit===null||/^[a-f0-9]{40}$/.test(d.demo.commit)).toBe(true);
  });
  it('preserves only safe public asset fields and excludes query strings, credentials, cross-origin/private paths and injected fields',()=>{
   const d=makeWorkerDiagnostic({...options,asset:{relative_path:'/nirs4all-domains/assets/worker-Ab12Cd34.js',http_status:404,content_type:'text/html; charset=utf-8',sha256:'a'.repeat(64),expected_sha256:'b'.repeat(64),stack:'SECRET_STACK',matrix:[[987654321.125]]}});

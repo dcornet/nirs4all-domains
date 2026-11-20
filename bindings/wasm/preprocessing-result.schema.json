@@ -646,7 +646,10 @@
                   "type": "number"
                 },
                 "backend_version": {
-                  "const": "1.3.13+abi.2.20.0"
+                  "enum": [
+                    "1.3.13+abi.2.20.0",
+                    "1.5.1+abi.2.24.0"
+                  ]
                 }
               }
             }
@@ -924,7 +927,10 @@
                   }
                 },
                 "provider": {
-                  "const": "1.3.13+abi.2.20.0"
+                  "enum": [
+                    "1.3.13+abi.2.20.0",
+                    "1.5.1+abi.2.24.0"
+                  ]
                 },
                 "negative_labels": {
                   "type": "string",
@@ -993,7 +999,10 @@
                   "minimum": 0
                 },
                 "provider": {
-                  "const": "1.3.13+abi.2.20.0"
+                  "enum": [
+                    "1.3.13+abi.2.20.0",
+                    "1.5.1+abi.2.24.0"
+                  ]
                 }
               }
             }
@@ -1079,7 +1088,10 @@
           "minimum": 1
         },
         "provider": {
-          "const": "1.3.13+abi.2.20.0"
+          "enum": [
+            "1.3.13+abi.2.20.0",
+            "1.5.1+abi.2.24.0"
+          ]
         },
         "state_unchanged_after_transform": {
           "const": true
@@ -1220,7 +1232,10 @@
       ],
       "properties": {
         "provider": {
-          "const": "1.3.13+abi.2.20.0"
+          "enum": [
+            "1.3.13+abi.2.20.0",
+            "1.5.1+abi.2.24.0"
+          ]
         },
         "reference_keys": {
           "type": "array",

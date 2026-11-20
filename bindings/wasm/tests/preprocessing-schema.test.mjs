@@ -24,7 +24,7 @@ for(const schema of schemas){
 const input=ajv.getSchema('domains.browser_preprocessing_sensitivity.v1.input');
 const result=ajv.getSchema('domains.browser_preprocessing_sensitivity_result.v1');
 const bank=JSON.parse(await readFile(new URL('../aom-bank.json',import.meta.url),'utf8'));
-const hash='a'.repeat(64),provider='1.3.13+abi.2.20.0';
+const hash='a'.repeat(64),provider='1.5.1+abi.2.24.0';
 const unavailable=reason=>({status:'unavailable',reason,value:null});
 const dataset={dataset_id:'synthetic',source_id:'public',content_version:'1',content_sha256:hash};
 const plan={bank_id:bank.bank_id,kind:'prospective',parent_plan_sha256:null,representations:[{id:'raw',family:'raw',steps:[]}],structure:false,compare_neighbors:false,compare_clusters:false,correlation_method:'pearson',support:{n_components:1,max_components:1,n_folds:2,alpha:0.05,monitoring:false}};

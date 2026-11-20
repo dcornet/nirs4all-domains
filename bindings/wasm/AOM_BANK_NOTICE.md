@@ -11,4 +11,4 @@ No AOM numerical kernel, Python runtime or optimizer is included. Modified
 descriptor mappings and the two explicit SNV/SG chains belong to this Domains
 integration. Matching family names/parameters do not assert numerical equivalence
 to AOM's boundary conventions or enable its algebraic shortcuts. Actual
-preprocessing is performed by Methods 1.3.13 / ABI 2.20.
+preprocessing is performed by the public Methods provider identified in each execution receipt.

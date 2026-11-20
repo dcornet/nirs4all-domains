@@ -4,7 +4,7 @@ import test from 'node:test';
 import * as methods from '@nirs4all/methods';
 import { createPreprocessingCallback } from '../preprocessing-provider.js';
 
-const backendVersion = '1.3.13+abi.2.20.0';
+const backendVersion = '1.5.1+abi.2.24.0';
 
 await methods.loadModule();
 
@@ -40,7 +40,7 @@ function destroy(call) {
 
 test('provider pins actual Methods runtime and exposes only the frozen preprocessing whitelist', () => {
   assert.equal(methods.version(), backendVersion);
-  assert.deepEqual(Array.from(methods.abiVersion()), [2, 20, 0]);
+  assert.deepEqual(Array.from(methods.abiVersion()), [2, 24, 0]);
   assert.throws(() => createPreprocessingCallback('invented-version'), /METHODS_VERSION_MISMATCH/);
   const { response } = makeProvider();
   assert.equal(response('preprocess_fit', {

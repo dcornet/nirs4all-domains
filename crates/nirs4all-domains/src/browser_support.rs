@@ -527,7 +527,7 @@ fn dependencies(r: &SupportRequest) -> (Value, Value) {
 }
 pub fn analyze(r: &SupportRequest, provider: &impl SupportProvider) -> Result<Value, String> {
     validate(r)?;
-    if provider.version() != "1.3.13+abi.2.20.0" {
+    if !crate::browser_cohort::admitted(&provider.version()) {
         return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
     }
     let x = r.scope.x.as_ref().unwrap();

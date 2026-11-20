@@ -7,7 +7,7 @@
   "packages": [
     {
       "name": "@nirs4all/domains",
-      "version": "0.1.0-alpha.17",
+      "version": "0.2.0",
       "license": "CECILL-2.1 OR AGPL-3.0-or-later",
       "resolved": "file:../bindings/wasm",
       "integrity": null,
@@ -33,10 +33,10 @@
     },
     {
       "name": "@nirs4all/methods",
-      "version": "1.3.13",
-      "license": "CECILL-2.1",
-      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA==",
+      "version": "1.5.1",
+      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+      "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA==",
       "lockfile": "bindings/wasm/package-lock.json",
       "localPath": null
     },
@@ -193,10 +193,10 @@
     },
     {
       "name": "@nirs4all/methods",
-      "version": "1.3.13",
-      "license": "CECILL-2.1",
-      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA=="
+      "version": "1.5.1",
+      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+      "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA=="
     },
     {
       "name": "@pdf-lib/fontkit",
@@ -317,80 +317,80 @@
   },
   "methods_notice_source": {
     "name": "@nirs4all/methods",
-    "version": "1.3.13",
-    "license_declared_by_npm": "CECILL-2.1",
-    "registry_tarball": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-    "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA==",
-    "git_head": "fa8ff57603ec23bce95f73d52170285e8f3e2861",
-    "upstream_notice_license_statement_conflicts_with_npm_metadata": true,
+    "version": "1.5.1",
+    "license_declared_by_npm": "CECILL-2.1 OR AGPL-3.0-or-later",
+    "registry_tarball": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+    "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA==",
+    "git_head": "25041f88bebb21a19748799c1681e138a3d55dfb",
+    "upstream_notice_license_statement_conflicts_with_npm_metadata": false,
     "files": [
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/NOTICE.md",
-        "sha256": "b46c869165cd619a23607f2ad7aa64957a6f09edea02b87ff5e51d442813feb7",
-        "bytes": 1792,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/NOTICE.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/NOTICE.md",
+        "sha256": "ccb385dfd092825e9c4638f44f4803a15b1f3a0a47cffe80632294b6344beced",
+        "bytes": 1818,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/NOTICE.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_NOTICES.md",
-        "sha256": "d7cb88c7da4946046de190b23be0b747f10136f8423e3eda29d5d9c2a9b192e4",
-        "bytes": 1520,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_NOTICES.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_NOTICES.md",
+        "sha256": "4106fb2caf597b5392140d24ddce905c6e4e990521aea68c7c10c7a817024933",
+        "bytes": 1714,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_NOTICES.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_LICENSES.md",
-        "sha256": "79b5b4b892131ed01f8a022c88735f4ff50fbb2e7e8350835b2347a4a95007f2",
-        "bytes": 6608,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_LICENSES.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_LICENSES.md",
+        "sha256": "3da01033fea5f1efe31a5865693d294c7c378aad51d81f1e5dc9c07e668f752f",
+        "bytes": 7437,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_LICENSES.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/CeCILL-2.1.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/CeCILL-2.1.txt",
         "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
         "bytes": 21778,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/CeCILL-2.1.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/CeCILL-2.1.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/BSD-3-Clause.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/BSD-3-Clause.txt",
         "sha256": "5a93d5831e1297ab10fe643e1a631e83be392896da14ee2951285a79012df69d",
         "bytes": 1460,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/BSD-3-Clause.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/BSD-3-Clause.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt",
-        "sha256": "941782800253ba46252a05a7578d1cae0d02f0f4d301aa9b5a2fc0ee36ee3914",
-        "bytes": 3147,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt",
+        "sha256": "9b8688f60dbad8f7495e334f9e2a59d43b4e3b4ef0d92c2cd280aca28464f9d3",
+        "bytes": 3173,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt",
         "sha256": "221e59f5e910fd7f94e44f0dac77436a11338c285c6346232e4a850a50da0e94",
         "bytes": 1531,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt",
-        "sha256": "4700ebaefa1547e23f1ad196e4378fd8242a241224530752cf3831bd06fad22d",
-        "bytes": 1463,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt",
+        "sha256": "113ccf4ebb3cafd96a08749fe969393817406d0089e55c661d87f9ff6782f7c3",
+        "bytes": 1484,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt",
         "sha256": "3984599735528e854aaa064b4b69c60354d24dd53f21d0ee1bfe959ac821edd3",
         "bytes": 2487,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt"
       }
     ]
   },
   "prepared_files": [
     {
       "path": "aom-descriptors/catalog.json",
-      "sha256": "106b6a2296770b2e27e87ff556f298bfab01add0f06f9fcfa813782ad5a4a67d",
-      "bytes": 10515,
+      "sha256": "c706bca9d2a2c7bc532c4511521b2becc2d55aa90620fb77b787b109e0930edd",
+      "bytes": 10567,
       "origin": "Versioned declarative AOM/Methods descriptor catalog; no numerical runtime"
     },
     {
       "path": "aom-descriptors/NOTICE.md",
-      "sha256": "8d37670b82f443feb31fff2d2477075cf58ffb0e10e217807074d51088336938",
-      "bytes": 860,
+      "sha256": "464042a13c48d9560de1c8a325a7f9a0dd258a598998afb5baa1ef905ee4ebee",
+      "bytes": 913,
       "origin": "Domains adaptation of pinned AOM bank metadata"
     },
     {
@@ -494,6 +494,18 @@
       "sha256": "c2f5c9061e7bc5a259a2d630330930ce9438f157e9646724824730ce516a5179",
       "bytes": 5732,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "path": "packages/@nirs4all/methods/1.5.1/LICENSE",
+      "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
+      "bytes": 34020,
+      "origin": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz/LICENSE"
+    },
+    {
+      "path": "packages/@nirs4all/methods/1.5.1/LICENSE-CeCILL-2.1",
+      "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
+      "bytes": 21778,
+      "origin": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz/LICENSE-CeCILL-2.1"
     },
     {
       "path": "packages/@pdf-lib/fontkit/1.1.1/README.md",
@@ -658,5 +670,5 @@
       "origin": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz/LICENSE.txt"
     }
   ],
-  "generated_file_bytes": 368522
+  "generated_file_bytes": 424425
 }

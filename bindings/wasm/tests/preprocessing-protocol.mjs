@@ -7,7 +7,7 @@ import { dirname } from 'node:path';
 import { createDomainsRuntime } from '../index.js';
 import * as rust from '../native/nirs4all_domains.js';
 
-const BACKEND = '1.3.13+abi.2.20.0';
+const BACKEND = '1.5.1+abi.2.24.0';
 const MAX_ROWS = 2_000;
 const MAX_CELLS = 1_000_000;
 const sha = value => createHash('sha256').update(value).digest('hex');
@@ -357,7 +357,7 @@ async function run(output) {
   const wasm = await readFile(new URL('../native/nirs4all_domains_bg.wasm', import.meta.url));
   const runtime = await createDomainsRuntime({ wasmModule:wasm });
   assert.equal(runtime.provider.version, BACKEND);
-  assert.deepEqual(runtime.provider.abi.slice(0, 2), [2, 20]);
+  assert.deepEqual(runtime.provider.abi.slice(0, 2), [2, 24]);
   assert.equal(typeof runtime.analyzeSensitivity, 'function', 'F4.3 Domains WASM must expose analyzeSensitivity');
   const resultById = new Map();
   const cases = [], refusals = [], schemaRows = [];

@@ -18,7 +18,7 @@ ajv.addSchema(scopedSchema);
 ajv.addSchema(inputSchema);
 const validateInput=ajv.compile(inputSchema),validateResult=ajv.compile(resultSchema),validateLocalRefusal=ajv.compile(localRefusalSchema);
 const baseRequest=structuredClone(fixtureFile.find(item=>item.id==='baseline-two-feature').request);
-const hash='a'.repeat(64),provider='1.3.13+abi.2.20.0';
+const hash='a'.repeat(64),provider='1.5.1+abi.2.24.0';
 const state=(value,reason=null,status='computed')=>({status,reason,value});
 
 function resultFixture(request=baseRequest){

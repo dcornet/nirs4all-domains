@@ -35,7 +35,7 @@ export function liveView(report: BrowserReport, data: LocalDataset): UiResult {
     evidence: [...Object.entries(report.metrics).map(([id, evidence]) => ({ id,
       method: id === 'pca' ? 'Methods PCA via the public Preflight provider' : `Methods / Domains ${id}`,
       status: status(evidence.status), reason: evidence.reason, value: evidence.value,
-      scope: String(report.scope.population), provider: 'Methods 1.3.13 · ABI 2.20 · Domains Rust/WASM',
+      scope: String(report.scope.population), provider: `Methods ${(report.metrics.pca.value as Record<string,unknown>|null)?.backend_version??'version not carried'} / Domains Rust/WASM`,
       representation: id === 'raw_neighbors' ? 'raw' : id === 'pca' ? 'raw → PCA' : ['density', 'projected_neighbors'].includes(id) ? 'resolved PCA scores' : 'not carried', pointer: `/metrics/${id}` })),
       { id: 'interpretation', method: 'Domains contextual reading', status: 'conditional', reason: null,
         value: report.interpretation, scope: String(report.scope.population), provider: 'Domains Rust/WASM', pointer: '/interpretation' }],

@@ -12,7 +12,6 @@ use std::{
 
 pub const PROTOCOL: &str = "domains.browser_preprocessing_sensitivity.v1";
 pub const RESULT_PROTOCOL: &str = "domains.browser_preprocessing_sensitivity_result.v1";
-const VERSION: &str = "1.3.13+abi.2.20.0";
 const MEMORY_CELLS: usize = 4_000_000;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -190,7 +189,9 @@ fn verify_frozen(r: &SensitivityRequest) -> Result<(), String> {
         || old["receipt"]["reference_keys"] != json!(r.reference_keys)
         || old["receipt"]["query_keys"] != json!([])
         || old["receipt"]["test_x_accessed"] != false
-        || old["receipt"]["provider"] != VERSION
+        || !old["receipt"]["provider"]
+            .as_str()
+            .is_some_and(crate::browser_cohort::admitted)
     {
         return Err("FROZEN_REFERENCE_BINDING_OR_EVIDENCE_MISMATCH".into());
     }
@@ -511,7 +512,7 @@ impl<P: support::SupportProvider> Bridge<'_, P> {
             .collect();
         self.calls.borrow_mut().push(json!({"operation":op,"representation_id":self.id,"row_keys":keys,"reference_row_keys":if op=="pca_monitor"{Some(self.keys)}else{None},"monitored_row_keys":if op=="pca_monitor"{Some(self.query_keys)}else{None},"payload_sha256":fingerprint(payload),"request_sha256":fingerprint(payload),"shapes":shapes,"provider_success":result.is_ok()}));
         let v = result?;
-        if op != "capabilities" && v["backend_version"] != VERSION {
+        if op != "capabilities" && v["backend_version"] != self.provider.version() {
             return Err(ProviderError::internal(
                 "PREPROCESSING_PROVIDER_VERSION_MISMATCH",
             ));
@@ -721,6 +722,26 @@ fn step_axis(step: &PreprocessingStep, axis: &[f64]) -> Result<Vec<f64>, String>
             return Err("INVALID_PREPROCESS_PARAMETERS".into());
         }
     }
+    if step.operator == "SavitzkyGolay" {
+        let window = step.parameters["window_length"]
+            .as_i64()
+            .expect("validated integer");
+        let polynomial = step.parameters["polyorder"]
+            .as_i64()
+            .expect("validated integer");
+        let derivative = step.parameters["deriv"]
+            .as_i64()
+            .expect("validated integer");
+        if window <= 0
+            || window % 2 == 0
+            || polynomial < 0
+            || polynomial >= window
+            || derivative < 0
+            || derivative > polynomial
+        {
+            return Err("INVALID_FROZEN_SAVITZKY_GOLAY_PARAMETERS".into());
+        }
+    }
     if step.operator == "CropTransformer" {
         let start = step
             .parameters
@@ -742,8 +763,8 @@ fn step_axis(step: &PreprocessingStep, axis: &[f64]) -> Result<Vec<f64>, String>
         Ok(axis.to_vec())
     }
 }
-fn transformations(states: &[StageState]) -> Vec<Value> {
-    states.iter().map(|s|json!({"operator":s.step.operator,"parameters":s.step.parameters,"fit_keys_role":"reference_only","state_sha256":hash(&s.bytes),"reference_input_sha256":s.input_hash,"reference_output_sha256":s.output_hash,"input_axis_sha256":fingerprint(&s.input_axis),"output_axis_sha256":fingerprint(&s.axis),"input_bands":s.input_axis.len(),"output_bands":s.axis.len(),"provider":VERSION,"state_unchanged_after_transform":true})).collect()
+fn transformations(states: &[StageState], version: &str) -> Vec<Value> {
+    states.iter().map(|s|json!({"operator":s.step.operator,"parameters":s.step.parameters,"fit_keys_role":"reference_only","state_sha256":hash(&s.bytes),"reference_input_sha256":s.input_hash,"reference_output_sha256":s.output_hash,"input_axis_sha256":fingerprint(&s.input_axis),"output_axis_sha256":fingerprint(&s.axis),"input_bands":s.input_axis.len(),"output_bands":s.axis.len(),"provider":version,"state_unchanged_after_transform":true})).collect()
 }
 type TransformedRepresentation = (Vec<Vec<f64>>, Vec<f64>, Vec<StageState>);
 fn pipeline<P: support::SupportProvider>(
@@ -756,7 +777,13 @@ fn pipeline<P: support::SupportProvider>(
     let (mut matrix, mut axis, mut states) = (raw_reference(r), r.x.axis.clone(), Vec::new());
     for step in &spec.steps {
         let next_axis = step_axis(step, &axis)?;
-        let key = fingerprint(&json!([VERSION, matrix, axis, r.reference_keys, step]));
+        let key = fingerprint(&json!([
+            b.provider.version(),
+            matrix,
+            axis,
+            r.reference_keys,
+            step
+        ]));
         if r.reuse_exact_prefixes {
             if let Some((saved, s)) = cache.get(&key) {
                 if s.input_hash != fingerprint(&matrix)
@@ -1117,7 +1144,9 @@ fn cluster_comparison<P: support::SupportProvider>(
                 .as_f64()
                 .is_some_and(|v| v.is_finite() && (-1.0..=1.0).contains(&v)) =>
         {
-            computed(json!({"value":v["value"],"n_joint":joint.len(),"provider":VERSION}))
+            computed(
+                json!({"value":v["value"],"n_joint":joint.len(),"provider":b.provider.version()}),
+            )
         }
         Ok(v) if v["value"].is_null() => unavailable("OWNER_ARI_UNDEFINED"),
         Ok(_) => unavailable("INVALID_OWNER_ARI"),
@@ -1135,7 +1164,7 @@ fn cluster_comparison<P: support::SupportProvider>(
                 unavailable("NO_ASSIGNED_CLUSTER_PAIRS")
             } else {
                 computed(
-                    json!({"jaccard":v["jaccard"],"intersections":v["intersections"],"sizes_a":v["sizes_a"],"sizes_b":v["sizes_b"],"provider":VERSION,"negative_labels":"unassigned; excluded by owner Jaccard kernel"}),
+                    json!({"jaccard":v["jaccard"],"intersections":v["intersections"],"sizes_a":v["sizes_a"],"sizes_b":v["sizes_b"],"provider":b.provider.version(),"negative_labels":"unassigned; excluded by owner Jaccard kernel"}),
                 )
             }
         }
@@ -1176,8 +1205,16 @@ pub fn analyze(
     provider: &impl support::SupportProvider,
 ) -> Result<Value, String> {
     validate(r)?;
-    if provider.version() != VERSION {
+    let version = provider.version();
+    if !crate::browser_cohort::admitted(&version) {
         return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+    }
+    if r.stage == "test_audit"
+        && r.frozen_reference
+            .as_ref()
+            .is_some_and(|old| old["receipt"]["provider"] != version)
+    {
+        return Err("FROZEN_REFERENCE_PROVIDER_COHORT_MISMATCH".into());
     }
     let calls = RefCell::new(Vec::new());
     let (mut cache, mut hits, mut prepared, mut failures) =
@@ -1239,7 +1276,7 @@ pub fn analyze(
                         && old["value"]["source"] == json!(p.source)
                         && fingerprint(&old["value"]["axis"]) == fingerprint(&p.axis)
                         && fingerprint(&old["value"]["transformations"])
-                            == fingerprint(&transformations(&p.states)) => {}
+                            == fingerprint(&transformations(&p.states, &version)) => {}
                 None if old["status"] == "unavailable" => {}
                 _ => return Err("FROZEN_REFERENCE_REPRODUCTION_FAILED".into()),
             }
@@ -1296,7 +1333,7 @@ pub fn analyze(
         } else {
             json!({"pca":unavailable("NO_QUALIFIED_SUBSPACE_COMPARISON_API"),"neighbors":unavailable("RAW_REFERENCE_EVIDENCE_UNAVAILABLE"),"clusters":unavailable("RAW_REFERENCE_EVIDENCE_UNAVAILABLE")})
         };
-        representations.push(json!({"id":spec.id,"family":spec.family,"steps":spec.steps,"status":"computed","reason":null,"value":{"source":p.source,"axis":p.axis,"axis_unit":r.x.axis_unit,"original_axis_sha256":fingerprint(&r.x.axis),"reference_matrix_sha256":fingerprint(&p.matrix),"query_matrix_sha256":query_hash,"transformations":transformations(&p.states),"structure":p.structure,"factors":p.factors,"support":support_result,"comparisons":comparisons}}));
+        representations.push(json!({"id":spec.id,"family":spec.family,"steps":spec.steps,"status":"computed","reason":null,"value":{"source":p.source,"axis":p.axis,"axis_unit":r.x.axis_unit,"original_axis_sha256":fingerprint(&r.x.axis),"reference_matrix_sha256":fingerprint(&p.matrix),"query_matrix_sha256":query_hash,"transformations":transformations(&p.states, &version),"structure":p.structure,"factors":p.factors,"support":support_result,"comparisons":comparisons}}));
     }
     let catalog: Value =
         serde_json::from_slice(include_bytes!("../../../bindings/wasm/aom-bank.json"))
@@ -1306,7 +1343,7 @@ pub fn analyze(
         &json!({"reference_input_sha256":reference_hash,"plan_sha256":plan_hash,"stage":r.stage,"query_keys":r.query_keys,"query_matrix":raw_query,"dependencies":r.dependencies}),
     );
     let mut result = json!({"schema_version":1,"protocol_version":RESULT_PROTOCOL,"status":"computed","reason":null,"dataset":r.dataset,"population":r.population,"stage":r.stage,"plan":r.plan,"plan_sha256":plan_hash,"reference_input_sha256":reference_hash,"input_sha256":input_hash,"representations":representations,
-        "receipt":{"provider":VERSION,"reference_keys":r.reference_keys,"query_keys":r.query_keys,"test_x_accessed":r.stage=="test_audit","y_accessed":false,"x_predict_accessed":false,"query_raw_sha256":if r.stage=="test_audit"{Some(fingerprint(&raw_query))}else{None},"provider_calls":calls.into_inner(),"exact_prefix_reuse_enabled":r.reuse_exact_prefixes,"exact_prefix_cache_hits":hits,"descriptor_catalog_sha256":hash(include_bytes!("../../../bindings/wasm/aom-bank.json")),"aom_source":catalog["aom_source"],"derived_source_semantics":"Inner raw refers only to the declared derived source; original-source results are preserved.","frozen_reference_sha256":r.frozen_reference.as_ref().map(|v|v["evidence_sha256"].clone())},
+        "receipt":{"provider":version,"reference_keys":r.reference_keys,"query_keys":r.query_keys,"test_x_accessed":r.stage=="test_audit","y_accessed":false,"x_predict_accessed":false,"query_raw_sha256":if r.stage=="test_audit"{Some(fingerprint(&raw_query))}else{None},"provider_calls":calls.into_inner(),"exact_prefix_reuse_enabled":r.reuse_exact_prefixes,"exact_prefix_cache_hits":hits,"descriptor_catalog_sha256":hash(include_bytes!("../../../bindings/wasm/aom-bank.json")),"aom_source":catalog["aom_source"],"derived_source_semantics":"Inner raw refers only to the declared derived source; original-source results are preserved.","frozen_reference_sha256":r.frozen_reference.as_ref().map(|v|v["evidence_sha256"].clone())},
         "findings":[{"observation":"The prospectively declared representations were processed in order; unavailable entries remain visible.","confidence":"Conditional on the preserved owner outputs and declared populations.","consequence":"Persistence and change describe representation sensitivity; neither establishes chemistry, causality or predictive quality.","action":"Review each diagnostic, population, unavailable reason and experimental dependency without selecting a favorable representation."}],
         "limitations":["No Y, predict spectrum, test fit or preprocessing outcome ranking is admitted.","Axes, ordered acquisitions and declared exclusions are preserved; independence is not certified.","Derivatives with delta=1 use feature-index coordinates, including on irregular physical axes.","No paired-PCA subspace comparison API is qualified; coordinates and absolute distances are not compared.","AOM supplies descriptor provenance only; numerical equivalence to AOM implementations is not claimed.","Inspecting test X may influence later decisions; the test audit is descriptive after a frozen reference plan."]});
     result["evidence_sha256"] = json!(fingerprint(&result));
