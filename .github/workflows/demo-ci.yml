@@ -47,12 +47,22 @@ jobs:
       - run: npm run test:build-tools --prefix demo
       - name: Install reference interpreter and the exact native comparison provider
         run: python -m pip install -c ci/python-constraints.txt nirs4all-methods './bridges/python[test]'
-      - name: Select the original native Methods library and companion directory
+      - name: Stage the pinned browser comparison library independently of Python
         shell: pwsh
         run: |
-          $lib = python -c "from n4m._ffi import library_path; print(library_path())"
+          # Preserve the exact native/WASM comparison profile independently of SDK imports.
+          $browserVenv = Join-Path $env:RUNNER_TEMP 'domains-browser-methods'
+          python -m venv $browserVenv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $relative = if ($IsWindows) { 'Scripts/python.exe' } else { 'bin/python' }
+          $browserPython = Join-Path $browserVenv $relative
+          & $browserPython -m pip install 'nirs4all-methods==1.5.0'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $lib = & $browserPython -c "from n4m._ffi import library_path; print(library_path())"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           "N4DOMAINS_METHODS_LIBRARY=$lib" | Out-File -FilePath $env:GITHUB_ENV -Append
-          $site = python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])"
+          $site = & $browserPython -c "import sysconfig; print(sysconfig.get_paths()['purelib'])"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $dlls = Join-Path $site 'nirs4all_methods.libs'
           if (Test-Path $dlls) { $dlls | Out-File -FilePath $env:GITHUB_PATH -Append }
       - name: Regenerate and verify only public saved examples
