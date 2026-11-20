@@ -17,7 +17,7 @@ from .storage import fingerprint
 
 PROTOCOL = 'domains.selected_branch_persistence.v1'
 # (Methods version, ABI) pairs whose native gate matches the frozen public reference.
-QUALIFIED_PROVIDERS = (('1.3.6', '2.19.0'), ('1.3.13', '2.20.0'), ('1.5.0', '2.24.0'))
+QUALIFIED_PROVIDERS = (('1.3.6', '2.19.0'), ('1.3.13', '2.20.0'), ('1.5.0', '2.24.0'), ('1.5.1', '2.24.0'))
 
 
 def state(value=None, reason=None, status='unavailable'):
