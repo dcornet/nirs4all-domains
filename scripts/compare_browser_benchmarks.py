@@ -3,14 +3,14 @@
 Hash encoding reproduces the browser_x.v1 transport contract. No scientific
 metric is computed here and no substitute backend result is supplied.
 """
-from collections import Counter
-from copy import deepcopy
 import hashlib
 import json
-from pathlib import Path
 import statistics
 import struct
 import sys
+from collections import Counter
+from copy import deepcopy
+from pathlib import Path
 
 FIXTURE = {"name": "X.csv", "contents": "1000\n1\n2\n3\n"}
 SCIENTIFIC_PROTOCOL = "domains.browser_x.v1"
@@ -207,9 +207,12 @@ def compare(a, b):
     for kind in ["json_export", "html_export", "markdown_export"]:
         timings[kind + "_ms"] = {"before": statistics.median(sample[kind]["ms"] for sample in a["samples"]), "after": statistics.median(sample[kind]["ms"] for sample in b["samples"])}
     synthetic_exact = all(left["live"] == right["live"] for left, right in zip(a["samples"], b["samples"]))
+    synthetic_hashes_equal = all(left["live"][key] == right["live"][key]
+                                 for left, right in zip(a["samples"], b["samples"])
+                                 for key in ("input_sha256", "evidence_sha256"))
     return {"protocol": "domains.technical_comparison.v2", "scientific_values_equal": True,
-            "same_protocol_hashes_equal": {"synthetic": synthetic_exact, "rank_one": rank_hashes_equal},
-            "scientific_values_and_hashes_equal": rank_hashes_equal and synthetic_exact,
+            "same_protocol_hashes_equal": {"synthetic": synthetic_hashes_equal, "rank_one": rank_hashes_equal},
+            "scientific_values_and_hashes_equal": rank_hashes_equal and synthetic_hashes_equal,
             "declared_provider_metadata_transition": None if synthetic_exact else {
                 "methods_before": BASELINE_PROVIDER, "methods_after": CANDIDATE_PROVIDER,
                 "domains_before": "0.1.0-alpha.17", "domains_after": "0.2.0",

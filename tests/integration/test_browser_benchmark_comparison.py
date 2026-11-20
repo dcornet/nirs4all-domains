@@ -1,9 +1,9 @@
 """Engineering receipt adversaries. These objects are not scientific execution evidence."""
-from copy import deepcopy
 import hashlib
 import importlib.util
-from pathlib import Path
 import unittest
+from copy import deepcopy
+from pathlib import Path
 
 spec = importlib.util.spec_from_file_location("benchmark_comparison", Path(__file__).resolve().parents[2] / "scripts/compare_browser_benchmarks.py")
 comparison = importlib.util.module_from_spec(spec)
