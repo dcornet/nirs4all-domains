@@ -389,8 +389,8 @@
     },
     {
       "path": "aom-descriptors/NOTICE.md",
-      "sha256": "464042a13c48d9560de1c8a325a7f9a0dd258a598998afb5baa1ef905ee4ebee",
-      "bytes": 913,
+      "sha256": "033cd3899f6151e5698a413caf79101d304fc40a42960794ce8c2a5e87de62d6",
+      "bytes": 899,
       "origin": "Domains adaptation of pinned AOM bank metadata"
     },
     {
@@ -670,5 +670,5 @@
       "origin": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz/LICENSE.txt"
     }
   ],
-  "generated_file_bytes": 424425
+  "generated_file_bytes": 424411
 }
