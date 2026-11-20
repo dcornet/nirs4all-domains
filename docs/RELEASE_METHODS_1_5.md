@@ -1,6 +1,6 @@
 # Domains 0.2.0 — Methods 1.5 cohort
 
-This release selects Methods 1.5 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. Python native fits require the qualified Methods 1.5.1 patch; the browser retains its separately qualified Methods 1.5.0 artifact. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. Domains adds no numerical implementation, protocol or schema change. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
+This release selects Methods 1.5 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. Python native fits require the qualified Methods 1.5.1 patch. The earlier release candidate separately qualified a Methods1.5.0 browser artifact; concurrent F4.3 Main selects its own Methods1.5.1 browser matrix with the integration limits below. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. Domains adds no numerical implementation, protocol or schema change. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
 
 Current native and browser admission checks identify this cohort explicitly. The multiscale descriptor accepts the new Methods/ABI pair after all eight frozen native HDBSCAN reference cases passed unchanged, including their original 1e-12 tolerance. Historical provider pairs, evidence files and saved reports remain historical records.
 
