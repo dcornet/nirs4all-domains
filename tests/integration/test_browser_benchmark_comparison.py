@@ -62,6 +62,55 @@ def receipt(*, scoped=False, before=False, automatic=False):
 
 
 class BenchmarkComparisonTests(unittest.TestCase):
+    def provider_transition_receipts(self):
+        before, after = receipt(before=True), receipt(scoped=True)
+        for old, sample in [(True, item) for item in before["samples"]] + [(False, item) for item in after["samples"]]:
+            provider = comparison.BASELINE_PROVIDER if old else comparison.CANDIDATE_PROVIDER
+            rank = sample["rank_one"]
+            rank["metrics"]["pca"]["value"]["backend_version"] = provider
+            rank["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": rank["scope"], "metrics": rank["metrics"]}), canonical=True)
+            live = sample["live"]
+            report = live["scientific_report"]
+            report["metrics"]["provider"] = {"backend_version": provider, "numeric_value": 0.125}
+            report["engine_version"] = "0.1.0-alpha.17" if old else "0.2.0"
+            report["capabilities"] = [{"reason": provider + "; bounded browser protocol"}]
+            evidence = comparison.digest(comparison.evidence_tree({"scope": report["scope"], "metrics": report["metrics"]}), canonical=True)
+            live["evidence_sha256"] = report["evidence_sha256"] = evidence
+            report["interpretation"]["evidence_sha256"] = evidence
+        return before, after
+
+    def test_declared_provider_labels_change_hashes_without_changing_scientific_values(self):
+        before, after = self.provider_transition_receipts()
+        result = comparison.compare(before, after)
+        self.assertTrue(result["scientific_values_equal"])
+        self.assertFalse(result["synthetic_report_exactly_equal"])
+        self.assertFalse(result["same_protocol_hashes_equal"]["synthetic"])
+        self.assertTrue(result["declared_provider_metadata_transition"]["evidence_hashes_recomputed_and_verified"])
+
+    def test_provider_transition_does_not_allow_changed_numbers_with_recomputed_hashes(self):
+        before, after = self.provider_transition_receipts()
+        for sample in after["samples"]:
+            live = sample["live"]
+            report = live["scientific_report"]
+            report["metrics"]["provider"]["numeric_value"] += 1e-15
+            evidence = comparison.digest(comparison.evidence_tree({"scope": report["scope"], "metrics": report["metrics"]}), canonical=True)
+            live["evidence_sha256"] = report["evidence_sha256"] = report["interpretation"]["evidence_sha256"] = evidence
+        with self.assertRaisesRegex(AssertionError, "Matched synthetic report"):
+            comparison.compare(before, after)
+
+    def test_undeclared_provider_or_engine_transition_is_refused(self):
+        for field in ("provider", "engine"):
+            with self.subTest(field=field):
+                before, after = self.provider_transition_receipts()
+                if field == "provider":
+                    rank = after["samples"][0]["rank_one"]
+                    rank["metrics"]["pca"]["value"]["backend_version"] = "1.5.1+abi.2.24.0"
+                    rank["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": rank["scope"], "metrics": rank["metrics"]}), canonical=True)
+                else:
+                    after["samples"][0]["live"]["scientific_report"]["engine_version"] = "0.2.1"
+                with self.assertRaises(AssertionError):
+                    comparison.compare(before, after)
+
     def test_automatic_binding_keeps_unreviewed_roles_explicit_without_changing_numeric_gates(self):
         result = comparison.compare(receipt(before=True), receipt(scoped=True, automatic=True))
         self.assertTrue(result["scientific_values_equal"])

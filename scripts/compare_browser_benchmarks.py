@@ -4,6 +4,7 @@ Hash encoding reproduces the browser_x.v1 transport contract. No scientific
 metric is computed here and no substitute backend result is supplied.
 """
 from collections import Counter
+from copy import deepcopy
 import hashlib
 import json
 from pathlib import Path
@@ -14,6 +15,36 @@ import sys
 FIXTURE = {"name": "X.csv", "contents": "1000\n1\n2\n3\n"}
 SCIENTIFIC_PROTOCOL = "domains.browser_x.v1"
 SCOPED_WRAPPER = "domains.browser_scoped_report.v1"
+BASELINE_PROVIDER = "1.3.13+abi.2.20.0"
+CANDIDATE_PROVIDER = "1.5.0+abi.2.24.0"
+
+
+def migrated_provider_metadata(value):
+    """Change only the declared provider label; retain every scientific value."""
+    if isinstance(value, dict):
+        return {key: CANDIDATE_PROVIDER if key == "backend_version" and item == BASELINE_PROVIDER
+                else migrated_provider_metadata(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [migrated_provider_metadata(item) for item in value]
+    return value
+
+
+def migrated_live_report(live):
+    """Bind expected provenance/hash changes to otherwise identical evidence."""
+    expected = deepcopy(live)
+    expected["metrics"] = migrated_provider_metadata(expected["metrics"])
+    report = expected["scientific_report"]
+    report["metrics"] = migrated_provider_metadata(report["metrics"])
+    if report.get("engine_version") == "0.1.0-alpha.17":
+        report["engine_version"] = "0.2.0"
+    for capability in report.get("capabilities", []):
+        if capability.get("reason") == BASELINE_PROVIDER + "; bounded browser protocol":
+            capability["reason"] = CANDIDATE_PROVIDER + "; bounded browser protocol"
+    evidence = digest(evidence_tree({"scope": report["scope"], "metrics": report["metrics"]}), canonical=True)
+    expected["evidence_sha256"] = report["evidence_sha256"] = evidence
+    if "evidence_sha256" in report.get("interpretation", {}):
+        report["interpretation"]["evidence_sha256"] = evidence
+    return expected
 
 
 def encoded(value, *, canonical=False):
@@ -148,8 +179,9 @@ def compare(a, b):
         original = verify_rank_one(left["rank_one"], import_route=left.get("import_route"))
         reviewed = verify_rank_one(right["rank_one"], import_route=right.get("import_route"))
         assert original["kind"] == "file_bindings.v1"
-        assert left["rank_one"]["metrics"] == right["rank_one"]["metrics"], "CSV scientific values changed"
-        assert left["live"] == right["live"], "Matched synthetic report, scientific values or hashes changed"
+        before_metrics, after_metrics = left["rank_one"]["metrics"], right["rank_one"]["metrics"]
+        assert before_metrics == after_metrics or migrated_provider_metadata(before_metrics) == after_metrics, "CSV scientific values changed"
+        assert left["live"] == right["live"] or migrated_live_report(left["live"]) == right["live"], "Matched synthetic report, scientific values or hashes changed"
         for sample in [left, right]:
             scientific = sample["live"]["scientific_report"]
             assert scientific["protocol_version"] == SCIENTIFIC_PROTOCOL
@@ -174,11 +206,16 @@ def compare(a, b):
     timings = {key: {"before": statistics.median(sample[key] for sample in a["samples"]), "after": statistics.median(sample[key] for sample in b["samples"])} for key in keys}
     for kind in ["json_export", "html_export", "markdown_export"]:
         timings[kind + "_ms"] = {"before": statistics.median(sample[kind]["ms"] for sample in a["samples"]), "after": statistics.median(sample[kind]["ms"] for sample in b["samples"])}
+    synthetic_exact = all(left["live"] == right["live"] for left, right in zip(a["samples"], b["samples"]))
     return {"protocol": "domains.technical_comparison.v2", "scientific_values_equal": True,
-            "same_protocol_hashes_equal": {"synthetic": True, "rank_one": rank_hashes_equal},
-            "scientific_values_and_hashes_equal": rank_hashes_equal,
+            "same_protocol_hashes_equal": {"synthetic": synthetic_exact, "rank_one": rank_hashes_equal},
+            "scientific_values_and_hashes_equal": rank_hashes_equal and synthetic_exact,
+            "declared_provider_metadata_transition": None if synthetic_exact else {
+                "methods_before": BASELINE_PROVIDER, "methods_after": CANDIDATE_PROVIDER,
+                "domains_before": "0.1.0-alpha.17", "domains_after": "0.2.0",
+                "scientific_values_exact": True, "evidence_hashes_recomputed_and_verified": True},
             "declared_verified_binding_transition": {"verified": True, "kind": "file_bindings_to_reviewed_spec" if migrated else "unchanged_legacy_binding", **transition},
-            "synthetic_report_exactly_equal": True,
+            "synthetic_report_exactly_equal": synthetic_exact,
             "browser": b["browser"], "node": b["node"], "repetitions_each": 3,
             "assets": {"before_bytes": sum(asset["bytes"] for asset in a["assets"]), "after_bytes": sum(asset["bytes"] for asset in b["assets"]),
                        "before_wasm": [asset for asset in a["assets"] if asset["file"].endswith(".wasm")], "after_wasm": [asset for asset in b["assets"] if asset["file"].endswith(".wasm")]},
