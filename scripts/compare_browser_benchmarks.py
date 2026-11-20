@@ -224,7 +224,9 @@ def compare(a, b):
                        "before_wasm": [asset for asset in a["assets"] if asset["file"].endswith(".wasm")], "after_wasm": [asset for asset in b["assets"] if asset["file"].endswith(".wasm")]},
             "csv_loaded_wasm_modules": {side: sum(counts.values()) for side, counts in loaded[0].items()},
             "csv_wasm_loads_by_module": loaded[0], "csv_workflow_timing_matched": not migrated,
-            "medians": timings, "limits": b["measurement_limits"], "statistical_significance_or_whole_bank_claimed": False}
+            "medians": timings, "limits": b["measurement_limits"],
+            "limits_interpretation": "Limits are capture-time receipt text; the equality fields above report actual values, metadata and hashes after the declared migration.",
+            "statistical_significance_or_whole_bank_claimed": False}
 
 
 def main():
