@@ -1,10 +1,31 @@
 # Domains 0.2.0 — Methods 1.5 cohort
 
-This release selects Methods 1.5.0 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. Domains adds no numerical implementation, protocol or schema change. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
+This release selects Methods 1.5 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. Python native fits require the qualified Methods 1.5.1 patch; the browser retains its separately qualified Methods 1.5.0 artifact. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. Domains adds no numerical implementation, protocol or schema change. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
 
 Current native and browser admission checks identify this cohort explicitly. The multiscale descriptor accepts the new Methods/ABI pair after all eight frozen native HDBSCAN reference cases passed unchanged, including their original 1e-12 tolerance. Historical provider pairs, evidence files and saved reports remain historical records.
 
-## Executed candidate qualification
+## Python 1.5.1 / Datasets 0.3.22 qualification
+
+The new-fit table requires exactly Methods 1.5.1, DAG-ML 0.5.0 and SDK 1.6.0.
+The predictive extra requires Methods `>=1.5.1,<1.6`; other patch versions remain
+explicitly unqualified for new fits. The metadata-only catalog inventory admits
+Datasets 0.3.11 and 0.3.22 exactly, and refuses other versions before repository
+or descriptor access. Adapter provenance records the actual installed version.
+
+On Python 3.11.15 with sklearn 1.7.2, public Methods 1.5.1 native library
+`b97d032c3810f4d4e536aa9b95bf279765789e3bbaeb807ae2eb0ba536f42dc9`,
+public DAG/Core/IO owners, SDK 1.6.0 candidate wheel `75f3d0c3...` and the
+Datasets 0.3.22 wheel from source `478ece43...`, the complete Python integration
+suite passed **536 tests and 74 subtests, zero skips**. An independent Opus 5.5
+review reran that suite at `019d4003...` and the unchanged eight-case native
+HDBSCAN reference with its original `1e-12` tolerance; both passed. The subsequent
+explicit installed-Datasets profile assertion passed all 14 bridge tests.
+These are candidate qualification results, not claims that SDK/Datasets or
+Domains were already published. No historical numeric fixture was regenerated.
+CI selects the same owner versions through its constraints and installs the
+SDK with normal dependency resolution and `pip check`.
+
+## Earlier source and browser candidate qualification
 
 On Linux, the source candidate used the actual public Methods 1.5 Python wheel (native library SHA-256 `215c57f294f43dc61c6b1ca9c2635758ce03fa15646834f01b134caa6869f042`), qualified DAG source `d3608565a5fe27875d4b64e54035eb8b4c05b204` and the Preflight 0.3 release source through an isolated, non-distributable Cargo configuration. The Python environment installed measured candidate SDK/Core/DAG wheels explicitly. These source-stage artifacts are distinct from public-registry builds.
 

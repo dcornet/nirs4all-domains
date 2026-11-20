@@ -15,6 +15,12 @@ than borrowed from another PCA. See the [protocol](docs/browser/F4_2_SCIENTIFIC_
 [user guide](docs/browser/F4_2_USER_GUIDE.md), [fit/transform contract](docs/browser/F4_2_FIT_TRANSFORM_CONTRACT.md)
 and [qualification record](docs/browser/F4_2_VALIDATION.md).
 
+The separate Python 0.2.0 release candidate qualifies Methods 1.5.1 / ABI 2.24,
+DAG-ML 0.5.0, SDK 1.6.0 and Datasets 0.3.22. Its installed-provider tests and
+publication status are recorded in the [release qualification](docs/RELEASE_METHODS_1_5.md).
+The browser's Methods 1.5.0 artifact and historical scientific records retain
+their own identities.
+
 F4.1 adds explicit factor–PCA associations to the local browser workflow.
 Import and review keyed X/Y/M, run an admitted train-only (or declared
 unpartitioned) structure operation, then select a factor under “Which factors

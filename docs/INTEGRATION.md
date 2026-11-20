@@ -1,6 +1,17 @@
 # Integration, dependencies and obstacles
 
-Since Rust `0.1.0-alpha.17` / bridge `0.1.0a22`, the qualified cohort is
+The current 0.2.0 Python release candidate qualifies Methods 1.5.1 / ABI 2.24,
+DAG-ML 0.5.0, SDK 1.6.0 and Datasets 0.3.22. New fits require those exact
+provider versions; the predictive extra accepts `nirs4all-methods>=1.5.1,<1.6`
+and `dag-ml>=0.5,<0.6`, with sklearn 1.7.2. Datasets remains an optional
+`>=0.3,<0.4` extra; the metadata-only inventory separately admits only its
+qualified 0.3.11 and 0.3.22 profiles. The browser retains its qualified Methods
+1.5.0 WASM artifact. See [current qualification](RELEASE_METHODS_1_5.md) for
+executed candidate evidence and publication limits.
+
+## Historical integration notes
+
+For Rust `0.1.0-alpha.17` / bridge `0.1.0a22`, the qualified cohort was
 Preflight 0.1.6 (DAG-ML core 0.3.44), native Methods 1.3.13 / ABI 2.20,
 DAG-ML 0.3.44, Datasets 0.3.11 and the optional FastAOM entry point nirs4all
 1.4.14. Following the ecosystem cross-repository version contract, manifests
