@@ -1,6 +1,6 @@
 # Domains 0.2.0 — Methods 1.5 cohort
 
-This release selects Methods 1.5 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. Python native fits require the qualified Methods 1.5.1 patch. The earlier release candidate separately qualified a Methods1.5.0 browser artifact; concurrent F4.3 Main selects its own Methods1.5.1 browser matrix with the integration limits below. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. Domains adds no numerical implementation, protocol or schema change. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
+This release selects Methods 1.5 / ABI 2.24, DAG-ML 0.5 and Preflight 0.3. Python native fits require the qualified Methods 1.5.1 patch. The earlier release candidate separately qualified a Methods 1.5.0 browser artifact; concurrent F4.3 Main selects its own Methods 1.5.1 browser matrix with the integration limits below. It is a minor release because the upstream preprocessing and wide-branch Preflight PCA score corrections can change existing numerical results. The owner-cohort bump itself adds no numerical implementation, protocol or schema change. The integrated source also includes the separately accepted F4.3 preprocessing protocol and domains.portable_report.v2 from Main; those keep their own qualification boundary. Python selects the SDK 1.6 optional FastAOM entry point; unrelated pinned scientific references remain unchanged.
 
 Current native and browser admission checks identify this cohort explicitly. The multiscale descriptor accepts the new Methods/ABI pair after all eight frozen native HDBSCAN reference cases passed unchanged, including their original 1e-12 tolerance. Historical provider pairs, evidence files and saved reports remain historical records.
 
@@ -41,25 +41,53 @@ Exact commands, exits, failures and corrected retries are retained in the releas
 ## Integration with concurrent F4.3 Main
 
 The concurrent Main source `d644ec7` adds the F4.3 browser and its separately
-reviewed Methods1.5.1 admission. Its browser scientific comparators, fixture values, tolerances and explicit
+reviewed Methods 1.5.1 admission. Its browser scientific comparators, fixture values, tolerances and explicit
 unresolved strict numerical parity outcomes are preserved. The shared Rust
-lock deliberately selects Preflight0.3/DAG0.5/n4m0.5, which also changes the
+lock deliberately selects Preflight 0.3/DAG 0.5/n4m 0.5, which also changes the
 browser build. Integrity receipts now report the compiled Preflight version;
-this is a new integration cohort requiring browser qualification. The earlier browser1.5.0
+this is a new integration cohort requiring browser qualification. The earlier browser 1.5.0
 qualification above describes the earlier release candidate, not this integrated
-F4.3 runtime. No passing old-browser result certifies F4.3. The integrated
-Python/Preflight0.3/DAG0.5 source still requires its own affected gates and
-independent review before publication.
+F4.3 runtime. No passing old-browser result certifies F4.3. The integrated native Rust and Python source has now passed its affected
+gates and independent reviews, recorded below. The browser cohort retains its
+separate failed qualification.
 
 The native preprocessing test profile explicitly selects the published
-Methods1.5.1/ABI2.24 provider. Only its provider-version admission changes;
+Methods 1.5.1/ABI2.24 provider. Only its provider-version admission changes;
 all analytical expectations, lifecycle assertions and tolerances remain unchanged.
-The source Main1.3.13 qualification remains historical evidence.
+The source Main 1.3.13 qualification remains historical evidence.
 
-On the integrated source, the public-owner Python profile passes543tests and
-74subtests without skips. The Rust qualification profile (dev optimization and
-assertions, debug symbols disabled) passes all97tests, including every ignored
-native case, on the actual published Methods1.5.1 library. Schema drift checks,
-protected alpha8–18 checks and synthetic CLI protocols pass. Independent Opus5.5
+On the integrated source, the public-owner Python profile passes 543 tests and
+74 subtests without skips. The Rust qualification profile (dev optimization and
+assertions, debug symbols disabled) passes all 97 tests, including every ignored
+native case, on the actual published Methods 1.5.1 library. Schema drift checks,
+protected alpha8–18 checks and synthetic CLI protocols pass. Independent Opus 5.5
 source closure passes after the compiled Preflight provenance correction.
-These results do not certify the still-pending F4.3 browser cohort.
+These results do not certify the browser cohort. Its required F4.3 strict
+native/WASM parity gates ran and FAILED on 7 Ubuntu / 4 Windows fields; it remains
+unqualified, including the cohort-level claim for F4.0–F4.2. Passing individual
+factor/support/scoped checks do not qualify that whole browser consumer.
+
+## Final native source release scope
+
+The current native Rust/Python cohort passes the hosted scientific gates on
+Ubuntu and Windows (run 44753856572), including the complete original numeric
+references. The functional browser/lifecycle/export jobs pass on both platforms
+(run 44753856604), while both strict F4.3 numerical jobs and their final aggregate
+correctly FAIL. The warning/report contracts also pass (run 44753856565). No
+expected-success wrapper, allowed failure, fixture rewrite or tolerance change
+was added.
+
+Against the accepted Main source 1e195a7 (run 44707228685), the current source
+has bit-identical 7 Ubuntu / 4 Windows failure lists, including every native/WASM
+value and path, with the same 1,045,533 / 1,045,536 comparisons. All 3,237,280
+numeric paths, types and binary values across ten complete Linux native/WASM
+preprocessing, factor, support, scoped and base reports are identical. This
+shows no new numerical behavior from the owner-cohort integration; it does not
+turn the existing failed browser qualification into a pass.
+
+The source prerelease delivers the qualified native Rust and Python adoption.
+The existing browser profile stays exploratory and unqualified, as its current
+production declarations and exported reports state. No universal operation,
+portability or predictive-performance certification is claimed. An independent
+Opus 5.5 release-scope assessment found no new scientific or contract blocker for
+these explicit claims; it neither approved a waiver nor qualified the browser.

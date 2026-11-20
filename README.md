@@ -2,9 +2,13 @@
 
 The 0.2.0 browser consumer uses the published Methods 1.5.1 / ABI 2.24 cohort
 under a [separate admission contract](docs/browser/F4_3_PROVIDER_ADMISSION_1_5_1.md).
-Its required native/WASM and browser/report CI gates establish the tested scope;
-historical 1.3.13 environments, saved evidence and predictive qualification remain
-separate. No merge or release follows from a provider update.
+The native Rust and Python qualification is separate from the browser consumer.
+The browser Methods 1.5.1 cohort remains **unqualified**: functional/export and
+individual WASM checks pass, but the required strict F4.3 native/WASM parity
+gate fails 7 Ubuntu and 4 Windows fields, exactly as on the accepted prior Main.
+Historical 1.3.13 evidence and its qualification remain separate. No numerical
+reference, comparator or tolerance was changed to hide those failures. See the
+[current qualification record](docs/RELEASE_METHODS_1_5.md).
 
 F4.2 adds an explicit **train-fitted PCA / test projection** operation and a
 separate indexed-fold T²/Q monitor. Import and review train/test partitions,
@@ -317,7 +321,7 @@ this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIF
 describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
 records the historical Preflight0.1.6 / Methods1.3.13 / DAG-ML0.3.44 providers.
 The [current integration](docs/RELEASE_METHODS_1_5.md) separately records
-Preflight0.3 / Methods1.5.1 / DAG-ML0.5 and its qualification limits.
+Preflight 0.3 / Methods 1.5.1 / DAG-ML0.5 and its qualification limits.
 
 The [prospective 2026-11-17 storage policy](docs/technical/STORAGE_POLICY_50GB.md)
 documents the owner's staged 50 GB ceiling and controller boundaries. Its CI
