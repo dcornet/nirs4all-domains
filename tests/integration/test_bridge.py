@@ -186,6 +186,7 @@ class BridgeTests(unittest.TestCase):
     def test_installed_datasets_public_getters_to_real_cli(self):
         """Actual installed Datasets on synthetic canonical bytes, without network."""
         from importlib.metadata import version
+        self.assertIn(version("nirs4all-datasets"), ("0.3.11", "0.3.22"))
         import nirs4all_datasets as datasets
         import yaml
         import subprocess

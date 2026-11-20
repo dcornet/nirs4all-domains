@@ -21,8 +21,8 @@ markdown-it-py==4.3.0
 matplotlib==3.11.2
 mdurl==0.1.2
 nirs4all==1.6.0
-nirs4all-datasets==0.3.11
-nirs4all-methods==1.5.0
+nirs4all-datasets==0.3.22
+nirs4all-methods==1.5.1
 numpy==2.4.6
 packaging==26.3
 pandas==3.1.1
