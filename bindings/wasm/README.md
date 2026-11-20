@@ -34,8 +34,10 @@ See [the scientific contract](../../docs/browser/F4_2_SCIENTIFIC_PROTOCOL.md).
 ## Existing binding and numerical ownership
 
 This private, additive demo binding builds the existing Domains library as a
-WASM cdylib. It adds no third Rust crate and consumes the public Preflight 0.1.6
-provider contract with the published Methods 1.3.13 / ABI 2.20 WASM kernels.
+WASM cdylib. It adds no third Rust crate and consumes the public Preflight0.3.0
+provider contract with the published Methods1.5.1 / ABI2.24 WASM kernels.
+This integration has separate [qualification limits](../../docs/RELEASE_METHODS_1_5.md);
+old evidence does not certify the current build.
 It does not load a native shared library, DAG, Python or a numerical fallback.
 
 From this directory, `npm run build:native` runs wasm-pack against the existing

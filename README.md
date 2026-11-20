@@ -315,7 +315,9 @@ No new estimator, recursive clustering engine or result schema is introduced by
 this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
 describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
-records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
+records the historical Preflight0.1.6 / Methods1.3.13 / DAG-ML0.3.44 providers.
+The [current integration](docs/RELEASE_METHODS_1_5.md) separately records
+Preflight0.3 / Methods1.5.1 / DAG-ML0.5 and its qualification limits.
 
 The [prospective 2026-11-17 storage policy](docs/technical/STORAGE_POLICY_50GB.md)
 documents the owner's staged 50 GB ceiling and controller boundaries. Its CI

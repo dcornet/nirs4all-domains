@@ -1,9 +1,10 @@
 # Domains browser demonstration
 
-The [F3 technical review](../docs/technical/F3_RELEASE_REPORT.md) records current
+The [F3 technical review](../docs/technical/F3_RELEASE_REPORT.md) records historical
 dependency choices, verified published-WASM loading, worker ownership, bounded
-performance measurements and actual CI evidence. Preflight 0.1.6, Methods 1.3.13
-and ABI 2.20 remain locked. Clean installs use the exact checked-in lockfiles;
+performance measurements and actual CI evidence. The current release integration
+selects Preflight0.3.0 and Methods1.5.1/ABI2.24, with its separate
+[qualification limits](../docs/RELEASE_METHODS_1_5.md). Clean installs use the exact checked-in lockfiles;
 existing local node_modules from an older cohort must be replaced with `npm ci`.
 
 The [F2 user journey](../docs/ux/F2_USER_JOURNEY.md) explains four freely
@@ -43,8 +44,8 @@ npm run preview
 `Cargo.lock`. The demo's lockfile pins npm dependencies, including local
 `@nirs4all/domains` from `../bindings/wasm`, `@nirs4all/io-wasm@0.2.14`,
 `@nirs4all/formats-wasm@0.2.14`, `nirs4all-ui@0.2.5`, and React 19.2.3.
-The local WASM package depends on `@nirs4all/methods@1.3.13`; its provider
-contract comes through Preflight 0.1.6 / Methods ABI 2.20. `npm ci` does not
+The local WASM package depends on `@nirs4all/methods@1.5.1`; its provider
+contract comes through Preflight0.3.0 / Methods ABI2.24. `npm ci` does not
 build Rust WASM: generate `native/` first. A clean checkout needs the Rust
 target, wasm-pack and npm registry access before a complete browser build.
 

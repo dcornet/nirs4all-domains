@@ -55,3 +55,11 @@ The native preprocessing test profile explicitly selects the published
 Methods1.5.1/ABI2.24 provider. Only its provider-version admission changes;
 all analytical expectations, lifecycle assertions and tolerances remain unchanged.
 The source Main1.3.13 qualification remains historical evidence.
+
+On the integrated source, the public-owner Python profile passes543tests and
+74subtests without skips. The Rust qualification profile (dev optimization and
+assertions, debug symbols disabled) passes all97tests, including every ignored
+native case, on the actual published Methods1.5.1 library. Schema drift checks,
+protected alpha8–18 checks and synthetic CLI protocols pass. Independent Opus5.5
+source closure passes after the compiled Preflight provenance correction.
+These results do not certify the still-pending F4.3 browser cohort.
