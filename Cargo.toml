@@ -3,7 +3,7 @@ resolver = "2"
 members = ["crates/nirs4all-domains", "crates/nirs4all-domains-cli"]
 
 [workspace.package]
-version = "0.1.0-alpha.17"
+version = "0.2.0"
 edition = "2021"
 rust-version = "1.85"
 license = "CECILL-2.1 OR AGPL-3.0-or-later"

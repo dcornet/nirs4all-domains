@@ -23,7 +23,7 @@ def main(arguments=None):
     parser.add_argument('--measurement-recipe', required=True, help='Previously qualified immutable numeric measurement script')
     parser.add_argument('--out', required=True, help='Sanitized JSON result destination')
     parser.add_argument('--requested-bytes', type=int, default=0, help='Prospective engineering bytes for admit')
-    parser.add_argument('--effective-bytes', type=int, help='Explicit effective aggregate cap; amend must preserve the active cap')
+    parser.add_argument('--effective-bytes', type=int, help='Explicit effective aggregate cap; bounded by baseline plus allowance and the authorized maximum')
     parser.add_argument('--engineering-bytes', type=int, help='Total engineering allowance from initial baseline for activate/amend')
     parser.add_argument('--authorized-max-bytes', type=int, help='Explicit owner maximum, bounded by the 50 GB grant')
     parser.add_argument('--reserve-free-bytes', type=int, help='Per-volume physical reserve, at least 2 GiB')

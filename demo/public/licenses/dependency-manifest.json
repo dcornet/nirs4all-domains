@@ -7,7 +7,7 @@
   "packages": [
     {
       "name": "@nirs4all/domains",
-      "version": "0.1.0-alpha.17",
+      "version": "0.2.0",
       "license": "CECILL-2.1 OR AGPL-3.0-or-later",
       "resolved": "file:../bindings/wasm",
       "integrity": null,
@@ -33,11 +33,38 @@
     },
     {
       "name": "@nirs4all/methods",
-      "version": "1.3.13",
-      "license": "CECILL-2.1",
-      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA==",
+      "version": "1.5.1",
+      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+      "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA==",
       "lockfile": "bindings/wasm/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "@pdf-lib/fontkit",
+      "version": "1.1.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/fontkit/-/fontkit-1.1.1.tgz",
+      "integrity": "sha512-KjMd7grNapIWS/Dm0gvfHEilSyAmeLvrEGVcqLGi0VYebuqqzTbgF29efCx7tvx+IEbG3zQciRSWl3GkUSvjZg==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz",
+      "integrity": "sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz",
+      "integrity": "sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ==",
+      "lockfile": "demo/package-lock.json",
       "localPath": null
     },
     {
@@ -86,6 +113,24 @@
       "localPath": null
     },
     {
+      "name": "pako",
+      "version": "1.0.11",
+      "license": "(MIT AND Zlib)",
+      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz",
+      "integrity": "sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
+    },
+    {
       "name": "react",
       "version": "19.2.3",
       "license": "MIT",
@@ -120,6 +165,15 @@
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==",
       "lockfile": "demo/package-lock.json",
       "localPath": null
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "license": "0BSD",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+      "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==",
+      "lockfile": "demo/package-lock.json",
+      "localPath": null
     }
   ],
   "installed_notice_packages": [
@@ -139,10 +193,31 @@
     },
     {
       "name": "@nirs4all/methods",
-      "version": "1.3.13",
-      "license": "CECILL-2.1",
-      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-      "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA=="
+      "version": "1.5.1",
+      "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+      "resolved": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+      "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA=="
+    },
+    {
+      "name": "@pdf-lib/fontkit",
+      "version": "1.1.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/fontkit/-/fontkit-1.1.1.tgz",
+      "integrity": "sha512-KjMd7grNapIWS/Dm0gvfHEilSyAmeLvrEGVcqLGi0VYebuqqzTbgF29efCx7tvx+IEbG3zQciRSWl3GkUSvjZg=="
+    },
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz",
+      "integrity": "sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA=="
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz",
+      "integrity": "sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ=="
     },
     {
       "name": "ajv",
@@ -180,6 +255,20 @@
       "integrity": "sha512-FFzKJVgAnvE9kFBwFDj4yEI/DlRj5niBUK0xSR4Q0b3qfuYUIorFNXBOUEEvaQsCqnwSd7oa6M6ltn5bzivCmg=="
     },
     {
+      "name": "pako",
+      "version": "1.0.11",
+      "license": "(MIT AND Zlib)",
+      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw=="
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "resolved": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz",
+      "integrity": "sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw=="
+    },
+    {
       "name": "react",
       "version": "19.2.3",
       "license": "MIT",
@@ -206,74 +295,104 @@
       "license": "MIT",
       "resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz",
       "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="
+    },
+    {
+      "name": "tslib",
+      "version": "1.14.1",
+      "license": "0BSD",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+      "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
     }
   ],
+  "aom_descriptor_source": {
+    "repository": "https://github.com/GBeurier/nirs4all-aom",
+    "commit": "157954dc8c4fbf06e45ed7b421b8a02b007d8331",
+    "license": "CECILL-2.1 OR AGPL-3.0-or-later",
+    "files": {
+      "aom_nirs/pls/banks.py": "91c4261413c8ec796608e7332f481a1d8bfd100c",
+      "aom_nirs/fast/bases.py": "5adf268b3e04d1200d9f3fae9ef5248554dbb5e4"
+    },
+    "runtime_imported": false,
+    "numerical_equivalence_asserted": false
+  },
   "methods_notice_source": {
     "name": "@nirs4all/methods",
-    "version": "1.3.13",
-    "license_declared_by_npm": "CECILL-2.1",
-    "registry_tarball": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.3.13.tgz",
-    "integrity": "sha512-itL7Ji7esqSYXcDTlUnXdKMA8pHRckw/dFx6ZoCUcYKbQ1MkK4NZUWlFajfeKYvE3/Fm2y6m8E/FCvZ0AtVHTA==",
-    "git_head": "fa8ff57603ec23bce95f73d52170285e8f3e2861",
-    "upstream_notice_license_statement_conflicts_with_npm_metadata": true,
+    "version": "1.5.1",
+    "license_declared_by_npm": "CECILL-2.1 OR AGPL-3.0-or-later",
+    "registry_tarball": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz",
+    "integrity": "sha512-/qox7z8t8cKHaXl6Dtq6M/wuJ7l9uyjQTZGIx0xNabtTdlZ62Ty851gbzdp+BV3laNLdYWWFTCDYW7JGkfRcPA==",
+    "git_head": "25041f88bebb21a19748799c1681e138a3d55dfb",
+    "upstream_notice_license_statement_conflicts_with_npm_metadata": false,
     "files": [
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/NOTICE.md",
-        "sha256": "b46c869165cd619a23607f2ad7aa64957a6f09edea02b87ff5e51d442813feb7",
-        "bytes": 1792,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/NOTICE.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/NOTICE.md",
+        "sha256": "ccb385dfd092825e9c4638f44f4803a15b1f3a0a47cffe80632294b6344beced",
+        "bytes": 1818,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/NOTICE.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_NOTICES.md",
-        "sha256": "d7cb88c7da4946046de190b23be0b747f10136f8423e3eda29d5d9c2a9b192e4",
-        "bytes": 1520,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_NOTICES.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_NOTICES.md",
+        "sha256": "4106fb2caf597b5392140d24ddce905c6e4e990521aea68c7c10c7a817024933",
+        "bytes": 1714,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_NOTICES.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_LICENSES.md",
-        "sha256": "79b5b4b892131ed01f8a022c88735f4ff50fbb2e7e8350835b2347a4a95007f2",
-        "bytes": 6608,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/THIRD_PARTY_LICENSES.md"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_LICENSES.md",
+        "sha256": "3da01033fea5f1efe31a5865693d294c7c378aad51d81f1e5dc9c07e668f752f",
+        "bytes": 7437,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/THIRD_PARTY_LICENSES.md"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/CeCILL-2.1.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/CeCILL-2.1.txt",
         "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
         "bytes": 21778,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/CeCILL-2.1.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/CeCILL-2.1.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/BSD-3-Clause.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/BSD-3-Clause.txt",
         "sha256": "5a93d5831e1297ab10fe643e1a631e83be392896da14ee2951285a79012df69d",
         "bytes": 1460,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/LICENSES/BSD-3-Clause.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/LICENSES/BSD-3-Clause.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt",
-        "sha256": "941782800253ba46252a05a7578d1cae0d02f0f4d301aa9b5a2fc0ee36ee3914",
-        "bytes": 3147,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt",
+        "sha256": "9b8688f60dbad8f7495e334f9e2a59d43b4e3b4ef0d92c2cd280aca28464f9d3",
+        "bytes": 3173,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/clustering/_vendored/LICENSE.scikit_learn.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt",
         "sha256": "221e59f5e910fd7f94e44f0dac77436a11338c285c6346232e4a850a50da0e94",
         "bytes": 1531,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/common/_vendored/fitpack/LICENSE.scipy.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt",
-        "sha256": "4700ebaefa1547e23f1ad196e4378fd8242a241224530752cf3831bd06fad22d",
-        "bytes": 1463,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt"
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt",
+        "sha256": "113ccf4ebb3cafd96a08749fe969393817406d0089e55c661d87f9ff6782f7c3",
+        "bytes": 1484,
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/filters/_vendored/LICENSE.scikit_learn.txt"
       },
       {
-        "path": "methods/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt",
+        "path": "methods/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt",
         "sha256": "3984599735528e854aaa064b4b69c60354d24dd53f21d0ee1bfe959ac821edd3",
         "bytes": 2487,
-        "source": "https://github.com/GBeurier/nirs4all-methods/blob/fa8ff57603ec23bce95f73d52170285e8f3e2861/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt"
+        "source": "https://github.com/GBeurier/nirs4all-methods/blob/25041f88bebb21a19748799c1681e138a3d55dfb/cpp/src/core/optimization/_vendored/LICENSE.scipy.txt"
       }
     ]
   },
   "prepared_files": [
+    {
+      "path": "aom-descriptors/catalog.json",
+      "sha256": "c706bca9d2a2c7bc532c4511521b2becc2d55aa90620fb77b787b109e0930edd",
+      "bytes": 10567,
+      "origin": "Versioned declarative AOM/Methods descriptor catalog; no numerical runtime"
+    },
+    {
+      "path": "aom-descriptors/NOTICE.md",
+      "sha256": "033cd3899f6151e5698a413caf79101d304fc40a42960794ce8c2a5e87de62d6",
+      "bytes": 899,
+      "origin": "Domains adaptation of pinned AOM bank metadata"
+    },
     {
       "path": "families/AGPL-3.0-or-later.txt",
       "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
@@ -285,6 +404,12 @@
       "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
       "bytes": 21778,
       "origin": "repository LICENSES/CeCILL-2.1.txt"
+    },
+    {
+      "path": "noto-sans/OFL.txt",
+      "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb",
+      "bytes": 4377,
+      "origin": "Noto Sans; notofonts/noto-fonts ffebf8c1ee449e544955a7e813c54f9b73848eac"
     },
     {
       "path": "packages/@nirs4all/formats-wasm/0.2.14/THIRD_PARTY_NOTICES.md",
@@ -369,6 +494,36 @@
       "sha256": "c2f5c9061e7bc5a259a2d630330930ce9438f157e9646724824730ce516a5179",
       "bytes": 5732,
       "origin": "https://registry.npmjs.org/@nirs4all/io-wasm/-/io-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "path": "packages/@nirs4all/methods/1.5.1/LICENSE",
+      "sha256": "d8a6cc31abc16b6748c7a21f21611f5a1ec33f67d22ca23d7da1c19b95496bee",
+      "bytes": 34020,
+      "origin": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz/LICENSE"
+    },
+    {
+      "path": "packages/@nirs4all/methods/1.5.1/LICENSE-CeCILL-2.1",
+      "sha256": "4ea234937bc7b0aa5247e436690d1eb9324875bc7590ecde50befd38e35190a5",
+      "bytes": 21778,
+      "origin": "https://registry.npmjs.org/@nirs4all/methods/-/methods-1.5.1.tgz/LICENSE-CeCILL-2.1"
+    },
+    {
+      "path": "packages/@pdf-lib/fontkit/1.1.1/README.md",
+      "sha256": "7315fcc54511f5ffc906969c39333f93cd47f5217ab014fe45acff14bd5ec4c0",
+      "bytes": 16875,
+      "origin": "Published @pdf-lib/fontkit 1.1.1 README and MIT declaration"
+    },
+    {
+      "path": "packages/@pdf-lib/standard-fonts/1.0.0/LICENSE.md",
+      "sha256": "45cc2bb9957ed43f5c7f5eb1912f9f670730394d614079510477cae626194649",
+      "bytes": 1070,
+      "origin": "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz/LICENSE.md"
+    },
+    {
+      "path": "packages/@pdf-lib/upng/1.0.1/LICENSE",
+      "sha256": "c1fb8861eca211bf5aea574358aba7039396c0c1824c2a1477cc126d398efd89",
+      "bytes": 1065,
+      "origin": "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz/LICENSE"
     },
     {
       "path": "packages/ajv/8.20.0/LICENSE",
@@ -473,6 +628,18 @@
       "origin": "https://registry.npmjs.org/nirs4all-ui/-/nirs4all-ui-0.2.5.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
+      "path": "packages/pako/1.0.11/LICENSE",
+      "sha256": "a04665b3b2de56c66730c1f720f528175739e4104f79073614aa611da1e85539",
+      "bytes": 1104,
+      "origin": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz/LICENSE"
+    },
+    {
+      "path": "packages/pdf-lib/1.17.1/LICENSE.md",
+      "sha256": "f2c9fc00fdb66eb99ac156ba52d734af66d8d309f65753ae809ad34ee2883bcb",
+      "bytes": 1070,
+      "origin": "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz/LICENSE.md"
+    },
+    {
       "path": "packages/react-dom/19.2.3/LICENSE",
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
@@ -495,7 +662,13 @@
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
       "bytes": 1088,
       "origin": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz/LICENSE"
+    },
+    {
+      "path": "packages/tslib/1.14.1/LICENSE.txt",
+      "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751",
+      "bytes": 655,
+      "origin": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz/LICENSE.txt"
     }
   ],
-  "generated_file_bytes": 330931
+  "generated_file_bytes": 424411
 }

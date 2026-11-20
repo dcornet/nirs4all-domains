@@ -1,0 +1,47 @@
+import {useMemo,useState} from 'react';
+import type {SensitivityResult} from '@nirs4all/domains';
+import type {Locale} from './ui-types';
+import {initialSensitivityPlan,representationChoices,sensitivityBank,parseSensitivityPlan,sensitivitySignature,effectiveSensitivityPlan,type SensitivityRun,type SensitivityHistory} from './engine/preprocessing';
+import {sensitivityTitle,sensitivityLimit,sensitivityAvailability,sensitivityTables,sensitivityFigures} from './report/preprocessing';
+import {figureHtml,tableHtml} from './report/render';
+export interface SensitivityControls {factors:{id:string;label:string}[];hasTest:boolean;frozen:{result:SensitivityResult;signature:string}|null}
+function ResultCard({r,index,locale}:{r:SensitivityHistory;index:number;locale:Locale}){
+ const fr=locale==='fr',[open,setOpen]=useState(false),[objectOpen,setObjectOpen]=useState(false),[tableIndex,setTable]=useState(0),[page,setPage]=useState(0);
+ const tables=useMemo(()=>open?sensitivityTables(r,locale).slice(1):[],[r,locale,open]);
+ const figureHtmlText=useMemo(()=>sensitivityFigures(r,`preprocessing-sensitivity-${index+1}`,locale).map(f=>figureHtml(f,locale)).join(''),[r,index,locale]);
+ const table=tables[tableIndex],pageSize=200;
+ return <article className="panel"><h3>{fr?'Analyse':'Analysis'} {index+1} / {r.stage} / {r.status}</h3>{r.reason&&<p role="status">{r.reason}</p>}
+  <div dangerouslySetInnerHTML={{__html:tableHtml(sensitivityAvailability(r,locale),locale,{structured:true})}}/><div className="geometry-grid" dangerouslySetInnerHTML={{__html:figureHtmlText}}/>
+  <details className="sensitivity-advanced" onToggle={e=>setOpen(e.currentTarget.open)}><summary>{fr?'Tableaux scientifiques complets : constats, comparaisons et provenance':'Complete scientific tables: findings, comparisons and provenance'}</summary>
+   {open&&table?<><label>{fr?'Tableau scientifique':'Scientific table'}<select value={tableIndex} onChange={e=>{setTable(Number(e.target.value));setPage(0);}}>{tables.map((t,i)=><option key={t.id} value={i}>{t.title}</option>)}</select></label>
+    <p>{fr?'Lignes':'Rows'} {table.rows.length?Math.min(page*pageSize+1,table.rows.length):0}–{Math.min((page+1)*pageSize,table.rows.length)} / {table.rows.length}. {fr?'Toutes les valeurs autorisées restent dans le CSV et le JSON.':'All permitted values remain in CSV and JSON.'}</p>
+    <button type="button" disabled={page===0} onClick={()=>setPage(p=>p-1)}>{fr?'Page précédente':'Previous page'}</button><button type="button" disabled={(page+1)*pageSize>=table.rows.length} onClick={()=>setPage(p=>p+1)}>{fr?'Page suivante':'Next page'}</button>
+    <div dangerouslySetInnerHTML={{__html:tableHtml({...table,rows:table.rows.slice(page*pageSize,(page+1)*pageSize)},locale,{structured:true})}}/>
+   </>:<p>{fr?'Les tableaux sont chargés à l’ouverture.':'Tables load when opened.'}</p>}
+  </details><details onToggle={e=>setObjectOpen(e.currentTarget.open)}><summary>{fr?'Objet scientifique complet':'Complete scientific object'}</summary>{objectOpen&&<pre>{JSON.stringify(r,null,2)}</pre>}</details>
+ </article>;
+}
+export function SensitivityPanel({results,controls,locale,busy,onRun}:{results:SensitivityHistory[];controls:SensitivityControls;locale:Locale;busy:boolean;onRun:(run:SensitivityRun)=>void}){
+ const fr=locale==='fr', [text,setText]=useState(()=>JSON.stringify(initialSensitivityPlan(),null,2)),[factorIds,setFactors]=useState<string[]>([]),[reuse,setReuse]=useState(true);
+ const parsed=useMemo(()=>{try{return {plan:parseSensitivityPlan(text),error:null};}catch(e){return {plan:null,error:e instanceof Error?e.message:String(e)};}},[text]);
+ const previous=controls.frozen;
+ const plan=parsed.plan?effectiveSensitivityPlan(parsed.plan,factorIds,reuse,previous):null;
+ const signature=plan?sensitivitySignature(plan,factorIds,reuse):'',canAudit=!!plan&&controls.hasTest&&!!previous&&signature===previous.signature;
+ const update=(value:typeof plan)=>{if(value)setText(JSON.stringify(value,null,2));};
+ const run=(stage:SensitivityRun['stage'])=>{if(!plan)return;update(plan);onRun({plan:structuredClone(plan),factorIds:[...factorIds],stage,frozenReference:stage==='test_audit'?previous!.result:null,reuseExactPrefixes:reuse});};
+ return <section className="workspace-section" id="preprocessing-sensitivity"><h2>{sensitivityTitle(locale)}</h2><p>{sensitivityLimit(locale)}</p><p>{fr?'Premi\u00e8re action : r\u00e9f\u00e9rence train uniquement, ou source enti\u00e8re non partitionn\u00e9e. L\u2019audit test est une seconde action explicite apr\u00e8s gel du plan. Aucun Y n\u2019est consult\u00e9.':'First action: train reference only, or the full unpartitioned source. Test audit is a second explicit action after freezing the plan. No Y is accessed.'}</p>
+ <details><summary>{fr?'Origine du panel et propri\u00e9t\u00e9 des calculs':'Panel origin and numerical ownership'}</summary><p><a href={sensitivityBank.aom_source.repository}>{sensitivityBank.aom_source.repository}</a> / {sensitivityBank.aom_source.commit}</p><p>{sensitivityBank.execution_owner}. {fr?'Descripteurs adapt\u00e9s ; aucune \u00e9quivalence num\u00e9rique AOM affirm\u00e9e. Normalize (-1,1) utilise les normes L2 des colonnes apprises sur la r\u00e9f\u00e9rence.':'Adapted descriptors; no AOM numerical equivalence asserted. Normalize (-1,1) uses column L2 norms learned on the reference.'}</p></details>
+ <fieldset disabled={busy}><legend>{fr?'Panel explicite de repr\u00e9sentations':'Explicit representation panel'}</legend><div className="chips">{representationChoices.map(({spec})=><label key={spec.id}><input type="checkbox" checked={!!parsed.plan?.representations.some(r=>r.id===spec.id)} disabled={spec.id==='raw'||!parsed.plan} onChange={e=>{if(parsed.plan)update({...parsed.plan,representations:e.target.checked?[...parsed.plan.representations,structuredClone(spec)]:parsed.plan.representations.filter(r=>r.id!==spec.id)});}}/>{spec.id} / {spec.family}</label>)}</div>
+ <label><input type="checkbox" checked={parsed.plan?.structure??false} disabled={!parsed.plan} onChange={e=>{if(parsed.plan)update({...parsed.plan,structure:e.target.checked});}}/>{fr?'Bundle structure fixe : PCA, voisins et HDBSCAN':'Fixed structure bundle: PCA, neighbors and HDBSCAN'}</label>
+ <label><input type="checkbox" checked={parsed.plan?.compare_neighbors??false} disabled={!parsed.plan} onChange={e=>{if(parsed.plan)update({...parsed.plan,compare_neighbors:e.target.checked});}}/>{fr?'Comparer les identit\u00e9s des voisins':'Compare neighbor identities'}</label>
+ <label><input type="checkbox" checked={parsed.plan?.compare_clusters??false} disabled={!parsed.plan} onChange={e=>{if(parsed.plan)update({...parsed.plan,compare_clusters:e.target.checked});}}/>{fr?'Comparer les partitions descriptives':'Compare descriptive partitions'}</label>
+ <fieldset><legend>{fr?'Facteurs de r\u00e9f\u00e9rence (deux maximum)':'Reference factors (at most two)'}</legend>{controls.factors.map(f=><label key={f.id}><input type="checkbox" checked={factorIds.includes(f.id)} disabled={!factorIds.includes(f.id)&&factorIds.length>=2} onChange={e=>setFactors(ids=>e.target.checked?[...ids,f.id]:ids.filter(id=>id!==f.id))}/>{f.label}</label>)}{!controls.factors.length&&<p>{fr?'Aucun facteur admissible d\u00e9clar\u00e9.':'No eligible factor declared.'}</p>}</fieldset>
+ <label><input type="checkbox" checked={reuse} onChange={e=>setReuse(e.target.checked)}/>{fr?'R\u00e9utiliser uniquement les pr\u00e9fixes exactement identiques et v\u00e9rifi\u00e9s':'Reuse only exactly identical, verified prefixes'}</label>
+ <details><summary>{fr?'Plan et param\u00e8tres avanc\u00e9s (JSON)':'Advanced plan and parameters (JSON)'}</summary><label>{fr?'Param\u00e8tres explicites ; raw obligatoire en premier':'Explicit parameters; raw mandatory and first'}<textarea aria-label={fr?'Plan de sensibilit\u00e9 JSON':'Sensitivity plan JSON'} rows={22} value={text} onChange={e=>setText(e.target.value)}/></label></details>
+ {parsed.error&&<p role="alert">{parsed.error}</p>}<p>{fr?'Les d\u00e9riv\u00e9es SG avec delta=1 concernent les indices de variables, pas une longueur d\u2019onde physique. Toute modification apr\u00e8s r\u00e9sultat cr\u00e9e une r\u00e9vision exploratoire ; elle doit \u00eatre recalcul\u00e9e avant audit test.':'SG derivatives with delta=1 concern feature indices, not physical wavelength. Any change after a result creates an exploratory revision; recompute it before test audit.'}</p>
+ {plan?.kind==='exploratory_revision'&&<p role="status">{fr?'R\u00e9vision exploratoire ; plan parent':'Exploratory revision; parent plan'}: {plan.parent_plan_sha256}</p>}
+ <div className="export-actions"><button className="button primary" disabled={!plan} onClick={()=>run('reference_only')}>{fr?'Calculer le panel sur la r\u00e9f\u00e9rence uniquement':'Compute panel on reference only'}</button><button className="button secondary" disabled={!canAudit} onClick={()=>run('test_audit')}>{fr?'Figer le plan et auditer test':'Freeze plan and audit test'}</button></div>
+ {!canAudit&&controls.hasTest&&<p>{fr?'L\u2019audit exige un r\u00e9sultat de r\u00e9f\u00e9rence avec les m\u00eames param\u00e8tres et facteurs.':'Audit requires a reference result with identical parameters and factors.'}</p>}</fieldset>
+ {results.map((r,i)=><ResultCard key={i} r={r} index={i} locale={locale}/>)}
+ </section>;
+}

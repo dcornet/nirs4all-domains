@@ -28,7 +28,7 @@ add('WORKER_RUNTIME_EXCEPTION WORKER_UNHANDLED_REJECTION WORKER_UNCAUGHT_EXCEPTI
 const phases='UNKNOWN WORKER_CREATED BOOTSTRAP_STARTED BOOTSTRAP_READY OPERATION_MODULE_LOADING OPERATION_MODULE_READY IO_RUNTIME_LOADING IO_RUNTIME_READY FORMATS_RUNTIME_LOADING FORMATS_RUNTIME_READY DOMAINS_RUNTIME_LOADING DOMAINS_RUNTIME_READY METHODS_RUNTIME_LOADING METHODS_RUNTIME_READY IMPORT_RUNNING IMPORT_COMPLETE OPERATION_RUNNING OPERATION_COMPLETE'.split(' ');
 for(const phase of phases.filter(p=>p!=='UNKNOWN'))entries[phase]={category:'lifecycle',message:'Worker lifecycle phase: '+phase+'.',mitigation:'No estimated completion percentage is inferred.',cause:'runtime_error',remediation:'none'};
 entries.WORKER_BOOTSTRAP_STARTED=entries.BOOTSTRAP_STARTED;entries.WORKER_BOOTSTRAP_READY=entries.BOOTSTRAP_READY;
-const operations='import prepare_import assemble_import analyze scoped factor_association train_fitted_support interpret bootstrap unknown'.split(' ');
+const operations='import prepare_import assemble_import analyze scoped factor_association train_fitted_support preprocessing_sensitivity interpret bootstrap unknown'.split(' ');
 const components='worker browser transport io formats domains methods nirs4all-io nirs4all-formats nirs4all-domains nirs4all-methods nirs4all-ui unknown'.split(' ');
 const record=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:{};
 const safePhase=(v:unknown)=>{const p=typeof v==='string'?v.replace(/^WORKER_BOOTSTRAP_/,'BOOTSTRAP_'):'UNKNOWN';return phases.includes(p)?p:'UNKNOWN';};

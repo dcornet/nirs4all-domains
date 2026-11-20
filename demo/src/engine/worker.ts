@@ -24,7 +24,7 @@ self.addEventListener('unhandledrejection',event=>{unexpected('WORKER_UNHANDLED_
 lifecycle('WORKER_BOOTSTRAP_STARTED','Worker bootstrap started');
 self.onmessage=async({data}:MessageEvent<WorkerRequest>)=>{
  if(active||finished)return; // Single-use worker: no duplicate scientific execution.
- if(!data||!Number.isSafeInteger(data.id)||data.id<1||!['import','prepare_import','assemble_import','analyze','scoped','factor_association','train_fitted_support','interpret'].includes(data.operation)){
+ if(!data||!Number.isSafeInteger(data.id)||data.id<1||!['import','prepare_import','assemble_import','analyze','scoped','factor_association','train_fitted_support','preprocessing_sensitivity','interpret'].includes(data.operation)){
   active={id:Number.isSafeInteger(data?.id)?data.id:0,operation:'analyze',payload:null};
   unexpected('WORKER_REQUEST_INVALID',false);return;
  }

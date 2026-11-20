@@ -31,6 +31,17 @@ factor correspondence, density/representation mechanisms, conditional D2 claims
 and D6 prerequisites when carried. Input availability, protocol qualification,
 authorization and receipt-backed execution are independent dimensions.
 
+When a live report carries F4.3 evidence, **Representation sensitivity** links
+to the fixed plan and each separately named derived spectral source. Read each
+representation's source, ordered population, parameters, statuses and
+limitations together. PCA coordinates belong to that representation's own
+basis; absolute distances across differently scaled sources are not a
+comparability measure. The panel does not identify a best transform, and
+persistence does not establish chemistry, physical independence, prediction
+quality or cause. A test-X audit is a separate action tied to a frozen
+reference result; inspecting test can influence later choices. See the
+[F4.3 report and representation contract](../browser/F4_3_REPRESENTATION_CONTRACT.md).
+
 **Saved evidence / Preuves enregistrées** retains original source wording and
 historical measurements; it is not a browser refit. The public tablet example's
 six intention variants are not six studies. Missing spectra, metadata, scores,

@@ -1,12 +1,44 @@
 {
   "name": "@nirs4all/domains",
-  "version": "0.1.0-alpha.17",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "license": "CECILL-2.1 OR AGPL-3.0-or-later",
-  "exports": { ".": { "types": "./index.d.ts", "default": "./index.js" }, "./native/*": "./native/*" },
-  "files": ["index.js", "index.d.ts", "factor-provider.js", "support-provider.js", "support.d.ts", "support-input.schema.json", "support-result.schema.json", "support-local-refusal.schema.json", "factor-input.schema.json", "factor-result.schema.json", "scoped.d.ts", "native", "README.md", "input.schema.json", "report.schema.json", "scoped-input.schema.json", "scoped-result.schema.json"],
-  "dependencies": { "@nirs4all/methods": "~1.3.13" },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./native/*": "./native/*"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "factor-provider.js",
+    "support-provider.js",
+    "support.d.ts",
+    "support-input.schema.json",
+    "support-result.schema.json",
+    "support-local-refusal.schema.json",
+    "factor-input.schema.json",
+    "factor-result.schema.json",
+    "scoped.d.ts",
+    "native",
+    "README.md",
+    "input.schema.json",
+    "report.schema.json",
+    "scoped-input.schema.json",
+    "scoped-result.schema.json",
+    "preprocessing-provider.js",
+    "preprocessing.d.ts",
+    "aom-bank.json",
+    "AOM_BANK_NOTICE.md",
+    "preprocessing-input.schema.json",
+    "preprocessing-result.schema.json"
+  ],
+  "dependencies": {
+    "@nirs4all/methods": "~1.5.1"
+  },
   "scripts": {
     "build:native": "wasm-pack build ../../crates/nirs4all-domains --target web --out-dir ../../bindings/wasm/native --release --no-opt -- --locked --no-default-features --features browser-wasm",
     "test": "node --test tests/*.test.mjs"

@@ -13,6 +13,8 @@ import json
 import math
 from pathlib import Path
 
+VERSION = "1.3.13+abi.2.20.0"
+
 ABS_TOL = 1e-8
 REL_TOL = 1e-8
 ANALYTICAL_ABS_TOL = 1e-10
@@ -91,7 +93,7 @@ def versions(value):
     if isinstance(value, dict):
         for key, child in value.items():
             if key == "backend_version":
-                assert child == "1.3.13+abi.2.20.0", ("provider_version", child)
+                assert child == VERSION, ("provider_version", child)
             else:
                 versions(child)
     elif isinstance(value, list):
@@ -104,7 +106,10 @@ def main():
     parser.add_argument("--native", required=True, type=Path)
     parser.add_argument("--wasm", required=True, type=Path)
     parser.add_argument("--fixtures", type=Path, default=Path(__file__).resolve().parents[1] / "bindings/wasm/tests/parity-fixtures.json")
+    parser.add_argument("--provider-version", choices=("1.3.13+abi.2.20.0", "1.5.1+abi.2.24.0"), default="1.3.13+abi.2.20.0")
     args = parser.parse_args()
+    global VERSION
+    VERSION = args.provider_version
     fixture_bytes = args.fixtures.read_bytes()
     fixtures = json.loads(fixture_bytes)
     native, wasm = (json.loads(path.read_bytes()) for path in (args.native, args.wasm))
@@ -116,7 +121,7 @@ def main():
         assert result["new_real_scientific_fits"] == 0
         assert set(result["reports"]) == {f["id"] for f in fixtures["fixtures"]}
         versions(result["reports"])
-    assert wasm["provider"]["version"] == "1.3.13+abi.2.20.0"
+    assert wasm["provider"]["version"] == VERSION
     for fixture in fixtures["fixtures"]:
         name = fixture["id"]
         a, b = native["reports"][name], wasm["reports"][name]

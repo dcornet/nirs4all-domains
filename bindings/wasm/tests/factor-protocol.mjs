@@ -24,7 +24,7 @@ const compact = report => Object.fromEntries(['schema_version','protocol_version
 
 async function wasm(output) {
   const runtime = await createDomainsRuntime({wasmModule:await readFile(new URL('../native/nirs4all_domains_bg.wasm',import.meta.url))});
-  assert.equal(runtime.provider.version,'1.3.13+abi.2.20.0');
+  assert.equal(runtime.provider.version,'1.5.1+abi.2.24.0');
   const cases=[];
   function request(id,x,values,kind='categorical',method='pearson',exact=false,options={}) {
     const keys=x.map((_,i)=>`${id}-${i}`);

@@ -166,7 +166,7 @@ class EngineeringStorageTests(unittest.TestCase):
         self.activate()
         pointer = self.controller.root / 'current.json'
         before = pointer.read_bytes()
-        for field, invalid in [('effective_bytes', 10001), ('authorized_max_bytes', MAX_ALLOWED + 1),
+        for field, invalid in [('authorized_max_bytes', MAX_ALLOWED + 1),
                                ('reserve_free_bytes', MIN_RESERVE - 1), ('recipe_sha256', 'c' * 64)]:
             with self.subTest(field=field), self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_SCOPE_INVALID$'):
                 self.amend(**{field: invalid})
@@ -185,6 +185,74 @@ class EngineeringStorageTests(unittest.TestCase):
             self.amend(engineering_bytes=3000)
         self.assertEqual(pointer.read_bytes(), before)
         self.assertEqual(len(list((self.controller.root / 'decisions').glob('*.json'))), 1)
+
+    def test_effective_cap_amendment_preserves_cumulative_accounting_and_before_receipt(self):
+        initial = 18_663_326_977
+        self.raw.update(combined_bytes=initial, campaign_ceiling_bytes=2_023_410_176,
+                        reserved_campaign_bytes=2_015_788_498, remaining_reservations_bytes=7_621_678)
+        self.write_raw()
+        self.arguments.update(effective_bytes=25_000_000_000, engineering_bytes=4_000_000_000)
+        self.activate()
+        previous = self.controller.current()
+        self.raw['combined_bytes'] = 22_038_391_285
+        self.write_raw()
+        unchanged_source = self.source.read_bytes()
+        result = self.amend(effective_bytes=30_000_000_000, engineering_bytes=8_000_000_000)
+        current = self.controller.current()
+        self.assertEqual(result['effective_bytes'], 30_000_000_000)
+        self.assertEqual(result['engineering_allowance_bytes'], 8_000_000_000)
+        self.assertEqual(result['engineering_baseline_bytes'], initial)
+        self.assertEqual(result['engineering_used_bytes'], 3_375_064_308)
+        self.assertEqual(result['engineering_remaining_bytes'], 4_624_935_692)
+        before = result['before_amendment']
+        self.assertEqual(before['effective_bytes'], 25_000_000_000)
+        self.assertEqual(before['engineering_allowance_bytes'], 4_000_000_000)
+        self.assertEqual(before['engineering_used_bytes'], result['engineering_used_bytes'])
+        self.assertEqual(before['engineering_remaining_bytes'], 624_935_692)
+        self.assertEqual(before['measured_at'], result['measured_at'])
+        self.assertEqual(before['owner_policy_sha256'], fingerprint(previous))
+        self.assertEqual(result['owner_policy_sha256'], fingerprint(current))
+        self.assertEqual(current['previous_local_cap_bytes'], 25_000_000_000)
+        self.assertEqual(current['previous_policy_sha256'], fingerprint(previous))
+        for key in ('scientific_ceiling_bytes', 'scientific_reserved_bytes', 'scientific_remaining_bytes', 'journal_sha256'):
+            self.assertEqual(before[key], result[key])
+        self.assertEqual(self.source.read_bytes(), unchanged_source)
+        self.assertEqual(len(list((self.controller.root / 'decisions').glob('*.json'))), 2)
+        # The full chain must remain valid after another same-cap amendment.
+        self.amend(effective_bytes=30_000_000_000, engineering_bytes=8_000_000_000)
+        self.assertEqual(self.controller.current()['baseline_combined_bytes'], initial)
+
+    def test_effective_cap_amendment_rejects_invalid_bounds_without_publication(self):
+        self.activate()
+        pointer = self.controller.root / 'current.json'
+        before = pointer.read_bytes()
+        for cap in (MAX_ALLOWED + 1, 999, 2999):
+            with self.subTest(cap=cap), self.assertRaisesRegex(ValueError, '^OWNER_POLICY_LIMIT_EXCEEDED$'):
+                self.amend(effective_bytes=cap)
+        self.assertEqual(pointer.read_bytes(), before)
+        self.assertEqual(len(list((self.controller.root / 'decisions').glob('*.json'))), 1)
+
+    def test_effective_cap_amendment_still_requires_fresh_physical_margin(self):
+        self.activate()
+        self.raw['free_volume_bytes']['private-volume-a'] = MIN_RESERVE - 1
+        self.write_raw()
+        pointer = self.controller.root / 'current.json'
+        before = pointer.read_bytes()
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE$'):
+            self.amend(effective_bytes=12000, engineering_bytes=4000)
+        self.assertEqual(pointer.read_bytes(), before)
+
+    def test_effective_cap_predecessor_reference_is_authenticated(self):
+        self.activate()
+        self.amend(effective_bytes=12000, engineering_bytes=4000)
+        pointer = self.controller._read('domains-owner-storage/current.json')
+        path = self.store.root / pointer['decision']
+        envelope = json.loads(path.read_text())
+        envelope['value']['previous_local_cap_bytes'] = 12000
+        envelope['authentication'] = self.store.authenticate(envelope['value'])
+        path.write_text(json.dumps(envelope))
+        with self.assertRaisesRegex(ValueError, '^OWNER_POLICY_AMENDMENT_CHAIN_INVALID$'):
+            self.controller.current()
 
     def test_amendment_authenticates_prior_history(self):
         self.activate()

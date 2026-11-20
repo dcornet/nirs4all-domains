@@ -110,6 +110,20 @@ impl crate::browser_support::SupportProvider for FactorCallbackProvider<'_> {
     }
 }
 #[wasm_bindgen]
+pub fn analyze_preprocessing_json(
+    input: &str,
+    callback: &Function,
+    provider_version: &str,
+) -> Result<String, JsValue> {
+    let request = crate::browser_preprocessing::parse(input).map_err(js_error)?;
+    let provider = FactorCallbackProvider {
+        callback: CallbackProvider(callback),
+        version: provider_version,
+    };
+    let result = crate::browser_preprocessing::analyze(&request, &provider).map_err(js_error)?;
+    serde_json::to_string(&result).map_err(js_error)
+}
+#[wasm_bindgen]
 pub fn analyze_support_json(
     input: &str,
     callback: &Function,

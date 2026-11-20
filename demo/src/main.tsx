@@ -5,7 +5,7 @@ import {sanitizedWorkerDiagnostic,type WorkerDiagnostic} from './engine/runtime-
 import { BrowserEngine } from './engine/client';
 import { MAX_IMPORT_BYTES, MAX_IMPORT_FILES } from './engine/dataset-io';
 import type { BrowserReport, LocalDataset } from './engine/types';
-import type { BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
+import type { SensitivityResult,BrowserReading,ScopedOperation,ScopedResult,SupportResult,FactorResult,FactorPopulation,FactorInferencePlan } from '@nirs4all/domains';
 import type {DatasetDraft} from './engine/import-draft';
 import {defaultImportConfig,summarizeImport,type ImportOutcome,type ImportSession} from './engine/one-shot';
 import {scopedRequest,structureDataset,type ScopeOptions} from './engine/scoped';
@@ -14,7 +14,10 @@ import { examples, synthetic } from './examples';
 import { liveView, reportModel, savedView } from './report/model';
 import { loadPublicSaved, validateSaved } from './report/saved';
 import { downloadReport } from './report/export';
+import { downloadPortable } from './report/portable';
 import {supportRequest,recordSupportReply,type SupportParameters,type SupportRun} from './engine/support';
+import {preprocessingRequest,sensitivityFactors,sensitivitySignature,type SensitivityHistory,type SensitivityRun} from './engine/preprocessing';
+import {appendSensitivity} from './report/preprocessing';
 import {appendSupport} from './report/support';
 import {factorRequest,factorSource,factorChoices,parseFactorInferencePlan} from './engine/factor';
 import type {FactorAssociationRun} from './FactorAssociationControls';
@@ -36,11 +39,12 @@ function Controller() {
   const baseReport=useRef<BrowserReport|null>(null),baseData=useRef<LocalDataset|null>(null),color=useRef('');
   const associations=useRef<FactorResult[]>([]),associationColor=useRef<FactorResult|null>(null),colorGrant=useRef<FactorColorExportGrant|null>(null);
   const supportResults=useRef<SupportRun[]>([]);
+  const sensitivityResults=useRef<SensitivityHistory[]>([]),sensitivityFrozen=useRef<{result:SensitivityResult;signature:string}|null>(null);
   const importFiles=useRef<File[]|null>(null);
   const loadedImport=useRef<ImportSession|null>(null),pendingImport=useRef<ImportSession|null>(null);
   const externalPlan=useRef<FactorInferencePlan|null>(null);
   useEffect(() => () => engine.current.cancel(), []);
-  const clearEvidence=()=>{scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;};
+  const clearEvidence=()=>{scientific.current=null;dataset.current=null;operations.current=[];supportResults.current=[];sensitivityResults.current=[];sensitivityFrozen.current=null;baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;};
   const start = () => { const token = ++epoch.current; engine.current.cancel();clearEvidence();loadedImport.current=null;pendingImport.current=null;setState(s => ({ ...s, importDraft:undefined,importSession:undefined,pendingImport:undefined,importSummary:undefined,result: null, error: null,workerDiagnostic:undefined,canRetryImport:false,phase: 'loading', processingStage:'prepare',progress: 'Preparing local data' })); return token; };
   const progress = (token: number) => (stage: string,step?:ProcessingStage,diagnostic?:WorkerDiagnostic) => { if (token === epoch.current) setState(s => ({ ...s,progress:stage,processingStage:step??s.processingStage,...(diagnostic?{workerDiagnostic:sanitizedWorkerDiagnostic(diagnostic)}:{}) })); };
   const failed = (token: number, error: unknown) => {
@@ -71,7 +75,8 @@ function Controller() {
       inferenceRecordAvailable:externalPlan.current!==null,
       exportColorAuthorized:!!colorGrant.current};
     result.factorAssociations=associations.current;
-    result=appendSupport(result,supportResults.current);
+    result=appendSensitivity(appendSupport(result,supportResults.current),sensitivityResults.current);
+    result.sensitivityControls={factors:sensitivityFactors(data),hasTest:data.rowManifest?.some(r=>r.partition==='test')===true,frozen:sensitivityFrozen.current};
     const selected=associationColor.current;
     if(selected&&result.pca&&selected.receipt.source_pca_evidence_sha256===result.provenance.evidence_sha256){
       const f=selected.value.factors.find(f=>f.factor_id===color.current),m=data.metadata.find(f=>f.name===color.current);
@@ -84,7 +89,7 @@ function Controller() {
       }
     }
     scientific.current={protocol_version:'domains.browser_scoped_report.v1',raw_X_Y_exported:false,inventory:scopedInventory(data),
-      scoped_operations:operations.current,train_fitted_support:supportResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
+      scoped_operations:operations.current,train_fitted_support:supportResults.current,preprocessing_sensitivity:sensitivityResults.current,factor_associations:associations.current,unpartitioned_structure:baseReport.current&&baseData.current?.rowManifest?.every(row=>row.partition==='unpartitioned')?baseReport.current:null};
     setState(s=>({...s,phase:'idle',result,importDraft:undefined,error:null,processingStage:'report',progress:''}));
   };
   const acceptImport=(outcome:ImportOutcome,token:number)=>{
@@ -177,7 +182,28 @@ function Controller() {
       if((error as {diagnostic?:unknown})?.diagnostic)failed(token,error);
     }
   };
+  const sensitivity=async(run:SensitivityRun)=>{
+    const data=dataset.current;if(!data?.rowManifest)return;
+    const token=++epoch.current;engine.current.cancel();
+    setState(s=>({...s,phase:'running',error:null,processingStage:'validate',progress:run.stage==='reference_only'?'Executing the declared panel on reference only':'Validating frozen reference before explicit test audit'}));
+    try{
+      const signature=sensitivitySignature(run.plan,run.factorIds,run.reuseExactPrefixes);
+      if(run.stage==='test_audit'&&(!sensitivityFrozen.current||sensitivityFrozen.current.signature!==signature||run.frozenReference?.evidence_sha256!==sensitivityFrozen.current.result.evidence_sha256))throw new Error('SENSITIVITY_FROZEN_CONTROLS_MISMATCH');
+      const request=preprocessingRequest(data,run);
+      const result=await engine.current.request<SensitivityResult>('preprocessing_sensitivity',request,progress(token));
+      if(token!==epoch.current||dataset.current!==data)return;
+      sensitivityResults.current=[...sensitivityResults.current,result];
+      if(run.stage==='reference_only')sensitivityFrozen.current={result,signature};
+      publishScoped(data);
+    }catch(error){
+      if(token!==epoch.current||dataset.current!==data)return;
+      const reason=error instanceof Error?error.message:String(error);
+      sensitivityResults.current=[...sensitivityResults.current,{protocol_version:'domains.browser_preprocessing_sensitivity_local_refusal.v1',status:'unavailable',reason,stage:run.stage,plan:structuredClone(run.plan),evidence_sha256:null,local_refusal:true,receipt:{execution_receipt:'not_returned; no successful execution inferred'},limitations:['Local documentary refusal. Earlier F4.0/F4.1/F4.2 and sensitivity results remain unchanged.']}];publishScoped(data);
+      if((error as {diagnostic?:unknown})?.diagnostic)failed(token,error);
+    }
+  };
   const callbacks: UiCallbacks = {
+    onSensitivity:sensitivity,
     onImportOptionsChange(editImportFirst){setState(s=>({...s,editImportFirst}));},
     onDismissImport(){++epoch.current;engine.current.cancel();pendingImport.current=null;setState(s=>({...s,pendingImport:undefined,importDraft:undefined,error:null,phase:'idle',progress:''}));},
     onApplyDataSettings(config,sources,session){if(session&&session===loadedImport.current)void applySettings(session,config,sources);},
@@ -265,7 +291,7 @@ function Controller() {
       setState(s => ({ ...s, importDraft:undefined,phase: 'cancelled', result: null, progress: '' })); },
     onReset() { importFiles.current=null;++epoch.current; engine.current.cancel(); scientific.current = null; dataset.current = null; selectedExample.current = null;
       loadedImport.current=null;pendingImport.current=null;
-      operations.current=[];supportResults.current=[];baseView.current=undefined;baseReport.current=null;baseData.current=null;color.current='';
+      clearEvidence();
       associations.current=[];associationColor.current=null;colorGrant.current=null;externalPlan.current=null;
       setState(s => ({ ...s, importDraft:undefined,importSession:undefined,pendingImport:undefined,importSummary:undefined,editImportFirst:false,phase: 'idle', result:null,error:null,workerDiagnostic:undefined,canRetryImport:false,progress:'' })); },
     async onIntent(intent: PredictionIntent) {
@@ -300,9 +326,19 @@ function Controller() {
       } catch (error) { failed(token, error); }
     },
     onDeclaration(key, value) { setState(s => ({ ...s, declarations: { ...s.declarations!, [key]: value } })); },
-    onExport(format, locale, reading='complete',selection) {
+    async onExport(format, locale, reading='complete',selection) {
       if (!state.result || !scientific.current) return;
-      downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection,colorGrant.current), format);
+      if(format==='html'||format==='markdown'||format==='json'){
+        downloadReport(reportModel(state.result, scientific.current, state.intent, locale, state.declarations,reading,selection,colorGrant.current), format);
+        return;
+      }
+      const token=epoch.current;
+      setState(s=>({...s,phase:'running',processingStage:'report',progress:locale==='fr'?'Préparation du rapport et des fichiers associés':'Preparing report and companion files'}));
+      try{
+        const model=reportModel(state.result,scientific.current,state.intent,locale,state.declarations,reading,selection,colorGrant.current,true);
+        await downloadPortable(model,format,()=>token===epoch.current);
+        if(token===epoch.current)setState(s=>({...s,phase:'idle',progress:''}));
+      }catch(error){if(token===epoch.current)failed(token,error);}
     },
   };
   return <App state={state} callbacks={callbacks} />;

@@ -9,6 +9,8 @@ import math
 from pathlib import Path
 from typing import Any
 
+VERSION = "1.3.13+abi.2.20.0"
+
 HASH_FIELDS = {
     "evidence_sha256", "fit_state_sha256",
 }
@@ -100,18 +102,21 @@ def main() -> int:
     parser.add_argument("--wasm", required=True, type=Path, help="actual WASM protocol output")
     parser.add_argument("--native", required=True, type=Path, help="native replay output keyed by fixture id")
     parser.add_argument("--out", required=True, type=Path, help="parity receipt output")
+    parser.add_argument("--provider-version", choices=("1.3.13+abi.2.20.0", "1.5.1+abi.2.24.0"), default="1.3.13+abi.2.20.0")
     args = parser.parse_args()
+    global VERSION
+    VERSION = args.provider_version
 
     wasm = read_json(args.wasm)
     native = read_json(args.native)
     if wasm.get("protocol_version") != "domains.browser_train_fitted_support_wasm.v1":
         raise ValueError("unexpected WASM protocol artifact")
-    if wasm.get("provider", {}).get("version") != "1.3.13+abi.2.20.0":
-        raise ValueError("WASM report does not pin Methods 1.3.13 / ABI 2.20")
+    if wasm.get("provider", {}).get("version") != VERSION:
+        raise ValueError(f"WASM report does not pin Methods {VERSION}")
     if native.get("protocol_version") != "domains.browser_train_fitted_support_native.v1":
         raise ValueError("unexpected native replay protocol")
-    if native.get("provider_version") != "1.3.13+abi.2.20.0":
-        raise ValueError("native report does not pin Methods 1.3.13 / ABI 2.20")
+    if native.get("provider_version") != VERSION:
+        raise ValueError(f"native report does not pin Methods {VERSION}")
     if native.get("pca_refits") != 0 or native.get("new_real_scientific_fits") != 0 or wasm.get("new_real_scientific_fits") != 0:
         raise ValueError("native replay must consume the recorded requests without additional PCA refits")
     if native.get("fixture_sha256") != wasm.get("fixture_sha256"):
@@ -178,7 +183,7 @@ def main() -> int:
         "rotation_invariant_fixtures": sorted(ROTATION_EQUIVALENT_FIXTURES),
         "well_conditioned_recorded_coordinates_compared": True,
         "cross_runtime_state_or_evidence_digests_compared": False,
-        "provider_version": "1.3.13+abi.2.20.0",
+        "provider_version": VERSION,
         "new_real_scientific_fits": 0,
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)

@@ -1,5 +1,29 @@
 # Browser capability boundary
 
+## F4.3 preprocessing sensitivity (additive, qualification separate)
+
+**Partial draft:** complete native/WASM factor-statistic portability and
+bounded exhaustive printing failed qualification. No readiness claim follows
+from the source/API surface below; see the executed F4.3 validation record.
+
+The F4.3 source/API adds a fixed, versioned representation panel executed
+through Methods 1.3.13 / ABI 2.20 and a two-stage reference-only / frozen
+test-X audit protocol. The AOM-derived bank reuses attributed descriptors and
+ordered candidate metadata only; AOM is not imported and numerical equivalence
+to its operators is not asserted. Raw and transformed sources retain separate
+axes, identities, statuses and evidence. The request grants no Y access;
+supervised preprocessing selection is deferred.
+
+This protocol does not identify a preferred representation or measure general
+robustness. Exact prefix reuse is an optional, sequential Methods-call
+optimization with no speed claim until equivalence, call-count, timing and
+memory measurements are recorded. See the [representation contract](browser/F4_3_REPRESENTATION_CONTRACT.md),
+[comparability rules](browser/F4_3_COMPARABILITY_RULES.md),
+[train/test policy](browser/F4_3_TRAIN_TEST_POLICY.md), and
+[remaining-capabilities inventory](browser/F4_3_REMAINING_CAPABILITIES.md).
+Presence in this checkout is not qualification; actual gates belong to the
+[F4.3 validation record](browser/F4_3_VALIDATION.md).
+
 ## F4.2 train-fitted support (additive protocol)
 
 `domains.browser_train_fitted_support.v1` adds a public-Methods FlexiblePCA fit
