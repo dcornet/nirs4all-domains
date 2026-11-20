@@ -168,6 +168,16 @@ class DescriptorTests(unittest.TestCase):
         self.assertIsNone(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'])
         report = profile(); report['provider'].update(version='1.3.13+abi.2.20.0', abi='2.19.0')
         self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
+        # The unchanged eight-case native reference gate also passed for Methods1.5/ABI2.24.
+        report = profile(); report['provider'].update(version='1.5.0+abi.2.24.0', abi='2.24.0')
+        self.assertIsNone(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'])
+        report = profile(); report['provider'].update(version='1.5.0+abi.2.24.0', abi='2.20.0')
+        self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
+        # The same frozen eight-case gate also passes with the public 1.5.1 patch.
+        report = profile(); report['provider'].update(version='1.5.1+abi.2.24.0', abi='2.24.0')
+        self.assertIsNone(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'])
+        report = profile(); report['provider'].update(version='1.5.1+abi.2.24.0', abi='2.20.0')
+        self.assertEqual(describe(report)['selected_structure']['value']['clusters'][0]['persistence']['reason'], 'PROVIDER_PERSISTENCE_SEMANTICS_NOT_QUALIFIED')
 
     def test_unavailable_summary_preserves_native_rows(self):
         with patch('nirs4all_domains.multiscale.native_summary', side_effect=ImportError()):

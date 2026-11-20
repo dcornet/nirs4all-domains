@@ -186,6 +186,13 @@ class RegistryTests(unittest.TestCase):
             self.assertIn("RESTRICTED_TIER_NO_ACQUISITION_AUTHORIZATION",result["datasets"][0]["blockers"])
             self.assertNotIn(str(root),encoded(result).decode())
 
+    def test_inventory_refuses_unqualified_dataset_version_before_io(self):
+        from nirs4all_domains.inventory import catalog_inventory
+        with patch("importlib.metadata.version", return_value="0.3.23"), patch("nirs4all_domains.inventory.subprocess.run") as revision:
+            with self.assertRaisesRegex(ValueError, "QUALIFIED_DATASETS_VERSION_REQUIRED"):
+                catalog_inventory("unused")
+            revision.assert_not_called()
+
     def test_unavailable_evidence_has_explicit_reason_and_revision_selection(self):
         r=record()
         unavailable=evidence(r["task"],r["contract"],{},r["qualifications"],r["purposes"],r["limitations"],"real","unavailable","AUTHORIZED_SOURCE_MISSING")

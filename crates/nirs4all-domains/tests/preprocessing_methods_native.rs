@@ -8,19 +8,19 @@ use serde_json::{json, Value};
 fn provider() -> PreprocessingMethods {
     let path = std::env::var_os("N4DOMAINS_METHODS_LIBRARY").expect("N4DOMAINS_METHODS_LIBRARY");
     let owner = PreprocessingMethods::load(std::path::Path::new(&path)).unwrap();
-    assert_eq!(owner.version(), "1.3.13+abi.2.20.0");
+    assert_eq!(owner.version(), "1.5.1+abi.2.24.0");
     owner
 }
 fn transform(owner: &PreprocessingMethods, matrix: Value) -> Value {
     let result = owner
         .execute("preprocess_transform", &json!({"matrix":matrix}))
         .unwrap();
-    assert_eq!(result["backend_version"], "1.3.13+abi.2.20.0");
+    assert_eq!(result["backend_version"], "1.5.1+abi.2.24.0");
     result
 }
 
 #[test]
-#[ignore = "requires the pinned Methods 1.3.13 native library"]
+#[ignore = "requires the pinned Methods 1.5.1 native library"]
 fn panel_fit_transform_restore_and_failed_candidates_preserve_state() {
     let owner = provider();
     let train: Vec<Vec<f64>> = (0..4)
@@ -124,7 +124,7 @@ fn panel_fit_transform_restore_and_failed_candidates_preserve_state() {
 }
 
 #[test]
-#[ignore = "requires the pinned Methods 1.3.13 native library"]
+#[ignore = "requires the pinned Methods 1.5.1 native library"]
 fn train_statistics_crop_and_snv_have_independent_analytical_expectations() {
     let owner = provider();
     owner.execute("preprocess_fit",&json!({"operator":"StandardScale","parameters":{"with_mean":true,"with_std":true},"matrix":[[1.0,10.0],[3.0,10.0]]})).unwrap();
@@ -159,7 +159,7 @@ fn train_statistics_crop_and_snv_have_independent_analytical_expectations() {
 }
 
 #[test]
-#[ignore = "requires the pinned Methods 1.3.13 native library"]
+#[ignore = "requires the pinned Methods 1.5.1 native library"]
 fn restored_operator_mismatch_and_forbidden_fit_inputs_keep_live_state() {
     let owner = provider();
     let fitted = owner
@@ -191,7 +191,7 @@ fn restored_operator_mismatch_and_forbidden_fit_inputs_keep_live_state() {
 }
 
 #[test]
-#[ignore = "requires the pinned Methods 1.3.13 native library"]
+#[ignore = "requires the pinned Methods 1.5.1 native library"]
 fn official_partition_comparisons_preserve_noise_and_undefined_outputs() {
     let owner = provider();
     let permutation = owner

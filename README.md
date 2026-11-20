@@ -2,9 +2,13 @@
 
 The 0.2.0 browser consumer uses the published Methods 1.5.1 / ABI 2.24 cohort
 under a [separate admission contract](docs/browser/F4_3_PROVIDER_ADMISSION_1_5_1.md).
-Its required native/WASM and browser/report CI gates establish the tested scope;
-historical 1.3.13 environments, saved evidence and predictive qualification remain
-separate. No merge or release follows from a provider update.
+The native Rust and Python qualification is separate from the browser consumer.
+The browser Methods 1.5.1 cohort remains **unqualified**: functional/export and
+individual WASM checks pass, but the required strict F4.3 native/WASM parity
+gate fails 7 Ubuntu and 4 Windows fields, exactly as on the accepted prior Main.
+Historical 1.3.13 evidence and its qualification remain separate. No numerical
+reference, comparator or tolerance was changed to hide those failures. See the
+[current qualification record](docs/RELEASE_METHODS_1_5.md).
 
 F4.2 adds an explicit **train-fitted PCA / test projection** operation and a
 separate indexed-fold T²/Q monitor. Import and review train/test partitions,
@@ -21,6 +25,12 @@ FlexiblePCA eigenvalues/rank resolution remain explicitly unavailable, rather
 than borrowed from another PCA. See the [protocol](docs/browser/F4_2_SCIENTIFIC_PROTOCOL.md),
 [user guide](docs/browser/F4_2_USER_GUIDE.md), [fit/transform contract](docs/browser/F4_2_FIT_TRANSFORM_CONTRACT.md)
 and [qualification record](docs/browser/F4_2_VALIDATION.md).
+
+The separate Python 0.2.0 release candidate selects Methods 1.5.1 / ABI 2.24,
+DAG-ML 0.5.0, SDK 1.6.0 and Datasets 0.3.22. Its prior installed-provider
+qualification and current integration limits are recorded in the
+[release qualification](docs/RELEASE_METHODS_1_5.md). Browser F4.3 keeps its own
+provider-admission matrix and unresolved numerical parity evidence.
 
 F4.3 adds an explicit X-only preprocessing-sensitivity panel with a frozen
 train-reference stage and optional later test-X audit; it never selects on Y.
@@ -309,7 +319,9 @@ No new estimator, recursive clustering engine or result schema is introduced by
 this separation. [Architecture](docs/ARCHITECTURE.md), [protocols](docs/SCIENTIFIC_PROTOCOLS.md),
 [validation](docs/VALIDATION.md) and [storage/reproducibility](docs/STORAGE_AND_REPRODUCIBILITY.md)
 describe actual interfaces and evidence. [Upstream alignment v1](docs/RELEASE_UPSTREAM_ALIGNMENT_V1.md)
-records the current Preflight 0.1.6 / Methods 1.3.13 / DAG-ML 0.3.44 providers.
+records the historical Preflight0.1.6 / Methods1.3.13 / DAG-ML0.3.44 providers.
+The [current integration](docs/RELEASE_METHODS_1_5.md) separately records
+Preflight 0.3 / Methods 1.5.1 / DAG-ML0.5 and its qualification limits.
 
 The [prospective 2026-11-17 storage policy](docs/technical/STORAGE_POLICY_50GB.md)
 documents the owner's staged 50 GB ceiling and controller boundaries. Its CI

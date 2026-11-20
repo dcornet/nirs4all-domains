@@ -184,7 +184,9 @@ class BridgeTests(unittest.TestCase):
             jsonschema.validate(json.loads(path.read_text()), schema)
 
     def test_installed_datasets_public_getters_to_real_cli(self):
-        """Actual Datasets 0.3.11 on synthetic canonical bytes, without network."""
+        """Actual installed Datasets on synthetic canonical bytes, without network."""
+        from importlib.metadata import version
+        self.assertIn(version("nirs4all-datasets"), ("0.3.11", "0.3.22"))
         import nirs4all_datasets as datasets
         import yaml
         import subprocess
@@ -231,7 +233,7 @@ class BridgeTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             report = json.loads((root / "report/report.json").read_text())
             self.assertEqual(report["data_origin"], "synthetic")
-            self.assertEqual(report["provenance"]["datasets"], "0.3.11")
+            self.assertEqual(report["provenance"]["datasets"], version("nirs4all-datasets"))
             if os.environ.get("N4DOMAINS_METHODS_LIBRARY"):
                 coverage = next(m for m in report["metrics"] if m["metric_id"] == "coverage.test_outside_fraction")
                 self.assertEqual(coverage["value"], 1.)
