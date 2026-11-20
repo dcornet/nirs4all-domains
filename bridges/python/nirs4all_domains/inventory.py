@@ -12,8 +12,8 @@ from .storage import digest, fingerprint
 def catalog_inventory(root):
     from importlib.metadata import version
     from nirs4all_datasets.schema import DatasetDescriptor
-    if version("nirs4all-datasets") != "0.3.11":
-        raise ValueError("PINNED_DATASETS_0_3_11_REQUIRED")
+    if version("nirs4all-datasets") not in ("0.3.11", "0.3.22"):
+        raise ValueError("QUALIFIED_DATASETS_VERSION_REQUIRED: 0.3.11 or 0.3.22")
     root = Path(root)
     revision = subprocess.run(["git", "-C", str(root), "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     records = []
