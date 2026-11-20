@@ -41,10 +41,17 @@ Exact commands, exits, failures and corrected retries are retained in the releas
 ## Integration with concurrent F4.3 Main
 
 The concurrent Main source `d644ec7` adds the F4.3 browser and its separately
-reviewed Methods1.5.1 admission. Its browser source, locks, dependency notices,
-scientific comparators, fixtures, tolerances and explicit unresolved strict
-numerical parity outcomes are preserved exactly. The earlier browser1.5.0
+reviewed Methods1.5.1 admission. Its browser scientific comparators, fixture values, tolerances and explicit
+unresolved strict numerical parity outcomes are preserved. The shared Rust
+lock deliberately selects Preflight0.3/DAG0.5/n4m0.5, which also changes the
+browser build. Integrity receipts now report the compiled Preflight version;
+this is a new integration cohort requiring browser qualification. The earlier browser1.5.0
 qualification above describes the earlier release candidate, not this integrated
 F4.3 runtime. No passing old-browser result certifies F4.3. The integrated
 Python/Preflight0.3/DAG0.5 source still requires its own affected gates and
 independent review before publication.
+
+The native preprocessing test profile explicitly selects the published
+Methods1.5.1/ABI2.24 provider. Only its provider-version admission changes;
+all analytical expectations, lifecycle assertions and tolerances remain unchanged.
+The source Main1.3.13 qualification remains historical evidence.

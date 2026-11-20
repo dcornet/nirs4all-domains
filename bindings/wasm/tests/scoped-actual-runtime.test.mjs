@@ -226,7 +226,7 @@ test('actual published Methods execute complete train/global/support and public 
   assert.equal(exact.value.metrics.find(metric=>metric.metric_id==='integrity.axis_order').value,'descending');
   assert.ok(exact.value.metrics.every(metric=>metric.metric_id.startsWith('integrity.')));
   assert.equal(exact.receipt.provider_calls.length,1);
-  assert.equal(exact.receipt.provider_calls[0].provider,'nirs4all-preflight@0.1.6::analyze');
+  assert.equal(exact.receipt.provider_calls[0].provider,'nirs4all-preflight@0.3.0::analyze');
   assert.equal(exact.receipt.provider_calls[0].numerical_provider,'UnavailableMethodsProvider');
   assert.equal(exact.receipt.provider_calls[0].numerical_fit_possible,false);
   let exactCallbackCalls=0;

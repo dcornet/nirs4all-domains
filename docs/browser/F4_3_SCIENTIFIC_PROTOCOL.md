@@ -155,3 +155,14 @@ original numerical evidence, source/axis/fitting lineage and caveat. No universa
 calibrability verdict, causal-noise diagnosis, predictive/leakage probability or
 best-preprocessing recommendation is produced. Full JSON/HTML/Markdown and
 selectable uncapped A4/Letter annexes follow existing report conventions.
+
+## Release integration cohort, 20 November2026
+
+The original prospective protocol above remains historical. The release
+integration selects the separately admitted Methods1.5.1/ABI2.24 provider and
+Preflight0.3.0 through the shared Rust lock. Preflight0.3 includes the declared
+wide-PCA projection correction; this is a new source/build cohort. All original
+fixture inputs, populations, numerical comparisons and tolerances remain
+unchanged. Existing strict F4.3 parity failures stay explicit; original0.1.6
+receipts do not qualify this integration. Updated native/WASM and functional
+browser checks are required before delivery.

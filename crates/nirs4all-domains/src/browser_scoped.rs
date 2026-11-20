@@ -700,7 +700,7 @@ fn exact_audit(r: &ScopedRequest) -> Result<(Value, Value), String> {
             )
         })
         .collect();
-    let execution = json!({"provider":"nirs4all-preflight@0.1.6::analyze",
+    let execution = json!({"provider":format!("nirs4all-preflight@{}::analyze", nirs4all_preflight::ENGINE_VERSION),
         "operation":"integrity_audit","request_sha256":digest(&wire),"status":if report.validation.valid {"computed"} else {"error"},
         "reason":if report.validation.valid {Value::Null} else {json!("PREFLIGHT_INPUT_VALIDATION_FAILED")},
         "numerical_provider":"UnavailableMethodsProvider","numerical_fit_possible":false,
@@ -804,7 +804,7 @@ pub fn analyze(r: &ScopedRequest, provider: &impl MethodsProvider) -> Result<Val
         "physical_id_encoding":"type-preserving JSON scalar of declared specimen/physical_sample_id; not verified identity"});
     let limitations = vec!["The manifest and metadata are declarations; physical and reference independence remain unverified.",
         "Unknown metadata origin or target derivation remains unknown; eligibility is not verification that a column is independent of targets.",
-        "Preflight 0.1.6 intrinsic integrity is exploratory alpha evidence; availability and execution do not establish scientific qualification.",
+        "Preflight intrinsic integrity is exploratory evidence; availability and execution do not establish scientific qualification.",
         "A negative audit does not certify independence or future predictive performance.",
         "Inspecting test X may influence decisions; this operation performs no automatic selection or response refit.",
         "X-M association, tolerance duplicates and train-fitted PCA query projection are not qualified by this browser protocol.",
