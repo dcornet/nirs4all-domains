@@ -400,9 +400,9 @@ fn monitoring<P: SupportProvider>(
                             && !count_fields.contains(&k.as_str())
                     })
                 })
-                || v["effective_components"]
+                || !v["effective_components"]
                     .as_u64()
-                    .is_none_or(|n| n > a.max_components as u64)
+                    .is_some_and(|n| n <= a.max_components as u64)
                 || [
                     "n_beyond_t2",
                     "n_beyond_q",
@@ -412,7 +412,7 @@ fn monitoring<P: SupportProvider>(
                     "n_near_either",
                 ]
                 .iter()
-                .any(|k| v[k].as_u64().is_none_or(|n| n > test.len() as u64))
+                .any(|k| !v[k].as_u64().is_some_and(|n| n <= test.len() as u64))
             {
                 return unavailable("INVALID_METHODS_MONITOR_RESPONSE");
             }
@@ -527,8 +527,8 @@ fn dependencies(r: &SupportRequest) -> (Value, Value) {
 }
 pub fn analyze(r: &SupportRequest, provider: &impl SupportProvider) -> Result<Value, String> {
     validate(r)?;
-    if provider.version() != "1.5.0+abi.2.24.0" {
-        return Err("PINNED_METHODS_1_5_0_ABI_2_24_REQUIRED".into());
+    if !crate::browser_cohort::admitted(&provider.version()) {
+        return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
     }
     let x = r.scope.x.as_ref().unwrap();
     let n = r.scope.reference_keys.len();

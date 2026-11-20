@@ -1,5 +1,29 @@
 # Browser capability boundary
 
+## F4.3 preprocessing sensitivity (additive, qualification separate)
+
+**Partial draft:** complete native/WASM factor-statistic portability and
+bounded exhaustive printing failed qualification. No readiness claim follows
+from the source/API surface below; see the executed F4.3 validation record.
+
+The F4.3 source/API adds a fixed, versioned representation panel executed
+through Methods 1.3.13 / ABI 2.20 and a two-stage reference-only / frozen
+test-X audit protocol. The AOM-derived bank reuses attributed descriptors and
+ordered candidate metadata only; AOM is not imported and numerical equivalence
+to its operators is not asserted. Raw and transformed sources retain separate
+axes, identities, statuses and evidence. The request grants no Y access;
+supervised preprocessing selection is deferred.
+
+This protocol does not identify a preferred representation or measure general
+robustness. Exact prefix reuse is an optional, sequential Methods-call
+optimization with no speed claim until equivalence, call-count, timing and
+memory measurements are recorded. See the [representation contract](browser/F4_3_REPRESENTATION_CONTRACT.md),
+[comparability rules](browser/F4_3_COMPARABILITY_RULES.md),
+[train/test policy](browser/F4_3_TRAIN_TEST_POLICY.md), and
+[remaining-capabilities inventory](browser/F4_3_REMAINING_CAPABILITIES.md).
+Presence in this checkout is not qualification; actual gates belong to the
+[F4.3 validation record](browser/F4_3_VALIDATION.md).
+
 ## F4.2 train-fitted support (additive protocol)
 
 `domains.browser_train_fitted_support.v1` adds a public-Methods FlexiblePCA fit
@@ -37,15 +61,15 @@ Train is the main population; unpartitioned and separately consented transductiv
 analyses retain their own source evidence. Existing `browser_x.v1` metadata slots
 and historical qualification remain unchanged.
 
-The selected Methods 1.5.0 / ABI 2.24 provides categorical factor association, explicit
+Methods 1.3.13 / ABI 2.20 provides categorical factor association, explicit
 Pearson/Spearman, exact tests, Holm and continuous range summary. Descriptive B=0
 is the default, with unavailable p-values. Exact inference is conditional on a
 supplied external exchangeability record and complete prospective family;
-repeated units and unsupported designs do not gain inference. The original
-[F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the earlier
-Methods 1.3.13 source, native/WASM gates and Windows/Ubuntu browser evidence;
-those historical checks do not qualify the new 1.5 cohort. Current release
-evidence records the new artifacts, executed checks and platform limits separately. Listing an
+repeated units and unsupported designs do not gain inference. Four direct
+published-Methods WASM adapter checks executed locally. Actual compiled Domains
+native/WASM qualification and Chromium/Firefox executed on Windows and Ubuntu;
+the [F4.1 execution record](browser/F4_1_VALIDATION.md) identifies the source
+commits, current-head gates, artifacts, numerical checks and limits. Listing an
 API is not execution proof. No global spectral association, causal or calibration
 score is implemented. Optional external design records attach separately after
 PCA; shape validation does not establish their scientific truth.

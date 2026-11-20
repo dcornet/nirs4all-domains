@@ -69,8 +69,10 @@ class EngineeringStorage:
             self._validate_policy(parent)
             if child is not None and 'previous_policy_sha256' in child:
                 preserved = ('baseline_combined_bytes', 'baseline_measurement', 'science_journal_sha256',
-                             'effective_bytes', 'authorized_max_bytes', 'reserve_free_bytes', 'recipe_sha256')
-                if child['previous_policy_sha256'] != fingerprint(parent) or any(child[k] != parent[k] for k in preserved):
+                             'authorized_max_bytes', 'reserve_free_bytes', 'recipe_sha256')
+                if (child['previous_policy_sha256'] != fingerprint(parent)
+                        or child['previous_local_cap_bytes'] != parent['effective_bytes']
+                        or any(child[k] != parent[k] for k in preserved)):
                     fail('OWNER_POLICY_AMENDMENT_CHAIN_INVALID')
             if policy is None:
                 policy = parent
@@ -177,14 +179,14 @@ class EngineeringStorage:
 
     def amend(self, *, effective_bytes, engineering_bytes, authorized_max_bytes,
               reserve_free_bytes, owner_request_sha256, decision_date, recipe_sha256):
-        """Change the total engineering allowance without resetting its baseline."""
+        """Amend explicit engineering/effective caps without resetting the baseline."""
         with serial_lease(self.root / 'controller.lock'):
             previous = self.current()
-            unchanged = dict(effective_bytes=effective_bytes, authorized_max_bytes=authorized_max_bytes,
+            unchanged = dict(authorized_max_bytes=authorized_max_bytes,
                              reserve_free_bytes=reserve_free_bytes, recipe_sha256=recipe_sha256)
             if any(value != previous[name] for name, value in unchanged.items()):
                 fail('OWNER_POLICY_AMENDMENT_SCOPE_INVALID')
-            p = {**previous, 'engineering_bytes': engineering_bytes,
+            p = {**previous, 'effective_bytes': effective_bytes, 'engineering_bytes': engineering_bytes,
                  'owner_request_sha256': owner_request_sha256, 'decision_date': decision_date,
                  'previous_local_cap_bytes': previous['effective_bytes'],
                  'previous_decision': self._read(NAMESPACE + '/current.json')['decision'],
@@ -195,6 +197,7 @@ class EngineeringStorage:
             result = self._snapshot(p, measurement, 0)
             if result['status'] != 'ready':
                 fail('OWNER_POLICY_AMENDMENT_NOT_ADMISSIBLE')
+            result['before_amendment'] = self._snapshot(previous, measurement, 0)
             decision = NAMESPACE + '/decisions/' + uuid.uuid4().hex + '.json'
             self._write(decision, p)
             self._write(NAMESPACE + '/current.json', {'protocol': PROTOCOL, 'decision': decision})

@@ -1,5 +1,22 @@
 # Method reuse matrix
 
+## F4.3 preprocessing sensitivity
+
+The prospective `domains.browser_preprocessing_sensitivity.v1` path uses a
+versioned, attributed subset of AOM bank/base descriptors and a separately
+declared Methods-owned scaling/crop set. It invokes Methods 1.3.13 / ABI 2.20
+public fitted-estimator APIs for each step; AOM is not imported and Domains
+copies no numerical kernel. Exact sequential prefix reuse is a possible
+Domains-side optimization only when cache-key and fitted-state identity match.
+It is distinct from AOM's full-chain cache and makes no acceleration claim
+without cached/uncached equivalence and measured resource evidence. No
+supervised `Y_train` selection or access to `Y_test` is part of this protocol.
+See the [AOM reuse decision](browser/F4_3_AOM_REUSE_DECISION.md),
+[Methods API matrix](browser/F4_3_PREPROCESSING_METHODS_MATRIX.md), and
+[remaining-capabilities inventory](browser/F4_3_REMAINING_CAPABILITIES.md).
+These are source/API boundaries, not a claim of final native/WASM or scientific
+qualification; see the [F4.3 validation record](browser/F4_3_VALIDATION.md).
+
 ## Additive browser consumer
 
 `domains.browser_x.v1` reuses the published Preflight 0.1.6 provider contracts

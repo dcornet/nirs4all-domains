@@ -37,3 +37,14 @@ On Linux, the source candidate used the actual public Methods 1.5 Python wheel (
 - Static licensing includes the complete published Methods notice tree plus byte-identical source notices for the pinned owner commit. The coordinator verified source notice bytes against the pinned Git archive; the build records notice hashes and sizes. Superseded source notices remain in Git history and are removed from the current served tree.
 
 Exact commands, exits, failures and corrected retries are retained in the release coordinator's `STATUS.md` and raw gate receipts. The final Cargo lock now selects actual registry Preflight 0.3.0, DAG-ML 0.5.0 and n4m 0.5.0 with their published checksums; the final native CLI builds successfully without source overrides. Final installed smokes, hosted CI, merge and served-site verification are recorded separately before delivery is claimed. Temporary source-stage locks are preserved outside the repository and are not distributed.
+
+## Integration with concurrent F4.3 Main
+
+The concurrent Main source `d644ec7` adds the F4.3 browser and its separately
+reviewed Methods1.5.1 admission. Its browser source, locks, dependency notices,
+scientific comparators, fixtures, tolerances and explicit unresolved strict
+numerical parity outcomes are preserved exactly. The earlier browser1.5.0
+qualification above describes the earlier release candidate, not this integrated
+F4.3 runtime. No passing old-browser result certifies F4.3. The integrated
+Python/Preflight0.3/DAG0.5 source still requires its own affected gates and
+independent review before publication.

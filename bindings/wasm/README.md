@@ -34,15 +34,15 @@ See [the scientific contract](../../docs/browser/F4_2_SCIENTIFIC_PROTOCOL.md).
 ## Existing binding and numerical ownership
 
 This private, additive demo binding builds the existing Domains library as a
-WASM cdylib. It adds no third Rust crate and consumes the public Preflight 0.3 series
-provider contract with the published Methods 1.5.0 / ABI 2.24 WASM kernels.
+WASM cdylib. It adds no third Rust crate and consumes the public Preflight 0.1.6
+provider contract with the published Methods 1.3.13 / ABI 2.20 WASM kernels.
 It does not load a native shared library, DAG, Python or a numerical fallback.
 
 From this directory, `npm run build:native` runs wasm-pack against the existing
 crate with `--no-default-features --features browser-wasm`. A wasm32 target and
 wasm-pack must already be installed. The generated `native/` directory is a build
 artifact. Commit the workspace Cargo.lock; build on an authorized runner with
-locked dependencies. Package version stays aligned with Rust 0.2.0; this
+locked dependencies. Package version stays aligned with Rust alpha.17; this
 private demo is not a new published scientific release.
 
 ```js

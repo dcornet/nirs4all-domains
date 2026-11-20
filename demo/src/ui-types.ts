@@ -30,6 +30,8 @@ export interface UiDataset {
   representation?: string; population?: string;
 }
 export interface UiResult {
+  sensitivityResults?:import('./engine/preprocessing').SensitivityHistory[];
+  sensitivityControls?:import('./SensitivityPanel').SensitivityControls;
   supportResults?:import('./engine/support').SupportRun[];
   factorControls?:Omit<FactorAssociationControlsProps,'busy'|'locale'|'onRun'|'onColor'|'onAuthorizeColorExport'|'onLoadInferencePlan'>;
   factorAssociations?:FactorResult[];
@@ -59,6 +61,7 @@ export interface UiState {
 }
 export interface UiDeclarations { population: string; prediction_unit: string; new_context: string; }
 export interface UiCallbacks {
+  onSensitivity?(run:import('./engine/preprocessing').SensitivityRun):void;
   onImportOptionsChange?(editBeforeAssembly:boolean):void;
   onDismissImport?():void;
   onApplyDataSettings?(config:ReviewedImport['config'],sources:ReviewedImport['sources'],session?:import('./engine/one-shot').ImportSession):void;
@@ -73,7 +76,7 @@ export interface UiCallbacks {
   onColorFactor?(field:string):void;
   onImport(files: File[]): void; onExample(id: string): void; onCancel(): void;
   onReset(): void; onIntent(intent: PredictionIntent): void;
-  onExport(format: 'html' | 'markdown' | 'json', locale: Locale, reading?: ReadingMode, selection?:ExportSelection): void;
+  onExport(format: 'html' | 'markdown' | 'json' | import('./report/portable').PortableFormat, locale: Locale, reading?: ReadingMode, selection?:ExportSelection): void;
   onDeclaration?(key: keyof UiDeclarations, value: string): void;
 }
 export interface AppProps { state: UiState; callbacks: UiCallbacks; }

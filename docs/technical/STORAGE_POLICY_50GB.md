@@ -1,6 +1,50 @@
 # Prospective Domains storage decision — 2026-11-17
 
-## Current cumulative amendment — 2026-11-18
+## F4.3 prospective amendment — 2026-11-18
+
+The F4.3 request proposes **8,000,000,000 bytes total cumulative engineering**
+and a **30,000,000,000-byte effective aggregate cap**, within the existing
+50,000,000,000-byte authorization. This is a 4,000,000,000-byte increase over
+the F4.2 allowance, not 8 GB of additional spending. After review and 18 passing
+synthetic tests, the root agent applied the authenticated amendment. Its fresh
+measurement was **22,039,426,984 bytes**, with **3,376,100,007 bytes** still
+charged from the original baseline and **4,623,899,993 bytes** remaining in the
+new cumulative allowance. The effective cap is now 30 GB; the maximum stays
+50 GB. Policy SHA-256 is
+`0f5a5f7ee886d13b9f278e4ceeb915a00f80eeda34474ad77f3ad8496e8c3b6a`.
+The same-measurement before/after receipt and predecessor chain are retained.
+
+The root agent's pre-amendment snapshot measures **22,038,391,285 bytes**,
+with initial baseline **18,663,326,977 bytes** and charged engineering
+**3,375,064,308 bytes**. The existing 4 GB allowance therefore has
+**624,935,692 bytes** remaining. Under the proposed 8 GB total, that same
+measurement would leave **4,624,935,692 bytes**. The actual amendment measures
+again. See the [F4.3 inventory and staged forecast](../browser/F4_3_RESOURCE_PLAN.md).
+
+The controller now accepts an explicit effective-cap change through `amend`.
+It requires `baseline + total engineering allowance <= effective cap <=
+authorized maximum`, preserving the 50 GB maximum, pinned measurement recipe,
+2 GiB per-volume reserve, original baseline and scientific-journal provenance.
+Each authenticated successor records its predecessor's effective cap and policy
+fingerprint; historical decisions remain immutable and the entire chain is
+verified. Repeated activation still cannot reset accounting.
+
+The amendment response includes `before_amendment`, evaluated under the previous
+policy using the same fresh measurement as the new-policy receipt. Both report
+the same actual charged growth and current science counters; caps, remaining
+allowances and policy fingerprints identify the before/after decision. An
+inadmissible amendment leaves the active pointer unchanged. Eighteen synthetic
+controller tests pass, including cap changes, predecessor authentication, retained
+growth, global limits and per-volume reserve failures.
+
+Scientific reservations remain **2,015,788,498 / 2,023,410,176 bytes**; no science
+reservation, real-data fit, cleanup, private-root change or new key is included.
+The journal SHA-256 remains
+`237f8a7fedd5f83eff4a850e78900a892e640fd2582bac099520e39108d25e0c`.
+The root agent verified the actual private amendment; no scientific counter,
+root, key or journal was changed.
+
+## F4.2 cumulative amendment — 2026-11-18
 
 F4.2 explicitly authorizes **4,000,000,000 bytes total cumulative engineering**.
 The existing controller's new `amend` operation was actually applied, retaining

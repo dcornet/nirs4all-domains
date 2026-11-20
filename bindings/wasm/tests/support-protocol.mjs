@@ -34,7 +34,7 @@ const [mode,...args]=process.argv.slice(2);
 
 async function wasm(output) {
   const runtime=await createDomainsRuntime({wasmModule:await readFile(new URL('../native/nirs4all_domains_bg.wasm',import.meta.url))});
-  assert.equal(runtime.provider.version,'1.5.0+abi.2.24.0');
+  assert.equal(runtime.provider.version,'1.5.1+abi.2.24.0');
   assert.deepEqual(runtime.provider.abi.slice(0,2),[2,24]);
   const cases=[],refusals=[];
   for(const fixture of fixtures) {

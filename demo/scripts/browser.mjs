@@ -12,6 +12,7 @@ import {qualifyTechnicalLoading} from './technical-browser.mjs';
 import {qualifyScopedBrowser} from './scoped-browser.mjs';
 import {qualifyFactorBrowser} from './factor-browser.mjs';
 import {qualifySupportBrowser} from './support-browser.mjs';
+import {qualifyPreprocessingBrowser} from './preprocessing-browser.mjs';
 import {qualifyOneShotBrowser} from './one-shot-browser.mjs';
 import {qualifyWorkerLoadingBrowser} from './worker-loading-browser.mjs';
 
@@ -205,6 +206,7 @@ try {
   await qualifyFactorBrowser({page,context,url,output,check,exported,json,screenshot});
   await qualifySupportBrowser({page,context,url,output,check,exported,json,screenshot});
   await qualifyOneShotBrowser({page,context,url,output,check,exported,json,screenshot});
+  await qualifyPreprocessingBrowser({page,context,url,output,check,exported,json,screenshot});
 
   await home(page); await importCsv(page, '1000\n1\n2\n3\n');
   await visible(page.locator('.workspace-summary'));
@@ -348,6 +350,9 @@ try {
   await qualifyLongSelection(browser,url,saved.scientific_report,output,exported,screenshot,check,wire);
   await browser.close(); // Browser engines are qualified serially, preserving the same resource envelope.
   if (process.env.DOMAINS_FIREFOX_EXE || process.env.DOMAINS_TEST_FIREFOX === '1') {
+    // Chromium qualification is complete. Release its retained documents before
+    // the independent Firefox run instead of accumulating both engine trees.
+    await browser.close();
     const second = await firefox.launch({ headless: true, ...(process.env.DOMAINS_FIREFOX_EXE ? { executablePath: process.env.DOMAINS_FIREFOX_EXE } : {}) }); browsers.push(second);
     receipt.browsers.push({ name: 'firefox', version: second.version() });
     const secondContext = await second.newContext(); wire(secondContext, 'firefox'); const secondPage = await secondContext.newPage();
@@ -356,6 +361,7 @@ try {
     await qualifyFactorBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await qualifySupportBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await qualifyOneShotBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
+    await qualifyPreprocessingBrowser({page:secondPage,context:secondContext,url,output,check,exported,json,screenshot});
     await secondContext.close();
     const loadingContext=await second.newContext({acceptDownloads:true,locale:'en-US'});
     try {

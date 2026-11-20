@@ -45,7 +45,7 @@ function dispose(estimator) {
 /** Methods must already be loaded. Calls are synchronous and use only pinned public APIs. */
 export function createSupportCallback(backend_version) {
   const abi = methods.abiVersion();
-  if (abi[0] !== 2 || abi[1] < 24) throw new Error('METHODS_ABI_2_24_REQUIRED');
+  if (abi[0] !== 2 || abi[1] < 20) throw new Error('METHODS_ABI_2_20_REQUIRED');
   if (backend_version !== methods.version()) throw new Error('METHODS_VERSION_MISMATCH');
 
   let estimator = null;

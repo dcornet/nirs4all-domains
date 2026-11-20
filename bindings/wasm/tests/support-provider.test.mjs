@@ -4,7 +4,7 @@ import test from 'node:test';
 import * as methods from '@nirs4all/methods';
 import { createSupportCallback } from '../support-provider.js';
 
-const backendVersion = '1.5.0+abi.2.24.0';
+const backendVersion = '1.5.1+abi.2.24.0';
 let callback;
 
 test('support callback uses the pinned Methods backend', async () => {

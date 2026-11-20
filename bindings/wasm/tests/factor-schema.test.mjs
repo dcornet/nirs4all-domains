@@ -41,7 +41,7 @@ test('component slots preserve status/reason/value invariants and categorical ef
   for(const value of [{status:'computed',reason:null,value:null},{status:'unavailable',reason:'',value:null},{status:'error',reason:'REFUSED',value:{estimate:0}}]) {
     assert.equal(validate({...c,descriptive:value}),false);
   }
-  const owner={eta_squared:.8,f_statistic:8,df1:1,df2:1,n_levels:2,n_score_values:3,log10_distinct_arrangements:1,p_value:null,n_at_least_observed:0,n_permutations_executed:0,backend_version:'1.3.13+abi.2.20.0'};
+  const owner={eta_squared:.8,f_statistic:8,df1:1,df2:1,n_levels:2,n_score_values:3,log10_distinct_arrangements:1,p_value:null,n_at_least_observed:0,n_permutations_executed:0,backend_version:'1.5.1+abi.2.24.0'};
   c.descriptive={status:'computed',reason:null,value:{measure:'eta_squared',estimate:.8,owner_output:owner}};
   assert.ok(validate(c),JSON.stringify(validate.errors));
   c.descriptive.value.estimate=1.01;assert.equal(validate(c),false);
@@ -56,7 +56,7 @@ test('result envelope refuses noncomputed outer values and raw per-row additions
     source_pca_input_sha256:hash,source_pca_evidence_sha256:hash,source_pca_fit_receipt_sha256:null,scores_sha256:hash,scores_shape:[3,1],pca_id:hash,pca_refits:0,
     fields_read:{x:false,y:[],m:[{name:'dose',role:'factor',origin:'synthetic',n_rows:3,keys_sha256:hash,values_sha256:hash}]},
     source_pca_uses_test_x:false,test_scores_accessed:false,test_m_accessed:false,test_x_accessed:false,y_accessed:false,explicit_transductive:false,
-    provider_version:'1.3.13+abi.2.20.0',provider_calls:[],parameters:request.parameters,components:'all_resolved',correlation_method:'pearson',receipt_sha256:hash};
+    provider_version:'1.5.1+abi.2.24.0',provider_calls:[],parameters:request.parameters,components:'all_resolved',correlation_method:'pearson',receipt_sha256:hash};
   const result={protocol_version:'domains.browser_factor_association_result.v1',status:'computed',reason:null,
     value:{population:'unpartitioned',representation:'recorded raw-PCA scores',pca_id:hash,scores_sha256:hash,
       analysis_unit:{calculation_unit:'observations/acquisitions',n_observations:3,n_independent_units:null,physical_independence_verified_by_domains:false,qualification:'Shape fixture only'},

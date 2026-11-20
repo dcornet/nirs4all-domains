@@ -1,4 +1,4 @@
-//! Owning F4.2 transport to public Methods 1.5.0 / ABI 2.24; no numerical kernels.
+//! Owning F4.2 transport to public Methods 1.3.13 / ABI 2.20; no numerical kernels.
 //! ABI declarations follow estimator.h, n4m.h and metrics.h at fa8ff57603ec23bce95f73d52170285e8f3e2861.
 use crate::browser_support::{SupportProvider, STATE_BYTES};
 use libloading::Library;
@@ -88,8 +88,8 @@ impl SupportMethods {
             let compatible = library
                 .get::<unsafe extern "C" fn(u32, u32) -> i32>(b"n4m_check_abi_compatibility\0")
                 .map_err(|e| e.to_string())?;
-            if compatible(2, 24) != 0 {
-                return Err("METHODS_ABI_2_24_REQUIRED".into());
+            if compatible(2, 20) != 0 {
+                return Err("METHODS_ABI_2_20_REQUIRED".into());
             }
             let version_fn = library
                 .get::<unsafe extern "C" fn() -> *const c_char>(b"n4m_get_version_string\0")
@@ -99,8 +99,15 @@ impl SupportMethods {
                 return Err("NULL_METHODS_VERSION".into());
             }
             let version = CStr::from_ptr(ptr).to_string_lossy().into_owned();
-            if version != "1.5.0+abi.2.24.0" {
-                return Err("PINNED_METHODS_1_5_0_ABI_2_24_REQUIRED".into());
+            if !crate::browser_cohort::admitted(&version) {
+                return Err("PINNED_METHODS_1_3_13_ABI_2_20_REQUIRED".into());
+            }
+            if compatible(
+                2,
+                crate::browser_cohort::required_abi_minor(&version).expect("admitted cohort"),
+            ) != 0
+            {
+                return Err("METHODS_COHORT_ABI_REQUIRED".into());
             }
             let create = *library
                 .get::<unsafe extern "C" fn(*mut *mut c_void) -> i32>(b"n4m_context_create\0")

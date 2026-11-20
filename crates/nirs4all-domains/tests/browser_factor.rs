@@ -5,7 +5,7 @@ use nirs4all_preflight::*;
 use serde_json::{json, Value};
 use std::cell::RefCell;
 
-const VERSION: &str = "1.5.0+abi.2.24.0";
+const VERSION: &str = "1.3.13+abi.2.20.0";
 struct Source;
 impl MethodsProvider for Source {
     fn capabilities(&self) -> Vec<Capability> {

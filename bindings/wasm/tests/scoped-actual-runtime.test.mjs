@@ -158,8 +158,8 @@ test('compiled Rust callback spy and receipt agree on the exact projected train 
 });
 
 test('actual published Methods execute complete train/global/support and public Preflight exact operations',async()=>{
-  assert.equal(runtime.provider.version,'1.5.0+abi.2.24.0');
-  assert.equal(runtime.provider.abi[0],2);assert.ok(runtime.provider.abi[1]>=24);
+  assert.equal(runtime.provider.version,'1.5.1+abi.2.24.0');
+  assert.equal(runtime.provider.abi[0],2);assert.ok(runtime.provider.abi[1]>=20);
   for(const fixture of fixtures.fixtures) {
     const before=JSON.stringify(fixture.input);
     const report=runtime.analyzeScoped(fixture.input);
@@ -278,6 +278,7 @@ test('native/WASM scoped evidence uses the established parity tolerances and geo
 import json,sys
 sys.path.insert(0,sys.argv[1])
 import check_browser_parity as parity
+parity.VERSION='1.5.1+abi.2.24.0'
 payload=json.load(sys.stdin)
 for name in ('train','global'):
     left=payload['native'][name]['value']['structure']

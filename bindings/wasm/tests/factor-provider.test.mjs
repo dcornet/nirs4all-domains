@@ -9,7 +9,7 @@ const call = (op,request) => JSON.parse(callback(op,JSON.stringify(request)));
 const close = (actual,expected) => assert.ok(Math.abs(actual-expected) <= 1e-10, `${actual} != ${expected}`);
 
 test('factor callback binds the actual published owner version and ABI', () => {
-  assert.equal(methods.version(),'1.5.0+abi.2.24.0');
+  assert.equal(methods.version(),'1.5.1+abi.2.24.0');
   assert.deepEqual(Array.from(methods.abiVersion()),[2,24,0]);
   assert.throws(() => createFactorCallback('invented-version'),/METHODS_VERSION_MISMATCH/);
 });
