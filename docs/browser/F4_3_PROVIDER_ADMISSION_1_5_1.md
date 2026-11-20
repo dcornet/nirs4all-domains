@@ -43,6 +43,19 @@ in a dated qualification report and the validated shared handoff.
 Domains core/binding/demo move to 0.2.0 because the active provider changes
 numerical results. This branch version is not a package release or deployment.
 
+### Engineering benchmark provenance transition
+
+The historical F2 frontend stays on Methods 1.3.13 and the current frontend uses
+1.5.1. A separately versioned technical comparison must verify each original
+receipt's hashes before binding these exact provider/engine identities. Compare
+all numerical, discrete, status, scope and other report fields exactly; only the
+explicit provider versions, engine versions and independently verified derived
+evidence hashes may differ. Preserve exact same-cohort comparison behavior.
+Reject unknown/mixed providers, stale hashes, altered inputs and any changed
+scientific value, even with a self-consistent new hash. Record full-report/hash
+inequality and limit the observed equality to the two engineering fixtures.
+This does not qualify the separate mandatory F4.3 native/WASM panel.
+
 ## First local execution, 2026-11-20
 
 The actual Windows native library reports `1.5.1+abi.2.24.0` and passes its

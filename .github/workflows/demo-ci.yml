@@ -140,7 +140,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python scripts/run_browser_benchmark.py --dist demo/dist --out demo/test-results/technical-after.json --label F3
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          python scripts/compare_browser_benchmarks.py demo/test-results/technical-before.json demo/test-results/technical-after.json demo/test-results/technical-comparison.json
+          python scripts/compare_browser_benchmarks_v3.py demo/test-results/technical-before.json demo/test-results/technical-after.json demo/test-results/technical-comparison.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Verify reproducible notices and source identity
         run: git diff --exit-code -- demo/public/licenses demo/DEPENDENCIES.md

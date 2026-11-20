@@ -157,5 +157,84 @@ class BenchmarkComparisonTests(unittest.TestCase):
             comparison.compare(receipt(before=True), after)
 
 
+class ProviderTransitionTests(unittest.TestCase):
+    transition = ("1.3.13+abi.2.20.0", "1.5.1+abi.2.24.0")
+
+    def pair(self):
+        pair = [receipt(before=True), receipt(scoped=True, automatic=True)]
+        for record, version, engine in zip(pair, self.transition, ("0.1.0-alpha.17", "0.2.0")):
+            for sample in record["samples"]:
+                sample["rank_one"]["metrics"]["pca"]["value"]["backend_version"] = version
+                report = sample["live"]["scientific_report"]
+                report["metrics"]["pca"] = {"value": {"backend_version": version}}
+                report["engine_version"] = engine
+                report["capabilities"] = [{"reason": version + "; bounded browser protocol"}]
+        self.rehash(pair)
+        return pair
+
+    def rehash(self, pair):
+        for record in pair:
+            for sample in record["samples"]:
+                rank = sample["rank_one"]
+                rank["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": rank["scope"], "metrics": rank["metrics"]}), canonical=True)
+                live = sample["live"]
+                report = live["scientific_report"]
+                report["evidence_sha256"] = comparison.digest(comparison.evidence_tree({"scope": report["scope"], "metrics": report["metrics"]}), canonical=True)
+                report["interpretation"]["evidence_sha256"] = report["evidence_sha256"]
+                live["evidence_sha256"] = report["evidence_sha256"]
+
+    def test_bound_provenance_keeps_exact_values_without_claiming_hash_equality(self):
+        result = comparison.compare(*self.pair(), provider_transition=self.transition)
+        self.assertEqual(result["protocol"], "domains.technical_comparison.v3")
+        self.assertTrue(result["scientific_values_equal"])
+        self.assertFalse(result["synthetic_report_exactly_equal"])
+        self.assertFalse(result["same_protocol_hashes_equal"]["synthetic"])
+
+    def test_changed_rank_value_fails_even_with_valid_new_hash(self):
+        pair = self.pair()
+        for sample in pair[1]["samples"]:
+            sample["rank_one"]["metrics"]["documentary_count"] = 4
+        self.rehash(pair)
+        with self.assertRaisesRegex(AssertionError, "CSV scientific values changed"):
+            comparison.compare(*pair, provider_transition=self.transition)
+
+    def test_changed_live_value_fails_even_with_valid_new_hash(self):
+        pair = self.pair()
+        for sample in pair[1]["samples"]:
+            sample["live"]["metrics"]["count"] = 49
+        self.rehash(pair)
+        with self.assertRaisesRegex(AssertionError, "Matched synthetic report scientific values changed"):
+            comparison.compare(*pair, provider_transition=self.transition)
+
+    def test_stale_original_hash_is_not_normalized_away(self):
+        pair = self.pair()
+        pair[1]["samples"][0]["live"]["evidence_sha256"] = "0" * 64
+        with self.assertRaises(AssertionError):
+            comparison.compare(*pair, provider_transition=self.transition)
+
+    def test_wrong_provider_is_refused_with_self_consistent_hash(self):
+        pair = self.pair()
+        for sample in pair[1]["samples"]:
+            sample["live"]["metrics"]["pca"]["value"]["backend_version"] = "1.5.1+abi.2.20.0"
+        self.rehash(pair)
+        with self.assertRaises(AssertionError):
+            comparison.compare(*pair, provider_transition=self.transition)
+
+    def test_unknown_engine_or_capability_reason_is_not_hidden(self):
+        for field in ("engine", "capability"):
+            pair = self.pair()
+            report = pair[1]["samples"][0]["live"]["scientific_report"]
+            if field == "engine":
+                report["engine_version"] = "0.3.0"
+            else:
+                report["capabilities"][0]["reason"] += "; new scientific meaning"
+            with self.assertRaises(AssertionError):
+                comparison.compare(*pair, provider_transition=self.transition)
+
+    def test_an_unadmitted_transition_does_not_enable_generic_masking(self):
+        with self.assertRaisesRegex(AssertionError, "Unadmitted provider transition"):
+            comparison.compare(*self.pair(), provider_transition=(self.transition[0], "1.6.0+abi.2.24.0"))
+
+
 if __name__ == "__main__":
     unittest.main()
