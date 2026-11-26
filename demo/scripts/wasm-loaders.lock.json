@@ -8,9 +8,9 @@
       "wasm_sha256": "3eb972aee81e9a8c912100bada96294250664b0e6fefe1e7879790ed2dd4540f"
     },
     "@nirs4all/formats-wasm": {
-      "version": "0.2.14",
-      "glue_sha256": "755ee3f48ece34ffd4e7cea33c0deaaffc808b7b26ccfd448b83e554809d9d5c",
-      "wasm_sha256": "280c30494a7dc951f891a91c3d5a8761213ca460eb408d3a2a75bce5885305e5"
+      "version": "0.3.1",
+      "glue_sha256": "d34b85c05ed1d39c3de2f3352836fb8de82a707ec8a1390d4ec4868bf74640e7",
+      "wasm_sha256": "d4d7fbceb818ffc92adcb3f31ab3d8ae9ba7f3e78ff817be8081dc6acdab99c9"
     }
   }
 }

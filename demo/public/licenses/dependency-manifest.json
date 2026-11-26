@@ -15,10 +15,10 @@
     },
     {
       "name": "@nirs4all/formats-wasm",
-      "version": "0.2.14",
+      "version": "0.3.1",
       "license": "CECILL-2.1 OR AGPL-3.0-or-later",
-      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
-      "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA==",
+      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.3.1.tgz",
+      "integrity": "sha512-qy/xoolMc1L9+FCDuEASVAbbxVSfKovHWVtl3PwsAODE/MwQE9dIA0w4P6+UfSj62ItcdWLhEUODC70PiNBHbA==",
       "lockfile": "demo/package-lock.json",
       "localPath": null
     },
@@ -179,10 +179,10 @@
   "installed_notice_packages": [
     {
       "name": "@nirs4all/formats-wasm",
-      "version": "0.2.14",
+      "version": "0.3.1",
       "license": "CECILL-2.1 OR AGPL-3.0-or-later",
-      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz",
-      "integrity": "sha512-rwM8oZOhvLUA14JsfKxGklvTfsFo+mzsaeXFprU9aV44kIm+tKhZgVjTVp5l2IhITLYvWlwecj2UtREL27QSYA=="
+      "resolved": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.3.1.tgz",
+      "integrity": "sha512-qy/xoolMc1L9+FCDuEASVAbbxVSfKovHWVtl3PwsAODE/MwQE9dIA0w4P6+UfSj62ItcdWLhEUODC70PiNBHbA=="
     },
     {
       "name": "@nirs4all/io-wasm",
@@ -412,10 +412,10 @@
       "origin": "Noto Sans; notofonts/noto-fonts ffebf8c1ee449e544955a7e813c54f9b73848eac"
     },
     {
-      "path": "packages/@nirs4all/formats-wasm/0.2.14/THIRD_PARTY_NOTICES.md",
+      "path": "packages/@nirs4all/formats-wasm/0.3.1/THIRD_PARTY_NOTICES.md",
       "sha256": "39e06e5ca05c5bc5bab725d15f2eb28bfde7c33d79906c9f38534b7bb731a34a",
       "bytes": 2630,
-      "origin": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.2.14.tgz/THIRD_PARTY_NOTICES.md"
+      "origin": "https://registry.npmjs.org/@nirs4all/formats-wasm/-/formats-wasm-0.3.1.tgz/THIRD_PARTY_NOTICES.md"
     },
     {
       "path": "packages/@nirs4all/io-wasm/0.2.14/COPY_PROVENANCE.md",

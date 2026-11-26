@@ -40,7 +40,7 @@
     "@nirs4all/methods": "~1.5.1"
   },
   "scripts": {
-    "build:native": "wasm-pack build ../../crates/nirs4all-domains --target web --out-dir ../../bindings/wasm/native --release --no-opt -- --locked --no-default-features --features browser-wasm",
+    "build:native": "wasm-pack build ../../crates/nirs4all-domains --target web --out-dir ../../bindings/wasm/native --release --no-opt -- --locked --config=profile.release.strip=true --no-default-features --features browser-wasm",
     "test": "node --test tests/*.test.mjs"
   }
 }
