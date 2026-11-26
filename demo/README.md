@@ -43,14 +43,14 @@ npm run preview
 `bindings/wasm/native/`; that generated build output is ignored. Keep the root
 `Cargo.lock`. The demo's lockfile pins npm dependencies, including local
 `@nirs4all/domains` from `../bindings/wasm`, `@nirs4all/io-wasm@0.2.14`,
-`@nirs4all/formats-wasm@0.2.14`, `nirs4all-ui@0.2.5`, and React 19.2.3.
+`@nirs4all/formats-wasm@0.3.1`, `nirs4all-ui@0.2.5`, and React 19.2.3.
 The local WASM package depends on `@nirs4all/methods@1.5.1`; its provider
 contract comes through Preflight0.3.0 / Methods ABI2.24. `npm ci` does not
 build Rust WASM: generate `native/` first. A clean checkout needs the Rust
 target, wasm-pack and npm registry access before a complete browser build.
 
-The Vite `browserWasm()` adapter is a narrow loader for the published IO and
-Formats 0.2.14 packages. It retains their parser and binary and replaces the
+The Vite `browserWasm()` adapter is a narrow loader for the published IO 0.2.14 and
+Formats 0.3.1 packages. It retains their parser and binary and replaces the
 Node filesystem bootstrap with lazy browser `fetch` of the package WASM asset.
 If those published glue files change, the adapter's generated-source marker
 check fails; do not silently substitute a different parser or local checkout.
@@ -148,5 +148,5 @@ attribution remain those recorded with each source; a software license does
 not grant rights to redistribute a dataset.
 
 The UI package is dual-licensed under CeCILL-2.1 or AGPL-3.0-or-later;
-IO/Formats 0.2.14 carry the same expression. Review their bundled notices and
+IO 0.2.14 and Formats 0.3.1 carry the same expression. Review their bundled notices and
 the repository's [licensing guide](../LICENSING.md) before redistribution.
